@@ -237,13 +237,13 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 }
 @media(max-width:350px){.mode-buttons{min-width:98px!important;max-width:108px!important}.mode-btn{font-size:10px!important}.home-btn{flex-basis:56px!important;width:56px!important;min-width:56px!important}}
 
-/* V3.58.2 UI-only: let the Korea/Laos mode buttons consume the spare top-bar width. */
+/* V3.58.3 UI-only: let the Korea/Laos mode buttons consume the spare top-bar width. */
 @media(max-width:480px){
   .mode-buttons{flex:1 1 auto!important;min-width:0!important;max-width:none!important}
   .mode-btn{flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important}
 }
 
-/* V3.58.2 manual refresh: real-screen captures, feature cards and compact caution blocks. */
+/* V3.58.3 manual refresh: real-screen captures, feature cards and compact caution blocks. */
 .manual-shot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.manual-shot{margin:0;border:1px solid #dbe4ee;border-radius:18px;background:#f8fbff;padding:10px;box-shadow:0 6px 18px rgba(31,55,86,.06)}.manual-shot.full{grid-column:1/-1}.manual-shot img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid #d8e0ea;background:#fff}.manual-shot figcaption{margin-top:8px;font-size:11.5px;line-height:1.55;color:#566579}.manual-kicker{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#eef5ff;color:#315d96;border:1px solid #cbdcf3;font-size:10.5px;font-weight:950;margin-bottom:7px}.manual-feature-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:9px}.manual-feature{border:1px solid #e0e6ee;border-radius:13px;padding:10px 11px;background:#fbfcfe;font-size:12px;line-height:1.6;color:#49586c}.manual-feature b{display:block;color:#263b59;margin-bottom:3px}.manual-sequence{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:10px 0}.manual-sequence span{flex:1 1 120px;border:1px solid #dce5ef;border-radius:12px;padding:8px 9px;text-align:center;background:#fbfdff;font-size:11px;font-weight:850;line-height:1.4}.manual-sequence .active{background:#eef7ff;border-color:#bfd9f4;color:#235a93}.manual-note-line{font-size:11px;line-height:1.6;color:#667085;margin-top:7px}.manual-mini-title{font-size:13px;font-weight:950;color:#30445f;margin:11px 0 5px}.manual-table td:first-child{font-weight:850;white-space:nowrap}@media(max-width:620px){.manual-shot-grid,.manual-feature-list{grid-template-columns:1fr}.manual-shot.full{grid-column:auto}.manual-sequence span{flex-basis:45%}}
 </style>
 </head>
@@ -279,11 +279,11 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 <section class="manual-hero"><div class="manual-language-banner">🇰🇷 한국어 사용설명서</div><h1>📖 한국어 ↔ 라오어 번역기</h1><div class="manual-sub"><span data-manual-version>--</span> · 현재 실사용 기능 기준 · Android / iPhone / PC</div><div class="manual-release-highlight">이번 설명서는 현재 앱 동작에 맞춰 다시 작성했습니다. <b>1차 비밀번호 1회 저장, 빠른 텍스트 번역, 자동 역번역, 음성출력, 음성입력, 최근 기록</b>의 실제 사용 순서를 기준으로 설명합니다.</div><div class="manual-flow"><div><b>①</b>시작</div><div><b>②</b>입력</div><div><b>③</b>번역</div><div><b>④</b>확인</div><div><b>⑤</b>복사</div></div></section>
 <section class="manual-card"><div class="manual-kicker">빠른 시작</div><h2>🚀 1. 처음 한 번만 설정하고 바로 사용</h2><div class="manual-steps"><div class="manual-step"><b>① 1차 비밀번호</b>처음 사용하는 기기에서는 <b>1차 비밀번호</b>를 한 번 저장합니다. 같은 기기에서는 새로고침·앱 재실행·일반 버전 업데이트 후에도 자동으로 사용됩니다.</div><div class="manual-step"><b>② 남편앱</b><b>🇰🇷 한국</b>을 선택하면 한국어 → 라오어로 번역합니다.</div><div class="manual-step"><b>③ 아내앱</b><b>🇱🇦 ລາວ</b>를 선택하면 라오어 → 한국어로 번역합니다.</div><div class="manual-step"><b>④ 상단 전환</b>앱 사용 중에도 위쪽 🇰🇷 한국 / 🇱🇦 ລາວ 버튼으로 즉시 전환할 수 있습니다. 🏠 처음 버튼은 첫 화면으로 돌아갑니다.</div></div><figure class="manual-shot full"><img data-manual-shot="topbar" alt="상단 모드 전환 버튼 화면"><figcaption><b>상단 버튼:</b> 버전·설명서·관리자 버튼은 작게 유지하고, 🇰🇷 한국 / 🇱🇦 ລາວ 버튼이 남는 폭을 넓게 나눠 사용합니다.</figcaption></figure></section>
 <section class="manual-card"><div class="manual-kicker">입력</div><h2>✍️ 2. 텍스트 입력 · 지우기 · 음성입력</h2><div class="manual-feature-list"><div class="manual-feature"><b>⌨️ 직접 입력</b>입력창을 눌러 타이핑합니다. 번역 후에도 원문은 자동으로 지워지지 않으므로 오타만 고쳐 다시 번역할 수 있습니다.</div><div class="manual-feature"><b>🗑️ 지우기</b>새 문장을 쓰고 싶을 때만 지우기 버튼을 누릅니다. 남편앱은 입력창 포커스 때 화면을 억지로 끌어올리는 동작을 제거해 삼성 키보드와의 스크롤 충돌을 줄였습니다.</div><div class="manual-feature"><b>🎙️ 앱 음성입력</b>번역 버튼 아래의 보라색 음성입력 버튼을 한 번 누르면 시작, 다시 누르면 종료합니다. 중간에 잠시 쉬어도 자동 종료되지 않습니다.</div><div class="manual-feature"><b>🎤 키보드 마이크</b>Samsung/Google/iPhone 키보드의 마이크도 그대로 사용할 수 있습니다. 음성으로 들어온 사람 이름·날짜·숫자·부정 표현은 번역 전에 한 번 확인하는 것이 좋습니다.</div></div><div class="manual-tip">앱 음성입력 후 표시되는 0~100점은 실제 정답 발화와 대조한 정확도 백분율이 아닙니다. 깨진 문자, 다른 문자체계 혼입, 불확실 표시처럼 <b>확인이 필요한 신호</b>를 보여주는 참고점수입니다.</div></section>
-<section class="manual-card"><div class="manual-kicker">번역 품질</div><h2>💬 3. 번역 말투와 의미 보존</h2><p>이 앱은 부부 메신저 대화를 기준으로 합니다. 한국어 원문이 반말이어도 <b>남편이 아내에게 말하는 자연스럽고 공손한 라오어</b>로 번역하고, 라오어 원문이 편한 말투여도 <b>아내가 남편에게 말하는 자연스러운 한국어 존댓말(-요체)</b>로 번역합니다. 딱딱한 업무체는 피하지만, 원문에 없는 애정표현·사과·약속을 임의로 추가하지 않습니다.</p><div class="manual-quickcheck"><span>👤 화자/상대</span><span>🚫 안·못·금지</span><span>🕘 날짜·시간</span><span>💰 숫자·금액</span><span>📞 누가 전화?</span><span>🧭 오다·가다</span></div><div class="manual-ok"><b>특히 놓치지 않도록 보는 항목</b><br>남편/아내 역할, 행동 주체와 대상, 금지·허용·필요 없음의 강도, 이동 방향, 날짜·시간·숫자, 음식·장소·브랜드 같은 구체 명사를 우선 보존합니다.</div></section>
+<section class="manual-card"><div class="manual-kicker">번역 품질</div><h2>💬 3. 번역 말투와 의미 보존</h2><p>이 앱은 부부 메신저 대화를 기준으로 하되 <b>원문 말투를 그대로 따라갑니다.</b> 한국어가 반말·편한 말투면 남편이 아내에게 말하는 자연스럽고 친근한 라오어로, 존댓말·공손한 말투면 그 존중 수준을 자연스럽게 유지합니다. 라오어→한국어도 편한 말투는 자연스러운 반말로, 공손한 말투는 자연스러운 존댓말로 옮깁니다. 말투만 자연스럽게 맞추고, 원문에 없는 애정표현·사과·약속이나 더 강한 감정을 임의로 추가하지 않습니다.</p><div class="manual-quickcheck"><span>👤 화자/상대</span><span>🚫 안·못·금지</span><span>🕘 날짜·시간</span><span>💰 숫자·금액</span><span>📞 누가 전화?</span><span>🧭 오다·가다</span></div><div class="manual-ok"><b>특히 놓치지 않도록 보는 항목</b><br>남편/아내 역할, 행동 주체와 대상, 금지·허용·필요 없음의 강도, 이동 방향, 날짜·시간·숫자, 음식·장소·브랜드 같은 구체 명사를 우선 보존합니다.</div></section>
 <section class="manual-card"><div class="manual-kicker">실제 화면</div><h2>📱 4. 남편앱 · 아내앱 화면</h2><div class="manual-shot-grid"><figure class="manual-shot"><img data-manual-shot="husband" alt="남편앱 예시 화면"><figcaption><b>남편앱:</b> 한국어 입력 → 라오어 번역. 번역이 표시되면 음성출력과 역번역이 이어서 준비됩니다.</figcaption></figure><figure class="manual-shot"><img data-manual-shot="wife" alt="아내앱 예시 화면"><figcaption><b>아내앱:</b> 라오어 입력 → 한국어 번역. 기본 복사는 한국어 번역본만 복사합니다.</figcaption></figure></div></section>
 <section class="manual-card"><div class="manual-kicker">처리 순서</div><h2>⚡ 5. 번역 후 무엇이 먼저 움직이나요?</h2><div class="manual-sequence"><span class="active">① 번역 결과 표시</span><span>② 음성출력 시작</span><span>③ 역번역 시작</span><span>④ 각자 준비되는 즉시 완료</span></div><p><b>번역 결과를 먼저 보여준 뒤</b> 음성출력과 역번역을 서로 기다리지 않고 병렬로 시작합니다. 역번역이 늦어도 번역 결과 표시나 음성출력을 막지 않습니다.</p><div class="manual-note-line">텍스트 번역은 평소 빠른 직접 연결을 우선하고, 직접 연결이 네트워크 오류나 일시적인 서버 오류로 실패했을 때만 준비된 백업 경로를 한 번 사용합니다.</div></section>
 <section class="manual-card"><div class="manual-kicker">품질 점수</div><h2>🧪 6. 번역품질 점수 · 재번역</h2><div class="manual-quality"><div class="manual-qbox manual-q-ok"><strong>✅ 85~100</strong>눈에 띄는 문자·형식 이상 신호가 적습니다.</div><div class="manual-qbox manual-q-warn"><strong>⚠️ 70~84</strong>감점 이유와 역번역을 확인하는 것이 좋습니다.</div><div class="manual-qbox manual-q-bad"><strong>⛔ 0~69</strong>재번역 후 의미를 다시 확인하는 것이 좋습니다.</div></div><p>점수는 번역 정확도를 수학적으로 보증하는 값이 아니라 앱 내부의 문자·형식·핵심 의미 위험 신호를 빠르게 보여주는 지표입니다. 85점 미만이면 <b>🔄 재번역</b> 버튼이 나타납니다.</p><div class="manual-tip"><b>� 문자가 보이면</b> 원문으로 자동 재번역을 1회 시도합니다. 다시 나온 결과에도 �가 남으면 결과는 보여주되 잘못 보내지 않도록 복사와 음성출력을 잠급니다.</div></section>
-<section class="manual-card"><div class="manual-kicker">의미 확인</div><h2>🔍 7. 자동 역번역과 복사 방식</h2><p>역번역은 원문을 외워서 그대로 보여주는 기능이 아니라, <b>번역된 문장이 실제로 어떤 뜻으로 읽히는지</b>를 상대 언어로 다시 확인하는 기능입니다. 짧고 명확한 문장은 원문과 토씨까지 똑같이 돌아올 수도 있습니다.</p><table class="manual-table"><tr><th>구분</th><th>동작</th></tr><tr><td>남편앱</td><td>번역 직후 라오어 결과를 한국어로 자동 역번역합니다. <b>번역본 복사</b>를 누르면 라오어 번역본 다음 줄에 준비된 한국어 역번역을 붙여 복사합니다. 빈 줄·언어명 표시는 없습니다. 역번역 처리 중이면 이미 진행 중인 결과만 잠시 기다리며 새 요청을 만들지 않습니다.</td></tr><tr><td>아내앱</td><td>번역 직후 한국어 결과를 라오어로 자동 역번역합니다. 기본 <b>복사</b> 버튼은 한국어 번역본만 복사하고, 역번역은 의미확인 영역에서 별도로 확인·복사합니다.</td></tr></table><div class="manual-warn">역번역도 번역 결과이므로 100% 판정기는 아닙니다. 금액·날짜·병원·비자·항공편처럼 중요한 내용은 원문과 함께 다시 확인하세요.</div></section>
+<section class="manual-card"><div class="manual-kicker">의미 확인</div><h2>🔍 7. 자동 역번역과 복사 방식</h2><p>역번역은 원문을 외워서 그대로 보여주는 기능이 아니라, <b>실제로 나온 번역본만 다시 읽어 번역본의 뜻과 말투를 가능한 한 직역·의미보존 우선으로 되돌려 보는 기능</b>입니다. 어색한 어순은 읽을 수 있게만 정리하고 주체·부정·시제·시간·숫자·이동방향·말투를 임의로 고치지 않습니다. 짧고 명확한 문장은 원문과 토씨까지 똑같이 돌아올 수도 있습니다.</p><table class="manual-table"><tr><th>구분</th><th>동작</th></tr><tr><td>남편앱</td><td>번역 직후 라오어 결과를 한국어로 자동 역번역합니다. <b>번역본 복사</b>를 누르면 라오어 번역본 다음 줄에 준비된 한국어 역번역을 붙여 복사합니다. 빈 줄·언어명 표시는 없습니다. 역번역 처리 중이면 이미 진행 중인 결과만 잠시 기다리며 새 요청을 만들지 않습니다.</td></tr><tr><td>아내앱</td><td>번역 직후 한국어 결과를 라오어로 자동 역번역합니다. 기본 <b>복사</b> 버튼은 한국어 번역본만 복사하고, 역번역은 의미확인 영역에서 별도로 확인·복사합니다.</td></tr></table><div class="manual-warn">역번역도 번역 결과이므로 100% 판정기는 아닙니다. 금액·날짜·병원·비자·항공편처럼 중요한 내용은 원문과 함께 다시 확인하세요.</div></section>
 <section class="manual-card"><div class="manual-kicker">음성</div><h2>🔊 8. 음성출력 · 다시 듣기</h2><p>입력 영역 위쪽의 <b>🔊 음성출력</b>을 켜면 번역 성공 후 상대 언어 음성이 자동으로 재생됩니다. 끄면 자동 재생과 다시 듣기 버튼이 비활성화됩니다. 음성입력을 시작할 때 재생 중인 음성을 먼저 멈춰 스피커 소리가 다시 받아써지는 상황을 줄입니다.</p></section>
 <section class="manual-card"><div class="manual-kicker">기록</div><h2>🕘 9. 최근 번역 · 즐겨찾기 · 업데이트</h2><div class="manual-feature-list"><div class="manual-feature"><b>🕘 최근 번역</b>남편앱과 아내앱 각각 최대 50개를 현재 기기에 저장하고 화면에는 최근 10개를 표시합니다.</div><div class="manual-feature"><b>⭐ 즐겨찾기</b>자주 쓰는 문장을 따로 남겨 다시 불러올 수 있습니다.</div><div class="manual-feature"><b>🔄 버전 업데이트</b>업데이트 중에는 번역·음성입력이 끝나기를 기다린 뒤 진행하고, 사용 중이던 모드와 작성 중인 입력문을 복원합니다.</div><div class="manual-feature"><b>🔐 1차 비밀번호</b>정상적인 새로고침·앱 재실행·버전 업데이트로는 다시 입력할 필요가 없도록 기기에 한 번 저장합니다.</div></div></section>
 <section class="manual-card"><div class="manual-kicker">문제 해결</div><h2>🧭 10. 자주 생기는 상황</h2><table class="manual-table"><tr><th>상황</th><th>확인 방법</th></tr><tr><td>번역이 평소보다 느림</td><td>네트워크 상태에 따라 첫 응답 시간이 달라질 수 있습니다. 한 번 더 번역해 보고, 반복해서 느리면 같은 문장을 짧게 잘라 비교해 보세요. 직접 연결이 실패한 경우에는 백업 경로가 한 번 동작할 수 있어 평소보다 시간이 더 걸릴 수 있습니다.</td></tr><tr><td>번역은 됐는데 역번역이 늦음</td><td>정상일 수 있습니다. 번역 결과 표시와 역번역은 별개이며, 번역 결과는 먼저 사용할 수 있습니다.</td></tr><tr><td>입력창을 눌렀을 때 화면이 이상하게 움직임</td><td>남편앱은 일반 텍스트 입력 포커스의 중복 강제 스크롤을 제거했습니다. 그래도 특정 키보드에서 반복되면 화면 캡처와 기종을 남겨 주세요.</td></tr><tr><td>음성입력 결과가 이상함</td><td>인식 점수와 원문을 확인하고 사람 이름·숫자·부정 표현을 직접 고친 뒤 번역하세요.</td></tr><tr><td>품질 점수가 낮음</td><td>감점 이유를 확인하고 🔄 재번역 또는 역번역을 사용하세요. 낮은 점수 자체만으로 뜻이 틀렸다고 단정하지는 않습니다.</td></tr></table></section>
@@ -294,11 +294,11 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 <section class="manual-hero"><div class="manual-language-banner">🇱🇦 ຄູ່ມືພາສາລາວ</div><h1>📖 ແອັບແປ ເກົາຫຼີ ↔ ລາວ</h1><div class="manual-sub"><span data-manual-version>--</span> · ຄູ່ມືຕາມຟັງຊັນທີ່ໃຊ້ຈິງ · Android / iPhone / PC</div><div class="manual-release-highlight">ຄູ່ມືນີ້ປັບຕາມແອັບລ່າສຸດ: <b>ບັນທຶກລະຫັດທີ 1 ຄັ້ງດຽວ, ແປຂໍ້ຄວາມໄວ, ແປກັບອັດຕະໂນມັດ, ສຽງອ່ານ, ຮັບສຽງ ແລະ ປະຫວັດ.</b></div><div class="manual-flow"><div><b>①</b>ເລີ່ມ</div><div><b>②</b>ພິມ/ເວົ້າ</div><div><b>③</b>ແປ</div><div><b>④</b>ກວດ</div><div><b>⑤</b>ຄັດລອກ</div></div></section>
 <section class="manual-card"><div class="manual-kicker">ເລີ່ມໄວ</div><h2>🚀 1. ຕັ້ງຄ່າພຽງຄັ້ງທຳອິດ</h2><div class="manual-steps"><div class="manual-step"><b>① ລະຫັດທີ 1</b>ໃນເຄື່ອງໃໝ່ ໃຫ້ບັນທຶກ <b>ລະຫັດທີ 1</b> ພຽງ 1 ຄັ້ງ. ການ refresh, ເປີດແອັບໃໝ່ ຫຼື ອັບເດດທົ່ວໄປຈະນຳໃຊ້ຄ່າເກົ່າອັດຕະໂນມັດ.</div><div class="manual-step"><b>② ໂໝດຜົວ</b>ເລືອກ <b>🇰🇷 한국</b> ເພື່ອແປເກົາຫຼີ → ລາວ.</div><div class="manual-step"><b>③ ໂໝດພັນລະຍາ</b>ເລືອກ <b>🇱🇦 ລາວ</b> ເພື່ອແປລາວ → ເກົາຫຼີ.</div><div class="manual-step"><b>④ ປ່ຽນໂໝດ</b>ປ່ຽນດ້ວຍປຸ່ມ 🇰🇷 / 🇱🇦 ດ້ານເທິງໄດ້ທັນທີ. 🏠 ກັບໄປໜ້າທຳອິດ.</div></div><figure class="manual-shot full"><img data-manual-shot="topbar" alt="ແຖບປຸ່ມດ້ານເທິງ"><figcaption><b>ແຖບດ້ານເທິງ:</b> ປຸ່ມ 🇰🇷 한국 / 🇱🇦 ລາວ ໃຊ້ພື້ນທີ່ທີ່ເຫຼືອໃຫ້ກົດງ່າຍ.</figcaption></figure></section>
 <section class="manual-card"><div class="manual-kicker">ການພິມ</div><h2>✍️ 2. ພິມ · ລຶບ · ຮັບສຽງ</h2><div class="manual-feature-list"><div class="manual-feature"><b>⌨️ ພິມເອງ</b>ແຕະຊ່ອງພິມແລ້ວພິມໄດ້. ຫຼັງແປ ຂໍ້ຄວາມເກົ່າຈະບໍ່ຖືກລຶບເອງ ຈຶ່ງແກ້ສະເພາະຈຸດແລ້ວແປໃໝ່ໄດ້.</div><div class="manual-feature"><b>🗑️ ລຶບ</b>ໃຊ້ປຸ່ມລຶບເມື່ອຈະພິມປະໂຫຍກໃໝ່.</div><div class="manual-feature"><b>🎙️ ຮັບສຽງໃນແອັບ</b>ກົດປຸ່ມສີມ່ວງ 1 ຄັ້ງເພື່ອເລີ່ມ ແລະກົດອີກຄັ້ງເພື່ອຢຸດ. ຢຸດເວົ້າຊົ່ວຄາວກໍບໍ່ປິດເອງ.</div><div class="manual-feature"><b>🎤 ໄມໂຄຣໂຟນແປ້ນພິມ</b>ໃຊ້ໄມໂຄຣໂຟນຂອງ Samsung/Google/iPhone ໄດ້ຕາມປົກກະຕິ. ກວດຊື່ຄົນ, ວັນທີ, ຕົວເລກ ແລະຄຳປະຕິເສດກ່ອນແປ.</div></div><div class="manual-tip">ຄະແນນຮັບສຽງ 0~100 ເປັນຄ່າຊ່ວຍກວດສັນຍານຜິດປົກກະຕິ ບໍ່ແມ່ນເປີເຊັນຄວາມຖືກຕ້ອງຈິງ.</div></section>
-<section class="manual-card"><div class="manual-kicker">ຄຸນນະພາບການແປ</div><h2>💬 3. ນ້ຳສຽງການແປ ແລະ ຄວາມໝາຍ</h2><p>ແອັບນີ້ໃຊ້ສຳລັບຄູ່ສົມລົດ. ແມ່ນແຕ່ຕົ້ນສະບັບຈະເປັນພາສາກັນເອງ ຜົນແປຈະໃຊ້ <b>ພາສາສຸພາບ ແລະ ທຳມະຊາດ</b>: ຜົວເວົ້າຫາພັນລະຍາເປັນລາວຢ່າງສຸພາບ, ແລະພັນລະຍາເວົ້າຫາຜົວເປັນເກົາຫຼີ 존댓말 (-요). ບໍ່ເພີ່ມຄວາມຫວານ, ຄຳຂໍໂທດ ຫຼື ຄຳສັນຍາທີ່ຕົ້ນສະບັບບໍ່ມີ.</p><div class="manual-quickcheck"><span>👤 ໃຜ?</span><span>🚫 ບໍ່/ຫ້າມ?</span><span>🕘 ວັນທີ·ເວລາ?</span><span>💰 ຕົວເລກ?</span><span>📞 ໃຜໂທ?</span><span>🧭 ມາ/ໄປ?</span></div><div class="manual-ok"><b>ຈຸດທີ່ແອັບເນັ້ນກວດ</b><br>ບົດບາດຜົວ/ພັນລະຍາ, ໃຜເຮັດຫຍັງໃຫ້ໃຜ, ຫ້າມ/ອະນຸຍາດ/ບໍ່ຈຳເປັນ, ທິດທາງການເດີນທາງ, ວັນທີ·ເວລາ·ຕົວເລກ ແລະຊື່ອາຫານ/ສະຖານທີ່.</div></section>
+<section class="manual-card"><div class="manual-kicker">ຄຸນນະພາບການແປ</div><h2>💬 3. ນ້ຳສຽງການແປ ແລະ ຄວາມໝາຍ</h2><p>ແອັບນີ້ໃຊ້ສຳລັບຄູ່ສົມລົດ ແລະ <b>ຮັກສາລະດັບນ້ຳສຽງຂອງຕົ້ນສະບັບ.</b> ຖ້າພາສາເກົາຫຼີເປັນກັນເອງ (반말) ກໍແປເປັນລາວແບບສະບາຍ ແລະ ທຳມະຊາດລະຫວ່າງຜົວກັບພັນລະຍາ; ຖ້າຕົ້ນສະບັບສຸພາບ ກໍຮັກສາຄວາມສຸພາບ. ລາວ→ເກົາຫຼີກໍຄືກັນ: ນ້ຳສຽງກັນເອງໃຊ້ພາສາເກົາຫຼີແບບກັນເອງ (반말), ແລະນ້ຳສຽງສຸພາບໃຊ້ 존댓말 ຢ່າງທຳມະຊາດ. ບໍ່ເພີ່ມຄວາມຫວານ, ຄຳຂໍໂທດ, ຄຳສັນຍາ ຫຼືອາລົມທີ່ແຮງກວ່າຕົ້ນສະບັບ.</p><div class="manual-quickcheck"><span>👤 ໃຜ?</span><span>🚫 ບໍ່/ຫ້າມ?</span><span>🕘 ວັນທີ·ເວລາ?</span><span>💰 ຕົວເລກ?</span><span>📞 ໃຜໂທ?</span><span>🧭 ມາ/ໄປ?</span></div><div class="manual-ok"><b>ຈຸດທີ່ແອັບເນັ້ນກວດ</b><br>ບົດບາດຜົວ/ພັນລະຍາ, ໃຜເຮັດຫຍັງໃຫ້ໃຜ, ຫ້າມ/ອະນຸຍາດ/ບໍ່ຈຳເປັນ, ທິດທາງການເດີນທາງ, ວັນທີ·ເວລາ·ຕົວເລກ ແລະຊື່ອາຫານ/ສະຖານທີ່.</div></section>
 <section class="manual-card"><div class="manual-kicker">ໜ້າຈໍຈິງ</div><h2>📱 4. ໂໝດຜົວ · ໂໝດພັນລະຍາ</h2><div class="manual-shot-grid"><figure class="manual-shot"><img data-manual-shot="husband" alt="ໜ້າໂໝດຜົວ"><figcaption><b>ໂໝດຜົວ:</b> ພິມເກົາຫຼີ → ແປລາວ. ຫຼັງຜົນແປສະແດງ ສຽງ ແລະການແປກັບຈະເລີ່ມຕໍ່.</figcaption></figure><figure class="manual-shot"><img data-manual-shot="wife" alt="ໜ້າໂໝດພັນລະຍາ"><figcaption><b>ໂໝດພັນລະຍາ:</b> ພິມລາວ → ແປເກົາຫຼີ. ປຸ່ມຄັດລອກຫຼັກຈະຄັດລອກສະເພາະພາສາເກົາຫຼີ.</figcaption></figure></div></section>
 <section class="manual-card"><div class="manual-kicker">ລຳດັບການເຮັດວຽກ</div><h2>⚡ 5. ຫຼັງກົດແປ</h2><div class="manual-sequence"><span class="active">① ສະແດງຜົນແປ</span><span>② ເລີ່ມສຽງ</span><span>③ ເລີ່ມແປກັບ</span><span>④ ສຳເລັດແຍກກັນ</span></div><p><b>ຜົນແປຈະສະແດງກ່ອນ.</b> ຈາກນັ້ນສຽງອ່ານ ແລະການແປກັບຈະເຮັດວຽກພ້ອມກັນ ໂດຍບໍ່ລໍຖ້າກັນ.</p><div class="manual-note-line">ການແປຂໍ້ຄວາມໃຊ້ທາງທີ່ໄວເປັນຫຼັກ. ຖ້າການເຊື່ອມຕໍ່ຫຼັກຜິດພາດຊົ່ວຄາວ ຈຶ່ງລອງທາງສຳຮອງ 1 ຄັ້ງ.</div></section>
 <section class="manual-card"><div class="manual-kicker">ຄະແນນ</div><h2>🧪 6. ຄະແນນການແປ · ແປໃໝ່</h2><div class="manual-quality"><div class="manual-qbox manual-q-ok"><strong>✅ 85~100</strong>ສັນຍານຜິດປົກກະຕິນ້ອຍ.</div><div class="manual-qbox manual-q-warn"><strong>⚠️ 70~84</strong>ຄວນເບິ່ງເຫດຜົນ ແລະຜົນແປກັບ.</div><div class="manual-qbox manual-q-bad"><strong>⛔ 0~69</strong>ຄວນແປໃໝ່ ແລະກວດຄວາມໝາຍ.</div></div><p>ຄະແນນນີ້ບໍ່ແມ່ນການຮັບປະກັນຄວາມຖືກຕ້ອງ 100%. ເປັນຄ່າຊ່ວຍກວດຕົວອັກສອນ, ຮູບແບບ ແລະຄວາມສ່ຽງຂອງຄວາມໝາຍ. ຕ່ຳກວ່າ 85 ຈະມີ <b>🔄 ແປໃໝ່</b>.</p><div class="manual-tip">ຖ້າພົບ <b>�</b> ແອັບຈະລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ. ຖ້າຍັງມີ � ຈະສະແດງຜົນແຕ່ປິດການຄັດລອກ ແລະສຽງ.</div></section>
-<section class="manual-card"><div class="manual-kicker">ກວດຄວາມໝາຍ</div><h2>🔍 7. ແປກັບອັດຕະໂນມັດ · ຄັດລອກ</h2><p>ການແປກັບບໍ່ໄດ້ຈື່ຈຳຕົ້ນສະບັບແລ້ວຄັດລອກກັບ. ມັນແປຈາກ <b>ຜົນແປທີ່ສະແດງຈິງ</b> ເພື່ອກວດວ່າຄວາມໝາຍທີ່ອ່ານໄດ້ເປັນແນວໃດ. ປະໂຫຍກສັ້ນແລະຊັດເຈນອາດຈະແປກັບຄືຕົ້ນສະບັບແບບຄຳຕໍ່ຄຳໄດ້.</p><table class="manual-table"><tr><th>ໂໝດ</th><th>ການຄັດລອກ</th></tr><tr><td>ຜົວ</td><td>ປຸ່ມຄັດລອກຈະຄັດລອກຜົນພາສາລາວ ແລ້ວຕໍ່ດ້ວຍຜົນແປກັບພາສາເກົາຫຼີໃນແຖວຖັດໄປ. ບໍ່ມີແຖວວ່າງ ຫຼືຊື່ພາສາ.</td></tr><tr><td>ພັນລະຍາ</td><td>ປຸ່ມຄັດລອກຫຼັກຈະຄັດລອກສະເພາະຜົນພາສາເກົາຫຼີ. ຜົນແປກັບພາສາລາວສາມາດເບິ່ງ ແລະຄັດລອກແຍກໄດ້.</td></tr></table><div class="manual-warn">ການແປກັບກໍອາດຜິດໄດ້. ຂໍ້ຄວາມສຳຄັນເຊັ່ນ ເງິນ, ວັນທີ, ໂຮງໝໍ, Visa ແລະຖ້ຽວບິນ ຄວນກວດກັບຕົ້ນສະບັບ.</div></section>
+<section class="manual-card"><div class="manual-kicker">ກວດຄວາມໝາຍ</div><h2>🔍 7. ແປກັບອັດຕະໂນມັດ · ຄັດລອກ</h2><p>ການແປກັບບໍ່ໄດ້ຈື່ຈຳຕົ້ນສະບັບແລ້ວຄັດລອກກັບ. ມັນແປຈາກ <b>ຜົນແປທີ່ສະແດງຈິງເທົ່ານັ້ນ</b> ແລະເນັ້ນການຮັກສາຄວາມໝາຍ ແລະນ້ຳສຽງໃຫ້ກົງກັບຜົນແປ. ຈະຈັດຄຳໃຫ້ອ່ານໄດ້ແຕ່ບໍ່ປ່ຽນຜູ້ກະທຳ, ການປະຕິເສດ, ເວລາ, ຕົວເລກ, ທິດທາງ ຫຼືລະດັບນ້ຳສຽງໂດຍພະລະການ. ປະໂຫຍກສັ້ນແລະຊັດເຈນອາດຈະແປກັບຄືຕົ້ນສະບັບແບບຄຳຕໍ່ຄຳໄດ້.</p><table class="manual-table"><tr><th>ໂໝດ</th><th>ການຄັດລອກ</th></tr><tr><td>ຜົວ</td><td>ປຸ່ມຄັດລອກຈະຄັດລອກຜົນພາສາລາວ ແລ້ວຕໍ່ດ້ວຍຜົນແປກັບພາສາເກົາຫຼີໃນແຖວຖັດໄປ. ບໍ່ມີແຖວວ່າງ ຫຼືຊື່ພາສາ.</td></tr><tr><td>ພັນລະຍາ</td><td>ປຸ່ມຄັດລອກຫຼັກຈະຄັດລອກສະເພາະຜົນພາສາເກົາຫຼີ. ຜົນແປກັບພາສາລາວສາມາດເບິ່ງ ແລະຄັດລອກແຍກໄດ້.</td></tr></table><div class="manual-warn">ການແປກັບກໍອາດຜິດໄດ້. ຂໍ້ຄວາມສຳຄັນເຊັ່ນ ເງິນ, ວັນທີ, ໂຮງໝໍ, Visa ແລະຖ້ຽວບິນ ຄວນກວດກັບຕົ້ນສະບັບ.</div></section>
 <section class="manual-card"><div class="manual-kicker">ສຽງ</div><h2>🔊 8. ສຽງອ່ານ</h2><p>ເປີດ <b>🔊 ສຽງ</b> ແລ້ວຫຼັງແປສຳເລັດຈະອ່ານພາສາປາຍທາງອັດຕະໂນມັດ. ຖ້າປິດ ຈະບໍ່ຫຼິ້ນສຽງ ແລະປຸ່ມຟັງຊ້ຳຈະບໍ່ໃຊ້ງານ. ເມື່ອເລີ່ມຮັບສຽງ ສຽງທີ່ກຳລັງຫຼິ້ນຈະຢຸດກ່ອນ.</p></section>
 <section class="manual-card"><div class="manual-kicker">ປະຫວັດ</div><h2>🕘 9. ການແປຫຼ້າສຸດ · ⭐ · ອັບເດດ</h2><div class="manual-feature-list"><div class="manual-feature"><b>🕘 ການແປຫຼ້າສຸດ</b>ແຕ່ລະໂໝດເກັບໄດ້ສູງສຸດ 50 ລາຍການ ແລະສະແດງ 10 ລາຍການຫຼ້າສຸດ.</div><div class="manual-feature"><b>⭐ ລາຍການມັກ</b>ເກັບປະໂຫຍກທີ່ໃຊ້ບ່ອຍເພື່ອເອີ້ນກັບມາໃຊ້ອີກ.</div><div class="manual-feature"><b>🔄 ອັບເດດ</b>ຖ້າກຳລັງແປ ຫຼືຮັບສຽງ ແອັບຈະລໍຖ້າກ່ອນ ແລ້ວກູ້ຄືນໂໝດ ແລະຂໍ້ຄວາມທີ່ພິມໄວ້.</div><div class="manual-feature"><b>🔐 ລະຫັດທີ 1</b>ຫຼັງບັນທຶກແລ້ວ ການ refresh/ເປີດໃໝ່/ອັບເດດທົ່ວໄປບໍ່ຄວນຮ້ອງຂໍໃຫ້ພິມໃໝ່.</div></div></section>
 <section class="manual-card"><div class="manual-kicker">ແກ້ບັນຫາ</div><h2>🧭 10. ສະຖານະການທີ່ພົບບ່ອຍ</h2><table class="manual-table"><tr><th>ອາການ</th><th>ວິທີກວດ</th></tr><tr><td>ການແປຊ້າກວ່າປົກກະຕິ</td><td>ລອງແປອີກ 1 ຄັ້ງ. ເຄືອຂ່າຍສາມາດເຮັດໃຫ້ເວລາຕອບກັບຕ່າງກັນ. ຖ້າທາງຫຼັກຜິດພາດ ແອັບອາດລອງທາງສຳຮອງ 1 ຄັ້ງ ຈຶ່ງອາດຊ້າກວ່າປົກກະຕິ.</td></tr><tr><td>ຜົນແປມາແລ້ວ ແຕ່ຜົນແປກັບຍັງບໍ່ມາ</td><td>ເປັນອາການປົກກະຕິໄດ້. ຜົນແປຫຼັກສາມາດໃຊ້ໄດ້ກ່ອນ.</td></tr><tr><td>ຜົນຮັບສຽງຜິດ</td><td>ກວດຄະແນນ, ຊື່ຄົນ, ຕົວເລກ ແລະຄຳປະຕິເສດ ແລ້ວແກ້ກ່ອນແປ.</td></tr><tr><td>ຄະແນນການແປຕ່ຳ</td><td>ເບິ່ງເຫດຜົນ, ກົດ 🔄 ແປໃໝ່ ຫຼື ເບິ່ງຜົນແປກັບ. ຄະແນນຕ່ຳບໍ່ໄດ້ໝາຍຄວາມວ່າຄວາມໝາຍຜິດແນ່ນອນ.</td></tr></table></section>
@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.58.2</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.58.3</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.58.2</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.58.2</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.58.3</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.58.3</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.58.2</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.58.3</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="31d6f5460ac213d43f8144011a1a8a1c3a13d2c795bc3f94c8907e7917b1ac02">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="e07c529168ccad3966563dcaa52350f5b295e6f2e4ba976e95d7037a865a96e6">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -841,7 +841,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.58.2';
+const APP_VERSION='V3.58.3';
 const MINI_GLOSSARY_STORAGE_KEY='translator_custom_glossary_v1';
 const DEFAULT_MINI_GLOSSARY=Object.freeze([
   {ko:'신닷',lo:'ຊີ້ນດາດ'},
@@ -870,8 +870,8 @@ function promptWithMatchedMiniGlossary(base,dir,source){
 
 
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-const FAST_K2L_BASE=`Translate Korean to natural Lao for everyday messages from a Korean husband to his Lao wife. Output ONLY the Lao translation. Always use natural polite and respectful everyday Lao suitable for a husband speaking warmly to his wife, even when the Korean source is casual/banmal. Keep it conversational, not stiff or ceremonial. Fixed roles: husband=speaker, wife=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. This politeness normalization must not change practical meaning or request strength. Korean spouse-pronoun 자기/자기가 points to the wife/listener; vocative 자기야/여보/내 사랑 may become natural Lao spouse address, but sleep forms such as 자기 전에 mean sleeping. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use clean Lao script; keep Latin only when natural for brands/apps/technical names. No labels, notes, romanization, alternatives, or explanations.`;
-const FAST_L2K_BASE=`Translate Lao to natural Korean for everyday messages from a Lao wife to her Korean husband. Output ONLY the Korean translation. Always use natural warm conversational Korean 존댓말, normally -요/-아요/-어요 style, suitable for a wife speaking respectfully to her husband, even when the Lao source is casual/intimate. Do not default to 반말 or stiff businesslike speech. Fixed roles: wife=speaker, husband=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. This politeness normalization must not change practical meaning or request strength. Lao ຂ້ອຍ is the wife/speaker; ເຈົ້າ/ທີ່ຮັກ normally address the husband/listener and must never become the wife. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use natural Korean; preserve Latin brand/app/technical names when natural. No labels, notes, alternatives, or explanations.`;
+const FAST_K2L_BASE=`Translate Korean to natural Lao for everyday messages from a Korean husband to his Lao wife. Output ONLY the Lao translation. Preserve the source register: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Fixed roles: husband=speaker, wife=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. Korean spouse-pronoun 자기/자기가 points to the wife/listener; vocative 자기야/여보/내 사랑 may become natural Lao spouse address, but sleep forms such as 자기 전에 mean sleeping. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use clean Lao script; keep Latin only when natural for brands/apps/technical names. No labels, notes, romanization, alternatives, or explanations.`;
+const FAST_L2K_BASE=`Translate Lao to natural Korean for everyday messages from a Lao wife to her Korean husband. Output ONLY the Korean translation. Preserve the source register: casual/intimate Lao -&gt; natural warm Korean banmal; polite/respectful Lao -&gt; matching conversational Korean 존댓말. Fixed roles: wife=speaker, husband=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. Lao ຂ້ອຍ is the wife/speaker; ເຈົ້າ/ທີ່ຮັກ normally address the husband/listener and must never become the wife. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use natural Korean; preserve Latin brand/app/technical names when natural. No labels, notes, alternatives, or explanations.`;
 function _fastRuleJoin(base,rules){return base+(rules.length?'\n\nMESSAGE-SPECIFIC SAFETY RULES:\n- '+rules.join('\n- '):'')}
 function _needsKoreanModalityRule(s){
   return /(?:지\s*마(?:세요|요)?|지\s*말(?:고|아|아요|자|라고|래|랬|았|았어|아줘|아주세요)?|[가-힣]{1,24}(?:으)?면\s*안\s*(?:돼|돼요|됩니다?|되(?:어|요|는|면|니까|지)?|될)|[가-힣]{1,24}도\s*(?:돼|돼요|됩니다?|되(?:어|요)?|괜찮(?:아|아요|습니다)?|좋(?:아|아요)?)|지\s*않아도\s*(?:돼|돼요|됩니다?|괜찮(?:아|아요|습니다)?)|[가-힣]{1,24}야\s*(?:해|해요|합니다?|돼|돼요|됩니다?|되(?:어|요)?))/.test(String(s||''));
@@ -1346,7 +1346,7 @@ window.addEventListener('message',function(ev){
     }
 
     const COPY_DEFAULTS = Object.freeze({copyLaoBtn:'📋 번역본 복사',copyBackBtn:'📋 복사하기'});
-    // V3.58.2: 남편앱 번역본 복사는 자동 역번역을 항상 함께 사용한다. 별도 토글/추가 요청은 없다.
+    // V3.58.3: 남편앱 번역본 복사는 자동 역번역을 항상 함께 사용한다. 별도 토글/추가 요청은 없다.
     function loadCopyBackTranslationSetting(){}
     function renderCopyBackTranslationSetting(){}
     function toggleCopyBackTranslation(){}
@@ -1361,7 +1361,7 @@ window.addEventListener('message',function(ev){
         return text;
     }
     async function waitForBackTranslationForCopy(timeoutMs=22000){
-        // V3.58.2: 복사 동작은 새 역번역 요청을 만들지 않는다.
+        // V3.58.3: 복사 동작은 새 역번역 요청을 만들지 않는다.
         // 번역 직후 이미 자동 시작된 역번역이 진행 중이면 그 결과만 기다리고,
         // 완료/실패 상태라면 현재 도착한 결과만 사용한다.
         let text=validBackTranslationForCopy();if(text)return text;
@@ -1379,7 +1379,7 @@ window.addEventListener('message',function(ev){
         const btn=document.getElementById('copyLaoBtn');if(!btn)return;
         const token=String(Date.now())+Math.random();btn.dataset.copyToken=token;btn.disabled=true;
         let copyTextValue=laoText,backText='',backUnavailable=false;
-        // V3.58.2: 남편앱 번역본 복사는 자동으로 준비된 역번역을 항상 함께 복사한다.
+        // V3.58.3: 남편앱 번역본 복사는 자동으로 준비된 역번역을 항상 함께 복사한다.
         // 복사 버튼 자체가 별도의 역번역 요청을 만들지는 않는다.
         btn.textContent='⏳ 자동 역번역 확인 중...';
         try{backText=await waitForBackTranslationForCopy()}catch(e){backText=''}
@@ -1957,7 +1957,7 @@ async function toggleKoreanVoiceInput(){if(voiceProcessing)return;if(voiceRecord
         const input=document.getElementById('krInput');
         if(input){
             input.addEventListener('input', ()=&gt;{clearVoiceScore();updateInputCharCount();});
-            /* V3.58.2: ordinary husband text focus uses browser + MobileKeyboardGuard only; no forced focus-anchor scroll. */
+            /* V3.58.3: ordinary husband text focus uses browser + MobileKeyboardGuard only; no forced focus-anchor scroll. */
             input.addEventListener('keydown', ev=&gt;{
                 if(ev.key==='Enter' &amp;&amp; (ev.ctrlKey || ev.metaKey)){
                     ev.preventDefault(); if(!isTranslating) handleTranslateAction();
@@ -2653,7 +2653,7 @@ function markCriticalMeaningQuality(base,risk){
   q.reasons=[...(q.reasons||[]),...q.criticalReasons.map(x=&gt;'의미반전 위험: '+x)];
   q.softContamination=false;return q;
 }
-const CRITICAL_REPAIR_PROMPT_K2L=SharedTranslationPolicyV333.K2L_CRITICAL_REPAIR_PROMPT+"\nV3.58.2 FINAL REGISTER RULE — higher priority than earlier source-register wording: even when the Korean source is casual/banmal, output natural polite and respectful everyday Lao suitable for a husband speaking warmly to his wife. Keep it conversational, not stiff or ceremonial. Do not change meaning, roles, request strength, negation, tense, numbers, time, or movement direction.";
+const CRITICAL_REPAIR_PROMPT_K2L=SharedTranslationPolicyV333.K2L_CRITICAL_REPAIR_PROMPT;
 function createCriticalRepairAttemptK2L(source,runId,label,timeoutMs){
   const controller=new AbortController();activeGeminiControllers.add(controller);let didTimeout=false;const started=performance.now();
   const timer=setTimeout(()=&gt;{didTimeout=true;try{controller.abort()}catch(e){}},Math.max(1,timeoutMs));
@@ -3460,7 +3460,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                 requestLabels:[...livePerfStats.labels]
             });
 
-            // V3.58.2: 최종 번역문 표시 직후 TTS와 역번역을 서로 기다리지 않고 독립 병렬 시작한다.
+            // V3.58.3: 최종 번역문 표시 직후 TTS와 역번역을 서로 기다리지 않고 독립 병렬 시작한다.
             // 역번역은 검증/표시 전용이며 확정 번역문이나 TTS 텍스트를 절대 변경하지 않는다.
             if (isAutoSoundOn) void speakLao();
             void requestBackTranslation(true);
@@ -3549,7 +3549,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`;
         const payload = {
             system_instruction: {
-                parts: [{ text: SharedBackTranslationPolicyV277.HUSBAND_BACK_PROMPT }]
+                parts: [{ text: SharedBackTranslationPolicyV333.HUSBAND_BACK_PROMPT }]
             },
             contents: [{ role: "user", parts: [{ text: laoText }] }],
             generationConfig: {
@@ -3698,7 +3698,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         const draft=String(failedError?.rejectedText||'').trim();
         const userText=`LAO SOURCE:\n${laoText}\n\nFAILED KOREAN DRAFT:\n${draft||'(no draft available; create a fresh corrected Korean back-translation)'}`;
         try{
-            const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:SharedBackTranslationPolicyV277.HUSBAND_BACK_REPAIR_PROMPT}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'back'});
+            const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:SharedBackTranslationPolicyV333.HUSBAND_BACK_REPAIR_PROMPT}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'back'});
             if(!res.ok){const e=new Error(`HTTP ${res.status}`);e.status=res.status;e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}
             const data=await res.json();if(myRunId!==backTranslationRunId)throw makeAbortError('STALE');const p=extractGeminiText(data);
             if(p.finishReason!=='STOP'||!p.text){const e=new Error(`BACK_REPAIR_FINISH_${p.finishReason}`);e.name='BackFinishError';throw e}
@@ -4107,7 +4107,7 @@ document.addEventListener('DOMContentLoaded', function(){
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="8d94deb775c7a0bb9c9eaae2970b7c5f3e5ef178d98991964b14bcd2aa3e1440">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="9ac9cf6a456227a31c7a3c43275d7f44a4e616a2ba5a2f74da7b5a5ec08f4672">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -4493,7 +4493,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.58.2';
+const APP_VERSION='V3.58.3';
 const MINI_GLOSSARY_STORAGE_KEY='translator_custom_glossary_v1';
 const DEFAULT_MINI_GLOSSARY=Object.freeze([
   {ko:'신닷',lo:'ຊີ້ນດາດ'},
@@ -4522,8 +4522,8 @@ function promptWithMatchedMiniGlossary(base,dir,source){
 
 
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-const FAST_K2L_BASE=`Translate Korean to natural Lao for everyday messages from a Korean husband to his Lao wife. Output ONLY the Lao translation. Always use natural polite and respectful everyday Lao suitable for a husband speaking warmly to his wife, even when the Korean source is casual/banmal. Keep it conversational, not stiff or ceremonial. Fixed roles: husband=speaker, wife=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. This politeness normalization must not change practical meaning or request strength. Korean spouse-pronoun 자기/자기가 points to the wife/listener; vocative 자기야/여보/내 사랑 may become natural Lao spouse address, but sleep forms such as 자기 전에 mean sleeping. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use clean Lao script; keep Latin only when natural for brands/apps/technical names. No labels, notes, romanization, alternatives, or explanations.`;
-const FAST_L2K_BASE=`Translate Lao to natural Korean for everyday messages from a Lao wife to her Korean husband. Output ONLY the Korean translation. Always use natural warm conversational Korean 존댓말, normally -요/-아요/-어요 style, suitable for a wife speaking respectfully to her husband, even when the Lao source is casual/intimate. Do not default to 반말 or stiff businesslike speech. Fixed roles: wife=speaker, husband=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. This politeness normalization must not change practical meaning or request strength. Lao ຂ້ອຍ is the wife/speaker; ເຈົ້າ/ທີ່ຮັກ normally address the husband/listener and must never become the wife. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use natural Korean; preserve Latin brand/app/technical names when natural. No labels, notes, alternatives, or explanations.`;
+const FAST_K2L_BASE=`Translate Korean to natural Lao for everyday messages from a Korean husband to his Lao wife. Output ONLY the Lao translation. Preserve the source register: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Fixed roles: husband=speaker, wife=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. Korean spouse-pronoun 자기/자기가 points to the wife/listener; vocative 자기야/여보/내 사랑 may become natural Lao spouse address, but sleep forms such as 자기 전에 mean sleeping. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use clean Lao script; keep Latin only when natural for brands/apps/technical names. No labels, notes, romanization, alternatives, or explanations.`;
+const FAST_L2K_BASE=`Translate Lao to natural Korean for everyday messages from a Lao wife to her Korean husband. Output ONLY the Korean translation. Preserve the source register: casual/intimate Lao -&gt; natural warm Korean banmal; polite/respectful Lao -&gt; matching conversational Korean 존댓말. Fixed roles: wife=speaker, husband=listener. Preserve practical meaning exactly: who does what to whom, core action, tense, negation, question/request/promise, names, numbers, dates/times, places, relationship facts, and explicit objects. Keep permission, prohibition, obligation, no-need and recommendation distinct. Do not add or omit affection, apology, gratitude, promises, requests, facts, or emotional intensity. Lao ຂ້ອຍ is the wife/speaker; ເຈົ້າ/ທີ່ຮັກ normally address the husband/listener and must never become the wife. Preserve movement origin/destination and caller/receiver. Keep ordinary emoji, punctuation and line breaks. Correct only obvious dictation/typing slips when the intended word is clear. Use natural Korean; preserve Latin brand/app/technical names when natural. No labels, notes, alternatives, or explanations.`;
 function _fastRuleJoin(base,rules){return base+(rules.length?'\n\nMESSAGE-SPECIFIC SAFETY RULES:\n- '+rules.join('\n- '):'')}
 function _needsKoreanModalityRule(s){
   return /(?:지\s*마(?:세요|요)?|지\s*말(?:고|아|아요|자|라고|래|랬|았|았어|아줘|아주세요)?|[가-힣]{1,24}(?:으)?면\s*안\s*(?:돼|돼요|됩니다?|되(?:어|요|는|면|니까|지)?|될)|[가-힣]{1,24}도\s*(?:돼|돼요|됩니다?|되(?:어|요)?|괜찮(?:아|아요|습니다)?|좋(?:아|아요)?)|지\s*않아도\s*(?:돼|돼요|됩니다?|괜찮(?:아|아요|습니다)?)|[가-힣]{1,24}야\s*(?:해|해요|합니다?|돼|돼요|됩니다?|되(?:어|요)?))/.test(String(s||''));
@@ -5838,7 +5838,7 @@ function markCriticalMeaningQuality(base,risk){
   const q={...(base||{})};q.pass=false;q.criticalMeaning=true;q.criticalReasons=[...(risk?.reasons||[])];
   q.reasons=[...(q.reasons||[]),...q.criticalReasons.map(x=&gt;'CRITICAL_MEANING:'+x)];q.softContamination=false;return q;
 }
-const CRITICAL_REPAIR_PROMPT_L2K=SharedTranslationPolicyV333.L2K_CRITICAL_REPAIR_PROMPT+"\nV3.58.2 FINAL REGISTER RULE — higher priority than earlier source-register wording: even when the Lao source is casual/intimate, output natural warm conversational Korean 존댓말, normally -요/-아요/-어요 style, suitable for a wife speaking respectfully to her husband. Do not use default 반말 or stiff businesslike speech. Do not change meaning, roles, request strength, negation, tense, numbers, time, or movement direction.";
+const CRITICAL_REPAIR_PROMPT_L2K=SharedTranslationPolicyV333.L2K_CRITICAL_REPAIR_PROMPT;
 function createCriticalRepairAttemptL2K(source,runId,label,timeoutMs){
   const controller=new AbortController();mainControllers.add(controller);let didTimeout=false;const started=performance.now();
   const timer=setTimeout(()=&gt;{didTimeout=true;try{controller.abort()}catch(e){}},Math.max(1,timeoutMs));
@@ -5956,8 +5956,8 @@ function analyzeLaoQuality(text,sourceText){
 
 
 const FORWARD_PROMPT=SharedTranslationPolicyV333.L2K_PROMPT;
-const BACK_PROMPT=SharedBackTranslationPolicyV277.WIFE_BACK_PROMPT;
-const BACK_REPAIR_PROMPT=SharedBackTranslationPolicyV277.WIFE_BACK_REPAIR_PROMPT;
+const BACK_PROMPT=SharedBackTranslationPolicyV333.WIFE_BACK_PROMPT;
+const BACK_REPAIR_PROMPT=SharedBackTranslationPolicyV333.WIFE_BACK_REPAIR_PROMPT;
 
 function normalizeTranslationText(text){const s=String(text||'');try{return s.normalize('NFC').trim()}catch(e){return s.trim()}}
 function relayTextIntegrityFromResponse(response){const h=response?.headers;if(!h)return null;const raw=h.get('X-Provider-Utf8-Valid'),rc=h.get('X-Text-Replacement-Count'),nc=h.get('X-Text-Nfc-Changed');if((raw===null||raw==='')&amp;&amp;(rc===null||rc==='')&amp;&amp;(nc===null||nc===''))return null;return{providerUtf8Valid:(raw===null||raw==='')?null:raw==='true',replacementCount:(rc===null||rc==='')?null:Number(rc),nfcChanged:(nc===null||nc==='')?null:nc==='true'}}
@@ -6339,7 +6339,7 @@ document.addEventListener('DOMContentLoaded',()=&gt;{document.body.classList.add
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.58.2';
+const INTEGRATED_VERSION='V3.58.3';
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -6360,7 +6360,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='52ef7c8aec7a00ab2be191673dbe6d40a831b846187f535b097db2e8e86ce619';
+const EXTERNAL_DIAGNOSTIC_SHA256='b83440ea2d94adc2b16b59ac854a079d13a981390f3c29cb08f5ecd2d9e4243f';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -6397,7 +6397,7 @@ let sharedRelay={url:'',token:EMBEDDED_RELAY_TOKEN};
 let unifiedAuthenticated=false;
 let unifiedCredentialRecoveryBusy=false;
 let pendingCredentialRecovery=null;
-// V3.58.2: only the user-entered 1차 비밀번호 is stored on this device.
+// V3.58.3: only the user-entered 1차 비밀번호 is stored on this device.
 // Text translation/back-translation uses the fast direct path; STT/TTS remain on the regional relay.
 const PRIMARY_PASSWORD_STORAGE='translator_primary_password';
 const AUDIO_PROXY_SENTINEL='SERVER_AUDIO';
@@ -6489,7 +6489,7 @@ function versionAtLeast(actual,minimum){
   const a=String(actual||'0').split('.').map(x=>parseInt(x,10)||0),b=String(minimum||'0').split('.').map(x=>parseInt(x,10)||0);
   for(let i=0;i<Math.max(a.length,b.length);i++){const x=a[i]||0,y=b[i]||0;if(x>y)return true;if(x<y)return false}return true;
 }
-// V3.58.2: text uses the direct provider path first; regional relay remains for STT/TTS and text fallback.
+// V3.58.3: text uses the direct provider path first; regional relay remains for STT/TTS and text fallback.
 function relayConfigForMode(mode){
   const husband=mode!=='wife';
   return{mode:husband?'husband':'wife',token:EMBEDDED_RELAY_TOKEN,primary:husband?{name:'seoul',url:SEOUL_RELAY_URL}:{name:'bangkok',url:BANGKOK_RELAY_URL},backup:husband?{name:'bangkok',url:BANGKOK_RELAY_URL}:{name:'seoul',url:SEOUL_RELAY_URL}};
@@ -7089,7 +7089,7 @@ async function runUnifiedLiveFailoverProbe(mode){
     const backup=real.backup;cw.__APP_RELAY__={mode,token:real.token,primary:{name:real.primary?.name||'primary',url:'https://relay-failover-test.invalid'},backup};
     try{const res=await cw.integratedRelayFetch('/health',{method:'GET'},{action:'diag-live-failover',attemptTimeoutMs:1400});networkFailover={ok:!!res.ok,region:String(res.__relayRegion||''),failover:!!res.__relayFailover,status:Number(res.status)||0,expectedRegion:String(backup?.name||'')}}catch(e){networkFailover={ok:false,error:String(e?.message||e)}}
     cw.__APP_RELAY__=real;
-    // V3.58.2 diagnostic isolation: the network probe intentionally cools the primary.
+    // V3.58.3 diagnostic isolation: the network probe intentionally cools the primary.
     // Clear that cooldown with a successful request explicitly pinned to the true primary,
     // then run the HTTP 400 test independently and pinned to the same true primary.
     // This avoids direct access to the child frame's lexical integratedRelayState.
@@ -7417,7 +7417,7 @@ function getUnifiedShellHealth(){
 }
 window.getUnifiedShellHealth=getUnifiedShellHealth;
 
-cleanupLegacyCredentialResidue().then(s=>{if(!s?.ok)console.warn('[V3.58.2 CREDENTIAL CLEANUP] incomplete',s)});
+cleanupLegacyCredentialResidue().then(s=>{if(!s?.ok)console.warn('[V3.58.3 CREDENTIAL CLEANUP] incomplete',s)});
 initializeSafeAutoUpdate();
 initializeUnifiedLogin();
 syncVisibleViewport();
