@@ -1,0 +1,34 @@
+V2.87 ↔ V3.60.2 통합 비교진단 정적 검증
+
+기준 원본
+- V2.87 uploaded source SHA-256: 41279c0b804e9874c2b81a859937c16e4329a1f5062259472dc55ec90d2540cb
+- V3.60.2 uploaded index SHA-256: b9e20b0095ac01b53e623926e10e403cf4080a905c4da845ece6ee1d33708989
+- 두 기준 원본은 작업용 복사본과 byte-for-byte 일치 확인.
+
+핵심 payload 기준 SHA-256
+- V2.87 husband: a1d874020cfeeee9e14c68c1e001cc05d0d6e25024a8135077b33e2d10fa4d4d
+- V2.87 wife:    37f65f3d95b8e9488f782fe740a957f60a45eae5db454f4c32050f1ba8ffdff8
+- V3.60.2 husband: 14a07a1aa576c874cf254855917c85de7625072dde58b60e68aac796404e8c72
+- V3.60.2 wife:    c1c68f6150805fe0e933cc1e094d00c8f9cd5c66392e0ca35c00fec1abf1720b
+
+정적/구조 검사
+- 75 / 75 PASS
+- comparison-diagnostic.html JavaScript syntax PASS
+- 6개 harness의 모든 inline JavaScript syntax PASS
+- 메인 진단 DOM duplicate id 0
+- V2.87 / V3.60.2 detector export 연결 PASS
+- V3.60.2 No-Critical은 exact harness 대비 Critical detector wrapper 1곳만 변경 PASS
+- TTS OFF / 자동 역번역 OFF / 비-Gemini side-effect fetch 차단 PASS
+- 위험탐지 offline cross 연결 PASS
+- 12개 문장 조건 × 양방향 × 4모드 구성 PASS
+- 서로 다른 테스트의 sequential await 실행 PASS
+- 테스트 간 500ms cooldown PASS
+- 다음 테스트 전 실제 child translation 종료 대기 PASS
+- first-visible translation 시간 별도 계측 PASS
+- 집중 재검사 및 속도 종료 후 Semantic Judge 연결 PASS
+- 로그 manifest에 relay token 미포함 PASS
+
+중요한 검증 한계
+- 이 환경에서는 실제 GitHub Pages 배포 후 Gemini 실호출 전체 진단을 실행하지 못했습니다.
+- 실제 Galaxy Z Fold 8 / Galaxy S23+ / iPhone 브라우저에서의 실행도 아직 확인하지 않았습니다.
+- 따라서 위 PASS는 소스/문법/구조/연결에 대한 검증이며, 실제 네트워크 결과는 사용자가 GitHub Pages에서 진단을 실행한 로그로 최종 확인해야 합니다.
