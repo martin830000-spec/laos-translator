@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.3</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.4</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.3</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.3</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.4</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.4</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.3</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.4</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="0a2fc1a5787adfcd473a991d69cd03b81bac596a1906d8486fed79e9965b5e99">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="d6b960dec2c2af03af9f12a22a40cd4daed138858746b931b7feaed962d48af4">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -672,7 +672,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.3 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.4 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -874,8 +874,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.3';
-// V3.61.3: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.4';
+// V3.61.4: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY the Lao translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, romanization, or explanations.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY the Korean translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful conversational Korean 존댓말 only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -954,9 +954,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.3 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.4 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.3',
+  VERSION:'V3.61.4',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -989,9 +989,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.3 compact literal back-translation policy: the translated text is evidence, not prose to improve.
+// V3.61.4 compact literal back-translation policy: the translated text is evidence, not prose to improve.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.3',
+  VERSION:'V3.61.4',
   HUSBAND_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Lao text you are given into Korean. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Korean is acceptable when it exposes the Lao meaning more faithfully. Preserve the register actually expressed by the Lao. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Korean text you are given into Lao. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Lao is acceptable when it exposes the Korean meaning more faithfully. Preserve the register actually expressed by the Korean. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -1077,7 +1077,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     let startTime = 0;
     let isJustTranslated = false;
     let lastRequestPayload = "";
-    // V3.61.3: the first displayed Gemini translation is never rewritten for semantic-score reasons.
+    // V3.61.4: the first displayed Gemini translation is never rewritten for semantic-score reasons.
     // These snapshots let the automatic back-translation refine the user-facing reference score afterwards.
     let lastForwardQualitySnapshot = null;
     let lastForwardTargetSnapshot = "";
@@ -1436,7 +1436,7 @@ window.addEventListener('message',function(ev){
         if(!text||text.includes('처리 중')||text.includes('지연')||text.includes('중지')||text.includes('오류')||text.includes('실패')||text.startsWith('⚠️'))return'';
         return text;
     }
-    // V3.61.3 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
+    // V3.61.4 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
     function isBackTranslationCopyStateText(text){
         const t=String(text||'').trim();
         if(!t)return true;
@@ -2894,7 +2894,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
     }
 
     function qualityScoreFromGuard(quality) {
-            // V3.61.3: after the automatic literal back-translation, the reference score may include
+            // V3.61.4: after the automatic literal back-translation, the reference score may include
             // deterministic source↔back-translation checks. It is still guidance, never an auto-rewrite gate.
             if (!quality) return null;
             const postBackScore=Number(quality.postBackScore);
@@ -3149,7 +3149,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                         console.warn(`[${label}] 한글 잔존 자동복구 실패 → 기존 Hedge/Rescue 계속`,cleanErr);
                     }
                 }
-                // V3.61.3: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+                // V3.61.4: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
                 if (!quality.pass) {
                     const reasonText = quality.reasons.join(' / ') || '알 수 없는 품질 오류';
                     const err = new Error(`번역 결과 품질검사 실패: ${reasonText}`);
@@ -3530,7 +3530,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                     }
                 }catch(e){console.warn('[문자손상 자동재번역 실패] 기존 결과 유지',e)}
             }
-            // V3.61.3 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
+            // V3.61.4 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
             // Only technical unusable-output recovery above (for example broken replacement characters) may retry automatically.
             const finalText = result.text;
             // V2.18: 이해 가능한 경미한 품질 경고는 추가 요청 없이 즉시 표시.
@@ -3846,7 +3846,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         try {
             const result = await runBackTranslationRace(laoText,myRunId);
             if (myRunId !== backTranslationRunId) return;
-            // V3.61.3: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+            // V3.61.4: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
             backResultEl.innerText = result.text;
             setBackResultState(true, true);
             telemetryAttachBackText(laoText,result.text);
@@ -4225,10 +4225,11 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.3 diagnostic-only EXACT live-path bridge.
-// Calls the real translateText() in an isolated diagnostic clone. Only post-display side effects
-// (history/Firestore/perf persistence/TTS/backtranslation) are intercepted, so the measured path
-// up to the first displayed translation is the actual live app path.
+// V3.61.4 diagnostic-only EXACT live-path observability bridge.
+// Production translation behavior is not replaced. This bridge runs the real translateText()
+// inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
+// event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
+// persistence side effects are stubbed so diagnostics never pollute real history or Firestore.
 let __livePathDiagnosticRunningK2L=false;
 function __stopLivePathDiagnosticK2L(){
   if(!__livePathDiagnosticRunningK2L)return false;
@@ -4236,58 +4237,65 @@ function __stopLivePathDiagnosticK2L(){
   for(const c of [...activeGeminiControllers]){try{c.abort()}catch(e){}}
   return true;
 }
-function __livePathDiagnosticReadyK2L(){return typeof fetchPrimaryDirect==='function'&amp;&amp;typeof createGeminiRequest==='function'&amp;&amp;typeof createCriticalRepairAttemptK2L==='function'&amp;&amp;typeof requestGeminiWithHedge==='function'&amp;&amp;typeof detectCriticalMeaningRiskK2L==='function'&amp;&amp;typeof translateText==='function'}
+function __livePathDiagnosticReadyK2L(){return typeof fetchPrimaryDirect==='function'&amp;&amp;typeof createGeminiRequest==='function'&amp;&amp;typeof requestGeminiWithHedge==='function'&amp;&amp;typeof translateText==='function'}
+function __diagReqStateK2L(e){if(e?.name==='QualityError')return'technical_reject';if(e?.name==='TimeoutError')return'timeout';if(e?.name==='AbortError')return'aborted';if(Number.isInteger(Number(e?.status)))return'http_error';return'error'}
+function __diagReqReasonK2L(e){const q=[...(e?.quality?.reasons||[])];if(q.length)return q.join('|');if(e?.finishReason)return'FINISH_'+e.finishReason;if(Number.isInteger(Number(e?.status)))return'HTTP_'+e.status;return String(e?.message||e?.name||'ERROR')}
 async function __runLivePathDiagnosticK2L(sourceText){
   const source=String(sourceText||'').trim();
   if(!source)return{ok:false,displayed:false,error:'EMPTY_SOURCE'};
   if(isTranslating||__livePathDiagnosticRunningK2L)return{ok:false,displayed:false,error:'LIVE_APP_BUSY'};
   if(!currentApiKey)return{ok:false,displayed:false,error:'PRIMARY_PASSWORD_MISSING'};
-  const started=performance.now(),networkTrace=[],requestTrace=[];
-  let networkSeq=0,mainPolicyMs=null,displayMs=null,displayText='',displayQuality=null,displayMeta=null,perfCapture=null,commitCapture=null,failureCapture=null,initialCriticalRisk=null;
-  const input=document.getElementById('krInput');
+  const started=performance.now(),networkTrace=[],requestTrace=[],parseTrace=[],policyEvents=[];
+  let networkSeq=0,mainPolicyMs=null,displayMs=null,displayText='',displayQuality=null,displayMeta=null,perfCapture=null,commitCapture=null,failureCapture=null,initialCriticalRisk=null,storeCapture=null,ttsCapture=null,backInputCapture=null,launchingLabel='';
+  const input=document.getElementById('krInput'),resultEl=document.getElementById('laoResult');
   const savedInput=input?input.value:'';
-  const orig={
-    fetchPrimaryDirect,createGeminiRequest,createCriticalRepairAttemptK2L,requestGeminiWithHedge,detectCriticalMeaningRiskK2L,
-    deferStoreTranslation,recordLivePerfSample,telemetryCommitPrimary,telemetryCommitFailure,speakLao,requestBackTranslation
-  };
+  const orig={fetchPrimaryDirect,createGeminiRequest,createCriticalRepairAttemptK2L,requestGeminiWithHedge,detectCriticalMeaningRiskK2L,extractGeminiText,deferStoreTranslation,recordLivePerfSample,telemetryCommitPrimary,telemetryCommitFailure,speakLao,requestBackTranslation};
+  const timerOrig={setTimeout:window.setTimeout.bind(window),clearTimeout:window.clearTimeout.bind(window),setInterval:window.setInterval.bind(window),clearInterval:window.clearInterval.bind(window)};
+  const trackedTimeouts=new Set(),trackedIntervals=new Set();
+  window.setTimeout=function(fn,ms,...args){let id;id=timerOrig.setTimeout(function(){trackedTimeouts.delete(id);if(typeof fn==='function')fn(...args);else Function(String(fn))()},ms);trackedTimeouts.add(id);return id};
+  window.clearTimeout=function(id){trackedTimeouts.delete(id);return timerOrig.clearTimeout(id)};
+  window.setInterval=function(fn,ms,...args){const id=timerOrig.setInterval(function(){if(typeof fn==='function')fn(...args);else Function(String(fn))()},ms);trackedIntervals.add(id);return id};
+  window.clearInterval=function(id){trackedIntervals.delete(id);return timerOrig.clearInterval(id)};
+  const observer=resultEl?new MutationObserver(()=&gt;{const t=String(resultEl.innerText||resultEl.textContent||'').trim();if(displayMs==null&amp;&amp;t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t;policyEvents.push({type:'first_dom_display',atRel:displayMs})}}):null;
+  if(observer)observer.observe(resultEl,{childList:true,subtree:true,characterData:true});
+  const first=(arr,filter=x=&gt;true)=&gt;{const a=arr.filter(filter).map(x=&gt;Number(x.atRel??x.endRel)).filter(v=&gt;Number.isFinite(v)&amp;&amp;v&gt;=0);return a.length?Math.min(...a):null};
   const snap=()=&gt;({
-    networkTrace:networkTrace.map(x=&gt;({...x})),requestTrace:requestTrace.map(x=&gt;({...x})),
-    firstNetworkMs:(()=&gt;{const a=networkTrace.map(x=&gt;Number(x.endRel)).filter(Number.isFinite);return a.length?Math.min(...a):null})(),
-    firstRequestOutcomeMs:(()=&gt;{const a=requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;Number(x.endRel)).filter(Number.isFinite);return a.length?Math.min(...a):null})()
+    networkTrace:networkTrace.map(x=&gt;({...x})),requestTrace:requestTrace.map(x=&gt;({...x})),parseTrace:parseTrace.map(x=&gt;({...x})),policyEvents:policyEvents.map(x=&gt;({...x})),
+    firstNetworkOutcomeMs:first(networkTrace),
+    firstHttpCompleteMs:first(networkTrace,x=&gt;Number(x.status)&gt;0),
+    firstParsedCandidateMs:first(parseTrace,x=&gt;String(x.text||'').trim().length&gt;0),
+    firstCandidateDecisionMs:first(requestTrace,x=&gt;x.state!=='pending'&amp;&amp;x.state!=='aborted'),
+    firstAcceptedCandidateMs:first(requestTrace,x=&gt;x.state==='success')
   });
+  const primaryRec=()=&gt;requestTrace.find(x=&gt;x.kind==='forward'&amp;&amp;!/보조|선제|Rescue/i.test(x.label||''));
+  const noteLaunch=(label,rec)=&gt;{const l=String(label||''),at=rec.startRel;if(/보조/.test(l)){const p=primaryRec(),state=p?.state||'missing';policyEvents.push({type:'hedge_start',atRel:at,label:l,reason:state==='pending'?'PRIMARY_SLOW_THRESHOLD':'PRIMARY_TECHNICAL_FAILURE',primaryState:state,thresholdMs:Number(typeof HEDGE_DELAY_MS==='number'?HEDGE_DELAY_MS:NaN)})}else if(/선제|Rescue/i.test(l)){policyEvents.push({type:'rescue_start',atRel:at,label:l,reason:'PAIR_SLOW_OR_TECHNICAL_FAILURE',thresholdMs:Number(typeof TAIL_RESCUE_TRIGGER_MS==='number'?TAIL_RESCUE_TRIGGER_MS:NaN)})}};
   fetchPrimaryDirect=async function(url,options={},meta={}){
-    const rec={seq:++networkSeq,action:String(meta?.action||''),startRel:performance.now()-started,endRel:null,elapsedMs:null,status:null,route:'',relayRegion:'',providerMs:null,relayRoundTripMs:null,directFallback:false,error:''};networkTrace.push(rec);
-    try{const res=await orig.fetchPrimaryDirect(url,options,meta);rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.status=Number(res?.status)||0;rec.route=String(res?.__clientRoute||'direct');rec.relayRegion=String(res?.__relayRegion||res?.headers?.get?.('X-Relay-Region')||'');let p=Number(res?.headers?.get?.('X-Provider-Ms'));rec.providerMs=Number.isFinite(p)?p:null;let rr=Number(res?.__relayLatencyMs);rec.relayRoundTripMs=Number.isFinite(rr)?rr:null;rec.directFallback=res?.__directFallback===true;return res}
-    catch(e){rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.error=String(e?.name||'Error')+':'+String(e?.message||e);throw e}
+    const rec={seq:++networkSeq,ownerLabel:launchingLabel||String(meta?.action||'internal'),action:String(meta?.action||''),startRel:performance.now()-started,endRel:null,elapsedMs:null,status:null,route:'',relayRegion:'',providerMs:null,relayRoundTripMs:null,directFallback:false,error:''};networkTrace.push(rec);
+    try{const res=await orig.fetchPrimaryDirect(url,options,meta);rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.status=Number(res?.status)||0;rec.route=String(res?.__clientRoute||'direct');rec.relayRegion=String(res?.__relayRegion||res?.headers?.get?.('X-Relay-Region')||'');const p=Number(res?.headers?.get?.('X-Provider-Ms'));rec.providerMs=Number.isFinite(p)?p:null;const rr=Number(res?.__relayLatencyMs);rec.relayRoundTripMs=Number.isFinite(rr)?rr:null;rec.directFallback=res?.__directFallback===true;return res}
+    catch(e){rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.route=rec.route||'network-error';rec.error=String(e?.name||'Error')+':'+String(e?.message||e);throw e}
   };
+  extractGeminiText=function(data){const out=orig.extractGeminiText(data);parseTrace.push({atRel:performance.now()-started,finishReason:String(out?.finishReason||''),text:String(out?.text||'')});return out};
   createGeminiRequest=function(krText,runId,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOutputTokens=1024){
-    const rec={label:String(label||''),kind:'forward',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending',status:null,finishReason:'',qualityReasons:[]};requestTrace.push(rec);
-    const handle=orig.createGeminiRequest(krText,runId,label,timeoutMs,maxOutputTokens);
-    handle.outcome.then(o=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=!!o?.ok;if(o?.ok){rec.state='success';rec.qualityReasons=[...(o?.result?.quality?.reasons||[])]}else{const e=o?.error;rec.state=e?.name==='QualityError'?'quality_reject':e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':'error';rec.status=Number.isInteger(Number(e?.status))?Number(e.status):null;rec.finishReason=String(e?.finishReason||'');rec.qualityReasons=[...(e?.quality?.reasons||[])]}}).catch(()=&gt;{});
-    return handle;
+    const rec={label:String(label||''),kind:'forward',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending',status:null,finishReason:'',candidateText:'',rejectClass:'',rejectReason:'',qualityReasons:[],maxOutputTokens:Number(maxOutputTokens)||1024};requestTrace.push(rec);noteLaunch(label,rec);
+    launchingLabel=String(label||'');let handle;try{handle=orig.createGeminiRequest(krText,runId,label,timeoutMs,maxOutputTokens)}finally{launchingLabel=''}
+    handle.outcome.then(o=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=!!o?.ok;if(o?.ok){rec.state='success';rec.candidateText=String(o?.result?.text||'');rec.qualityReasons=[...(o?.result?.quality?.reasons||[])];rec.rejectClass='NONE';rec.rejectReason='-'}else{const e=o?.error;rec.state=__diagReqStateK2L(e);rec.status=Number.isInteger(Number(e?.status))?Number(e.status):null;rec.finishReason=String(e?.finishReason||'');rec.candidateText=String(e?.rejectedText||'');rec.qualityReasons=[...(e?.quality?.reasons||[])];rec.rejectClass=e?.name==='QualityError'?'TECHNICAL':'TECHNICAL';rec.rejectReason=__diagReqReasonK2L(e)}}).catch(()=&gt;{});return handle;
   };
-  createCriticalRepairAttemptK2L=function(src,runId,label,timeoutMs){
-    const rec={label:String(label||''),kind:'critical-repair',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending'};requestTrace.push(rec);
-    const handle=orig.createCriticalRepairAttemptK2L(src,runId,label,timeoutMs);handle.promise.then(()=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=true;rec.state='success'},e=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=false;rec.state=e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':'error'});return handle;
-  };
+  createCriticalRepairAttemptK2L=function(src,runId,label,timeoutMs){const rec={label:String(label||''),kind:'critical-repair',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending',candidateText:'',rejectClass:'SEMANTIC',rejectReason:'SEMANTIC_REPAIR_PATH'};requestTrace.push(rec);policyEvents.push({type:'semantic_repair_start',atRel:rec.startRel,label:rec.label});launchingLabel=rec.label;let handle;try{handle=orig.createCriticalRepairAttemptK2L(src,runId,label,timeoutMs)}finally{launchingLabel=''}handle.promise.then(v=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=true;rec.state='success';rec.candidateText=String(v?.text||'')},e=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=false;rec.state=e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':'error';rec.rejectReason=String(e?.message||e?.name||'ERROR')});return handle};
   requestGeminiWithHedge=async function(...args){try{return await orig.requestGeminiWithHedge(...args)}finally{if(mainPolicyMs==null)mainPolicyMs=performance.now()-started}};
   detectCriticalMeaningRiskK2L=function(s,t){const r=orig.detectCriticalMeaningRiskK2L(s,t);if(String(s||'').trim()===source&amp;&amp;!initialCriticalRisk)initialCriticalRisk=r;return r};
-  deferStoreTranslation=function(s,t,q,meta={}){if(displayMs==null){displayMs=performance.now()-started;displayText=String(t||'');displayQuality=q;displayMeta={...meta}}};
+  deferStoreTranslation=function(s,t,q,meta={}){storeCapture={atRel:performance.now()-started,sourceText:String(s||''),targetText:String(t||''),quality:q,meta:{...meta}};if(displayQuality==null)displayQuality=q;if(!displayMeta)displayMeta={...meta}};
   recordLivePerfSample=function(sample){perfCapture={...sample}};
-  telemetryCommitPrimary=function(arg){commitCapture={...arg};if(displayMs==null&amp;&amp;arg?.targetText){displayMs=performance.now()-started;displayText=String(arg.targetText||'');displayQuality=arg.quality;displayMeta={winner:arg.winner,semanticRepaired:arg.semanticRepaired,semanticRepairFailed:arg.semanticRepairFailed}}};
+  telemetryCommitPrimary=function(arg){commitCapture={...arg};};
   telemetryCommitFailure=function(arg){failureCapture={stage:String(arg?.stage||''),error:String(arg?.error?.name||'Error')+':'+String(arg?.error?.message||arg?.error||'')};};
-  speakLao=async function(){};requestBackTranslation=async function(){return null};
+  const currentDisplay=()=&gt;String(resultEl?.innerText||resultEl?.textContent||displayText||'').trim();
+  speakLao=async function(){ttsCapture={atRel:performance.now()-started,text:currentDisplay()};return null};
+  requestBackTranslation=async function(autoTriggered=false){backInputCapture={atRel:performance.now()-started,text:currentDisplay(),autoTriggered:!!autoTriggered};return null};
+  const cleanupNow=async()=&gt;{const before={activeControllers:activeGeminiControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};for(const c of [...activeGeminiControllers]){try{c.abort()}catch(e){}}for(const id of [...trackedTimeouts]){try{timerOrig.clearTimeout(id)}catch(e){}}trackedTimeouts.clear();for(const id of [...trackedIntervals]){try{timerOrig.clearInterval(id)}catch(e){}}trackedIntervals.clear();await new Promise(r=&gt;timerOrig.setTimeout(r,30));const after={activeControllers:activeGeminiControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};return{before,after,pass:after.activeControllers===0&amp;&amp;after.pendingRequests===0&amp;&amp;after.timeouts===0&amp;&amp;after.intervals===0}};
   __livePathDiagnosticRunningK2L=true;if(input)input.value=source;
-  try{
-    await translateText();
-    const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️');
-    const meta=commitCapture||displayMeta||{},perf=perfCapture||{};
-    const winner=String(meta.winner||perf.winner||'');
-    return{ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstNetworkMs,firstRequestOutcomeMs:tr.firstRequestOutcomeMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstNetworkMs)?displayMs-tr.firstNetworkMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstRequestOutcomeMs)?displayMs-tr.firstRequestOutcomeMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,warningDraft:shown&amp;&amp;String(winner).includes('사용자 확인'),failure:failureCapture,error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};
-  }catch(e){const tr=snap();return{ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstNetworkMs,firstRequestOutcomeMs:tr.firstRequestOutcomeMs,afterFirstNetworkMs:null,winner:'',hedged:false,rescued:false,semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:false,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,warningDraft:false,error:String(e?.name||'Error')+':'+String(e?.message||e)}}
-  finally{
-    fetchPrimaryDirect=orig.fetchPrimaryDirect;createGeminiRequest=orig.createGeminiRequest;createCriticalRepairAttemptK2L=orig.createCriticalRepairAttemptK2L;requestGeminiWithHedge=orig.requestGeminiWithHedge;detectCriticalMeaningRiskK2L=orig.detectCriticalMeaningRiskK2L;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakLao=orig.speakLao;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningK2L=false;
-  }
+  let resultObj=null;
+  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;String(winner).includes('사용자 확인'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:1024},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
+  catch(e){const tr=snap();resultObj={ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,postDisplay:{firstDisplayedText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||'')},error:String(e?.name||'Error')+':'+String(e?.message||e)};resultObj.cleanup=await cleanupNow();return resultObj}
+  finally{try{observer?.disconnect()}catch(e){}window.setTimeout=timerOrig.setTimeout;window.clearTimeout=timerOrig.clearTimeout;window.setInterval=timerOrig.setInterval;window.clearInterval=timerOrig.clearInterval;fetchPrimaryDirect=orig.fetchPrimaryDirect;createGeminiRequest=orig.createGeminiRequest;createCriticalRepairAttemptK2L=orig.createCriticalRepairAttemptK2L;requestGeminiWithHedge=orig.requestGeminiWithHedge;detectCriticalMeaningRiskK2L=orig.detectCriticalMeaningRiskK2L;extractGeminiText=orig.extractGeminiText;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakLao=orig.speakLao;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningK2L=false}
 }
 window.__runLivePathDiagnosticK2L=__runLivePathDiagnosticK2L;window.__stopLivePathDiagnosticK2L=__stopLivePathDiagnosticK2L;window.__livePathDiagnosticReadyK2L=__livePathDiagnosticReadyK2L;
 
@@ -4295,7 +4303,7 @@ window.__runLivePathDiagnosticK2L=__runLivePathDiagnosticK2L;window.__stopLivePa
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="8e31f038599a358762753cb36794e34a45ebcfaef68764ee94dbd11aff8e3886">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="1fca2307839a2261445433ba5b5d73a7eda3e06748f65d57b0d3c4fdbb74ab5f">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -4523,7 +4531,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.3 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.4 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -4714,8 +4722,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.3';
-// V3.61.3: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.4';
+// V3.61.4: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY the Lao translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, romanization, or explanations.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY the Korean translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful conversational Korean 존댓말 only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -4796,9 +4804,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.3 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.4 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.3',
+  VERSION:'V3.61.4',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -4833,9 +4841,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.3 compact literal back-translation policy: the translated text is evidence, not prose to improve.
+// V3.61.4 compact literal back-translation policy: the translated text is evidence, not prose to improve.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.3',
+  VERSION:'V3.61.4',
   HUSBAND_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Lao text you are given into Korean. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Korean is acceptable when it exposes the Lao meaning more faithfully. Preserve the register actually expressed by the Lao. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Korean text you are given into Lao. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Lao is acceptable when it exposes the Korean meaning more faithfully. Preserve the register actually expressed by the Korean. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -5226,7 +5234,7 @@ function clearResultBox(){translationOutputLocked=false;lastForwardQualitySnapsh
 function setRetry(v){document.getElementById('retryBtn').style.display=v?'inline-block':'none';}
 const COPY_DEFAULTS=Object.freeze({copyKoreanBtn:'📋 ຄັດລອກ',copyBackBtn:'📋 ຄັດລອກ'});
 function validPrimaryKoreanText(){const el=document.getElementById('koResult'),t=el?el.innerText.trim():'';if(!t||t.includes('ກຳລັງ')||t.includes('ຢຸດ')||t.includes('ຜິດພາດ')||t.includes('ລົ້ມເຫຼວ')||t.startsWith('⚠️'))return'';return t}
-// V3.61.3 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
+// V3.61.4 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
 function isBackTranslationCopyStateText(text){const t=String(text||'').trim();if(!t)return true;if(t.includes('ຖ້າຕ້ອງການກວດຄວາມໝາຍ ໃຫ້ກົດ [ກວດຄວາມໝາຍ]'))return true;if(t.startsWith('⚠️')||t.startsWith('⏳')||t.startsWith('🔧'))return true;if(t.startsWith('ກຳລັງກວດກັບເປັນພາສາລາວ'))return true;return false}
 function validBackTranslationForCopy(){const el=document.getElementById('backResult'),t=el?el.innerText.trim():'';return isBackTranslationCopyStateText(t)?'':t}
 async function waitForBackTranslationForCopy(timeoutMs=22000){let text=validBackTranslationForCopy();if(text)return text;if(!isBackTranslating)return'';const started=Date.now();while(isBackTranslating&amp;&amp;Date.now()-started&lt;timeoutMs){await new Promise(r=&gt;setTimeout(r,120));text=validBackTranslationForCopy();if(text)return text}return validBackTranslationForCopy()}
@@ -5661,7 +5669,7 @@ function isMinorForeignOutputContamination(text,targetCount,thaiCount,cjkCount){
   return (laughOnlyCjk&amp;&amp;targetCount&gt;=4)||(targetCount&gt;=8&amp;&amp;foreign&lt;=6&amp;&amp;ratio&lt;=0.22);
 }
 function qualityScoreFromGuard(quality){
-  // V3.61.3: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
+  // V3.61.4: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
   if(!quality)return null;
   const postBackScore=Number(quality.postBackScore);if(Number.isFinite(postBackScore))return Math.max(0,Math.min(100,Math.round(postBackScore)));
   if(quality.pass===false){const replacements=Number(quality?.stats?.replacement||0);if(replacements&gt;0)return Math.max(10,45-(replacements*5));return Math.max(35,60-((quality.reasons||[]).length*5));}
@@ -6302,7 +6310,7 @@ function createForwardRequest(source,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOu
     const relayIntegrity=relayTextIntegrityFromResponse(res);const data=await res.json();logRelayTextIntegrity(relayIntegrity,label);if(!ctx.isActive())throw makeAbortError('STALE');const parsed=extractGeminiText(data);record.finishReason=parsed.finishReason;
     if(parsed.finishReason!=='STOP'){const e=new Error(`FINISH_${parsed.finishReason}`);e.finishReason=parsed.finishReason;e.retryable=['MAX_TOKENS','OTHER','UNKNOWN','NO_CANDIDATE'].includes(parsed.finishReason);throw e;}
     const normalizedText=normalizeTranslationText(parsed.text),q=analyzeKoreanQuality(normalizedText,source);record.qualityReasons=q.reasons;
-    // V3.61.3: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+    // V3.61.4: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
     if(!q.pass){const e=new Error(`QUALITY_${q.reasons.join('_')}`);e.name='QualityError';e.retryable=true;e.quality=q;e.rejectedText=normalizedText;e.relayIntegrity=relayIntegrity;console.warn('[WIFE OUTPUT ANOMALY → Hedge/Rescue RECOVERY]',{reasons:q.reasons,rejectedText:normalizedText,relayIntegrity});throw e;}
     record.state='success';record.elapsedMs=performance.now()-started;return{text:normalizedText,label,elapsedMs:record.elapsedMs,controller,quality:q,relayIntegrity};
   }catch(e){record.elapsedMs=performance.now()-started;record.retryable=e?.retryable===true;if(e?.name==='AbortError'&amp;&amp;didTimeout){record.state='timeout';const x=new Error('TIMEOUT');x.name='TimeoutError';x.retryable=true;x.status=record.httpStatus;throw x;}record.state=e?.name==='QualityError'?'quality_reject':(e?.name==='AbortError'?'aborted':'error');throw e;}finally{clearTimeout(timeoutId);ctx.activeSet.delete(controller);}})();
@@ -6389,7 +6397,7 @@ async function translateText(){
   updateQualityBadge(null);
   const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){alert('⚠️ ກະລຸນາພິມຂໍ້ຄວາມພາສາລາວ.');return}
   cancelBackTranslation(false);stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);document.getElementById('speakBtn').style.display='none';setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
-  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.3 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
+  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.4 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
   const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;appInputDirty=false;deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
   catch(e){if(runId!==translationRunId)return;resetTranslationUI();setKoreanCopyReady(false);setRetry(true);setPrimaryResultVisible(true);if(e?.name==='AbortError'){stopTimer('ຢຸດແລ້ວ');document.getElementById('koResult').textContent='⚠️ ການແປຖືກຢຸດແລ້ວ.';return}
     if(hasCriticalTranslationFailure(e)){stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'critical-translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION CRITICAL BLOCK]',e,records);return}
@@ -6473,7 +6481,7 @@ async function requestBackTranslation(autoTriggered=false){
   try{
     const r=await runBackRace(korean,runId);
     if(runId!==backTranslationRunId)return;
-    // V3.61.3: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+    // V3.61.4: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
     el.textContent=r.text;
     setBackResultState(true,true);
     telemetryAttachBackText(korean,r.text);
@@ -6587,25 +6595,78 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.3 diagnostic-only EXACT live-path bridge.
-// Calls the real translateText() in an isolated diagnostic clone and intercepts only post-display side effects.
+// V3.61.4 diagnostic-only EXACT live-path observability bridge.
+// Production translation behavior is not replaced. This bridge runs the real translateText()
+// inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
+// event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
+// persistence side effects are stubbed so diagnostics never pollute real history or Firestore.
 let __livePathDiagnosticRunningL2K=false;
-function __stopLivePathDiagnosticL2K(){if(!__livePathDiagnosticRunningL2K)return false;translationRunId++;isTranslating=false;for(const c of [...mainControllers]){try{c.abort()}catch(e){}}return true}
-function __livePathDiagnosticReadyL2K(){return typeof fetchPrimaryDirect==='function'&amp;&amp;typeof createForwardRequest==='function'&amp;&amp;typeof createCriticalRepairAttemptL2K==='function'&amp;&amp;typeof runForwardPolicy==='function'&amp;&amp;typeof detectCriticalMeaningRiskL2K==='function'&amp;&amp;typeof translateText==='function'}
+function __stopLivePathDiagnosticL2K(){
+  if(!__livePathDiagnosticRunningL2K)return false;
+  translationRunId++;isTranslating=false;
+  for(const c of [...mainControllers]){try{c.abort()}catch(e){}}
+  return true;
+}
+function __livePathDiagnosticReadyL2K(){return typeof fetchPrimaryDirect==='function'&amp;&amp;typeof createForwardRequest==='function'&amp;&amp;typeof runForwardPolicy==='function'&amp;&amp;typeof translateText==='function'}
+function __diagReqStateL2K(e){if(e?.name==='QualityError')return'technical_reject';if(e?.name==='TimeoutError')return'timeout';if(e?.name==='AbortError')return'aborted';if(Number.isInteger(Number(e?.status)))return'http_error';return'error'}
+function __diagReqReasonL2K(e){const q=[...(e?.quality?.reasons||[])];if(q.length)return q.join('|');if(e?.finishReason)return'FINISH_'+e.finishReason;if(Number.isInteger(Number(e?.status)))return'HTTP_'+e.status;return String(e?.message||e?.name||'ERROR')}
 async function __runLivePathDiagnosticL2K(sourceText){
-  const source=String(sourceText||'').trim();if(!source)return{ok:false,displayed:false,error:'EMPTY_SOURCE'};if(isTranslating||__livePathDiagnosticRunningL2K)return{ok:false,displayed:false,error:'LIVE_APP_BUSY'};if(!currentApiKey)return{ok:false,displayed:false,error:'PRIMARY_PASSWORD_MISSING'};
-  const started=performance.now(),networkTrace=[],requestTrace=[];let networkSeq=0,mainPolicyMs=null,displayMs=null,displayText='',displayQuality=null,displayMeta=null,perfCapture=null,commitCapture=null,failureCapture=null,initialCriticalRisk=null;
-  const input=document.getElementById('loInput'),savedInput=input?input.value:'';
-  const orig={fetchPrimaryDirect,createForwardRequest,createCriticalRepairAttemptL2K,runForwardPolicy,detectCriticalMeaningRiskL2K,deferStoreTranslation,recordLivePerfSample,telemetryCommitPrimary,telemetryCommitFailure,speakKorean,requestBackTranslation};
-  const snap=()=&gt;({networkTrace:networkTrace.map(x=&gt;({...x})),requestTrace:requestTrace.map(x=&gt;({...x})),firstNetworkMs:(()=&gt;{const a=networkTrace.map(x=&gt;Number(x.endRel)).filter(Number.isFinite);return a.length?Math.min(...a):null})(),firstRequestOutcomeMs:(()=&gt;{const a=requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;Number(x.endRel)).filter(Number.isFinite);return a.length?Math.min(...a):null})()});
-  fetchPrimaryDirect=async function(url,options={},meta={}){const rec={seq:++networkSeq,action:String(meta?.action||''),startRel:performance.now()-started,endRel:null,elapsedMs:null,status:null,route:'',relayRegion:'',providerMs:null,relayRoundTripMs:null,directFallback:false,error:''};networkTrace.push(rec);try{const res=await orig.fetchPrimaryDirect(url,options,meta);rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.status=Number(res?.status)||0;rec.route=String(res?.__clientRoute||'direct');rec.relayRegion=String(res?.__relayRegion||res?.headers?.get?.('X-Relay-Region')||'');let p=Number(res?.headers?.get?.('X-Provider-Ms'));rec.providerMs=Number.isFinite(p)?p:null;let rr=Number(res?.__relayLatencyMs);rec.relayRoundTripMs=Number.isFinite(rr)?rr:null;rec.directFallback=res?.__directFallback===true;return res}catch(e){rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.error=String(e?.name||'Error')+':'+String(e?.message||e);throw e}};
-  createForwardRequest=function(src,ctx,label){const rec={label:String(label||''),kind:'forward',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending',status:null,finishReason:'',qualityReasons:[]};requestTrace.push(rec);const handle=orig.createForwardRequest(src,ctx,label);handle.outcome.then(o=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=!!o?.ok;if(o?.ok){rec.state='success';rec.qualityReasons=[...(o?.result?.quality?.reasons||[])]}else{const e=o?.error;rec.state=e?.name==='QualityError'?'quality_reject':e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':'error';rec.status=Number.isInteger(Number(e?.status))?Number(e.status):null;rec.finishReason=String(e?.finishReason||'');rec.qualityReasons=[...(e?.quality?.reasons||[])]}}).catch(()=&gt;{});return handle};
-  createCriticalRepairAttemptL2K=function(src,runId,label,timeoutMs){const rec={label:String(label||''),kind:'critical-repair',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending'};requestTrace.push(rec);const handle=orig.createCriticalRepairAttemptL2K(src,runId,label,timeoutMs);handle.promise.then(()=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=true;rec.state='success'},e=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=false;rec.state=e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':'error'});return handle};
+  const source=String(sourceText||'').trim();
+  if(!source)return{ok:false,displayed:false,error:'EMPTY_SOURCE'};
+  if(isTranslating||__livePathDiagnosticRunningL2K)return{ok:false,displayed:false,error:'LIVE_APP_BUSY'};
+  if(!currentApiKey)return{ok:false,displayed:false,error:'PRIMARY_PASSWORD_MISSING'};
+  const started=performance.now(),networkTrace=[],requestTrace=[],parseTrace=[],policyEvents=[];
+  let networkSeq=0,mainPolicyMs=null,displayMs=null,displayText='',displayQuality=null,displayMeta=null,perfCapture=null,commitCapture=null,failureCapture=null,initialCriticalRisk=null,storeCapture=null,ttsCapture=null,backInputCapture=null,launchingLabel='';
+  const input=document.getElementById('loInput'),resultEl=document.getElementById('koResult');
+  const savedInput=input?input.value:'';
+  const orig={fetchPrimaryDirect,createForwardRequest,createCriticalRepairAttemptL2K,runForwardPolicy,detectCriticalMeaningRiskL2K,extractGeminiText,deferStoreTranslation,recordLivePerfSample,telemetryCommitPrimary,telemetryCommitFailure,speakKorean,requestBackTranslation};
+  const timerOrig={setTimeout:window.setTimeout.bind(window),clearTimeout:window.clearTimeout.bind(window),setInterval:window.setInterval.bind(window),clearInterval:window.clearInterval.bind(window)};
+  const trackedTimeouts=new Set(),trackedIntervals=new Set();
+  window.setTimeout=function(fn,ms,...args){let id;id=timerOrig.setTimeout(function(){trackedTimeouts.delete(id);if(typeof fn==='function')fn(...args);else Function(String(fn))()},ms);trackedTimeouts.add(id);return id};
+  window.clearTimeout=function(id){trackedTimeouts.delete(id);return timerOrig.clearTimeout(id)};
+  window.setInterval=function(fn,ms,...args){const id=timerOrig.setInterval(function(){if(typeof fn==='function')fn(...args);else Function(String(fn))()},ms);trackedIntervals.add(id);return id};
+  window.clearInterval=function(id){trackedIntervals.delete(id);return timerOrig.clearInterval(id)};
+  const observer=resultEl?new MutationObserver(()=&gt;{const t=String(resultEl.innerText||resultEl.textContent||'').trim();if(displayMs==null&amp;&amp;t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t;policyEvents.push({type:'first_dom_display',atRel:displayMs})}}):null;
+  if(observer)observer.observe(resultEl,{childList:true,subtree:true,characterData:true});
+  const first=(arr,filter=x=&gt;true)=&gt;{const a=arr.filter(filter).map(x=&gt;Number(x.atRel??x.endRel)).filter(v=&gt;Number.isFinite(v)&amp;&amp;v&gt;=0);return a.length?Math.min(...a):null};
+  const snap=()=&gt;({
+    networkTrace:networkTrace.map(x=&gt;({...x})),requestTrace:requestTrace.map(x=&gt;({...x})),parseTrace:parseTrace.map(x=&gt;({...x})),policyEvents:policyEvents.map(x=&gt;({...x})),
+    firstNetworkOutcomeMs:first(networkTrace),
+    firstHttpCompleteMs:first(networkTrace,x=&gt;Number(x.status)&gt;0),
+    firstParsedCandidateMs:first(parseTrace,x=&gt;String(x.text||'').trim().length&gt;0),
+    firstCandidateDecisionMs:first(requestTrace,x=&gt;x.state!=='pending'&amp;&amp;x.state!=='aborted'),
+    firstAcceptedCandidateMs:first(requestTrace,x=&gt;x.state==='success')
+  });
+  const primaryRec=()=&gt;requestTrace.find(x=&gt;x.kind==='forward'&amp;&amp;!/보조|선제|Rescue|ສຳຮອງ|ກູ້/i.test(x.label||''));
+  const noteLaunch=(label,rec)=&gt;{const l=String(label||''),at=rec.startRel;if(/보조|ສຳຮອງ/.test(l)){const p=primaryRec(),state=p?.state||'missing';policyEvents.push({type:'hedge_start',atRel:at,label:l,reason:state==='pending'?'PRIMARY_SLOW_THRESHOLD':'PRIMARY_TECHNICAL_FAILURE',primaryState:state,thresholdMs:Number(typeof HEDGE_DELAY_MS==='number'?HEDGE_DELAY_MS:NaN)})}else if(/선제|Rescue|ກູ້/i.test(l)){policyEvents.push({type:'rescue_start',atRel:at,label:l,reason:'PAIR_SLOW_OR_TECHNICAL_FAILURE',thresholdMs:Number(typeof TAIL_RESCUE_TRIGGER_MS==='number'?TAIL_RESCUE_TRIGGER_MS:NaN)})}};
+  fetchPrimaryDirect=async function(url,options={},meta={}){
+    const rec={seq:++networkSeq,ownerLabel:launchingLabel||String(meta?.action||'internal'),action:String(meta?.action||''),startRel:performance.now()-started,endRel:null,elapsedMs:null,status:null,route:'',relayRegion:'',providerMs:null,relayRoundTripMs:null,directFallback:false,error:''};networkTrace.push(rec);
+    try{const res=await orig.fetchPrimaryDirect(url,options,meta);rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.status=Number(res?.status)||0;rec.route=String(res?.__clientRoute||'direct');rec.relayRegion=String(res?.__relayRegion||res?.headers?.get?.('X-Relay-Region')||'');const p=Number(res?.headers?.get?.('X-Provider-Ms'));rec.providerMs=Number.isFinite(p)?p:null;const rr=Number(res?.__relayLatencyMs);rec.relayRoundTripMs=Number.isFinite(rr)?rr:null;rec.directFallback=res?.__directFallback===true;return res}
+    catch(e){rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.route=rec.route||'network-error';rec.error=String(e?.name||'Error')+':'+String(e?.message||e);throw e}
+  };
+  extractGeminiText=function(data){const out=orig.extractGeminiText(data);parseTrace.push({atRel:performance.now()-started,finishReason:String(out?.finishReason||''),text:String(out?.text||'')});return out};
+  createForwardRequest=function(src,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOutputTokens=1024){
+    const rec={label:String(label||''),kind:'forward',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending',status:null,finishReason:'',candidateText:'',rejectClass:'',rejectReason:'',qualityReasons:[],maxOutputTokens:Number(maxOutputTokens)||1024};requestTrace.push(rec);noteLaunch(label,rec);
+    launchingLabel=String(label||'');let handle;try{handle=orig.createForwardRequest(src,ctx,label,timeoutMs,maxOutputTokens)}finally{launchingLabel=''}
+    handle.outcome.then(o=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=!!o?.ok;if(o?.ok){rec.state='success';rec.candidateText=String(o?.result?.text||'');rec.qualityReasons=[...(o?.result?.quality?.reasons||[])];rec.rejectClass='NONE';rec.rejectReason='-'}else{const e=o?.error;rec.state=__diagReqStateL2K(e);rec.status=Number.isInteger(Number(e?.status))?Number(e.status):null;rec.finishReason=String(e?.finishReason||'');rec.candidateText=String(e?.rejectedText||'');rec.qualityReasons=[...(e?.quality?.reasons||[])];rec.rejectClass='TECHNICAL';rec.rejectReason=__diagReqReasonL2K(e)}}).catch(()=&gt;{});return handle;
+  };
+  createCriticalRepairAttemptL2K=function(src,runId,label,timeoutMs){const rec={label:String(label||''),kind:'critical-repair',startRel:performance.now()-started,endRel:null,elapsedMs:null,ok:null,state:'pending',candidateText:'',rejectClass:'SEMANTIC',rejectReason:'SEMANTIC_REPAIR_PATH'};requestTrace.push(rec);policyEvents.push({type:'semantic_repair_start',atRel:rec.startRel,label:rec.label});launchingLabel=rec.label;let handle;try{handle=orig.createCriticalRepairAttemptL2K(src,runId,label,timeoutMs)}finally{launchingLabel=''}handle.promise.then(v=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=true;rec.state='success';rec.candidateText=String(v?.text||'')},e=&gt;{rec.endRel=performance.now()-started;rec.elapsedMs=rec.endRel-rec.startRel;rec.ok=false;rec.state=e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':'error';rec.rejectReason=String(e?.message||e?.name||'ERROR')});return handle};
   runForwardPolicy=async function(...args){try{return await orig.runForwardPolicy(...args)}finally{if(mainPolicyMs==null)mainPolicyMs=performance.now()-started}};
   detectCriticalMeaningRiskL2K=function(s,t){const r=orig.detectCriticalMeaningRiskL2K(s,t);if(String(s||'').trim()===source&amp;&amp;!initialCriticalRisk)initialCriticalRisk=r;return r};
-  deferStoreTranslation=function(s,t,q,meta={}){if(displayMs==null){displayMs=performance.now()-started;displayText=String(t||'');displayQuality=q;displayMeta={...meta}}};recordLivePerfSample=function(sample){perfCapture={...sample}};telemetryCommitPrimary=function(arg){commitCapture={...arg};if(displayMs==null&amp;&amp;arg?.targetText){displayMs=performance.now()-started;displayText=String(arg.targetText||'');displayQuality=arg.quality;displayMeta={winner:arg.winner,semanticRepaired:arg.semanticRepaired,semanticRepairFailed:arg.semanticRepairFailed}}};telemetryCommitFailure=function(arg){failureCapture={stage:String(arg?.stage||''),error:String(arg?.error?.name||'Error')+':'+String(arg?.error?.message||arg?.error||'')}};speakKorean=async function(){};requestBackTranslation=async function(){return null};
+  deferStoreTranslation=function(s,t,q,meta={}){storeCapture={atRel:performance.now()-started,sourceText:String(s||''),targetText:String(t||''),quality:q,meta:{...meta}};if(displayQuality==null)displayQuality=q;if(!displayMeta)displayMeta={...meta}};
+  recordLivePerfSample=function(sample){perfCapture={...sample}};
+  telemetryCommitPrimary=function(arg){commitCapture={...arg};};
+  telemetryCommitFailure=function(arg){failureCapture={stage:String(arg?.stage||''),error:String(arg?.error?.name||'Error')+':'+String(arg?.error?.message||arg?.error||'')};};
+  const currentDisplay=()=&gt;String(resultEl?.innerText||resultEl?.textContent||displayText||'').trim();
+  speakKorean=async function(){ttsCapture={atRel:performance.now()-started,text:currentDisplay()};return null};
+  requestBackTranslation=async function(autoTriggered=false){backInputCapture={atRel:performance.now()-started,text:currentDisplay(),autoTriggered:!!autoTriggered};return null};
+  const cleanupNow=async()=&gt;{const before={activeControllers:mainControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};for(const c of [...mainControllers]){try{c.abort()}catch(e){}}for(const id of [...trackedTimeouts]){try{timerOrig.clearTimeout(id)}catch(e){}}trackedTimeouts.clear();for(const id of [...trackedIntervals]){try{timerOrig.clearInterval(id)}catch(e){}}trackedIntervals.clear();await new Promise(r=&gt;timerOrig.setTimeout(r,30));const after={activeControllers:mainControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};return{before,after,pass:after.activeControllers===0&amp;&amp;after.pendingRequests===0&amp;&amp;after.timeouts===0&amp;&amp;after.intervals===0}};
   __livePathDiagnosticRunningL2K=true;if(input)input.value=source;
-  try{await translateText();const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');return{ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstNetworkMs,firstRequestOutcomeMs:tr.firstRequestOutcomeMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstNetworkMs)?displayMs-tr.firstNetworkMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstRequestOutcomeMs)?displayMs-tr.firstRequestOutcomeMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,warningDraft:shown&amp;&amp;String(winner).includes('user-check'),failure:failureCapture,error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')}}catch(e){const tr=snap();return{ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstNetworkMs,firstRequestOutcomeMs:tr.firstRequestOutcomeMs,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,error:String(e?.name||'Error')+':'+String(e?.message||e)}}finally{fetchPrimaryDirect=orig.fetchPrimaryDirect;createForwardRequest=orig.createForwardRequest;createCriticalRepairAttemptL2K=orig.createCriticalRepairAttemptL2K;runForwardPolicy=orig.runForwardPolicy;detectCriticalMeaningRiskL2K=orig.detectCriticalMeaningRiskL2K;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakKorean=orig.speakKorean;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningL2K=false}}
+  let resultObj=null;
+  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;String(winner).includes('사용자 확인'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:1024},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
+  catch(e){const tr=snap();resultObj={ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,postDisplay:{firstDisplayedText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||'')},error:String(e?.name||'Error')+':'+String(e?.message||e)};resultObj.cleanup=await cleanupNow();return resultObj}
+  finally{try{observer?.disconnect()}catch(e){}window.setTimeout=timerOrig.setTimeout;window.clearTimeout=timerOrig.clearTimeout;window.setInterval=timerOrig.setInterval;window.clearInterval=timerOrig.clearInterval;fetchPrimaryDirect=orig.fetchPrimaryDirect;createForwardRequest=orig.createForwardRequest;createCriticalRepairAttemptL2K=orig.createCriticalRepairAttemptL2K;runForwardPolicy=orig.runForwardPolicy;detectCriticalMeaningRiskL2K=orig.detectCriticalMeaningRiskL2K;extractGeminiText=orig.extractGeminiText;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakKorean=orig.speakKorean;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningL2K=false}
+}
 window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePathDiagnosticL2K=__stopLivePathDiagnosticL2K;window.__livePathDiagnosticReadyL2K=__livePathDiagnosticReadyL2K;
 
 
@@ -6673,7 +6734,7 @@ window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePa
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.3';
+const INTEGRATED_VERSION='V3.61.4';
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -6694,7 +6755,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='30cc9b3bc14b33201f3dfc08b5f3e6dbe5fe35a0ff7c81154e229293aec65d82';
+const EXTERNAL_DIAGNOSTIC_SHA256='d50b09a77214d3570052867bf4c093c178a77c4bc8015937a1c947c6a00ebfc3';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -7474,6 +7535,8 @@ function getUnifiedHistoryPersistenceAudit(){
 window.getUnifiedHistoryPersistenceAudit=getUnifiedHistoryPersistenceAudit;
 function getUnifiedAppVersion(){ return INTEGRATED_VERSION; }
 window.getUnifiedAppVersion=getUnifiedAppVersion;
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife');return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'FROZEN-1'};}
+window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 function getUnifiedRuntimeSafetyAudit(){
   const checks=[];const add=(name,ok)=>checks.push({name,ok:!!ok});
@@ -7528,6 +7591,12 @@ function getUnifiedRuntimeSafetyAudit(){
     add('DIAG_ONE_CLICK_MAIN',diag.includes('id="integratedDiagStartBtn"')&&diag.includes('function startIntegratedDiagnostic()')&&diag.includes('id="advancedDiagnostics"'));
     add('DIAG_PARTIAL_LOG_COPY',diag.includes('copyIntegratedDiagnosticLog')&&diag.includes('수집된 부분 로그를 복사할 수 있습니다'));
     add('DIAG_FIRESTORE_STAGE_LOGS',diag.includes('stages=translate:')&&diag.includes('currentJudge:')&&diag.includes('replay:'));
+    add('DIAG_FROZEN_SCHEMA',diag.includes("const DIAGNOSTIC_SCHEMA='FROZEN-1'")&&diag.includes('DIAGNOSTIC_SCHEMA_FINGERPRINT'));
+    add('DIAG_LIVE_CANDIDATE_EVIDENCE',diag.includes('firstParsedCandidateMs')&&diag.includes('candidate[')&&diag.includes('rejectClass'));
+    add('DIAG_HUMAN_DECISION_REPLAY',diag.includes('runPolicyObserved')&&diag.includes('HUMAN_DECISION_NO_SEMANTIC_REWRITE'));
+    add('DIAG_SCRIPT_CONTAMINATION',diag.includes('function diagScriptContamination')&&diag.includes('unexpectedSpans'));
+    add('DIAG_REQUEST_CLEANUP_EVIDENCE',diag.includes('cleanupFail')&&diag.includes('pendingRequests')&&diag.includes('intervals'));
+    add('DIAG_POST_DISPLAY_INPUT_EVIDENCE',diag.includes('backInputMatchesDisplay')&&diag.includes('ttsInputMatchesDisplay')&&diag.includes('storedMatchesDisplay'));
     add('DIAG_LIVE_STATE_ISOLATION',!runUnifiedModeSwitchHistoryProbe.toString().includes('selectMode(')&&!runUnifiedRelayPolicyRuntimeAudit.toString().includes('__APP_RELAY__=')&&!runUnifiedLiveFailoverProbe.toString().includes('__APP_RELAY__='));
     add('DIAG_FIRESTORE_REPLAY',diag.includes('/telemetry/sample')&&diag.includes('/telemetry/replay')&&diag.includes('/telemetry/review'));
     add('DIAG_REAL_CONVERSATION_STORAGE_AUDIT',diag.includes('function runRealConversationStorageAudit')&&diag.includes('실제 부부대화 저장')&&diag.includes('REAL_CONVERSATION_QUEUE_KEYS'));
