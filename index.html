@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.0</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.1</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.0</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.0</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.1</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.1</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.0</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.1</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="eccfdb110a7a389c0f89b9cbd8ff26c4ba965360a9ca11c50fe98b01a56bffce">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="aa1de3343ae4bedfe9c4c4c8c3a3084e555e93f5576634881de35e2c6c885032">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -672,7 +672,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.0 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.1 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -740,7 +740,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
         &lt;/div&gt;
         &lt;div class="result-box" id="laoResult" style="color: #1a73e8;"&gt;&lt;/div&gt;
 
-        &lt;div class="quality-line translation-quality-line" aria-live="polite"&gt;&lt;div id="qualityBadge" class="quality-badge"&gt;&lt;/div&gt;&lt;button type="button" id="qualityReasonBtn" class="quality-reason-btn" onclick="openQualityReasonDialog()" aria-controls="qualityReasonDialog" aria-expanded="false"&gt;ℹ️ 감점 사유&lt;/button&gt;&lt;button type="button" id="qualityRetryBtn" class="quality-retry-btn" onclick="retryLastTranslation()" aria-label="낮은 품질 결과 재번역"&gt;🔄 재번역&lt;/button&gt;&lt;/div&gt;
+        &lt;div class="quality-line translation-quality-line" aria-live="polite"&gt;&lt;div id="qualityBadge" class="quality-badge"&gt;&lt;/div&gt;&lt;button type="button" id="qualityReasonBtn" class="quality-reason-btn" onclick="openQualityReasonDialog()" aria-controls="qualityReasonDialog" aria-expanded="false"&gt;ℹ️ 감점 사유&lt;/button&gt;&lt;button type="button" id="qualityRetryBtn" class="quality-retry-btn" onclick="retryLastTranslation()" aria-label="재번역"&gt;🔄 재번역&lt;/button&gt;&lt;/div&gt;
         &lt;div id="qualityReasonDialog" class="quality-reason-overlay" hidden onclick="if(event.target===this)closeQualityReasonDialog()"&gt;
             &lt;div class="quality-reason-card" role="dialog" aria-modal="true" aria-labelledby="qualityReasonTitle"&gt;
                 &lt;div class="quality-reason-head"&gt;&lt;div id="qualityReasonTitle" class="quality-reason-title"&gt;번역품질 감점 사유&lt;/div&gt;&lt;button type="button" class="quality-reason-close" onclick="closeQualityReasonDialog()" aria-label="닫기"&gt;×&lt;/button&gt;&lt;/div&gt;
@@ -763,6 +763,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
                 &lt;span&gt;역번역 검증을 원하시면 [역번역 검증] 버튼을 눌러주세요.&lt;/span&gt;
             &lt;/div&gt;
         &lt;/div&gt;
+        &lt;div class="quality-line back-quality-line" aria-live="polite"&gt;&lt;div id="backQualityBadge" class="quality-badge"&gt;&lt;/div&gt;&lt;/div&gt;
         &lt;/div&gt;
 
         &lt;hr&gt;
@@ -873,8 +874,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.0';
-// V3.61.0: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.1';
+// V3.61.1: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY the Lao translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, romanization, or explanations.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY the Korean translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful conversational Korean 존댓말 only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -953,9 +954,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.0 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.1 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.0',
+  VERSION:'V3.61.1',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -988,9 +989,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.0 compact literal back-translation policy: the translated text is evidence, not prose to improve.
+// V3.61.1 compact literal back-translation policy: the translated text is evidence, not prose to improve.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.0',
+  VERSION:'V3.61.1',
   HUSBAND_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Lao text you are given into Korean. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Korean is acceptable when it exposes the Lao meaning more faithfully. Preserve the register actually expressed by the Lao. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Korean text you are given into Lao. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Lao is acceptable when it exposes the Korean meaning more faithfully. Preserve the register actually expressed by the Korean. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -1076,7 +1077,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     let startTime = 0;
     let isJustTranslated = false;
     let lastRequestPayload = "";
-    // V3.61.0: the first displayed Gemini translation is never rewritten for semantic-score reasons.
+    // V3.61.1: the first displayed Gemini translation is never rewritten for semantic-score reasons.
     // These snapshots let the automatic back-translation refine the user-facing reference score afterwards.
     let lastForwardQualitySnapshot = null;
     let lastForwardTargetSnapshot = "";
@@ -1435,7 +1436,7 @@ window.addEventListener('message',function(ev){
         if(!text||text.includes('처리 중')||text.includes('지연')||text.includes('중지')||text.includes('오류')||text.includes('실패')||text.startsWith('⚠️'))return'';
         return text;
     }
-    // V3.61.0 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
+    // V3.61.1 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
     function isBackTranslationCopyStateText(text){
         const t=String(text||'').trim();
         if(!t)return true;
@@ -1501,10 +1502,27 @@ window.addEventListener('message',function(ev){
         if(btn){btn.style.display=ready?'inline-block':'none';btn.disabled=false;}
     }
 
+    function backTranslationScoreK2L(sourceText, backText, outputQuality) {
+        if (!String(sourceText || '').trim() || !String(backText || '').trim()) return null;
+        const review = reviewBackTranslationK2L(sourceText, backText);
+        const outputScore = qualityScoreFromGuard(outputQuality);
+        const scores = [Number(review?.score), Number(outputScore)].filter(Number.isFinite);
+        return scores.length ? Math.max(0, Math.min(100, Math.round(Math.min(...scores)))) : null;
+    }
+    function updateBackQualityBadge(score = null, unavailable = false) {
+        const el = document.getElementById('backQualityBadge');
+        if (!el) return;
+        el.className = 'quality-badge';
+        if (unavailable) { el.textContent = '역번역 품질 확인불가'; return; }
+        const n = Number(score);
+        el.textContent = Number.isFinite(n) ? `역번역 품질 ${Math.max(0, Math.min(100, Math.round(n)))}점` : '';
+    }
+
     function setBackResultState(visible = false, copyReady = false) {
         const backResult = document.getElementById('backResult');
         const copyBtn = document.getElementById('copyBackBtn');
         if (backResult) backResult.classList.toggle('back-idle', !visible);
+        if (!visible) updateBackQualityBadge(null, false);
         resetCopyButtonVisual('copyBackBtn');
         if (copyBtn) copyBtn.style.display = copyReady ? 'inline-block' : 'none';
     }
@@ -2876,7 +2894,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
     }
 
     function qualityScoreFromGuard(quality) {
-            // V3.61.0: after the automatic literal back-translation, the reference score may include
+            // V3.61.1: after the automatic literal back-translation, the reference score may include
             // deterministic source↔back-translation checks. It is still guidance, never an auto-rewrite gate.
             if (!quality) return null;
             const postBackScore=Number(quality.postBackScore);
@@ -2988,72 +3006,27 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                 el.className = 'quality-badge';
                 el.textContent = '';
                 if (detail) { detail.className = 'quality-detail'; detail.textContent = ''; }
-                if (reasonBtn) { reasonBtn.className = 'quality-reason-btn'; reasonBtn.style.display='none'; reasonBtn.textContent='ℹ️ 감점 사유'; }
-                if (qualityRetryBtn) { qualityRetryBtn.className='quality-retry-btn'; qualityRetryBtn.style.display='none'; }
+                if (reasonBtn) { reasonBtn.className = 'quality-reason-btn'; reasonBtn.style.display = 'none'; }
+                if (qualityRetryBtn) { qualityRetryBtn.className = 'quality-retry-btn'; qualityRetryBtn.style.display = 'none'; }
                 closeQualityReasonDialog();
                 return;
             }
-            if(quality.postBackPending===true){
-                el.className='quality-badge warn';el.textContent='🔍 번역품질: 역번역 확인 중';
-                if(detail){detail.className='quality-detail info';detail.textContent='1차 번역은 이미 표시되었습니다. 자동 역번역이 끝나면 원문↔역번역과 직접검사를 합친 참고점수를 표시합니다.';}
-                if(reasonBtn){reasonBtn.className='quality-reason-btn';reasonBtn.style.display='none';reasonBtn.textContent='ℹ️ 감점 사유';}
-                if(qualityRetryBtn){qualityRetryBtn.className='quality-retry-btn show warn';qualityRetryBtn.style.display='inline-flex';qualityRetryBtn.setAttribute('aria-label','현재 1차 번역을 사용자가 직접 재번역');}
-                closeQualityReasonDialog();return;
-            }
-            if(quality.backReviewUnavailable===true){
-                el.className='quality-badge warn';el.textContent='⚠️ 번역품질: 역번역 확인 불가';
-                if(detail){detail.className='quality-detail warn';detail.textContent='역번역 검증을 완료하지 못했습니다. 이것만으로 1차 번역이 틀렸다는 뜻은 아닙니다. 필요하면 역번역을 다시 실행하거나 원문을 수정·재번역해 주세요.';}
-                if(reasonBtn){reasonBtn.className='quality-reason-btn show warn';reasonBtn.style.display='inline-flex';reasonBtn.textContent='ℹ️ 확인 안내';}
-                if(qualityRetryBtn){qualityRetryBtn.className='quality-retry-btn show warn';qualityRetryBtn.style.display='inline-flex';qualityRetryBtn.setAttribute('aria-label','사용자가 직접 재번역');}
-                return;
-            }
-            const score = qualityScoreFromGuard(quality);
-            let detailClass = 'quality-detail';
-            let reasonBtnClass = 'quality-reason-btn';
-            let qualityRetryBtnClass = 'quality-retry-btn';
-            if (quality.pass === false || score &lt; 70) {
-                el.className = 'quality-badge bad';
-                el.textContent = `⚠️ 번역품질: 확인 필요 (${score}점)`;
-                detailClass += ' bad';
-                reasonBtnClass += ' show bad';
-                qualityRetryBtnClass += ' show bad';
-            } else if (quality.softContamination || score &lt; 85) {
-                el.className = 'quality-badge warn';
-                el.textContent = `⚠️ 번역품질: 주의 (${score}점)`;
-                detailClass += ' warn';
-                reasonBtnClass += ' show warn';
-                qualityRetryBtnClass += ' show warn';
+            el.className = 'quality-badge';
+            if (quality.backReviewUnavailable === true) {
+                el.textContent = '번역 품질 확인불가';
             } else {
-                el.className = 'quality-badge ok';
-                el.textContent = `✅ 번역품질: 정상 (${score}점)`;
-                detailClass += ' info';
+                const score = qualityScoreFromGuard(quality);
+                el.textContent = Number.isFinite(Number(score)) ? `번역 품질 ${Math.max(0, Math.min(100, Math.round(Number(score))))}점` : '번역 품질 확인불가';
             }
-            const rawReasons = quality.pass === false ? (quality.reasons || []) : (quality.softReasons || []);
-            const reasons = _qualityUniqueTerms(rawReasons, 2);
-            const issueFragments = qualityIssueFragmentsK2L(targetText, quality);
-            const watchTerms = qualityWatchTermsKo(sourceText);
-            const parts = [];
-            if (score &lt; 100) {
-                if (reasons.length) parts.push(`왜 감점됐나: ${reasons.join(' · ')}`);
-                else parts.push('왜 감점됐나: 품질검사 경고가 감지됨');
-                if (issueFragments.length) parts.push(`주의해서 볼 부분: ${issueFragments.map(x =&gt; `“${x}”`).join(' · ')}`);
-                if (watchTerms.length) parts.push(`핵심확인: ${watchTerms.map(x =&gt; `“${x}”`).join(' · ')}`);
-                if(quality.postBackReviewed===true)parts.push('역번역을 확인해보고 의미가 다르면 입력문을 더 구체적으로 수정하거나 🔄 재번역을 직접 선택해 주세요. 앱은 이 결과를 자동으로 다른 문장으로 바꾸지 않습니다.');
-            }
-            if (detail) { detail.textContent = parts.join('\n\n'); detail.className = detailClass; }
-            if (reasonBtn) {
-                reasonBtn.className = score &lt; 100 ? reasonBtnClass : 'quality-reason-btn';
-                reasonBtn.style.display = score &lt; 100 ? 'inline-flex' : 'none';
-                reasonBtn.textContent = score &lt; 100 ? `ℹ️ ${score}점 이유` : 'ℹ️ 감점 사유';
-                reasonBtn.setAttribute('aria-label', score &lt; 100 ? `번역품질 ${score}점 감점 사유 보기` : '번역품질 감점 사유');
-            }
+            if (detail) { detail.className = 'quality-detail'; detail.textContent = ''; }
+            if (reasonBtn) { reasonBtn.className = 'quality-reason-btn'; reasonBtn.style.display = 'none'; }
             if (qualityRetryBtn) {
                 const offerRetry = true;
-                qualityRetryBtn.className = offerRetry ? qualityRetryBtnClass : 'quality-retry-btn';
+                qualityRetryBtn.className = offerRetry ? 'quality-retry-btn show' : 'quality-retry-btn';
                 qualityRetryBtn.style.display = offerRetry ? 'inline-flex' : 'none';
-                qualityRetryBtn.setAttribute('aria-label', offerRetry ? `번역품질 ${score}점 결과 재번역` : '낮은 품질 결과 재번역');
+                qualityRetryBtn.setAttribute('aria-label', '사용자가 직접 재번역');
             }
-            if (!(score &lt; 100)) closeQualityReasonDialog();
+            closeQualityReasonDialog();
         }
 
     function looksUsableLaoTranslation(text, sourceText) {
@@ -3176,7 +3149,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                         console.warn(`[${label}] 한글 잔존 자동복구 실패 → 기존 Hedge/Rescue 계속`,cleanErr);
                     }
                 }
-                // V3.61.0: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+                // V3.61.1: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
                 if (!quality.pass) {
                     const reasonText = quality.reasons.join(' / ') || '알 수 없는 품질 오류';
                     const err = new Error(`번역 결과 품질검사 실패: ${reasonText}`);
@@ -3557,7 +3530,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                     }
                 }catch(e){console.warn('[문자손상 자동재번역 실패] 기존 결과 유지',e)}
             }
-            // V3.61.0 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
+            // V3.61.1 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
             // Only technical unusable-output recovery above (for example broken replacement characters) may retry automatically.
             const finalText = result.text;
             // V2.18: 이해 가능한 경미한 품질 경고는 추가 요청 없이 즉시 표시.
@@ -3740,7 +3713,6 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                 const e=new Error(`역번역 비정상 종료: ${parsed.finishReason}`);e.name='BackFinishError';e.retryable=true;throw e;
             }
             const quality=SharedBackTranslationCoreV277.analyzeKorean(parsed.text,laoText);
-            if(!quality.pass){const e=new Error(`BACK_QUALITY_${quality.reasons.join('_')}`);e.name='BackQualityError';e.retryable=true;e.quality=quality;e.rejectedText=parsed.text;throw e;}
             return {
                 text: parsed.text,
                 label,
@@ -3843,21 +3815,6 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
     }
 
 
-    async function repairHusbandBackTranslation(laoText,failedError,myRunId){
-        const controller=new AbortController();activeBackTransControllers.add(controller);let didTimeout=false;const timer=setTimeout(()=&gt;{didTimeout=true;try{controller.abort()}catch(e){}},BACK_REQUEST_TIMEOUT_MS);
-        const draft=String(failedError?.rejectedText||'').trim();
-        const userText=`LAO SOURCE:\n${laoText}\n\nFAILED KOREAN DRAFT:\n${draft||'(no draft available; create a fresh corrected Korean back-translation)'}`;
-        try{
-            const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:SharedBackTranslationPolicyV3604.HUSBAND_BACK_REPAIR_PROMPT}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'back'});
-            if(!res.ok){const e=new Error(`HTTP ${res.status}`);e.status=res.status;e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}
-            const data=await res.json();if(myRunId!==backTranslationRunId)throw makeAbortError('STALE');const p=extractGeminiText(data);
-            if(p.finishReason!=='STOP'||!p.text){const e=new Error(`BACK_REPAIR_FINISH_${p.finishReason}`);e.name='BackFinishError';throw e}
-            const quality=SharedBackTranslationCoreV277.analyzeKorean(p.text,laoText);if(!quality.pass){const e=new Error(`BACK_REPAIR_QUALITY_${quality.reasons.join('_')}`);e.name='BackQualityError';e.quality=quality;e.rejectedText=p.text;e.afterRepair=true;throw e}
-            return{text:p.text,label:'자동복구',controller,repaired:true,quality};
-        }catch(e){if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('BACK_REPAIR_TIMEOUT');x.name='TimeoutError';throw x}throw e}
-        finally{clearTimeout(timer);activeBackTransControllers.delete(controller)}
-    }
-
     async function requestBackTranslation(autoTriggered = false) {
         // 같은 버튼을 다시 누르면 진행 중인 역번역을 즉시 중지한다.
         if (isBackTranslating) {
@@ -3865,6 +3822,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
             cancelBackTranslation(false);
             const backResultEl = document.getElementById('backResult');
             setBackResultState(true, false);
+            updateBackQualityBadge(null, true);
             if (backResultEl) backResultEl.innerText = "⚠️ 역번역 검증이 중지되었습니다. 다시 검증하려면 버튼을 눌러주세요.";
             if(lastForwardTargetSnapshot){updateQualityBadge(markBackReviewUnavailableK2L(lastForwardQualitySnapshot),lastRequestPayload,lastForwardTargetSnapshot);}
             return;
@@ -3882,22 +3840,18 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         setBackTranslationButtonState(true);
         const backResultEl = document.getElementById('backResult');
         setBackResultState(true, false);
+        updateBackQualityBadge(null, false);
         backResultEl.innerText = "라오어를 한국어로 역번역(검증) 중... 필요하면 [검증 중지]를 눌러 취소할 수 있습니다.";
 
         try {
-            let result;
-            try{result=await runBackTranslationRace(laoText,myRunId)}
-            catch(firstErr){
-                if(myRunId!==backTranslationRunId)return;
-                if(firstErr?.name==='BackQualityError'){
-                    backResultEl.innerText='🔧 역번역 문자/형식 오류 감지 → 자동복구 1회 진행 중...';
-                    result=await repairHusbandBackTranslation(laoText,firstErr,myRunId);
-                }else throw firstErr;
-            }
+            const result = await runBackTranslationRace(laoText,myRunId);
             if (myRunId !== backTranslationRunId) return;
+            // V3.61.1: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
             backResultEl.innerText = result.text;
             setBackResultState(true, true);
             telemetryAttachBackText(laoText,result.text);
+            const backScore = backTranslationScoreK2L(lastRequestPayload, result.text, result.quality);
+            updateBackQualityBadge(backScore, !Number.isFinite(Number(backScore)));
             if(lastForwardTargetSnapshot===laoText&amp;&amp;lastRequestPayload){
                 const reviewedQuality=buildPostBackQualityK2L(lastForwardQualitySnapshot,lastRequestPayload,laoText,result.text);
                 updateQualityBadge(reviewedQuality,lastRequestPayload,laoText);
@@ -3907,12 +3861,10 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
             }
         } catch (err) {
             if (myRunId !== backTranslationRunId) return;
+            updateBackQualityBadge(null, true);
             if(lastForwardTargetSnapshot){updateQualityBadge(markBackReviewUnavailableK2L(lastForwardQualitySnapshot),lastRequestPayload,lastForwardTargetSnapshot);}
             if (err?.name === 'TimeoutError') {
                 backResultEl.innerText = `⚠️ 역번역 응답 지연 (${BACK_PAIR_DEADLINE_MS / 1000}초 초과). 다시 눌러주세요.`;
-                setBackResultState(true, false);
-            } else if (err?.name === 'BackQualityError') {
-                backResultEl.innerText = "⚠️ 역번역 결과가 자동복구 후에도 품질검사를 통과하지 못했습니다. 다시 눌러주세요.";
                 setBackResultState(true, false);
             } else if (err?.name !== 'AbortError') {
                 backResultEl.innerText = "⚠️ 역번역 통신 오류가 발생했습니다. 다시 눌러주세요.";
@@ -4273,7 +4225,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.0 diagnostic-only EXACT live-path bridge.
+// V3.61.1 diagnostic-only EXACT live-path bridge.
 // Calls the real translateText() in an isolated diagnostic clone. Only post-display side effects
 // (history/Firestore/perf persistence/TTS/backtranslation) are intercepted, so the measured path
 // up to the first displayed translation is the actual live app path.
@@ -4343,7 +4295,7 @@ window.__runLivePathDiagnosticK2L=__runLivePathDiagnosticK2L;window.__stopLivePa
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="0da68c2bb1d61db6e19322ef7ffac6308465960082d07f732f07e0b8ccea0216">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="acf93ebfbd6792f4ea23bc0203cccdf09c0bf43f49553a3acfee67076b0d65bf">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -4571,7 +4523,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.0 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.1 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -4637,7 +4589,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
     &lt;/div&gt;
     &lt;div class="result-box" id="koResult" lang="ko"&gt;&lt;/div&gt;
     
-    &lt;div class="quality-line translation-quality-line" aria-live="polite"&gt;&lt;div id="qualityBadge" class="quality-badge"&gt;&lt;/div&gt;&lt;button type="button" id="qualityReasonBtn" class="quality-reason-btn" onclick="openQualityReasonDialog()" aria-controls="qualityReasonDialog" aria-expanded="false"&gt;ℹ️ ເຫດຜົນ&lt;/button&gt;&lt;button type="button" id="qualityRetryBtn" class="quality-retry-btn" onclick="retryLastTranslation()" aria-label="ແປຜົນຄຸນນະພາບຕ່ຳໃໝ່"&gt;🔄 ແປໃໝ່&lt;/button&gt;&lt;/div&gt;
+    &lt;div class="quality-line translation-quality-line" aria-live="polite"&gt;&lt;div id="qualityBadge" class="quality-badge"&gt;&lt;/div&gt;&lt;button type="button" id="qualityReasonBtn" class="quality-reason-btn" onclick="openQualityReasonDialog()" aria-controls="qualityReasonDialog" aria-expanded="false"&gt;ℹ️ ເຫດຜົນ&lt;/button&gt;&lt;button type="button" id="qualityRetryBtn" class="quality-retry-btn" onclick="retryLastTranslation()" aria-label="ແປໃໝ່"&gt;🔄 ແປໃໝ່&lt;/button&gt;&lt;/div&gt;
     &lt;div id="qualityReasonDialog" class="quality-reason-overlay" hidden onclick="if(event.target===this)closeQualityReasonDialog()"&gt;
       &lt;div class="quality-reason-card" role="dialog" aria-modal="true" aria-labelledby="qualityReasonTitle"&gt;
         &lt;div class="quality-reason-head"&gt;&lt;div id="qualityReasonTitle" class="quality-reason-title"&gt;ເຫດຜົນຫັກຄະແນນຄຸນນະພາບການແປ&lt;/div&gt;&lt;button type="button" class="quality-reason-close" onclick="closeQualityReasonDialog()" aria-label="ປິດ"&gt;×&lt;/button&gt;&lt;/div&gt;
@@ -4655,6 +4607,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="result-box back back-idle" id="backResult" lang="lo"&gt;&lt;div class="guide"&gt;&lt;span&gt;💡&lt;/span&gt;&lt;span&gt;ຖ້າຕ້ອງການກວດຄວາມໝາຍ ໃຫ້ກົດ [ກວດຄວາມໝາຍ].&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="quality-line back-quality-line" aria-live="polite"&gt;&lt;div id="backQualityBadge" class="quality-badge"&gt;&lt;/div&gt;&lt;/div&gt;
     &lt;/div&gt;
 
     &lt;hr&gt;
@@ -4761,8 +4714,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.0';
-// V3.61.0: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.1';
+// V3.61.1: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY the Lao translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, romanization, or explanations.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY the Korean translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful conversational Korean 존댓말 only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -4843,9 +4796,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.0 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.1 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.0',
+  VERSION:'V3.61.1',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -4880,9 +4833,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.0 compact literal back-translation policy: the translated text is evidence, not prose to improve.
+// V3.61.1 compact literal back-translation policy: the translated text is evidence, not prose to improve.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.0',
+  VERSION:'V3.61.1',
   HUSBAND_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Lao text you are given into Korean. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Korean is acceptable when it exposes the Lao meaning more faithfully. Preserve the register actually expressed by the Lao. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Korean text you are given into Lao. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Lao is acceptable when it exposes the Korean meaning more faithfully. Preserve the register actually expressed by the Korean. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -5273,7 +5226,7 @@ function clearResultBox(){translationOutputLocked=false;lastForwardQualitySnapsh
 function setRetry(v){document.getElementById('retryBtn').style.display=v?'inline-block':'none';}
 const COPY_DEFAULTS=Object.freeze({copyKoreanBtn:'📋 ຄັດລອກ',copyBackBtn:'📋 ຄັດລອກ'});
 function validPrimaryKoreanText(){const el=document.getElementById('koResult'),t=el?el.innerText.trim():'';if(!t||t.includes('ກຳລັງ')||t.includes('ຢຸດ')||t.includes('ຜິດພາດ')||t.includes('ລົ້ມເຫຼວ')||t.startsWith('⚠️'))return'';return t}
-// V3.61.0 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
+// V3.61.1 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
 function isBackTranslationCopyStateText(text){const t=String(text||'').trim();if(!t)return true;if(t.includes('ຖ້າຕ້ອງການກວດຄວາມໝາຍ ໃຫ້ກົດ [ກວດຄວາມໝາຍ]'))return true;if(t.startsWith('⚠️')||t.startsWith('⏳')||t.startsWith('🔧'))return true;if(t.startsWith('ກຳລັງກວດກັບເປັນພາສາລາວ'))return true;return false}
 function validBackTranslationForCopy(){const el=document.getElementById('backResult'),t=el?el.innerText.trim():'';return isBackTranslationCopyStateText(t)?'':t}
 async function waitForBackTranslationForCopy(timeoutMs=22000){let text=validBackTranslationForCopy();if(text)return text;if(!isBackTranslating)return'';const started=Date.now();while(isBackTranslating&amp;&amp;Date.now()-started&lt;timeoutMs){await new Promise(r=&gt;setTimeout(r,120));text=validBackTranslationForCopy();if(text)return text}return validBackTranslationForCopy()}
@@ -5298,10 +5251,13 @@ function hasBrokenReplacementQuality(quality,text=''){const q=quality||{};return
 function hasCriticalMeaningLock(quality){const q=quality||{};return q.criticalMeaning===true||(q.reasons||[]).some(x=&gt;/CRITICAL_MEANING|의미반전 위험/.test(String(x)))}
 function setTranslationOutputSafety(quality=null,text=''){const broken=hasBrokenReplacementQuality(quality,text),critical=hasCriticalMeaningLock(quality);translationOutputLocked=false;translationOutputLockReason=broken?'broken':critical?'critical':'';const b=document.getElementById('copyKoreanBtn');if(b&amp;&amp;b.style.display!=='none'){resetCopyButtonVisual('copyKoreanBtn');b.disabled=false;b.textContent=COPY_DEFAULTS.copyKoreanBtn}updateSpeechButtonAvailability()}
 function setKoreanCopyReady(v=false){const b=document.getElementById('copyKoreanBtn');resetCopyButtonVisual('copyKoreanBtn');if(b){b.style.display=v?'inline-block':'none';b.disabled=false}}
+function backTranslationScoreL2K(sourceText,backText,outputQuality){if(!String(sourceText||'').trim()||!String(backText||'').trim())return null;const review=reviewBackTranslationL2K(sourceText,backText),outputScore=qualityScoreFromGuard(outputQuality),scores=[Number(review?.score),Number(outputScore)].filter(Number.isFinite);return scores.length?Math.max(0,Math.min(100,Math.round(Math.min(...scores)))):null}
+function updateBackQualityBadge(score=null,unavailable=false){const el=document.getElementById('backQualityBadge');if(!el)return;el.className='quality-badge';if(unavailable){el.textContent='ຄຸນນະພາບຄຳແປກັບ: ກວດບໍ່ໄດ້';return}const n=Number(score);el.textContent=Number.isFinite(n)?`ຄຸນນະພາບຄຳແປກັບ ${Math.max(0,Math.min(100,Math.round(n)))} ຄະແນນ`:''}
 function setBackResultState(visible=false,copyReady=false){
   const el=document.getElementById('backResult');
   const b=document.getElementById('copyBackBtn');
   if(el)el.classList.toggle('back-idle',!visible);
+  if(!visible)updateBackQualityBadge(null,false);
   resetCopyButtonVisual('copyBackBtn');
   if(b)b.style.display=copyReady?'inline-block':'none';
 }
@@ -5705,7 +5661,7 @@ function isMinorForeignOutputContamination(text,targetCount,thaiCount,cjkCount){
   return (laughOnlyCjk&amp;&amp;targetCount&gt;=4)||(targetCount&gt;=8&amp;&amp;foreign&lt;=6&amp;&amp;ratio&lt;=0.22);
 }
 function qualityScoreFromGuard(quality){
-  // V3.61.0: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
+  // V3.61.1: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
   if(!quality)return null;
   const postBackScore=Number(quality.postBackScore);if(Number.isFinite(postBackScore))return Math.max(0,Math.min(100,Math.round(postBackScore)));
   if(quality.pass===false){const replacements=Number(quality?.stats?.replacement||0);if(replacements&gt;0)return Math.max(10,45-(replacements*5));return Math.max(35,60-((quality.reasons||[]).length*5));}
@@ -5747,16 +5703,14 @@ function closeQualityReasonDialog(){const dlg=document.getElementById('qualityRe
 document.addEventListener('keydown',e=&gt;{if(e.key==='Escape')closeQualityReasonDialog()});
 function updateQualityBadge(quality,sourceText='',targetText=''){
   const el=document.getElementById('qualityBadge'),detail=document.getElementById('qualityDetail'),reasonBtn=document.getElementById('qualityReasonBtn'),qualityRetryBtn=document.getElementById('qualityRetryBtn');if(!el)return;
-  if(!quality){el.className='quality-badge';el.textContent='';if(detail){detail.className='quality-detail';detail.textContent=''}if(reasonBtn){reasonBtn.className='quality-reason-btn';reasonBtn.style.display='none';reasonBtn.textContent='ℹ️ ເຫດຜົນ'}if(qualityRetryBtn){qualityRetryBtn.className='quality-retry-btn';qualityRetryBtn.style.display='none'}closeQualityReasonDialog();return}
-  if(quality.postBackPending===true){el.className='quality-badge warn';el.textContent='🔍 ຄຸນນະພາບການແປ: ກຳລັງກວດຄຳແປກັບ';if(detail){detail.className='quality-detail info';detail.textContent='ຄຳແປຄັ້ງທຳອິດຖືກສະແດງແລ້ວ. ຫຼັງຈາກຄຳແປກັບສຳເລັດ ຈະສະແດງຄະແນນອ້າງອີງ.'}if(reasonBtn){reasonBtn.className='quality-reason-btn';reasonBtn.style.display='none'}if(qualityRetryBtn){qualityRetryBtn.className='quality-retry-btn show warn';qualityRetryBtn.style.display='inline-flex'}closeQualityReasonDialog();return}
-  if(quality.backReviewUnavailable===true){el.className='quality-badge warn';el.textContent='⚠️ ຄຸນນະພາບການແປ: ກວດຄຳແປກັບບໍ່ສຳເລັດ';if(detail){detail.className='quality-detail warn';detail.textContent='ການກວດຄຳແປກັບບໍ່ສຳເລັດ. ນີ້ບໍ່ໄດ້ໝາຍຄວາມວ່າຄຳແປຄັ້ງທຳອິດຜິດ. ກະລຸນາກວດຄຳແປກັບໃໝ່ ຫຼື ແກ້ໄຂຂໍ້ຄວາມ/ແປໃໝ່ຖ້າຈຳເປັນ.'}if(reasonBtn){reasonBtn.className='quality-reason-btn show warn';reasonBtn.style.display='inline-flex';reasonBtn.textContent='ℹ️ ຄຳແນະນຳ'}if(qualityRetryBtn){qualityRetryBtn.className='quality-retry-btn show warn';qualityRetryBtn.style.display='inline-flex'}return}
-  const score=qualityScoreFromGuard(quality);let detailClass='quality-detail',reasonBtnClass='quality-reason-btn',qualityRetryBtnClass='quality-retry-btn';
-  if(quality.pass===false||score&lt;70){el.className='quality-badge bad';el.textContent=`⚠️ ຄຸນນະພາບການແປ: ກວດຄວາມໝາຍ (${score}/100)`;detailClass+=' bad';reasonBtnClass+=' show bad';qualityRetryBtnClass+=' show bad'}
-  else if(quality.softContamination||score&lt;85){el.className='quality-badge warn';el.textContent=`⚠️ ຄຸນນະພາບການແປ: ຄວນກວດ (${score}/100)`;detailClass+=' warn';reasonBtnClass+=' show warn';qualityRetryBtnClass+=' show warn'}
-  else{el.className='quality-badge ok';el.textContent=`✅ ຄຸນນະພາບການແປ: ປົກກະຕິ (${score}/100)`;detailClass+=' info'}
-  const raw=quality.pass===false?(quality.reasons||[]):(quality.softReasons||[]),reasons=_qualityUniqueTerms(raw.map(qualityReasonLao),2),issues=qualityIssueFragmentsL2K(targetText,quality),watch=qualityWatchTermsLao(sourceText),parts=[];
-  if(score&lt;100){if(reasons.length)parts.push(`ເຫດຜົນທີ່ຖືກຫັກຄະແນນ: ${reasons.join(' · ')}`);else parts.push('ເຫດຜົນທີ່ຖືກຫັກຄະແນນ: ພົບຄຳເຕືອນຈາກການກວດຄຸນນະພາບ');if(issues.length)parts.push(`ສ່ວນທີ່ຄວນລະວັງ: ${issues.map(x=&gt;`“${x}”`).join(' · ')}`);if(watch.length)parts.push(`ຄຳສຳຄັນທີ່ຄວນກວດ: ${watch.map(x=&gt;`“${x}”`).join(' · ')}`);if(quality.postBackReviewed===true)parts.push('ກະລຸນາອ່ານຄຳແປກັບ. ຖ້າຄວາມໝາຍບໍ່ຕົງ ໃຫ້ທ່ານເລືອກແກ້ໄຂຂໍ້ຄວາມໃຫ້ຊັດຂຶ້ນ ຫຼື 🔄 ແປໃໝ່. ແອັບຈະບໍ່ປ່ຽນຄຳແປນີ້ເອງ.')}
-  if(detail){detail.textContent=parts.join('\n\n');detail.className=detailClass}if(reasonBtn){reasonBtn.className=score&lt;100?reasonBtnClass:'quality-reason-btn';reasonBtn.style.display=score&lt;100?'inline-flex':'none';reasonBtn.textContent=score&lt;100?`ℹ️ ${score}/100 ເຫດຜົນ`:'ℹ️ ເຫດຜົນ';reasonBtn.setAttribute('aria-label',score&lt;100?`ເບິ່ງເຫດຜົນຄະແນນ ${score}/100`:'ເຫດຜົນຄະແນນ')}if(qualityRetryBtn){const offerRetry = true;qualityRetryBtn.className=offerRetry?qualityRetryBtnClass:'quality-retry-btn';qualityRetryBtn.style.display=offerRetry?'inline-flex':'none';qualityRetryBtn.setAttribute('aria-label',offerRetry?`ແປຜົນຄະແນນ ${score}/100 ໃໝ່`:'ແປຜົນຄຸນນະພາບຕ່ຳໃໝ່')}if(!(score&lt;100))closeQualityReasonDialog();
+  if(!quality){el.className='quality-badge';el.textContent='';if(detail){detail.className='quality-detail';detail.textContent=''}if(reasonBtn){reasonBtn.className='quality-reason-btn';reasonBtn.style.display='none'}if(qualityRetryBtn){qualityRetryBtn.className='quality-retry-btn';qualityRetryBtn.style.display='none'}closeQualityReasonDialog();return}
+  el.className='quality-badge';
+  if(quality.backReviewUnavailable===true)el.textContent='ຄຸນນະພາບການແປ: ກວດບໍ່ໄດ້';
+  else{const score=qualityScoreFromGuard(quality);el.textContent=Number.isFinite(Number(score))?`ຄຸນນະພາບການແປ ${Math.max(0,Math.min(100,Math.round(Number(score))))} ຄະແນນ`:'ຄຸນນະພາບການແປ: ກວດບໍ່ໄດ້'}
+  if(detail){detail.className='quality-detail';detail.textContent=''}
+  if(reasonBtn){reasonBtn.className='quality-reason-btn';reasonBtn.style.display='none'}
+  if(qualityRetryBtn){const offerRetry=true;qualityRetryBtn.className=offerRetry?'quality-retry-btn show':'quality-retry-btn';qualityRetryBtn.style.display=offerRetry?'inline-flex':'none';qualityRetryBtn.setAttribute('aria-label','ໃຫ້ຜູ້ໃຊ້ເລືອກແປໃໝ່ເອງ')}
+  closeQualityReasonDialog();
 }
 
 const PRESERVED_FOREIGN_MAX_CHARS = 32;
@@ -6348,7 +6302,7 @@ function createForwardRequest(source,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOu
     const relayIntegrity=relayTextIntegrityFromResponse(res);const data=await res.json();logRelayTextIntegrity(relayIntegrity,label);if(!ctx.isActive())throw makeAbortError('STALE');const parsed=extractGeminiText(data);record.finishReason=parsed.finishReason;
     if(parsed.finishReason!=='STOP'){const e=new Error(`FINISH_${parsed.finishReason}`);e.finishReason=parsed.finishReason;e.retryable=['MAX_TOKENS','OTHER','UNKNOWN','NO_CANDIDATE'].includes(parsed.finishReason);throw e;}
     const normalizedText=normalizeTranslationText(parsed.text),q=analyzeKoreanQuality(normalizedText,source);record.qualityReasons=q.reasons;
-    // V3.61.0: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+    // V3.61.1: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
     if(!q.pass){const e=new Error(`QUALITY_${q.reasons.join('_')}`);e.name='QualityError';e.retryable=true;e.quality=q;e.rejectedText=normalizedText;e.relayIntegrity=relayIntegrity;console.warn('[WIFE OUTPUT ANOMALY → Hedge/Rescue RECOVERY]',{reasons:q.reasons,rejectedText:normalizedText,relayIntegrity});throw e;}
     record.state='success';record.elapsedMs=performance.now()-started;return{text:normalizedText,label,elapsedMs:record.elapsedMs,controller,quality:q,relayIntegrity};
   }catch(e){record.elapsedMs=performance.now()-started;record.retryable=e?.retryable===true;if(e?.name==='AbortError'&amp;&amp;didTimeout){record.state='timeout';const x=new Error('TIMEOUT');x.name='TimeoutError';x.retryable=true;x.status=record.httpStatus;throw x;}record.state=e?.name==='QualityError'?'quality_reject':(e?.name==='AbortError'?'aborted':'error');throw e;}finally{clearTimeout(timeoutId);ctx.activeSet.delete(controller);}})();
@@ -6435,12 +6389,12 @@ async function translateText(){
   updateQualityBadge(null);
   const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){alert('⚠️ ກະລຸນາພິມຂໍ້ຄວາມພາສາລາວ.');return}
   cancelBackTranslation(false);stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);document.getElementById('speakBtn').style.display='none';setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
-  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.0 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
-  const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;appInputDirty=false;deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer(result.quality?.pass===false?'ສຳເລັດ · ຄວນກວດ':'ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
+  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.1 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
+  const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;appInputDirty=false;deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
   catch(e){if(runId!==translationRunId)return;resetTranslationUI();setKoreanCopyReady(false);setRetry(true);setPrimaryResultVisible(true);if(e?.name==='AbortError'){stopTimer('ຢຸດແລ້ວ');document.getElementById('koResult').textContent='⚠️ ການແປຖືກຢຸດແລ້ວ.';return}
     if(hasCriticalTranslationFailure(e)){stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'critical-translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION CRITICAL BLOCK]',e,records);return}
     const pickedDraft=pickBestRejectedTranslationL2K(e,source);
-    if(pickedDraft){const text=pickedDraft.text,q=pickedDraft.quality;isJustTranslated=false;appInputDirty=false;document.getElementById('koResult').textContent=text;lastForwardQualitySnapshot={...(q||{})};lastForwardTargetSnapshot=text;updateQualityBadge({...q,postBackPending:true},source,text);setTranslationOutputSafety(q,text);setKoreanCopyReady(true);stopTimer('ສຳເລັດ · ຜູ້ໃຊ້ຄວນກວດ');const warningMs=Math.round(performance.now()-started);deferStoreTranslation(source,text,q,{winner:'user-check-result',semanticRepaired:false,semanticRepairFailed:false,elapsedMs:warningMs});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:text,quality:q,totalMs:warningMs,winner:'user-check-result',hedged:false,rescued:false,tailRescued:false,winningRequestMs:0,semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:false,outputLocked:false,requestRecords:records});updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);console.error('[WIFE TRANSLATION WARNING DRAFT]',e,records);return}
+    if(pickedDraft){const text=pickedDraft.text,q=pickedDraft.quality;isJustTranslated=false;appInputDirty=false;document.getElementById('koResult').textContent=text;lastForwardQualitySnapshot={...(q||{})};lastForwardTargetSnapshot=text;updateQualityBadge({...q,postBackPending:true},source,text);setTranslationOutputSafety(q,text);setKoreanCopyReady(true);stopTimer('ສຳເລັດ');const warningMs=Math.round(performance.now()-started);deferStoreTranslation(source,text,q,{winner:'user-check-result',semanticRepaired:false,semanticRepairFailed:false,elapsedMs:warningMs});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:text,quality:q,totalMs:warningMs,winner:'user-check-result',hedged:false,rescued:false,tailRescued:false,winningRequestMs:0,semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:false,outputLocked:false,requestRecords:records});updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);console.error('[WIFE TRANSLATION WARNING DRAFT]',e,records);return}
     stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION]',e,records);}
 }
 
@@ -6455,7 +6409,6 @@ function createBackRequest(korean,runId,label){
       const p=extractGeminiText(data);
       if(p.finishReason!=='STOP'||!p.text){const e=new Error(`FINISH_${p.finishReason}`);e.name='BackFinishError';e.finishReason=p.finishReason;e.retryable=true;throw e}
       const q=SharedBackTranslationCoreV277.analyzeLao(p.text,korean);
-      if(!q.pass){const e=new Error(`BACK_QUALITY_${q.reasons.join('_')}`);e.name='BackQualityError';e.quality=q;e.rejectedText=p.text;e.retryable=true;throw e}
       return{text:p.text,label,controller:c,elapsedMs:performance.now()-started,quality:q}
     })
     .catch(e=&gt;{if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('BACK_TIMEOUT');x.name='TimeoutError';x.retryable=true;throw x}throw e})
@@ -6465,7 +6418,7 @@ function runBackRace(korean,runId){
   return new Promise((resolve,reject)=&gt;{
     let settled=false,secondary=false,active=0;const errors=[];let hedge,deadline;
     const cleanup=winner=&gt;{clearTimeout(hedge);clearTimeout(deadline);for(const c of backControllers){if(c!==winner){try{c.abort()}catch(e){}}}};
-    const pickError=()=&gt;errors.find(e=&gt;e?.name==='BackQualityError')||errors.find(e=&gt;e?.status===429)||errors.find(e=&gt;isFatalStatus(e?.status))||errors.find(e=&gt;e?.name==='TimeoutError')||errors[errors.length-1]||new Error('BACK_FAIL');
+    const pickError=()=&gt;errors.find(e=&gt;e?.status===429)||errors.find(e=&gt;isFatalStatus(e?.status))||errors.find(e=&gt;e?.name==='TimeoutError')||errors[errors.length-1]||new Error('BACK_FAIL');
     const doneError=()=&gt;{if(!settled&amp;&amp;secondary&amp;&amp;active===0){settled=true;cleanup();reject(pickError())}};
     const launch=label=&gt;{
       if(settled||runId!==backTranslationRunId)return;
@@ -6486,31 +6439,12 @@ function runBackRace(korean,runId){
     deadline=setTimeout(()=&gt;{if(settled)return;settled=true;cleanup();const e=new Error('BACK_PAIR_TIMEOUT');e.name='TimeoutError';e.retryable=true;reject(e)},BACK_PAIR_DEADLINE_MS);
   });
 }
-async function repairBackTranslation(korean,failedError,runId){
-  const c=new AbortController();backControllers.add(c);let didTimeout=false;const timer=setTimeout(()=&gt;{didTimeout=true;try{c.abort()}catch(e){}},BACK_REQUEST_TIMEOUT_MS);
-  const draft=String(failedError?.rejectedText||'').trim();
-  const userText=`KOREAN SOURCE:\n${korean}\n\nFAILED LAO DRAFT:\n${draft||'(no draft available; create a fresh corrected Lao translation)'}`;
-  try{
-    const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:BACK_REPAIR_PROMPT}]},contents:[{role:'user',parts:[{text:userText}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:c.signal},{action:'back'});
-    if(!res.ok){const e=new Error(`HTTP ${res.status}`);e.status=res.status;e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}
-    const data=await res.json();if(runId!==backTranslationRunId)throw makeAbortError();
-    const p=extractGeminiText(data);
-    if(p.finishReason!=='STOP'||!p.text){const e=new Error(`REPAIR_FINISH_${p.finishReason}`);e.name='BackFinishError';e.finishReason=p.finishReason;throw e}
-    const q=SharedBackTranslationCoreV277.analyzeLao(p.text,korean);
-    if(!q.pass){const e=new Error(`REPAIR_QUALITY_${q.reasons.join('_')}`);e.name='BackQualityError';e.quality=q;e.rejectedText=p.text;e.afterRepair=true;throw e}
-    return{text:p.text,label:'ແກ້ໄຂອັດຕະໂນມັດ',controller:c,repaired:true}
-  }catch(e){
-    if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('BACK_REPAIR_TIMEOUT');x.name='TimeoutError';x.afterRepair=true;throw x}
-    e.afterRepair=true;throw e
-  }finally{clearTimeout(timer);backControllers.delete(c)}
-}
 function backErrorMessageLao(e){
   if(e?.status===429)return'⚠️ ຈຳກັດການໃຊ້ການແປ (429). ກະລຸນາລໍຖ້າສັກຄູ່ ແລ້ວລອງໃໝ່.';
   if(e?.credentialKind==='primary')return'⚠️ ຕ້ອງກວດລະຫັດທີ 1. ກະລຸນາໃສ່ລະຫັດທີ 1 ໃໝ່.';
   if(isFatalStatus(e?.status))return`⚠️ ຄຳຂໍກວດຄວາມໝາຍມີບັນຫາ (${e.status}). ກະລຸນາລອງໃໝ່.`;
   if(Number.isInteger(e?.status)&amp;&amp;e.status&gt;=500&amp;&amp;e.status&lt;600)return`⚠️ ເຊີບເວີແປບໍ່ສະຖຽນ (${e.status}). ກະລຸນາລອງໃໝ່.`;
   if(e?.name==='TimeoutError')return'⚠️ ການກວດຄວາມໝາຍຊ້າເກີນໄປ. ກະລຸນາລອງໃໝ່ ຫຼື ກວດສັນຍານອິນເຕີເນັດ.';
-  if(e?.name==='BackQualityError')return e?.afterRepair?'⚠️ ຜົນກວດຄວາມໝາຍຍັງບໍ່ຜ່ານການກວດຄຸນນະພາບ ຫຼັງຈາກແກ້ໄຂອັດຕະໂນມັດ 1 ຄັ້ງ. ກະລຸນາລອງໃໝ່.':'⚠️ ຜົນກວດຄວາມໝາຍບໍ່ຜ່ານຄຸນນະພາບ. ແອັບຈະລອງແກ້ໄຂອັດຕະໂນມັດ.';
   if(e?.name==='BackFinishError')return'⚠️ ການແປສົ່ງຄຳຕອບບໍ່ສົມບູນ. ກະລຸນາລອງໃໝ່.';
   if(e instanceof TypeError)return'⚠️ ບໍ່ສາມາດເຊື່ອມຕໍ່ເຄືອຂ່າຍໄດ້. ກະລຸນາກວດ Wi‑Fi ຫຼື ຂໍ້ມູນມືຖື.';
   return'⚠️ ການກວດຄວາມໝາຍມີບັນຫາ. ກະລຸນາລອງໃໝ່.';
@@ -6521,6 +6455,7 @@ async function requestBackTranslation(autoTriggered=false){
     cancelBackTranslation(false);
     const el=document.getElementById('backResult');
     setBackResultState(true,false);
+    updateBackQualityBadge(null,true);
     el.textContent='⚠️ ຢຸດການກວດແລ້ວ. ກົດ [ກວດຄວາມໝາຍ] ເພື່ອລອງໃໝ່.';
     if(lastForwardTargetSnapshot)updateQualityBadge(markBackReviewUnavailableL2K(lastForwardQualitySnapshot),lastRequestPayload,lastForwardTargetSnapshot);
     return
@@ -6533,36 +6468,21 @@ async function requestBackTranslation(autoTriggered=false){
   setBackButton(true);
   const el=document.getElementById('backResult');
   setBackResultState(true,false);
+  updateBackQualityBadge(null,false);
   el.textContent='ກຳລັງກວດກັບເປັນພາສາລາວ...';
   try{
-    let r;
-    try{r=await runBackRace(korean,runId)}
-    catch(e){
-      if(runId!==backTranslationRunId)return;
-      if(e?.name==='BackQualityError'){
-        el.textContent='🔧 ພົບຄຳແປທີ່ອ່ານໄດ້ແຕ່ບໍ່ຜ່ານການກວດ → ກຳລັງແກ້ໄຂອັດຕະໂນມັດ 1 ຄັ້ງ...';
-        r=await repairBackTranslation(korean,e,runId);
-      }else throw e
-    }
+    const r=await runBackRace(korean,runId);
     if(runId!==backTranslationRunId)return;
-    if(r?.quality?.softContamination){
-      const original=r;
-      el.textContent='🔧 ພົບຕົວໜັງສືໄທ/ຈີນເລັກນ້ອຍ → ກຳລັງແກ້ໄຂ 1 ຄັ້ງ...';
-      try{
-        const cleaned=await repairBackTranslation(korean,{rejectedText:r.text},runId);
-        if(runId!==backTranslationRunId)return;
-        if(cleaned?.text)r=cleaned;
-      }catch(cleanErr){
-        console.warn('[WIFE BACK MINOR SCRIPT CLEANUP → original kept]',cleanErr);
-        r=original;
-      }
-    }
+    // V3.61.1: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
     el.textContent=r.text;
     setBackResultState(true,true);
     telemetryAttachBackText(korean,r.text);
+    const backScore=backTranslationScoreL2K(lastRequestPayload,r.text,r.quality);
+    updateBackQualityBadge(backScore,!Number.isFinite(Number(backScore)));
     if(lastForwardTargetSnapshot===korean&amp;&amp;lastRequestPayload){const reviewedQuality=buildPostBackQualityL2K(lastForwardQualitySnapshot,lastRequestPayload,korean,r.text);updateQualityBadge(reviewedQuality,lastRequestPayload,korean);setTranslationOutputSafety(reviewedQuality,korean);deferStoreTranslation(lastRequestPayload,korean,reviewedQuality,{postBackReviewed:true});lastForwardQualitySnapshot=reviewedQuality;}
   }catch(e){
     if(runId!==backTranslationRunId)return;
+    updateBackQualityBadge(null,true);
     if(lastForwardTargetSnapshot)updateQualityBadge(markBackReviewUnavailableL2K(lastForwardQualitySnapshot),lastRequestPayload,lastForwardTargetSnapshot);
     el.textContent=backErrorMessageLao(e);
     setBackResultState(true,false);
@@ -6667,7 +6587,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.0 diagnostic-only EXACT live-path bridge.
+// V3.61.1 diagnostic-only EXACT live-path bridge.
 // Calls the real translateText() in an isolated diagnostic clone and intercepts only post-display side effects.
 let __livePathDiagnosticRunningL2K=false;
 function __stopLivePathDiagnosticL2K(){if(!__livePathDiagnosticRunningL2K)return false;translationRunId++;isTranslating=false;for(const c of [...mainControllers]){try{c.abort()}catch(e){}}return true}
@@ -6753,7 +6673,7 @@ window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePa
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.0';
+const INTEGRATED_VERSION='V3.61.1';
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -6774,7 +6694,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='3677129444146f65b73bd7ee8dfcd505db2b467368f00e711afc4bda34bdfd92';
+const EXTERNAL_DIAGNOSTIC_SHA256='8fadc08572f1d1740a757c8b094122f162b3df26e821a70bd006ad4b60f383b1';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -7573,12 +7493,15 @@ function getUnifiedRuntimeSafetyAudit(){
     add('CRITICAL_CORE_L2K',wDetect.includes("SharedCriticalMeaningCoreV277.detect('L2K'")&&w.includes('SharedCriticalMeaningCoreV277'));
     add('SEMANTIC_AUTO_REWRITE_DISABLED_K2L',hTranslate.includes('const finalText = result.text')&&!hTranslate.includes('requestCriticalMeaningRepairK2L('));
     add('SEMANTIC_AUTO_REWRITE_DISABLED_L2K',wTranslate.includes('const finalText=result.text')&&!wTranslate.includes('requestCriticalMeaningRepairL2K('));
-    add('POST_BACK_HUMAN_GUIDANCE_K2L',h.includes('buildPostBackQualityK2L')&&h.includes('앱은 이 결과를 자동으로 다른 문장으로 바꾸지 않습니다.'));
-    add('POST_BACK_HUMAN_GUIDANCE_L2K',w.includes('buildPostBackQualityL2K')&&w.includes('postBackReviewed'));
+    add('BACK_LOW_SCORE_RESULT_VISIBLE_K2L',h.includes('a non-empty completed back-translation is always shown')&&!h.includes("e.name='BackQualityError'")&&!h.includes('repairHusbandBackTranslation('));
+    add('BACK_LOW_SCORE_RESULT_VISIBLE_L2K',w.includes('a non-empty completed back-translation is always shown')&&!w.includes("e.name='BackQualityError'")&&!w.includes('repairBackTranslation('));
+    add('BACK_QUALITY_SCORE_UI_PARITY',h.includes('id="backQualityBadge"')&&w.includes('id="backQualityBadge"')&&h.includes('function backTranslationScoreK2L')&&w.includes('function backTranslationScoreL2K'));
+    add('TRANSLATION_QUALITY_SCORE_ONLY_UI',h.includes('`번역 품질 ${Math.max(0, Math.min(100, Math.round(Number(score))))}점`')&&!h.includes('번역품질: 확인 필요')&&!h.includes('번역품질: 주의')&&!h.includes('번역품질: 정상')&&w.includes('`ຄຸນນະພາບການແປ ${Math.max(0,Math.min(100,Math.round(Number(score))))} ຄະແນນ`')&&!w.includes('ຄຸນນະພາບການແປ: ຄວນກວດ')&&!w.includes('ຄຸນນະພາບການແປ: ປົກກະຕິ'));
+    add('BACK_QUALITY_SCORE_ONLY_UI',h.includes('`역번역 품질 ${Math.max(0, Math.min(100, Math.round(n)))}점`')&&h.includes("'역번역 품질 확인불가'")&&w.includes('`ຄຸນນະພາບຄຳແປກັບ ${Math.max(0,Math.min(100,Math.round(n)))} ຄະແນນ`')&&w.includes('ກວດບໍ່ໄດ້'));
     add('HARD_CORRUPTION_WIRED',hs>=0&&ws>=0&&h.includes('setTranslationOutputSafety')&&w.includes('setTranslationOutputSafety'));
     add('USER_CONTROL_NOT_LOCKED',h.includes('translationOutputLocked=false')&&w.includes('translationOutputLocked=false'));
     add('QUALITY_SCORE_REFERENCE_ONLY',h.includes('품질점수는 참고용이다. 실패 후보 선택에도 점수를 사용하지 않는다.')&&w.includes('품질점수는 참고용이다. 실패 후보 선택에도 점수를 사용하지 않는다.')&&!h.includes('qualityScoreFromGuard(a.quality)')&&!w.includes('qualityScoreFromGuard(a.quality)'));
-    add('RETRANSLATE_ALWAYS_AVAILABLE',h.includes('const offerRetry = true;')&&w.includes('const offerRetry = true;')&&h.includes('onclick="retryLastTranslation()"')&&w.includes('onclick="retryLastTranslation()"'));
+    add('RETRANSLATE_ALWAYS_AVAILABLE',(h.includes('const offerRetry = true;')||h.includes('const offerRetry=true;'))&&(w.includes('const offerRetry = true;')||w.includes('const offerRetry=true;'))&&h.includes('onclick="retryLastTranslation()"')&&w.includes('onclick="retryLastTranslation()"'));
     add('OUTPUT_ANOMALY_GUARD_ONLY',h.includes('actual output-anomaly guard')&&w.includes('actual output-anomaly guard')&&h.includes("err.name = 'QualityError'")&&w.includes("e.name='QualityError'"));
     add('STRICT_BACKTRANSLATION',h.includes('SharedBackTranslationPolicyV3604.HUSBAND_BACK_PROMPT')&&w.includes('SharedBackTranslationPolicyV3604.WIFE_BACK_PROMPT')&&h.includes('sole evidence')&&w.includes('sole evidence')&&h.includes('must not reconstruct')&&w.includes('must not reconstruct'));
     add('BACKTRANSLATION_NO_SOURCE_LEAK',h.includes('parts: [{ text: laoText }]')&&w.includes('parts:[{text:korean}]'));
