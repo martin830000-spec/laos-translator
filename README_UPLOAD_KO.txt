@@ -1,17 +1,15 @@
-V3.60.2 V2.87↔현재 통합 비교진단 - 원클릭 GitHub 업로드본
+V3.60.2 V2.87 ↔ 현재 원클릭 비교진단 FIXED
 
-사용 방법
-1) 이 ZIP을 압축 해제합니다.
-2) ZIP 안의 모든 파일을 현재 번역기 GitHub 저장소의 index.html이 있는 같은 폴더에 업로드합니다.
-3) 같은 이름의 index.html / diagnostic.html / version.json은 교체합니다.
-4) 나머지 harness/manifest 파일은 새로 추가합니다.
-5) GitHub Pages를 새로고침한 뒤 평소처럼 앱의 관리자 진단 버튼을 누릅니다.
-6) 화면 제목이 "V2.87 ↔ V3.60.2 통합 비교진단"인지 확인합니다.
-7) "▶ 통합 비교진단 시작"을 한 번 누릅니다.
-8) 완료 후 "📋 전체 로그 복사" 결과만 ChatGPT에 붙여넣습니다.
+업로드 방법
+1) 이 ZIP의 파일을 모두 압축 해제합니다.
+2) GitHub Pages에서 현재 index.html이 있는 같은 폴더에 모든 파일을 그대로 업로드합니다.
+3) index.html과 version.json은 같은 이름 파일을 교체합니다.
+4) 기존 diagnostic.html은 삭제하지 않아도 됩니다. 이번 index.html은 더 이상 diagnostic.html을 사용하지 않습니다.
+5) GitHub Pages 반영 후 앱을 닫았다 다시 열고 평소 관리자 진단 버튼을 누릅니다.
 
-중요
-- 실사용 번역 엔진/화면 코드는 V3.60.2 그대로이며, index.html에서는 진단 파일 무결성 해시만 새 비교진단기에 맞게 바뀌었습니다.
-- diagnostic.html은 이번 비교진단용으로 교체됩니다.
-- 기존 V3.60.2 진단 원본은 diagnostic-original-v3.60.2.html로 ZIP에 함께 넣었습니다.
-- 서로 다른 비교 테스트는 순차 실행됩니다. 각 버전 자체의 Hedge만 원래 정책대로 허용합니다.
+정상 화면 제목:
+V2.87 ↔ V3.60.2 통합 비교진단
+
+이번 수정 이유:
+이전 패키지는 diagnostic.html?v=V3.60.2라는 기존과 동일한 주소를 사용해 GitHub Pages/CDN/브라우저 캐시에서 과거 V3.60.2 진단기가 반환될 수 있었습니다.
+이번 패키지는 완전히 다른 파일명 diagnostic-compare-v287-v3602-v1.html을 사용하며, 열 때마다 해시+현재시각 cache-buster를 붙입니다.

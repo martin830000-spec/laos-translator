@@ -6614,7 +6614,7 @@ function syncManualMetadata(){
 try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)}
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
-const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
+const EXTERNAL_DIAGNOSTIC_URL='diagnostic-compare-v287-v3602-v1.html';
 const EXTERNAL_DIAGNOSTIC_SHA256='2a9594078224e968addbdbb12c0d0b1af89fa26e93a5c0bc5e1198b397110145';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
@@ -7437,7 +7437,7 @@ async function openUnifiedAdminDiagnostic(){
   unifiedDiagnosticPopup=popup;
   try{
     popup.document.open();popup.document.write('<!doctype html><meta charset="utf-8"><title>진단 불러오는 중</title><div style="font-family:sans-serif;padding:28px">진단도구를 불러오는 중...</div>');popup.document.close();
-    const res=await fetch(EXTERNAL_DIAGNOSTIC_URL+'?v='+encodeURIComponent(INTEGRATED_VERSION),{cache:'no-store'});
+    const res=await fetch(EXTERNAL_DIAGNOSTIC_URL+'?v='+encodeURIComponent(INTEGRATED_VERSION)+'&h='+EXTERNAL_DIAGNOSTIC_SHA256.slice(0,16)+'&_='+Date.now(),{cache:'no-store',headers:{'Cache-Control':'no-cache','Pragma':'no-cache'}});
     if(!res.ok)throw new Error('DIAGNOSTIC_HTTP_'+res.status);
     const source=await res.text();
     const expected=`const DIAG_VERSION='${INTEGRATED_VERSION}'`;
