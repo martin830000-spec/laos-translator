@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.13",
-  "updatedAt": "2026-09-07T19:20:00+09:00",
-  "mode": "ExactLiveClone-BackLanguageOneRetry-HardSoftGuard"
+  "version": "V3.61.14",
+  "updatedAt": "2026-09-07T20:10:00+09:00",
+  "mode": "ExactLiveClone-MisunderstandingOnly-BackLanguageOneRetry"
 }
