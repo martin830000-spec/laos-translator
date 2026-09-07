@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.5</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.6</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.5</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.5</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.6</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.6</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.5</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.6</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="2b02d5a22f5cd71300d178168c084c546c252f2f543dc8b56820914d7a308308">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="0a1642fe8fe8971a67198541cfbd61577241128b180c4b9c94841a2cb577c1e3">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -672,7 +672,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.5 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.6 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -874,8 +874,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.5';
-// V3.61.5: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.6';
+// V3.61.6: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY the Lao translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. In this app the speaker is the husband and the listener is his wife: spouse-use 자기/자기가 refers to the listener, not reflexive self, unless the sentence clearly means oneself. Preserve explicit kinship/relationship terms, and keep neutral terms such as 동생 gender-neutral unless gender is stated. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, romanization, or explanations.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY the Korean translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful conversational Korean 존댓말 only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -954,9 +954,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.5 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.6 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.5',
+  VERSION:'V3.61.6',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -989,9 +989,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.5 compact literal back-translation policy: the translated text is evidence, not prose to improve.
+// V3.61.6 compact literal back-translation policy: the translated text is evidence, not prose to improve.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.5',
+  VERSION:'V3.61.6',
   HUSBAND_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Lao text you are given into Korean. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Korean is acceptable when it exposes the Lao meaning more faithfully. Preserve the register actually expressed by the Lao. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Korean text you are given into Lao. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Lao is acceptable when it exposes the Korean meaning more faithfully. Preserve the register actually expressed by the Korean. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -1077,7 +1077,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     let startTime = 0;
     let isJustTranslated = false;
     let lastRequestPayload = "";
-    // V3.61.5: the first displayed Gemini translation is never rewritten for semantic-score reasons.
+    // V3.61.6: the first displayed Gemini translation is never rewritten for semantic-score reasons.
     // These snapshots let the automatic back-translation refine the user-facing reference score afterwards.
     let lastForwardQualitySnapshot = null;
     let lastForwardTargetSnapshot = "";
@@ -1436,7 +1436,7 @@ window.addEventListener('message',function(ev){
         if(!text||text.includes('처리 중')||text.includes('지연')||text.includes('중지')||text.includes('오류')||text.includes('실패')||text.startsWith('⚠️'))return'';
         return text;
     }
-    // V3.61.5 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
+    // V3.61.6 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
     function isBackTranslationCopyStateText(text){
         const t=String(text||'').trim();
         if(!t)return true;
@@ -2896,7 +2896,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
     }
 
     function qualityScoreFromGuard(quality) {
-            // V3.61.5: after the automatic literal back-translation, the reference score may include
+            // V3.61.6: after the automatic literal back-translation, the reference score may include
             // deterministic source↔back-translation checks. It is still guidance, never an auto-rewrite gate.
             if (!quality) return null;
             const postBackScore=Number(quality.postBackScore);
@@ -3161,7 +3161,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                         console.warn(`[${label}] 한글 잔존 자동복구 실패 → 기존 Hedge/Rescue 계속`,cleanErr);
                     }
                 }
-                // V3.61.5: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+                // V3.61.6: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
                 if (!quality.pass) {
                     const reasonText = quality.reasons.join(' / ') || '알 수 없는 품질 오류';
                     const err = new Error(`번역 결과 품질검사 실패: ${reasonText}`);
@@ -3543,7 +3543,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                     }
                 }catch(e){console.warn('[문자손상 자동재번역 실패] 기존 결과 유지',e)}
             }
-            // V3.61.5 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
+            // V3.61.6 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
             // Only technical unusable-output recovery above (for example broken replacement characters) may retry automatically.
             const finalText = result.text;
             // V2.18: 이해 가능한 경미한 품질 경고는 추가 요청 없이 즉시 표시.
@@ -3859,7 +3859,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         try {
             const result = await runBackTranslationRace(laoText,myRunId);
             if (myRunId !== backTranslationRunId) return;
-            // V3.61.5: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+            // V3.61.6: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
             backResultEl.innerText = result.text;
             setBackResultState(true, true);
             telemetryAttachBackText(laoText,result.text);
@@ -4238,7 +4238,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.5 diagnostic-only EXACT live-path observability bridge.
+// V3.61.6 diagnostic-only EXACT live-path observability bridge.
 // Production translation behavior is not replaced. This bridge runs the real translateText()
 // inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
 // event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
@@ -4316,7 +4316,7 @@ window.__runLivePathDiagnosticK2L=__runLivePathDiagnosticK2L;window.__stopLivePa
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="79da95ee802f9bd60746fc8fc99df66152a845081eab47c6d1e5eb4197b3a25f">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="40a27d3f7d8d2a062422366372a1d8a49180b6a0a89e261d8b740957ba2a00db">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -4544,7 +4544,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.5 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.6 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -4735,8 +4735,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.5';
-// V3.61.5: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.6';
+// V3.61.6: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY the Lao translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, romanization, or explanations.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY the Korean translation. Keep the meaning of the source as written. Do not add information that is not stated, and do not make unspecified details more specific. If the source is ambiguous, keep the same ambiguity instead of guessing. Keep who does what to whom, relationships and possession, negation and modality, factual details, numbers and times, and emotional strength unchanged. In this app the speaker is the wife and the listener is her husband: ຂ້ອຍ is the speaker, and explicit relationship/kinship terms such as ອ້າຍ or ນ້ອງ must keep their relationship perspective instead of being flattened to generic I/you; do not invent gender when it is not stated. Use warm, respectful conversational Korean 존댓말 only when it does not change meaning. Preserve meaningful emoji, punctuation and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -4817,9 +4817,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.5 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.6 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.5',
+  VERSION:'V3.61.6',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -4854,9 +4854,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.5 compact literal back-translation policy: the translated text is evidence, not prose to improve.
+// V3.61.6 compact literal back-translation policy: the translated text is evidence, not prose to improve.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.5',
+  VERSION:'V3.61.6',
   HUSBAND_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Lao text you are given into Korean. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Korean is acceptable when it exposes the Lao meaning more faithfully. Preserve the register actually expressed by the Lao. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Literal verification back-translation. Translate ONLY the Korean text you are given into Lao. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or other detail unspecified, keep it unspecified. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, improve, or polish. Slightly awkward Lao is acceptable when it exposes the Korean meaning more faithfully. Preserve the register actually expressed by the Korean. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -5247,7 +5247,7 @@ function clearResultBox(){translationOutputLocked=false;lastForwardQualitySnapsh
 function setRetry(v){document.getElementById('retryBtn').style.display=v?'inline-block':'none';}
 const COPY_DEFAULTS=Object.freeze({copyKoreanBtn:'📋 ຄັດລອກ',copyBackBtn:'📋 ຄັດລອກ'});
 function validPrimaryKoreanText(){const el=document.getElementById('koResult'),t=el?el.innerText.trim():'';if(!t||t.includes('ກຳລັງ')||t.includes('ຢຸດ')||t.includes('ຜິດພາດ')||t.includes('ລົ້ມເຫຼວ')||t.startsWith('⚠️'))return'';return t}
-// V3.61.5 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
+// V3.61.6 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
 function isBackTranslationCopyStateText(text){const t=String(text||'').trim();if(!t)return true;if(t.includes('ຖ້າຕ້ອງການກວດຄວາມໝາຍ ໃຫ້ກົດ [ກວດຄວາມໝາຍ]'))return true;if(t.startsWith('⚠️')||t.startsWith('⏳')||t.startsWith('🔧'))return true;if(t.startsWith('ກຳລັງກວດກັບເປັນພາສາລາວ'))return true;return false}
 function validBackTranslationForCopy(){const el=document.getElementById('backResult'),t=el?el.innerText.trim():'';return isBackTranslationCopyStateText(t)?'':t}
 async function waitForBackTranslationForCopy(timeoutMs=22000){let text=validBackTranslationForCopy();if(text)return text;if(!isBackTranslating)return'';const started=Date.now();while(isBackTranslating&amp;&amp;Date.now()-started&lt;timeoutMs){await new Promise(r=&gt;setTimeout(r,120));text=validBackTranslationForCopy();if(text)return text}return validBackTranslationForCopy()}
@@ -5682,7 +5682,7 @@ function isMinorForeignOutputContamination(text,targetCount,thaiCount,cjkCount){
   return (laughOnlyCjk&amp;&amp;targetCount&gt;=4)||(targetCount&gt;=8&amp;&amp;foreign&lt;=6&amp;&amp;ratio&lt;=0.22);
 }
 function qualityScoreFromGuard(quality){
-  // V3.61.5: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
+  // V3.61.6: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
   if(!quality)return null;
   const postBackScore=Number(quality.postBackScore);if(Number.isFinite(postBackScore))return Math.max(0,Math.min(100,Math.round(postBackScore)));
   if(quality.pass===false){const replacements=Number(quality?.stats?.replacement||0);if(replacements&gt;0)return Math.max(10,45-(replacements*5));return Math.max(35,60-((quality.reasons||[]).length*5));}
@@ -6328,7 +6328,7 @@ function createForwardRequest(source,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOu
     const relayIntegrity=relayTextIntegrityFromResponse(res);const data=await res.json();const usage=data?.usageMetadata||{};const usageInfo={prompt:usage.promptTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.promptTokenCount))?Number(usage.promptTokenCount):null,candidate:usage.candidatesTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.candidatesTokenCount))?Number(usage.candidatesTokenCount):null,total:usage.totalTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.totalTokenCount))?Number(usage.totalTokenCount):null};record.usagePromptTokens=usageInfo.prompt;record.usageCandidateTokens=usageInfo.candidate;record.usageTotalTokens=usageInfo.total;record.maxOutputTokens=Number(maxOutputTokens)||null;logRelayTextIntegrity(relayIntegrity,label);if(!ctx.isActive())throw makeAbortError('STALE');const parsed=extractGeminiText(data);record.finishReason=parsed.finishReason;
     if(parsed.finishReason!=='STOP'){const e=new Error(`FINISH_${parsed.finishReason}`);e.finishReason=parsed.finishReason;e.retryable=['MAX_TOKENS','OTHER','UNKNOWN','NO_CANDIDATE'].includes(parsed.finishReason);e.usage=usageInfo;throw e;}
     const normalizedText=normalizeTranslationText(parsed.text),q=analyzeKoreanQuality(normalizedText,source);record.qualityReasons=q.reasons;
-    // V3.61.5: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+    // V3.61.6: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
     if(!q.pass){const e=new Error(`QUALITY_${q.reasons.join('_')}`);e.name='QualityError';e.retryable=true;e.quality=q;e.rejectedText=normalizedText;e.relayIntegrity=relayIntegrity;e.usage=usageInfo;console.warn('[WIFE OUTPUT ANOMALY → Hedge/Rescue RECOVERY]',{reasons:q.reasons,rejectedText:normalizedText,relayIntegrity});throw e;}
     record.state='success';record.elapsedMs=performance.now()-started;return{text:normalizedText,label,elapsedMs:record.elapsedMs,controller,quality:q,relayIntegrity,usage:usageInfo,maxOutputTokens:Number(maxOutputTokens)||null};
   }catch(e){record.elapsedMs=performance.now()-started;record.retryable=e?.retryable===true;if(e?.name==='AbortError'&amp;&amp;didTimeout){record.state='timeout';const x=new Error('TIMEOUT');x.name='TimeoutError';x.retryable=true;x.status=record.httpStatus;throw x;}record.state=e?.name==='QualityError'?'quality_reject':(e?.name==='AbortError'?'aborted':'error');throw e;}finally{clearTimeout(timeoutId);ctx.activeSet.delete(controller);}})();
@@ -6415,7 +6415,7 @@ async function translateText(){
   updateQualityBadge(null);
   const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){alert('⚠️ ກະລຸນາພິມຂໍ້ຄວາມພາສາລາວ.');return}
   cancelBackTranslation(false);stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);document.getElementById('speakBtn').style.display='none';setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
-  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.5 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
+  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.6 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
   const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;appInputDirty=false;deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
   catch(e){if(runId!==translationRunId)return;resetTranslationUI();setKoreanCopyReady(false);setRetry(true);setPrimaryResultVisible(true);if(e?.name==='AbortError'){stopTimer('ຢຸດແລ້ວ');document.getElementById('koResult').textContent='⚠️ ການແປຖືກຢຸດແລ້ວ.';return}
     if(hasCriticalTranslationFailure(e)){stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'critical-translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION CRITICAL BLOCK]',e,records);return}
@@ -6499,7 +6499,7 @@ async function requestBackTranslation(autoTriggered=false){
   try{
     const r=await runBackRace(korean,runId);
     if(runId!==backTranslationRunId)return;
-    // V3.61.5: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+    // V3.61.6: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
     el.textContent=r.text;
     setBackResultState(true,true);
     telemetryAttachBackText(korean,r.text);
@@ -6613,7 +6613,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.5 diagnostic-only EXACT live-path observability bridge.
+// V3.61.6 diagnostic-only EXACT live-path observability bridge.
 // Production translation behavior is not replaced. This bridge runs the real translateText()
 // inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
 // event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
@@ -6752,7 +6752,7 @@ window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePa
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.5';
+const INTEGRATED_VERSION='V3.61.6';
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -6773,7 +6773,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='9ee18528ca2a04031e4989e9ff9ed2f13d671c5dbced6fd004fce875bce18e1e';
+const EXTERNAL_DIAGNOSTIC_SHA256='4c13b726137ecede0d6954a33359a14b6d4caa191af9ed94b28b74356ef9171d';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
