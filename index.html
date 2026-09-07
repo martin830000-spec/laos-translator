@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.9</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.10</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.9</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.9</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.10</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.10</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.9</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.10</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="97fc59fbc9d1e5bcfb16989535f3c7752d49330e3a4a8b1647f6ebe01a248457">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="c28f573f956f3285d2b5635bcd812cc34147b80490b6311b14cd059e7cdc869d">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -672,7 +672,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.9 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.10 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -875,8 +875,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.9';
-// V3.61.9: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.10';
+// V3.61.10: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 address the wife/listener and must not be replaced by literal ເມຍ or ພັນລະຍາ unless the source explicitly says wife. Keep 동생 gender-neutral unless gender is stated. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. Lao words must use Lao script; never insert Thai, Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY one decided Korean translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship/kinship perspective, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the wife and the listener is her husband. Do not invent gender, hierarchy, or relationship nouns that are not stated. Lao ວຽກບ້ານ normally means homework/school assignment and should be translated as 숙제 unless the sentence clearly and explicitly describes household chores. Choose one natural Korean form of address; never output alternatives such as 여보/당신 or any slash-separated A/B candidates. Use warm, natural conversational Korean 존댓말 (-요 style) without making it stiff. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -955,9 +955,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.9 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.10 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.9',
+  VERSION:'V3.61.10',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -990,9 +990,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.9 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
+// V3.61.10 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.9',
+  VERSION:'V3.61.10',
   HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the Lao text you are given into natural everyday Korean for meaning checking. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary conversational Korean that a spouse would naturally read in a messenger chat, normally natural -요 style when the Lao register permits it; avoid stiff, bureaucratic, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the Korean text you are given into natural everyday Lao for meaning checking. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary respectful Lao suitable for a wife and husband reading a messenger conversation; avoid stiff, ceremonial, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -1078,7 +1078,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     let startTime = 0;
     let isJustTranslated = false;
     let lastRequestPayload = "";
-    // V3.61.9: the first displayed Gemini translation is never rewritten for semantic-score reasons.
+    // V3.61.10: the first displayed Gemini translation is never rewritten for semantic-score reasons.
     // These snapshots let the automatic back-translation refine the user-facing reference score afterwards.
     let lastForwardQualitySnapshot = null;
     let lastForwardTargetSnapshot = "";
@@ -1437,7 +1437,7 @@ window.addEventListener('message',function(ev){
         if(!text||text.includes('처리 중')||text.includes('지연')||text.includes('중지')||text.includes('오류')||text.includes('실패')||text.startsWith('⚠️'))return'';
         return text;
     }
-    // V3.61.9 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
+    // V3.61.10 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
     function isBackTranslationCopyStateText(text){
         const t=String(text||'').trim();
         if(!t)return true;
@@ -1799,6 +1799,7 @@ function returnToTranslationResultTop(){
     }
     let historyRecoveryAttempted=false;
     async function recoverTranslationHistoryIfMissing(){
+        if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false;
         if(historyRecoveryAttempted)return false;historyRecoveryAttempted=true;
         let missing=false;try{missing=localStorage.getItem(LOCAL_HISTORY_KEY)===null}catch(e){return false}
         if(!missing)return false;
@@ -2905,7 +2906,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
     }
 
     function qualityScoreFromGuard(quality) {
-            // V3.61.9: after the automatic literal back-translation, the reference score may include
+            // V3.61.10: after the automatic literal back-translation, the reference score may include
             // deterministic source↔back-translation checks. It is still guidance, never an auto-rewrite gate.
             if (!quality) return null;
             const postBackScore=Number(quality.postBackScore);
@@ -3165,7 +3166,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                         console.warn(`[${label}] 한글 잔존 자동복구 실패 → 기존 Hedge/Rescue 계속`,cleanErr);
                     }
                 }
-                // V3.61.9: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+                // V3.61.10: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
                 if (!quality.pass) {
                     const reasonText = quality.reasons.join(' / ') || '알 수 없는 품질 오류';
                     const err = new Error(`번역 결과 품질검사 실패: ${reasonText}`);
@@ -3547,7 +3548,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
                     }
                 }catch(e){console.warn('[문자손상 자동재번역 실패] 기존 결과 유지',e)}
             }
-            // V3.61.9 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
+            // V3.61.10 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
             // Only technical unusable-output recovery above (for example broken replacement characters) may retry automatically.
             const finalText = result.text;
             // V2.18: 이해 가능한 경미한 품질 경고는 추가 요청 없이 즉시 표시.
@@ -3863,7 +3864,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         try {
             const result = await runBackTranslationRace(laoText,myRunId);
             if (myRunId !== backTranslationRunId) return;
-            // V3.61.9: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+            // V3.61.10: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
             backResultEl.innerText = result.text;
             setBackResultState(true, true);
             telemetryAttachBackText(laoText,result.text);
@@ -4242,7 +4243,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.9 diagnostic-only EXACT live-path observability bridge.
+// V3.61.10 diagnostic-only EXACT live-path observability bridge.
 // Production translation behavior is not replaced. This bridge runs the real translateText()
 // inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
 // event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
@@ -4309,17 +4310,35 @@ async function __runLivePathDiagnosticK2L(sourceText){
   requestBackTranslation=async function(autoTriggered=false){backInputCapture={atRel:performance.now()-started,text:currentDisplay(),autoTriggered:!!autoTriggered};return null};
   const cleanupNow=async()=&gt;{const before={activeControllers:activeGeminiControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};const sweep=()=&gt;{for(const c of [...activeGeminiControllers]){try{c.abort()}catch(e){}}for(const id of [...trackedTimeouts]){try{timerOrig.clearTimeout(id)}catch(e){}}trackedTimeouts.clear();for(const id of [...trackedIntervals]){try{timerOrig.clearInterval(id)}catch(e){}}trackedIntervals.clear();};sweep();await new Promise(r=&gt;timerOrig.setTimeout(r,30));sweep();await new Promise(r=&gt;timerOrig.setTimeout(r,10));const after={activeControllers:activeGeminiControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};return{before,after,pass:after.activeControllers===0&amp;&amp;after.pendingRequests===0&amp;&amp;after.timeouts===0&amp;&amp;after.intervals===0};};  __livePathDiagnosticRunningK2L=true;if(input)input.value=source;
   let resultObj=null;
-  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;(String(winner).includes('사용자 확인')||winner==='user-check-result'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:forwardMaxOutputTokensForSource(source)},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
+  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],liveQuality:displayQuality?JSON.parse(JSON.stringify(displayQuality)):null,mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;(String(winner).includes('사용자 확인')||winner==='user-check-result'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:forwardMaxOutputTokensForSource(source)},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
   catch(e){const tr=snap();resultObj={ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,postDisplay:{firstDisplayedText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||'')},error:String(e?.name||'Error')+':'+String(e?.message||e)};resultObj.cleanup=await cleanupNow();return resultObj}
   finally{try{observer?.disconnect()}catch(e){}window.setTimeout=timerOrig.setTimeout;window.clearTimeout=timerOrig.clearTimeout;window.setInterval=timerOrig.setInterval;window.clearInterval=timerOrig.clearInterval;fetchPrimaryDirect=orig.fetchPrimaryDirect;createGeminiRequest=orig.createGeminiRequest;createCriticalRepairAttemptK2L=orig.createCriticalRepairAttemptK2L;requestGeminiWithHedge=orig.requestGeminiWithHedge;detectCriticalMeaningRiskK2L=orig.detectCriticalMeaningRiskK2L;extractGeminiText=orig.extractGeminiText;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakLao=orig.speakLao;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningK2L=false}
 }
 window.__runLivePathDiagnosticK2L=__runLivePathDiagnosticK2L;window.__stopLivePathDiagnosticK2L=__stopLivePathDiagnosticK2L;window.__livePathDiagnosticReadyK2L=__livePathDiagnosticReadyK2L;
 
+// V3.61.10 diagnostic-only exact live back-translation bridge.
+let __liveBackDiagnosticRunningK2L=false;
+function __liveBackDiagnosticReadyK2L(){return typeof runBackTranslationRace==='function'&amp;&amp;typeof createBackTranslationRequest==='function'&amp;&amp;typeof fetchPrimaryDirect==='function'}
+function __stopLiveBackDiagnosticK2L(){if(!__liveBackDiagnosticRunningK2L&amp;&amp;!isBackTranslating)return false;try{backTranslationRunId++;for(const c of [...activeBackTransControllers])c.abort()}catch(e){}return true}
+async function __runLiveBackDiagnosticK2L(laoText){
+  const text=String(laoText||'').trim();if(!text)return{ok:false,text:'',error:'EMPTY_TARGET'};
+  if(__liveBackDiagnosticRunningK2L||isBackTranslating)return{ok:false,text:'',error:'LIVE_BACK_BUSY'};
+  if(!currentApiKey)return{ok:false,text:'',error:'PRIMARY_PASSWORD_MISSING'};
+  const started=performance.now(),records=[],network=[];const origCreate=createBackTranslationRequest,origFetch=fetchPrimaryDirect;let activeLabel='';
+  fetchPrimaryDirect=async function(url,options={},meta={}){const rec={label:activeLabel||String(meta?.action||'back'),startRel:performance.now()-started,endRel:null,status:null,route:'',relayRegion:'',directFallback:false,providerMs:null,error:''};network.push(rec);try{const res=await origFetch(url,options,meta);rec.endRel=performance.now()-started;rec.status=Number(res?.status)||0;rec.route=String(res?.__clientRoute||'direct');rec.relayRegion=String(res?.__relayRegion||res?.headers?.get?.('X-Relay-Region')||'');rec.directFallback=res?.__directFallback===true;const pm=Number(res?.headers?.get?.('X-Provider-Ms'));rec.providerMs=Number.isFinite(pm)?pm:null;return res}catch(e){rec.endRel=performance.now()-started;rec.route='network-error';rec.error=String(e?.name||'Error')+':'+String(e?.message||e);throw e}};
+  createBackTranslationRequest=function(input,runId,label){const rec={label:String(label||''),state:'pending',startRel:performance.now()-started,endRel:null,elapsed:null,finishReason:'',text:'',quality:null,error:''};records.push(rec);activeLabel=rec.label;let pr;try{pr=origCreate(input,runId,label)}finally{activeLabel=''}return pr.then(v=&gt;{rec.state='success';rec.endRel=performance.now()-started;rec.elapsed=rec.endRel-rec.startRel;rec.text=String(v?.text||'');rec.quality=v?.quality||null;return v},e=&gt;{rec.state=e?.name==='QualityError'?'technical_reject':e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':Number.isInteger(Number(e?.status))?'http_error':'error';rec.endRel=performance.now()-started;rec.elapsed=rec.endRel-rec.startRel;rec.finishReason=String(e?.finishReason||'');rec.error=String(e?.message||e?.name||'ERROR');throw e})};
+  const runId=++backTranslationRunId;__liveBackDiagnosticRunningK2L=true;isBackTranslating=true;
+  try{const r=await runBackTranslationRace(text,runId);return{ok:!!String(r?.text||'').trim(),text:String(r?.text||'').trim(),elapsed:performance.now()-started,label:String(r?.label||''),quality:r?.quality||null,hedged:records.length&gt;1,records,networkTrace:network,directToServerFallback:network.some(x=&gt;x.directFallback)}}
+  catch(e){return{ok:false,text:'',elapsed:performance.now()-started,error:String(e?.name||'Error')+':'+String(e?.message||e),hedged:records.length&gt;1,records,networkTrace:network,directToServerFallback:network.some(x=&gt;x.directFallback)}}
+  finally{try{for(const c of [...activeBackTransControllers])c.abort()}catch(e){}activeBackTransControllers.clear();createBackTranslationRequest=origCreate;fetchPrimaryDirect=origFetch;isBackTranslating=false;__liveBackDiagnosticRunningK2L=false}
+}
+window.__runLiveBackDiagnosticK2L=__runLiveBackDiagnosticK2L;window.__stopLiveBackDiagnosticK2L=__stopLiveBackDiagnosticK2L;window.__liveBackDiagnosticReadyK2L=__liveBackDiagnosticReadyK2L;
+
 
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f739091c0b516073d0fa2e4ba3b9366861d28bf1e971dc4e1c4383c4c30640e5">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="1e2b39dd0ec38f6b7d1e889d9b422113c258046f244d7ae0eaffcb875a5a8c42">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -4547,7 +4566,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.9 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.10 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -4739,8 +4758,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.9';
-// V3.61.9: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.10';
+// V3.61.10: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 address the wife/listener and must not be replaced by literal ເມຍ or ພັນລະຍາ unless the source explicitly says wife. Keep 동생 gender-neutral unless gender is stated. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. Lao words must use Lao script; never insert Thai, Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY one decided Korean translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship/kinship perspective, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the wife and the listener is her husband. Do not invent gender, hierarchy, or relationship nouns that are not stated. Lao ວຽກບ້ານ normally means homework/school assignment and should be translated as 숙제 unless the sentence clearly and explicitly describes household chores. Choose one natural Korean form of address; never output alternatives such as 여보/당신 or any slash-separated A/B candidates. Use warm, natural conversational Korean 존댓말 (-요 style) without making it stiff. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -4821,9 +4840,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.9 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.10 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.9',
+  VERSION:'V3.61.10',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -4858,9 +4877,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.9 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
+// V3.61.10 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.9',
+  VERSION:'V3.61.10',
   HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the Lao text you are given into natural everyday Korean for meaning checking. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary conversational Korean that a spouse would naturally read in a messenger chat, normally natural -요 style when the Lao register permits it; avoid stiff, bureaucratic, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Korean only, with no label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the Korean text you are given into natural everyday Lao for meaning checking. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary respectful Lao suitable for a wife and husband reading a messenger conversation; avoid stiff, ceremonial, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -5251,7 +5270,7 @@ function clearResultBox(){translationOutputLocked=false;lastForwardQualitySnapsh
 function setRetry(v){document.getElementById('retryBtn').style.display=v?'inline-block':'none';}
 const COPY_DEFAULTS=Object.freeze({copyKoreanBtn:'📋 ຄັດລອກ',copyBackBtn:'📋 ຄັດລອກ'});
 function validPrimaryKoreanText(){const el=document.getElementById('koResult'),t=el?el.innerText.trim():'';if(!t||t.includes('ກຳລັງ')||t.includes('ຢຸດ')||t.includes('ຜິດພາດ')||t.includes('ລົ້ມເຫຼວ')||t.startsWith('⚠️'))return'';return t}
-// V3.61.9 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
+// V3.61.10 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
 function isBackTranslationCopyStateText(text){const t=String(text||'').trim();if(!t)return true;if(t.includes('ຖ້າຕ້ອງການກວດຄວາມໝາຍ ໃຫ້ກົດ [ກວດຄວາມໝາຍ]'))return true;if(t.startsWith('⚠️')||t.startsWith('⏳')||t.startsWith('🔧'))return true;if(t.startsWith('ກຳລັງກວດກັບເປັນພາສາລາວ'))return true;return false}
 function validBackTranslationForCopy(){const el=document.getElementById('backResult'),t=el?el.innerText.trim():'';return isBackTranslationCopyStateText(t)?'':t}
 async function waitForBackTranslationForCopy(timeoutMs=22000){let text=validBackTranslationForCopy();if(text)return text;if(!isBackTranslating)return'';const started=Date.now();while(isBackTranslating&amp;&amp;Date.now()-started&lt;timeoutMs){await new Promise(r=&gt;setTimeout(r,120));text=validBackTranslationForCopy();if(text)return text}return validBackTranslationForCopy()}
@@ -5338,7 +5357,7 @@ async function copyHistoryTarget(id,btn){const item=readTranslationHistory().fin
 function toggleHistoryFavorite(id){const list=readTranslationHistory(),item=list.find(x=&gt;x.id===id);if(!item)return;item.favorite=!item.favorite;item.ts=Date.now();writeTranslationHistory(list);renderTranslationHistory()}
 function clearTranslationHistory(){if(!confirm('ລຶບປະຫວັດການແປ ແລະ ລາຍການມັກທັງໝົດບໍ?'))return;try{localStorage.setItem(LOCAL_HISTORY_KEY,'[]')}catch(e){}renderTranslationHistory()}
 let historyRecoveryAttempted=false;
-async function recoverTranslationHistoryIfMissing(){if(historyRecoveryAttempted)return false;historyRecoveryAttempted=true;let missing=false;try{missing=localStorage.getItem(LOCAL_HISTORY_KEY)===null}catch(e){return false}if(!missing)return false;try{const res=await integratedRelayFetch('/telemetry/sample?kind=recent&amp;direction=L2K&amp;limit=50&amp;scan=150',{method:'GET'},{action:'history-recovery'});if(!res?.ok)return false;const data=await res.json(),rows=(Array.isArray(data?.records)?data.records:[]).filter(x=&gt;String(x?.sourceText||'').trim()&amp;&amp;String(x?.targetText||'').trim()).slice(0,50);if(!rows.length)return false;const list=rows.map((x,i)=&gt;({id:String(x.eventId||('restore-'+Date.now().toString(36)+'-'+i)),source:String(x.sourceText||'').slice(0,4000),target:String(x.targetText||'').slice(0,4000),score:Number.isFinite(Number(x?.quality?.score))?Number(x.quality.score):null,favorite:false,ts:Number(x.clientCreatedAtMs)||Date.parse(x.ingestedAt||'')||Date.now()-i,version:String(x.appVersion||''),pass:x?.quality?.pass!==false,reasons:[...(x?.quality?.reasons||[]),...(x?.quality?.softReasons||[])].map(String).slice(0,8),semanticRepaired:x?.runtime?.semanticRepaired===true,semanticRepairFailed:x?.runtime?.semanticRepairFailed===true,winner:String(x?.runtime?.winner||'').slice(0,80),elapsedMs:Number.isFinite(Number(x?.runtime?.totalMs))?Math.round(Number(x.runtime.totalMs)):null})).sort((a,b)=&gt;(b.ts||0)-(a.ts||0));writeTranslationHistory(list.slice(0,50));renderTranslationHistory();console.info('[HISTORY RECOVERY] restored',list.length,'L2K records');return true}catch(e){console.warn('[HISTORY RECOVERY]',e);return false}}
+async function recoverTranslationHistoryIfMissing(){if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false;if(historyRecoveryAttempted)return false;historyRecoveryAttempted=true;let missing=false;try{missing=localStorage.getItem(LOCAL_HISTORY_KEY)===null}catch(e){return false}if(!missing)return false;try{const res=await integratedRelayFetch('/telemetry/sample?kind=recent&amp;direction=L2K&amp;limit=50&amp;scan=150',{method:'GET'},{action:'history-recovery'});if(!res?.ok)return false;const data=await res.json(),rows=(Array.isArray(data?.records)?data.records:[]).filter(x=&gt;String(x?.sourceText||'').trim()&amp;&amp;String(x?.targetText||'').trim()).slice(0,50);if(!rows.length)return false;const list=rows.map((x,i)=&gt;({id:String(x.eventId||('restore-'+Date.now().toString(36)+'-'+i)),source:String(x.sourceText||'').slice(0,4000),target:String(x.targetText||'').slice(0,4000),score:Number.isFinite(Number(x?.quality?.score))?Number(x.quality.score):null,favorite:false,ts:Number(x.clientCreatedAtMs)||Date.parse(x.ingestedAt||'')||Date.now()-i,version:String(x.appVersion||''),pass:x?.quality?.pass!==false,reasons:[...(x?.quality?.reasons||[]),...(x?.quality?.softReasons||[])].map(String).slice(0,8),semanticRepaired:x?.runtime?.semanticRepaired===true,semanticRepairFailed:x?.runtime?.semanticRepairFailed===true,winner:String(x?.runtime?.winner||'').slice(0,80),elapsedMs:Number.isFinite(Number(x?.runtime?.totalMs))?Math.round(Number(x.runtime.totalMs)):null})).sort((a,b)=&gt;(b.ts||0)-(a.ts||0));writeTranslationHistory(list.slice(0,50));renderTranslationHistory();console.info('[HISTORY RECOVERY] restored',list.length,'L2K records');return true}catch(e){console.warn('[HISTORY RECOVERY]',e);return false}}
 
 function cleanVoiceTranscript(text){
   let t=String(text||'').trim();
@@ -5686,7 +5705,7 @@ function isMinorForeignOutputContamination(text,targetCount,thaiCount,cjkCount){
   return (laughOnlyCjk&amp;&amp;targetCount&gt;=4)||(targetCount&gt;=8&amp;&amp;foreign&lt;=6&amp;&amp;ratio&lt;=0.22);
 }
 function qualityScoreFromGuard(quality){
-  // V3.61.9: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
+  // V3.61.10: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
   if(!quality)return null;
   const postBackScore=Number(quality.postBackScore);if(Number.isFinite(postBackScore))return Math.max(0,Math.min(100,Math.round(postBackScore)));
   if(quality.pass===false){const replacements=Number(quality?.stats?.replacement||0);if(replacements&gt;0)return Math.max(10,45-(replacements*5));return Math.max(35,60-((quality.reasons||[]).length*5));}
@@ -6340,7 +6359,7 @@ function createForwardRequest(source,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOu
     const relayIntegrity=relayTextIntegrityFromResponse(res);const data=await res.json();const usage=data?.usageMetadata||{};const usageInfo={prompt:usage.promptTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.promptTokenCount))?Number(usage.promptTokenCount):null,candidate:usage.candidatesTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.candidatesTokenCount))?Number(usage.candidatesTokenCount):null,total:usage.totalTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.totalTokenCount))?Number(usage.totalTokenCount):null};record.usagePromptTokens=usageInfo.prompt;record.usageCandidateTokens=usageInfo.candidate;record.usageTotalTokens=usageInfo.total;record.maxOutputTokens=Number(maxOutputTokens)||null;logRelayTextIntegrity(relayIntegrity,label);if(!ctx.isActive())throw makeAbortError('STALE');const parsed=extractGeminiText(data);record.finishReason=parsed.finishReason;
     if(parsed.finishReason!=='STOP'){const e=new Error(`FINISH_${parsed.finishReason}`);e.finishReason=parsed.finishReason;e.retryable=['MAX_TOKENS','OTHER','UNKNOWN','NO_CANDIDATE'].includes(parsed.finishReason);e.usage=usageInfo;throw e;}
     const normalizedText=normalizeTranslationText(parsed.text),q=analyzeKoreanQuality(normalizedText,source);record.qualityReasons=q.reasons;
-    // V3.61.9: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+    // V3.61.10: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
     if(!q.pass){const e=new Error(`QUALITY_${q.reasons.join('_')}`);e.name='QualityError';e.retryable=true;e.quality=q;e.rejectedText=normalizedText;e.relayIntegrity=relayIntegrity;e.usage=usageInfo;console.warn('[WIFE OUTPUT ANOMALY → Hedge/Rescue RECOVERY]',{reasons:q.reasons,rejectedText:normalizedText,relayIntegrity});throw e;}
     record.state='success';record.elapsedMs=performance.now()-started;return{text:normalizedText,label,elapsedMs:record.elapsedMs,controller,quality:q,relayIntegrity,usage:usageInfo,maxOutputTokens:Number(maxOutputTokens)||null};
   }catch(e){record.elapsedMs=performance.now()-started;record.retryable=e?.retryable===true;if(e?.name==='AbortError'&amp;&amp;didTimeout){record.state='timeout';const x=new Error('TIMEOUT');x.name='TimeoutError';x.retryable=true;x.status=record.httpStatus;throw x;}record.state=e?.name==='QualityError'?'quality_reject':(e?.name==='AbortError'?'aborted':'error');throw e;}finally{clearTimeout(timeoutId);ctx.activeSet.delete(controller);}})();
@@ -6427,7 +6446,7 @@ async function translateText(){
   updateQualityBadge(null);
   const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){alert('⚠️ ກະລຸນາພິມຂໍ້ຄວາມພາສາລາວ.');return}
   cancelBackTranslation(false);stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);document.getElementById('speakBtn').style.display='none';setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
-  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.9 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
+  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.10 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
   const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;appInputDirty=false;deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
   catch(e){if(runId!==translationRunId)return;resetTranslationUI();setKoreanCopyReady(false);setRetry(true);setPrimaryResultVisible(true);if(e?.name==='AbortError'){stopTimer('ຢຸດແລ້ວ');document.getElementById('koResult').textContent='⚠️ ການແປຖືກຢຸດແລ້ວ.';return}
     if(hasCriticalTranslationFailure(e)){stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'critical-translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION CRITICAL BLOCK]',e,records);return}
@@ -6511,7 +6530,7 @@ async function requestBackTranslation(autoTriggered=false){
   try{
     const r=await runBackRace(korean,runId);
     if(runId!==backTranslationRunId)return;
-    // V3.61.9: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+    // V3.61.10: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
     el.textContent=r.text;
     setBackResultState(true,true);
     telemetryAttachBackText(korean,r.text);
@@ -6625,7 +6644,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.9 diagnostic-only EXACT live-path observability bridge.
+// V3.61.10 diagnostic-only EXACT live-path observability bridge.
 // Production translation behavior is not replaced. This bridge runs the real translateText()
 // inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
 // event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
@@ -6692,11 +6711,29 @@ async function __runLivePathDiagnosticL2K(sourceText){
   requestBackTranslation=async function(autoTriggered=false){backInputCapture={atRel:performance.now()-started,text:currentDisplay(),autoTriggered:!!autoTriggered};return null};
   const cleanupNow=async()=&gt;{const before={activeControllers:mainControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};const sweep=()=&gt;{for(const c of [...mainControllers]){try{c.abort()}catch(e){}}for(const id of [...trackedTimeouts]){try{timerOrig.clearTimeout(id)}catch(e){}}trackedTimeouts.clear();for(const id of [...trackedIntervals]){try{timerOrig.clearInterval(id)}catch(e){}}trackedIntervals.clear();};sweep();await new Promise(r=&gt;timerOrig.setTimeout(r,30));sweep();await new Promise(r=&gt;timerOrig.setTimeout(r,10));const after={activeControllers:mainControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};return{before,after,pass:after.activeControllers===0&amp;&amp;after.pendingRequests===0&amp;&amp;after.timeouts===0&amp;&amp;after.intervals===0};};  __livePathDiagnosticRunningL2K=true;if(input)input.value=source;
   let resultObj=null;
-  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;(String(winner).includes('사용자 확인')||winner==='user-check-result'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:forwardMaxOutputTokensForSource(source)},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
+  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],liveQuality:displayQuality?JSON.parse(JSON.stringify(displayQuality)):null,mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;(String(winner).includes('사용자 확인')||winner==='user-check-result'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:forwardMaxOutputTokensForSource(source)},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
   catch(e){const tr=snap();resultObj={ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,postDisplay:{firstDisplayedText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||'')},error:String(e?.name||'Error')+':'+String(e?.message||e)};resultObj.cleanup=await cleanupNow();return resultObj}
   finally{try{observer?.disconnect()}catch(e){}window.setTimeout=timerOrig.setTimeout;window.clearTimeout=timerOrig.clearTimeout;window.setInterval=timerOrig.setInterval;window.clearInterval=timerOrig.clearInterval;fetchPrimaryDirect=orig.fetchPrimaryDirect;createForwardRequest=orig.createForwardRequest;createCriticalRepairAttemptL2K=orig.createCriticalRepairAttemptL2K;runForwardPolicy=orig.runForwardPolicy;detectCriticalMeaningRiskL2K=orig.detectCriticalMeaningRiskL2K;extractGeminiText=orig.extractGeminiText;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakKorean=orig.speakKorean;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningL2K=false}
 }
 window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePathDiagnosticL2K=__stopLivePathDiagnosticL2K;window.__livePathDiagnosticReadyL2K=__livePathDiagnosticReadyL2K;
+
+// V3.61.10 diagnostic-only exact live back-translation bridge.
+let __liveBackDiagnosticRunningL2K=false;
+function __liveBackDiagnosticReadyL2K(){return typeof runBackRace==='function'&amp;&amp;typeof createBackRequest==='function'&amp;&amp;typeof fetchPrimaryDirect==='function'}
+function __stopLiveBackDiagnosticL2K(){if(!__liveBackDiagnosticRunningL2K&amp;&amp;!isBackTranslating)return false;try{backTranslationRunId++;for(const c of [...backControllers])c.abort()}catch(e){}return true}
+async function __runLiveBackDiagnosticL2K(koreanText){
+  const text=String(koreanText||'').trim();if(!text)return{ok:false,text:'',error:'EMPTY_TARGET'};
+  if(__liveBackDiagnosticRunningL2K||isBackTranslating)return{ok:false,text:'',error:'LIVE_BACK_BUSY'};
+  if(!currentApiKey)return{ok:false,text:'',error:'PRIMARY_PASSWORD_MISSING'};
+  const started=performance.now(),records=[],network=[];const origCreate=createBackRequest,origFetch=fetchPrimaryDirect;let activeLabel='';
+  fetchPrimaryDirect=async function(url,options={},meta={}){const rec={label:activeLabel||String(meta?.action||'back'),startRel:performance.now()-started,endRel:null,status:null,route:'',relayRegion:'',directFallback:false,providerMs:null,error:''};network.push(rec);try{const res=await origFetch(url,options,meta);rec.endRel=performance.now()-started;rec.status=Number(res?.status)||0;rec.route=String(res?.__clientRoute||'direct');rec.relayRegion=String(res?.__relayRegion||res?.headers?.get?.('X-Relay-Region')||'');rec.directFallback=res?.__directFallback===true;const pm=Number(res?.headers?.get?.('X-Provider-Ms'));rec.providerMs=Number.isFinite(pm)?pm:null;return res}catch(e){rec.endRel=performance.now()-started;rec.route='network-error';rec.error=String(e?.name||'Error')+':'+String(e?.message||e);throw e}};
+  createBackRequest=function(input,runId,label){const rec={label:String(label||''),state:'pending',startRel:performance.now()-started,endRel:null,elapsed:null,finishReason:'',text:'',quality:null,error:''};records.push(rec);activeLabel=rec.label;let pr;try{pr=origCreate(input,runId,label)}finally{activeLabel=''}return pr.then(v=&gt;{rec.state='success';rec.endRel=performance.now()-started;rec.elapsed=rec.endRel-rec.startRel;rec.text=String(v?.text||'');rec.quality=v?.quality||null;return v},e=&gt;{rec.state=e?.name==='QualityError'?'technical_reject':e?.name==='TimeoutError'?'timeout':e?.name==='AbortError'?'aborted':Number.isInteger(Number(e?.status))?'http_error':'error';rec.endRel=performance.now()-started;rec.elapsed=rec.endRel-rec.startRel;rec.finishReason=String(e?.finishReason||'');rec.error=String(e?.message||e?.name||'ERROR');throw e})};
+  const runId=++backTranslationRunId;__liveBackDiagnosticRunningL2K=true;isBackTranslating=true;
+  try{const r=await runBackRace(text,runId);return{ok:!!String(r?.text||'').trim(),text:String(r?.text||'').trim(),elapsed:performance.now()-started,label:String(r?.label||''),quality:r?.quality||null,hedged:records.length&gt;1,records,networkTrace:network,directToServerFallback:network.some(x=&gt;x.directFallback)}}
+  catch(e){return{ok:false,text:'',elapsed:performance.now()-started,error:String(e?.name||'Error')+':'+String(e?.message||e),hedged:records.length&gt;1,records,networkTrace:network,directToServerFallback:network.some(x=&gt;x.directFallback)}}
+  finally{try{for(const c of [...backControllers])c.abort()}catch(e){}backControllers.clear();createBackRequest=origCreate;fetchPrimaryDirect=origFetch;isBackTranslating=false;__liveBackDiagnosticRunningL2K=false}
+}
+window.__runLiveBackDiagnosticL2K=__runLiveBackDiagnosticL2K;window.__stopLiveBackDiagnosticL2K=__stopLiveBackDiagnosticL2K;window.__liveBackDiagnosticReadyL2K=__liveBackDiagnosticReadyL2K;
 
 
 &lt;/script&gt;
@@ -6763,7 +6800,7 @@ window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePa
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.9';
+const INTEGRATED_VERSION='V3.61.10';
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -6784,7 +6821,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='717aa8544016ee9b0f3e74783e1e66df275eb36df44f93f6e8028420744286e7';
+const EXTERNAL_DIAGNOSTIC_SHA256='35870ef1d37e3a170496cf2d821d35506070773021eda2eb3b17e17655ee2da3';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -7474,6 +7511,20 @@ function getUnifiedRelayDiagnostics(){return{currentMode:currentMode||'',husband
 window.getUnifiedRelayDiagnostics=getUnifiedRelayDiagnostics;
 function getUnifiedDiagnosticRelayConfig(){return relayConfigForMode(currentMode==='wife'?'wife':'husband')}
 window.getUnifiedDiagnosticRelayConfig=getUnifiedDiagnosticRelayConfig;
+function getUnifiedParallelPostTranslationAudit(){
+  try{
+    const h=getPayloadText('husband'),w=getPayloadText('wife');
+    const husband=/if\s*\(\s*isAutoSoundOn\s*\)\s*void\s+speakLao\(\)\s*;\s*void\s+requestBackTranslation\(true\)\s*;/.test(h);
+    const wife=/if\s*\(\s*isAutoSoundOn\s*\)\s*void\s+speakKorean\(\)\s*;\s*void\s+requestBackTranslation\(true\)\s*;/.test(w);
+    const functionSlice=(src,startToken,nextToken)=>{const a=src.indexOf(startToken);if(a<0)return'';const b=src.indexOf(nextToken,a+startToken.length);return src.slice(a,b>a?b:a+2200)};
+    const hWaitSrc=functionSlice(h,'async function waitForBackTranslationForCopy','async function copyPrimaryTranslation');
+    const wWaitSrc=functionSlice(w,'async function waitForBackTranslationForCopy','async function copyPrimaryTranslation');
+    const hWait=!!hWaitSrc&&hWaitSrc.includes('validBackTranslationForCopy')&&!/await\s+requestBackTranslation\s*\(/.test(hWaitSrc);
+    const wWait=!!wWaitSrc&&wWaitSrc.includes('validBackTranslationForCopy')&&!/await\s+requestBackTranslation\s*\(/.test(wWaitSrc);
+    return{ok:husband&&wife&&hWait&&wWait,husband,wife,copyUsesPreparedBack:hWait&&wWait,source:'embedded-payload-static'};
+  }catch(e){return{ok:false,husband:false,wife:false,copyUsesPreparedBack:false,source:'embedded-payload-static',reason:String(e?.message||e)}}
+}
+window.getUnifiedParallelPostTranslationAudit=getUnifiedParallelPostTranslationAudit;
 function getUnifiedRelayConfigForMode(mode){return relayConfigForMode(mode==='wife'?'wife':'husband')}
 window.getUnifiedRelayConfigForMode=getUnifiedRelayConfigForMode;
 function _diagHistoryRawSnapshot(){
@@ -7498,7 +7549,7 @@ async function _ensureUnifiedDiagnosticLiveFrame(mode){
   refreshSharedCredentials();if(!sharedKeys.gemini)return null;
   const rc=relayConfigForMode(mode),payload=getPayloadText(mode);
   f=document.createElement('iframe');f.id='unifiedDiagnosticLiveFrame_'+mode;f.setAttribute('aria-hidden','true');f.style.cssText='position:fixed;width:1px;height:1px;left:-10000px;top:-10000px;border:0;opacity:0;pointer-events:none;';
-  const boot='<scr'+'ipt>window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+JSON.stringify(rc).replace(/</g,'\u003c').replace(/>/g,'\u003e').replace(/&/g,'\u0026')+';</scr'+'ipt>';
+  const boot='<scr'+'ipt>window.__UNIFIED_DIAGNOSTIC_CLONE__=true;window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+JSON.stringify(rc).replace(/</g,'\u003c').replace(/>/g,'\u003e').replace(/&/g,'\u0026')+';</scr'+'ipt>';
   f.srcdoc=boot+payload;document.body.appendChild(f);unifiedDiagnosticLiveFrames[mode]=f;
   const started=Date.now();while(Date.now()-started<8000){if(frameReady())return f;await new Promise(r=>setTimeout(r,60))}return null;
 }
@@ -7511,7 +7562,16 @@ async function runUnifiedLivePathDiagnostic(direction,source){
   try{return await fn(text)}catch(e){return{ok:false,displayed:false,error:String(e?.name||'Error')+':'+String(e?.message||e)}}
 }
 window.runUnifiedLivePathDiagnostic=runUnifiedLivePathDiagnostic;
-function stopUnifiedLivePathDiagnostic(){let stoppedAny=false;for(const mode of ['husband','wife']){const f=unifiedDiagnosticLiveFrames[mode];if(!f?.isConnected)continue;try{const fn=mode==='wife'?f.contentWindow?.__stopLivePathDiagnosticL2K:f.contentWindow?.__stopLivePathDiagnosticK2L;if(typeof fn==='function')stoppedAny=fn()||stoppedAny}catch(e){}}return stoppedAny}
+async function runUnifiedLiveBackDiagnostic(direction,targetText){
+  const dir=direction==='L2K'?'L2K':'K2L',mode=dir==='L2K'?'wife':'husband',text=String(targetText||'').trim();if(!text)return{ok:false,text:'',error:'EMPTY_TARGET'};
+  refreshSharedCredentials();if(!sharedKeys.gemini)return{ok:false,text:'',error:'PRIMARY_PASSWORD_MISSING'};
+  const f=await _ensureUnifiedDiagnosticLiveFrame(mode);if(!f)return{ok:false,text:'',error:'DIAGNOSTIC_LIVE_CLONE_LOAD_TIMEOUT'};
+  try{f.contentWindow?.postMessage({type:'integrated-credentials',primary:sharedKeys.gemini||'',secondary:AUDIO_PROXY_SENTINEL},'*')}catch(e){}await Promise.resolve();
+  const fn=dir==='L2K'?f.contentWindow?.__runLiveBackDiagnosticL2K:f.contentWindow?.__runLiveBackDiagnosticK2L;if(typeof fn!=='function')return{ok:false,text:'',error:'LIVE_BACK_DIAGNOSTIC_BRIDGE_MISSING'};
+  try{return await fn(text)}catch(e){return{ok:false,text:'',error:String(e?.name||'Error')+':'+String(e?.message||e)}}
+}
+window.runUnifiedLiveBackDiagnostic=runUnifiedLiveBackDiagnostic;
+function stopUnifiedLivePathDiagnostic(){let stoppedAny=false;for(const mode of ['husband','wife']){const f=unifiedDiagnosticLiveFrames[mode];if(!f?.isConnected)continue;try{const forwardFn=mode==='wife'?f.contentWindow?.__stopLivePathDiagnosticL2K:f.contentWindow?.__stopLivePathDiagnosticK2L;if(typeof forwardFn==='function')stoppedAny=forwardFn()||stoppedAny}catch(e){}try{const backFn=mode==='wife'?f.contentWindow?.__stopLiveBackDiagnosticL2K:f.contentWindow?.__stopLiveBackDiagnosticK2L;if(typeof backFn==='function')stoppedAny=backFn()||stoppedAny}catch(e){}}return stoppedAny}
 window.stopUnifiedLivePathDiagnostic=stopUnifiedLivePathDiagnostic;
 
 
@@ -7580,7 +7640,27 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('VERSION_SYNC',h.includes("const APP_VERSION='"+INTEGRATED_VERSION+"';")&&w.includes("const APP_VERSION='"+INTEGRATED_VERSION+"';")&&diag.includes("const DIAG_VERSION='"+INTEGRATED_VERSION+"';"));
     add('FAST_DIRECT_PROMPTS',h.includes('function buildFastForwardPromptK2L')&&w.includes('function buildFastForwardPromptL2K')&&h.includes('FAST_K2L_BASE')&&w.includes('FAST_L2K_BASE'));
     add('FIXED_SPOUSE_ROLE_PROMPTS',h.includes('HUSBAND')&&h.includes('WIFE')&&w.includes('WIFE')&&w.includes('HUSBAND'));
-    add('SOURCE_FIDELITY_POLICY',h.includes('Do not add information that is not stated')&&w.includes('Do not add information that is not stated')&&h.includes('keep the same ambiguity instead of guessing')&&w.includes('keep the same ambiguity instead of guessing'));
+    const sourcePolicyOk=src=>/do not add information[\s\S]{0,240}guess ambiguity/i.test(src)&&/Preserve who does what to whom/i.test(src)&&/possession/i.test(src)&&/relationship/i.test(src)&&/negation\/modality/i.test(src);add('SOURCE_FIDELITY_POLICY',sourcePolicyOk(h)&&sourcePolicyOk(w));
+    const _extractTemplateConst=(src,name)=>{const token='const '+name+'=`',a=src.indexOf(token);if(a<0)return null;const b=src.indexOf('`;',a+token.length);return b>a?src.slice(a+token.length,b):null};
+    const _extractV3604Back=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV3604');if(a<0)return null;const chunk=src.slice(a,a+12000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return null;const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):null};
+    const hk=_extractTemplateConst(h,'FAST_K2L_BASE'),wk=_extractTemplateConst(w,'FAST_K2L_BASE'),dk=_extractTemplateConst(diag,'FAST_K2L_BASE');
+    const hl=_extractTemplateConst(h,'FAST_L2K_BASE'),wl=_extractTemplateConst(w,'FAST_L2K_BASE'),dl=_extractTemplateConst(diag,'FAST_L2K_BASE');
+    add('DIAG_FORWARD_PROMPT_EXACT_PARITY',!!hk&&hk===wk&&hk===dk&&!!hl&&hl===wl&&hl===dl);
+    const modelConfigOk=src=>/gemini-3\.6-flash/.test(src)&&/thinkingLevel\s*:\s*["']low["']/.test(src)&&/function\s+forwardMaxOutputTokensForSource[\s\S]{0,120}return\s+1024/.test(src);
+    add('DIAG_MODEL_GENERATION_CONFIG_PARITY',modelConfigOk(h)&&modelConfigOk(w)&&diag.includes("const MODEL='gemini-3.6-flash'")&&/thinkingLevel\s*:\s*["']low["']/.test(diag));
+
+    const hb=_extractV3604Back(h,'HUSBAND_BACK_PROMPT'),wb=_extractV3604Back(w,'HUSBAND_BACK_PROMPT'),db=_extractV3604Back(diag,'HUSBAND_BACK_PROMPT');
+    const hbw=_extractV3604Back(h,'WIFE_BACK_PROMPT'),wbw=_extractV3604Back(w,'WIFE_BACK_PROMPT'),dbw=_extractV3604Back(diag,'WIFE_BACK_PROMPT');
+    add('DIAG_BACK_PROMPT_EXACT_PARITY',!!hb&&hb===wb&&hb===db&&!!hbw&&hbw===wbw&&hbw===dbw);
+    const observedStart=diag.indexOf('async function runPolicyObserved'),observedEnd=diag.indexOf('function historyGuardScoreFromQ',observedStart);const observedSrc=observedStart>=0?diag.slice(observedStart,observedEnd>observedStart?observedEnd:observedStart+1400):'';
+    const backStart=diag.indexOf('async function cloudStrictBackTranslation'),backEnd=diag.indexOf('function cloudDirectionSummary',backStart);const backSrc=backStart>=0?diag.slice(backStart,backEnd>backStart?backEnd:backStart+2500):'';
+    const abStart=diag.indexOf('async function primaryFirstAbLiveRequest'),abEnd=diag.indexOf('function primaryFirstAbRawRequest',abStart);const abSrc=abStart>=0?diag.slice(abStart,abEnd>abStart?abEnd:abStart+1800):'';
+    add('DIAG_CURRENT_FORWARD_PATH_EXACT',observedSrc.includes('runUnifiedLivePathDiagnostic')&&!observedSrc.includes('await runPolicy('));
+    add('DIAG_CURRENT_BACK_PATH_EXACT',backSrc.includes('runUnifiedLiveBackDiagnostic'));
+    add('DIAG_AB_B_PATH_EXACT',abSrc.includes('runUnifiedLivePathDiagnostic'));
+    add('DIAG_CLONE_HISTORY_RECOVERY_BLOCKED',_ensureUnifiedDiagnosticLiveFrame.toString().includes('__UNIFIED_DIAGNOSTIC_CLONE__=true')&&h.includes('if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false')&&w.includes('if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false'));
+    const parallelAudit=getUnifiedParallelPostTranslationAudit();add('PARALLEL_TTS_BACK_STATIC_PARITY',parallelAudit.ok===true&&parallelAudit.husband===true&&parallelAudit.wife===true&&parallelAudit.copyUsesPreparedBack===true);
+
     add('CRITICAL_CORE_K2L',hDetect.includes("SharedCriticalMeaningCoreV277.detect('K2L'")&&h.includes('SharedCriticalMeaningCoreV277'));
     add('CRITICAL_CORE_L2K',wDetect.includes("SharedCriticalMeaningCoreV277.detect('L2K'")&&w.includes('SharedCriticalMeaningCoreV277'));
     add('SEMANTIC_AUTO_REWRITE_DISABLED_K2L',hTranslate.includes('const finalText = result.text')&&!hTranslate.includes('requestCriticalMeaningRepairK2L('));
@@ -7622,7 +7702,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('DIAG_FIRESTORE_STAGE_LOGS',diag.includes('stages=translate:')&&diag.includes('currentJudge:')&&diag.includes('replay:'));
     add('DIAG_FROZEN_SCHEMA',diag.includes("const DIAGNOSTIC_SCHEMA='FROZEN-1'")&&diag.includes('DIAGNOSTIC_SCHEMA_FINGERPRINT'));
     add('DIAG_LIVE_CANDIDATE_EVIDENCE',diag.includes('firstParsedCandidateMs')&&diag.includes('candidate[')&&diag.includes('rejectClass'));
-    add('DIAG_HUMAN_DECISION_REPLAY',diag.includes('runPolicyObserved')&&diag.includes('HUMAN_DECISION_NO_SEMANTIC_REWRITE'));
+    add('DIAG_EXACT_LIVE_FORWARD_BACK',diag.includes("observationMode:'EXACT_LIVE_APP_CLONE'")&&diag.includes('runUnifiedLivePathDiagnostic')&&diag.includes('runUnifiedLiveBackDiagnostic')&&h.includes('__runLivePathDiagnosticK2L')&&w.includes('__runLivePathDiagnosticL2K')&&h.includes('__runLiveBackDiagnosticK2L')&&w.includes('__runLiveBackDiagnosticL2K')&&h.includes('liveQuality:')&&w.includes('liveQuality:')&&typeof runUnifiedLivePathDiagnostic==='function'&&typeof runUnifiedLiveBackDiagnostic==='function');
     add('DIAG_SCRIPT_CONTAMINATION',diag.includes('function diagScriptContamination')&&diag.includes('unexpectedSpans'));
     add('DIAG_REQUEST_CLEANUP_EVIDENCE',diag.includes('cleanupFail')&&diag.includes('pendingRequests')&&diag.includes('intervals'));
     add('DIAG_POST_DISPLAY_INPUT_EVIDENCE',diag.includes('backInputMatchesDisplay')&&diag.includes('ttsInputMatchesDisplay')&&diag.includes('storedMatchesDisplay'));

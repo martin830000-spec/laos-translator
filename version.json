@@ -1,5 +1,1 @@
-{
-  "version": "V3.61.9",
-  "updatedAt": "2026-09-07T15:33:00+09:00",
-  "mode": "V3619-Stabilization-HumanDecision-LightIntegratedFirestore"
-}
+{"version":"V3.61.10","updatedAt":"2026-09-07T17:03:00+09:00","mode":"ExactLiveClone-ForwardBack-PromptGuardRelayParity-DiagnosticAudit-Isolated"}
