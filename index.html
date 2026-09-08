@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.21</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.22</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.21</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.21</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.22</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.22</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.21</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.22</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="2a39be01ea0e1e7e49e449f8dd4e23e1a3d5384ce80fd2b5362e0663194033b9">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="03a38b7d9c954ce6fb2260d36360f23dcf6951f9307ea20322a409b25deec17b">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -678,7 +678,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.21 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.22 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -881,8 +881,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.21';
-// V3.61.21: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.22';
+// V3.61.22: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 address the wife/listener and must not be replaced by literal ເມຍ or ພັນລະຍາ unless the source explicitly says wife. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lao words must use Lao script; never insert Thai, Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY one decided Korean translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship/kinship perspective, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the wife and the listener is her husband. Do not invent gender, hierarchy, or relationship nouns that are not stated. Lao ວຽກບ້ານ normally means homework/school assignment and should be translated as 숙제 unless the sentence clearly and explicitly describes household chores. Choose one natural Korean form of address; never output alternatives such as 여보/당신 or any slash-separated A/B candidates. Use warm, natural conversational Korean 존댓말 (-요 style) without making it stiff. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -961,9 +961,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.21 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.22 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.21',
+  VERSION:'V3.61.22',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -996,9 +996,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.21 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
+// V3.61.22 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.21',
+  VERSION:'V3.61.22',
   HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the Lao text you are given into natural everyday Korean for meaning checking. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary conversational Korean that a spouse would naturally read in a messenger chat, normally natural -요 style when the Lao register permits it; avoid stiff, bureaucratic, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person (I/me) or second person (you) unless the Lao text itself says so. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Korean only, using Korean script for Korean words; never output Thai or Lao script as the back-translation language. No label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the Korean text you are given into natural everyday Lao for meaning checking. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary respectful Lao suitable for a wife and husband reading a messenger conversation; avoid stiff, ceremonial, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person or second person unless the Korean text itself says so. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -1084,7 +1084,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     let startTime = 0;
     let isJustTranslated = false;
     let lastRequestPayload = "";
-    // V3.61.21: the first displayed Gemini translation is never rewritten for semantic-score reasons.
+    // V3.61.22: the first displayed Gemini translation is never rewritten for semantic-score reasons.
     // These snapshots let the automatic back-translation refine the user-facing reference score afterwards.
     let lastForwardQualitySnapshot = null;
     let lastForwardTargetSnapshot = "";
@@ -1163,6 +1163,37 @@ function reportIntegratedCredentialGood(kind){
 // V3.52 Dual Region Relay: provider secrets stay in Cloud Run/Secret Manager.
 const RELAY_FAILOVER_COOLDOWN_MS=120000;
 const integratedRelayState={cooldownUntil:{},failoverCount:0,lastRegion:'',lastAction:'',lastPath:'',lastStatus:0,lastLatencyMs:0,lastFailover:false};
+
+const INTEGRATED_CLOUDFLARE_URL='https://lao-voice-route-test.3547412.workers.dev';
+function integratedCloudflareUrl(path,regionName=''){
+  const u=new URL(INTEGRATED_CLOUDFLARE_URL+String(path||''));
+  if(regionName)u.searchParams.set('region',String(regionName));
+  return u.toString();
+}
+async function integratedCloudflareFetch(path,init={},meta={},regionName=''){
+  const c=integratedRelayRawConfig(),token=String(c.token||''),region=String(regionName||integratedRelayRouteOrder()[0]?.name||'bangkok');
+  if(!token)throw new TypeError('RELAY_NOT_CONFIGURED');
+  const started=performance.now();let localController=null,timer=null,externalAbort=null,attemptTimedOut=false;
+  try{
+    const headers=Object.assign({},init.headers||{},{'X-App-Token':token,'Accept':(init.headers&amp;&amp;init.headers.Accept)||'application/json'});
+    const opts=Object.assign({},init,{headers,cache:'no-store'}),perAttempt=Number(meta.attemptTimeoutMs)||0;
+    if(perAttempt&gt;0){
+      localController=new AbortController();const ext=init.signal;
+      if(ext){if(ext.aborted)localController.abort();else{externalAbort=()=&gt;localController.abort();ext.addEventListener('abort',externalAbort,{once:true})}}
+      timer=setTimeout(()=&gt;{attemptTimedOut=true;try{localController.abort()}catch(e){}},perAttempt);opts.signal=localController.signal;
+    }
+    const res=await fetch(integratedCloudflareUrl(path,region),opts),latency=Math.max(0,performance.now()-started),bodyText=res.ok?'':await integratedSafeResponseText(res);
+    try{res.__providerErrorBody=bodyText;res.__relayRegion=region;res.__relayFailover=true;res.__relayLatencyMs=latency;res.__clientRoute='cloudflare'}catch(e){}
+    integratedRelayReport({region,action:meta.action||'',path,status:res.status,latencyMs:latency,failover:true,phase:res.ok?'cloudflare-success':'cloudflare-error',via:'cloudflare'});
+    return res;
+  }catch(e){
+    if(attemptTimedOut){try{e.__relayAttemptTimeout=true}catch(_){} }
+    const latency=Math.max(0,performance.now()-started),externalAborted=!!(init.signal&amp;&amp;init.signal.aborted);
+    if(externalAborted&amp;&amp;!attemptTimedOut)throw e;
+    integratedRelayReport({region,action:meta.action||'',path,status:0,latencyMs:latency,failover:true,phase:attemptTimedOut?'cloudflare-timeout':'cloudflare-network-error',via:'cloudflare',error:String(e?.message||e)});
+    throw e;
+  }finally{if(timer)clearTimeout(timer);if(externalAbort&amp;&amp;init.signal)try{init.signal.removeEventListener('abort',externalAbort)}catch(e){}}
+}
 function integratedRelayRawConfig(){return window.__APP_RELAY__||{}}
 function integratedRelayEndpoints(){
   const c=integratedRelayRawConfig(),out=[];
@@ -1186,7 +1217,7 @@ function integratedRelayReport(data){
   integratedRelayState.lastRegion=String(d.region||'');integratedRelayState.lastAction=String(d.action||'');integratedRelayState.lastPath=String(d.path||'');integratedRelayState.lastStatus=Number(d.status)||0;integratedRelayState.lastLatencyMs=Number(d.latencyMs)||0;integratedRelayState.lastFailover=!!d.failover;
   try{if(parent!==window)parent.postMessage(d,'*')}catch(e){}
 }
-async function integratedRelayFetch(path,init={},meta={},preferredName=''){
+async function integratedRelayFetchDirect(path,init={},meta={},preferredName=''){
   const c=integratedRelayRawConfig(),token=String(c.token||''),order=integratedRelayRouteOrder(preferredName);
   if(!token||!order.length)throw new TypeError('RELAY_NOT_CONFIGURED');
   let lastResponse=null,lastError=null,failoverUsed=false;
@@ -1233,7 +1264,32 @@ async function integratedRelayFetch(path,init={},meta={},preferredName=''){
   }
   if(lastResponse)return lastResponse;if(lastError)throw lastError;throw new TypeError('RELAY_REQUEST_FAILED');
 }
-async function integratedRelayFetchSingle(path,init={},meta={},regionName=''){
+
+async function integratedRelayFetch(path,init={},meta={},preferredName=''){
+  let directRes=null,directErr=null;
+  try{
+    directRes=await integratedRelayFetchDirect(path,init,meta,preferredName);
+    const body=String(directRes?.__providerErrorBody||'');
+    if(!integratedRelayShouldFailover(directRes?.status,body,null))return directRes;
+  }catch(e){
+    if(init?.signal?.aborted&amp;&amp;!e?.__relayAttemptTimeout)throw e;
+    if(!integratedRelayShouldFailover(0,'',e))throw e;
+    directErr=e;
+  }
+  const order=integratedRelayRouteOrder(preferredName);let lastRes=directRes,lastErr=directErr,used=false;
+  for(let i=0;i&lt;Math.min(2,order.length);i++){
+    const ep=order[i];
+    try{
+      const res=await integratedCloudflareFetch(path,init,meta,ep.name);lastRes=res;used=true;
+      const body=String(res?.__providerErrorBody||'');
+      if(i+1&lt;Math.min(2,order.length)&amp;&amp;integratedRelayShouldFailover(res.status,body,null))continue;
+      try{res.__relayFailover=true;res.__clientRoute='cloudflare'}catch(e){}return res;
+    }catch(e){lastErr=e;used=true;if(init?.signal?.aborted&amp;&amp;!e?.__relayAttemptTimeout)throw e;if(i+1&lt;Math.min(2,order.length)&amp;&amp;integratedRelayShouldFailover(0,'',e))continue;throw e}
+  }
+  if(lastRes)return lastRes;if(lastErr)throw lastErr;throw new TypeError(used?'CLOUDFLARE_RELAY_FAILED':'RELAY_REQUEST_FAILED');
+}
+
+async function integratedRelayFetchSingleDirect(path,init={},meta={},regionName=''){
   const c=integratedRelayRawConfig(),token=String(c.token||''),all=integratedRelayEndpoints();
   const ep=(regionName&amp;&amp;all.find(x=&gt;x.name===regionName))||all[0];
   if(!token||!ep)throw new TypeError('RELAY_NOT_CONFIGURED');
@@ -1256,6 +1312,23 @@ async function integratedRelayFetchSingle(path,init={},meta={},regionName=''){
     integratedRelayReport({region:ep.name,action:meta.action||'',path,status:0,latencyMs:latency,failover:false,phase:attemptTimedOut?'attempt-timeout':'final-network-error',error:String(e?.message||e)});
     throw e;
   }finally{if(timer)clearTimeout(timer);if(externalAbort&amp;&amp;init.signal)try{init.signal.removeEventListener('abort',externalAbort)}catch(e){}}
+}
+
+
+async function integratedRelayFetchSingle(path,init={},meta={},regionName=''){
+  let directRes=null,directErr=null;
+  try{
+    directRes=await integratedRelayFetchSingleDirect(path,init,meta,regionName);
+    const body=String(directRes?.__providerErrorBody||'');
+    if(!integratedRelayShouldFailover(directRes?.status,body,null))return directRes;
+  }catch(e){
+    if(init?.signal?.aborted&amp;&amp;!e?.__relayAttemptTimeout)throw e;
+    if(!integratedRelayShouldFailover(0,'',e))throw e;
+    directErr=e;
+  }
+  const all=integratedRelayEndpoints(),ep=(regionName&amp;&amp;all.find(x=&gt;x.name===regionName))||all[0];
+  if(!ep){if(directRes)return directRes;if(directErr)throw directErr;throw new TypeError('RELAY_NOT_CONFIGURED')}
+  try{return await integratedCloudflareFetch(path,init,meta,ep.name)}catch(e){if(directRes)return directRes;throw e}
 }
 
 function integratedRelayExtractGeminiPayload(options){
@@ -1354,17 +1427,10 @@ function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!current
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
 function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean)}
-async function telemetryPostBatch(records){const c=integratedRelayRawConfig(),token=String(c?.token||''),eps=integratedRelayEndpoints();if(!token||!eps.length)throw new Error('TELEMETRY_RELAY_NOT_CONFIGURED');let lastErr=null;for(let i=0;i&lt;Math.min(2,eps.length);i++){const ep=eps[i],ctrl=new AbortController(),timer=setTimeout(()=&gt;ctrl.abort(),4500);try{const res=await fetch(ep.url+'/telemetry/batch',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-App-Token':token},body:JSON.stringify({records}),signal:ctrl.signal,cache:'no-store'});const raw=await res.text().catch(()=&gt;''),data=(()=&gt;{try{return JSON.parse(raw)}catch(e){return{}}})();if(res.ok&amp;&amp;Array.isArray(data.acceptedIds))return data;if([401,403,400,413].includes(res.status))throw new Error('TELEMETRY_HTTP_'+res.status);lastErr=new Error('TELEMETRY_HTTP_'+res.status)}catch(e){lastErr=e}finally{clearTimeout(timer)}}throw lastErr||new Error('TELEMETRY_UPLOAD_FAILED')}
-function telemetryScheduleFlush(delay=800){clearTimeout(liveTelemetryFlushTimer);liveTelemetryFlushTimer=setTimeout(()=&gt;{const run=()=&gt;void telemetryFlushQueue();if(typeof requestIdleCallback==='function')requestIdleCallback(run,{timeout:2500});else setTimeout(run,0)},Math.max(20,delay))}
-async function telemetryFlushQueue(){if(liveTelemetryFlushInFlight)return;if(telemetryBusy()){telemetryScheduleFlush(1400);return}const q=telemetryQueueRead();if(!q.length)return;liveTelemetryFlushInFlight=true;try{const batch=q.slice(0,20),data=await telemetryPostBatch(batch),accepted=new Set((data.acceptedIds||[]).map(String));if(accepted.size){const next=telemetryQueueRead().filter(x=&gt;!accepted.has(String(x.eventId)));telemetryQueueWrite(next)}if(telemetryQueueRead().length)telemetryScheduleFlush(900)}catch(e){console.warn('[TELEMETRY NONBLOCKING]',e?.message||e);telemetryScheduleFlush(15000)}finally{liveTelemetryFlushInFlight=false}}
-window.addEventListener('online',()=&gt;telemetryScheduleFlush(300));window.addEventListener('pagehide',()=&gt;{if(liveTelemetryCurrent)telemetryFinalizeCurrent('pagehide')});setTimeout(()=&gt;telemetryScheduleFlush(0),3500);
-
-function retryIntegratedCredentialAction(action){
-  try{
-    if(action==='translate'&amp;&amp;typeof translateText==='function'&amp;&amp;!isTranslating){translateText();return}
-    if(action==='back'&amp;&amp;typeof requestBackTranslation==='function'&amp;&amp;!isBackTranslating){requestBackTranslation();return}
-    if(action==='tts'&amp;&amp;typeof speakLao==='function'){speakLao();return}
-  }catch(e){console.warn('[PASSWORD RETRY ACTION]',e)}
+async function telemetryPostBatch(records){
+  const c=integratedRelayRawConfig(),token=String(c?.token||'');if(!token)throw new Error('TELEMETRY_RELAY_NOT_CONFIGURED');
+  const res=await integratedRelayFetch('/telemetry/batch',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({records})},{action:'telemetry',attemptTimeoutMs:4500});
+  const raw=await res.text().catch(()=&gt;''),data=(()=&gt;{try{return JSON.parse(raw)}catch(e){return{}}})();if(res.ok&amp;&amp;Array.isArray(data.acceptedIds))return data;throw new Error('TELEMETRY_HTTP_'+String(res.status||0));
 }
 window.addEventListener('message',function(ev){
   if(parent!==window&amp;&amp;ev.source!==parent)return;
@@ -1443,7 +1509,7 @@ window.addEventListener('message',function(ev){
         if(!text||text.includes('처리 중')||text.includes('지연')||text.includes('중지')||text.includes('오류')||text.includes('실패')||text.startsWith('⚠️'))return'';
         return text;
     }
-    // V3.61.21 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
+    // V3.61.22 content-safe backtranslation copy state: normal sentences may contain words such as 오류/실패/지연/중지.
     function isBackTranslationCopyStateText(text){
         const t=String(text||'').trim();
         if(!t)return true;
@@ -1859,7 +1925,7 @@ let voiceStreamRelayCfg=null;
 let voiceLastRecoveryStage='';
 
 
-// V3.61.21 iOS/WebView voice observability. Raw audio and recognized sentence text are never stored.
+// V3.61.22 iOS/WebView voice observability. Raw audio and recognized sentence text are never stored.
 let voiceDiagCurrent=null;
 let voiceDiagLastResult=null;
 let voiceDiagLastPersistPromise=Promise.resolve(null);
@@ -1948,7 +2014,17 @@ function voiceRelayConfig(){
   return{url:String(ep.url||'').replace(/\/+$/,''),token:String(c.token||''),name:String(ep.name||'')};
 }
 
-function voiceWsUrl(base){return String(base||'').replace(/^http:/i,'ws:').replace(/^https:/i,'wss:')+'/stream'}
+function voiceWsCandidates(){
+  const c=integratedRelayRawConfig(),token=String(c.token||''),direct=integratedRelayRouteOrder();
+  const a=direct.map(ep=&gt;({url:String(ep.url||'').replace(/\/+$/,''),token,name:String(ep.name||''),via:'direct'}));
+  const b=direct.map(ep=&gt;({url:INTEGRATED_CLOUDFLARE_URL,token,name:String(ep.name||''),via:'cloudflare'}));
+  return [...a,...b].filter(x=&gt;x.url&amp;&amp;x.token&amp;&amp;x.name);
+}
+function voiceWsUrl(base,regionName=''){
+  const u=new URL(String(base||'').replace(/^http:/i,'ws:').replace(/^https:/i,'wss:').replace(/\/+$/,'')+'/stream');
+  if(regionName)u.searchParams.set('region',String(regionName));
+  return u.toString();
+}
 function voiceConcatFloat32(a,b){if(!a.length)return new Float32Array(b);if(!b.length)return new Float32Array(a);const o=new Float32Array(a.length+b.length);o.set(a,0);o.set(b,a.length);return o}
 function voiceConcatInt16(a,b){if(!a.length)return new Int16Array(b);if(!b.length)return new Int16Array(a);const o=new Int16Array(a.length+b.length);o.set(a,0);o.set(b,a.length);return o}
 function voiceFloatToInt16(f){const o=new Int16Array(f.length);for(let i=0;i&lt;f.length;i++){const s=Math.max(-1,Math.min(1,f[i]));o[i]=s&lt;0?Math.round(s*32768):Math.round(s*32767)}return o}
@@ -1998,24 +2074,33 @@ function voiceMarkStreamFailed(reason){
   if(voiceRecording)VOICE_UI_STREAM_FALLBACK();
 }
 function voiceOpenWebSocket(languageCode,session){
-  const cfg=voiceRelayConfig();voiceStreamRelayCfg=cfg;voiceWsFailed=false;voiceWsReady=false;voiceDonePromise=new Promise(r=&gt;{voiceDoneResolve=r});voiceDiagMark('wsRegion',String(cfg.name||''));const voiceWsDiagStarted=performance.now();voiceDiagMark('wsCreateMs',performance.now()-voiceDiagCurrent?.startedPerf);voiceDiagEvent('WS_CREATE',String(cfg.name||''));
-  if(!cfg.url||!cfg.token){voiceMarkStreamFailed('RELAY_NOT_CONFIGURED');return Promise.resolve(false)}
+  const candidates=voiceWsCandidates(),first=candidates[0]||voiceRelayConfig();voiceStreamRelayCfg=first;voiceWsFailed=false;voiceWsReady=false;voiceDonePromise=new Promise(r=&gt;{voiceDoneResolve=r});const voiceWsDiagStarted=performance.now();voiceDiagMark('wsCreateMs',performance.now()-voiceDiagCurrent?.startedPerf);voiceDiagEvent('WS_CREATE',String(first?.name||''));
+  if(!candidates.length){voiceMarkStreamFailed('RELAY_NOT_CONFIGURED');return Promise.resolve(false)}
   return new Promise(resolve=&gt;{
-    const started=performance.now();let readySettled=false,timer=null;const finishReady=ok=&gt;{if(readySettled)return;readySettled=true;if(timer)clearTimeout(timer);resolve(!!ok)};
-    let ws;try{ws=new WebSocket(voiceWsUrl(cfg.url))}catch(e){voiceDiagEvent('WS_CREATE_ERROR',String(e?.message||e));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'ws-create-error'});voiceMarkStreamFailed(e?.message||e);finishReady(false);return}
-    voiceWs=ws;ws.binaryType='arraybuffer';
-    timer=setTimeout(()=&gt;{voiceDiagEvent('WS_READY_TIMEOUT',String(cfg.name||''));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'ready-timeout'});voiceMarkStreamFailed('READY_TIMEOUT');try{ws.close()}catch(e){}finishReady(false)},GOOGLE_VOICE_READY_TIMEOUT_MS);
-    ws.onopen=()=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsOpenMs',performance.now()-voiceWsDiagStarted);voiceDiagEvent('WS_OPEN',String(cfg.name||''));try{ws.send(JSON.stringify({type:'start',token:cfg.token,languageCode,sampleRate:16000,channels:1,bitsPerSample:16,frameMs:100,requestIndex:'mic-'+Date.now()}))}catch(e){voiceMarkStreamFailed(e?.message||e);finishReady(false)}};
-    ws.onmessage=ev=&gt;{if(session!==voiceSessionId)return;let m;try{m=JSON.parse(String(ev.data||''))}catch(e){return}
-      if(m.type==='ready'){voiceWsReady=true;voiceDiagMark('wsReadyMs',performance.now()-voiceWsDiagStarted);voiceDiagEvent('WS_READY',`${cfg.name||'-'} ${Math.round(performance.now()-voiceWsDiagStarted)}ms`);integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:101,latencyMs:performance.now()-started,failover:false,phase:'ready'});voiceFlushPendingFrames();finishReady(true);return}
-      if(m.type==='error'){voiceDiagEvent('WS_PROVIDER_ERROR',String(m.grpcMessage||m.error||''));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'provider-stream-error',error:String(m.grpcMessage||m.error||'')});voiceMarkStreamFailed(m.grpcMessage||m.error||'GOOGLE_STREAM_ERROR');finishReady(false);return}
-      if(m.type==='done'){const tx=String(m.transcript||'').trim();voiceDiagMark('wsDoneMs',performance.now()-voiceWsDiagStarted);voiceDiagMark('streamTranscriptChars',tx.length);voiceDiagEvent('WS_DONE',`chars=${tx.length}`);voiceSettleDone({ok:!!m.ok,transcript:tx,telemetry:m.telemetry||null});return}
+    let resolved=false,index=-1;
+    const finishReady=ok=&gt;{if(resolved)return;resolved=true;resolve(!!ok)};
+    const attemptNext=()=&gt;{
+      if(session!==voiceSessionId){finishReady(false);return}
+      index++;if(index&gt;=candidates.length){voiceDiagMark('wsAttemptCount',index);voiceMarkStreamFailed('ALL_WS_ROUTES_FAILED');finishReady(false);return}
+      const cfg=candidates[index],started=performance.now(),fallback=index&gt;0;voiceStreamRelayCfg=cfg;voiceDiagMark('wsRegion',String(cfg.name||''));voiceDiagMark('wsVia',String(cfg.via||'direct'));voiceDiagMark('wsAttemptCount',index+1);voiceDiagMark('wsFallbackUsed',fallback);voiceDiagEvent('WS_ROUTE_CREATE',`${cfg.via}:${cfg.name}`);
+      let ws=null,timer=null,routeDone=false,ready=false;
+      const cleanup=()=&gt;{if(timer){clearTimeout(timer);timer=null}};
+      const failRoute=(reason,phase)=&gt;{if(routeDone)return;routeDone=true;cleanup();voiceDiagEvent('WS_ROUTE_FAIL',`${cfg.via}:${cfg.name} ${reason}`);integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:fallback,phase:phase||'route-failed',via:cfg.via,error:String(reason||'')});try{if(ws&amp;&amp;(ws.readyState===WebSocket.OPEN||ws.readyState===WebSocket.CONNECTING))ws.close()}catch(e){};if(!ready)setTimeout(attemptNext,0);else voiceMarkStreamFailed(reason||'WEBSOCKET_ERROR')};
+      try{ws=new WebSocket(voiceWsUrl(cfg.url,cfg.via==='cloudflare'?cfg.name:''))}catch(e){failRoute(e?.message||e,'ws-create-error');return}
+      voiceWs=ws;ws.binaryType='arraybuffer';const timeoutMs=index===0?GOOGLE_VOICE_READY_TIMEOUT_MS:3000;
+      timer=setTimeout(()=&gt;{if(ready||routeDone)return;voiceDiagEvent('WS_READY_TIMEOUT',`${cfg.via}:${cfg.name}`);failRoute('READY_TIMEOUT','ready-timeout')},timeoutMs);
+      ws.onopen=()=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsOpenMs',performance.now()-voiceWsDiagStarted);voiceDiagEvent('WS_OPEN',`${cfg.via}:${cfg.name}`);try{ws.send(JSON.stringify({type:'start',token:cfg.token,languageCode,sampleRate:16000,channels:1,bitsPerSample:16,frameMs:100,requestIndex:'mic-'+Date.now()}))}catch(e){failRoute(e?.message||e,'start-send-error')}};
+      ws.onmessage=ev=&gt;{if(session!==voiceSessionId)return;let m;try{m=JSON.parse(String(ev.data||''))}catch(e){return}
+        if(m.type==='ready'&amp;&amp;!ready){ready=true;routeDone=true;cleanup();voiceWsReady=true;voiceDiagMark('wsReadyMs',performance.now()-voiceWsDiagStarted);voiceDiagMark('wsVia',cfg.via);voiceDiagMark('wsFallbackUsed',fallback);voiceDiagEvent('WS_READY',`${cfg.via}:${cfg.name} ${Math.round(performance.now()-started)}ms`);integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:101,latencyMs:performance.now()-started,failover:fallback,phase:'ready',via:cfg.via});voiceFlushPendingFrames();finishReady(true);return}
+        if(m.type==='error'){voiceDiagEvent('WS_PROVIDER_ERROR',String(m.grpcMessage||m.error||''));if(!ready)failRoute(m.grpcMessage||m.error||'GOOGLE_STREAM_ERROR','provider-stream-error');else voiceMarkStreamFailed(m.grpcMessage||m.error||'GOOGLE_STREAM_ERROR');return}
+        if(m.type==='done'){const tx=String(m.transcript||'').trim();voiceDiagMark('wsDoneMs',performance.now()-voiceWsDiagStarted);voiceDiagMark('streamTranscriptChars',tx.length);voiceDiagMark('streamTranscript',tx);voiceDiagEvent('WS_DONE',`chars=${tx.length}`);voiceSettleDone({ok:!!m.ok,transcript:tx,telemetry:m.telemetry||null});return}
+      };
+      ws.onerror=()=&gt;{if(session!==voiceSessionId)return;if(!ready)failRoute('WEBSOCKET_ERROR','websocket-error');else voiceMarkStreamFailed('WEBSOCKET_ERROR')};
+      ws.onclose=ev=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsCloseCode',Number(ev.code)||0);voiceDiagMark('wsCloseReason',String(ev.reason||''));voiceDiagEvent('WS_CLOSE',`${cfg.via}:${cfg.name} ${ev.code||0}/${ev.reason||''}`);if(!ready&amp;&amp;!routeDone)failRoute('WEBSOCKET_CLOSE_'+ev.code,'websocket-close');else if(ready&amp;&amp;!voiceWsFailed&amp;&amp;ev.code!==1000)voiceMarkStreamFailed('WEBSOCKET_CLOSE_'+ev.code)};
     };
-    ws.onerror=()=&gt;{if(session!==voiceSessionId)return;voiceDiagEvent('WS_ERROR',String(cfg.name||''));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'websocket-error'});voiceMarkStreamFailed('WEBSOCKET_ERROR');finishReady(false)};
-    ws.onclose=ev=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsCloseCode',Number(ev.code)||0);voiceDiagMark('wsCloseReason',String(ev.reason||''));voiceDiagEvent('WS_CLOSE',`${ev.code||0}/${ev.reason||''}`);if(!voiceWsFailed&amp;&amp;ev.code!==1000){integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'websocket-close',error:String(ev.code)});voiceMarkStreamFailed('WEBSOCKET_CLOSE_'+ev.code)}finishReady(false)};
+    attemptNext();
   });
 }
-
 function voiceSendPcmFrame(pcm){
   if(!pcm||!pcm.length||!voiceWsReady||voiceWsFailed||!voiceWs||voiceWs.readyState!==WebSocket.OPEN)return false;
   try{
@@ -2030,7 +2115,7 @@ function voiceAcceptPcm(pcm){
   if(!pcm||!pcm.length)return;voiceLocalPcmParts.push(pcm);voiceDiagPcm(pcm);
   if(voiceWsFailed)return;
   voiceSendPending=voiceConcatInt16(voiceSendPending,pcm);
-  if(!voiceWsReady){const cap=GOOGLE_VOICE_SAMPLE_RATE*8;if(voiceSendPending.length&gt;cap)voiceSendPending=voiceSendPending.slice(-cap);voiceDiagMark('preReadyBufferedSamples',voiceSendPending.length);return}
+  if(!voiceWsReady){const cap=GOOGLE_VOICE_SAMPLE_RATE*12;if(voiceSendPending.length&gt;cap)voiceSendPending=voiceSendPending.slice(-cap);voiceDiagMark('preReadyBufferedSamples',voiceSendPending.length);return}
   voiceFlushPendingFrames();
 }
 
@@ -2071,7 +2156,7 @@ async function voiceRecoveryTranscribe(pcm,languageCode,session){
   {
     const c=new AbortController();voiceFallbackController=c;voiceFallbackControllers.add(c);const started=performance.now();voiceDiagEvent('AI_START',String(aiEp?.name||''));
     try{
-      const res=await integratedRelayFetchSingle('/gemini/audio-transcribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audioBase64,mimeType:'audio/wav',languageCode}),signal:c.signal},{action:'stt-ai-recovery',attemptTimeoutMs:GOOGLE_VOICE_AI_TIMEOUT_MS},aiEp?.name||'');voiceDiagMark('aiMs',performance.now()-started);voiceDiagMark('aiStatus',Number(res.status)||0);const data=await res.json().catch(()=&gt;({}));if(!res.ok)throw Object.assign(new Error(data?.error||('AI_STT_HTTP_'+res.status)),{status:res.status});let t=VOICE_CLEAN_TRANSCRIPT(String(data.transcript||data.text||''));if(!t||t==='[[NO_SPEECH]]')throw new Error('AI_STT_NO_SPEECH');if(!voiceAiTranscriptAcceptable(t,languageCode,pcm.length))throw new Error('AI_STT_REJECTED');voiceLastRecoveryStage='ai';voiceDiagMark('recoveryStage','ai');voiceDiagEvent('AI_OK',`${aiEp?.name||'-'} ${Math.round(performance.now()-started)}ms`);return t;
+      const res=await integratedRelayFetch('/gemini/audio-transcribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audioBase64,mimeType:'audio/wav',languageCode}),signal:c.signal},{action:'stt-ai-recovery',attemptTimeoutMs:GOOGLE_VOICE_AI_TIMEOUT_MS},aiEp?.name||'');voiceDiagMark('aiMs',performance.now()-started);voiceDiagMark('aiStatus',Number(res.status)||0);const data=await res.json().catch(()=&gt;({}));if(!res.ok)throw Object.assign(new Error(data?.error||('AI_STT_HTTP_'+res.status)),{status:res.status});let t=VOICE_CLEAN_TRANSCRIPT(String(data.transcript||data.text||''));if(!t||t==='[[NO_SPEECH]]')throw new Error('AI_STT_NO_SPEECH');if(!voiceAiTranscriptAcceptable(t,languageCode,pcm.length))throw new Error('AI_STT_REJECTED');voiceLastRecoveryStage='ai';voiceDiagMark('recoveryStage','ai');voiceDiagEvent('AI_OK',`${aiEp?.name||'-'} ${Math.round(performance.now()-started)}ms`);return t;
     }catch(e){lastErr=e;if(e?.name==='AbortError'&amp;&amp;voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.abortStage)voiceDiagMark('abortStage','AI:'+String(aiEp?.name||''));voiceDiagMark('aiMs',performance.now()-started);voiceDiagMark('aiError',String(e?.name||'Error')+':'+String(e?.message||e));voiceDiagEvent('AI_FAIL',String(e?.name||'Error')+':'+String(e?.message||e));console.warn('[VOICE AI RECOVERY]',e?.message||e)}finally{voiceFallbackControllers.delete(c);if(voiceFallbackController===c)voiceFallbackController=null}
   }
   throw lastErr||new Error('VOICE_RECOVERY_FAILED');
@@ -2094,7 +2179,7 @@ async function voiceStartCapture(languageCode){
     voiceProcessorNode.onaudioprocess=ev=&gt;{if(!voiceRecording||session!==voiceSessionId)return;const input=ev.inputBuffer.getChannelData(0);voiceAcceptPcm(voiceResamplePush(new Float32Array(input),false))};
     voiceSourceNode.connect(voiceProcessorNode);voiceProcessorNode.connect(voiceSilentGain);voiceSilentGain.connect(voiceAudioContext.destination);try{if(voiceAudioContext.state!=='running')await voiceAudioContext.resume()}catch(e){}voiceDiagMark('audioContextAfterConnect',String(voiceAudioContext.state||''));
     voiceRecording=true;voiceProcessing=false;voiceRecordStartedAt=Date.now();voiceDiagEvent('RECORDING_START');VOICE_UI_RECORDING(false);voiceRecordingClock();voiceTimerInterval=setInterval(voiceRecordingClock,250);voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS);
-    // V3.61.21: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
+    // V3.61.22: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
     void voiceOpenWebSocket(languageCode,session).then(ready=&gt;{if(session!==voiceSessionId)return;if(voiceRecording)VOICE_UI_RECORDING(ready&amp;&amp;!voiceWsFailed)}).catch(e=&gt;{if(session===voiceSessionId)voiceMarkStreamFailed(e?.message||e)});
   }catch(e){voiceClearTimers();voiceDisconnectAudio();voiceCloseWs(true);voiceRecording=false;voiceProcessing=false;voiceDiagEvent('START_ERROR',String(e?.name||'Error')+':'+String(e?.message||e));const dedicated=voiceStatusCheckActive,r=voiceDiagFinalize('FAILED',String(e?.name||'Error')+':'+String(e?.message||e));if(session===voiceSessionId){if(dedicated)setVoiceInputUi('idle');else VOICE_UI_START_ERROR(e)}return r}
 }
@@ -2898,7 +2983,7 @@ const SharedCriticalMeaningCoreV277=(()=&gt;{
   function surfaceOutputRisk(dir,source,target){
     const s=String(source||''),t=String(target||''),r=[];
     if(dir==='K2L'){
-      // V3.61.21: deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.
+      // V3.61.22: deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.
       if(/[가-힣ㄱ-ㅎㅏ-ㅣ]/u.test(t))push(r,'출력 손상: 라오어 결과에 한글 혼입');
       if(/(?:[\u0E80-\u0EFF]{2,}|[가-힣]{2,})\s*\/\s*(?:[\u0E80-\u0EFF]{2,}|[가-힣]{2,})/u.test(t))push(r,'출력 형식: A/B 후보 병렬 출력');
     }else{
@@ -2916,7 +3001,7 @@ const SharedCriticalMeaningCoreV277=(()=&gt;{
     }
     return r;
   }
-  function detect(dir,source,target){const s=String(source||''),t=String(target||''),r=[];for(const x of hardCorruption(dir,s,t))push(r,dir==='K2L'?'출력 손상: '+x:x);for(const x of roleReasons(dir,s,t))push(r,dir==='K2L'?'배우자 역할: '+x:'SPOUSE_ROLE:'+x);for(const x of namedEntityRisk(dir,s,t))push(r,x);for(const x of coreNounRisk(dir,s,t))push(r,x);/* V3.61.21: wording-strength differences are reference-only; only real reversals remain Critical. */for(const x of surfaceOutputRisk(dir,s,t))push(r,x);for(const x of explicitSpeakerActionRisk(dir,s,t))push(r,x);if(dir==='K2L'){for(const x of mealRiskK2L(s,t))push(r,'식사 문맥: '+x);for(const x of placeRiskK2L(s,t))push(r,'이동 방향: '+x);for(const x of metaInsertionRiskK2L(s,t))push(r,'의미오염: '+x);if(!temporalEqual(s,t,'ko','lo'))push(r,'숫자/시간 값 변경');const sw=wK(s),tw=wL(t);if(sw.size&gt;0&amp;&amp;!setEq(sw,tw))push(r,'요일 변경');if(/어제/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 방향: 어제→내일 변경');if(/어제/.test(s)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 기준: 어제 의미 누락/변형');if(/오늘/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/ມື້ນີ້/.test(t))push(r,'오늘→내일 변경');if(/내일/.test(s)&amp;&amp;!/오늘/.test(s)&amp;&amp;/ມື້ນີ້/.test(t)&amp;&amp;!/ມື້ອື່ນ/.test(t))push(r,'내일→오늘 변경');if(/(?:오전|아침)/.test(s)&amp;&amp;!/(?:오후|저녁)/.test(s)&amp;&amp;/(?:ຕອນບ່າຍ|ຕອນແລງ)/.test(t)&amp;&amp;!/ຕອນເຊົ້າ/.test(t))push(r,'오전→오후/저녁 변경');if(/오후/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນບ່າຍ/.test(t))push(r,'오후→오전 변경');if(/저녁/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນແລງ/.test(t))push(r,'저녁→아침 변경');const sleepPositive=/(?:먼저|일찍|푹|편하게)\s*자|자도\s*(?:돼|괜찮)|자도\s*좋/.test(s);if(sleepPositive&amp;&amp;/(?:ຢ່າ(?:ມາ)?\s*ນອນ|ຫ້າມ\s*ນອນ)/.test(t))push(r,'수면 허용/권유→금지 반전');if(/자지\s*마/.test(s)&amp;&amp;/ນອນ[^.!?\n]{0,22}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ|ບໍ່ເປັນຫຍັງ)/.test(t))push(r,'수면 금지→허용 반전');if(/(?:가도|나가도)\s*(?:돼|괜찮)/.test(s)&amp;&amp;/(?:ຢ່າ\s*ໄປ|ຢ່າ\s*ອອກ)/.test(t))push(r,'이동 허용→금지 반전');if(/(?:가지|나가지)\s*마/.test(s)&amp;&amp;/(?:ໄປ|ອອກ)[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'이동 금지→허용 반전');if(/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;!/먹지\s*(?:마|말)/.test(s)&amp;&amp;/ຢ່າ\s*ກິນ/.test(t))push(r,'섭취 허용→금지 반전');if(/먹지\s*(?:마|말)/.test(s)&amp;&amp;!/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;/ກິນ[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'섭취 금지→허용 반전');if(callReversedK2L(s,t))push(r,'전화 주체/대상 반전');if(/(?:피곤|힘들|지쳤)/.test(s)&amp;&amp;/ມືດ/.test(t)&amp;&amp;!/(?:ເມື່ອຍ|ອິດເມື່ອຍ|ອ່ອນເພຍ)/.test(t))push(r,'피곤/힘듦 조건이 다른 의미로 변경');if(homeworkToHouseworkK2L(s,t))push(r,'숙제→집안일/부엌 의미 변경');if(/일어나/.test(s)&amp;&amp;/ປຸກ/.test(t)&amp;&amp;!/ຕື່ນ/.test(t))push(r,'일어나다→누군가를 깨우다 변경');const latin=unexpectedLatin(s,t);if(latin.length)push(r,'원문에 없는 영문 혼입: '+latin.slice(0,3).join(','));}
+  function detect(dir,source,target){const s=String(source||''),t=String(target||''),r=[];for(const x of hardCorruption(dir,s,t))push(r,dir==='K2L'?'출력 손상: '+x:x);for(const x of roleReasons(dir,s,t))push(r,dir==='K2L'?'배우자 역할: '+x:'SPOUSE_ROLE:'+x);for(const x of namedEntityRisk(dir,s,t))push(r,x);for(const x of coreNounRisk(dir,s,t))push(r,x);/* V3.61.22: wording-strength differences are reference-only; only real reversals remain Critical. */for(const x of surfaceOutputRisk(dir,s,t))push(r,x);for(const x of explicitSpeakerActionRisk(dir,s,t))push(r,x);if(dir==='K2L'){for(const x of mealRiskK2L(s,t))push(r,'식사 문맥: '+x);for(const x of placeRiskK2L(s,t))push(r,'이동 방향: '+x);for(const x of metaInsertionRiskK2L(s,t))push(r,'의미오염: '+x);if(!temporalEqual(s,t,'ko','lo'))push(r,'숫자/시간 값 변경');const sw=wK(s),tw=wL(t);if(sw.size&gt;0&amp;&amp;!setEq(sw,tw))push(r,'요일 변경');if(/어제/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 방향: 어제→내일 변경');if(/어제/.test(s)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 기준: 어제 의미 누락/변형');if(/오늘/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/ມື້ນີ້/.test(t))push(r,'오늘→내일 변경');if(/내일/.test(s)&amp;&amp;!/오늘/.test(s)&amp;&amp;/ມື້ນີ້/.test(t)&amp;&amp;!/ມື້ອື່ນ/.test(t))push(r,'내일→오늘 변경');if(/(?:오전|아침)/.test(s)&amp;&amp;!/(?:오후|저녁)/.test(s)&amp;&amp;/(?:ຕອນບ່າຍ|ຕອນແລງ)/.test(t)&amp;&amp;!/ຕອນເຊົ້າ/.test(t))push(r,'오전→오후/저녁 변경');if(/오후/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນບ່າຍ/.test(t))push(r,'오후→오전 변경');if(/저녁/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນແລງ/.test(t))push(r,'저녁→아침 변경');const sleepPositive=/(?:먼저|일찍|푹|편하게)\s*자|자도\s*(?:돼|괜찮)|자도\s*좋/.test(s);if(sleepPositive&amp;&amp;/(?:ຢ່າ(?:ມາ)?\s*ນອນ|ຫ້າມ\s*ນອນ)/.test(t))push(r,'수면 허용/권유→금지 반전');if(/자지\s*마/.test(s)&amp;&amp;/ນອນ[^.!?\n]{0,22}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ|ບໍ່ເປັນຫຍັງ)/.test(t))push(r,'수면 금지→허용 반전');if(/(?:가도|나가도)\s*(?:돼|괜찮)/.test(s)&amp;&amp;/(?:ຢ່າ\s*ໄປ|ຢ່າ\s*ອອກ)/.test(t))push(r,'이동 허용→금지 반전');if(/(?:가지|나가지)\s*마/.test(s)&amp;&amp;/(?:ໄປ|ອອກ)[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'이동 금지→허용 반전');if(/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;!/먹지\s*(?:마|말)/.test(s)&amp;&amp;/ຢ່າ\s*ກິນ/.test(t))push(r,'섭취 허용→금지 반전');if(/먹지\s*(?:마|말)/.test(s)&amp;&amp;!/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;/ກິນ[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'섭취 금지→허용 반전');if(callReversedK2L(s,t))push(r,'전화 주체/대상 반전');if(/(?:피곤|힘들|지쳤)/.test(s)&amp;&amp;/ມືດ/.test(t)&amp;&amp;!/(?:ເມື່ອຍ|ອິດເມື່ອຍ|ອ່ອນເພຍ)/.test(t))push(r,'피곤/힘듦 조건이 다른 의미로 변경');if(homeworkToHouseworkK2L(s,t))push(r,'숙제→집안일/부엌 의미 변경');if(/일어나/.test(s)&amp;&amp;/ປຸກ/.test(t)&amp;&amp;!/ຕື່ນ/.test(t))push(r,'일어나다→누군가를 깨우다 변경');const latin=unexpectedLatin(s,t);if(latin.length)push(r,'원문에 없는 영문 혼입: '+latin.slice(0,3).join(','));}
     else{if(!temporalEqual(s,t,'lo','ko'))push(r,'NUMBER_OR_TIME_CHANGED');const sw=wL(s),tw=wK(t);if(sw.size&gt;0&amp;&amp;!setEq(sw,tw))push(r,'WEEKDAY_CHANGED');if(/(?:ມື້ວານ|ເມື່ອວານ)/.test(s)&amp;&amp;!/ມື້ອື່ນ/.test(s)&amp;&amp;/내일/.test(t)&amp;&amp;!/어제/.test(t))push(r,'YESTERDAY_TO_TOMORROW');if(/(?:ມື້ວານ|ເມື່ອວານ)/.test(s)&amp;&amp;!/어제/.test(t))push(r,'YESTERDAY_MEANING_MISSING');if(/ມື້ນີ້/.test(s)&amp;&amp;!/ມື້ອື່ນ/.test(s)&amp;&amp;/내일/.test(t)&amp;&amp;!/오늘/.test(t))push(r,'TODAY_TO_TOMORROW');if(/ມື້ອື່ນ/.test(s)&amp;&amp;!/ມື້ນີ້/.test(s)&amp;&amp;/오늘/.test(t)&amp;&amp;!/내일/.test(t))push(r,'TOMORROW_TO_TODAY');if(/ຕອນເຊົ້າ/.test(s)&amp;&amp;!/(?:ຕອນບ່າຍ|ຕອນແລງ)/.test(s)&amp;&amp;/(?:오후|저녁)/.test(t)&amp;&amp;!/(?:오전|아침)/.test(t))push(r,'MORNING_TO_AFTERNOON');if(/ຕອນບ່າຍ/.test(s)&amp;&amp;!/ຕອນເຊົ້າ/.test(s)&amp;&amp;/(?:오전|아침)/.test(t)&amp;&amp;!/오후/.test(t))push(r,'AFTERNOON_TO_MORNING');if(/ຕອນແລງ/.test(s)&amp;&amp;!/ຕອນເຊົ້າ/.test(s)&amp;&amp;/(?:오전|아침)/.test(t)&amp;&amp;!/저녁/.test(t))push(r,'EVENING_TO_MORNING');const ban=/(?:ຢ່າ(?:ມາ)?\s*ນອນ|ຫ້າມ\s*ນອນ)/.test(s),allow=/(?:먼저|일찍|푹|편하게)\s*자|자도\s*(?:돼|괜찮)/.test(t);if(ban&amp;&amp;allow)push(r,'SLEEP_PROHIBITION_TO_PERMISSION');const laoAllow=/ນອນ[^.!?\n]{0,22}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ|ບໍ່ເປັນຫຍັງ)/.test(s)||/ນອນກ່ອນໄດ້/.test(s);if(laoAllow&amp;&amp;/자지\s*마|자면\s*안\s*돼/.test(t))push(r,'SLEEP_PERMISSION_TO_PROHIBITION');if(callReversedL2K(s,t))push(r,'CALL_DIRECTION_REVERSED');if(/ເມື່ອຍ/.test(s)&amp;&amp;/어두/.test(t)&amp;&amp;!/(?:피곤|힘들|지쳤)/.test(t))push(r,'TIRED_TO_DARK_CONDITION');if(/ຕື່ນ(?:ນອນ)?/.test(s)&amp;&amp;!/ປຸກ/.test(s)&amp;&amp;/(?:깨워|깨우(?:다|고|면|는|게|세요)?)/.test(t))push(r,'WAKE_UP_TO_WAKE_SOMEONE');const latin=unexpectedLatin(s,t);if(latin.length)push(r,'UNEXPECTED_LATIN:'+latin.slice(0,3).join(','));}
     return{critical:r.length&gt;0,reasons:r};
   }
@@ -3016,7 +3101,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         if (/^(error|warning|sorry|i cannot|i can't|unable to|translation:)/i.test(trimmed)) reasons.push('영어 메타/오류 문구');
         if (meaningfulKorean &amp;&amp; stats.lao === 0) reasons.push('라오 문자 없음');
         if (stats.replacement &gt; 0) reasons.push(`깨진 대체문자 ${stats.replacement}자`);
-        // V3.61.21: target-script contamination is deterministic HARD_CORRUPTION.
+        // V3.61.22: target-script contamination is deterministic HARD_CORRUPTION.
         // Intentional short source terms already masked by collectIntentionalPreservedForeign are exempt.
         if (stats.thai &gt; 0) reasons.push(`태국 문자 ${stats.thai}자`);
         if (stats.cjk &gt; 0) reasons.push(`한자 ${stats.cjk}자`);
@@ -3030,7 +3115,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
     }
 
     function qualityScoreFromGuard(quality) {
-            // V3.61.21: after the automatic literal back-translation, the reference score may include
+            // V3.61.22: after the automatic literal back-translation, the reference score may include
             // deterministic source↔back-translation checks. It is still guidance, never an auto-rewrite gate.
             if (!quality) return null;
             const postBackScore=Number(quality.postBackScore);
@@ -3096,7 +3181,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
             const srcGenericSibling=/(?:^|[^남여자])동생/.test(s)&amp;&amp;!/(?:남동생|여동생|남자\s*동생|여자\s*동생)/.test(s);
             if(srcGenericSibling&amp;&amp;/(?:남동생|여동생|남자\s*동생|여자\s*동생)/.test(b)){reasons.push('원문에 없던 동생의 성별이 역번역에서 구체화되었습니다.');score=Math.min(score,75)}
             if(/동생/.test(s)&amp;&amp;!/동생/.test(b)){reasons.push('원문의 동생/관계 대상이 역번역에서 빠졌을 수 있습니다.');score=Math.min(score,70)}
-            // V3.61.21: only high-confidence role/relationship changes that can cause real misunderstanding.
+            // V3.61.22: only high-confidence role/relationship changes that can cause real misunderstanding.
             const sc=s.split(/[.!?。！？\n]+/).map(x=&gt;x.trim()).filter(Boolean),bc=b.split(/[.!?。！？\n]+/).map(x=&gt;x.trim()).filter(Boolean);let pluralFlip=false;
             for(let i=0;i&lt;Math.min(sc.length,bc.length);i++){if(/(?:우리가|우리는|우린|저희가|저희는)/.test(sc[i])&amp;&amp;/(?:그들|그들이|그들은|그들의|그 사람들)/.test(bc[i])&amp;&amp;!/(?:우리|저희)/.test(bc[i])){pluralFlip=true;break}}
             if(pluralFlip){reasons.push('원문의 우리/저희가 역번역에서 그들로 바뀌었습니다.');score=Math.min(score,55)}
@@ -3187,7 +3272,7 @@ function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLO
         finally{clearTimeout(timer);activeGeminiControllers.delete(controller)}
     }
 
-    // V3.61.21 deterministic spouse-chat laughter localization.
+    // V3.61.22 deterministic spouse-chat laughter localization.
 // Keep the user's laugh style: ㅋㅋ/ㅎㅎ ↔ 555, while 하하하 ↔ ຮາຮາຮາ. Chinese 哈哈哈 is never allowed as a laugh result.
 function _laughRunSize(n){return Math.max(2,Math.min(8,Number(n)||2))}
 function _sourceKoreanLaughProfile(sourceText){const s=String(sourceText||'');return{kek:/(?:ㅋ{2,}|ㅎ{2,})/u.test(s),haha:/하(?:\s*하){1,}/u.test(s)}}
@@ -3315,7 +3400,7 @@ function normalizeTranslationText(text){const s=String(text||'');try{return s.no
                         console.warn(`[${label}] 한글 잔존 자동복구 실패 → 기존 Hedge/Rescue 계속`,cleanErr);
                     }
                 }
-                // V3.61.21: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+                // V3.61.22: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
                 if (!quality.pass) {
                     const reasonText = quality.reasons.join(' / ') || '알 수 없는 품질 오류';
                     const err = new Error(`번역 결과 품질검사 실패: ${reasonText}`);
@@ -3584,7 +3669,7 @@ function normalizeTranslationText(text){const s=String(text||'');try{return s.no
                 const quality = e?.quality || analyzeMainTranslationQuality(text, sourceText);
                 return { error:e, text, quality, index };
             })
-            .filter(x =&gt; x.quality?.pass !== false); // V3.61.21: HARD output anomalies are never user-visible warning drafts.
+            .filter(x =&gt; x.quality?.pass !== false); // V3.61.22: HARD output anomalies are never user-visible warning drafts.
         if (!candidates.length) return null;
         candidates.sort((a,b) =&gt; {
             const ar = Number(a?.quality?.stats?.replacement || 0);
@@ -3698,7 +3783,7 @@ function normalizeTranslationText(text){const s=String(text||'');try{return s.no
                     }
                 }catch(e){console.warn('[문자손상 자동재번역 실패] 기존 결과 유지',e)}
             }
-            // V3.61.21 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
+            // V3.61.22 human-decision policy: semantic safety findings never hold or rewrite the first displayed translation.
             // Only technical unusable-output recovery above (for example broken replacement characters) may retry automatically.
             const finalText = result.text;
             // V2.18: 이해 가능한 경미한 품질 경고는 추가 요청 없이 즉시 표시.
@@ -4061,7 +4146,7 @@ function normalizeTranslationText(text){const s=String(text||'');try{return s.no
         try {
             const result = await runBackTranslationWithLanguageRecovery(laoText,myRunId);
             if (myRunId !== backTranslationRunId) return;
-            // V3.61.21: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+            // V3.61.22: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
             backResultEl.innerText = result.text;
             setBackResultState(true, true);
             telemetryAttachBackText(laoText,result.text);
@@ -4444,7 +4529,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.21 diagnostic-only EXACT live-path observability bridge.
+// V3.61.22 diagnostic-only EXACT live-path observability bridge.
 // Production translation behavior is not replaced. This bridge runs the real translateText()
 // inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
 // event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
@@ -4517,7 +4602,7 @@ async function __runLivePathDiagnosticK2L(sourceText){
 }
 window.__runLivePathDiagnosticK2L=__runLivePathDiagnosticK2L;window.__stopLivePathDiagnosticK2L=__stopLivePathDiagnosticK2L;window.__livePathDiagnosticReadyK2L=__livePathDiagnosticReadyK2L;
 
-// V3.61.21 diagnostic-only exact live back-translation bridge.
+// V3.61.22 diagnostic-only exact live back-translation bridge.
 let __liveBackDiagnosticRunningK2L=false;
 function __liveBackDiagnosticReadyK2L(){return typeof runBackTranslationWithLanguageRecovery==='function'&amp;&amp;typeof createBackTranslationRequest==='function'&amp;&amp;typeof fetchPrimaryDirect==='function'}
 function __stopLiveBackDiagnosticK2L(){if(!__liveBackDiagnosticRunningK2L&amp;&amp;!isBackTranslating)return false;try{backTranslationRunId++;for(const c of [...activeBackTransControllers])c.abort()}catch(e){}return true}
@@ -4539,7 +4624,7 @@ window.__runLiveBackDiagnosticK2L=__runLiveBackDiagnosticK2L;window.__stopLiveBa
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="dad74c8ea31c89b024d819fcf59aa46aff81f13f9ef88158c4ea68eff99447ca">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="aab5f16a0301a38241869eeff76e1bf3a6f5c03901fd57d08178cdfc9f159cb2">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -4773,7 +4858,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 
 
-/* V3.61.21 UI-only: quality score left + retranslate right on the same row. */
+/* V3.61.22 UI-only: quality score left + retranslate right on the same row. */
 .translation-quality-line{
   display:grid!important;
   grid-template-columns:minmax(0,1fr) auto!important;
@@ -4970,8 +5055,8 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.21';
-// V3.61.21: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
+const APP_VERSION='V3.61.22';
+// V3.61.22: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 address the wife/listener and must not be replaced by literal ເມຍ or ພັນລະຍາ unless the source explicitly says wife. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lao words must use Lao script; never insert Thai, Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Use warm, respectful everyday spouse language only when it does not change meaning. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
 const FAST_L2K_BASE=`Translate this Lao message into natural Korean for a Lao wife speaking to her Korean husband. Output ONLY one decided Korean translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship/kinship perspective, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the wife and the listener is her husband. Do not invent gender, hierarchy, or relationship nouns that are not stated. Lao ວຽກບ້ານ normally means homework/school assignment and should be translated as 숙제 unless the sentence clearly and explicitly describes household chores. Choose one natural Korean form of address; never output alternatives such as 여보/당신 or any slash-separated A/B candidates. Use warm, natural conversational Korean 존댓말 (-요 style) without making it stiff. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence. No labels, notes, alternatives, or explanations.`;
@@ -5052,9 +5137,9 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.21 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
+// V3.61.22 concise source-faithful live prompt with strict repair policy. Historical policies remain only for regression reference.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.21',
+  VERSION:'V3.61.22',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -5089,9 +5174,9 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 
 
-// V3.61.21 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
+// V3.61.22 natural verification back-translation policy: source evidence stays strict while wording reads naturally.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.21',
+  VERSION:'V3.61.22',
   HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the Lao text you are given into natural everyday Korean for meaning checking. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Lao leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary conversational Korean that a spouse would naturally read in a messenger chat, normally natural -요 style when the Lao register permits it; avoid stiff, bureaucratic, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person (I/me) or second person (you) unless the Lao text itself says so. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Korean only, using Korean script for Korean words; never output Thai or Lao script as the back-translation language. No label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. Output readable Korean only, with no explanation or label.`,
   WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the Korean text you are given into natural everyday Lao for meaning checking. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. If the Korean leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary respectful Lao suitable for a wife and husband reading a messenger conversation; avoid stiff, ceremonial, textbook, or translationese wording. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person or second person unless the Korean text itself says so. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
@@ -5242,6 +5327,37 @@ function reportIntegratedCredentialGood(kind){
 // V3.52 Dual Region Relay: provider secrets stay in Cloud Run/Secret Manager.
 const RELAY_FAILOVER_COOLDOWN_MS=120000;
 const integratedRelayState={cooldownUntil:{},failoverCount:0,lastRegion:'',lastAction:'',lastPath:'',lastStatus:0,lastLatencyMs:0,lastFailover:false};
+
+const INTEGRATED_CLOUDFLARE_URL='https://lao-voice-route-test.3547412.workers.dev';
+function integratedCloudflareUrl(path,regionName=''){
+  const u=new URL(INTEGRATED_CLOUDFLARE_URL+String(path||''));
+  if(regionName)u.searchParams.set('region',String(regionName));
+  return u.toString();
+}
+async function integratedCloudflareFetch(path,init={},meta={},regionName=''){
+  const c=integratedRelayRawConfig(),token=String(c.token||''),region=String(regionName||integratedRelayRouteOrder()[0]?.name||'bangkok');
+  if(!token)throw new TypeError('RELAY_NOT_CONFIGURED');
+  const started=performance.now();let localController=null,timer=null,externalAbort=null,attemptTimedOut=false;
+  try{
+    const headers=Object.assign({},init.headers||{},{'X-App-Token':token,'Accept':(init.headers&amp;&amp;init.headers.Accept)||'application/json'});
+    const opts=Object.assign({},init,{headers,cache:'no-store'}),perAttempt=Number(meta.attemptTimeoutMs)||0;
+    if(perAttempt&gt;0){
+      localController=new AbortController();const ext=init.signal;
+      if(ext){if(ext.aborted)localController.abort();else{externalAbort=()=&gt;localController.abort();ext.addEventListener('abort',externalAbort,{once:true})}}
+      timer=setTimeout(()=&gt;{attemptTimedOut=true;try{localController.abort()}catch(e){}},perAttempt);opts.signal=localController.signal;
+    }
+    const res=await fetch(integratedCloudflareUrl(path,region),opts),latency=Math.max(0,performance.now()-started),bodyText=res.ok?'':await integratedSafeResponseText(res);
+    try{res.__providerErrorBody=bodyText;res.__relayRegion=region;res.__relayFailover=true;res.__relayLatencyMs=latency;res.__clientRoute='cloudflare'}catch(e){}
+    integratedRelayReport({region,action:meta.action||'',path,status:res.status,latencyMs:latency,failover:true,phase:res.ok?'cloudflare-success':'cloudflare-error',via:'cloudflare'});
+    return res;
+  }catch(e){
+    if(attemptTimedOut){try{e.__relayAttemptTimeout=true}catch(_){} }
+    const latency=Math.max(0,performance.now()-started),externalAborted=!!(init.signal&amp;&amp;init.signal.aborted);
+    if(externalAborted&amp;&amp;!attemptTimedOut)throw e;
+    integratedRelayReport({region,action:meta.action||'',path,status:0,latencyMs:latency,failover:true,phase:attemptTimedOut?'cloudflare-timeout':'cloudflare-network-error',via:'cloudflare',error:String(e?.message||e)});
+    throw e;
+  }finally{if(timer)clearTimeout(timer);if(externalAbort&amp;&amp;init.signal)try{init.signal.removeEventListener('abort',externalAbort)}catch(e){}}
+}
 function integratedRelayRawConfig(){return window.__APP_RELAY__||{}}
 function integratedRelayEndpoints(){
   const c=integratedRelayRawConfig(),out=[];
@@ -5265,7 +5381,7 @@ function integratedRelayReport(data){
   integratedRelayState.lastRegion=String(d.region||'');integratedRelayState.lastAction=String(d.action||'');integratedRelayState.lastPath=String(d.path||'');integratedRelayState.lastStatus=Number(d.status)||0;integratedRelayState.lastLatencyMs=Number(d.latencyMs)||0;integratedRelayState.lastFailover=!!d.failover;
   try{if(parent!==window)parent.postMessage(d,'*')}catch(e){}
 }
-async function integratedRelayFetch(path,init={},meta={},preferredName=''){
+async function integratedRelayFetchDirect(path,init={},meta={},preferredName=''){
   const c=integratedRelayRawConfig(),token=String(c.token||''),order=integratedRelayRouteOrder(preferredName);
   if(!token||!order.length)throw new TypeError('RELAY_NOT_CONFIGURED');
   let lastResponse=null,lastError=null,failoverUsed=false;
@@ -5312,7 +5428,32 @@ async function integratedRelayFetch(path,init={},meta={},preferredName=''){
   }
   if(lastResponse)return lastResponse;if(lastError)throw lastError;throw new TypeError('RELAY_REQUEST_FAILED');
 }
-async function integratedRelayFetchSingle(path,init={},meta={},regionName=''){
+
+async function integratedRelayFetch(path,init={},meta={},preferredName=''){
+  let directRes=null,directErr=null;
+  try{
+    directRes=await integratedRelayFetchDirect(path,init,meta,preferredName);
+    const body=String(directRes?.__providerErrorBody||'');
+    if(!integratedRelayShouldFailover(directRes?.status,body,null))return directRes;
+  }catch(e){
+    if(init?.signal?.aborted&amp;&amp;!e?.__relayAttemptTimeout)throw e;
+    if(!integratedRelayShouldFailover(0,'',e))throw e;
+    directErr=e;
+  }
+  const order=integratedRelayRouteOrder(preferredName);let lastRes=directRes,lastErr=directErr,used=false;
+  for(let i=0;i&lt;Math.min(2,order.length);i++){
+    const ep=order[i];
+    try{
+      const res=await integratedCloudflareFetch(path,init,meta,ep.name);lastRes=res;used=true;
+      const body=String(res?.__providerErrorBody||'');
+      if(i+1&lt;Math.min(2,order.length)&amp;&amp;integratedRelayShouldFailover(res.status,body,null))continue;
+      try{res.__relayFailover=true;res.__clientRoute='cloudflare'}catch(e){}return res;
+    }catch(e){lastErr=e;used=true;if(init?.signal?.aborted&amp;&amp;!e?.__relayAttemptTimeout)throw e;if(i+1&lt;Math.min(2,order.length)&amp;&amp;integratedRelayShouldFailover(0,'',e))continue;throw e}
+  }
+  if(lastRes)return lastRes;if(lastErr)throw lastErr;throw new TypeError(used?'CLOUDFLARE_RELAY_FAILED':'RELAY_REQUEST_FAILED');
+}
+
+async function integratedRelayFetchSingleDirect(path,init={},meta={},regionName=''){
   const c=integratedRelayRawConfig(),token=String(c.token||''),all=integratedRelayEndpoints();
   const ep=(regionName&amp;&amp;all.find(x=&gt;x.name===regionName))||all[0];
   if(!token||!ep)throw new TypeError('RELAY_NOT_CONFIGURED');
@@ -5335,6 +5476,23 @@ async function integratedRelayFetchSingle(path,init={},meta={},regionName=''){
     integratedRelayReport({region:ep.name,action:meta.action||'',path,status:0,latencyMs:latency,failover:false,phase:attemptTimedOut?'attempt-timeout':'final-network-error',error:String(e?.message||e)});
     throw e;
   }finally{if(timer)clearTimeout(timer);if(externalAbort&amp;&amp;init.signal)try{init.signal.removeEventListener('abort',externalAbort)}catch(e){}}
+}
+
+
+async function integratedRelayFetchSingle(path,init={},meta={},regionName=''){
+  let directRes=null,directErr=null;
+  try{
+    directRes=await integratedRelayFetchSingleDirect(path,init,meta,regionName);
+    const body=String(directRes?.__providerErrorBody||'');
+    if(!integratedRelayShouldFailover(directRes?.status,body,null))return directRes;
+  }catch(e){
+    if(init?.signal?.aborted&amp;&amp;!e?.__relayAttemptTimeout)throw e;
+    if(!integratedRelayShouldFailover(0,'',e))throw e;
+    directErr=e;
+  }
+  const all=integratedRelayEndpoints(),ep=(regionName&amp;&amp;all.find(x=&gt;x.name===regionName))||all[0];
+  if(!ep){if(directRes)return directRes;if(directErr)throw directErr;throw new TypeError('RELAY_NOT_CONFIGURED')}
+  try{return await integratedCloudflareFetch(path,init,meta,ep.name)}catch(e){if(directRes)return directRes;throw e}
 }
 
 function integratedRelayExtractGeminiPayload(options){
@@ -5433,17 +5591,10 @@ function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!current
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
 function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean)}
-async function telemetryPostBatch(records){const c=integratedRelayRawConfig(),token=String(c?.token||''),eps=integratedRelayEndpoints();if(!token||!eps.length)throw new Error('TELEMETRY_RELAY_NOT_CONFIGURED');let lastErr=null;for(let i=0;i&lt;Math.min(2,eps.length);i++){const ep=eps[i],ctrl=new AbortController(),timer=setTimeout(()=&gt;ctrl.abort(),4500);try{const res=await fetch(ep.url+'/telemetry/batch',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-App-Token':token},body:JSON.stringify({records}),signal:ctrl.signal,cache:'no-store'});const raw=await res.text().catch(()=&gt;''),data=(()=&gt;{try{return JSON.parse(raw)}catch(e){return{}}})();if(res.ok&amp;&amp;Array.isArray(data.acceptedIds))return data;if([401,403,400,413].includes(res.status))throw new Error('TELEMETRY_HTTP_'+res.status);lastErr=new Error('TELEMETRY_HTTP_'+res.status)}catch(e){lastErr=e}finally{clearTimeout(timer)}}throw lastErr||new Error('TELEMETRY_UPLOAD_FAILED')}
-function telemetryScheduleFlush(delay=800){clearTimeout(liveTelemetryFlushTimer);liveTelemetryFlushTimer=setTimeout(()=&gt;{const run=()=&gt;void telemetryFlushQueue();if(typeof requestIdleCallback==='function')requestIdleCallback(run,{timeout:2500});else setTimeout(run,0)},Math.max(20,delay))}
-async function telemetryFlushQueue(){if(liveTelemetryFlushInFlight)return;if(telemetryBusy()){telemetryScheduleFlush(1400);return}const q=telemetryQueueRead();if(!q.length)return;liveTelemetryFlushInFlight=true;try{const batch=q.slice(0,20),data=await telemetryPostBatch(batch),accepted=new Set((data.acceptedIds||[]).map(String));if(accepted.size){const next=telemetryQueueRead().filter(x=&gt;!accepted.has(String(x.eventId)));telemetryQueueWrite(next)}if(telemetryQueueRead().length)telemetryScheduleFlush(900)}catch(e){console.warn('[TELEMETRY NONBLOCKING]',e?.message||e);telemetryScheduleFlush(15000)}finally{liveTelemetryFlushInFlight=false}}
-window.addEventListener('online',()=&gt;telemetryScheduleFlush(300));window.addEventListener('pagehide',()=&gt;{if(liveTelemetryCurrent)telemetryFinalizeCurrent('pagehide')});setTimeout(()=&gt;telemetryScheduleFlush(0),3500);
-
-function retryIntegratedCredentialAction(action){
-  try{
-    if(action==='translate'&amp;&amp;typeof translateText==='function'&amp;&amp;!isTranslating){translateText();return}
-    if(action==='back'&amp;&amp;typeof requestBackTranslation==='function'&amp;&amp;!isBackTranslating){requestBackTranslation();return}
-    if(action==='tts'&amp;&amp;typeof speakKorean==='function'){speakKorean();return}
-  }catch(e){console.warn('[PASSWORD RETRY ACTION]',e)}
+async function telemetryPostBatch(records){
+  const c=integratedRelayRawConfig(),token=String(c?.token||'');if(!token)throw new Error('TELEMETRY_RELAY_NOT_CONFIGURED');
+  const res=await integratedRelayFetch('/telemetry/batch',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({records})},{action:'telemetry',attemptTimeoutMs:4500});
+  const raw=await res.text().catch(()=&gt;''),data=(()=&gt;{try{return JSON.parse(raw)}catch(e){return{}}})();if(res.ok&amp;&amp;Array.isArray(data.acceptedIds))return data;throw new Error('TELEMETRY_HTTP_'+String(res.status||0));
 }
 window.addEventListener('message',function(ev){
   if(parent!==window&amp;&amp;ev.source!==parent)return;
@@ -5482,7 +5633,7 @@ function clearResultBox(){translationOutputLocked=false;lastForwardQualitySnapsh
 function setRetry(v){document.getElementById('retryBtn').style.display=v?'inline-block':'none';}
 const COPY_DEFAULTS=Object.freeze({copyKoreanBtn:'📋 ຄັດລອກ',copyBackBtn:'📋 ຄັດລອກ'});
 function validPrimaryKoreanText(){const el=document.getElementById('koResult'),t=el?el.innerText.trim():'';if(!t||t.includes('ກຳລັງ')||t.includes('ຢຸດ')||t.includes('ຜິດພາດ')||t.includes('ລົ້ມເຫຼວ')||t.startsWith('⚠️'))return'';return t}
-// V3.61.21 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
+// V3.61.22 content-safe backtranslation copy state: normal Lao sentences may contain status-like words.
 function isBackTranslationCopyStateText(text){const t=String(text||'').trim();if(!t)return true;if(t.includes('ຖ້າຕ້ອງການກວດຄວາມໝາຍ ໃຫ້ກົດ [ກວດຄວາມໝາຍ]'))return true;if(t.startsWith('⚠️')||t.startsWith('⏳')||t.startsWith('🔧'))return true;if(t.startsWith('ກຳລັງກວດກັບເປັນພາສາລາວ'))return true;return false}
 function validBackTranslationForCopy(){const el=document.getElementById('backResult'),t=el?el.innerText.trim():'';return isBackTranslationCopyStateText(t)?'':t}
 async function waitForBackTranslationForCopy(timeoutMs=22000){let text=validBackTranslationForCopy();if(text)return text;if(!isBackTranslating)return'';const started=Date.now();while(isBackTranslating&amp;&amp;Date.now()-started&lt;timeoutMs){await new Promise(r=&gt;setTimeout(r,120));text=validBackTranslationForCopy();if(text)return text}return validBackTranslationForCopy()}
@@ -5685,7 +5836,7 @@ let voiceStreamRelayCfg=null;
 let voiceLastRecoveryStage='';
 
 
-// V3.61.21 iOS/WebView voice evidence diagnostic.
+// V3.61.22 iOS/WebView voice evidence diagnostic.
 // Recognized transcript text is included only in the locally copied diagnostic log; it is NEVER written to remote telemetry.
 let voiceDiagCurrent=null;
 let voiceDiagLastResult=null;
@@ -5696,13 +5847,13 @@ let voiceStatusCheckCountdownTimer=null;
 let voiceStatusNetworkPromise=Promise.resolve(null);
 let voiceStatusNetworkResult=null;
 let voiceStatusSessionMeta=null;
-const VOICE_DIAG_CLOUDFLARE_URL='https://lao-voice-route-test.3547412.workers.dev';
+const VOICE_DIAG_CLOUDFLARE_URL=INTEGRATED_CLOUDFLARE_URL;
 const VOICE_DIAG_FETCH_TIMEOUT_MS=6500;
 const VOICE_DIAG_PROVIDER_TIMEOUT_MS=8000;
 const VOICE_DIAG_WS_TIMEOUT_MS=8000;
 const VOICE_DIAG_REST_TIMEOUT_MS=10000;
 const VOICE_DIAG_AI_TIMEOUT_MS=9000;
-const VOICE_DIAG_EXPECTED_LAO='ສະບາຍດີ ທີ່ຮັກ ຂ້ອຍຮັກເຈົ້າ';
+const VOICE_DIAG_EXPECTED_LAO='ສະບາຍດີ';
 
 function voiceBrowserClass(){const ua=navigator.userAgent||'',standalone=navigator.standalone===true;if(/FBAN|FBAV|FB_IAB|Messenger/i.test(ua))return'facebook-messenger-webview';if(/iPhone|iPad|iPod/i.test(ua))return standalone?'ios-standalone':'ios-safari';if(/Android/i.test(ua))return/android/i.test(ua)&amp;&amp;/wv|Version\/4\.0/i.test(ua)?'android-webview':'android';return/Chrome/i.test(ua)?'chrome':/Safari/i.test(ua)?'safari':'other'}
 function voiceDiagNewId(){try{if(globalThis.crypto?.randomUUID)return'wife-'+Date.now()+'-'+crypto.randomUUID().slice(0,8)}catch(e){}return'wife-'+Date.now()+'-'+Math.random().toString(36).slice(2,10)}
@@ -5727,7 +5878,7 @@ async function voiceDiagHealthTest(meta,ep,auth=false,via='direct'){if(!ep?.url)
 async function voiceDiagRelayGeminiTest(meta,ep,via='direct'){if(!ep?.url)return null;const token=String(integratedRelayRawConfig()?.token||'');if(!token)return voiceDiagNetPut(`${via}RelayGemini_${ep.name}`,{name:`${via}RelayGemini_${ep.name}`,via,region:ep.name,reached:false,ok:false,status:0,error:'RELAY_TOKEN_MISSING'});const name=`${via}RelayGemini_${ep.name}`;let url,init;if(via==='cloudflare'){url=voiceDiagUrl(VOICE_DIAG_CLOUDFLARE_URL,'/gemini-test',meta.diagId,ep.name);init={method:'GET',headers:{Accept:'application/json','X-App-Token':token}}}else{url=voiceDiagUrl(ep.url,'/gemini/generate',meta.diagId);init={method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json','X-App-Token':token},body:JSON.stringify({purpose:'diagnostic',systemInstruction:'This is a network diagnostic. Return only the word OK.',userText:'Return OK.',maxOutputTokens:64})}}const r=await voiceDiagFetchRaw(name,url,init,VOICE_DIAG_PROVIDER_TIMEOUT_MS,'json',{via,region:ep.name});const chars=via==='cloudflare'?Number(r.data?.resultChars||0):String(r.data?.text||'').length;return voiceDiagNetPut(name,voiceDiagCleanFetchRecord(r,{providerOk:r.ok&amp;&amp;((via==='cloudflare'?r.data?.ok!==false:true)),providerMs:Number(r.data?.providerMs||r.headers?.providerMs)||null,resultChars:chars,finishReason:String(r.data?.finishReason||'')}))}
 async function voiceDiagTtsTest(meta,ep,via='direct'){if(!ep?.url)return null;const token=String(integratedRelayRawConfig()?.token||''),name=`${via}Tts_${ep.name}`;let url,init,mode;if(via==='cloudflare'){url=voiceDiagUrl(VOICE_DIAG_CLOUDFLARE_URL,'/tts-test',meta.diagId,ep.name);init={method:'GET',headers:{Accept:'application/json','X-App-Token':token}};mode='json'}else{url=voiceDiagUrl(ep.url,'/azure/tts',meta.diagId);init={method:'POST',headers:{'Content-Type':'application/json',Accept:'audio/mpeg','X-App-Token':token},body:JSON.stringify({languageCode:'ko-KR',text:'연결 테스트'})};mode='bytes'}const r=await voiceDiagFetchRaw(name,url,init,VOICE_DIAG_PROVIDER_TIMEOUT_MS,mode,{via,region:ep.name});const bytes=via==='cloudflare'?Number(r.data?.audioBytes||0):Number(r.bytes||0);return voiceDiagNetPut(name,voiceDiagCleanFetchRecord(r,{audioBytes:bytes,providerMs:Number(r.data?.providerMs||r.headers?.providerMs)||null,mediaOk:r.ok&amp;&amp;bytes&gt;0}))}
 async function voiceDiagWsProbe(meta,ep,via='direct'){if(!ep?.url)return null;const name=`${via}Ws_${ep.name}`,token=String(integratedRelayRawConfig()?.token||''),started=performance.now(),startedEpoch=Date.now();let base=via==='cloudflare'?VOICE_DIAG_CLOUDFLARE_URL:ep.url,u=new URL(String(base).replace(/^http:/i,'ws:').replace(/^https:/i,'wss:').replace(/\/+$/,'')+'/stream');if(via==='cloudflare')u.searchParams.set('region',ep.name);u.searchParams.set('diagId',meta.diagId);const rec={name,via,region:ep.name,startedAtEpochMs:startedEpoch,startedAtLocal:voiceDiagLocalIso(startedEpoch),atMs:voiceDiagRelMs(),ms:0,reached:false,ok:false,status:0,timedOut:false,error:'',opened:false,openMs:null,ready:false,readyMs:null,closeCode:null,closeReason:''};return await new Promise(resolve=&gt;{let done=false,ws=null,timer=null;const finish=()=&gt;{if(done)return;done=true;if(timer)clearTimeout(timer);rec.ms=Math.round(performance.now()-started);rec.endedAtEpochMs=rec.startedAtEpochMs+rec.ms;rec.endedAtLocal=voiceDiagLocalIso(rec.endedAtEpochMs);try{if(ws&amp;&amp;ws.readyState&lt;2)ws.close(1000,'diag')}catch(e){}voiceDiagNetPut(name,rec);resolve(rec)};try{ws=new WebSocket(u.href)}catch(e){rec.error=voiceDiagSafeError(e);finish();return}timer=setTimeout(()=&gt;{rec.timedOut=true;rec.error=rec.ready?'':(rec.opened?'WS_READY_TIMEOUT':'WS_OPEN_TIMEOUT');finish()},VOICE_DIAG_WS_TIMEOUT_MS);ws.onopen=()=&gt;{rec.reached=true;rec.opened=true;rec.openMs=Math.round(performance.now()-started);try{ws.send(JSON.stringify({type:'start',token,languageCode:'lo-LA',sampleRate:16000,channels:1,bitsPerSample:16,frameMs:100,requestIndex:'diag-'+meta.diagId}))}catch(e){rec.error=voiceDiagSafeError(e);finish()}};ws.onmessage=ev=&gt;{let m=null;try{m=JSON.parse(String(ev.data||''))}catch(e){}if(m?.type==='ready'){rec.ok=true;rec.ready=true;rec.readyMs=Math.round(performance.now()-started);finish()}else if(m?.type==='error'){rec.error=String(m.error||m.message||'WS_SERVER_ERROR').slice(0,180);finish()}};ws.onerror=()=&gt;{if(!rec.error)rec.error='WEBSOCKET_ERROR'};ws.onclose=ev=&gt;{rec.closeCode=Number(ev.code)||0;rec.closeReason=String(ev.reason||'').slice(0,120);if(!done&amp;&amp;!rec.ready){if(!rec.error)rec.error='WEBSOCKET_CLOSED_BEFORE_READY';finish()}}})}
-function voiceDiagLivePathAudit(){const ws=String(voiceOpenWebSocket),rec=String(voiceRecoveryTranscribe),post=String(voiceDiagPostDirect);return{streamUsesDirectRelay:/voiceRelayConfig\(/.test(ws),restUsesDirectRegions:/voiceRestHedge\(/.test(rec),aiUsesDirectRegion:/integratedRelayFetchSingle\('\/gemini\/audio-transcribe'/.test(rec),cloudflareLiveWsFallback:ws.includes('VOICE_DIAG_CLOUDFLARE_URL'),cloudflareLiveRestFallback:rec.includes('VOICE_DIAG_CLOUDFLARE_URL'),telemetryCloudflareFallback:post.includes('/telemetry/batch?region=bangkok'),policyNetworkFailover:integratedRelayShouldFailover(0,'',new TypeError('diag'))===true,policy503Failover:integratedRelayShouldFailover(503,'',null)===true,policy401Failover:integratedRelayShouldFailover(401,'',null)===false,restHedgePresent:typeof voiceRestHedge==='function',aiFallbackPresent:/voiceRestHedge[\s\S]*gemini\/audio-transcribe/.test(rec)}}
+function voiceDiagLivePathAudit(){const ws=String(voiceOpenWebSocket),rec=String(voiceRecoveryTranscribe),relay=String(integratedRelayFetch),single=String(integratedRelayFetchSingle),post=String(telemetryPostBatch);return{streamUsesDirectRelay:/voiceWsCandidates\(/.test(ws),restUsesDirectRegions:/voiceRestHedge\(/.test(rec),aiUsesDirectRegion:/integratedRelayFetch\('\/gemini\/audio-transcribe'/.test(rec),cloudflareLiveWsFallback:ws.includes('voiceWsCandidates')&amp;&amp;String(voiceWsCandidates).includes('INTEGRATED_CLOUDFLARE_URL'),cloudflareLiveRestFallback:single.includes('integratedCloudflareFetch'),cloudflareLiveAiFallback:relay.includes('integratedCloudflareFetch')&amp;&amp;rec.includes("integratedRelayFetch('/gemini/audio-transcribe'"),cloudflareLiveTtsFallback:String(integratedRelayTtsFetch).includes('integratedRelayFetch'),cloudflareLiveGeminiRelayFallback:String(integratedRelayGeminiFetch).includes('integratedRelayFetch'),telemetryCloudflareFallback:post.includes("integratedRelayFetch('/telemetry/batch'"),policyNetworkFailover:integratedRelayShouldFailover(0,'',new TypeError('diag'))===true,policy503Failover:integratedRelayShouldFailover(503,'',null)===true,policy401Failover:integratedRelayShouldFailover(401,'',null)===false,restHedgePresent:typeof voiceRestHedge==='function',aiFallbackPresent:/voiceRestHedge[\s\S]*gemini\/audio-transcribe/.test(rec)}}
 async function voiceDiagForcedRelayFailover(meta){const eps=integratedRelayEndpoints();if(eps.length&lt;2)return{name:'productionRelayNetworkFailover',ok:false,error:'NEED_TWO_REGIONS'};const originalFetch=window.fetch,primary=eps[0],secondary=eps[1],saved={cooldownUntil:{...integratedRelayState.cooldownUntil},failoverCount:integratedRelayState.failoverCount,lastRegion:integratedRelayState.lastRegion,lastAction:integratedRelayState.lastAction,lastPath:integratedRelayState.lastPath,lastStatus:integratedRelayState.lastStatus,lastLatencyMs:integratedRelayState.lastLatencyMs,lastFailover:integratedRelayState.lastFailover};let injected=0;try{integratedRelayState.cooldownUntil[primary.name]=0;integratedRelayState.cooldownUntil[secondary.name]=0;window.fetch=async function(input,init){const u=String((typeof Request!=='undefined'&amp;&amp;input instanceof Request)?input.url:input||'');if(!injected&amp;&amp;u.startsWith(primary.url)){injected++;throw new TypeError('VOICE_DIAG_FORCED_PRIMARY_NETWORK_FAIL')}return originalFetch.call(this,input,init)};const st=performance.now(),res=await integratedRelayFetch('/health',{method:'GET',headers:{Accept:'application/json'}},{action:'voice-diag-forced-relay-failover',attemptTimeoutMs:4000});return{name:'productionRelayNetworkFailover',ok:res.ok&amp;&amp;res.__relayFailover===true&amp;&amp;String(res.__relayRegion||'')===String(secondary.name),injected:'primary-network-error',primary:primary.name,selected:String(res.__relayRegion||''),failover:res.__relayFailover===true,status:Number(res.status)||0,ms:Math.round(performance.now()-st),error:''}}catch(e){return{name:'productionRelayNetworkFailover',ok:false,injected:'primary-network-error',primary:primary.name,selected:'',failover:false,status:0,ms:0,error:voiceDiagSafeError(e)}}finally{window.fetch=originalFetch;integratedRelayState.cooldownUntil={...saved.cooldownUntil};integratedRelayState.failoverCount=saved.failoverCount;integratedRelayState.lastRegion=saved.lastRegion;integratedRelayState.lastAction=saved.lastAction;integratedRelayState.lastPath=saved.lastPath;integratedRelayState.lastStatus=saved.lastStatus;integratedRelayState.lastLatencyMs=saved.lastLatencyMs;integratedRelayState.lastFailover=saved.lastFailover}}
 async function voiceDiagNetworkSuite(meta){const out=voiceStatusNetworkResult=voiceDiagNetBase(meta),eps=voiceDiagEndpointMap(),b=eps.bangkok||integratedRelayEndpoints()[0]||null,s=eps.seoul||integratedRelayEndpoints()[1]||null;out.permissionMicBefore=await voiceDiagPermissionState();const jobs=[voiceDiagAppServerTest(meta),voiceDiagDirectGeminiTest(meta),(async()=&gt;{const r=await voiceDiagFetchRaw('cloudflarePing',voiceDiagUrl(VOICE_DIAG_CLOUDFLARE_URL,'/ping',meta.diagId),{method:'GET',headers:{Accept:'application/json'}},4500,'json',{via:'cloudflare'});return voiceDiagNetPut('cloudflarePing',voiceDiagCleanFetchRecord(r,{colo:String(r.data?.colo||''),country:String(r.data?.country||''),httpProtocol:String(r.data?.httpProtocol||''),tlsVersion:String(r.data?.tlsVersion||'')}))})()];for(const ep of [b,s].filter(Boolean)){jobs.push(voiceDiagHealthTest(meta,ep,false,'direct'),voiceDiagHealthTest(meta,ep,true,'direct'),voiceDiagHealthTest(meta,ep,true,'cloudflare'),voiceDiagRelayGeminiTest(meta,ep,'direct'),voiceDiagRelayGeminiTest(meta,ep,'cloudflare'),voiceDiagTtsTest(meta,ep,'direct'),voiceDiagTtsTest(meta,ep,'cloudflare'),voiceDiagWsProbe(meta,ep,'direct'),voiceDiagWsProbe(meta,ep,'cloudflare'))}await Promise.allSettled(jobs);out.permissionMicAfter=await voiceDiagPermissionState();out.livePathAudit=voiceDiagLivePathAudit();out.networkFinishedAtLocal=voiceDiagLocalIso();out.networkFinishedEpochMs=Date.now();out.networkTotalMs=voiceDiagRelMs();return out}
 
@@ -5743,7 +5894,7 @@ function voiceDiagAttachTrack(track){const d=voiceDiagCurrent;if(!d||!track)retu
 function voiceDiagAttachAudioContext(ctx){try{if(!ctx)return;ctx.addEventListener?.('statechange',()=&gt;{if(voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.finalized){const st=String(ctx.state||'');voiceDiagCurrent.audioContextStateEvents.push({ms:Math.round(performance.now()-voiceDiagCurrent.startedPerf),state:st});voiceDiagEvent('AUDIO_CONTEXT_STATE',st)}})}catch(e){}}
 function voiceDiagLifecycleMark(name,detail=''){const d=voiceDiagCurrent;if(!d||d.finalized)return;const item={ms:Math.round(Math.max(0,performance.now()-d.startedPerf)),name:String(name||''),detail:String(detail||'').slice(0,80)};if(!Array.isArray(d.pageLifecycleEvents))d.pageLifecycleEvents=[];if(d.pageLifecycleEvents.length&lt;24)d.pageLifecycleEvents.push(item);voiceDiagEvent('PAGE_'+String(name||''),detail)}
 document.addEventListener('visibilitychange',()=&gt;{const d=voiceDiagCurrent;if(!d||d.finalized)return;const state=String(document.visibilityState||'');if(!Array.isArray(d.pageVisibilityEvents))d.pageVisibilityEvents=[];if(d.pageVisibilityEvents.length&lt;24)d.pageVisibilityEvents.push({ms:Math.round(Math.max(0,performance.now()-d.startedPerf)),state});voiceDiagLifecycleMark('VISIBILITY',state)});window.addEventListener('pagehide',()=&gt;voiceDiagLifecycleMark('HIDE'));window.addEventListener('pageshow',()=&gt;voiceDiagLifecycleMark('SHOW'));window.addEventListener('blur',()=&gt;voiceDiagLifecycleMark('BLUR'));window.addEventListener('focus',()=&gt;voiceDiagLifecycleMark('FOCUS'));
-function voiceDiagPublic(d,status,error,extra={}){const n=Math.max(0,Number(d?.pcmSamples||0)),rms=n?Math.sqrt(Math.max(0,Number(d?.pcmSquareSum||0))/n):0,inputSec=Number(d?.sourceSamples||0)/Math.max(1,Number(d?.sampleRate)||48000),pcmSec=n/GOOGLE_VOICE_SAMPLE_RATE,exp=voiceDiagExpectedMetrics(d?.finalTranscript||d?.streamTranscript||'');return{appVersion:APP_VERSION,mode:INTEGRATED_MODE,direction:d?.languageCode==='lo-LA'?'L2K':'K2L',languageCode:String(d?.languageCode||''),dedicated:d?.dedicated===true,diagId:String(d?.diagId||''),startedAtLocal:String(d?.startedAtLocal||''),startedAtUtc:String(d?.startedAtUtc||''),startedAtEpochMs:Number(d?.startedAtMs)||null,browser:String(d?.browser||''),secureContext:d?.secureContext===true,mediaDevices:d?.mediaDevices===true,getUserMedia:d?.getUserMedia===true,audioContextSupported:d?.audioContextSupported===true,micGranted:d?.micGranted===true,getUserMediaMs:Number.isFinite(Number(d?.getUserMediaMs))?Math.round(Number(d.getUserMediaMs)):null,audioContextInitial:String(d?.audioContextInitial||''),audioContextAfterMic:String(d?.audioContextAfterMic||''),audioContextAfterConnect:String(d?.audioContextAfterConnect||''),audioContextStateEvents:Array.isArray(d?.audioContextStateEvents)?d.audioContextStateEvents.slice(0,16):[],pageVisibilityEvents:Array.isArray(d?.pageVisibilityEvents)?d.pageVisibilityEvents.slice(0,24):[],pageLifecycleEvents:Array.isArray(d?.pageLifecycleEvents)?d.pageLifecycleEvents.slice(0,24):[],hasFocusStart:d?.hasFocusStart===true?true:d?.hasFocusStart===false?false:null,hasFocusEnd:(typeof document.hasFocus==='function'?document.hasFocus():null),sampleRate:Number.isFinite(Number(d?.sampleRate))?Number(d.sampleRate):null,trackSampleRate:Number.isFinite(Number(d?.trackSampleRate))?Number(d.trackSampleRate):null,trackChannelCount:Number.isFinite(Number(d?.trackChannelCount))?Number(d.trackChannelCount):null,trackSettings:d?.trackSettings||{},trackReadyStateStart:String(d?.trackReadyStateStart||''),trackMutedStart:d?.trackMutedStart===true,trackReadyStateBeforeStop:String(d?.trackReadyStateBeforeStop||''),trackMutedBeforeStop:d?.trackMutedBeforeStop===true,trackStopped:d?.trackStopped===true,trackMuteEvents:Number(d?.trackMuteEvents||0),trackUnmuteEvents:Number(d?.trackUnmuteEvents||0),trackEndedEvents:Number(d?.trackEndedEvents||0),sourceSamples:Number(d?.sourceSamples||0),sourceFrames:Number(d?.sourceFrames||0),sourceSeconds:Math.round(inputSec*1000)/1000,sourceCallbackGapAvgMs:Number(d?.sourceCallbackGapCount||0)?Math.round(Number(d?.sourceCallbackGapSum||0)/Number(d.sourceCallbackGapCount)*10)/10:0,sourceCallbackGapMaxMs:Math.round(Number(d?.sourceCallbackGapMaxMs||0)*10)/10,sourceCallbackLateCount:Number(d?.sourceCallbackLateCount||0),recordingWallMs:Number.isFinite(Number(d?.recordingWallMs))?Math.round(Number(d.recordingWallMs)):null,sourceCoverageRatio:Number.isFinite(Number(d?.sourceCoverageRatio))?Math.round(Number(d.sourceCoverageRatio)*1000)/1000:null,pcmSamples:n,pcmFrames:Number(d?.pcmFrames||0),pcmSeconds:Math.round(pcmSec*1000)/1000,resampleDurationDeltaMs:Math.round((pcmSec-inputSec)*1000),pcmRms:Math.round(rms*10000)/10000,pcmMeanAbs:n?Math.round((Number(d?.pcmAbsSum||0)/n)*10000)/10000:0,pcmDcOffset:n?Math.round((Number(d?.pcmSignedSum||0)/n)*100000)/100000:0,pcmPeak:Math.round(Math.max(0,Number(d?.pcmPeak||0))*10000)/10000,clippingRatio:n?Math.round(Number(d?.pcmClipSamples||0)/n*100000)/100000:0,silentRatio:n?Math.round(Number(d?.pcmSilentSamples||0)/n*10000)/10000:0,voicedRatio:n?Math.round(Number(d?.pcmVoicedSamples||0)/n*10000)/10000:0,firstPcmMs:Number.isFinite(Number(d?.firstPcmMs))?Number(d.firstPcmMs):null,firstVoicedMs:Number.isFinite(Number(d?.firstVoicedMs))?Number(d.firstVoicedMs):null,preReadyBufferedSamples:Number(d?.preReadyBufferedSamples||0),preReadyBufferedMax:Number(d?.preReadyBufferedMax||0),sentSamples:Number(d?.sentSamples||0),wsFramesSent:Number(d?.wsFramesSent||0),wsBytesSent:Number(d?.wsBytesSent||0),wsSendErrors:Number(d?.wsSendErrors||0),wsBufferedAmountMax:Number(d?.wsBufferedAmountMax||0),wsSendGapAvgMs:Number(d?.wsSendGapCount||0)?Math.round(Number(d?.wsSendGapSum||0)/Number(d.wsSendGapCount)*10)/10:0,wsSendGapMaxMs:Math.round(Number(d?.wsSendGapMaxMs||0)*10)/10,wsSendLateCount:Number(d?.wsSendLateCount||0),preReadyDroppedSamples:Number(d?.preReadyDroppedSamples||0),wsRegion:String(d?.wsRegion||''),wsCreateMs:Number.isFinite(Number(d?.wsCreateMs))?Math.round(Number(d.wsCreateMs)):null,wsOpenMs:Number.isFinite(Number(d?.wsOpenMs))?Math.round(Number(d.wsOpenMs)):null,wsReadyMs:Number.isFinite(Number(d?.wsReadyMs))?Math.round(Number(d.wsReadyMs)):null,wsEndSentMs:Number.isFinite(Number(d?.wsEndSentMs))?Math.round(Number(d.wsEndSentMs)):null,wsError:String(d?.wsError||''),wsDoneMs:Number.isFinite(Number(d?.wsDoneMs))?Math.round(Number(d.wsDoneMs)):null,wsCloseCode:Number.isFinite(Number(d?.wsCloseCode))?Number(d.wsCloseCode):null,wsCloseReason:String(d?.wsCloseReason||''),streamTranscriptChars:Number(d?.streamTranscriptChars||0),streamTranscript:String(d?.streamTranscript||''),finalTranscript:String(d?.finalTranscript||''),expectedPhrase:VOICE_DIAG_EXPECTED_LAO,expectedMatch:exp.expectedMatch,expectedCer:exp.expectedCer,stopSource:String(d?.stopSource||''),stopBeforeReady:d?.stopBeforeReady===true,stopToFinalMs:Number.isFinite(Number(d?.stopToFinalMs))?Math.round(Number(d.stopToFinalMs)):null,abortStage:String(d?.abortStage||''),usedFallback:d?.usedFallback===true,recoveryStage:String(d?.recoveryStage||''),restRegion:String(d?.restRegion||''),restMs:Number.isFinite(Number(d?.restMs))?Math.round(Number(d.restMs)):null,restStatus:Number.isFinite(Number(d?.restStatus))?Number(d.restStatus):null,restError:String(d?.restError||''),restAttempts:Array.isArray(d?.restAttempts)?d.restAttempts.slice(0,12):[],aiRegion:String(d?.aiRegion||''),aiMs:Number.isFinite(Number(d?.aiMs))?Math.round(Number(d.aiMs)):null,aiStatus:Number.isFinite(Number(d?.aiStatus))?Number(d.aiStatus):null,aiError:String(d?.aiError||''),transcriptChars:Number(d?.transcriptChars||0),targetScriptOkay:d?.targetScriptOkay===true?true:d?.targetScriptOkay===false?false:null,resultMs:Number.isFinite(Number(d?.resultMs))?Math.round(Number(d.resultMs)):null,status:String(status||''),error:String(error||''),audioDiagnostics:d?.audioDiagnostics||null,networkDiagnostics:d?.networkDiagnostics||voiceStatusNetworkResult||null,classification:String(d?.classification||'PENDING'),bypassUseful:d?.bypassUseful===true,firestoreUpload:String(d?.firestoreUpload||'PENDING'),firestoreUploadMs:Number.isFinite(Number(d?.firestoreUploadMs))?Math.round(Number(d.firestoreUploadMs)):null,firestoreRelay:String(d?.firestoreRelay||''),firestoreError:String(d?.firestoreError||''),firestoreAttempts:Array.isArray(d?.firestoreAttempts)?d.firestoreAttempts.slice(0,4):[],pcmCleared:d?.pcmCleared===true,wsCloseRequested:d?.wsCloseRequested===true,rawAudioStoredRemotely:false,events:Array.isArray(d?.events)?d.events.slice(0,96):[],...extra}}
+function voiceDiagPublic(d,status,error,extra={}){const n=Math.max(0,Number(d?.pcmSamples||0)),rms=n?Math.sqrt(Math.max(0,Number(d?.pcmSquareSum||0))/n):0,inputSec=Number(d?.sourceSamples||0)/Math.max(1,Number(d?.sampleRate)||48000),pcmSec=n/GOOGLE_VOICE_SAMPLE_RATE,exp=voiceDiagExpectedMetrics(d?.finalTranscript||d?.streamTranscript||'');return{appVersion:APP_VERSION,mode:INTEGRATED_MODE,direction:d?.languageCode==='lo-LA'?'L2K':'K2L',languageCode:String(d?.languageCode||''),dedicated:d?.dedicated===true,diagId:String(d?.diagId||''),startedAtLocal:String(d?.startedAtLocal||''),startedAtUtc:String(d?.startedAtUtc||''),startedAtEpochMs:Number(d?.startedAtMs)||null,browser:String(d?.browser||''),secureContext:d?.secureContext===true,mediaDevices:d?.mediaDevices===true,getUserMedia:d?.getUserMedia===true,audioContextSupported:d?.audioContextSupported===true,micGranted:d?.micGranted===true,getUserMediaMs:Number.isFinite(Number(d?.getUserMediaMs))?Math.round(Number(d.getUserMediaMs)):null,audioContextInitial:String(d?.audioContextInitial||''),audioContextAfterMic:String(d?.audioContextAfterMic||''),audioContextAfterConnect:String(d?.audioContextAfterConnect||''),audioContextStateEvents:Array.isArray(d?.audioContextStateEvents)?d.audioContextStateEvents.slice(0,16):[],pageVisibilityEvents:Array.isArray(d?.pageVisibilityEvents)?d.pageVisibilityEvents.slice(0,24):[],pageLifecycleEvents:Array.isArray(d?.pageLifecycleEvents)?d.pageLifecycleEvents.slice(0,24):[],hasFocusStart:d?.hasFocusStart===true?true:d?.hasFocusStart===false?false:null,hasFocusEnd:(typeof document.hasFocus==='function'?document.hasFocus():null),sampleRate:Number.isFinite(Number(d?.sampleRate))?Number(d.sampleRate):null,trackSampleRate:Number.isFinite(Number(d?.trackSampleRate))?Number(d.trackSampleRate):null,trackChannelCount:Number.isFinite(Number(d?.trackChannelCount))?Number(d.trackChannelCount):null,trackSettings:d?.trackSettings||{},trackReadyStateStart:String(d?.trackReadyStateStart||''),trackMutedStart:d?.trackMutedStart===true,trackReadyStateBeforeStop:String(d?.trackReadyStateBeforeStop||''),trackMutedBeforeStop:d?.trackMutedBeforeStop===true,trackStopped:d?.trackStopped===true,trackMuteEvents:Number(d?.trackMuteEvents||0),trackUnmuteEvents:Number(d?.trackUnmuteEvents||0),trackEndedEvents:Number(d?.trackEndedEvents||0),sourceSamples:Number(d?.sourceSamples||0),sourceFrames:Number(d?.sourceFrames||0),sourceSeconds:Math.round(inputSec*1000)/1000,sourceCallbackGapAvgMs:Number(d?.sourceCallbackGapCount||0)?Math.round(Number(d?.sourceCallbackGapSum||0)/Number(d.sourceCallbackGapCount)*10)/10:0,sourceCallbackGapMaxMs:Math.round(Number(d?.sourceCallbackGapMaxMs||0)*10)/10,sourceCallbackLateCount:Number(d?.sourceCallbackLateCount||0),recordingWallMs:Number.isFinite(Number(d?.recordingWallMs))?Math.round(Number(d.recordingWallMs)):null,sourceCoverageRatio:Number.isFinite(Number(d?.sourceCoverageRatio))?Math.round(Number(d.sourceCoverageRatio)*1000)/1000:null,pcmSamples:n,pcmFrames:Number(d?.pcmFrames||0),pcmSeconds:Math.round(pcmSec*1000)/1000,resampleDurationDeltaMs:Math.round((pcmSec-inputSec)*1000),pcmRms:Math.round(rms*10000)/10000,pcmMeanAbs:n?Math.round((Number(d?.pcmAbsSum||0)/n)*10000)/10000:0,pcmDcOffset:n?Math.round((Number(d?.pcmSignedSum||0)/n)*100000)/100000:0,pcmPeak:Math.round(Math.max(0,Number(d?.pcmPeak||0))*10000)/10000,clippingRatio:n?Math.round(Number(d?.pcmClipSamples||0)/n*100000)/100000:0,silentRatio:n?Math.round(Number(d?.pcmSilentSamples||0)/n*10000)/10000:0,voicedRatio:n?Math.round(Number(d?.pcmVoicedSamples||0)/n*10000)/10000:0,firstPcmMs:Number.isFinite(Number(d?.firstPcmMs))?Number(d.firstPcmMs):null,firstVoicedMs:Number.isFinite(Number(d?.firstVoicedMs))?Number(d.firstVoicedMs):null,preReadyBufferedSamples:Number(d?.preReadyBufferedSamples||0),preReadyBufferedMax:Number(d?.preReadyBufferedMax||0),sentSamples:Number(d?.sentSamples||0),wsFramesSent:Number(d?.wsFramesSent||0),wsBytesSent:Number(d?.wsBytesSent||0),wsSendErrors:Number(d?.wsSendErrors||0),wsBufferedAmountMax:Number(d?.wsBufferedAmountMax||0),wsSendGapAvgMs:Number(d?.wsSendGapCount||0)?Math.round(Number(d?.wsSendGapSum||0)/Number(d.wsSendGapCount)*10)/10:0,wsSendGapMaxMs:Math.round(Number(d?.wsSendGapMaxMs||0)*10)/10,wsSendLateCount:Number(d?.wsSendLateCount||0),preReadyDroppedSamples:Number(d?.preReadyDroppedSamples||0),wsRegion:String(d?.wsRegion||''),wsVia:String(d?.wsVia||'direct'),wsFallbackUsed:d?.wsFallbackUsed===true,wsAttemptCount:Number(d?.wsAttemptCount||0),wsCreateMs:Number.isFinite(Number(d?.wsCreateMs))?Math.round(Number(d.wsCreateMs)):null,wsOpenMs:Number.isFinite(Number(d?.wsOpenMs))?Math.round(Number(d.wsOpenMs)):null,wsReadyMs:Number.isFinite(Number(d?.wsReadyMs))?Math.round(Number(d.wsReadyMs)):null,wsEndSentMs:Number.isFinite(Number(d?.wsEndSentMs))?Math.round(Number(d.wsEndSentMs)):null,wsError:String(d?.wsError||''),wsDoneMs:Number.isFinite(Number(d?.wsDoneMs))?Math.round(Number(d.wsDoneMs)):null,wsCloseCode:Number.isFinite(Number(d?.wsCloseCode))?Number(d.wsCloseCode):null,wsCloseReason:String(d?.wsCloseReason||''),streamTranscriptChars:Number(d?.streamTranscriptChars||0),streamTranscript:String(d?.streamTranscript||''),finalTranscript:String(d?.finalTranscript||''),expectedPhrase:VOICE_DIAG_EXPECTED_LAO,expectedMatch:exp.expectedMatch,expectedCer:exp.expectedCer,stopSource:String(d?.stopSource||''),stopBeforeReady:d?.stopBeforeReady===true,stopToFinalMs:Number.isFinite(Number(d?.stopToFinalMs))?Math.round(Number(d.stopToFinalMs)):null,abortStage:String(d?.abortStage||''),usedFallback:d?.usedFallback===true,recoveryStage:String(d?.recoveryStage||''),restRegion:String(d?.restRegion||''),restMs:Number.isFinite(Number(d?.restMs))?Math.round(Number(d.restMs)):null,restStatus:Number.isFinite(Number(d?.restStatus))?Number(d.restStatus):null,restError:String(d?.restError||''),restAttempts:Array.isArray(d?.restAttempts)?d.restAttempts.slice(0,12):[],aiRegion:String(d?.aiRegion||''),aiMs:Number.isFinite(Number(d?.aiMs))?Math.round(Number(d.aiMs)):null,aiStatus:Number.isFinite(Number(d?.aiStatus))?Number(d.aiStatus):null,aiError:String(d?.aiError||''),transcriptChars:Number(d?.transcriptChars||0),targetScriptOkay:d?.targetScriptOkay===true?true:d?.targetScriptOkay===false?false:null,resultMs:Number.isFinite(Number(d?.resultMs))?Math.round(Number(d.resultMs)):null,status:String(status||''),error:String(error||''),audioDiagnostics:d?.audioDiagnostics||null,networkDiagnostics:d?.networkDiagnostics||voiceStatusNetworkResult||null,classification:String(d?.classification||'PENDING'),bypassUseful:d?.bypassUseful===true,firestoreUpload:String(d?.firestoreUpload||'PENDING'),firestoreUploadMs:Number.isFinite(Number(d?.firestoreUploadMs))?Math.round(Number(d.firestoreUploadMs)):null,firestoreRelay:String(d?.firestoreRelay||''),firestoreError:String(d?.firestoreError||''),firestoreAttempts:Array.isArray(d?.firestoreAttempts)?d.firestoreAttempts.slice(0,4):[],pcmCleared:d?.pcmCleared===true,wsCloseRequested:d?.wsCloseRequested===true,rawAudioStoredRemotely:false,events:Array.isArray(d?.events)?d.events.slice(0,96):[],...extra}}
 function voiceDiagRemoteSummary(pub){const n=pub?.networkDiagnostics||{},tests=n.tests||{},agreement=voiceDiagAudioAgreement(pub?.audioDiagnostics?.results||[]),pack=(name,t)=&gt;t?[name,Number(t.status)||0,Number(t.ms)||0,t.reached===true?1:0,(t.ok===true||t.serviceOk===true||t.providerOk===true||t.mediaOk===true)?1:0,t.ready===true?1:0,String(t.error||'').slice(0,36)]:null,keys=Object.keys(tests).sort(),net=keys.map(k=&gt;pack(k,tests[k])).filter(Boolean),aud=(pub.audioDiagnostics?.results||[]).map(x=&gt;[String(x.name||''),String(x.via||''),String(x.region||''),Number(x.status)||0,Number(x.ms)||0,x.reached===true?1:0,x.recognized===true?1:0,Number(x.chars)||0,x.expectedCer??null,String(x.error||'').slice(0,36)]);return{appVersion:pub.appVersion,mode:pub.mode,direction:pub.direction,languageCode:pub.languageCode,dedicated:pub.dedicated,diagId:pub.diagId,startedAtLocal:pub.startedAtLocal,startedAtUtc:pub.startedAtUtc,startedAtEpochMs:pub.startedAtEpochMs,browser:pub.browser,secureContext:pub.secureContext,micGranted:pub.micGranted,getUserMediaMs:pub.getUserMediaMs,audioContextInitial:pub.audioContextInitial,audioContextAfterMic:pub.audioContextAfterMic,audioContextAfterConnect:pub.audioContextAfterConnect,sampleRate:pub.sampleRate,trackSampleRate:pub.trackSampleRate,trackChannelCount:pub.trackChannelCount,pcmSamples:pub.pcmSamples,pcmSeconds:pub.pcmSeconds,pcmRms:pub.pcmRms,pcmPeak:pub.pcmPeak,clippingRatio:pub.clippingRatio,silentRatio:pub.silentRatio,voicedRatio:pub.voicedRatio,firstPcmMs:pub.firstPcmMs,firstVoicedMs:pub.firstVoicedMs,sourceCallbackGapMaxMs:pub.sourceCallbackGapMaxMs,sourceCallbackLateCount:pub.sourceCallbackLateCount,recordingWallMs:pub.recordingWallMs,sourceCoverageRatio:pub.sourceCoverageRatio,wsRegion:pub.wsRegion,wsOpenMs:pub.wsOpenMs,wsReadyMs:pub.wsReadyMs,wsError:String(pub.wsError||'').slice(0,60),wsSendGapMaxMs:pub.wsSendGapMaxMs,wsSendLateCount:pub.wsSendLateCount,preReadyDroppedSamples:pub.preReadyDroppedSamples,streamTranscriptChars:pub.streamTranscriptChars,transcriptChars:pub.transcriptChars,expectedMatch:pub.expectedMatch,expectedCer:pub.expectedCer,stopSource:pub.stopSource,abortStage:pub.abortStage,status:pub.status,error:String(pub.error||'').slice(0,80),classification:pub.classification,bypassUseful:pub.bypassUseful,timeZone:n.timeZone||'',utcOffsetMinutes:n.utcOffsetMinutes??null,iosVersion:n.iosVersion||'',displayMode:n.displayMode||'',permissionMicBefore:n.permissionMicBefore||'',permissionMicAfter:n.permissionMicAfter||'',livePathAudit:n.livePathAudit||null,failoverDrills:(n.failoverDrills||[]).map(x=&gt;({name:x.name,ok:x.ok,selected:x.selected||'',failover:x.failover===true,status:x.status||0,recognized:x.recognized===true,chars:Number(x.chars)||0,expectedCer:x.expectedCer??null,error:String(x.error||'').slice(0,50)})),audioAgreement:agreement,firestoreAttempts:(pub.firestoreAttempts||[]).map(x=&gt;({name:x.name,ok:x.ok,status:x.status||0,error:String(x.error||'').slice(0,40)})),net,aud}}
 function voiceDiagBuildRecord(pub){const summary=voiceDiagRemoteSummary(pub);return{schemaVersion:2,eventId:telemetryMakeId('voice'),traceId:telemetryMakeId('voice-trace'),parentTraceId:'',sourceType:'DIAGNOSTIC',direction:pub.direction,mode:INTEGRATED_MODE,appVersion:APP_VERSION,status:pub.status,sourceRegisterHint:'voice-diagnostic',sourceText:'VOICE_DIAGNOSTIC '+JSON.stringify(summary),targetText:'VOICE_DIAGNOSTIC',backText:'',clientCreatedAtMs:Number(pub.startedAtEpochMs)||Date.now(),quality:{score:null,pass:pub.status==='SUCCESS',reasons:pub.status==='SUCCESS'?[]:['VOICE_DIAGNOSTIC_'+String(pub.error||pub.status).slice(0,60)],softReasons:[]},runtime:{totalMs:pub.resultMs,winner:String(pub.classification||'voice-diagnostic'),hedged:false,rescued:pub.bypassUseful===true,tailRescued:false,directToServerFallback:false,routeSummary:String(pub.classification||''),requestCount:Object.keys(pub.networkDiagnostics?.tests||{}).length+(pub.audioDiagnostics?.results?.length||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:false,outputLocked:false,userRetry:false,requestRecords:[]}}}
 function voiceDiagQueueRecord(record){try{const q=telemetryQueueRead(),idx=q.findIndex(x=&gt;String(x?.eventId||'')===String(record?.eventId||''));if(idx&gt;=0)q[idx]=record;else q.push(record);telemetryQueueWrite(q)}catch(e){}}
@@ -5755,7 +5906,7 @@ async function voiceDiagAwaitPersistence(pub){try{await Promise.race([voiceDiagL
 function voiceDiagFormatTest(name,t){if(!t)return`${name}=SKIPPED`;const flags=[t.reached?'reached':'no-reach',t.ok?'ok':'not-ok'];if(t.ready===true)flags.push('ready');if(t.opened===true&amp;&amp;!t.ready)flags.push('opened');if(t.mediaOk===true)flags.push('media-ok');if(t.providerOk===true)flags.push('provider-ok');if(t.unauth401Expected===true)flags.push('401-expected');if(t.timedOut)flags.push('timeout');const extra=[t.region?'region='+t.region:'',t.relayRegion?'relayRegion='+t.relayRegion:'',Number.isFinite(Number(t.providerMs))?'providerMs='+Number(t.providerMs):'',Number.isFinite(Number(t.cfProxyMs))?'cfProxyMs='+Number(t.cfProxyMs):'',t.colo?'colo='+t.colo:'',t.country?'country='+t.country:'',t.httpProtocol?'http='+t.httpProtocol:'',t.tlsVersion?'tls='+t.tlsVersion:'',t.version?'version='+t.version:''].filter(Boolean).join(' ');return`${name}=${flags.join(',')} status=${t.status??0} ms=${t.ms??0}${extra?' '+extra:''} start=${t.startedAtLocal||'-'} end=${t.endedAtLocal||'-'}${t.error?' error='+t.error:''}`}
 function voiceDiagAudioAgreement(results){const a=Array.isArray(results)?results:[],r=a.filter(x=&gt;x?.recognized===true&amp;&amp;String(x?.transcript||'')),norm=r.map(x=&gt;voiceDiagNormalizeExpected(x.transcript||'')),cers=r.map(x=&gt;Number(x?.expectedCer)).filter(Number.isFinite).sort((x,y)=&gt;x-y),unique=new Set(norm.filter(Boolean));return{totalPaths:a.length,recognizedPaths:r.length,scriptOkayPaths:r.filter(x=&gt;x?.scriptOkay===true).length,exactExpectedPaths:r.filter(x=&gt;x?.expectedMatch===true).length,goodExpectedPaths:r.filter(x=&gt;Number.isFinite(Number(x?.expectedCer))&amp;&amp;Number(x.expectedCer)&lt;=0.25).length,uniqueNormalizedTranscripts:unique.size,bestCer:cers.length?cers[0]:null,medianCer:cers.length?cers[Math.floor((cers.length-1)/2)]:null}}
 function voiceStatusCheckUserText(r){return`✅ ການທົດສອບສຳເລັດແລ້ວ.\n\nກະລຸນາກົດປຸ່ມ “ຄັດລອກບັນທຶກ” ຢູ່ດ້ານລຸ່ມ ແລ້ວສົ່ງໃຫ້ສາມີຜ່ານ Facebook Messenger.`}
-function voiceStatusCheckLogText(r=voiceDiagLastResult){if(!r)return'VOICE_STATUS_CHECK: NO_RESULT';const n=r.networkDiagnostics||{},t=n.tests||{},lines=[`VOICE_STATUS_CHECK ${r.appVersion||APP_VERSION}`,`diagId=${r.diagId||'-'}`,`startedAtLocal=${r.startedAtLocal||'-'} startedAtUtc=${r.startedAtUtc||'-'} epochMs=${r.startedAtEpochMs??'-'}`,`mode=${r.mode} direction=${r.direction} language=${r.languageCode}`,`browser=${r.browser} iosVersion=${n.iosVersion||'-'} secureContext=${r.secureContext} online=${n.online??'-'} iframe=${n.inIframe??'-'} visibility=${n.visibility||'-'} displayMode=${n.displayMode||'-'} standalone=${n.standalone??'-'} swControlled=${n.serviceWorkerControlled??'-'} timezone=${n.timeZone||'-'} offsetMin=${n.utcOffsetMinutes??'-'}`,`referrerHost=${n.referrerHost||'-'} permissionMic=${n.permissionMicBefore||'-'} -&gt; ${n.permissionMicAfter||'-'}`,`userAgent=${n.userAgent||'-'}`,`EXPECTED_PHRASE=${VOICE_DIAG_EXPECTED_LAO}`,`mediaDevices=${r.mediaDevices} getUserMedia=${r.getUserMedia} micGranted=${r.micGranted} getUserMediaMs=${r.getUserMediaMs??'-'}`,`track settings=${JSON.stringify(r.trackSettings||{})} state=${r.trackReadyStateStart||'-'} muted=${r.trackMutedStart} beforeStop=${r.trackReadyStateBeforeStop||'-'}/${r.trackMutedBeforeStop} stopped=${r.trackStopped} events mute=${r.trackMuteEvents} unmute=${r.trackUnmuteEvents} ended=${r.trackEndedEvents}`,`audioContext=${r.audioContextInitial||'-'} -&gt; ${r.audioContextAfterMic||'-'} -&gt; ${r.audioContextAfterConnect||'-'} sampleRate=${r.sampleRate??'-'} trackSampleRate=${r.trackSampleRate??'-'} channels=${r.trackChannelCount??'-'} stateEvents=${JSON.stringify(r.audioContextStateEvents||[])}`,`sourceSamples=${r.sourceSamples} sourceFrames=${r.sourceFrames} sourceSeconds=${r.sourceSeconds} pcmSamples=${r.pcmSamples} pcmFrames=${r.pcmFrames} pcmSeconds=${r.pcmSeconds} resampleDeltaMs=${r.resampleDurationDeltaMs} recordingWallMs=${r.recordingWallMs??'-'} coverage=${r.sourceCoverageRatio??'-'} callbackGapAvg=${r.sourceCallbackGapAvgMs??'-'} callbackGapMax=${r.sourceCallbackGapMaxMs??'-'} callbackLate=${r.sourceCallbackLateCount??0}`,`audio rms=${r.pcmRms} meanAbs=${r.pcmMeanAbs} peak=${r.pcmPeak} dc=${r.pcmDcOffset} clippingRatio=${r.clippingRatio} silentRatio=${r.silentRatio} voicedRatio=${r.voicedRatio} firstPcmMs=${r.firstPcmMs??'-'} firstVoicedMs=${r.firstVoicedMs??'-'}`,`actualWs=${r.wsRegion||'-'} create=${r.wsCreateMs??'-'} open=${r.wsOpenMs??'-'} ready=${r.wsReadyMs??'-'} endSent=${r.wsEndSentMs??'-'} done=${r.wsDoneMs??'-'} error=${r.wsError||'-'} close=${r.wsCloseCode??'-'}/${r.wsCloseReason||'-'}`,`ws transport preReady=${r.preReadyBufferedSamples??0} preReadyMax=${r.preReadyBufferedMax??0} preReadyDropped=${r.preReadyDroppedSamples??0} sentSamples=${r.sentSamples??0} frames=${r.wsFramesSent??0} bytes=${r.wsBytesSent??0} sendErrors=${r.wsSendErrors??0} bufferedMax=${r.wsBufferedAmountMax??0} sendGapAvg=${r.wsSendGapAvgMs??'-'} sendGapMax=${r.wsSendGapMaxMs??'-'} sendLate=${r.wsSendLateCount??0}`,`page focus=${r.hasFocusStart??'-'} -&gt; ${r.hasFocusEnd??'-'} visibilityEvents=${JSON.stringify(r.pageVisibilityEvents||[])} lifecycle=${JSON.stringify(r.pageLifecycleEvents||[])}`,`STREAM_TRANSCRIPT=${r.streamTranscript||'-'}`,`FINAL_TRANSCRIPT=${r.finalTranscript||'-'}`,`expectedMatch=${r.expectedMatch} expectedCER=${r.expectedCer??'-'} targetScriptOkay=${r.targetScriptOkay??'-'}`,`stopSource=${r.stopSource||'-'} stopBeforeReady=${r.stopBeforeReady} stopToFinalMs=${r.stopToFinalMs??'-'} abortStage=${r.abortStage||'-'}`,'NETWORK_PATHS:'];for(const k of Object.keys(t).sort())lines.push('  '+voiceDiagFormatTest(k,t[k]));lines.push('LIVE_PATH_AUDIT: '+JSON.stringify(n.livePathAudit||{}));if(Array.isArray(n.failoverDrills)){lines.push('FAILOVER_DRILLS:');for(const x of n.failoverDrills)lines.push(`  ${x.name} ok=${x.ok} injected=${x.injected||'-'} primary=${x.primary||'-'} selected=${x.selected||'-'} failover=${x.failover===true} status=${x.status||0} ms=${x.ms||0}${x.error?' error='+x.error:''}`)}if(Array.isArray(r.audioDiagnostics?.results)){lines.push('AUDIO_STT_MATRIX:');for(const x of r.audioDiagnostics.results)lines.push(`  ${x.name} via=${x.via} region=${x.region||'-'} reached=${x.reached} recognized=${x.recognized===true} status=${x.status??0} ms=${x.ms??0} chars=${x.chars??0} scriptOkay=${x.scriptOkay??'-'} expectedMatch=${x.expectedMatch??'-'} CER=${x.expectedCer??'-'} frames=${x.framesSent??'-'} bytes=${x.bytesSent??'-'} sendGapMax=${x.sendGapMaxMs??'-'} transcript=${JSON.stringify(x.transcript||'')}${x.error?' error='+x.error:''}`);lines.push('AUDIO_AGREEMENT: '+JSON.stringify(voiceDiagAudioAgreement(r.audioDiagnostics.results)))}lines.push(`classification=${r.classification||n.classification||'INCONCLUSIVE'} bypassUseful=${r.bypassUseful===true||n.bypassUseful===true}`,`cleanup pcmCleared=${r.pcmCleared} wsCloseRequested=${r.wsCloseRequested} rawAudioStoredRemotely=${r.rawAudioStoredRemotely}`,`status=${r.status} error=${r.error||'-'} resultMs=${r.resultMs??'-'}`,`firestore=${r.firestoreUpload||'-'} relay=${r.firestoreRelay||'-'} ms=${r.firestoreUploadMs??'-'} error=${r.firestoreError||'-'}`,`firestoreAttempts=${JSON.stringify(r.firestoreAttempts||[])}`);if(Array.isArray(r.events)&amp;&amp;r.events.length){lines.push('VOICE_EVENTS:');for(const e of r.events)lines.push(`  +${e.ms}ms ${e.name}${e.detail?' · '+e.detail:''}`)}return lines.join('\n')}
+function voiceStatusCheckLogText(r=voiceDiagLastResult){if(!r)return'VOICE_STATUS_CHECK: NO_RESULT';const n=r.networkDiagnostics||{},t=n.tests||{},lines=[`VOICE_STATUS_CHECK ${r.appVersion||APP_VERSION}`,`diagId=${r.diagId||'-'}`,`startedAtLocal=${r.startedAtLocal||'-'} startedAtUtc=${r.startedAtUtc||'-'} epochMs=${r.startedAtEpochMs??'-'}`,`mode=${r.mode} direction=${r.direction} language=${r.languageCode}`,`browser=${r.browser} iosVersion=${n.iosVersion||'-'} secureContext=${r.secureContext} online=${n.online??'-'} iframe=${n.inIframe??'-'} visibility=${n.visibility||'-'} displayMode=${n.displayMode||'-'} standalone=${n.standalone??'-'} swControlled=${n.serviceWorkerControlled??'-'} timezone=${n.timeZone||'-'} offsetMin=${n.utcOffsetMinutes??'-'}`,`referrerHost=${n.referrerHost||'-'} permissionMic=${n.permissionMicBefore||'-'} -&gt; ${n.permissionMicAfter||'-'}`,`userAgent=${n.userAgent||'-'}`,`EXPECTED_PHRASE=${VOICE_DIAG_EXPECTED_LAO}`,`mediaDevices=${r.mediaDevices} getUserMedia=${r.getUserMedia} micGranted=${r.micGranted} getUserMediaMs=${r.getUserMediaMs??'-'}`,`track settings=${JSON.stringify(r.trackSettings||{})} state=${r.trackReadyStateStart||'-'} muted=${r.trackMutedStart} beforeStop=${r.trackReadyStateBeforeStop||'-'}/${r.trackMutedBeforeStop} stopped=${r.trackStopped} events mute=${r.trackMuteEvents} unmute=${r.trackUnmuteEvents} ended=${r.trackEndedEvents}`,`audioContext=${r.audioContextInitial||'-'} -&gt; ${r.audioContextAfterMic||'-'} -&gt; ${r.audioContextAfterConnect||'-'} sampleRate=${r.sampleRate??'-'} trackSampleRate=${r.trackSampleRate??'-'} channels=${r.trackChannelCount??'-'} stateEvents=${JSON.stringify(r.audioContextStateEvents||[])}`,`sourceSamples=${r.sourceSamples} sourceFrames=${r.sourceFrames} sourceSeconds=${r.sourceSeconds} pcmSamples=${r.pcmSamples} pcmFrames=${r.pcmFrames} pcmSeconds=${r.pcmSeconds} resampleDeltaMs=${r.resampleDurationDeltaMs} recordingWallMs=${r.recordingWallMs??'-'} coverage=${r.sourceCoverageRatio??'-'} callbackGapAvg=${r.sourceCallbackGapAvgMs??'-'} callbackGapMax=${r.sourceCallbackGapMaxMs??'-'} callbackLate=${r.sourceCallbackLateCount??0}`,`audio rms=${r.pcmRms} meanAbs=${r.pcmMeanAbs} peak=${r.pcmPeak} dc=${r.pcmDcOffset} clippingRatio=${r.clippingRatio} silentRatio=${r.silentRatio} voicedRatio=${r.voicedRatio} firstPcmMs=${r.firstPcmMs??'-'} firstVoicedMs=${r.firstVoicedMs??'-'}`,`actualWs=${r.wsVia||'direct'}:${r.wsRegion||'-'} fallback=${r.wsFallbackUsed??false} attempts=${r.wsAttemptCount??'-'} create=${r.wsCreateMs??'-'} open=${r.wsOpenMs??'-'} ready=${r.wsReadyMs??'-'} endSent=${r.wsEndSentMs??'-'} done=${r.wsDoneMs??'-'} error=${r.wsError||'-'} close=${r.wsCloseCode??'-'}/${r.wsCloseReason||'-'}`,`ws transport preReady=${r.preReadyBufferedSamples??0} preReadyMax=${r.preReadyBufferedMax??0} preReadyDropped=${r.preReadyDroppedSamples??0} sentSamples=${r.sentSamples??0} frames=${r.wsFramesSent??0} bytes=${r.wsBytesSent??0} sendErrors=${r.wsSendErrors??0} bufferedMax=${r.wsBufferedAmountMax??0} sendGapAvg=${r.wsSendGapAvgMs??'-'} sendGapMax=${r.wsSendGapMaxMs??'-'} sendLate=${r.wsSendLateCount??0}`,`page focus=${r.hasFocusStart??'-'} -&gt; ${r.hasFocusEnd??'-'} visibilityEvents=${JSON.stringify(r.pageVisibilityEvents||[])} lifecycle=${JSON.stringify(r.pageLifecycleEvents||[])}`,`STREAM_TRANSCRIPT=${r.streamTranscript||'-'}`,`FINAL_TRANSCRIPT=${r.finalTranscript||'-'}`,`expectedMatch=${r.expectedMatch} expectedCER=${r.expectedCer??'-'} targetScriptOkay=${r.targetScriptOkay??'-'}`,`stopSource=${r.stopSource||'-'} stopBeforeReady=${r.stopBeforeReady} stopToFinalMs=${r.stopToFinalMs??'-'} abortStage=${r.abortStage||'-'}`,'NETWORK_PATHS:'];for(const k of Object.keys(t).sort())lines.push('  '+voiceDiagFormatTest(k,t[k]));lines.push('LIVE_PATH_AUDIT: '+JSON.stringify(n.livePathAudit||{}));if(Array.isArray(n.failoverDrills)){lines.push('FAILOVER_DRILLS:');for(const x of n.failoverDrills)lines.push(`  ${x.name} ok=${x.ok} injected=${x.injected||'-'} primary=${x.primary||'-'} selected=${x.selected||'-'} failover=${x.failover===true} status=${x.status||0} ms=${x.ms||0}${x.error?' error='+x.error:''}`)}if(Array.isArray(r.audioDiagnostics?.results)){lines.push('AUDIO_STT_MATRIX:');for(const x of r.audioDiagnostics.results)lines.push(`  ${x.name} via=${x.via} region=${x.region||'-'} reached=${x.reached} recognized=${x.recognized===true} status=${x.status??0} ms=${x.ms??0} chars=${x.chars??0} scriptOkay=${x.scriptOkay??'-'} expectedMatch=${x.expectedMatch??'-'} CER=${x.expectedCer??'-'} frames=${x.framesSent??'-'} bytes=${x.bytesSent??'-'} sendGapMax=${x.sendGapMaxMs??'-'} transcript=${JSON.stringify(x.transcript||'')}${x.error?' error='+x.error:''}`);lines.push('AUDIO_AGREEMENT: '+JSON.stringify(voiceDiagAudioAgreement(r.audioDiagnostics.results)))}lines.push(`classification=${r.classification||n.classification||'INCONCLUSIVE'} bypassUseful=${r.bypassUseful===true||n.bypassUseful===true}`,`cleanup pcmCleared=${r.pcmCleared} wsCloseRequested=${r.wsCloseRequested} rawAudioStoredRemotely=${r.rawAudioStoredRemotely}`,`status=${r.status} error=${r.error||'-'} resultMs=${r.resultMs??'-'}`,`firestore=${r.firestoreUpload||'-'} relay=${r.firestoreRelay||'-'} ms=${r.firestoreUploadMs??'-'} error=${r.firestoreError||'-'}`,`firestoreAttempts=${JSON.stringify(r.firestoreAttempts||[])}`);if(Array.isArray(r.events)&amp;&amp;r.events.length){lines.push('VOICE_EVENTS:');for(const e of r.events)lines.push(`  +${e.ms}ms ${e.name}${e.detail?' · '+e.detail:''}`)}return lines.join('\n')}
 function voiceStatusCheckComplete(r){voiceStatusCheckActive=false;if(voiceStatusCheckAutoTimer){clearTimeout(voiceStatusCheckAutoTimer);voiceStatusCheckAutoTimer=null}if(voiceStatusCheckCountdownTimer){clearInterval(voiceStatusCheckCountdownTimer);voiceStatusCheckCountdownTimer=null}voiceStatusCheckButtonBusy(false);voiceStatusCheckSet(voiceStatusCheckUserText(r));const a=document.getElementById('voiceStatusCheckActions');if(a)a.hidden=false}
 async function copyVoiceStatusCheckLog(){const text=voiceStatusCheckLogText();try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}voiceStatusCheckSet('✅ ຄັດລອກບັນທຶກແລ້ວ.\n\nກະລຸນາສົ່ງຂໍ້ຄວາມນີ້ຜ່ານ Facebook Messenger ໃຫ້ສາມີ.')}catch(e){alert('⚠️ ຄັດລອກບັນທຶກບໍ່ສຳເລັດ. ກະລຸນາລອງອີກຄັ້ງ.')}}
 async function startVoiceStatusCheck(languageCode){if(voiceStatusCheckActive||voiceRecording||voiceProcessing){voiceStatusCheckSet('ກະລຸນາລໍຖ້າໃຫ້ການຮັບສຽງປັດຈຸບັນສຳເລັດກ່ອນ.');return}if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){voiceStatusCheckSet('ກະລຸນາລໍຖ້າໃຫ້ການແປສຳເລັດກ່ອນ.');return}const startedAtMs=Date.now(),startedPerf=performance.now(),diagId=voiceDiagNewId();voiceStatusSessionMeta={startedAtMs,startedPerf,diagId};voiceStatusNetworkResult=voiceDiagNetBase(voiceStatusSessionMeta);voiceStatusNetworkPromise=voiceDiagNetworkSuite(voiceStatusSessionMeta).catch(e=&gt;{voiceStatusNetworkResult.notes?.push('NETWORK_SUITE:'+voiceDiagSafeError(e));return voiceStatusNetworkResult});voiceStatusCheckActive=true;voiceStatusCheckButtonBusy(true);const a=document.getElementById('voiceStatusCheckActions');if(a)a.hidden=true;voiceStatusCheckSet(`🎙️ ກຳລັງເປີດໄມໂຄຣໂຟນ.\n\nກະລຸນາອ່ານປະໂຫຍກນີ້ໃຫ້ຊັດເຈນ:\n“${VOICE_DIAG_EXPECTED_LAO}”`);await voiceStartCapture(languageCode);if(!voiceStatusCheckActive)return;if(!voiceRecording){const r=voiceDiagLastResult||voiceDiagFinalize('FAILED','VOICE_RECORDING_NOT_STARTED');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r);return}const started=Date.now();voiceStatusCheckSet(`🔴 ກຳລັງກວດ · ອ່ານປະໂຫຍກນີ້:\n“${VOICE_DIAG_EXPECTED_LAO}”`);voiceStatusCheckCountdownTimer=setInterval(()=&gt;{if(!voiceStatusCheckActive)return;const left=Math.max(0,5-Math.floor((Date.now()-started)/1000));voiceStatusCheckSet(`🔴 ກຳລັງກວດ · ອ່ານຕໍ່ໄປ... ${left}s\n“${VOICE_DIAG_EXPECTED_LAO}”`)},1000);voiceStatusCheckAutoTimer=setTimeout(()=&gt;{if(voiceStatusCheckActive&amp;&amp;voiceRecording){voiceStatusCheckSet('⏳ ບັນທຶກສຽງຄົບແລ້ວ · ກຳລັງກວດທຸກເສັ້ນທາງຫຼັກ/ສຳຮອງ ແລະ ການຮັບຮູ້ສຽງ...');void voiceStopCapture(languageCode,false,'status-auto')}},5200)}
@@ -5788,7 +5939,17 @@ function voiceRelayConfig(){
   return{url:String(ep.url||'').replace(/\/+$/,''),token:String(c.token||''),name:String(ep.name||'')};
 }
 
-function voiceWsUrl(base){return String(base||'').replace(/^http:/i,'ws:').replace(/^https:/i,'wss:')+'/stream'}
+function voiceWsCandidates(){
+  const c=integratedRelayRawConfig(),token=String(c.token||''),direct=integratedRelayRouteOrder();
+  const a=direct.map(ep=&gt;({url:String(ep.url||'').replace(/\/+$/,''),token,name:String(ep.name||''),via:'direct'}));
+  const b=direct.map(ep=&gt;({url:INTEGRATED_CLOUDFLARE_URL,token,name:String(ep.name||''),via:'cloudflare'}));
+  return [...a,...b].filter(x=&gt;x.url&amp;&amp;x.token&amp;&amp;x.name);
+}
+function voiceWsUrl(base,regionName=''){
+  const u=new URL(String(base||'').replace(/^http:/i,'ws:').replace(/^https:/i,'wss:').replace(/\/+$/,'')+'/stream');
+  if(regionName)u.searchParams.set('region',String(regionName));
+  return u.toString();
+}
 function voiceConcatFloat32(a,b){if(!a.length)return new Float32Array(b);if(!b.length)return new Float32Array(a);const o=new Float32Array(a.length+b.length);o.set(a,0);o.set(b,a.length);return o}
 function voiceConcatInt16(a,b){if(!a.length)return new Int16Array(b);if(!b.length)return new Int16Array(a);const o=new Int16Array(a.length+b.length);o.set(a,0);o.set(b,a.length);return o}
 function voiceFloatToInt16(f){const o=new Int16Array(f.length);for(let i=0;i&lt;f.length;i++){const s=Math.max(-1,Math.min(1,f[i]));o[i]=s&lt;0?Math.round(s*32768):Math.round(s*32767)}return o}
@@ -5838,24 +5999,33 @@ function voiceMarkStreamFailed(reason){
   if(voiceRecording)VOICE_UI_STREAM_FALLBACK();
 }
 function voiceOpenWebSocket(languageCode,session){
-  const cfg=voiceRelayConfig();voiceStreamRelayCfg=cfg;voiceWsFailed=false;voiceWsReady=false;voiceDonePromise=new Promise(r=&gt;{voiceDoneResolve=r});voiceDiagMark('wsRegion',String(cfg.name||''));const voiceWsDiagStarted=performance.now();voiceDiagMark('wsCreateMs',performance.now()-voiceDiagCurrent?.startedPerf);voiceDiagEvent('WS_CREATE',String(cfg.name||''));
-  if(!cfg.url||!cfg.token){voiceMarkStreamFailed('RELAY_NOT_CONFIGURED');return Promise.resolve(false)}
+  const candidates=voiceWsCandidates(),first=candidates[0]||voiceRelayConfig();voiceStreamRelayCfg=first;voiceWsFailed=false;voiceWsReady=false;voiceDonePromise=new Promise(r=&gt;{voiceDoneResolve=r});const voiceWsDiagStarted=performance.now();voiceDiagMark('wsCreateMs',performance.now()-voiceDiagCurrent?.startedPerf);voiceDiagEvent('WS_CREATE',String(first?.name||''));
+  if(!candidates.length){voiceMarkStreamFailed('RELAY_NOT_CONFIGURED');return Promise.resolve(false)}
   return new Promise(resolve=&gt;{
-    const started=performance.now();let readySettled=false,timer=null;const finishReady=ok=&gt;{if(readySettled)return;readySettled=true;if(timer)clearTimeout(timer);resolve(!!ok)};
-    let ws;try{ws=new WebSocket(voiceWsUrl(cfg.url))}catch(e){voiceDiagEvent('WS_CREATE_ERROR',String(e?.message||e));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'ws-create-error'});voiceMarkStreamFailed(e?.message||e);finishReady(false);return}
-    voiceWs=ws;ws.binaryType='arraybuffer';
-    timer=setTimeout(()=&gt;{voiceDiagEvent('WS_READY_TIMEOUT',String(cfg.name||''));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'ready-timeout'});voiceMarkStreamFailed('READY_TIMEOUT');try{ws.close()}catch(e){}finishReady(false)},GOOGLE_VOICE_READY_TIMEOUT_MS);
-    ws.onopen=()=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsOpenMs',performance.now()-voiceWsDiagStarted);voiceDiagEvent('WS_OPEN',String(cfg.name||''));try{ws.send(JSON.stringify({type:'start',token:cfg.token,languageCode,sampleRate:16000,channels:1,bitsPerSample:16,frameMs:100,requestIndex:'mic-'+Date.now()}))}catch(e){voiceMarkStreamFailed(e?.message||e);finishReady(false)}};
-    ws.onmessage=ev=&gt;{if(session!==voiceSessionId)return;let m;try{m=JSON.parse(String(ev.data||''))}catch(e){return}
-      if(m.type==='ready'){voiceWsReady=true;voiceDiagMark('wsReadyMs',performance.now()-voiceWsDiagStarted);voiceDiagEvent('WS_READY',`${cfg.name||'-'} ${Math.round(performance.now()-voiceWsDiagStarted)}ms`);integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:101,latencyMs:performance.now()-started,failover:false,phase:'ready'});voiceFlushPendingFrames();finishReady(true);return}
-      if(m.type==='error'){voiceDiagEvent('WS_PROVIDER_ERROR',String(m.grpcMessage||m.error||''));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'provider-stream-error',error:String(m.grpcMessage||m.error||'')});voiceMarkStreamFailed(m.grpcMessage||m.error||'GOOGLE_STREAM_ERROR');finishReady(false);return}
-      if(m.type==='done'){const tx=String(m.transcript||'').trim();voiceDiagMark('wsDoneMs',performance.now()-voiceWsDiagStarted);voiceDiagMark('streamTranscriptChars',tx.length);voiceDiagMark('streamTranscript',tx);voiceDiagEvent('WS_DONE',`chars=${tx.length}`);voiceSettleDone({ok:!!m.ok,transcript:tx,telemetry:m.telemetry||null});return}
+    let resolved=false,index=-1;
+    const finishReady=ok=&gt;{if(resolved)return;resolved=true;resolve(!!ok)};
+    const attemptNext=()=&gt;{
+      if(session!==voiceSessionId){finishReady(false);return}
+      index++;if(index&gt;=candidates.length){voiceDiagMark('wsAttemptCount',index);voiceMarkStreamFailed('ALL_WS_ROUTES_FAILED');finishReady(false);return}
+      const cfg=candidates[index],started=performance.now(),fallback=index&gt;0;voiceStreamRelayCfg=cfg;voiceDiagMark('wsRegion',String(cfg.name||''));voiceDiagMark('wsVia',String(cfg.via||'direct'));voiceDiagMark('wsAttemptCount',index+1);voiceDiagMark('wsFallbackUsed',fallback);voiceDiagEvent('WS_ROUTE_CREATE',`${cfg.via}:${cfg.name}`);
+      let ws=null,timer=null,routeDone=false,ready=false;
+      const cleanup=()=&gt;{if(timer){clearTimeout(timer);timer=null}};
+      const failRoute=(reason,phase)=&gt;{if(routeDone)return;routeDone=true;cleanup();voiceDiagEvent('WS_ROUTE_FAIL',`${cfg.via}:${cfg.name} ${reason}`);integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:fallback,phase:phase||'route-failed',via:cfg.via,error:String(reason||'')});try{if(ws&amp;&amp;(ws.readyState===WebSocket.OPEN||ws.readyState===WebSocket.CONNECTING))ws.close()}catch(e){};if(!ready)setTimeout(attemptNext,0);else voiceMarkStreamFailed(reason||'WEBSOCKET_ERROR')};
+      try{ws=new WebSocket(voiceWsUrl(cfg.url,cfg.via==='cloudflare'?cfg.name:''))}catch(e){failRoute(e?.message||e,'ws-create-error');return}
+      voiceWs=ws;ws.binaryType='arraybuffer';const timeoutMs=index===0?GOOGLE_VOICE_READY_TIMEOUT_MS:3000;
+      timer=setTimeout(()=&gt;{if(ready||routeDone)return;voiceDiagEvent('WS_READY_TIMEOUT',`${cfg.via}:${cfg.name}`);failRoute('READY_TIMEOUT','ready-timeout')},timeoutMs);
+      ws.onopen=()=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsOpenMs',performance.now()-voiceWsDiagStarted);voiceDiagEvent('WS_OPEN',`${cfg.via}:${cfg.name}`);try{ws.send(JSON.stringify({type:'start',token:cfg.token,languageCode,sampleRate:16000,channels:1,bitsPerSample:16,frameMs:100,requestIndex:'mic-'+Date.now()}))}catch(e){failRoute(e?.message||e,'start-send-error')}};
+      ws.onmessage=ev=&gt;{if(session!==voiceSessionId)return;let m;try{m=JSON.parse(String(ev.data||''))}catch(e){return}
+        if(m.type==='ready'&amp;&amp;!ready){ready=true;routeDone=true;cleanup();voiceWsReady=true;voiceDiagMark('wsReadyMs',performance.now()-voiceWsDiagStarted);voiceDiagMark('wsVia',cfg.via);voiceDiagMark('wsFallbackUsed',fallback);voiceDiagEvent('WS_READY',`${cfg.via}:${cfg.name} ${Math.round(performance.now()-started)}ms`);integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:101,latencyMs:performance.now()-started,failover:fallback,phase:'ready',via:cfg.via});voiceFlushPendingFrames();finishReady(true);return}
+        if(m.type==='error'){voiceDiagEvent('WS_PROVIDER_ERROR',String(m.grpcMessage||m.error||''));if(!ready)failRoute(m.grpcMessage||m.error||'GOOGLE_STREAM_ERROR','provider-stream-error');else voiceMarkStreamFailed(m.grpcMessage||m.error||'GOOGLE_STREAM_ERROR');return}
+        if(m.type==='done'){const tx=String(m.transcript||'').trim();voiceDiagMark('wsDoneMs',performance.now()-voiceWsDiagStarted);voiceDiagMark('streamTranscriptChars',tx.length);voiceDiagMark('streamTranscript',tx);voiceDiagEvent('WS_DONE',`chars=${tx.length}`);voiceSettleDone({ok:!!m.ok,transcript:tx,telemetry:m.telemetry||null});return}
+      };
+      ws.onerror=()=&gt;{if(session!==voiceSessionId)return;if(!ready)failRoute('WEBSOCKET_ERROR','websocket-error');else voiceMarkStreamFailed('WEBSOCKET_ERROR')};
+      ws.onclose=ev=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsCloseCode',Number(ev.code)||0);voiceDiagMark('wsCloseReason',String(ev.reason||''));voiceDiagEvent('WS_CLOSE',`${cfg.via}:${cfg.name} ${ev.code||0}/${ev.reason||''}`);if(!ready&amp;&amp;!routeDone)failRoute('WEBSOCKET_CLOSE_'+ev.code,'websocket-close');else if(ready&amp;&amp;!voiceWsFailed&amp;&amp;ev.code!==1000)voiceMarkStreamFailed('WEBSOCKET_CLOSE_'+ev.code)};
     };
-    ws.onerror=()=&gt;{if(session!==voiceSessionId)return;voiceDiagEvent('WS_ERROR',String(cfg.name||''));integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'websocket-error'});voiceMarkStreamFailed('WEBSOCKET_ERROR');finishReady(false)};
-    ws.onclose=ev=&gt;{if(session!==voiceSessionId)return;voiceDiagMark('wsCloseCode',Number(ev.code)||0);voiceDiagMark('wsCloseReason',String(ev.reason||''));voiceDiagEvent('WS_CLOSE',`${ev.code||0}/${ev.reason||''}`);if(!voiceWsFailed&amp;&amp;ev.code!==1000){integratedRelayReport({region:cfg.name,action:'stt-stream',path:'/stream',status:0,latencyMs:performance.now()-started,failover:false,phase:'websocket-close',error:String(ev.code)});voiceMarkStreamFailed('WEBSOCKET_CLOSE_'+ev.code)}finishReady(false)};
+    attemptNext();
   });
 }
-
 function voiceSendPcmFrame(pcm){
   if(!pcm||!pcm.length||!voiceWsReady||voiceWsFailed||!voiceWs||voiceWs.readyState!==WebSocket.OPEN)return false;
   try{
@@ -5870,7 +6040,7 @@ function voiceAcceptPcm(pcm){
   if(!pcm||!pcm.length)return;voiceLocalPcmParts.push(pcm);voiceDiagPcm(pcm);
   if(voiceWsFailed)return;
   voiceSendPending=voiceConcatInt16(voiceSendPending,pcm);
-  if(!voiceWsReady){const cap=GOOGLE_VOICE_SAMPLE_RATE*8;if(voiceSendPending.length&gt;cap){const dropped=voiceSendPending.length-cap;if(voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.finalized)voiceDiagCurrent.preReadyDroppedSamples+=dropped;voiceSendPending=voiceSendPending.slice(-cap)}voiceDiagMark('preReadyBufferedSamples',voiceSendPending.length);if(voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.finalized)voiceDiagCurrent.preReadyBufferedMax=Math.max(voiceDiagCurrent.preReadyBufferedMax||0,voiceSendPending.length);return}
+  if(!voiceWsReady){const cap=GOOGLE_VOICE_SAMPLE_RATE*12;if(voiceSendPending.length&gt;cap){const dropped=voiceSendPending.length-cap;if(voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.finalized)voiceDiagCurrent.preReadyDroppedSamples+=dropped;voiceSendPending=voiceSendPending.slice(-cap)}voiceDiagMark('preReadyBufferedSamples',voiceSendPending.length);if(voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.finalized)voiceDiagCurrent.preReadyBufferedMax=Math.max(voiceDiagCurrent.preReadyBufferedMax||0,voiceSendPending.length);return}
   voiceFlushPendingFrames();
 }
 
@@ -5911,7 +6081,7 @@ async function voiceRecoveryTranscribe(pcm,languageCode,session){
   {
     const c=new AbortController();voiceFallbackController=c;voiceFallbackControllers.add(c);const started=performance.now();voiceDiagEvent('AI_START',String(aiEp?.name||''));
     try{
-      const res=await integratedRelayFetchSingle('/gemini/audio-transcribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audioBase64,mimeType:'audio/wav',languageCode}),signal:c.signal},{action:'stt-ai-recovery',attemptTimeoutMs:GOOGLE_VOICE_AI_TIMEOUT_MS},aiEp?.name||'');voiceDiagMark('aiMs',performance.now()-started);voiceDiagMark('aiStatus',Number(res.status)||0);const data=await res.json().catch(()=&gt;({}));if(!res.ok)throw Object.assign(new Error(data?.error||('AI_STT_HTTP_'+res.status)),{status:res.status});let t=VOICE_CLEAN_TRANSCRIPT(String(data.transcript||data.text||''));if(!t||t==='[[NO_SPEECH]]')throw new Error('AI_STT_NO_SPEECH');if(!voiceAiTranscriptAcceptable(t,languageCode,pcm.length))throw new Error('AI_STT_REJECTED');voiceLastRecoveryStage='ai';voiceDiagMark('recoveryStage','ai');voiceDiagEvent('AI_OK',`${aiEp?.name||'-'} ${Math.round(performance.now()-started)}ms`);return t;
+      const res=await integratedRelayFetch('/gemini/audio-transcribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audioBase64,mimeType:'audio/wav',languageCode}),signal:c.signal},{action:'stt-ai-recovery',attemptTimeoutMs:GOOGLE_VOICE_AI_TIMEOUT_MS},aiEp?.name||'');voiceDiagMark('aiMs',performance.now()-started);voiceDiagMark('aiStatus',Number(res.status)||0);const data=await res.json().catch(()=&gt;({}));if(!res.ok)throw Object.assign(new Error(data?.error||('AI_STT_HTTP_'+res.status)),{status:res.status});let t=VOICE_CLEAN_TRANSCRIPT(String(data.transcript||data.text||''));if(!t||t==='[[NO_SPEECH]]')throw new Error('AI_STT_NO_SPEECH');if(!voiceAiTranscriptAcceptable(t,languageCode,pcm.length))throw new Error('AI_STT_REJECTED');voiceLastRecoveryStage='ai';voiceDiagMark('recoveryStage','ai');voiceDiagEvent('AI_OK',`${aiEp?.name||'-'} ${Math.round(performance.now()-started)}ms`);return t;
     }catch(e){lastErr=e;if(e?.name==='AbortError'&amp;&amp;voiceDiagCurrent&amp;&amp;!voiceDiagCurrent.abortStage)voiceDiagMark('abortStage','AI:'+String(aiEp?.name||''));voiceDiagMark('aiMs',performance.now()-started);voiceDiagMark('aiError',String(e?.name||'Error')+':'+String(e?.message||e));voiceDiagEvent('AI_FAIL',String(e?.name||'Error')+':'+String(e?.message||e));console.warn('[VOICE AI RECOVERY]',e?.message||e)}finally{voiceFallbackControllers.delete(c);if(voiceFallbackController===c)voiceFallbackController=null}
   }
   throw lastErr||new Error('VOICE_RECOVERY_FAILED');
@@ -5934,7 +6104,7 @@ async function voiceStartCapture(languageCode){
     voiceProcessorNode.onaudioprocess=ev=&gt;{if(!voiceRecording||session!==voiceSessionId)return;const input=ev.inputBuffer.getChannelData(0);voiceDiagSourceInput(input);voiceAcceptPcm(voiceResamplePush(new Float32Array(input),false))};
     voiceSourceNode.connect(voiceProcessorNode);voiceProcessorNode.connect(voiceSilentGain);voiceSilentGain.connect(voiceAudioContext.destination);try{if(voiceAudioContext.state!=='running')await voiceAudioContext.resume()}catch(e){}voiceDiagMark('audioContextAfterConnect',String(voiceAudioContext.state||''));
     voiceRecording=true;voiceProcessing=false;voiceRecordStartedAt=Date.now();voiceDiagMark('recordingStartedPerf',performance.now());voiceDiagEvent('RECORDING_START');VOICE_UI_RECORDING(false);voiceRecordingClock();voiceTimerInterval=setInterval(voiceRecordingClock,250);voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS);
-    // V3.61.21: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
+    // V3.61.22: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
     void voiceOpenWebSocket(languageCode,session).then(ready=&gt;{if(session!==voiceSessionId)return;if(voiceRecording)VOICE_UI_RECORDING(ready&amp;&amp;!voiceWsFailed)}).catch(e=&gt;{if(session===voiceSessionId)voiceMarkStreamFailed(e?.message||e)});
   }catch(e){voiceClearTimers();voiceDisconnectAudio();voiceCloseWs(true);voiceRecording=false;voiceProcessing=false;voiceDiagEvent('START_ERROR',String(e?.name||'Error')+':'+String(e?.message||e));const dedicated=voiceStatusCheckActive,r=voiceDiagFinalize('FAILED',String(e?.name||'Error')+':'+String(e?.message||e));if(session===voiceSessionId){if(dedicated)setVoiceInputUi('idle');else VOICE_UI_START_ERROR(e)}return r}
 }
@@ -6029,7 +6199,7 @@ function isMinorForeignOutputContamination(text,targetCount,thaiCount,cjkCount){
   return (laughOnlyCjk&amp;&amp;targetCount&gt;=4)||(targetCount&gt;=8&amp;&amp;foreign&lt;=6&amp;&amp;ratio&lt;=0.22);
 }
 function qualityScoreFromGuard(quality){
-  // V3.61.21: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
+  // V3.61.22: source↔literal-back checks refine only the reference score; they never trigger semantic auto-rewrite.
   if(!quality)return null;
   const postBackScore=Number(quality.postBackScore);if(Number.isFinite(postBackScore))return Math.max(0,Math.min(100,Math.round(postBackScore)));
   if(quality.pass===false){const replacements=Number(quality?.stats?.replacement||0);if(replacements&gt;0)return Math.max(10,45-(replacements*5));return Math.max(35,60-((quality.reasons||[]).length*5));}
@@ -6055,7 +6225,7 @@ function reviewBackTranslationL2K(sourceText,backText){
   if(_profileDiff(_loPolarityProfile(s),_loPolarityProfile(b))){reasons.push('ຄວາມໝາຍປະຕິເສດ/ຫ້າມ/ບັງຄັບອາດປ່ຽນໃນຄຳແປກັບ.');score=Math.min(score,60)}
   const generic=/ນ້ອງ/.test(s)&amp;&amp;!/(?:ນ້ອງຊາຍ|ນ້ອງສາວ)/.test(s);if(generic&amp;&amp;/(?:ນ້ອງຊາຍ|ນ້ອງສາວ)/.test(b)){reasons.push('ຕົ້ນສະບັບບໍ່ລະບຸເພດຂອງນ້ອງ ແຕ່ຄຳແປກັບລະບຸເພດ.');score=Math.min(score,75)}
   if(/ນ້ອງ/.test(s)&amp;&amp;!/ນ້ອງ/.test(b)){reasons.push('ຄຳວ່ານ້ອງ/ຄວາມສຳພັນອາດຫາຍໄປໃນຄຳແປກັບ.');score=Math.min(score,70)}
-  // V3.61.21: local role/relationship check only; no additional model call.
+  // V3.61.22: local role/relationship check only; no additional model call.
   const sc=s.split(/[.!?。！？\n]+/).map(x=&gt;x.trim()).filter(Boolean),bc=b.split(/[.!?。！？\n]+/).map(x=&gt;x.trim()).filter(Boolean);let pluralFlip=false;
   for(let i=0;i&lt;Math.min(sc.length,bc.length);i++){if(/ພວກເຮົາ/.test(sc[i])&amp;&amp;/ພວກເຂົາ(?:ເຈົ້າ)?/.test(bc[i])&amp;&amp;!/ພວກເຮົາ/.test(bc[i])){pluralFlip=true;break}}
   if(pluralFlip){reasons.push('ຄຳວ່າ “ພວກເຮົາ” ປ່ຽນເປັນ “ພວກເຂົາ” ໃນຄຳແປກັບ.');score=Math.min(score,55)}
@@ -6564,7 +6734,7 @@ const SharedCriticalMeaningCoreV277=(()=&gt;{
   function surfaceOutputRisk(dir,source,target){
     const s=String(source||''),t=String(target||''),r=[];
     if(dir==='K2L'){
-      // V3.61.21: deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.
+      // V3.61.22: deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.
       if(/[가-힣ㄱ-ㅎㅏ-ㅣ]/u.test(t))push(r,'출력 손상: 라오어 결과에 한글 혼입');
       if(/(?:[\u0E80-\u0EFF]{2,}|[가-힣]{2,})\s*\/\s*(?:[\u0E80-\u0EFF]{2,}|[가-힣]{2,})/u.test(t))push(r,'출력 형식: A/B 후보 병렬 출력');
     }else{
@@ -6582,7 +6752,7 @@ const SharedCriticalMeaningCoreV277=(()=&gt;{
     }
     return r;
   }
-  function detect(dir,source,target){const s=String(source||''),t=String(target||''),r=[];for(const x of hardCorruption(dir,s,t))push(r,dir==='K2L'?'출력 손상: '+x:x);for(const x of roleReasons(dir,s,t))push(r,dir==='K2L'?'배우자 역할: '+x:'SPOUSE_ROLE:'+x);for(const x of namedEntityRisk(dir,s,t))push(r,x);for(const x of coreNounRisk(dir,s,t))push(r,x);/* V3.61.21: wording-strength differences are reference-only; only real reversals remain Critical. */for(const x of surfaceOutputRisk(dir,s,t))push(r,x);for(const x of explicitSpeakerActionRisk(dir,s,t))push(r,x);if(dir==='K2L'){for(const x of mealRiskK2L(s,t))push(r,'식사 문맥: '+x);for(const x of placeRiskK2L(s,t))push(r,'이동 방향: '+x);for(const x of metaInsertionRiskK2L(s,t))push(r,'의미오염: '+x);if(!temporalEqual(s,t,'ko','lo'))push(r,'숫자/시간 값 변경');const sw=wK(s),tw=wL(t);if(sw.size&gt;0&amp;&amp;!setEq(sw,tw))push(r,'요일 변경');if(/어제/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 방향: 어제→내일 변경');if(/어제/.test(s)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 기준: 어제 의미 누락/변형');if(/오늘/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/ມື້ນີ້/.test(t))push(r,'오늘→내일 변경');if(/내일/.test(s)&amp;&amp;!/오늘/.test(s)&amp;&amp;/ມື້ນີ້/.test(t)&amp;&amp;!/ມື້ອື່ນ/.test(t))push(r,'내일→오늘 변경');if(/(?:오전|아침)/.test(s)&amp;&amp;!/(?:오후|저녁)/.test(s)&amp;&amp;/(?:ຕອນບ່າຍ|ຕອນແລງ)/.test(t)&amp;&amp;!/ຕອນເຊົ້າ/.test(t))push(r,'오전→오후/저녁 변경');if(/오후/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນບ່າຍ/.test(t))push(r,'오후→오전 변경');if(/저녁/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນແລງ/.test(t))push(r,'저녁→아침 변경');const sleepPositive=/(?:먼저|일찍|푹|편하게)\s*자|자도\s*(?:돼|괜찮)|자도\s*좋/.test(s);if(sleepPositive&amp;&amp;/(?:ຢ່າ(?:ມາ)?\s*ນອນ|ຫ້າມ\s*ນອນ)/.test(t))push(r,'수면 허용/권유→금지 반전');if(/자지\s*마/.test(s)&amp;&amp;/ນອນ[^.!?\n]{0,22}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ|ບໍ່ເປັນຫຍັງ)/.test(t))push(r,'수면 금지→허용 반전');if(/(?:가도|나가도)\s*(?:돼|괜찮)/.test(s)&amp;&amp;/(?:ຢ່າ\s*ໄປ|ຢ່າ\s*ອອກ)/.test(t))push(r,'이동 허용→금지 반전');if(/(?:가지|나가지)\s*마/.test(s)&amp;&amp;/(?:ໄປ|ອອກ)[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'이동 금지→허용 반전');if(/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;!/먹지\s*(?:마|말)/.test(s)&amp;&amp;/ຢ່າ\s*ກິນ/.test(t))push(r,'섭취 허용→금지 반전');if(/먹지\s*(?:마|말)/.test(s)&amp;&amp;!/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;/ກິນ[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'섭취 금지→허용 반전');if(callReversedK2L(s,t))push(r,'전화 주체/대상 반전');if(/(?:피곤|힘들|지쳤)/.test(s)&amp;&amp;/ມືດ/.test(t)&amp;&amp;!/(?:ເມື່ອຍ|ອິດເມື່ອຍ|ອ່ອນເພຍ)/.test(t))push(r,'피곤/힘듦 조건이 다른 의미로 변경');if(homeworkToHouseworkK2L(s,t))push(r,'숙제→집안일/부엌 의미 변경');if(/일어나/.test(s)&amp;&amp;/ປຸກ/.test(t)&amp;&amp;!/ຕື່ນ/.test(t))push(r,'일어나다→누군가를 깨우다 변경');const latin=unexpectedLatin(s,t);if(latin.length)push(r,'원문에 없는 영문 혼입: '+latin.slice(0,3).join(','));}
+  function detect(dir,source,target){const s=String(source||''),t=String(target||''),r=[];for(const x of hardCorruption(dir,s,t))push(r,dir==='K2L'?'출력 손상: '+x:x);for(const x of roleReasons(dir,s,t))push(r,dir==='K2L'?'배우자 역할: '+x:'SPOUSE_ROLE:'+x);for(const x of namedEntityRisk(dir,s,t))push(r,x);for(const x of coreNounRisk(dir,s,t))push(r,x);/* V3.61.22: wording-strength differences are reference-only; only real reversals remain Critical. */for(const x of surfaceOutputRisk(dir,s,t))push(r,x);for(const x of explicitSpeakerActionRisk(dir,s,t))push(r,x);if(dir==='K2L'){for(const x of mealRiskK2L(s,t))push(r,'식사 문맥: '+x);for(const x of placeRiskK2L(s,t))push(r,'이동 방향: '+x);for(const x of metaInsertionRiskK2L(s,t))push(r,'의미오염: '+x);if(!temporalEqual(s,t,'ko','lo'))push(r,'숫자/시간 값 변경');const sw=wK(s),tw=wL(t);if(sw.size&gt;0&amp;&amp;!setEq(sw,tw))push(r,'요일 변경');if(/어제/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 방향: 어제→내일 변경');if(/어제/.test(s)&amp;&amp;!/(?:ມື້ວານ|ເມື່ອວານ)/.test(t))push(r,'시간 기준: 어제 의미 누락/변형');if(/오늘/.test(s)&amp;&amp;!/내일/.test(s)&amp;&amp;/ມື້ອື່ນ/.test(t)&amp;&amp;!/ມື້ນີ້/.test(t))push(r,'오늘→내일 변경');if(/내일/.test(s)&amp;&amp;!/오늘/.test(s)&amp;&amp;/ມື້ນີ້/.test(t)&amp;&amp;!/ມື້ອື່ນ/.test(t))push(r,'내일→오늘 변경');if(/(?:오전|아침)/.test(s)&amp;&amp;!/(?:오후|저녁)/.test(s)&amp;&amp;/(?:ຕອນບ່າຍ|ຕອນແລງ)/.test(t)&amp;&amp;!/ຕອນເຊົ້າ/.test(t))push(r,'오전→오후/저녁 변경');if(/오후/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນບ່າຍ/.test(t))push(r,'오후→오전 변경');if(/저녁/.test(s)&amp;&amp;!/(?:오전|아침)/.test(s)&amp;&amp;/ຕອນເຊົ້າ/.test(t)&amp;&amp;!/ຕອນແລງ/.test(t))push(r,'저녁→아침 변경');const sleepPositive=/(?:먼저|일찍|푹|편하게)\s*자|자도\s*(?:돼|괜찮)|자도\s*좋/.test(s);if(sleepPositive&amp;&amp;/(?:ຢ່າ(?:ມາ)?\s*ນອນ|ຫ້າມ\s*ນອນ)/.test(t))push(r,'수면 허용/권유→금지 반전');if(/자지\s*마/.test(s)&amp;&amp;/ນອນ[^.!?\n]{0,22}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ|ບໍ່ເປັນຫຍັງ)/.test(t))push(r,'수면 금지→허용 반전');if(/(?:가도|나가도)\s*(?:돼|괜찮)/.test(s)&amp;&amp;/(?:ຢ່າ\s*ໄປ|ຢ່າ\s*ອອກ)/.test(t))push(r,'이동 허용→금지 반전');if(/(?:가지|나가지)\s*마/.test(s)&amp;&amp;/(?:ໄປ|ອອກ)[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'이동 금지→허용 반전');if(/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;!/먹지\s*(?:마|말)/.test(s)&amp;&amp;/ຢ່າ\s*ກິນ/.test(t))push(r,'섭취 허용→금지 반전');if(/먹지\s*(?:마|말)/.test(s)&amp;&amp;!/먹어도\s*(?:돼|괜찮)/.test(s)&amp;&amp;/ກິນ[^.!?\n]{0,20}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ)/.test(t))push(r,'섭취 금지→허용 반전');if(callReversedK2L(s,t))push(r,'전화 주체/대상 반전');if(/(?:피곤|힘들|지쳤)/.test(s)&amp;&amp;/ມືດ/.test(t)&amp;&amp;!/(?:ເມື່ອຍ|ອິດເມື່ອຍ|ອ່ອນເພຍ)/.test(t))push(r,'피곤/힘듦 조건이 다른 의미로 변경');if(homeworkToHouseworkK2L(s,t))push(r,'숙제→집안일/부엌 의미 변경');if(/일어나/.test(s)&amp;&amp;/ປຸກ/.test(t)&amp;&amp;!/ຕື່ນ/.test(t))push(r,'일어나다→누군가를 깨우다 변경');const latin=unexpectedLatin(s,t);if(latin.length)push(r,'원문에 없는 영문 혼입: '+latin.slice(0,3).join(','));}
     else{if(!temporalEqual(s,t,'lo','ko'))push(r,'NUMBER_OR_TIME_CHANGED');const sw=wL(s),tw=wK(t);if(sw.size&gt;0&amp;&amp;!setEq(sw,tw))push(r,'WEEKDAY_CHANGED');if(/(?:ມື້ວານ|ເມື່ອວານ)/.test(s)&amp;&amp;!/ມື້ອື່ນ/.test(s)&amp;&amp;/내일/.test(t)&amp;&amp;!/어제/.test(t))push(r,'YESTERDAY_TO_TOMORROW');if(/(?:ມື້ວານ|ເມື່ອວານ)/.test(s)&amp;&amp;!/어제/.test(t))push(r,'YESTERDAY_MEANING_MISSING');if(/ມື້ນີ້/.test(s)&amp;&amp;!/ມື້ອື່ນ/.test(s)&amp;&amp;/내일/.test(t)&amp;&amp;!/오늘/.test(t))push(r,'TODAY_TO_TOMORROW');if(/ມື້ອື່ນ/.test(s)&amp;&amp;!/ມື້ນີ້/.test(s)&amp;&amp;/오늘/.test(t)&amp;&amp;!/내일/.test(t))push(r,'TOMORROW_TO_TODAY');if(/ຕອນເຊົ້າ/.test(s)&amp;&amp;!/(?:ຕອນບ່າຍ|ຕອນແລງ)/.test(s)&amp;&amp;/(?:오후|저녁)/.test(t)&amp;&amp;!/(?:오전|아침)/.test(t))push(r,'MORNING_TO_AFTERNOON');if(/ຕອນບ່າຍ/.test(s)&amp;&amp;!/ຕອນເຊົ້າ/.test(s)&amp;&amp;/(?:오전|아침)/.test(t)&amp;&amp;!/오후/.test(t))push(r,'AFTERNOON_TO_MORNING');if(/ຕອນແລງ/.test(s)&amp;&amp;!/ຕອນເຊົ້າ/.test(s)&amp;&amp;/(?:오전|아침)/.test(t)&amp;&amp;!/저녁/.test(t))push(r,'EVENING_TO_MORNING');const ban=/(?:ຢ່າ(?:ມາ)?\s*ນອນ|ຫ້າມ\s*ນອນ)/.test(s),allow=/(?:먼저|일찍|푹|편하게)\s*자|자도\s*(?:돼|괜찮)/.test(t);if(ban&amp;&amp;allow)push(r,'SLEEP_PROHIBITION_TO_PERMISSION');const laoAllow=/ນອນ[^.!?\n]{0,22}(?:ກໍ\s*ໄດ້|ໄດ້ເລີຍ|ບໍ່ເປັນຫຍັງ)/.test(s)||/ນອນກ່ອນໄດ້/.test(s);if(laoAllow&amp;&amp;/자지\s*마|자면\s*안\s*돼/.test(t))push(r,'SLEEP_PERMISSION_TO_PROHIBITION');if(callReversedL2K(s,t))push(r,'CALL_DIRECTION_REVERSED');if(/ເມື່ອຍ/.test(s)&amp;&amp;/어두/.test(t)&amp;&amp;!/(?:피곤|힘들|지쳤)/.test(t))push(r,'TIRED_TO_DARK_CONDITION');if(/ຕື່ນ(?:ນອນ)?/.test(s)&amp;&amp;!/ປຸກ/.test(s)&amp;&amp;/(?:깨워|깨우(?:다|고|면|는|게|세요)?)/.test(t))push(r,'WAKE_UP_TO_WAKE_SOMEONE');const latin=unexpectedLatin(s,t);if(latin.length)push(r,'UNEXPECTED_LATIN:'+latin.slice(0,3).join(','));}
     return{critical:r.length&gt;0,reasons:r};
   }
@@ -6657,7 +6827,7 @@ function analyzeKoreanQuality(text,sourceText){
   if(/^(error|warning|sorry|i cannot|i can't|unable to|translation:)/i.test(t))reasons.push('META_TEXT');
   if(meaningfulLao&amp;&amp;stats.hangul===0)reasons.push('NO_KOREAN');
   if(stats.replacement&gt;0)reasons.push('BROKEN_CHAR');
-  // V3.61.21: target-script contamination is deterministic HARD_CORRUPTION.
+  // V3.61.22: target-script contamination is deterministic HARD_CORRUPTION.
   if(stats.lao&gt;0)reasons.push('LAO_LEFT:'+stats.lao);
   if(stats.thai&gt;0)reasons.push('THAI:'+stats.thai);
   if(stats.cjk&gt;0)reasons.push('CJK:'+stats.cjk);
@@ -6710,7 +6880,7 @@ const FORWARD_PROMPT=SharedTranslationPolicyV3604.L2K_PROMPT;
 const BACK_PROMPT=SharedBackTranslationPolicyV3604.WIFE_BACK_PROMPT;
 const BACK_REPAIR_PROMPT=SharedBackTranslationPolicyV3604.WIFE_BACK_REPAIR_PROMPT;
 
-// V3.61.21 deterministic spouse-chat laughter localization.
+// V3.61.22 deterministic spouse-chat laughter localization.
 // Keep the user's laugh style: ㅋㅋ/ㅎㅎ ↔ 555, while 하하하 ↔ ຮາຮາຮາ. Chinese 哈哈哈 is never allowed as a laugh result.
 function _laughRunSize(n){return Math.max(2,Math.min(8,Number(n)||2))}
 function _sourceKoreanLaughProfile(sourceText){const s=String(sourceText||'');return{kek:/(?:ㅋ{2,}|ㅎ{2,})/u.test(s),haha:/하(?:\s*하){1,}/u.test(s)}}
@@ -6752,7 +6922,7 @@ function createForwardRequest(source,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOu
     const relayIntegrity=relayTextIntegrityFromResponse(res);const data=await res.json();const usage=data?.usageMetadata||{};const usageInfo={prompt:usage.promptTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.promptTokenCount))?Number(usage.promptTokenCount):null,candidate:usage.candidatesTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.candidatesTokenCount))?Number(usage.candidatesTokenCount):null,total:usage.totalTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.totalTokenCount))?Number(usage.totalTokenCount):null};record.usagePromptTokens=usageInfo.prompt;record.usageCandidateTokens=usageInfo.candidate;record.usageTotalTokens=usageInfo.total;record.maxOutputTokens=Number(maxOutputTokens)||null;logRelayTextIntegrity(relayIntegrity,label);if(!ctx.isActive())throw makeAbortError('STALE');const parsed=extractGeminiText(data);record.finishReason=parsed.finishReason;
     if(parsed.finishReason!=='STOP'){const e=new Error(`FINISH_${parsed.finishReason}`);e.finishReason=parsed.finishReason;e.retryable=['MAX_TOKENS','OTHER','UNKNOWN','NO_CANDIDATE'].includes(parsed.finishReason);e.usage=usageInfo;throw e;}
     const normalizedText=normalizeCoupleChatLaughter('L2K',normalizeTranslationText(parsed.text),source),q=analyzeKoreanQuality(normalizedText,source);record.qualityReasons=q.reasons;
-    // V3.61.21: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
+    // V3.61.22: actual output-anomaly guard. Quality score itself is reference-only; only unusable output anomalies enter recovery.
     if(!q.pass){const e=new Error(`QUALITY_${q.reasons.join('_')}`);e.name='QualityError';e.retryable=true;e.quality=q;e.rejectedText=normalizedText;e.relayIntegrity=relayIntegrity;e.usage=usageInfo;console.warn('[WIFE OUTPUT ANOMALY → Hedge/Rescue RECOVERY]',{reasons:q.reasons,rejectedText:normalizedText,relayIntegrity});throw e;}
     record.state='success';record.elapsedMs=performance.now()-started;return{text:normalizedText,label,elapsedMs:record.elapsedMs,controller,quality:q,relayIntegrity,usage:usageInfo,maxOutputTokens:Number(maxOutputTokens)||null};
   }catch(e){record.elapsedMs=performance.now()-started;record.retryable=e?.retryable===true;if(e?.name==='AbortError'&amp;&amp;didTimeout){record.state='timeout';const x=new Error('TIMEOUT');x.name='TimeoutError';x.retryable=true;x.status=record.httpStatus;throw x;}record.state=e?.name==='QualityError'?'quality_reject':(e?.name==='AbortError'?'aborted':'error');throw e;}finally{clearTimeout(timeoutId);ctx.activeSet.delete(controller);}})();
@@ -6820,7 +6990,7 @@ function pickBestRejectedTranslationL2K(error,sourceText){
   const candidates=getTranslationErrorList(error).filter(e=&gt;String(e?.rejectedText||'').trim()).map((e,index)=&gt;{
     const text=normalizeCoupleChatLaughter('L2K',normalizeTranslationText(e.rejectedText),sourceText),quality=e?.quality||analyzeKoreanQuality(text,sourceText);
     return{error:e,text,quality,index};
-  }).filter(x=&gt;x.quality?.pass!==false); // V3.61.21: HARD output anomalies are never user-visible warning drafts.
+  }).filter(x=&gt;x.quality?.pass!==false); // V3.61.22: HARD output anomalies are never user-visible warning drafts.
   if(!candidates.length)return null;
   candidates.sort((a,b)=&gt;{
     const ar=Number(a?.quality?.stats?.replacement||0),br=Number(b?.quality?.stats?.replacement||0);
@@ -6839,7 +7009,7 @@ async function translateText(){
   updateQualityBadge(null);
   const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){alert('⚠️ ກະລຸນາພິມຂໍ້ຄວາມພາສາລາວ.');return}
   cancelBackTranslation(false);stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);document.getElementById('speakBtn').style.display='none';setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
-  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.21 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
+  try{let result=await runForwardPolicy(source,ctx);if(!ctx.isActive())return;let minorAutoRepaired=false,brokenCharAutoRetried=false;if(hasBrokenReplacementQuality(result.quality,result.text)){brokenCharAutoRetried=true;ctx.onStatus?.('ພົບຕົວອັກສອນເສຍ → ລອງແປຈາກຕົ້ນສະບັບອີກ 1 ຄັ້ງ...');try{const h=createForwardRequest(source,ctx,'ແປໃໝ່ຕົວອັກສອນເສຍ');const o=await h.outcome;if(!ctx.isActive())return;if(o.ok&amp;&amp;o.result?.text){const a=Number(result?.quality?.stats?.replacement||1),b=Number(o.result?.quality?.stats?.replacement||0);if(b&lt;a||!hasBrokenReplacementQuality(o.result.quality,o.result.text))result={...o.result,hedged:result.hedged,rescued:result.rescued,winner:`${result.winner}→ແປໃໝ່ຕົວເສຍ`}}}catch(e){console.warn('[BROKEN CHAR AUTO RETRY FAILED]',e)}}// V3.61.22 human-decision policy: semantic findings never delay or rewrite the first displayed translation.
   const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;appInputDirty=false;deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
   catch(e){if(runId!==translationRunId)return;resetTranslationUI();setKoreanCopyReady(false);setRetry(true);setPrimaryResultVisible(true);if(e?.name==='AbortError'){stopTimer('ຢຸດແລ້ວ');document.getElementById('koResult').textContent='⚠️ ການແປຖືກຢຸດແລ້ວ.';return}
     if(hasCriticalTranslationFailure(e)){stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'critical-translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION CRITICAL BLOCK]',e,records);return}
@@ -6940,7 +7110,7 @@ async function requestBackTranslation(autoTriggered=false){
   try{
     const r=await runBackRaceWithRelationRecovery(korean,runId);
     if(runId!==backTranslationRunId)return;
-    // V3.61.21: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
+    // V3.61.22: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
     el.textContent=r.text;
     setBackResultState(true,true);
     telemetryAttachBackText(korean,r.text);
@@ -7055,7 +7225,7 @@ window.getAppActivityState=getAppActivityState;
 
 
 
-// V3.61.21 diagnostic-only EXACT live-path observability bridge.
+// V3.61.22 diagnostic-only EXACT live-path observability bridge.
 // Production translation behavior is not replaced. This bridge runs the real translateText()
 // inside an isolated diagnostic clone and records each candidate, timing boundary, Hedge/Rescue
 // event, first DOM result, post-display input intent, and cleanup state. Post-display network/audio/
@@ -7128,7 +7298,7 @@ async function __runLivePathDiagnosticL2K(sourceText){
 }
 window.__runLivePathDiagnosticL2K=__runLivePathDiagnosticL2K;window.__stopLivePathDiagnosticL2K=__stopLivePathDiagnosticL2K;window.__livePathDiagnosticReadyL2K=__livePathDiagnosticReadyL2K;
 
-// V3.61.21 diagnostic-only exact live back-translation bridge.
+// V3.61.22 diagnostic-only exact live back-translation bridge.
 let __liveBackDiagnosticRunningL2K=false;
 function __liveBackDiagnosticReadyL2K(){return typeof runBackRaceWithRelationRecovery==='function'&amp;&amp;typeof createBackRequest==='function'&amp;&amp;typeof fetchPrimaryDirect==='function'}
 function __stopLiveBackDiagnosticL2K(){if(!__liveBackDiagnosticRunningL2K&amp;&amp;!isBackTranslating)return false;try{backTranslationRunId++;for(const c of [...backControllers])c.abort()}catch(e){}return true}
@@ -7211,7 +7381,7 @@ window.__runLiveBackDiagnosticL2K=__runLiveBackDiagnosticL2K;window.__stopLiveBa
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.21';
+const INTEGRATED_VERSION='V3.61.22';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
@@ -7233,7 +7403,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='d94efa5c87d26ed06e677435a8e457a2a64ec55ccc2254bbcb7df97a1b381c68';
+const EXTERNAL_DIAGNOSTIC_SHA256='63b6c6db25a449a356f5eebe3dab1eea291a41004a40683d468ec6d2ea9b7ad3';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -8094,6 +8264,12 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('VOICE_DIAG_EXACT_PRODUCTION_RECOVERY_DRILLS',w.includes('productionRestRegionFailover')&&w.includes('productionRestToAiFallback')&&w.includes('VOICE_DIAG_FORCED_ALL_REST_FAIL'));
     add('VOICE_DIAG_FAILOVER_DRILLS',w.includes('FAILOVER_DRILLS:')&&w.includes('productionRelayNetworkFailover')&&w.includes('directToCloudflareWsAudioEvidence'));
     add('VOICE_DIAG_LIVE_PATH_AUDIT',w.includes('LIVE_PATH_AUDIT:')&&w.includes('cloudflareLiveWsFallback')&&w.includes('cloudflareLiveRestFallback'));
+    add('LIVE_CLOUDFLARE_GEMINI_RELAY_FALLBACK',h.includes('INTEGRATED_CLOUDFLARE_URL')&&w.includes('INTEGRATED_CLOUDFLARE_URL')&&h.includes('integratedCloudflareFetch')&&w.includes('integratedCloudflareFetch')&&h.includes("integratedRelayFetch('/gemini/generate'")&&w.includes("integratedRelayFetch('/gemini/generate'"));
+    add('LIVE_CLOUDFLARE_TTS_FALLBACK',h.includes("integratedRelayFetch('/azure/tts'")&&w.includes("integratedRelayFetch('/azure/tts'"));
+    add('LIVE_CLOUDFLARE_STT_WS_FALLBACK',h.includes('voiceWsCandidates')&&w.includes('voiceWsCandidates')&&h.includes("via:'cloudflare'")&&w.includes("via:'cloudflare'"));
+    add('LIVE_CLOUDFLARE_STT_REST_FALLBACK',h.includes('integratedRelayFetchSingleDirect')&&w.includes('integratedRelayFetchSingleDirect')&&h.includes('integratedCloudflareFetch(path,init,meta,ep.name)')&&w.includes('integratedCloudflareFetch(path,init,meta,ep.name)'));
+    add('LIVE_CLOUDFLARE_STT_AI_FALLBACK',h.includes("integratedRelayFetch('/gemini/audio-transcribe'")&&w.includes("integratedRelayFetch('/gemini/audio-transcribe'"));
+    add('LIVE_CLOUDFLARE_TELEMETRY_FALLBACK',h.includes("integratedRelayFetch('/telemetry/batch'")&&w.includes("integratedRelayFetch('/telemetry/batch'"));
     add('VOICE_DIAG_TELEMETRY_ROUTE_EVIDENCE',w.includes('firestoreAttempts=')&&w.includes('cloudflare-bangkok'));
     add('VOICE_DIAG_COMPLETION_COPY_GUIDE',w.includes('ການທົດສອບສຳເລັດແລ້ວ')&&w.includes('ຄັດລອກບັນທຶກ'));
     add('VOICE_CLOUDFLARE_BYPASS_MATRIX',w.includes('lao-voice-route-test.3547412.workers.dev')&&w.includes('cloudflarePing')&&w.includes('cloudflareWs_')&&w.includes('cloudflareRest_'));
