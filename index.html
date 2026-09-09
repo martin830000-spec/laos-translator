@@ -398,7 +398,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="102478a7261f2ecbaf017b4a5c5c0c09c56469d4262bc4ac5e864b4640b11c46">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="af79c089871c8fbc4c9a2dcf92ac16b85cde415e44ed4aced35b244d50737561">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -895,7 +895,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.32';
+const APP_VERSION='V3.61.34';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 address the wife/listener and must not be replaced by literal ເມຍ or ພັນລະຍາ unless the source explicitly says wife. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lao words must use Lao script; never insert Thai, Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Preserve the Korean source speech level naturally: if the source is casual/banmal, use natural comfortable everyday Lao suitable for a husband speaking casually to his wife; if the source is polite/respectful, use naturally respectful Lao at a matching level. Do not make a casual source more formal or polite than it is, and do not make a polite source blunt. Keep spouse warmth only when the source itself supports it. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
@@ -3788,8 +3788,9 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
                 const text = normalizeLaoCombiningMarks(normalizeCoupleChatLaughter('K2L',normalizeTranslationText(e.rejectedText),sourceText));
                 const quality = e?.quality || analyzeMainTranslationQuality(text, sourceText);
                 return { error:e, text, quality, index };
-            })
-            .filter(x =&gt; x.quality?.pass !== false); // V3.61.25: HARD output anomalies are never user-visible warning drafts.
+            });
+        // V3.61.34: if every generated candidate is rejected by the deterministic quality guard,
+        // keep the least-corrupted non-empty candidate visible for user judgment. Quality reasons/score remain visible and retry stays available.
         if (!candidates.length) return null;
         candidates.sort((a,b) =&gt; {
             const ar = Number(a?.quality?.stats?.replacement || 0);
@@ -4277,7 +4278,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
                 const reviewedQuality=buildPostBackQualityK2L(lastForwardQualitySnapshot,lastRequestPayload,laoText,result.text);
                 updateQualityBadge(reviewedQuality,lastRequestPayload,laoText);
                 setTranslationOutputSafety(reviewedQuality,laoText);
-                deferStoreTranslation(lastRequestPayload,laoText,reviewedQuality,{postBackReviewed:true,backText:r.text,direction:'K2L'});
+                deferStoreTranslation(lastRequestPayload,laoText,reviewedQuality,{postBackReviewed:true,backText:result.text,direction:'K2L'});
                 lastForwardQualitySnapshot=reviewedQuality;
             }
         } catch (err) {
@@ -4744,7 +4745,7 @@ window.__runLiveBackDiagnosticK2L=__runLiveBackDiagnosticK2L;window.__stopLiveBa
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="cb4cc58ff32332ee9a6a12db060fa2e01eb695ba09764360368beac199169b01">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="4009a746730cac14d57863331e60b6fdcabf8e5965016ad603f205e3a1b53991">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5187,7 +5188,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.32';
+const APP_VERSION='V3.61.34';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 address the wife/listener and must not be replaced by literal ເມຍ or ພັນລະຍາ unless the source explicitly says wife. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lao words must use Lao script; never insert Thai, Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Preserve the Korean source speech level naturally: if the source is casual/banmal, use natural comfortable everyday Lao suitable for a husband speaking casually to his wife; if the source is polite/respectful, use naturally respectful Lao at a matching level. Do not make a casual source more formal or polite than it is, and do not make a polite source blunt. Keep spouse warmth only when the source itself supports it. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
@@ -7232,7 +7233,7 @@ function pickBestRejectedTranslationL2K(error,sourceText){
   const candidates=getTranslationErrorList(error).filter(e=&gt;String(e?.rejectedText||'').trim()).map((e,index)=&gt;{
     const text=normalizeCoupleChatLaughter('L2K',normalizeTranslationText(e.rejectedText),sourceText),quality=e?.quality||analyzeKoreanQuality(text,sourceText);
     return{error:e,text,quality,index};
-  }).filter(x=&gt;x.quality?.pass!==false); // V3.61.25: HARD output anomalies are never user-visible warning drafts.
+  }); // V3.61.34: keep the least-corrupted non-empty generated candidate visible even when quality.pass=false; show score/reasons and leave retry available.
   if(!candidates.length)return null;
   candidates.sort((a,b)=&gt;{
     const ar=Number(a?.quality?.stats?.replacement||0),br=Number(b?.quality?.stats?.replacement||0);
@@ -7623,7 +7624,7 @@ window.__runLiveBackDiagnosticL2K=__runLiveBackDiagnosticL2K;window.__stopLiveBa
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.32';
+const INTEGRATED_VERSION='V3.61.34';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
@@ -7645,7 +7646,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='ea5bbc7db988e16b34205fbb083183799db837943b34b6c9bbf0a8a4dd88e978';
+const EXTERNAL_DIAGNOSTIC_SHA256='fa2a3f2410bcdda62c2f3901e7998c7bb79218bfa67306ce0f96b850329b93c0';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
