@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.47",
-  "updatedAt": "2026-09-11T07:11:00+09:00",
-  "mode": "V3.61.47-PromptThinkingTokenQuickDiag-DBOneLoadCache-ForwardBackSplit-ThoughtTokens-QualityFrozen-ForwardFrozen-BothHedge4s"
+  "version": "V3.61.48",
+  "updatedAt": "2026-09-11T07:35:00+09:00",
+  "mode": "V3.61.48-OptimizationCandidateFinal-L2KMinimal-K2LLongThinking-CompactBackPrompt-ExactLiveBackPath-DBOneLoad-QualityFrozen-LiveFrozen"
 }
