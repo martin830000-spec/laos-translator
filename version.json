@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.48",
-  "updatedAt": "2026-09-11T07:35:00+09:00",
-  "mode": "V3.61.48-OptimizationCandidateFinal-L2KMinimal-K2LLongThinking-CompactBackPrompt-ExactLiveBackPath-DBOneLoad-QualityFrozen-LiveFrozen"
+  "version": "V3.61.49",
+  "updatedAt": "2026-09-11T11:45:00+09:00",
+  "mode": "V3.61.49-L2KForwardMinimal-K2LForwardLow-CompactBackMinimal-LegacyLowRecovery-UnicodeGuard-HedgeRescueFrozen"
 }

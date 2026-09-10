@@ -398,7 +398,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="2c65da25e8310b6d5131aa4a843c0479d952c2c038a2b7657dbab3ea877fe908">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="f6b6dca50dd74a8bd0b73c8688ebe481c782e19cd6dcf721dc6879ef07bcf1b8">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -895,7 +895,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.48';
+const APP_VERSION='V3.61.49';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 always refer to the wife/listener; never translate them as ນ້ອງ, a child, third person, ເມຍ, or ພັນລະຍາ unless the source explicitly uses that noun. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. For kinship chains, translate only the family links explicitly stated in the Korean; never infer an unstated aunt/uncle/in-law label, gender, generation, or side of the family. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lock explicit time anchors to their own clauses: 어제=ມື້ວານນີ້, 오늘=ມື້ນີ້, 내일=ມື້ອື່ນ. Never swap or move these anchors between clauses; verify all of them once before output. Keep each explicit noun attached to the same person and phrase as in Korean: 자기 동생 means the listener's sibling, and 기숙사 stays that sibling's destination; never invent a possessor/modifier or detach, corrupt, replace, or drop the noun. Korean 우리/우리 둘/둘이/자기랑 나랑 means the husband and wife together; never translate that pair as third-person ພວກເຂົາ or ເຂົາສອງຄົນ. STRICT OUTPUT-SCRIPT GATE: every Lao word, particle, and ending must use Lao script. Never insert Thai or Thai-lookalike words/particles such as นะ or เลย, and never insert Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Preserve the Korean source speech level naturally: if the source is casual/banmal, use natural comfortable everyday Lao suitable for a husband speaking casually to his wife; if the source is polite/respectful, use naturally respectful Lao at a matching level. Do not make a casual source more formal or polite than it is, and do not make a polite source blunt. Keep spouse warmth only when the source itself supports it. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
@@ -978,7 +978,7 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 // V3.61.31 concise source-faithful live prompt: preserve source casual/polite register; strict meaning repair remains unchanged.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.48',
+  VERSION:'V3.61.49',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -1013,16 +1013,42 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 // V3.61.31 natural verification back-translation policy: source evidence and source register both stay strict while wording reads naturally.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.48',
+  VERSION:'V3.61.49',
   HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the Lao text you are given into natural everyday Korean for meaning checking. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. Treat tense and aspect as core meaning: an action that is ongoing/in progress must remain ongoing, a completed/past action must remain completed, and a future intention, plan, request, or promise must remain future. Never add Korean togetherness such as 같이, 함께, or 둘이 unless the Lao text actually expresses joint action or togetherness. If the Lao leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary conversational Korean that a spouse would naturally read in a messenger chat, while preserving the register actually expressed by the Lao text: casual/intimate Lao should become natural Korean banmal, and polite/respectful Lao should become matching conversational 존댓말. Avoid stiff, bureaucratic, textbook, or translationese wording. Keep one coherent Korean speech level across the whole back-translation unless the Lao text itself clearly changes register: do not turn clearly casual/intimate Lao into -요/-습니다 style, and do not turn clearly respectful Lao into blunt banmal. Preserve affectionate address, softening, teasing, worry, laughter/emoji, and emotional warmth only when they are actually present in the Lao, at roughly the same strength; do not flatten warm spouse chat into businesslike Korean and do not invent extra intimacy. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. When a Lao expression functions as the name of a dish, product, place, or person, preserve that identity with one stable Korean name or transliteration instead of replacing it with a broader generic category or a guessed familiar substitute. When ເຂົ້າຕົ້ມ is functioning as the named Lao dish, render the dish name as 카오똠 rather than silently replacing it with 찹쌀밥 or 죽. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person (I/me) or second person (you) unless the Lao text itself says so. ROLE-BASED KOREAN KINSHIP SELECTION: only when the Lao makes both an older-sibling relationship and its possessor explicit or otherwise unambiguous from the same clause (including clear biological-sibling wording tied to the speaker/listener), choose the Korean kinship term from the fixed husband/wife roles rather than listing alternatives. For the HUSBAND speaker's own explicit or clearly possessed older sibling, ເອື້ອຍຂອງຂ້ອຍ (or equivalent clear possession) must be 누나 and ອ້າຍຂອງຂ້ອຍ must be 형. For the WIFE listener's explicit older sibling, ເອື້ອຍຂອງເຈົ້າ must be 언니 and ອ້າຍຂອງເຈົ້າ must be 오빠. Apply this only to clear sibling possession or unambiguous biological-sibling context; do not treat ordinary Lao social/address uses of ອ້າຍ, ເອື້ອຍ, or ນ້ອງ as family relations. Keep ນ້ອງ gender-neutral as 동생 unless the Lao explicitly states the younger sibling's sex. Never output pairs such as 언니(누나), 누나/언니, 형(오빠), or 형/오빠. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Return exactly one decided Korean back-translation. Never list slash-separated, A/B, or parenthetical alternative renderings for a relationship or word; if the Lao itself is ambiguous, preserve that ambiguity with one neutral Korean wording instead of listing options. Output Korean only, using Korean script for Korean words; never output Thai or Lao script as the back-translation language. No label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. When an older-sibling relationship and possessor are explicit, preserve the fixed-role Korean term: husband-speaker own older sister=누나, own older brother=형; wife-listener own older sister=언니, own older brother=오빠. Do not infer sibling relationships from ordinary Lao address terms, and keep younger sibling neutral as 동생 unless sex is explicit. Output exactly one readable Korean result only, with no explanation, label, slash alternatives, or parenthetical alternatives.`,
   WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the Korean text you are given into natural everyday Lao for meaning checking. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. Treat tense and aspect as core meaning: an action that is ongoing/in progress must remain ongoing, a completed/past action must remain completed, and a future intention, plan, request, or promise must remain future. Never add Lao togetherness such as ນຳກັນ or ດ້ວຍກັນ unless the Korean text actually expresses joint action or togetherness. If the Korean leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary everyday Lao suitable for a wife and husband reading a messenger conversation, while preserving the register actually expressed by the Korean text: casual Korean should remain natural intimate everyday Lao, and polite/respectful Korean should remain naturally respectful Lao at a matching level. Avoid stiff, ceremonial, textbook, or translationese wording. Keep one coherent Lao relationship/register level across the whole back-translation unless the Korean text itself clearly changes register. Preserve affectionate address, softening, teasing, worry, laughter/emoji, and emotional warmth only when they are actually present in the Korean, at roughly the same strength; do not flatten warm spouse chat into formal/ceremonial Lao and do not invent extra intimacy. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. When the Korean text is using a transliterated or branded food/product/place/person name as an identity-bearing name, keep that identity in Lao rather than replacing it with a broader category or a guessed alternative. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person or second person unless the Korean text itself says so. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Return exactly one decided Lao back-translation. Never list slash-separated, A/B, or parenthetical alternative renderings (for example ເມຍ/ຜົວ); if the Korean itself is ambiguous, preserve that ambiguity with one neutral Lao wording instead of listing options. Every Lao word/particle must use Lao script, never Thai lookalikes such as นะ or เลย. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
   WIFE_BACK_REPAIR_PROMPT:`Repair the previous Korean-to-Lao literal back-translation only for script or formatting corruption. Use the Korean source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Korean. Do not infer any presumed original Lao, add missing information, resolve ambiguity, paraphrase, or polish. Output exactly one readable Lao result only, using Lao script for Lao words and never Thai lookalikes such as นะ or เลย, with no explanation, label, slash alternatives, or parenthetical alternatives.`
 });
 
+
+// V3.61.49 live back-translation optimization: compact MINIMAL primary; legacy long LOW only for recovery.
+const SharedBackTranslationPolicyV36149=Object.freeze({
+  VERSION:'V3.61.49',
+  HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the given Lao into Korean for meaning checking. The Lao text is the sole evidence; never reconstruct a presumed original Korean. Preserve actor/target, possession and relationships, negation/modality, tense/aspect/time, numbers, movement/call direction, request strength, emotional strength, and ambiguity. Keep unspecified details unspecified and never add facts, subjects, objects, togetherness, pet names, apologies, gratitude, or explanations. Preserve the register actually expressed: casual/intimate Lao must stay natural Korean banmal; polite/respectful Lao must stay matching conversational 존댓말. Keep one coherent speech level unless the Lao itself changes it. Preserve names, foods, brands, products, places, and phonetic transliterations by the sound/form actually written; do not normalize or guess another item. Third persons stay third persons. Only when older-sibling relationship and possessor are explicit: husband-speaker own older sister=누나, older brother=형; wife-listener older sister=언니, older brother=오빠. Otherwise do not infer family roles; keep younger sibling as 동생 unless sex is explicit. Preserve emoji/punctuation/line breaks. Return exactly one Korean result only. Korean words must use Hangul. Never insert Lao, Thai, Georgian, Ol Chiki, or other unrelated script. Latin text is allowed only when that Latin text is already present in the Lao source. No alternatives, labels, notes, or explanations.`,
+  WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the given Korean into Lao for meaning checking. The Korean text is the sole evidence; never reconstruct a presumed original Lao. Preserve actor/target, possession and relationships, negation/modality, tense/aspect/time, numbers, movement/call direction, request strength, emotional strength, and ambiguity. Keep unspecified details unspecified and never add facts, subjects, objects, togetherness, pet names, apologies, gratitude, or explanations. Preserve the register actually expressed: casual Korean must stay natural intimate everyday Lao; polite/respectful Korean must stay matching respectful Lao. Keep one coherent register unless the Korean itself changes it. Preserve names, foods, brands, products, places, and phonetic transliterations by the sound/form actually written; do not normalize or guess another item. Third persons stay third persons. Preserve emoji/punctuation/line breaks. Return exactly one Lao result only. Every Lao word and particle must use Lao script; never insert Thai lookalikes such as นะ or เลย, Korean, Georgian, Ol Chiki, or other unrelated script. Latin text is allowed only when that Latin text is already present in the Korean source. No alternatives, labels, notes, romanization, or explanations.`,
+  HUSBAND_RECOVERY_PROMPT:SharedBackTranslationPolicyV3604.HUSBAND_BACK_PROMPT,
+  WIFE_RECOVERY_PROMPT:SharedBackTranslationPolicyV3604.WIFE_BACK_PROMPT
+});
+
 // V2.77 deterministic back-output quality core: identical in husband/wife/diagnostic.
 const SharedBackTranslationCoreV277=(()=&gt;{
   const count=(t,re)=&gt;(String(t||'').match(re)||[]).length;
+  const uniq=a=&gt;[...new Set(a)];
+  const latinTokens=t=&gt;(String(t||'').match(/[A-Za-z][A-Za-z0-9._+-]*/g)||[]);
+  function unsupportedLatin(sourceText,targetText){
+    const s=String(sourceText||'').toLowerCase();
+    return uniq(latinTokens(targetText).filter(x=&gt;!s.includes(String(x).toLowerCase())));
+  }
+  function foreignLetters(text,target){
+    const bad=[];
+    for(const ch of String(text||'')){
+      if(!/\p{L}/u.test(ch))continue;
+      const ok=target==='KO'?/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7A3A-Za-z]/u.test(ch):/[\u0E80-\u0EFFA-Za-z]/u.test(ch);
+      if(!ok&amp;&amp;!bad.includes(ch))bad.push(ch);
+      if(bad.length&gt;=6)break;
+    }
+    return bad;
+  }
   function analyzeKorean(text,sourceText=''){
     const t=String(text||'').trim();
     const stats={
@@ -1039,6 +1065,8 @@ const SharedBackTranslationCoreV277=(()=&gt;{
     if(stats.cjk&gt;0)reasons.push('CJK_LEFT');
     if(stats.kana&gt;0)reasons.push('KANA_LEFT');
     if(stats.replacement&gt;0)reasons.push('BROKEN_CHAR');
+    const foreign=foreignLetters(t,'KO');if(foreign.length)reasons.push('FOREIGN_SCRIPT:'+foreign.join(''));
+    const latin=unsupportedLatin(sourceText,t);if(latin.length)reasons.push('UNSUPPORTED_LATIN:'+latin.slice(0,3).join(','));
     if(/^(?:translation|back[- ]?translation|meaning|result|note)\s*:/i.test(t))reasons.push('META_PREFIX');
     return{pass:reasons.length===0,reasons,stats,softContamination:false,softReasons:[]};
   }
@@ -1057,10 +1085,12 @@ const SharedBackTranslationCoreV277=(()=&gt;{
     if(stats.cjk&gt;0)reasons.push('CJK_LEFT');
     if(stats.kana&gt;0)reasons.push('KANA_LEFT');
     if(stats.replacement&gt;0)reasons.push('BROKEN_CHAR');
+    const foreign=foreignLetters(t,'LO');if(foreign.length)reasons.push('FOREIGN_SCRIPT:'+foreign.join(''));
+    const latin=unsupportedLatin(sourceText,t);if(latin.length)reasons.push('UNSUPPORTED_LATIN:'+latin.slice(0,3).join(','));
     if(/^(?:translation|back[- ]?translation|meaning|result|note)\s*:/i.test(t))reasons.push('META_PREFIX');
     return{pass:reasons.length===0,reasons,stats,softContamination:false,softReasons:[]};
   }
-  return Object.freeze({VERSION:'V2.77',analyzeKorean,analyzeLao});
+  return Object.freeze({VERSION:'V3.61.49',analyzeKorean,analyzeLao,unsupportedLatin,foreignLetters});
 })();
 
 function syncAppVersion(){
@@ -3317,7 +3347,7 @@ function detectHardLatinResidueV36140(source,target,targetScript){
         function _profileDiff(a,b){return Object.keys(a).some(k=&gt;!!a[k]!==!!b[k]);}
         function _koTransportPresent(text){return /(?:택시|버스|자동차|차로|오토바이|자전거|걸어서|도보|운전(?:해서|하고|하여)?|타고|승용차)/.test(String(text||''));}
 
-        // V3.61.48 local quality truth checks: no AI call; compare original Korean with verification back-translation.
+        // V3.61.49 local quality truth checks: no AI call; compare original Korean with verification back-translation.
         const _KO_CORE_GROUPS_V36143=[
           {label:'과일',concepts:[['복숭아'],['귤','오렌지'],['딸기'],['수박'],['사과'],['포도'],['망고']]},
           {label:'장소',concepts:[['기숙사'],['호텔'],['병원'],['학교'],['공항'],['사무실']]},
@@ -4168,6 +4198,8 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
         const s=String(laoText||''),t=String(koreanText||''),reasons=[];
         const latin=(SharedCriticalMeaningCoreV277.unexpectedLatin(s,t)||[]).filter(x=&gt;!backHarmlessLatinExpansionL2K(x,s,t));
         if(latin.length)reasons.push('UNSUPPORTED_LATIN:'+latin.slice(0,3).join(','));
+        const gate=SharedBackTranslationCoreV277.analyzeKorean(t,s);
+        for(const r of(gate?.reasons||[])){if(/^(?:NO_KOREAN|LAO_LEFT|THAI_LEFT|CJK_LEFT|KANA_LEFT|BROKEN_CHAR|FOREIGN_SCRIPT:|UNSUPPORTED_LATIN:)/.test(r))reasons.push(r)}
         const risk=SharedCriticalMeaningCoreV277.detect('L2K',s,t);
         const severe=/(?:HARD_|SPOUSE_ROLE:|CORE_NOUN_|THIRD_PARTY_|NUMBER_OR_TIME_CHANGED|WEEKDAY_CHANGED|YESTERDAY_|TODAY_|TOMORROW_|MORNING_|AFTERNOON_|EVENING_|PROHIBITION_TO_PERMISSION|PERMISSION_TO_PROHIBITION|CALL_DIRECTION_REVERSED|WAKE_UP_TO_WAKE_SOMEONE|PLACE_BRAND_DRIFT|FOOD_DRINK_DRIFT)/;
         for(const r of(risk?.reasons||[])){if(/^UNEXPECTED_LATIN:/.test(r))continue;if(severe.test(r))reasons.push(r)}
@@ -4185,15 +4217,18 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
         }, BACK_REQUEST_TIMEOUT_MS);
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent`;
+        const recoveryMode=languageRecovery||relationRecovery||singleResultRecovery||technicalRecovery;
+        const backPromptBase=recoveryMode?SharedBackTranslationPolicyV36149.HUSBAND_RECOVERY_PROMPT:SharedBackTranslationPolicyV36149.HUSBAND_BACK_PROMPT;
+        const backThinkingLevel=recoveryMode?'low':'minimal';
         const payload = {
             system_instruction: {
-                parts: [{ text: SharedBackTranslationPolicyV3604.HUSBAND_BACK_PROMPT + (languageRecovery ? BACK_KOREAN_LANGUAGE_RECOVERY_SUFFIX : '') + (relationRecovery ? BACK_KOREAN_RELATION_RECOVERY_SUFFIX : '') + (singleResultRecovery ? BACK_KOREAN_SINGLE_RESULT_RECOVERY_SUFFIX : '') + (technicalRecovery ? BACK_KOREAN_TECHNICAL_RECOVERY_SUFFIX : '') }]
+                parts: [{ text: backPromptBase + (languageRecovery ? BACK_KOREAN_LANGUAGE_RECOVERY_SUFFIX : '') + (relationRecovery ? BACK_KOREAN_RELATION_RECOVERY_SUFFIX : '') + (singleResultRecovery ? BACK_KOREAN_SINGLE_RESULT_RECOVERY_SUFFIX : '') + (technicalRecovery ? BACK_KOREAN_TECHNICAL_RECOVERY_SUFFIX : '') }]
             },
             contents: [{ role: "user", parts: [{ text: laoText }] }],
             generationConfig: {
                 maxOutputTokens: 1024,
                 thinkingConfig: {
-                    thinkingLevel: "low",
+                    thinkingLevel: backThinkingLevel,
                     includeThoughts: false
                 }
             }
@@ -4941,7 +4976,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="daf92ca8e6823a85ed2e339386fc4f0e1758bbc8ad7e46d0476bb447138224ed">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="a528c60498714730ff1548e3398bc97b162c361fc3214c9110a919bab81d7d75">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5378,7 +5413,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.48';
+const APP_VERSION='V3.61.49';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 always refer to the wife/listener; never translate them as ນ້ອງ, a child, third person, ເມຍ, or ພັນລະຍາ unless the source explicitly uses that noun. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. For kinship chains, translate only the family links explicitly stated in the Korean; never infer an unstated aunt/uncle/in-law label, gender, generation, or side of the family. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lock explicit time anchors to their own clauses: 어제=ມື້ວານນີ້, 오늘=ມື້ນີ້, 내일=ມື້ອື່ນ. Never swap or move these anchors between clauses; verify all of them once before output. Keep each explicit noun attached to the same person and phrase as in Korean: 자기 동생 means the listener's sibling, and 기숙사 stays that sibling's destination; never invent a possessor/modifier or detach, corrupt, replace, or drop the noun. Korean 우리/우리 둘/둘이/자기랑 나랑 means the husband and wife together; never translate that pair as third-person ພວກເຂົາ or ເຂົາສອງຄົນ. STRICT OUTPUT-SCRIPT GATE: every Lao word, particle, and ending must use Lao script. Never insert Thai or Thai-lookalike words/particles such as นะ or เลย, and never insert Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Preserve the Korean source speech level naturally: if the source is casual/banmal, use natural comfortable everyday Lao suitable for a husband speaking casually to his wife; if the source is polite/respectful, use naturally respectful Lao at a matching level. Do not make a casual source more formal or polite than it is, and do not make a polite source blunt. Keep spouse warmth only when the source itself supports it. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
@@ -5463,7 +5498,7 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 // V3.61.31 concise source-faithful live prompt: preserve source casual/polite register; strict meaning repair remains unchanged.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.48',
+  VERSION:'V3.61.49',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -5500,16 +5535,42 @@ const SharedBackTranslationPolicyV333=Object.freeze({
 
 // V3.61.31 natural verification back-translation policy: source evidence and source register both stay strict while wording reads naturally.
 const SharedBackTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.48',
+  VERSION:'V3.61.49',
   HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the Lao text you are given into natural everyday Korean for meaning checking. Treat that Lao text as the sole evidence: you do not know and must not reconstruct any presumed original Korean. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. Treat tense and aspect as core meaning: an action that is ongoing/in progress must remain ongoing, a completed/past action must remain completed, and a future intention, plan, request, or promise must remain future. Never add Korean togetherness such as 같이, 함께, or 둘이 unless the Lao text actually expresses joint action or togetherness. If the Lao leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary conversational Korean that a spouse would naturally read in a messenger chat, while preserving the register actually expressed by the Lao text: casual/intimate Lao should become natural Korean banmal, and polite/respectful Lao should become matching conversational 존댓말. Avoid stiff, bureaucratic, textbook, or translationese wording. Keep one coherent Korean speech level across the whole back-translation unless the Lao text itself clearly changes register: do not turn clearly casual/intimate Lao into -요/-습니다 style, and do not turn clearly respectful Lao into blunt banmal. Preserve affectionate address, softening, teasing, worry, laughter/emoji, and emotional warmth only when they are actually present in the Lao, at roughly the same strength; do not flatten warm spouse chat into businesslike Korean and do not invent extra intimacy. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Lao phonetic spellings of Korean/foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. When a Lao expression functions as the name of a dish, product, place, or person, preserve that identity with one stable Korean name or transliteration instead of replacing it with a broader generic category or a guessed familiar substitute. When ເຂົ້າຕົ້ມ is functioning as the named Lao dish, render the dish name as 카오똠 rather than silently replacing it with 찹쌀밥 or 죽. Example: ຕຸ້ບູກິມຈິ must be rendered as 두부김치, not 김치찌개 or another dish. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person (I/me) or second person (you) unless the Lao text itself says so. ROLE-BASED KOREAN KINSHIP SELECTION: only when the Lao makes both an older-sibling relationship and its possessor explicit or otherwise unambiguous from the same clause (including clear biological-sibling wording tied to the speaker/listener), choose the Korean kinship term from the fixed husband/wife roles rather than listing alternatives. For the HUSBAND speaker's own explicit or clearly possessed older sibling, ເອື້ອຍຂອງຂ້ອຍ (or equivalent clear possession) must be 누나 and ອ້າຍຂອງຂ້ອຍ must be 형. For the WIFE listener's explicit older sibling, ເອື້ອຍຂອງເຈົ້າ must be 언니 and ອ້າຍຂອງເຈົ້າ must be 오빠. Apply this only to clear sibling possession or unambiguous biological-sibling context; do not treat ordinary Lao social/address uses of ອ້າຍ, ເອື້ອຍ, or ນ້ອງ as family relations. Keep ນ້ອງ gender-neutral as 동생 unless the Lao explicitly states the younger sibling's sex. Never output pairs such as 언니(누나), 누나/언니, 형(오빠), or 형/오빠. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Return exactly one decided Korean back-translation. Never list slash-separated, A/B, or parenthetical alternative renderings for a relationship or word; if the Lao itself is ambiguous, preserve that ambiguity with one neutral Korean wording instead of listing options. Output Korean only, using Korean script for Korean words; never output Thai or Lao script as the back-translation language. No label, note, alternatives, or correction comment.`,
   HUSBAND_BACK_REPAIR_PROMPT:`Repair the previous Lao-to-Korean literal back-translation only for script or formatting corruption. Use the Lao source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Lao. Do not infer any presumed original Korean, add missing information, resolve ambiguity, paraphrase, or polish. When an older-sibling relationship and possessor are explicit, preserve the fixed-role Korean term: husband-speaker own older sister=누나, own older brother=형; wife-listener own older sister=언니, own older brother=오빠. Do not infer sibling relationships from ordinary Lao address terms, and keep younger sibling neutral as 동생 unless sex is explicit. Output exactly one readable Korean result only, with no explanation, label, slash alternatives, or parenthetical alternatives.`,
   WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the Korean text you are given into natural everyday Lao for meaning checking. Treat that Korean text as the sole evidence: you do not know and must not reconstruct any presumed original Lao. Preserve exactly the meaning actually expressed, including who does what to whom, relationship/possession, negation or permission/prohibition, tense/time, numbers, direction, request strength, emotional strength, and ambiguity. Treat tense and aspect as core meaning: an action that is ongoing/in progress must remain ongoing, a completed/past action must remain completed, and a future intention, plan, request, or promise must remain future. Never add Lao togetherness such as ນຳກັນ or ດ້ວຍກັນ unless the Korean text actually expresses joint action or togetherness. If the Korean leaves gender, relationship, referent, target, cause, or another detail unspecified, keep it unspecified. Use smooth, ordinary everyday Lao suitable for a wife and husband reading a messenger conversation, while preserving the register actually expressed by the Korean text: casual Korean should remain natural intimate everyday Lao, and polite/respectful Korean should remain naturally respectful Lao at a matching level. Avoid stiff, ceremonial, textbook, or translationese wording. Keep one coherent Lao relationship/register level across the whole back-translation unless the Korean text itself clearly changes register. Preserve affectionate address, softening, teasing, worry, laughter/emoji, and emotional warmth only when they are actually present in the Korean, at roughly the same strength; do not flatten warm spouse chat into formal/ceremonial Lao and do not invent extra intimacy. This naturalization is wording-only: never add pet names, affection, apologies, gratitude, promises, requests, subjects, objects, facts, or emotional intensity that are not actually expressed. Treat unfamiliar Korean phonetic spellings of foreign food names, brands, product names, and proper nouns as identity-bearing transliterations: preserve or transliterate the sound/form actually written instead of normalizing, correcting, or substituting a more familiar item. When the Korean text is using a transliterated or branded food/product/place/person name as an identity-bearing name, keep that identity in Lao rather than replacing it with a broader category or a guessed alternative. Preserve third-person relationship targets exactly: a sibling, friend, parent, family member, or other third person must never become first person or second person unless the Korean text itself says so. Do not correct a suspected mistranslation from context, fill gaps, explain, summarize, or resolve ambiguity. Preserve meaningful emoji, punctuation, and line breaks. Return exactly one decided Lao back-translation. Never list slash-separated, A/B, or parenthetical alternative renderings (for example ເມຍ/ຜົວ); if the Korean itself is ambiguous, preserve that ambiguity with one neutral Lao wording instead of listing options. Every Lao word/particle must use Lao script, never Thai lookalikes such as นะ or เลย. Output Lao only, with no label, note, alternatives, romanization, or correction comment.`,
   WIFE_BACK_REPAIR_PROMPT:`Repair the previous Korean-to-Lao literal back-translation only for script or formatting corruption. Use the Korean source as the sole evidence. Keep exactly the same meaning, roles, facts and ambiguity expressed by the Korean. Do not infer any presumed original Lao, add missing information, resolve ambiguity, paraphrase, or polish. Output exactly one readable Lao result only, using Lao script for Lao words and never Thai lookalikes such as นะ or เลย, with no explanation, label, slash alternatives, or parenthetical alternatives.`
 });
 
+
+// V3.61.49 live back-translation optimization: compact MINIMAL primary; legacy long LOW only for recovery.
+const SharedBackTranslationPolicyV36149=Object.freeze({
+  VERSION:'V3.61.49',
+  HUSBAND_BACK_PROMPT:`Verification back-translation. Translate ONLY the given Lao into Korean for meaning checking. The Lao text is the sole evidence; never reconstruct a presumed original Korean. Preserve actor/target, possession and relationships, negation/modality, tense/aspect/time, numbers, movement/call direction, request strength, emotional strength, and ambiguity. Keep unspecified details unspecified and never add facts, subjects, objects, togetherness, pet names, apologies, gratitude, or explanations. Preserve the register actually expressed: casual/intimate Lao must stay natural Korean banmal; polite/respectful Lao must stay matching conversational 존댓말. Keep one coherent speech level unless the Lao itself changes it. Preserve names, foods, brands, products, places, and phonetic transliterations by the sound/form actually written; do not normalize or guess another item. Third persons stay third persons. Only when older-sibling relationship and possessor are explicit: husband-speaker own older sister=누나, older brother=형; wife-listener older sister=언니, older brother=오빠. Otherwise do not infer family roles; keep younger sibling as 동생 unless sex is explicit. Preserve emoji/punctuation/line breaks. Return exactly one Korean result only. Korean words must use Hangul. Never insert Lao, Thai, Georgian, Ol Chiki, or other unrelated script. Latin text is allowed only when that Latin text is already present in the Lao source. No alternatives, labels, notes, or explanations.`,
+  WIFE_BACK_PROMPT:`Verification back-translation. Translate ONLY the given Korean into Lao for meaning checking. The Korean text is the sole evidence; never reconstruct a presumed original Lao. Preserve actor/target, possession and relationships, negation/modality, tense/aspect/time, numbers, movement/call direction, request strength, emotional strength, and ambiguity. Keep unspecified details unspecified and never add facts, subjects, objects, togetherness, pet names, apologies, gratitude, or explanations. Preserve the register actually expressed: casual Korean must stay natural intimate everyday Lao; polite/respectful Korean must stay matching respectful Lao. Keep one coherent register unless the Korean itself changes it. Preserve names, foods, brands, products, places, and phonetic transliterations by the sound/form actually written; do not normalize or guess another item. Third persons stay third persons. Preserve emoji/punctuation/line breaks. Return exactly one Lao result only. Every Lao word and particle must use Lao script; never insert Thai lookalikes such as นะ or เลย, Korean, Georgian, Ol Chiki, or other unrelated script. Latin text is allowed only when that Latin text is already present in the Korean source. No alternatives, labels, notes, romanization, or explanations.`,
+  HUSBAND_RECOVERY_PROMPT:SharedBackTranslationPolicyV3604.HUSBAND_BACK_PROMPT,
+  WIFE_RECOVERY_PROMPT:SharedBackTranslationPolicyV3604.WIFE_BACK_PROMPT
+});
+
 // V2.77 deterministic back-output quality core: identical in husband/wife/diagnostic.
 const SharedBackTranslationCoreV277=(()=&gt;{
   const count=(t,re)=&gt;(String(t||'').match(re)||[]).length;
+  const uniq=a=&gt;[...new Set(a)];
+  const latinTokens=t=&gt;(String(t||'').match(/[A-Za-z][A-Za-z0-9._+-]*/g)||[]);
+  function unsupportedLatin(sourceText,targetText){
+    const s=String(sourceText||'').toLowerCase();
+    return uniq(latinTokens(targetText).filter(x=&gt;!s.includes(String(x).toLowerCase())));
+  }
+  function foreignLetters(text,target){
+    const bad=[];
+    for(const ch of String(text||'')){
+      if(!/\p{L}/u.test(ch))continue;
+      const ok=target==='KO'?/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7A3A-Za-z]/u.test(ch):/[\u0E80-\u0EFFA-Za-z]/u.test(ch);
+      if(!ok&amp;&amp;!bad.includes(ch))bad.push(ch);
+      if(bad.length&gt;=6)break;
+    }
+    return bad;
+  }
   function analyzeKorean(text,sourceText=''){
     const t=String(text||'').trim();
     const stats={
@@ -5526,6 +5587,8 @@ const SharedBackTranslationCoreV277=(()=&gt;{
     if(stats.cjk&gt;0)reasons.push('CJK_LEFT');
     if(stats.kana&gt;0)reasons.push('KANA_LEFT');
     if(stats.replacement&gt;0)reasons.push('BROKEN_CHAR');
+    const foreign=foreignLetters(t,'KO');if(foreign.length)reasons.push('FOREIGN_SCRIPT:'+foreign.join(''));
+    const latin=unsupportedLatin(sourceText,t);if(latin.length)reasons.push('UNSUPPORTED_LATIN:'+latin.slice(0,3).join(','));
     if(/^(?:translation|back[- ]?translation|meaning|result|note)\s*:/i.test(t))reasons.push('META_PREFIX');
     return{pass:reasons.length===0,reasons,stats,softContamination:false,softReasons:[]};
   }
@@ -5544,10 +5607,12 @@ const SharedBackTranslationCoreV277=(()=&gt;{
     if(stats.cjk&gt;0)reasons.push('CJK_LEFT');
     if(stats.kana&gt;0)reasons.push('KANA_LEFT');
     if(stats.replacement&gt;0)reasons.push('BROKEN_CHAR');
+    const foreign=foreignLetters(t,'LO');if(foreign.length)reasons.push('FOREIGN_SCRIPT:'+foreign.join(''));
+    const latin=unsupportedLatin(sourceText,t);if(latin.length)reasons.push('UNSUPPORTED_LATIN:'+latin.slice(0,3).join(','));
     if(/^(?:translation|back[- ]?translation|meaning|result|note)\s*:/i.test(t))reasons.push('META_PREFIX');
     return{pass:reasons.length===0,reasons,stats,softContamination:false,softReasons:[]};
   }
-  return Object.freeze({VERSION:'V2.77',analyzeKorean,analyzeLao});
+  return Object.freeze({VERSION:'V3.61.49',analyzeKorean,analyzeLao,unsupportedLatin,foreignLetters});
 })();
 
 function syncAppVersion(){
@@ -6649,7 +6714,7 @@ function _loPolarityProfile(text){const s=String(text||'');return{prohibit:/(?:�
 function _profileDiff(a,b){return Object.keys(a).some(k=&gt;!!a[k]!==!!b[k])}
 function _loTransportPresent(text){return /(?:ແທັກຊີ|ລົດເມ|ລົດຈັກ|ລົດຖີບ|ຂັບລົດ|ຂີ່ລົດ|ຍ່າງ|ເດີນທາງ)/.test(String(text||''))}
 
-// V3.61.48 local quality truth checks: no AI call; compare original Lao with verification back-translation.
+// V3.61.49 local quality truth checks: no AI call; compare original Lao with verification back-translation.
 const _LO_CORE_GROUPS_V36143=[
   {label:'FRUIT',concepts:[['ໝາກພີສ','ຫມາກພີສ'],['ໝາກກ້ຽງ','ຫມາກກ້ຽງ'],['ສະຕໍເບີຣີ','ສະຕໍເບີລີ']]},
   {label:'PLACE',concepts:[['ຫໍພັກ'],['ໂຮງແຮມ'],['ໂຮງໝໍ'],['ໂຮງຮຽນ'],['ສະໜາມບິນ'],['ຫ້ອງການ']]},
@@ -7353,7 +7418,7 @@ function analyzeLaoQuality(text,sourceText){
 
 
 const FORWARD_PROMPT=SharedTranslationPolicyV3604.L2K_PROMPT;
-const BACK_PROMPT=SharedBackTranslationPolicyV3604.WIFE_BACK_PROMPT;
+const BACK_PROMPT=SharedBackTranslationPolicyV36149.WIFE_BACK_PROMPT;
 const BACK_REPAIR_PROMPT=SharedBackTranslationPolicyV3604.WIFE_BACK_REPAIR_PROMPT;
 
 // V3.61.25 deterministic spouse-chat laughter localization.
@@ -7393,7 +7458,7 @@ function createForwardRequest(source,ctx,label,timeoutMs=GEMINI_TIMEOUT_MS,maxOu
   maxOutputTokens=Number.isFinite(Number(maxOutputTokens))&amp;&amp;Number(maxOutputTokens)&gt;0?Number(maxOutputTokens):forwardMaxOutputTokensForSource(source);
   const controller=new AbortController();ctx.activeSet.add(controller);let didTimeout=false;const started=performance.now();const record={label,state:'pending',elapsedMs:null,httpStatus:null,finishReason:null,qualityReasons:[],usagePromptTokens:null,usageCandidateTokens:null,usageTotalTokens:null,maxOutputTokens:Number(maxOutputTokens)||null};ctx.records.push(record);const timeoutId=setTimeout(()=&gt;{didTimeout=true;try{controller.abort()}catch(e){}},timeoutMs);
   const promise=(async()=&gt;{try{
-    const livePrompt=buildFastForwardPromptL2K(source);record.promptChars=livePrompt.length;const payload={system_instruction:{parts:[{text:livePrompt}]},contents:[{role:'user',parts:[{text:source}]}],generationConfig:{maxOutputTokens,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}};
+    const livePrompt=buildFastForwardPromptL2K(source);record.promptChars=livePrompt.length;const payload={system_instruction:{parts:[{text:livePrompt}]},contents:[{role:'user',parts:[{text:source}]}],generationConfig:{maxOutputTokens,thinkingConfig:{thinkingLevel:'minimal',includeThoughts:false}}};
     const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify(payload),signal:controller.signal},{action:'translate'});record.httpStatus=res.status;telemetryResponseMeta(record,res,started);
     if(!res.ok){const e=new Error(`HTTP ${res.status}`);e.status=res.status;e.retryable=isRetryableStatus(res.status);e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e;}
     const relayIntegrity=relayTextIntegrityFromResponse(res);const data=await res.json();const usage=data?.usageMetadata||{};const usageInfo={prompt:usage.promptTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.promptTokenCount))?Number(usage.promptTokenCount):null,candidate:usage.candidatesTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.candidatesTokenCount))?Number(usage.candidatesTokenCount):null,total:usage.totalTokenCount!=null&amp;&amp;Number.isFinite(Number(usage.totalTokenCount))?Number(usage.totalTokenCount):null};record.usagePromptTokens=usageInfo.prompt;record.usageCandidateTokens=usageInfo.candidate;record.usageTotalTokens=usageInfo.total;record.maxOutputTokens=Number(maxOutputTokens)||null;logRelayTextIntegrity(relayIntegrity,label);if(!ctx.isActive())throw makeAbortError('STALE');const parsed=extractGeminiText(data);record.finishReason=parsed.finishReason;
@@ -7512,6 +7577,8 @@ function backSevereAnomalyK2L(koreanText,laoText){
   const s=String(koreanText||''),t=String(laoText||''),reasons=[];
   const latin=(SharedCriticalMeaningCoreV277.unexpectedLatin(s,t)||[]).filter(x=&gt;!backHarmlessLatinExpansionK2L(x,s,t));
   if(latin.length)reasons.push('UNSUPPORTED_LATIN:'+latin.slice(0,3).join(','));
+  const gate=SharedBackTranslationCoreV277.analyzeLao(t,s);
+  for(const r of(gate?.reasons||[])){if(/^(?:NO_LAO|KOREAN_LEFT|THAI_LEFT|CJK_LEFT|KANA_LEFT|BROKEN_CHAR|FOREIGN_SCRIPT:|UNSUPPORTED_LATIN:)/.test(r))reasons.push(r)}
   const risk=SharedCriticalMeaningCoreV277.detect('K2L',s,t);
   const severe=/(?:출력 손상|배우자 역할|핵심명사|관계 대상|제3자 관계|숫자\/시간 값 변경|요일 변경|시간 방향|시간 기준|오늘→|내일→|오전→|오후→|저녁→|허용→금지|금지→허용|전화 주체\/대상 반전|이동 방향|숙제→|행동 주체|의미오염)/;
   for(const r of(risk?.reasons||[])){if(/원문에 없는 영문 혼입/.test(r))continue;if(severe.test(r))reasons.push(r)}
@@ -7519,7 +7586,10 @@ function backSevereAnomalyK2L(koreanText,laoText){
 }
 function createBackRequest(korean,runId,label,relationRecovery=false,singleResultRecovery=false,technicalRecovery=false){
   const c=new AbortController();backControllers.add(c);let didTimeout=false;const started=performance.now();const timer=setTimeout(()=&gt;{didTimeout=true;try{c.abort()}catch(e){}},BACK_REQUEST_TIMEOUT_MS);
-  return fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:BACK_PROMPT+(relationRecovery?BACK_LAO_RELATION_RECOVERY_SUFFIX:'')+(singleResultRecovery?BACK_LAO_SINGLE_RESULT_RECOVERY_SUFFIX:'')+(technicalRecovery?BACK_LAO_TECHNICAL_RECOVERY_SUFFIX:'')}]},contents:[{role:'user',parts:[{text:korean}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:c.signal},{action:'back'})
+  const recoveryMode=relationRecovery||singleResultRecovery||technicalRecovery;
+  const backPromptBase=recoveryMode?SharedBackTranslationPolicyV36149.WIFE_RECOVERY_PROMPT:SharedBackTranslationPolicyV36149.WIFE_BACK_PROMPT;
+  const backThinkingLevel=recoveryMode?'low':'minimal';
+  return fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:backPromptBase+(relationRecovery?BACK_LAO_RELATION_RECOVERY_SUFFIX:'')+(singleResultRecovery?BACK_LAO_SINGLE_RESULT_RECOVERY_SUFFIX:'')+(technicalRecovery?BACK_LAO_TECHNICAL_RECOVERY_SUFFIX:'')}]},contents:[{role:'user',parts:[{text:korean}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:backThinkingLevel,includeThoughts:false}}}),signal:c.signal},{action:'back'})
     .then(async res=&gt;{
       if(!res.ok){const e=new Error(`HTTP ${res.status}`);e.status=res.status;e.retryable=isRetryableStatus(res.status);e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}
       const data=await res.json();if(runId!==backTranslationRunId)throw makeAbortError();
@@ -7804,7 +7874,7 @@ async function __runLivePathDiagnosticL2K(sourceText){
   requestBackTranslation=async function(autoTriggered=false){backInputCapture={atRel:performance.now()-started,text:currentDisplay(),autoTriggered:!!autoTriggered};return null};
   const cleanupNow=async()=&gt;{const before={activeControllers:mainControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};const sweep=()=&gt;{for(const c of [...mainControllers]){try{c.abort()}catch(e){}}for(const id of [...trackedTimeouts]){try{timerOrig.clearTimeout(id)}catch(e){}}trackedTimeouts.clear();for(const id of [...trackedIntervals]){try{timerOrig.clearInterval(id)}catch(e){}}trackedIntervals.clear();};sweep();for(let i=0;i&lt;4;i++){await Promise.resolve();await new Promise(r=&gt;timerOrig.setTimeout(r,30));sweep()}const after={activeControllers:mainControllers.size,pendingRequests:requestTrace.filter(x=&gt;x.state==='pending').length,timeouts:trackedTimeouts.size,intervals:trackedIntervals.size};return{before,after,graceMs:120,pass:after.activeControllers===0&amp;&amp;after.pendingRequests===0&amp;&amp;after.timeouts===0&amp;&amp;after.intervals===0};};  __livePathDiagnosticRunningL2K=true;if(input)input.value=source;
   let resultObj=null;
-  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],liveQuality:displayQuality?JSON.parse(JSON.stringify(displayQuality)):null,mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;(String(winner).includes('사용자 확인')||winner==='user-check-result'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'low',maxOutputTokens:forwardMaxOutputTokensForSource(source)},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
+  try{await translateText();await Promise.resolve();if(displayMs==null){const t=currentDisplay();if(t&amp;&amp;!t.startsWith('⚠️')){displayMs=performance.now()-started;displayText=t}}const tr=snap(),shown=displayMs!=null&amp;&amp;!!displayText&amp;&amp;!String(displayText).startsWith('⚠️'),meta=commitCapture||displayMeta||{},perf=perfCapture||{},winner=String(meta.winner||perf.winner||'');resultObj={ok:shown,displayed:shown,text:shown?displayText:'',displayMs,mainPolicyMs,postMainMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(mainPolicyMs)?displayMs-mainPolicyMs:null,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,afterFirstNetworkMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstHttpCompleteMs)?displayMs-tr.firstHttpCompleteMs:null,afterFirstRequestOutcomeMs:Number.isFinite(displayMs)&amp;&amp;Number.isFinite(tr.firstCandidateDecisionMs)?displayMs-tr.firstCandidateDecisionMs:null,winner,hedged:meta.hedged===true||perf.hedged===true,rescued:meta.rescued===true||perf.rescued===true,tailRescued:meta.tailRescued===true,semanticRepaired:meta.semanticRepaired===true||perf.semanticRepaired===true,semanticRepairFailed:meta.semanticRepairFailed===true||perf.semanticRepairFailed===true,brokenCharAutoRetried:meta.brokenCharAutoRetried===true||perf.brokenCharAutoRetried===true,initialCritical:!!initialCriticalRisk?.critical,initialCriticalReasons:[...(initialCriticalRisk?.reasons||[])],finalQualityPass:displayQuality?.pass!==false,finalQualityReasons:[...(displayQuality?.reasons||[])],liveQuality:displayQuality?JSON.parse(JSON.stringify(displayQuality)):null,mainRequestCount:Number(perf.requestCount??commitCapture?.requestRecords?.length??requestTrace.filter(x=&gt;x.kind==='forward').length)||0,mainRequestLabels:[...(perf.requestLabels||requestTrace.filter(x=&gt;x.kind==='forward').map(x=&gt;x.label))],promptCharsMax:Number(perf.promptCharsMax||0),promptCharsTotal:Number(perf.promptCharsTotal||0),networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,warningDraft:shown&amp;&amp;(String(winner).includes('사용자 확인')||winner==='user-check-result'),failure:failureCapture,postDisplay:{firstDisplayedText:shown?displayText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||''),backTriggered:!!backInputCapture,ttsTriggered:!!ttsCapture,storedMatchesDisplay:shown&amp;&amp;String(storeCapture?.targetText||commitCapture?.targetText||'')===displayText,storageSourceMatches:source===String(storeCapture?.sourceText||commitCapture?.sourceText||''),backInputMatchesDisplay:!!backInputCapture&amp;&amp;backInputCapture.text===displayText,ttsInputMatchesDisplay:!!ttsCapture&amp;&amp;ttsCapture.text===displayText},policyConfig:{hedgeDelayMs:Number(HEDGE_DELAY_MS),tailRescueTriggerMs:Number(TAIL_RESCUE_TRIGGER_MS),pairDeadlineMs:Number(PAIR_DEADLINE_MS),thinkingLevel:'minimal',maxOutputTokens:forwardMaxOutputTokensForSource(source)},error:shown?'':(failureCapture?.error||'NO_TRANSLATION_DISPLAY')};resultObj.cleanup=await cleanupNow();return resultObj}
   catch(e){const tr=snap();resultObj={ok:false,displayed:false,text:'',displayMs,mainPolicyMs,firstNetworkMs:tr.firstHttpCompleteMs,firstRequestOutcomeMs:tr.firstCandidateDecisionMs,firstNetworkOutcomeMs:tr.firstNetworkOutcomeMs,firstHttpCompleteMs:tr.firstHttpCompleteMs,firstParsedCandidateMs:tr.firstParsedCandidateMs,firstCandidateDecisionMs:tr.firstCandidateDecisionMs,firstAcceptedCandidateMs:tr.firstAcceptedCandidateMs,networkCount:tr.networkTrace.length,networkTrace:tr.networkTrace,requestTrace:tr.requestTrace,parseTrace:tr.parseTrace,policyEvents:tr.policyEvents,postDisplay:{firstDisplayedText:'',finalStoredText:String(storeCapture?.targetText||commitCapture?.targetText||''),storageSourceText:String(storeCapture?.sourceText||commitCapture?.sourceText||''),backTranslationInputText:String(backInputCapture?.text||''),ttsInputText:String(ttsCapture?.text||'')},error:String(e?.name||'Error')+':'+String(e?.message||e)};resultObj.cleanup=await cleanupNow();return resultObj}
   finally{try{observer?.disconnect()}catch(e){}window.setTimeout=timerOrig.setTimeout;window.clearTimeout=timerOrig.clearTimeout;window.setInterval=timerOrig.setInterval;window.clearInterval=timerOrig.clearInterval;fetchPrimaryDirect=orig.fetchPrimaryDirect;createForwardRequest=orig.createForwardRequest;createCriticalRepairAttemptL2K=orig.createCriticalRepairAttemptL2K;runForwardPolicy=orig.runForwardPolicy;detectCriticalMeaningRiskL2K=orig.detectCriticalMeaningRiskL2K;extractGeminiText=orig.extractGeminiText;deferStoreTranslation=orig.deferStoreTranslation;recordLivePerfSample=orig.recordLivePerfSample;telemetryCommitPrimary=orig.telemetryCommitPrimary;telemetryCommitFailure=orig.telemetryCommitFailure;speakKorean=orig.speakKorean;requestBackTranslation=orig.requestBackTranslation;if(input)input.value=savedInput;isTranslating=false;__livePathDiagnosticRunningL2K=false}
 }
@@ -7929,7 +7999,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.48';
+const INTEGRATED_VERSION='V3.61.49';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_ADMIN_PASSWORD='2580';
 const UNIFIED_AZURE_REGION='koreacentral';
@@ -7951,7 +8021,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='25056edcfed19c46328010107beb4bcdd80449039400941edf8d5372ed14cd42';
+const EXTERNAL_DIAGNOSTIC_SHA256='494bbd90ca3882fb71e29bd9cb956b7e7d162982916e861ae61b5399d773968e';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -8770,7 +8840,7 @@ function getUnifiedHistoryPersistenceAudit(){
   const h=getPayloadText('husband'),w=getPayloadText('wife'),checks=[];const add=(name,ok)=>checks.push({name,ok:!!ok});
   add('HISTORY_KEY_HUSBAND',h.includes("const LOCAL_HISTORY_KEY = 'translator_v231_husband_history'"));
   add('HISTORY_KEY_WIFE',w.includes("const LOCAL_HISTORY_KEY = 'translator_v231_wife_history'")||w.includes("const LOCAL_HISTORY_KEY='translator_v231_wife_history'"));
-  add('HISTORY_MAX50_H',h.includes('50-fav.length'));add('HISTORY_MAX50_W',w.includes('50-fav.length'));
+  add('HISTORY_MAX50_H',h.includes('HISTORY_FAVORITE_LIMIT=50')&&h.includes('HISTORY_RECENT_LIMIT=50'));add('HISTORY_MAX50_W',w.includes('HISTORY_FAVORITE_LIMIT=50')&&w.includes('HISTORY_RECENT_LIMIT=50'));
   add('HISTORY_RENDER10_H',h.includes('list = list.slice(0,10)'));add('HISTORY_RENDER10_W',w.includes('list=list.slice(0,10)')||w.includes('list = list.slice(0,10)'));
   add('NAV_NO_HISTORY_DELETE',!goToFirstScreen.toString().includes('translator_v231_')&&!showSelector.toString().includes('translator_v231_'));
   add('UPDATE_NO_HISTORY_DELETE',!writeSafeUpdateCheckpoint.toString().includes('translator_v231_')&&!clearSafeUpdateCheckpoint.toString().includes('translator_v231_'));
@@ -8785,7 +8855,7 @@ window.getUnifiedDiagnosticSessionId=getUnifiedDiagnosticSessionId;
 function getUnifiedLivePromptSnapshot(){
   const h=getPayloadText('husband'),w=getPayloadText('wife');
   const extractTemplate=(src,name)=>{const token='const '+name+'=`',a=src.indexOf(token);if(a<0)return'';const b=src.indexOf('`;',a+token.length);return b>a?src.slice(a+token.length,b):''};
-  const extractBack=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV3604');if(a<0)return'';const chunk=src.slice(a,a+14000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return'';const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):''};
+  const extractBack=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV36149');if(a<0)return'';const chunk=src.slice(a,a+9000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return'';const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):''};
   return {version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,k2lForward:extractTemplate(h,'FAST_K2L_BASE'),l2kForward:extractTemplate(w,'FAST_L2K_BASE'),husbandBack:extractBack(h,'HUSBAND_BACK_PROMPT'),wifeBack:extractBack(w,'WIFE_BACK_PROMPT')};
 }
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
@@ -8808,21 +8878,30 @@ async function getUnifiedRuntimeSafetyAudit(){
     const sourcePolicyOk=src=>/do not add information[\s\S]{0,240}guess ambiguity/i.test(src)&&/Preserve who does what to whom/i.test(src)&&/possession/i.test(src)&&/relationship/i.test(src)&&/negation\/modality/i.test(src);add('SOURCE_FIDELITY_POLICY',sourcePolicyOk(h)&&sourcePolicyOk(w));
     const _extractTemplateConst=(src,name)=>{const token='const '+name+'=`',a=src.indexOf(token);if(a<0)return null;const b=src.indexOf('`;',a+token.length);return b>a?src.slice(a+token.length,b):null};
     const _extractV3604Back=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV3604');if(a<0)return null;const chunk=src.slice(a,a+12000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return null;const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):null};
+    const _extractV36149Back=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV36149');if(a<0)return null;const chunk=src.slice(a,a+9000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return null;const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):null};
     const hk=_extractTemplateConst(h,'FAST_K2L_BASE'),wk=_extractTemplateConst(w,'FAST_K2L_BASE'),dk=_extractTemplateConst(diag,'FAST_K2L_BASE');
     const hl=_extractTemplateConst(h,'FAST_L2K_BASE'),wl=_extractTemplateConst(w,'FAST_L2K_BASE'),dl=_extractTemplateConst(diag,'FAST_L2K_BASE');
     add('DIAG_FORWARD_PROMPT_EXACT_PARITY',!!hk&&hk===wk&&hk===dk&&!!hl&&hl===wl&&hl===dl);
-    const modelConfigOk=src=>/gemini-3\.6-flash/.test(src)&&/thinkingLevel\s*:\s*["']low["']/.test(src)&&/function\s+forwardMaxOutputTokensForSource[\s\S]{0,120}return\s+1024/.test(src);
-    add('DIAG_MODEL_GENERATION_CONFIG_PARITY',modelConfigOk(h)&&modelConfigOk(w)&&diag.includes("const MODEL='gemini-3.6-flash'")&&/thinkingLevel\s*:\s*["']low["']/.test(diag));
+    const husbandModelOk=/gemini-3\.6-flash/.test(h)&&/function\s+forwardMaxOutputTokensForSource[\s\S]{0,120}return\s+1024/.test(h)&&/buildFastForwardPromptK2L[\s\S]{0,900}thinkingLevel\s*:\s*["']low["']/.test(h);
+    const wifeModelOk=/gemini-3\.6-flash/.test(w)&&/function\s+forwardMaxOutputTokensForSource[\s\S]{0,120}return\s+1024/.test(w)&&/buildFastForwardPromptL2K[\s\S]{0,900}thinkingLevel\s*:\s*["']minimal["']/.test(w);
+    const backModelOk=h.includes("backThinkingLevel=recoveryMode?'low':'minimal'")&&w.includes("backThinkingLevel=recoveryMode?'low':'minimal'");
+    add('DIAG_MODEL_GENERATION_CONFIG_PARITY',husbandModelOk&&wifeModelOk&&backModelOk&&diag.includes("const MODEL='gemini-3.6-flash'"));
 
-    const hb=_extractV3604Back(h,'HUSBAND_BACK_PROMPT'),wb=_extractV3604Back(w,'HUSBAND_BACK_PROMPT'),db=_extractV3604Back(diag,'HUSBAND_BACK_PROMPT');
-    const hbw=_extractV3604Back(h,'WIFE_BACK_PROMPT'),wbw=_extractV3604Back(w,'WIFE_BACK_PROMPT'),dbw=_extractV3604Back(diag,'WIFE_BACK_PROMPT');
-    add('DIAG_BACK_PROMPT_EXACT_PARITY',!!hb&&hb===wb&&hb===db&&!!hbw&&hbw===wbw&&hbw===dbw);
+    const hb=_extractV3604Back(h,'HUSBAND_BACK_PROMPT'),hbw=_extractV3604Back(h,'WIFE_BACK_PROMPT');
+    const hb49=_extractV36149Back(h,'HUSBAND_BACK_PROMPT'),wb49=_extractV36149Back(w,'HUSBAND_BACK_PROMPT'),db49=_extractV36149Back(diag,'HUSBAND_BACK_PROMPT');
+    const hbw49=_extractV36149Back(h,'WIFE_BACK_PROMPT'),wbw49=_extractV36149Back(w,'WIFE_BACK_PROMPT'),dbw49=_extractV36149Back(diag,'WIFE_BACK_PROMPT');
+    add('DIAG_BACK_PROMPT_EXACT_PARITY',!!hb49&&hb49===wb49&&hb49===db49&&!!hbw49&&hbw49===wbw49&&hbw49===dbw49);
     const _extractCriticalCore=src=>{const a=src.indexOf('const SharedCriticalMeaningCoreV277=(()=>{');if(a<0)return null;const b=src.indexOf('})();',a);return b>a?src.slice(a,b+5):null};
     const hc=_extractCriticalCore(h),wc=_extractCriticalCore(w),dc=_extractCriticalCore(diag);
     add('DIAG_CRITICAL_CORE_EXACT_PARITY',!!hc&&hc===wc&&hc===dc);
     add('WIFE_VOICE_DIAG_UI_REMOVED_V36140',!h.includes('id="voiceStatusCheckBtn"')&&!w.includes('id="voiceStatusCheckBtn"')&&w.includes('function startVoiceStatusCheck')&&w.includes('function copyVoiceStatusCheckLog'));
     add('FORWARD_LATIN_RESIDUE_ONE_RETRY_V36140',h.includes('detectHardLatinResidueV36140')&&w.includes('detectHardLatinResidueV36140')&&h.includes('영문오염 자동재번역')&&w.includes('ແປໃໝ່ຕົວອັງກິດ'));
     add('BACK_TECHNICAL_RECOVERY_SYMMETRIC_V36140',h.includes('backSevereAnomalyL2K')&&w.includes('backSevereAnomalyK2L')&&h.includes('BACK_KOREAN_TECHNICAL_RECOVERY_SUFFIX')&&w.includes('BACK_LAO_TECHNICAL_RECOVERY_SUFFIX')&&h.includes('technicalRecovery')&&w.includes('technicalRecovery'));
+    add('V36149_L2K_FORWARD_MINIMAL',/buildFastForwardPromptL2K[\s\S]{0,900}thinkingLevel\s*:\s*['"]minimal['"]/.test(w));
+    add('V36149_K2L_FORWARD_LOW',/buildFastForwardPromptK2L[\s\S]{0,900}thinkingLevel\s*:\s*['"]low['"]/.test(h));
+    add('V36149_BACK_COMPACT_MINIMAL_RECOVERY_LOW',h.includes('SharedBackTranslationPolicyV36149.HUSBAND_BACK_PROMPT')&&w.includes('SharedBackTranslationPolicyV36149.WIFE_BACK_PROMPT')&&h.includes("backThinkingLevel=recoveryMode?'low':'minimal'")&&w.includes("backThinkingLevel=recoveryMode?'low':'minimal'"));
+    add('V36149_BACK_UNICODE_GUARD',h.includes('FOREIGN_SCRIPT:')&&w.includes('FOREIGN_SCRIPT:')&&h.includes('UNSUPPORTED_LATIN:')&&w.includes('UNSUPPORTED_LATIN:'));
+
     add('BACK_KOREAN_KINSHIP_ROLE_V36143',h.includes('backKinshipPerspectiveMismatchK2L')&&h.includes('OWN_OLDER_SISTER_NUNA')&&h.includes('LISTENER_OLDER_SISTER_EONNI')&&h.includes('OWN_OLDER_BROTHER_HYEONG')&&h.includes('LISTENER_OLDER_BROTHER_OPPA')&&hb.includes('ROLE-BASED KOREAN KINSHIP SELECTION')&&hb.includes('must be 누나')&&hb.includes('must be 형')&&hb.includes('must be 언니')&&hb.includes('must be 오빠'));
     add('LIVE_QUALITY_TRUTH_LOCAL_V36143',h.includes('_KO_CORE_GROUPS_V36143')&&h.includes('_koToneReviewV36143')&&h.includes('_k2lForwardToneV36143')&&w.includes('_LO_CORE_GROUPS_V36143')&&w.includes('_loToneReviewV36143')&&w.includes('_l2kForwardToneV36143'));
     add('DIAG_SIX_AXIS_JUDGE_V36143',diag.includes('judgeSixAxisFinalScoreV36143')&&diag.includes('subjectObject')&&diag.includes('relation')&&diag.includes('coreFacts')&&diag.includes('unsupportedAddition')&&diag.includes('toneRegister'));
@@ -8898,7 +8977,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('SCORE_REASON_NO_EXTRA_API',h.includes('buildConcreteIssuesK2L')&&w.includes('buildConcreteIssuesL2K')&&!h.includes('scoreReasonGemini')&&!w.includes('scoreReasonGemini'));
     add('STT_PROCESSING_CANCEL_PARITY',h.includes('if(voiceProcessing){cancelKoreanVoiceInput(true);return}')&&w.includes('if(voiceProcessing){cancelLaoVoiceInput(true);return}')&&h.includes('다시 누르면 취소')&&w.includes('ກົດອີກຄັ້ງເພື່ອຍົກເລີກ'));
     add('BACK_THIRD_PERSON_TARGET_PRESERVED',h.includes('third-person relationship targets exactly')&&w.includes('third-person relationship targets exactly')&&diag.includes('third-person relationship targets exactly'));
-    add('BACK_KOREAN_THAI_LANGUAGE_RECOVERY_ONCE',h.includes('shouldRetryKoreanBackLanguage')&&h.includes('runBackTranslationWithLanguageRecovery')&&h.includes("createBackTranslationRequest(laoText,myRunId,'언어복구',true,false)")&&h.includes('languageRetryCount=1')&&h.includes('x.languageRetryCount=1')&&!w.includes('BACK_KOREAN_LANGUAGE_RECOVERY_SUFFIX'));
+    add('BACK_KOREAN_THAI_LANGUAGE_RECOVERY_ONCE',h.includes('shouldRetryKoreanBackLanguage')&&h.includes('runBackTranslationWithLanguageRecovery')&&h.includes("createBackTranslationRequest(laoText,myRunId,'언어복구',true,false,false)")&&h.includes('languageRetryCount=1')&&h.includes('x.languageRetryCount=1')&&!w.includes('BACK_KOREAN_LANGUAGE_RECOVERY_SUFFIX'));
     add('BACK_LANGUAGE_RECOVERY_FIRST_DISPLAY_NONBLOCKING',h.includes('void requestBackTranslation(true)')&&h.includes('if (isAutoSoundOn) void speakLao()'));
     add('TASTE_NO_UNSUPPORTED_DETAIL_RULE',h.includes('For taste/food-state wording such as 맛없다')&&w.includes('For taste/food-state wording such as 맛없다')&&diag.includes('For taste/food-state wording such as 맛없다'));
     add('MISUNDERSTANDING_ROLE_LOCAL_CHECKS',h.includes('우리/저희→그들로 주체 변경')&&w.includes('우리→그들로 주체 변경')&&h.includes('부모/자녀 관계로 변경')&&w.includes('부모/자녀 관계로 변경')&&h.includes('원문의 동생이 역번역에서 다른 사람/관계 대상으로 바뀌었습니다.'));
@@ -8944,7 +9023,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('TELEMETRY_SUCCESS_WARNING_FAILURE',h.includes('telemetryCommitPrimary')&&w.includes('telemetryCommitPrimary')&&h.includes('telemetryCommitFailure')&&w.includes('telemetryCommitFailure'));
     add('STATE_BASED_AUTO_UPDATE',typeof getCurrentModeActivityState==='function'&&typeof getModeActivityState==='function'&&isSafeUpdateBusy.toString().includes("['husband','wife']")&&isSafeUpdateBusy.toString().includes("'backTranslating'")&&isSafeUpdateBusy.toString().includes("'ttsPlaying'")&&isSafeUpdateBusy.toString().includes("'inputDirty'")&&!isSafeUpdateBusy.toString().includes('safeUpdateLastUserEditAt'));
     add('DIAG_DYNAMIC_PRIMARY_KEY',diag.includes('function diagCurrentApiKey()')&&!diag.includes('const API_KEY='));
-    add('DIAG_FOUR_AREA_MAIN',diag.includes('id="primaryFirstAbCard"')&&diag.includes('id="integratedDiagnosticCard"')&&diag.includes('id="cloudTelemetryReplayCard"')&&diag.includes('id="livePerfHistoryCard"')&&diag.includes('id="internalDiagnosticMounts"'));
+    add('DIAG_FOUR_AREA_MAIN',diag.includes('id="primaryFirstAbCard"')&&diag.includes('id="voiceQualityIntegratedCard"')&&diag.includes('id="cloudTelemetryReplayCard"')&&diag.includes('id="livePerfHistoryCard"')&&diag.includes('id="internalDiagnosticMounts"'));
     add('DIAG_PARTIAL_LOG_COPY',diag.includes('copyIntegratedDiagnosticLog')&&diag.includes('수집된 부분 로그를 복사할 수 있습니다'));
     add('DIAG_FIRESTORE_STAGE_LOGS',diag.includes('stages=translate:')&&diag.includes('currentJudge:')&&diag.includes('replay:'));
     add('DIAG_FROZEN_SCHEMA',diag.includes("const DIAGNOSTIC_SCHEMA='FROZEN-1'")&&diag.includes('DIAGNOSTIC_SCHEMA_FINGERPRINT'));
@@ -8955,7 +9034,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('DIAG_REQUEST_CLEANUP_EVIDENCE',diag.includes('cleanupFail')&&diag.includes('pendingRequests')&&diag.includes('intervals'));
     add('DIAG_POST_DISPLAY_INPUT_EVIDENCE',diag.includes('backInputMatchesDisplay')&&diag.includes('ttsInputMatchesDisplay')&&diag.includes('storedMatchesDisplay'));
     add('DIAG_POST_TRANSLATION_SMOKE',typeof runUnifiedPostTranslationSmoke==='function'&&h.includes('__runPostTranslationSmokeK2L')&&w.includes('__runPostTranslationSmokeL2K')&&diag.includes('postSmoke'));
-    add('DIAG_HEDGE_COST_SIMULATION',diag.includes('primaryFirstAbHedgeEfficiencySummary')&&diag.includes('3.0s')&&diag.includes('3.5s')&&diag.includes('4.0s'));
+    add('DIAG_HEDGE_COST_SIMULATION',diag.includes('primaryFirstAbHedgeEfficiencySummary')&&diag.includes('sims=[3000,3500,4000].map(primaryFirstAbThresholdEstimate)'));
     add('DIAG_ROLE_RELATION_AUTOCHECK',diag.includes('primaryFirstAbRoleRelationAudit')&&diag.includes('translationTripletUnifiedAudit'));
     add('DIAG_LIVE_STATE_ISOLATION',!runUnifiedModeSwitchHistoryProbe.toString().includes('selectMode(')&&!runUnifiedRelayPolicyRuntimeAudit.toString().includes('__APP_RELAY__=')&&!runUnifiedLiveFailoverProbe.toString().includes('__APP_RELAY__='));
     add('DIAG_FIRESTORE_REPLAY',diag.includes('/telemetry/sample')&&diag.includes('/telemetry/replay')&&diag.includes('/telemetry/review'));
