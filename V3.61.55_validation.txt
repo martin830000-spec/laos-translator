@@ -1,0 +1,23 @@
+V3.61.55 HOTFIX VALIDATION
+
+PASS 16/16
+
+PASS | index version V3.61.55
+PASS | diagnostic version V3.61.55
+PASS | version.json V3.61.55
+PASS | external diagnostic hash exact match | expected=e0917233ddb630f94e88947583760800123f00a1a047bd768b3b02d734d6bb25 actual=e0917233ddb630f94e88947583760800123f00a1a047bd768b3b02d734d6bb25
+PASS | diagnostic url external
+PASS | model 3.6 present
+PASS | model 3.7 present
+PASS | model 3.8 present
+PASS | translation llm present
+PASS | preflight 256 token fix
+PASS | admin reauth support
+PASS | core marker gemini-3.6-flash
+PASS | core marker FAST_K2L_BASE
+PASS | core marker FAST_L2K_BASE
+PASS | core marker HUSBAND_BACK_PROMPT
+PASS | core marker WIFE_BACK_PROMPT
+
+Root cause fixed: V3.61.54 index.html embedded EXTERNAL_DIAGNOSTIC_SHA256 did not match shipped diagnostic.html.
+V3.61.55 changes: version bump + recalculated external diagnostic SHA only. Cloud Run v3.7.2 unchanged. Translation/STT/TTS/Guard/Hedge/Rescue logic unchanged from V3.61.54 package.
