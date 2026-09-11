@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.60",
-  "updatedAt": "2026-09-12T07:39:00+09:00",
-  "mode": "V3.61.60-BackJudgeRoleContextFix-BackJudgeTrace-JudgeTokenTelemetry-DiagnosticSelfCheck"
+  "version": "V3.61.61",
+  "updatedAt": "2026-09-12T08:20:00+09:00",
+  "mode": "V3.61.61-OptimizeDiagnosticGemini38LowCompat-SuccessFailAccounting-HttpBodyLogging"
 }
