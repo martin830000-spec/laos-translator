@@ -1,0 +1,88 @@
+Korean-Lao Translator V3.61.59 Validation Report
+Date: 2026-09-12 (Asia/Seoul)
+
+RELEASE PURPOSE
+- Keep production translation/STT/TTS behavior frozen while improving diagnostics.
+- Make Semantic Judge spouse-context aware so equivalent husband/wife forms are not falsely penalized.
+- Separate Judge API usage/cost from translation/backtranslation usage in diagnostic logs.
+- Add diagnostic-only MAX_TOKENS one-time retry and explicit retry accounting.
+- Add zero-cost diagnostic self-check and repair broken diagnostic bridge prerequisites.
+- Reduce false Critical/Script alarms when source laughter/emotive Hangul (e.g. ㅋㅋㅋ, ㅎㅎ, ㅠㅠ, ㅜㅜ) is intentionally preserved.
+
+V3.61.59 CHANGES
+1. Semantic Judge spouse-context rules
+   - Husband generic first person may be represented as Lao ຂ້ອຍ or ອ້າຍ when speaker identity stays the husband.
+   - Korean spouse address terms such as 자기/자기야/여보/내 사랑 may map to natural Lao spouse-address equivalents.
+   - Equivalent spouse-address wording alone does not reduce meaning/subject/relation/inference/tone scores.
+   - Real actor/listener swaps and third-party kinship changes remain strict errors.
+
+2. Judge token/call telemetry
+   - Judge response usageMetadata is collected separately.
+   - Logs report Judge API calls, known-usage calls, prompt/candidate/thought/total tokens, retries, failures, and unknown usage.
+   - Translation/backtranslation token totals remain separate from Judge totals.
+
+3. Diagnostic-only MAX_TOKENS recovery
+   - V3.8 MIN/LITE/FULL comparison retries a forward or back call once with maxOutputTokens=2048 only when finishReason=MAX_TOKENS.
+   - Retry token usage is included in diagnostic cost accounting.
+   - Production translation behavior is unchanged.
+
+4. Critical / script-contamination correction
+   - Source-originated Korean laughter/emotive jamo may remain in K→L output without being treated as semantic corruption.
+   - Unexpected Hangul/Han contamination remains detectable.
+
+5. Diagnostic self-check / bridge repair
+   - New top diagnostic: V3.61.59 diagnostic self-check (network/API cost 0).
+   - Checks inline buttons, function resolution, button IDs, host base bridge, credential presence (value hidden), relay configuration, per-diagnostic prerequisites, and Critical self-test.
+   - Fixed final-optimization diagnostic host bridge name mismatch: runUnifiedLiveBackTranslationDiagnostic -> runUnifiedLiveBackDiagnostic.
+
+STATIC / STRUCTURAL VALIDATION
+- Overall validator: PASS 43/43.
+- index.html duplicate IDs: 0.
+- diagnostic.html duplicate IDs: 0.
+- Diagnostic inline onclick handlers: 57; unresolved: 0.
+- Self-check manifest start functions: PASS.
+- Self-check host bridges: PASS.
+- index/diagnostic/version metadata: V3.61.59 synchronized.
+- Forward/back prompt parity: PASS.
+- Inline JavaScript syntax: PASS (index + diagnostic).
+- Embedded husband/wife payload JavaScript syntax: PASS.
+
+DYNAMIC REGRESSION (MOCKED; NO PAID LIVE API)
+- Critical safety self-check: PASS 58/58.
+- V3.8 MIN/LITE/FULL orchestration: 3/3 generated -> forward Judge -> back Judge -> completed.
+- Existing 6-condition orchestration: 6/6 generated -> Judge -> completed.
+- MAX_TOKENS forward retry test: 1024 MAX_TOKENS -> 2048 retry STOP -> back STOP; retry counters and token aggregation PASS.
+- Judge telemetry aggregation test: calls/tokens/forward/back/retries PASS.
+- Diagnostic self-check: overall READY; 57 buttons; unresolved=0; buttonIds=PASS.
+
+STT / TTS FREEZE CHECK (V3.61.58 -> V3.61.59 exact function hashes)
+Husband
+- voiceStartCapture: 5041e71a6a201be1
+- voiceStopCapture: c5d78a45ef6e5094
+- startKoreanVoiceInput: c59b72979ee5a513
+- stopKoreanVoiceInput: 8a3427870a24869e
+- speakLao: 53280ceb6452912f
+
+Wife
+- voiceStartCapture: 0702cad58040d4c2
+- voiceStopCapture: 5a78730ad40aa0e3
+- startLaoVoiceInput: a27dfee1637b9480
+- stopLaoVoiceInput: 1e3270f58f5f6a93
+- speakKorean: 6fcafee9bae8deba
+
+INTEGRITY VALUES
+- husband embedded payload SHA-256: 1e4c2ff8dfe5e3477ce98c0e19981bbf70289ea084fb4b1f4e3d058341e694c9
+- wife embedded payload SHA-256: b1e6afbe6853073d6d0cb2161d5c1d6493bb482921ab283659d4390cd8d20732
+- diagnostic.html SHA-256: a4c2db65b752f89d4ef3c854b542ed1259dcdb66d234797f2b98f0db5389359e
+- index EXTERNAL_DIAGNOSTIC_SHA256 matches diagnostic.html: PASS.
+
+LIMITATIONS / WHAT WAS NOT CLAIMED
+- No paid Gemini/Cloud Run live network calls were executed in the build environment. Deployed live quality, endpoint permissions, billing usage, and external service behavior must be confirmed from the deployed diagnostic.
+- Headless Chromium in this container timed out at the environment/DBus layer and produced no DOM; browser-GUI smoke was therefore not counted as a PASS.
+- Server/data-dependent diagnostics can be statically and mock-path validated here, but their real external dependencies require deployed execution.
+
+RECOMMENDED FIRST DEPLOYED CHECK
+1. Deploy index.html, diagnostic.html, version.json.
+2. Run the top zero-cost "V3.61.59 진단기 자체 점검" first.
+3. If READY, run a small 10x1 or 10x3 MIN/LITE/FULL diagnostic to verify the revised Judge behavior and Judge token/call telemetry.
+4. Do not repeat 50x3 immediately unless the smaller live check reveals a reason to do so.

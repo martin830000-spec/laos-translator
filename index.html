@@ -312,7 +312,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.29</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.59</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -332,8 +332,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.29</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.29</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.59</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.59</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -371,7 +371,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.29</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.59</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -398,7 +398,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="c9cd1bf7705383d129e7f8fb8076b69809f854068aeb510374e4b8f86ce3c884">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="1e4c2ff8dfe5e3477ce98c0e19981bbf70289ea084fb4b1f4e3d058341e694c9">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -895,7 +895,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.58';
+const APP_VERSION='V3.61.59';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Return exactly one Lao translation only. Preserve the source meaning and uncertainty; do not add, infer, normalize, or make unspecified details specific. Keep speaker/listener/third-party roles, possession and kinship, subject/object/action/target, negation/permission/prohibition, facts, numbers/times, movement/call direction, and emotional strength unchanged. The husband is the speaker and the wife is the listener. Spouse-use 자기/자기가/자기야/여보/내 사랑 refers to the wife/listener; sleep uses of 자기 come from 자다, so never swap these meanings. Keep 동생 gender-neutral unless sex is stated and never infer unstated kinship, gender, generation, or family side. Korean -지 마/하지 마 stays a direct prohibition; do not weaken it to 'do not hurry' or 'do not need to'. Keep explicit nouns, brands, foods, dates, and time anchors attached to the same person and clause. Use Lao script for Lao words; no Thai lookalikes or unrelated scripts. Source-supported Latin brands, products, acronyms, URLs, and technical names may remain. No alternatives, labels, explanations, romanization, or translator notes. Match the source's casual/polite level naturally and preserve meaningful emoji, punctuation, and line breaks.`;
@@ -978,7 +978,7 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 // V3.61.31 concise source-faithful live prompt: preserve source casual/polite register; strict meaning repair remains unchanged.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.58',
+  VERSION:'V3.61.59',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -1023,7 +1023,7 @@ const SharedBackTranslationPolicyV3604=Object.freeze({
 
 // V3.61.49 live back-translation optimization: compact MINIMAL primary; legacy long LOW only for recovery.
 const SharedBackTranslationPolicyV36149=Object.freeze({
-  VERSION:'V3.61.58',
+  VERSION:'V3.61.59',
   HUSBAND_BACK_PROMPT:`Literal verification only: translate the given Lao text into Korean. Translate the input itself; never answer it, react to it, give advice, explain, summarize, or reconstruct a presumed original Korean. Preserve only what is actually present, including speaker/listener/third-party roles, possession/relationships, subject/object/action/target, negation/modality, tense/time, numbers, movement/call direction, emotional strength, register, and ambiguity. Keep unspecified details unspecified. Preserve names, foods, brands, places, and phonetic transliterations by the form actually written; do not normalize or guess another item. Husband is the encoded speaker and wife the listener when those roles matter. Return exactly one Korean back-translation only, with no Lao/Thai/unrelated script, alternatives, labels, notes, or explanations. Source-supported Latin names may remain.`,
   WIFE_BACK_PROMPT:`Literal verification only: translate the given Korean text into Lao. Translate the input itself; never answer it, react to it, give advice, explain, summarize, or reconstruct a presumed original Lao. Preserve only what is actually present, including speaker/listener/third-party roles, possession/relationships, subject/object/action/target, negation/modality, tense/time, numbers, movement/call direction, emotional strength, register, and ambiguity. Keep unspecified details unspecified. Preserve names, foods, brands, places, and phonetic transliterations by the form actually written; do not normalize or guess another item. Wife is the encoded speaker and husband the listener when those roles matter. Return exactly one Lao back-translation only. Lao words must use Lao script, never Thai lookalikes; no alternatives, labels, notes, romanization, or explanations. Source-supported Latin names may remain.`,
   HUSBAND_RECOVERY_PROMPT:`The previous back-translation was invalid. Translate ONLY the given Lao input itself into Korean. Do not respond to the message, console the speaker, give advice, explain, summarize, or infer missing facts. Preserve the expressed roles, relationships, actions, negation/modality, time/numbers, direction, register, and ambiguity. Return exactly one Korean translation only; no labels, notes, alternatives, Lao/Thai text, or explanation.`,
@@ -5003,7 +5003,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="2bbae83baeb7b8b5adefa2b47329aa839e2e39bc42633306e072dd97087190fa">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="b1e6afbe6853073d6d0cb2161d5c1d6493bb482921ab283659d4390cd8d20732">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5440,7 +5440,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.58';
+const APP_VERSION='V3.61.59';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Return exactly one Lao translation only. Preserve the source meaning and uncertainty; do not add, infer, normalize, or make unspecified details specific. Keep speaker/listener/third-party roles, possession and kinship, subject/object/action/target, negation/permission/prohibition, facts, numbers/times, movement/call direction, and emotional strength unchanged. The husband is the speaker and the wife is the listener. Spouse-use 자기/자기가/자기야/여보/내 사랑 refers to the wife/listener; sleep uses of 자기 come from 자다, so never swap these meanings. Keep 동생 gender-neutral unless sex is stated and never infer unstated kinship, gender, generation, or family side. Korean -지 마/하지 마 stays a direct prohibition; do not weaken it to 'do not hurry' or 'do not need to'. Keep explicit nouns, brands, foods, dates, and time anchors attached to the same person and clause. Use Lao script for Lao words; no Thai lookalikes or unrelated scripts. Source-supported Latin brands, products, acronyms, URLs, and technical names may remain. No alternatives, labels, explanations, romanization, or translator notes. Match the source's casual/polite level naturally and preserve meaningful emoji, punctuation, and line breaks.`;
@@ -5525,7 +5525,7 @@ const SharedTranslationPolicyV333=Object.freeze({
 
 // V3.61.31 concise source-faithful live prompt: preserve source casual/polite register; strict meaning repair remains unchanged.
 const SharedTranslationPolicyV3604=Object.freeze({
-  VERSION:'V3.61.58',
+  VERSION:'V3.61.59',
   MODEL:SharedTranslationPolicyV333.MODEL,
   K2L_PROMPT:FAST_K2L_BASE,
   L2K_PROMPT:FAST_L2K_BASE,
@@ -5572,7 +5572,7 @@ const SharedBackTranslationPolicyV3604=Object.freeze({
 
 // V3.61.49 live back-translation optimization: compact MINIMAL primary; legacy long LOW only for recovery.
 const SharedBackTranslationPolicyV36149=Object.freeze({
-  VERSION:'V3.61.58',
+  VERSION:'V3.61.59',
   HUSBAND_BACK_PROMPT:`Literal verification only: translate the given Lao text into Korean. Translate the input itself; never answer it, react to it, give advice, explain, summarize, or reconstruct a presumed original Korean. Preserve only what is actually present, including speaker/listener/third-party roles, possession/relationships, subject/object/action/target, negation/modality, tense/time, numbers, movement/call direction, emotional strength, register, and ambiguity. Keep unspecified details unspecified. Preserve names, foods, brands, places, and phonetic transliterations by the form actually written; do not normalize or guess another item. Husband is the encoded speaker and wife the listener when those roles matter. Return exactly one Korean back-translation only, with no Lao/Thai/unrelated script, alternatives, labels, notes, or explanations. Source-supported Latin names may remain.`,
   WIFE_BACK_PROMPT:`Literal verification only: translate the given Korean text into Lao. Translate the input itself; never answer it, react to it, give advice, explain, summarize, or reconstruct a presumed original Lao. Preserve only what is actually present, including speaker/listener/third-party roles, possession/relationships, subject/object/action/target, negation/modality, tense/time, numbers, movement/call direction, emotional strength, register, and ambiguity. Keep unspecified details unspecified. Preserve names, foods, brands, places, and phonetic transliterations by the form actually written; do not normalize or guess another item. Wife is the encoded speaker and husband the listener when those roles matter. Return exactly one Lao back-translation only. Lao words must use Lao script, never Thai lookalikes; no alternatives, labels, notes, romanization, or explanations. Source-supported Latin names may remain.`,
   HUSBAND_RECOVERY_PROMPT:`The previous back-translation was invalid. Translate ONLY the given Lao input itself into Korean. Do not respond to the message, console the speaker, give advice, explain, summarize, or infer missing facts. Preserve the expressed roles, relationships, actions, negation/modality, time/numbers, direction, register, and ambiguity. Return exactly one Korean translation only; no labels, notes, alternatives, Lao/Thai text, or explanation.`,
@@ -8053,7 +8053,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.58';
+const INTEGRATED_VERSION='V3.61.59';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -8074,7 +8074,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='58398feef0fae48106b8cba51abfb981ca9cadaf04e27bc8818f2b2c4a706ed1';
+const EXTERNAL_DIAGNOSTIC_SHA256='a4c2db65b752f89d4ef3c854b542ed1259dcdb66d234797f2b98f0db5389359e';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
