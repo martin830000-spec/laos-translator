@@ -1,0 +1,98 @@
+V3.61.58 최종 검수 보고서
+생성일: 2026-09-11 (Asia/Seoul)
+
+[1] 릴리스 목적
+- 실사용 기본 번역 모델을 Gemini 3.6 Flash에서 Gemini 3.8 Flash로 전환.
+- 3.8의 기본 번역 능력을 활용하여 정방향/역번역 프롬프트를 보수적으로 경량화(LITE).
+- 기술 Guard / 4초 Hedge / Tail Rescue / Final Rescue는 이번 버전에서 유지하여 안정성 우선.
+- 3.8에서 더 줄일 수 있는 범위를 실제 API로 확인하기 위한 MIN / LITE / 이전 FULL 3조건 진단을 진단기 최상단에 추가.
+- V3.61.57에서 발견한 역번역 누락 성공집계 및 BackRecovery 재검증 문제를 진단 로직에서 수정.
+
+[2] 실사용 설정 변경
+- 기본 모델: gemini-3.8-flash
+- 정번역 Thinking: K→L LOW / L→K LOW
+- 역번역 Thinking: LOW
+- K→L LITE prompt: 3236 → 1292 chars (60.1% 감소)
+- L→K LITE prompt: 1382 → 996 chars (27.9% 감소)
+- 장문 보조규칙: 611 → 181 chars (70.4% 감소)
+- 남편앱 검증 역번역 prompt: 1474 → 880 chars (40.3% 감소)
+- 아내앱 검증 역번역 prompt: 1283 → 910 chars (29.1% 감소)
+- 복구 prompt는 별도 짧은 강제번역형으로 재작성: 답변/공감/조언/설명/요약 금지, 입력문 자체만 지정 언어로 번역.
+
+[3] 동결 기능 확인
+- STT/TTS 기능 로직은 V3.61.57과 동일하게 유지.
+- 남편앱 exact hash 동일 확인:
+  voiceStartCapture 5041e71a6a201be1
+  voiceStopCapture c5d78a45ef6e5094
+  startKoreanVoiceInput c59b72979ee5a513
+  stopKoreanVoiceInput 8a3427870a24869e
+  speakLao 53280ceb6452912f
+- 아내앱 exact hash 동일 확인:
+  voiceStartCapture 0702cad58040d4c2
+  voiceStopCapture 5a78730ad40aa0e3
+  startLaoVoiceInput a27dfee1637b9480
+  stopLaoVoiceInput 1e3270f58f5f6a93
+  speakKorean 6fcafee9bae8deba
+- 결과: STT/TTS freeze PASS.
+
+[4] 새 진단
+A. 최상단 신규: Gemini 3.8 경량화 검증 · MIN / LITE / 이전 FULL
+- 세 조건 모두 Gemini 3.8 Flash / LOW.
+- MIN = 최소 방향지시.
+- LITE = V3.61.58 실사용 경량 prompt.
+- 이전 FULL = V3.61.57 긴 prompt.
+- 세 조건 모두 단일 정번역 + 단일 역번역 요청으로 고정하여 Guard/Hedge/Rescue 영향을 제거.
+- 정번역 Critical/Script + 정번역 6축 Semantic Judge + 역번역 6축 Semantic Judge + 역번역 이상검사 포함.
+- 10/20/50문장, 1/3회 선택 가능. 기본 10문장 × 3회.
+
+B. 기존 3.6/3.7/3.8 6조건 진단 유지
+- MIN vs 현재 V3.61.58 LITE로 의미를 갱신.
+- 기존 3개 모델 비교 기능 삭제하지 않음.
+
+[5] 역번역 진단/복구 수정
+- 성공 집계는 정번역과 역번역이 모두 존재하고 error가 없어야 성공으로 집계.
+- back='-' / bReq=0 같은 역번역 누락은 더 이상 정상 완주로 집계하지 않음.
+- BackRecovery 결과는 복구 후 다시 target-script contamination 및 multiple-candidate 검사를 통과해야 채택.
+- 실패한 복구는 recovered=true로 표시하지 않고 recoveryRejected로 구분.
+- 신규 3조건 진단에서는 BackJudge를 별도로 실행하여 올바른 스크립트여도 '공감답변/조언'처럼 의미상 역번역이 아닌 결과를 식별할 근거를 남김.
+
+[6] 최종 정적/구조 검수
+- 정적 검수: 42/42 PASS.
+- diagnostic inline handler: 59개, 미해결 0.
+- 중복 HTML id: index 0 / diagnostic 0.
+- index/남편/아내/diagnostic version V3.61.58 동기화 PASS.
+- husband/wife/diagnostic forward prompt exact parity PASS.
+- husband/wife/diagnostic back/recovery prompt exact parity PASS.
+- 남편/아내 embedded payload SHA-256 일치 PASS.
+- external diagnostic SHA-256 일치 PASS.
+- 호스트 내부 자가검사에서 남아 있던 3.6/MINIMAL 기준을 3.8/LOW로 갱신.
+- live payload에 thinkingLevel=minimal 잔재 없음 확인.
+
+[7] JavaScript 문법검사
+- index inline JS: node --check PASS.
+- diagnostic inline JS: node --check PASS.
+- husband live payload JS: node --check PASS.
+- wife live payload JS: node --check PASS.
+
+[8] 동적 모의 회귀검사
+- 신규 3.8 MIN/LITE/이전 FULL: 10문장 × 3조건 × 1회 = 30 rows PASS.
+  forward/back Judge 경로, MIN/LITE/FULL prompt routing, LOW thinking 확인.
+- 기존 3.6/3.7/3.8 MIN/LITE: 10문장 × 6조건 × 1회 = 60 rows PASS.
+  각 모델 20 rows, MIN 30 / LITE 30, round ordering, Judge 경로, 3.6 MINIMAL 및 3.7/3.8 LOW 정책 확인.
+
+[9] 무결성 지문
+- husband payload SHA-256: c9cd1bf7705383d129e7f8fb8076b69809f854068aeb510374e4b8f86ce3c884
+- wife payload SHA-256: 2bbae83baeb7b8b5adefa2b47329aa839e2e39bc42633306e072dd97087190fa
+- diagnostic SHA-256: 58398feef0fae48106b8cba51abfb981ca9cadaf04e27bc8818f2b2c4a706ed1
+
+[10] 검수 한계 / 배포 후 필수 실측
+- 이 컨테이너에서는 실제 유료 Gemini 요청을 실행하지 않았음. 따라서 실제 네트워크 속도/번역품질/토큰 결과는 배포 후 진단 실측이 필요함.
+- Chromium headless는 이 환경에서 단순 페이지도 응답 없이 timeout되어 브라우저 GUI 런타임 smoke test를 완료할 수 없었음. 이를 PASS로 주장하지 않음.
+- 대신 JS syntax, 정적 연결, payload/diagnostic hash, prompt parity, STT/TTS byte-equivalence, 핵심 진단 실행경로 Node mocks를 수행함.
+
+[11] 배포 후 가장 먼저 실행할 테스트
+1) 진단기 최상단 'Gemini 3.8 경량화 검증 · MIN / LITE / 이전 FULL'
+2) 기본값 '핵심 10문장 × 권장 3회'
+3) 완료 후 전체 로그 복사 → ChatGPT에 전달
+4) 판단 기준: 정번역 Judge + BackJudge + Critical + Script + forward/back/total median/P90 + token 사용량
+5) 그 결과로 LITE 유지 / 더 경량화 / 일부 FULL 규칙 복귀 여부를 결정
