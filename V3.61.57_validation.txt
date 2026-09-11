@@ -1,0 +1,82 @@
+V3.61.57 VALIDATION REPORT
+Date: 2026-09-11
+
+SCOPE
+- Diagnostic-only change based on V3.61.56.
+- Replaced the previous Gemini 3.6↔3.7 A/B/C decision diagnostic with a 6-condition diagnostic: 3.6 / 3.7 / 3.8 × minimal / current-full.
+- Production app remains gemini-3.6-flash. Translation/STT/TTS/Guard/Hedge/Rescue production logic is frozen.
+- Existing 4-engine shootout (3.6/3.7/3.8/Translation LLM) remains present and unchanged.
+
+SIX CONDITIONS
+A 3.6 MIN  = minimal direction prompt, single forward/back request, K2L LOW / L2K MINIMAL / BACK MINIMAL.
+B 3.6 FULL = current forward/back prompts + technical Guard + 4s Hedge + Tail/Final Rescue + back recovery, same Thinking as A.
+C 3.7 MIN  = minimal direction prompt, single forward/back request, LOW / LOW / LOW.
+D 3.7 FULL = current full path, LOW / LOW / LOW.
+E 3.8 MIN  = minimal direction prompt, single forward/back request, LOW / LOW / LOW.
+F 3.8 FULL = current full path, LOW / LOW / LOW.
+Common post-evaluation: Critical detector + Script contamination + same 6-axis Semantic Judge. These do not alter generation or measured forward/back path.
+Interpretation: same-model MIN→FULL isolates app-configuration effect; MIN-vs-MIN isolates model difference; FULL-vs-FULL measures practical replacement effect.
+
+UI / EXECUTION
+- New six-condition card is the first diagnostic card at the top of diagnostic.html.
+- 10/20/50 samples and 1/3 rounds supported. Default = 10 samples × 3 rounds.
+- Round order is rotated/reversed/interleaved to reduce fixed-order bias.
+- Three model preflights: 3.6 L2K MINIMAL, 3.7 K2L LOW, 3.8 K2L LOW.
+- Output reports ALL/K2L/L2K summaries, same-model MIN→FULL deltas, MIN model deltas, FULL model deltas, per-row timing/Judge/Critical/Script/request/token details.
+
+STATIC / INTEGRITY VALIDATION
+PASS · version.json V3.61.57
+PASS · index APP_VERSION V3.61.57
+PASS · diagnostic DIAG_VERSION V3.61.57
+PASS · no stale V3.61.56 in shipped core
+PASS · six-condition card at diagnostic top
+PASS · profile A36_MIN
+PASS · profile B36_FULL
+PASS · profile C37_MIN
+PASS · profile D37_FULL
+PASS · profile E38_MIN
+PASS · profile F38_FULL
+PASS · profile count six
+PASS · 3.6 thinking policy
+PASS · 3.7 model present
+PASS · 3.8 model present
+PASS · minimal prompt path
+PASS · full path reuse
+PASS · post judge retained
+PASS · diagnostic duplicate ids · 146
+PASS · diagnostic inline handlers resolved
+PASS · external diagnostic sha exact · 54c5e5c53a0876663f394b544b64e85da1dac96c8b468cc7915c542ed14a7752
+PASS · payload-husband payload sha exact · 27cfe9b924569c0dfd611f189bfbcf5513b067d24916369ce9e4e70fd0f73ea0
+PASS · payload-wife payload sha exact · b6371457c84b32492d1dd6e79e2053ba55a0fc371029e9deae4ede3239f3b861
+PASS · preserved MODEL_SHOOTOUT_MODELS
+PASS · preserved general/translation-llm
+PASS · preserved FAST_K2L_BASE
+PASS · preserved FAST_L2K_BASE
+PASS · preserved SharedBackTranslationPolicyV36149
+PASS · preserved startModelShootoutDiagnostic
+
+JAVASCRIPT SYNTAX
+PASS · index.html inline JavaScript: node --check
+PASS · diagnostic.html inline JavaScript: node --check
+
+TARGETED MOCK DYNAMIC REGRESSION
+PASS · 10 samples × 6 conditions × 1 round produced 60 rows.
+PASS · minimal rows 30 / full rows 30.
+PASS · 3.6 / 3.7 / 3.8 each produced 20 rows.
+PASS · all 60 rows received post-run Judge results.
+PASS · minimal path used only the minimal direction prompt and one engine request per forward/back leg in the mocked provider.
+PASS · 3.6 L2K minimal path used MINIMAL Thinking; 3.7/3.8 minimal paths used LOW only.
+PASS · 3-round profile order contains all six unique conditions in each round and changes order between rounds.
+PASS · completion status/log includes same-model, MIN-model, and FULL-model comparison sections.
+
+BASELINE FREEZE VALIDATION
+PASS · V3.61.57 index.html normalized for version + payload/diagnostic hashes is byte-identical to V3.61.56 index.html.
+PASS · Existing 4-engine model-shootout code block is byte-identical to V3.61.56 after version normalization.
+PASS · FAST_K2L_BASE / FAST_L2K_BASE / SharedTranslationPolicyV277 / SharedBackTranslationPolicyV36149 / PRIMARY_FIRST_AB_MIN_PROMPT remain unchanged from V3.61.56.
+
+RUNTIME LIMIT
+- Real paid Gemini 3.6/3.7/3.8 API calls were not executed in this container because the user runtime credentials/relay session are not available here.
+- Final speed/quality ranking must be determined from the user-run six-condition log.
+
+FINAL
+PASS · Static, syntax, integrity, baseline-freeze, and mocked six-condition runtime validation passed.
