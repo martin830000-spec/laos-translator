@@ -111,6 +111,19 @@ body.simple-diagnostic textarea{min-height:54px!important;max-height:88px!import
 <body class="simple-diagnostic">
 <div class="wrap">
 
+  <div class="card integrated-card" id="usageOverviewCard" style="border:2px solid #188038;background:linear-gradient(180deg,#fff,#f2fff6)">
+    <div class="integrated-title">📊 사용 현황</div>
+    <div class="integrated-desc">익명 설치 ID 기준 통계만 표시합니다. 원본 User-Agent나 정확한 기종은 저장하지 않고 Android / iPhone / iPad / Windows / macOS / Other만 집계합니다. 이 영역과 전체 대화 조회는 관리자 세션에서만 사용할 수 있습니다.</div>
+    <div class="integrated-actions">
+      <button type="button" id="usageOverviewRefreshBtn" class="primary" onclick="loadUsageOverview()">↻ 사용 현황 새로고침</button>
+      <button type="button" id="usageConversationLoadBtn" class="btn-secondary" onclick="loadAdminConversationOverview()">🗂️ 전체 사용자 최근 대화 조회</button>
+      <button type="button" id="usageConversationCopyBtn" class="copy" onclick="copyAdminConversationOverview()" disabled>📋 대화 로그 복사</button>
+    </div>
+    <div id="usageOverviewStatus" class="integrated-status">대기 · 관리자 인증 후 조회할 수 있습니다.</div>
+    <pre id="usageOverviewOutput" class="summary integrated-summary" style="min-height:70px;max-height:260px;overflow:auto">아직 조회하지 않았습니다.</pre>
+    <pre id="usageConversationOutput" class="summary" style="margin-top:8px;max-height:420px;overflow:auto">전체 대화는 아직 조회하지 않았습니다.</pre>
+  </div>
+
 
 
 
@@ -647,7 +660,7 @@ function clearLivePerfHistory(){try{localStorage.removeItem(LIVE_PERF_HISTORY_KE
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const DIAG_VERSION='V3.61.49';
+const DIAG_VERSION='V3.61.50';
 const DIAGNOSTIC_SCHEMA='FROZEN-1';
 const DIAGNOSTIC_SCHEMA_FINGERPRINT='v36147-prompt-thinking-token-quickdiag-db-cache-thoughts-forward-back-quality-frozen-20260911';
 
@@ -1021,7 +1034,36 @@ function diagStoredFieldAudit(r){const source=String(r?.sourceText||''),target=S
 // V3.61.25 Firestore real-use replay. Diagnostic-only observability upgrade: forward Gemini and back Gemini are tracked independently.
 let cloudTelemetryRunning=false,cloudTelemetryStopRequested=false,cloudTelemetryComplete=false,cloudTelemetryResults=[],cloudTelemetryExpected=0,cloudTelemetryMeta={};
 function cloudTelemetryStatus(text,kind=''){const el=document.getElementById('cloudTelemetryStatus');if(!el)return;el.textContent=text;el.className='history-replay-status'+(kind?' '+kind:'')}
-async function cloudTelemetryFetch(path,options={}){const c=DIAG_RELAY_CONFIG||{},token=String(c.token||''),eps=diagRelayEndpoints();if(!token||!eps.length)throw new Error('RELAY_NOT_CONFIGURED');let last=null;for(let i=0;i<Math.min(2,eps.length);i++){const ep=eps[i],ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),9000);try{const res=await DIAG_NATIVE_FETCH(ep.url+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{}),'X-App-Token':token,'Accept':'application/json'},signal:ctrl.signal,cache:'no-store'});const raw=await res.text().catch(()=>''),data=(()=>{try{return JSON.parse(raw)}catch(e){return{}}})();if(res.ok)return{...data,_relay:ep.name,_status:res.status};last=new Error(String(data?.error||('HTTP_'+res.status)));if([400,401,403,413].includes(res.status))throw last}catch(e){last=e}finally{clearTimeout(timer)}}throw last||new Error('TELEMETRY_RELAY_FAILED')}
+function diagAdminSessionToken(){try{return String(window.opener&&typeof window.opener.getUnifiedAdminSessionToken==='function'?window.opener.getUnifiedAdminSessionToken():'')}catch(e){return''}}
+async function diagEnsureAdminSession(force=false){try{if(!force&&diagAdminSessionToken())return true;if(window.opener&&typeof window.opener.ensureUnifiedAdminSession==='function')return await window.opener.ensureUnifiedAdminSession(!!force)}catch(e){}return false}
+async function cloudTelemetryFetch(path,options={},allowReauth=true){
+  const c=DIAG_RELAY_CONFIG||{},token=String(c.token||''),eps=diagRelayEndpoints();if(!token||!eps.length)throw new Error('RELAY_NOT_CONFIGURED');
+  if(!diagAdminSessionToken()){const ok=await diagEnsureAdminSession(false);if(!ok)throw new Error('ADMIN_REAUTH_REQUIRED')}
+  let last=null;
+  for(let i=0;i<Math.min(2,eps.length);i++){
+    const ep=eps[i],ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),9000);
+    try{
+      const session=diagAdminSessionToken();
+      const res=await DIAG_NATIVE_FETCH(ep.url+path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{}),'X-App-Token':token,'X-Admin-Session':session,'Accept':'application/json'},signal:ctrl.signal,cache:'no-store'});
+      const raw=await res.text().catch(()=>''),data=(()=>{try{return JSON.parse(raw)}catch(e){return{}}})();
+      if(res.ok)return{...data,_relay:ep.name,_status:res.status};
+      const code=String(data?.error||('HTTP_'+res.status));
+      if(allowReauth&&[401,403].includes(res.status)&&/(ADMIN_SESSION|TELEMETRY_ADMIN_UNAUTHORIZED)/.test(code)){
+        clearTimeout(timer);const ok=await diagEnsureAdminSession(true);if(ok)return cloudTelemetryFetch(path,options,false);throw new Error('ADMIN_REAUTH_REQUIRED');
+      }
+      last=new Error(code);if([400,401,403,413,429].includes(res.status))throw last;
+    }catch(e){last=e}finally{clearTimeout(timer)}
+  }
+  throw last||new Error('TELEMETRY_RELAY_FAILED');
+}
+
+let adminConversationRows=[],adminConversationLastText='';
+function usageOverviewStatus(text,kind=''){const el=document.getElementById('usageOverviewStatus');if(!el)return;el.textContent=String(text||'');el.className='integrated-status'+(kind?' '+kind:'')}
+function usageOsLine(map){const m=map||{},order=['Android','iPhone','iPad','Windows','macOS','Other'];return order.filter(k=>Number(m[k]||0)>0).map(k=>`${k} ${Number(m[k]||0)}`).join(' / ')||'기록 없음'}
+async function loadUsageOverview(){const btn=document.getElementById('usageOverviewRefreshBtn'),out=document.getElementById('usageOverviewOutput');if(btn)btn.disabled=true;usageOverviewStatus('사용 현황 조회 중…','running');try{const x=await cloudTelemetryFetch('/admin/stats',{method:'GET'});const lines=[`전체 활성 설치 ${Number(x.totalInstallations||0)}`,usageOsLine(x.byOsAll),'',`최근 7일 활성 ${Number(x.active7d||0)}`,usageOsLine(x.byOs7d),'',`최근 30일 활성 ${Number(x.active30d||0)}`,usageOsLine(x.byOs30d),`마지막 활동 ${x.latestSeenAt||'-'}`];if(out)out.textContent=lines.join('\n');usageOverviewStatus('✅ 사용 현황 조회 완료','ok')}catch(e){if(out)out.textContent='조회 실패: '+String(e?.message||e);usageOverviewStatus('❌ 사용 현황 조회 실패 · '+String(e?.message||e),'error')}finally{if(btn)btn.disabled=false}}
+function adminConversationLog(rows){const a=Array.isArray(rows)?rows:[],lines=[`ADMIN_CONVERSATIONS ${DIAG_VERSION}`,`기록=${a.length}건`,`생성시각=${new Date().toLocaleString()}`,''];a.forEach((x,i)=>{lines.push(`========== [${i+1}] ==========`,`install=${String(x.installId||'-')} · os=${String(x.osFamily||'-')} · mode=${String(x.mode||'-')} · dir=${String(x.direction||'-')}`,`시간=${translationTripletUnifiedTime(x)} · 버전=${String(x.appVersion||'-')} · Q=${translationTripletUnifiedScore(x)??'-'}`,'[원문]',String(x.sourceText||''),'[번역]',String(x.targetText||''),'[역번역]',String(x.backText||'')||'(없음)','')});return lines.join('\n')}
+async function loadAdminConversationOverview(){const btn=document.getElementById('usageConversationLoadBtn'),copy=document.getElementById('usageConversationCopyBtn'),out=document.getElementById('usageConversationOutput');if(btn)btn.disabled=true;if(copy)copy.disabled=true;usageOverviewStatus('전체 사용자 최근 대화 조회 중…','running');try{const x=await cloudTelemetryFetch('/admin/conversations?limit=200',{method:'GET'});adminConversationRows=Array.isArray(x?.records)?x.records:[];adminConversationLastText=adminConversationLog(adminConversationRows);if(out)out.textContent=adminConversationRows.length?adminConversationLastText:'저장된 실사용 대화가 없습니다.';if(copy)copy.disabled=!adminConversationRows.length;usageOverviewStatus(`✅ 전체 사용자 최근 대화 ${adminConversationRows.length}건 조회 완료`,'ok')}catch(e){adminConversationRows=[];adminConversationLastText='';if(out)out.textContent='조회 실패: '+String(e?.message||e);usageOverviewStatus('❌ 전체 대화 조회 실패 · '+String(e?.message||e),'error')}finally{if(btn)btn.disabled=false}}
+async function copyAdminConversationOverview(){if(!adminConversationLastText){alert('먼저 전체 사용자 최근 대화를 조회해주세요.');return}const c=await writeClipboardRobust(adminConversationLastText);if(!c.ok)showLogCopyFallback(adminConversationLastText,'usageConversationCopyBtn','📋 대화 로그 복사');else usageOverviewStatus('✅ 전체 대화 로그를 복사했습니다.','ok')}
 async function runCloudTelemetrySelftest(){if(cloudTelemetryRunning)return;const b=document.getElementById('cloudTelemetrySelftestBtn');if(b)b.disabled=true;cloudTelemetryStatus('Firestore write → read → delete 연결검사 중…','running');try{const d=await cloudTelemetryFetch('/telemetry/selftest',{method:'POST'});cloudTelemetryStatus(d?.ok?`✅ Firestore 연결 정상 · ${d._relay||'-'} · collection ${d.collection||'-'} · cap ${d.cap||'-'}`:`⚠️ 저장소 응답 확인 필요 · ${d?.error||'UNKNOWN'}`,d?.ok?'ok':'error')}catch(e){cloudTelemetryStatus('❌ Firestore 연결검사 실패 · '+(e?.message||String(e)),'error')}finally{if(b)b.disabled=false}}
 function cloudMs(v){return Number.isFinite(Number(v))?`${(Number(v)/1000).toFixed(2)}s`:'-'}
 function cloudAvg(values){const a=values.map(Number).filter(Number.isFinite);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}
