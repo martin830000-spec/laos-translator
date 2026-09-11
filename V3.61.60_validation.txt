@@ -1,0 +1,59 @@
+V3.61.60 validation
+checks=53/53
+diagnostic_sha256=e370f1b841d6e17c3f2017100c951acdd3e3e029787307c3e109415bb7aa754f
+
+Key change: BackJudge now separates language direction from original spouse-role direction. Production translation/STT/TTS index is unchanged except version and diagnostic SHA.
+
+PASS · version.json version · V3.61.60
+PASS · version.json mode updated · V3.61.60-BackJudgeRoleContextFix-BackJudgeTrace-JudgeTokenTelemetry-DiagnosticSelfCheck
+PASS · index APP_VERSION
+PASS · diagnostic DIAG_VERSION
+PASS · index has no V3.61.59 · 0
+PASS · diagnostic has no V3.61.59 · 0
+PASS · diagnostic schema fingerprint updated
+PASS · diagnostic SHA linked from index · e370f1b841d6e17c3f2017100c951acdd3e3e029787307c3e109415bb7aa754f / e370f1b841d6e17c3f2017100c951acdd3e3e029787307c3e109415bb7aa754f
+PASS · diagnostic JS syntax
+PASS · index JS syntax
+PASS · index duplicate IDs · []
+PASS · index onclick calls resolved · []
+PASS · index button count stable/expected · 24 expected 24
+PASS · diagnostic duplicate IDs · []
+PASS · diagnostic onclick calls resolved · []
+PASS · diagnostic button count stable/expected · 59 expected 59
+PASS · production index unchanged except version/diagnostic hash
+PASS · index retains FAST_K2L_BASE
+PASS · index retains FAST_L2K_BASE
+PASS · index retains HUSBAND_BACK_PROMPT
+PASS · index retains WIFE_BACK_PROMPT
+PASS · index retains runUnifiedLivePathDiagnostic
+PASS · index retains runUnifiedLiveBackDiagnostic
+PASS · BackJudge fix judgeCoupleContextRulesV36160
+PASS · BackJudge fix evaluationMode=options?.evaluationMode
+PASS · BackJudge fix roleContextDir=(options?.roleContextDir==='K2L'|
+PASS · BackJudge fix ROUND-TRIP ROLE CONTEXT: this is a BACK-TRANSLAT
+PASS · BackJudge fix ROUND-TRIP ROLE CONTEXT: this is a BACK-TRANSLAT
+PASS · BackJudge fix same two spouses and preserve the speaker/listen
+PASS · BackJudge fix jt.phase=evaluationMode==='back'?'BACK'
+PASS · BackJudge fix judgeBatch(backDir,batch,{evaluationMode:'back',
+PASS · trace diagnostic backJudgeTraceCard
+PASS · trace diagnostic backJudgeTraceStartBtn
+PASS · trace diagnostic backJudgeTraceCopyBtn
+PASS · trace diagnostic backJudgeTraceOutput
+PASS · trace diagnostic BACK_JUDGE_ROLE_TRACE_CASES
+PASS · trace diagnostic startBackJudgeRoleTraceDiagnostic
+PASS · trace diagnostic copyBackJudgeRoleTraceLog
+PASS · trace diagnostic traceCollector:backJudgeTraceTraces
+PASS · trace diagnostic rawResponse=${t.rawResponse}
+PASS · trace diagnostic does not generate translations
+PASS · trace has 4 fixed cases
+PASS · trace included in self-check manifest
+PASS · retained MAX_TOKENS
+PASS · retained 2048토큰 1회 진단재시도
+PASS · retained Judge API=${fmt(u)}
+PASS · retained criticalSelfCheck
+PASS · retained runCriticalSafetySelfCheck
+PASS · retained runUnifiedLiveBackDiagnostic
+PASS · obsolete bad bridge name absent
+PASS · detectCritical unchanged from 3.61.59
+PASS · runCriticalSafetySelfCheck unchanged from 3.61.59
+PASS · mock BackJudge K2L/L2K role-context + mapping · PASS mock judge role-context/mapping {"phases":["BACK","BACK","FORWARD"],"traces":[{"languageDir":"L2K","roleContextDir":"K2L","mode":"back"},{"languageDir":"K2L","roleContextDir":"L2K","mode":"back"}]}

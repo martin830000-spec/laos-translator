@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.59",
-  "updatedAt": "2026-09-12T06:30:00+09:00",
-  "mode": "V3.61.59-DiagnosticJudgeCoupleContext-JudgeTokenTelemetry-DiagnosticSelfCheck-MaxTokensRetry"
+  "version": "V3.61.60",
+  "updatedAt": "2026-09-12T07:39:00+09:00",
+  "mode": "V3.61.60-BackJudgeRoleContextFix-BackJudgeTrace-JudgeTokenTelemetry-DiagnosticSelfCheck"
 }
