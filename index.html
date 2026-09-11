@@ -398,7 +398,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="377c0a0a4f5262493a18cf67347505218ed2eabad508e8dc5fb00e791233e040">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="df2f634f3d3c31fee7d43309ac50393dbbd096aaed863478b97a7a3afb09e25b">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -895,7 +895,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.50';
+const APP_VERSION='V3.61.51';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 always refer to the wife/listener; never translate them as ນ້ອງ, a child, third person, ເມຍ, or ພັນລະຍາ unless the source explicitly uses that noun. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. For kinship chains, translate only the family links explicitly stated in the Korean; never infer an unstated aunt/uncle/in-law label, gender, generation, or side of the family. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lock explicit time anchors to their own clauses: 어제=ມື້ວານນີ້, 오늘=ມື້ນີ້, 내일=ມື້ອື່ນ. Never swap or move these anchors between clauses; verify all of them once before output. Keep each explicit noun attached to the same person and phrase as in Korean: 자기 동생 means the listener's sibling, and 기숙사 stays that sibling's destination; never invent a possessor/modifier or detach, corrupt, replace, or drop the noun. Korean 우리/우리 둘/둘이/자기랑 나랑 means the husband and wife together; never translate that pair as third-person ພວກເຂົາ or ເຂົາສອງຄົນ. STRICT OUTPUT-SCRIPT GATE: every Lao word, particle, and ending must use Lao script. Never insert Thai or Thai-lookalike words/particles such as นะ or เลย, and never insert Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Preserve the Korean source speech level naturally: if the source is casual/banmal, use natural comfortable everyday Lao suitable for a husband speaking casually to his wife; if the source is polite/respectful, use naturally respectful Lao at a matching level. Do not make a casual source more formal or polite than it is, and do not make a polite source blunt. Keep spouse warmth only when the source itself supports it. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
@@ -1481,7 +1481,7 @@ const LIVE_INSTALL_ID=telemetryInstallId(),LIVE_OS_FAMILY=telemetryOsFamily();
 async function telemetryInstallHeartbeat(){
   if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false;
   try{
-    const res=await integratedRelayFetch('/install/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({installId:LIVE_INSTALL_ID,osFamily:LIVE_OS_FAMILY,appVersion:APP_VERSION,mode:INTEGRATED_MODE})},{action:'telemetry-install-heartbeat',attemptTimeoutMs:4500});
+    const res=await integratedRelayFetchDirect('/install/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({installId:LIVE_INSTALL_ID,osFamily:LIVE_OS_FAMILY,appVersion:APP_VERSION,mode:INTEGRATED_MODE})},{action:'telemetry-install-heartbeat',attemptTimeoutMs:4500});
     return !!res?.ok;
   }catch(e){console.warn('[INSTALL HEARTBEAT]',e?.message||e);return false}
 }
@@ -2010,7 +2010,7 @@ function returnToTranslationResultTop(){
         let missing=false;try{missing=localStorage.getItem(LOCAL_HISTORY_KEY)===null}catch(e){return false}
         if(!missing)return false;
         try{
-            const res=await integratedRelayFetch('/telemetry/recent?direction=K2L&amp;limit=50&amp;scan=300&amp;installId='+encodeURIComponent(LIVE_INSTALL_ID),{method:'GET'},{action:'history-recovery'});
+            const res=await integratedRelayFetchDirect('/telemetry/recent?direction=K2L&amp;limit=50&amp;scan=300&amp;installId='+encodeURIComponent(LIVE_INSTALL_ID),{method:'GET'},{action:'history-recovery'});
             if(!res?.ok)return false;
             const data=await res.json();
             const rows=(Array.isArray(data?.records)?data.records:[]).filter(isRecoverableTranslationHistoryRecord).slice(0,50);
@@ -5003,7 +5003,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="a86efc75e680afaeb5641fb632dbdea399846370b5164db81621167d5708f5be">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="35db7dff03290a4a0bd151a6621cf9ed2b221478323c3e087116ee0dc16c848b">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5440,7 +5440,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.50';
+const APP_VERSION='V3.61.51';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate this Korean message into natural Lao for a Korean husband speaking to his Lao wife. Output ONLY one decided Lao translation. Keep the source meaning as written: do not add information, make unspecified details more specific, or guess ambiguity. Preserve who does what to whom, possession, relationship terms, negation/modality, facts, numbers/times, movement, and emotional strength. The speaker is the husband and the listener is his wife. Korean first-person 나/내가/나는 must stay first-person and must not be replaced by ອ້າຍ, ຜົວ, or ສາມີ unless the source explicitly says that noun. Spouse-use 자기/자기가 and vocatives 자기야/여보/내 사랑 always refer to the wife/listener; never translate them as ນ້ອງ, a child, third person, ເມຍ, or ພັນລະຍາ unless the source explicitly uses that noun. Never transliterate Korean 자기/자기가 as a proper name such as ຈັກກີ. Affectionate 내 사랑 is an endearment to the listener and must not introduce ອ້າຍ, older-brother, husband, or other hierarchy nouns not stated in the source. Keep 동생 gender-neutral unless gender is stated. For kinship chains, translate only the family links explicitly stated in the Korean; never infer an unstated aunt/uncle/in-law label, gender, generation, or side of the family. Preserve direct prohibitions: Korean -지 마/하지 마 should normally stay a direct Lao prohibition with ຢ່າ + action; never weaken it to ຢ່າຟ້າວ or ບໍ່ຕ້ອງ unless the source itself means 'do not hurry' or 'do not need to'. Generic 식사/밥/meal must not become a specific unnamed dish or food. For taste/food-state wording such as 맛없다 or 안 맛있다, do not invent an unstated adjective, person, cook, cause, location, or reason; translate only the stated taste meaning. Lock explicit time anchors to their own clauses: 어제=ມື້ວານນີ້, 오늘=ມື້ນີ້, 내일=ມື້ອື່ນ. Never swap or move these anchors between clauses; verify all of them once before output. Keep each explicit noun attached to the same person and phrase as in Korean: 자기 동생 means the listener's sibling, and 기숙사 stays that sibling's destination; never invent a possessor/modifier or detach, corrupt, replace, or drop the noun. Korean 우리/우리 둘/둘이/자기랑 나랑 means the husband and wife together; never translate that pair as third-person ພວກເຂົາ or ເຂົາສອງຄົນ. STRICT OUTPUT-SCRIPT GATE: every Lao word, particle, and ending must use Lao script. Never insert Thai or Thai-lookalike words/particles such as นะ or เลย, and never insert Vietnamese, Chinese, Japanese, Myanmar, or unrelated Latin text. Latin is allowed only for source-supported brands, products, acronyms, URLs, or technical names. Never output slash-separated alternatives, A/B candidates, labels, notes, romanization, or explanations. Preserve the Korean source speech level naturally: if the source is casual/banmal, use natural comfortable everyday Lao suitable for a husband speaking casually to his wife; if the source is polite/respectful, use naturally respectful Lao at a matching level. Do not make a casual source more formal or polite than it is, and do not make a polite source blunt. Keep spouse warmth only when the source itself supports it. Preserve meaningful emoji, punctuation, and line breaks. Correct only an unmistakable typo when the intended wording is clear from the same sentence.`;
@@ -6016,7 +6016,7 @@ const LIVE_INSTALL_ID=telemetryInstallId(),LIVE_OS_FAMILY=telemetryOsFamily();
 async function telemetryInstallHeartbeat(){
   if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false;
   try{
-    const res=await integratedRelayFetch('/install/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({installId:LIVE_INSTALL_ID,osFamily:LIVE_OS_FAMILY,appVersion:APP_VERSION,mode:INTEGRATED_MODE})},{action:'telemetry-install-heartbeat',attemptTimeoutMs:4500});
+    const res=await integratedRelayFetchDirect('/install/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({installId:LIVE_INSTALL_ID,osFamily:LIVE_OS_FAMILY,appVersion:APP_VERSION,mode:INTEGRATED_MODE})},{action:'telemetry-install-heartbeat',attemptTimeoutMs:4500});
     return !!res?.ok;
   }catch(e){console.warn('[INSTALL HEARTBEAT]',e?.message||e);return false}
 }
@@ -6217,7 +6217,7 @@ function isRecoverableTranslationHistoryRecord(x){
     return true;
 }
 let historyRecoveryAttempted=false;
-async function recoverTranslationHistoryIfMissing(){if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false;if(historyRecoveryAttempted)return false;historyRecoveryAttempted=true;const recoveryGeneration=historyMutationGeneration;let missing=false;try{missing=localStorage.getItem(LOCAL_HISTORY_KEY)===null}catch(e){return false}if(!missing)return false;try{const res=await integratedRelayFetch('/telemetry/recent?direction=L2K&amp;limit=50&amp;scan=300&amp;installId='+encodeURIComponent(LIVE_INSTALL_ID),{method:'GET'},{action:'history-recovery'});if(!res?.ok)return false;const data=await res.json(),rows=(Array.isArray(data?.records)?data.records:[]).filter(isRecoverableTranslationHistoryRecord).slice(0,50);if(!rows.length)return false;const list=rows.map((x,i)=&gt;({id:String(x.eventId||('restore-'+Date.now().toString(36)+'-'+i)),source:String(x.sourceText||'').slice(0,4000),target:String(x.targetText||'').slice(0,4000),backText:String(x.backText||'').slice(0,4000),direction:String(x.direction||'L2K'),score:Number.isFinite(Number(x?.quality?.score))?Number(x.quality.score):null,favorite:false,ts:Number(x.clientCreatedAtMs)||Date.parse(x.ingestedAt||'')||Date.now()-i,version:String(x.appVersion||''),pass:x?.quality?.pass!==false,reasons:[...(x?.quality?.reasons||[]),...(x?.quality?.softReasons||[])].map(String).slice(0,8),semanticRepaired:x?.runtime?.semanticRepaired===true,semanticRepairFailed:x?.runtime?.semanticRepairFailed===true,winner:String(x?.runtime?.winner||'').slice(0,80),elapsedMs:Number.isFinite(Number(x?.runtime?.totalMs))?Math.round(Number(x.runtime.totalMs)):null})).sort((a,b)=&gt;(b.ts||0)-(a.ts||0));if(recoveryGeneration!==historyMutationGeneration)return false;const merged=mergeTranslationHistoryLists(readTranslationHistory(),list);if(recoveryGeneration!==historyMutationGeneration)return false;writeTranslationHistory(merged);renderTranslationHistory();console.info('[HISTORY RECOVERY] restored',list.length,'L2K records · merged',merged.length);return true}catch(e){console.warn('[HISTORY RECOVERY]',e);return false}}
+async function recoverTranslationHistoryIfMissing(){if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false;if(historyRecoveryAttempted)return false;historyRecoveryAttempted=true;const recoveryGeneration=historyMutationGeneration;let missing=false;try{missing=localStorage.getItem(LOCAL_HISTORY_KEY)===null}catch(e){return false}if(!missing)return false;try{const res=await integratedRelayFetchDirect('/telemetry/recent?direction=L2K&amp;limit=50&amp;scan=300&amp;installId='+encodeURIComponent(LIVE_INSTALL_ID),{method:'GET'},{action:'history-recovery'});if(!res?.ok)return false;const data=await res.json(),rows=(Array.isArray(data?.records)?data.records:[]).filter(isRecoverableTranslationHistoryRecord).slice(0,50);if(!rows.length)return false;const list=rows.map((x,i)=&gt;({id:String(x.eventId||('restore-'+Date.now().toString(36)+'-'+i)),source:String(x.sourceText||'').slice(0,4000),target:String(x.targetText||'').slice(0,4000),backText:String(x.backText||'').slice(0,4000),direction:String(x.direction||'L2K'),score:Number.isFinite(Number(x?.quality?.score))?Number(x.quality.score):null,favorite:false,ts:Number(x.clientCreatedAtMs)||Date.parse(x.ingestedAt||'')||Date.now()-i,version:String(x.appVersion||''),pass:x?.quality?.pass!==false,reasons:[...(x?.quality?.reasons||[]),...(x?.quality?.softReasons||[])].map(String).slice(0,8),semanticRepaired:x?.runtime?.semanticRepaired===true,semanticRepairFailed:x?.runtime?.semanticRepairFailed===true,winner:String(x?.runtime?.winner||'').slice(0,80),elapsedMs:Number.isFinite(Number(x?.runtime?.totalMs))?Math.round(Number(x.runtime.totalMs)):null})).sort((a,b)=&gt;(b.ts||0)-(a.ts||0));if(recoveryGeneration!==historyMutationGeneration)return false;const merged=mergeTranslationHistoryLists(readTranslationHistory(),list);if(recoveryGeneration!==historyMutationGeneration)return false;writeTranslationHistory(merged);renderTranslationHistory();console.info('[HISTORY RECOVERY] restored',list.length,'L2K records · merged',merged.length);return true}catch(e){console.warn('[HISTORY RECOVERY]',e);return false}}
 
 function cleanVoiceTranscript(text){
   let t=String(text||'').trim();
@@ -8053,7 +8053,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.50';
+const INTEGRATED_VERSION='V3.61.51';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -8074,7 +8074,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='9a988bd6b69381e57ea9d78f1e53e4a915a81c0d5c103188645678216f40199c';
+const EXTERNAL_DIAGNOSTIC_SHA256='6ec0ac0617701f91d917eae8d1bac6f974a473d407ffd5d9ae1a472576a7ccfa';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -8256,13 +8256,38 @@ async function startUnifiedTranslator(){const btn=document.getElementById('trans
 function showUnifiedLogin(clearFields){if(currentMode)suspendMode(currentMode);resetLoadedFrames();document.getElementById('selector').classList.remove('hidden');document.getElementById('authScreen').classList.remove('hidden');if(clearFields){try{localStorage.removeItem(UNIFIED_UI_STATE_KEY);localStorage.removeItem(LEGACY_UNIFIED_UI_STATE_KEY)}catch(e){}}autoConnectUnified()}
 
 
+// V3.61.51 management-only direct Cloud Run path.
+// Core translation/STT/TTS/Hedge/Rescue routing remains unchanged.
+async function unifiedManagementDirectFetch(path,init={},meta={}){
+  const token=String(EMBEDDED_RELAY_TOKEN||'').trim();
+  const eps=[{name:'seoul',url:String(SEOUL_RELAY_URL||'').replace(/\/+$/,'')},{name:'bangkok',url:String(BANGKOK_RELAY_URL||'').replace(/\/+$/,'')}].filter(x=>/^https:\/\//i.test(x.url));
+  if(!token||!eps.length)throw new Error('MANAGEMENT_RELAY_NOT_CONFIGURED');
+  let lastResponse=null,lastError=null;
+  const timeoutMs=Math.max(1500,Math.min(15000,Number(meta?.attemptTimeoutMs)||6500));
+  for(let i=0;i<eps.length;i++){
+    const ep=eps[i],ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),timeoutMs);let externalAbort=null,attemptTimedOut=false;
+    try{
+      const ext=init?.signal;if(ext){if(ext.aborted)ctrl.abort();else{externalAbort=()=>ctrl.abort();ext.addEventListener('abort',externalAbort,{once:true})}}
+      const headers={...(init?.headers||{}),'X-App-Token':token,'Accept':(init?.headers&&init.headers.Accept)||'application/json'};
+      const res=await fetch(ep.url+path,{...init,headers,signal:ctrl.signal,cache:'no-store'});lastResponse=res;
+      try{res.__relayRegion=ep.name;res.__clientRoute='management-direct';res.__relayFailover=i>0}catch(_){}
+      if(res.ok||![408,500,502,503,504].includes(Number(res.status)||0))return res;
+    }catch(e){
+      attemptTimedOut=e?.name==='AbortError'&&!(init?.signal&&init.signal.aborted);lastError=e;
+      if(init?.signal&&init.signal.aborted)throw e;
+      if(i+1>=eps.length)throw e;
+    }finally{clearTimeout(timer);if(externalAbort&&init?.signal)try{init.signal.removeEventListener('abort',externalAbort)}catch(_){}}
+  }
+  if(lastResponse)return lastResponse;if(lastError)throw lastError;throw new Error('MANAGEMENT_DIRECT_FAILED');
+}
+
 let unifiedAdminAuthAction='';
 let unifiedAdminPreviousFocus=null;
 let unifiedAdminSessionToken='',unifiedAdminSessionExpiresAt=0,unifiedAdminAuthWaiters=[];
 function getUnifiedAdminSessionToken(){if(!unifiedAdminSessionToken||Date.now()+5000>=unifiedAdminSessionExpiresAt){unifiedAdminSessionToken='';unifiedAdminSessionExpiresAt=0;return''}return unifiedAdminSessionToken}
 function resolveUnifiedAdminWaiters(ok){const a=unifiedAdminAuthWaiters.splice(0);for(const fn of a){try{fn(!!ok)}catch(e){}}}
 async function unifiedAdminLoginRemote(password){
-  const res=await integratedRelayFetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:String(password||'')})},{action:'admin-auth',attemptTimeoutMs:6500});
+  const res=await unifiedManagementDirectFetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:String(password||'')})},{action:'admin-auth',attemptTimeoutMs:6500});
   const raw=await res.text().catch(()=>''),data=(()=>{try{return JSON.parse(raw)}catch(e){return{}}})();
   if(!res.ok){const e=new Error(String(data?.error||('HTTP_'+res.status)));e.status=res.status;e.retryAfterSec=Number(data?.retryAfterSec)||0;throw e}
   if(!data?.token||!Number(data?.expiresAtMs))throw new Error('ADMIN_SESSION_INVALID_RESPONSE');
@@ -9119,6 +9144,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('ADMIN_PASSWORD_NOT_IN_HTML',typeof unifiedAdminLoginRemote==='function'&&unifiedAdminLoginRemote.toString().includes('/admin/login')&&!submitUnifiedAdminAuth.toString().includes('password===')&&!submitUnifiedAdminAuth.toString().includes('password!=='));
     add('ADMIN_SERVER_SESSION_AUTH',typeof getUnifiedAdminSessionToken==='function'&&typeof ensureUnifiedAdminSession==='function');
     add('ANON_INSTALL_OS_TELEMETRY',h.includes('LIVE_INSTALL_ID')&&w.includes('LIVE_INSTALL_ID')&&h.includes('LIVE_OS_FAMILY')&&w.includes('LIVE_OS_FAMILY'));
+    add('MANAGEMENT_DIRECT_ONLY',typeof unifiedManagementDirectFetch==='function'&&unifiedAdminLoginRemote.toString().includes('unifiedManagementDirectFetch')&&h.includes("integratedRelayFetchDirect('/install/heartbeat'")&&w.includes("integratedRelayFetchDirect('/install/heartbeat'")&&h.includes("integratedRelayFetchDirect('/telemetry/recent?direction=K2L")&&w.includes("integratedRelayFetchDirect('/telemetry/recent?direction=L2K"));
   }catch(e){add('RUNTIME_AUDIT_EXCEPTION',false)}
   const failed=checks.filter(x=>!x.ok);return{ok:failed.length===0,passed:checks.length-failed.length,total:checks.length,checks,failed};
 }
