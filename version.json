@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.66",
-  "updatedAt": "2026-09-12T11:55:00+09:00",
-  "mode": "V3.61.66-BackCompactPlus-Finalize-Unicode-CorruptSplit-ForcedRecovery"
+  "version": "V3.61.67",
+  "updatedAt": "2026-09-12T12:02:00+09:00",
+  "mode": "V3.61.67-Forward38-Real100-Audit-DiagnosticOnly"
 }
