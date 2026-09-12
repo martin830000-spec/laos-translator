@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.65",
-  "updatedAt": "2026-09-12T11:15:00+09:00",
-  "mode": "V3.61.65-BackCompactPlus-FidelityGuard-LongPromptOnDemand"
+  "version": "V3.61.66",
+  "updatedAt": "2026-09-12T11:55:00+09:00",
+  "mode": "V3.61.66-BackCompactPlus-Finalize-Unicode-CorruptSplit-ForcedRecovery"
 }
