@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.68",
-  "updatedAt": "2026-09-12T12:10:00+09:00",
-  "mode": "V3.61.68-Forward38-Real100-Audit-HashHotfix"
+  "version": "V3.61.69",
+  "updatedAt": "2026-09-12T13:30:00+09:00",
+  "mode": "V3.61.69-Forward38-100x2-Audit-CompactRetry-DiagnosticOnly"
 }
