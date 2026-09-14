@@ -312,7 +312,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.90</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.91</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -332,8 +332,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.90</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.90</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.91</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.91</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -371,7 +371,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.90</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.91</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -398,7 +398,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="81153c326415fb8c0fe28bdea1616fd96d827215f9bc7640189b5a4b8335f2dd">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="f912abff97f775ca0db7b9bd2d5a9f8bc02262321de341e97d7fd069c4772e8f">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -895,7 +895,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.90';
+const APP_VERSION='V3.61.91';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, negation, permission/prohibition, conditions, numbers, times, names, brands, foods, and important details. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Unless explicitly 자기 자신/자기 스스로 or sleep-use from 자다, 자기 forms (자기/자기가/자기는/자기한테/자기랑) mean wife/listener, never husband/self. '자기가 한국 와서'=wife comes to Korea; in '자기가 자기 자신을 아껴', the subject 자기=wife and 자기 자신=herself. Never swap speaker/listener. Do not add, infer, omit, normalize, soften, intensify, or replace information. Preserve source speech level and emotion: casual stays casual, polite stays polite; keep the result smooth, warm, and natural for a married couple. Preserve unfamiliar names/transliterations by sound/form rather than guessing another item. Proofread the completed Lao translation once before returning it. Use standard Lao spelling and Unicode, and correct any accidentally missing, duplicated, substituted, or malformed Lao letters, vowels, tone marks, syllables, or words without changing meaning or normalizing names/transliterations. Output exactly one Lao translation only. HOMEWORK/HOUSEWORK RULE: Korean '숙제' by itself means school homework even when it is the whole message. Korean '과제' means an assignment/task; when school/study context is present it is an academic assignment. Never reinterpret '숙제' or '과제' as household chores merely because the message is short. Reserve household-chore meaning for explicit Korean such as '집안일', '가사', '청소', '설거지', '빨래', '요리' or equivalent household context.`;
@@ -4999,7 +4999,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="470b070a0ac02d09247f13ecd455a1bd1a94098fb808772c528ddd23a5258281">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="13dae3f6d3d6e2a8a031bcabc4d09b2b258190dd55b1cce7d8a2fe37c3270203">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5436,7 +5436,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.90';
+const APP_VERSION='V3.61.91';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, negation, permission/prohibition, conditions, numbers, times, names, brands, foods, and important details. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Unless explicitly 자기 자신/자기 스스로 or sleep-use from 자다, 자기 forms (자기/자기가/자기는/자기한테/자기랑) mean wife/listener, never husband/self. '자기가 한국 와서'=wife comes to Korea; in '자기가 자기 자신을 아껴', the subject 자기=wife and 자기 자신=herself. Never swap speaker/listener. Do not add, infer, omit, normalize, soften, intensify, or replace information. Preserve source speech level and emotion: casual stays casual, polite stays polite; keep the result smooth, warm, and natural for a married couple. Preserve unfamiliar names/transliterations by sound/form rather than guessing another item. Proofread the completed Lao translation once before returning it. Use standard Lao spelling and Unicode, and correct any accidentally missing, duplicated, substituted, or malformed Lao letters, vowels, tone marks, syllables, or words without changing meaning or normalizing names/transliterations. Output exactly one Lao translation only. HOMEWORK/HOUSEWORK RULE: Korean '숙제' by itself means school homework even when it is the whole message. Korean '과제' means an assignment/task; when school/study context is present it is an academic assignment. Never reinterpret '숙제' or '과제' as household chores merely because the message is short. Reserve household-chore meaning for explicit Korean such as '집안일', '가사', '청소', '설거지', '빨래', '요리' or equivalent household context.`;
@@ -8115,7 +8115,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.90';
+const INTEGRATED_VERSION='V3.61.91';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -8136,7 +8136,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='c3299429317cbbec7721d165a9013506c834dacf461fed0f7612bdcb9a1702c7';
+const EXTERNAL_DIAGNOSTIC_SHA256='79b227e49d15272177694db19bb039c9ec9cdac19e9b2a87038052d46e1abab2';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';

@@ -1,1 +1,1 @@
-{"version":"V3.61.90","updatedAt":"2026-09-14T15:00:00+09:00","notes":"channel-aware device status + version-aware heartbeat + recent-activity merge"}
+{"version":"V3.61.91","updatedAt":"2026-09-14T15:20:00+09:00","notes":"per-device estimated API cost (Gemini + STT + TTS) with coverage/partial-data disclosure; Cloud Run remains global-only"}
