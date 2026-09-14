@@ -1,1 +1,1 @@
-{"version":"V3.61.91","updatedAt":"2026-09-14T15:20:00+09:00","notes":"per-device estimated API cost (Gemini + STT + TTS) with coverage/partial-data disclosure; Cloud Run remains global-only"}
+{"version":"V3.61.92","updatedAt":"2026-09-15T06:35:21+09:00","notes":"diagnostic dashboard hotfix: completion/stop/progress state sync, instant live-speed query completion, stop controls and heavy-diagnostic concurrency guards; production translation/STT/TTS and Cloud Run unchanged"}
