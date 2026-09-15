@@ -122,7 +122,7 @@ body.simple-diagnostic{background:var(--dash-bg)}
 .dashboard-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.dashboard-card-title{font-size:17px;font-weight:950;line-height:1.25}.dashboard-card-desc{font-size:11.5px;color:var(--dash-muted);line-height:1.55;margin-top:5px}.dashboard-card-meta{font-size:10.5px;color:#7b8490;margin-top:6px;font-weight:750}
 .dashboard-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.dashboard-actions button{min-height:39px;padding:8px 11px;font-size:11.5px}.dash-start{background:var(--dash-blue);color:#fff}.dash-stop{background:#d93025;color:#fff}.dash-result{background:#e8f0fe;color:#174ea6}.dash-copy{background:#eaf5ee;color:#137333}
 .dashboard-status{margin-top:10px;border-top:1px solid #edf0f3;padding-top:9px;font-size:11.5px;line-height:1.45;color:#65717e;min-height:25px;white-space:pre-wrap;overflow-wrap:anywhere}.dashboard-status.running{color:#174ea6}.dashboard-status.ok{color:#137333}.dashboard-status.warn{color:#9a5b00}.dashboard-status.error{color:#b3261e}
-.dashboard-subtool{margin-top:11px;padding:10px;border:1px solid #e2e8f0;border-radius:11px;background:#f8fafc}.dashboard-subtool-title{font-size:11.5px;font-weight:950;color:#334155}.dashboard-subtool-desc{font-size:10.5px;color:var(--dash-muted);line-height:1.45;margin-top:3px}.dashboard-subtool-controls{display:grid;grid-template-columns:150px 120px repeat(3,minmax(105px,1fr));gap:6px;margin-top:8px}.dashboard-subtool-controls select{min-height:36px;border:1px solid #d7dee7;border-radius:8px;background:#fff;padding:0 8px;font-size:10.8px}.dashboard-subtool-controls button{min-height:36px;padding:7px 9px;font-size:10.8px}
+.dashboard-subtool{margin-top:11px;padding:10px;border:1px solid #e2e8f0;border-radius:11px;background:#f8fafc}.dashboard-subtool-title{font-size:11.5px;font-weight:950;color:#334155}.dashboard-subtool-desc{font-size:10.5px;color:var(--dash-muted);line-height:1.45;margin-top:3px}.dashboard-subtool-controls{display:grid;grid-template-columns:150px 120px 160px repeat(3,minmax(105px,1fr));gap:6px;margin-top:8px}.dashboard-subtool-controls select{min-height:36px;border:1px solid #d7dee7;border-radius:8px;background:#fff;padding:0 8px;font-size:10.8px}.dashboard-subtool-controls button{min-height:36px;padding:7px 9px;font-size:10.8px}
 .dashboard-advanced-note{grid-column:1/-1;border:1px dashed #ccd5df;border-radius:10px;padding:9px 10px;background:#f8fafc;font-size:10.5px;line-height:1.5;color:#667085}
 .dashboard-results{background:#fff;border:1px solid var(--dash-border);border-radius:14px;margin-top:12px;padding:14px}.dashboard-results-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.dashboard-results-title{font-size:15px;font-weight:950}.dashboard-results-sub{font-size:10.5px;color:var(--dash-muted);margin-top:3px}.dashboard-results-actions{display:flex;gap:7px;flex-wrap:wrap}.dash-neutral{background:#f1f3f4;color:#4b5563}.dash-clear{background:#fff3e0;color:#9a5b00}.dashboard-result-body.collapsed{display:none}.dashboard-results pre{margin:10px 0 0;max-height:460px;min-height:90px;overflow:auto;white-space:pre-wrap;background:#111827;color:#f3f4f6;border-radius:10px;padding:11px;font:11px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}
 .dashboard-progress{margin-top:11px;padding:10px 11px;border:1px solid #dfe7f1;border-radius:11px;background:linear-gradient(180deg,#f8fbff,#f3f7fc)}.dashboard-progress[hidden]{display:none!important}.dashboard-progress-line{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:900;color:#405166}.dashboard-progress-pct{font-size:12.5px;color:#174ea6;min-width:44px;text-align:right}.dashboard-progress-track{height:11px;margin-top:7px;background:#dbe5f2;border-radius:999px;overflow:hidden;position:relative}.dashboard-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#1967d2,#5b8def);border-radius:inherit;transition:width .25s ease}.dashboard-progress.indeterminate .dashboard-progress-fill{width:34%!important;animation:dashboardIndeterminate 1.15s ease-in-out infinite}.dashboard-progress-meta{margin-top:6px;font-size:10.5px;color:#6b7280;line-height:1.4}.dashboard-progress.done .dashboard-progress-fill{background:linear-gradient(90deg,#188038,#43a047)}.dashboard-progress.warn .dashboard-progress-fill{background:linear-gradient(90deg,#b06000,#f9ab00)}.dashboard-progress.stopped .dashboard-progress-fill{background:linear-gradient(90deg,#6b7280,#9aa0a6)}.dashboard-progress.error .dashboard-progress-fill{background:linear-gradient(90deg,#b3261e,#d93025)}@keyframes dashboardIndeterminate{0%{transform:translateX(-120%)}50%{transform:translateX(120%)}100%{transform:translateX(310%)}}
@@ -160,16 +160,17 @@ body.simple-diagnostic{background:var(--dash-bg)}
       <div class="dashboard-actions"><button id="dashCloudStartBtn" class="dash-start" onclick="dashboardStart('cloud')">시작</button><button id="dashCloudStopBtn" class="dash-stop" onclick="dashboardStop('cloud')">중지</button><button id="dashCloudResultBtn" class="dash-result" onclick="dashboardShowResult('cloud')">결과 보기</button><button id="dashCloudCopyBtn" class="dash-copy" onclick="dashboardCopy('cloud')">로그 복사</button></div>
       <div id="dashCloudStatus" class="dashboard-status">대기</div>
       <div class="dashboard-subtool" id="dashTripletSubtool">
-        <div class="dashboard-subtool-title">저장본 3종 조회 · AI 호출 0</div>
-        <div class="dashboard-subtool-desc">저장 당시의 원문 + 정번역 + 역번역을 그대로 읽습니다. 현재 모델로 다시 번역하지 않으므로 화자반전·의미변화 원인 분석에 사용합니다.</div>
+        <div class="dashboard-subtool-title">저장본 품질 조회 · AI 호출 0</div>
+        <div class="dashboard-subtool-desc">저장 당시 기록만 읽습니다. 기본은 원문 + 1차 번역본만 출력하고, 필요할 때 역번역 포함을 선택할 수 있습니다. 현재 모델로 다시 번역하지 않습니다.</div>
         <div class="dashboard-subtool-controls">
           <select id="dashTripletDirection" aria-label="저장본 조회 방향"><option value="BOTH" selected>남편+아내</option><option value="K2L">남편 K→L</option><option value="L2K">아내 L→K</option></select>
           <select id="dashTripletCount" aria-label="저장본 조회 개수"><option value="20">20건</option><option value="50" selected>50건</option><option value="100">100건</option><option value="200">200건</option></select>
+          <select id="dashTripletExportMode" aria-label="저장본 출력 형식" onchange="translationTripletSetExportMode(this.value)"><option value="PRIMARY" selected>원문 + 1차 번역</option><option value="FULL">역번역 포함</option></select>
           <button id="dashTripletLoadBtn" class="dash-start" onclick="dashboardStart('triplets')">저장본 조회</button>
           <button id="dashTripletResultBtn" class="dash-result" onclick="dashboardShowResult('triplets')">결과 보기</button>
           <button id="dashTripletCopyBtn" class="dash-copy" onclick="dashboardCopy('triplets')">로그 복사</button>
         </div>
-        <div id="dashTripletStatus" class="dashboard-status">대기 · 새 번역/재번역 없음</div>
+        <div id="dashTripletStatus" class="dashboard-status">대기 · 기본 출력=원문+1차번역 · 새 번역/재번역 없음</div>
       </div>
     </article>
   </div>
@@ -259,15 +260,16 @@ body.simple-diagnostic{background:var(--dash-bg)}
     <div id="primaryFirstAbSummary" class="summary" style="margin-top:10px;white-space:pre-wrap">아직 실행하지 않았습니다.</div>
 
     <div class="integrated-subpanel" id="translationTripletUnifiedPanel">
-      <div class="integrated-subtitle">🗂️ 남편·아내 최근 원문 · 번역 · 역번역 통합 로그</div>
-      <div class="integrated-subdesc">Firestore에 이미 저장된 실사용 기록만 조회합니다. 남편 K→L과 아내 L→K를 같은 형식으로 묶으며 새 번역·재번역·AI 호출은 하지 않습니다.</div>
+      <div class="integrated-subtitle">🗂️ 남편·아내 최근 실사용 번역 저장본</div>
+      <div class="integrated-subdesc">Firestore에 이미 저장된 실사용 기록만 조회합니다. 기본 출력은 원문 + 1차 번역본이며, 필요할 때 역번역 포함을 선택할 수 있습니다. 새 번역·재번역·AI 호출은 하지 않습니다.</div>
       <div class="history-replay-controls compact-controls">
         <select id="translationTripletDirection" aria-label="최근 번역 방향"><option value="BOTH" selected>남편+아내</option><option value="K2L">남편 K→L</option><option value="L2K">아내 L→K</option></select>
         <select id="translationTripletCount" aria-label="최근 번역 로그 개수"><option value="10">10개</option><option value="20" selected>20개</option><option value="50">50개</option><option value="100">100개</option><option value="200">200개</option></select>
+        <select id="translationTripletExportMode" aria-label="최근 번역 출력 형식" onchange="translationTripletSetExportMode(this.value)"><option value="PRIMARY" selected>원문 + 1차 번역</option><option value="FULL">역번역 포함</option></select>
         <button type="button" id="translationTripletLoadBtn" class="btn-latency" onclick="loadTranslationTripletsUnified()">↻ 최근 기록 조회</button>
         <button type="button" id="translationTripletCopyBtn" class="btn-secondary" onclick="copyTranslationTripletsUnified()" disabled>📋 ChatGPT 분석용 로그 복사</button>
       </div>
-      <div id="translationTripletStatus" class="history-replay-status">대기 · 남편/아내 앱에서 실제 번역한 기록이 저장되어 있으면 원문·번역·역번역을 함께 불러옵니다.</div>
+      <div id="translationTripletStatus" class="history-replay-status">대기 · 기본 출력=원문+1차번역 · 필요 시 역번역 포함을 선택할 수 있습니다.</div>
       <pre id="translationTripletOutput" class="summary" style="margin-top:8px;max-height:480px;overflow:auto">아직 조회하지 않았습니다.</pre>
     </div>
 
@@ -556,7 +558,7 @@ function translationTripletUnifiedAudit(rows=translationTripletUnifiedRows){
     const rr=translationRoleRelationFlags(dir,src,tgt);if(rr.length){roleRelation+=rr.length;issues.push(`#${i+1} ${dir} ${rr.join('|')}`)}
   });return{rows:a.length,targetScript,backScript,backAlternatives,roleRelation,issues,ok:targetScript===0&&backScript===0&&backAlternatives===0&&roleRelation===0};
 }
-function translationTripletUnifiedAuditLine(rows=translationTripletUnifiedRows){const a=translationTripletUnifiedAudit(rows);return`자동검사=${a.ok?'이상없음':'확인필요'} · 번역문자오염=${a.targetScript} · 역번역문자오염=${a.backScript} · 역번역복수후보=${a.backAlternatives} · 주체/관계=${a.roleRelation}${a.issues.length?' · 예='+a.issues.slice(0,8).join(' || '):''}`}
+function translationTripletUnifiedAuditLine(rows=translationTripletUnifiedRows,includeBack=true){const a=translationTripletUnifiedAudit(rows);if(includeBack)return`자동검사=${a.ok?'이상없음':'확인필요'} · 번역문자오염=${a.targetScript} · 역번역문자오염=${a.backScript} · 역번역복수후보=${a.backAlternatives} · 주체/관계=${a.roleRelation}${a.issues.length?' · 예='+a.issues.slice(0,8).join(' || '):''}`;const issues=a.issues.filter(x=>!/\sBACK_(?:SCRIPT|ALTERNATIVE)(?:\s|$)/.test(String(x))),ok=a.targetScript===0&&a.roleRelation===0;return`자동검사=${ok?'이상없음':'확인필요'} · 번역문자오염=${a.targetScript} · 주체/관계=${a.roleRelation}${issues.length?' · 예='+issues.slice(0,8).join(' || '):''}`}
 
 function translationTripletUnifiedStatus(text,kind=''){const el=document.getElementById('translationTripletStatus');if(!el)return;el.textContent=String(text||'');el.className='history-replay-status'+(kind?' '+kind:'')}
 function translationTripletUnifiedEligible(x){
@@ -570,12 +572,15 @@ function translationTripletUnifiedEligible(x){
 function translationTripletUnifiedTime(x){const ms=Number(x?.clientCreatedAtMs)||Date.parse(String(x?.ingestedAt||''));if(!Number.isFinite(ms))return'-';try{return new Date(ms).toLocaleString()}catch(e){return'-'}}
 function translationTripletUnifiedScore(x){const n=Number(x?.quality?.score);return Number.isFinite(n)?Math.max(0,Math.min(100,Math.round(n))):null}
 function translationTripletUnifiedLabels(x){const dir=String(x?.direction||'').toUpperCase();return dir==='K2L'?{app:'남편',dir:'K2L',src:'남편 한국어 원문',tgt:'라오어 번역본',back:'한국어 역번역'}:{app:'아내',dir:'L2K',src:'아내 라오어 원문',tgt:'한국어 번역본',back:'라오어 역번역'}}
-function translationTripletUnifiedLogText(rows=translationTripletUnifiedRows){
+function translationTripletExportIncludesBack(){return String(document.getElementById('translationTripletExportMode')?.value||'PRIMARY').toUpperCase()==='FULL'}
+function translationTripletUnifiedLogText(rows=translationTripletUnifiedRows,includeBack=translationTripletExportIncludesBack()){
   const a=Array.isArray(rows)?rows:[],h=a.filter(x=>String(x?.direction||'').toUpperCase()==='K2L').length,w=a.filter(x=>String(x?.direction||'').toUpperCase()==='L2K').length,missing=a.filter(x=>!String(x?.backText||'').trim()).length;
-  const lines=[`TRANSLATION_TRIPLETS_BOTH ${DIAG_VERSION}`,'용도=ChatGPT 번역품질 분석용 · 저장된 실사용 기록 조회만 수행 · 새 번역/재번역 없음',`기록=${a.length}건 · 남편=${h}건 · 아내=${w}건 · 역번역없음=${missing}건`,translationTripletUnifiedAuditLine(a),`생성시각=${new Date().toLocaleString()}`,''];
-  a.forEach((x,i)=>{const l=translationTripletUnifiedLabels(x),score=translationTripletUnifiedScore(x),src=String(x?.sourceText||'').trim(),tgt=String(x?.targetText||'').trim(),back=String(x?.backText||'').trim();lines.push(`========== [${i+1}] ==========`,`앱=${l.app}`,`방향=${l.dir}`,`시간=${translationTripletUnifiedTime(x)}`,`버전=${String(x?.appVersion||'-')}`,`품질점수=${score==null?'-':score}`,`상태=${String(x?.status||'-')}`,`eventId=${String(x?.eventId||'-')}`,`[${l.src}]`,src,`[${l.tgt}]`,tgt,`[${l.back}]`,back||'(역번역 기록 없음)','')});
+  const countLine=includeBack?`기록=${a.length}건 · 남편=${h}건 · 아내=${w}건 · 역번역없음=${missing}건`:`기록=${a.length}건 · 남편=${h}건 · 아내=${w}건`;
+  const lines=[`TRANSLATION_TRIPLETS_BOTH ${DIAG_VERSION}`,'용도=ChatGPT 번역품질 분석용 · 저장된 실사용 기록 조회만 수행 · 새 번역/재번역 없음',`출력=${includeBack?'원문+1차번역+역번역':'원문+1차번역 · 역번역 미포함'}`,countLine,translationTripletUnifiedAuditLine(a,includeBack),`생성시각=${new Date().toLocaleString()}`,''];
+  a.forEach((x,i)=>{const l=translationTripletUnifiedLabels(x),score=translationTripletUnifiedScore(x),src=String(x?.sourceText||'').trim(),tgt=String(x?.targetText||'').trim(),back=String(x?.backText||'').trim();const block=[`========== [${i+1}] ==========`,`앱=${l.app}`,`방향=${l.dir}`,`시간=${translationTripletUnifiedTime(x)}`,`버전=${String(x?.appVersion||'-')}`,`품질점수=${score==null?'-':score}`,`상태=${String(x?.status||'-')}`,`eventId=${String(x?.eventId||'-')}`,`[${l.src}]`,src,`[${l.tgt}]`,tgt];if(includeBack)block.push(`[${l.back}]`,back||'(역번역 기록 없음)');block.push('');lines.push(...block)});
   return lines.join('\n');
 }
+function translationTripletSetExportMode(mode){const v=String(mode||'PRIMARY').toUpperCase()==='FULL'?'FULL':'PRIMARY',a=document.getElementById('translationTripletExportMode'),b=document.getElementById('dashTripletExportMode');if(a&&a.value!==v)a.value=v;if(b&&b.value!==v)b.value=v;if(translationTripletUnifiedRows.length){translationTripletUnifiedLastText=translationTripletUnifiedLogText(translationTripletUnifiedRows,v==='FULL');const out=document.getElementById('translationTripletOutput');if(out)out.textContent=translationTripletUnifiedLastText;if(typeof dashboardUpdateResultFromMirror==='function')dashboardUpdateResultFromMirror('triplets')}return v}
 async function translationTripletFetchDirection(dir,fetchLimit){
   const data=await cloudTelemetryFetch(`/telemetry/sample?kind=recent&scope=translations&direction=${dir}&limit=${fetchLimit}&scan=500`,{method:'GET'});
   return Array.isArray(data?.records)?data.records:[];
@@ -602,7 +607,7 @@ async function loadTranslationTripletsUnified(){
   const btn=document.getElementById('translationTripletLoadBtn'),copy=document.getElementById('translationTripletCopyBtn'),out=document.getElementById('translationTripletOutput');
   if(integratedDiagHeavyBusy()){translationTripletUnifiedStatus('다른 진단이 진행 중입니다. 먼저 완료하거나 중지해주세요.','error');return;}
   const dir=String(document.getElementById('translationTripletDirection')?.value||'BOTH').toUpperCase(),limit=Math.max(1,Math.min(200,parseInt(document.getElementById('translationTripletCount')?.value||'20',10))),fetchLimit=Math.max(100,Math.min(250,limit*5));
-  if(btn)btn.disabled=true;if(copy)copy.disabled=true;translationTripletUnifiedStatus('Firestore에서 남편·아내 최근 번역 원문·번역·역번역을 읽는 중…','running');
+  if(btn)btn.disabled=true;if(copy)copy.disabled=true;const includeBack=translationTripletExportIncludesBack();translationTripletUnifiedStatus(`Firestore에서 남편·아내 최근 번역 원문·1차 번역${includeBack?'·역번역':''}을 읽는 중…`,'running');
   try{
     const dirs=dir==='BOTH'?['K2L','L2K']:[dir],settled=await Promise.allSettled(dirs.map(d=>translationTripletFetchDirection(d,fetchLimit))),map=new Map(),errors=[];
     settled.forEach((s,i)=>{if(s.status==='fulfilled'){for(const x of s.value||[]){const k=String(x?.eventId||'')||`${dirs[i]}|${x?.clientCreatedAtMs||0}|${String(x?.sourceText||'').slice(0,80)}`;map.set(k,x)}}else errors.push(`${dirs[i]}:${String(s.reason?.message||s.reason||'FETCH_FAILED')}`)});
@@ -610,14 +615,14 @@ async function loadTranslationTripletsUnified(){
     translationTripletUnifiedLastText=translationTripletUnifiedLogText(translationTripletUnifiedRows);
     if(out)out.textContent=translationTripletUnifiedRows.length?translationTripletUnifiedLastText:`저장된 실사용 번역 기록을 찾지 못했습니다.${errors.length?'\n조회오류='+errors.join(' | '):''}`;
     const h=translationTripletUnifiedRows.filter(x=>String(x?.direction||'').toUpperCase()==='K2L').length,w=translationTripletUnifiedRows.length-h,withBack=translationTripletUnifiedRows.filter(x=>String(x?.backText||'').trim()).length;
-    const audit=translationTripletUnifiedAudit(translationTripletUnifiedRows);translationTripletUnifiedStatus(translationTripletUnifiedRows.length?`${audit.ok?'✅':'⚠️'} 최근 ${translationTripletUnifiedRows.length}건 조회 · 남편 ${h} · 아내 ${w} · 역번역 포함 ${withBack} · 자동검사 ${audit.ok?'이상없음':'확인필요'}${errors.length?' · 일부 방향 조회오류':''}`:`기록 없음${errors.length?' · '+errors.join(' | '):''}`,translationTripletUnifiedRows.length?(audit.ok?'ok':'warn'):'warn');
+    const audit=translationTripletUnifiedAudit(translationTripletUnifiedRows),modeOk=includeBack?audit.ok:(audit.targetScript===0&&audit.roleRelation===0);translationTripletUnifiedStatus(translationTripletUnifiedRows.length?`${modeOk?'✅':'⚠️'} 최근 ${translationTripletUnifiedRows.length}건 조회 · 남편 ${h} · 아내 ${w} · 출력 ${includeBack?'3종(역번역 포함)':'원문+1차번역'}${includeBack?' · 역번역 포함 '+withBack:''} · 자동검사 ${modeOk?'이상없음':'확인필요'}${errors.length?' · 일부 방향 조회오류':''}`:`기록 없음${errors.length?' · '+errors.join(' | '):''}`,translationTripletUnifiedRows.length?(modeOk?'ok':'warn'):'warn');
     if(copy)copy.disabled=!translationTripletUnifiedRows.length;
   }catch(e){translationTripletUnifiedRows=[];translationTripletUnifiedLastText='';if(out)out.textContent='조회 실패: '+String(e?.message||e);translationTripletUnifiedStatus('❌ 조회 실패 · '+String(e?.message||e),'error')}
   finally{if(btn)btn.disabled=false}
 }
 async function copyTranslationTripletsUnified(){
   if(!translationTripletUnifiedLastText||!translationTripletUnifiedRows.length){alert('먼저 최근 번역 기록을 불러와주세요.');return}
-  const c=await writeClipboardRobust(translationTripletUnifiedLastText);if(!c.ok)showLogCopyFallback(translationTripletUnifiedLastText,'translationTripletCopyBtn','📋 ChatGPT 분석용 로그 복사');else translationTripletUnifiedStatus('✅ 남편·아내 원문·번역·역번역 로그를 복사했습니다. 이 채팅에 그대로 붙여 넣어주세요.','ok')
+  translationTripletUnifiedLastText=translationTripletUnifiedLogText(translationTripletUnifiedRows);const c=await writeClipboardRobust(translationTripletUnifiedLastText);if(!c.ok)showLogCopyFallback(translationTripletUnifiedLastText,'translationTripletCopyBtn','📋 ChatGPT 분석용 로그 복사');else translationTripletUnifiedStatus(`✅ ${translationTripletExportIncludesBack()?'원문·1차번역·역번역':'원문·1차번역'} 로그를 복사했습니다. 이 채팅에 그대로 붙여 넣어주세요.`,'ok')
 }
 
 let wifeOpsRows=[],wifeOpsLastText='';
@@ -845,6 +850,7 @@ function clearLivePerfHistory(){try{localStorage.removeItem(LIVE_PERF_HISTORY_KE
   window.alert=showAppAlert;
 })();
 const DIAG_VERSION='V3.61.95';
+const DIAG_EXPORT_PATCH='triplet-export-mode-v1'; // diagnostic-only hotfix; live app/version unchanged
 const DIAGNOSTIC_SCHEMA='FROZEN-1';
 const DIAGNOSTIC_SCHEMA_FINGERPRINT='v36163-foreground-exact-live-clone-20260912';
 
@@ -3646,7 +3652,7 @@ const DASHBOARD_CONFIG={
  engine:{label:'4엔진 비교',status:'modelShootoutStatus',output:'modelShootoutOutput',start:()=>{const c=document.getElementById('modelShootoutCount'),r=document.getElementById('modelShootoutRounds');if(c)c.value='10';if(r)r.value='1';try{modelShootoutRefreshPlan()}catch(e){}return startModelShootoutDiagnostic()},stop:()=>stopModelShootoutDiagnostic(),copy:()=>copyModelShootoutLog()},
  speed:{label:'번역속도 원인분리',status:'speedCauseStatus',output:'speedCauseOutput',start:()=>{const s=document.getElementById('speedCauseSource'),c=document.getElementById('speedCauseCount'),r=document.getElementById('speedCauseRounds');if(s)s.value='DB';if(c)c.value='20';if(r)r.value='1';return startSpeedCauseDiagnostic()},stop:()=>stopSpeedCauseDiagnostic(),copy:()=>copySpeedCauseLog()},
  liveperf:{label:'최근 실사용 번역속도',status:null,output:'livePerfSummary',instant:true,start:()=>refreshLivePerfHistory(),copy:()=>copyLivePerfHistoryLog()},
- triplets:{label:'저장본 3종 조회',status:'translationTripletStatus',output:'translationTripletOutput',start:()=>{const sd=document.getElementById('dashTripletDirection'),sc=document.getElementById('dashTripletCount'),d=document.getElementById('translationTripletDirection'),c=document.getElementById('translationTripletCount');if(d&&sd)d.value=sd.value;if(c&&sc)c.value=sc.value;return loadTranslationTripletsUnified()},copy:()=>copyTranslationTripletsUnified()},
+ triplets:{label:'저장본 품질 조회',status:'translationTripletStatus',output:'translationTripletOutput',start:()=>{const sd=document.getElementById('dashTripletDirection'),sc=document.getElementById('dashTripletCount'),sm=document.getElementById('dashTripletExportMode'),d=document.getElementById('translationTripletDirection'),c=document.getElementById('translationTripletCount');if(d&&sd)d.value=sd.value;if(c&&sc)c.value=sc.value;translationTripletSetExportMode(sm?.value||'PRIMARY');return loadTranslationTripletsUnified()},copy:()=>copyTranslationTripletsUnified()},
  lite38:{label:'3.8 MIN / LITE / 이전 FULL',status:'lite38Status',output:'lite38Output',start:()=>startLite38Diagnostic(),stop:()=>stopLite38Diagnostic(),copy:()=>copyLite38Log()},
  optimize:{label:'최종 최적화 회귀',status:'optimizeCandidateStatus',output:'optimizeCandidateOutput',start:()=>startOptimizeCandidateDiagnostic(),stop:()=>stopOptimizeCandidateDiagnostic(),copy:()=>copyOptimizeCandidateLog()},
  tokens:{label:'프롬프트 / Thinking 토큰',status:'promptTokenFastStatus',output:'promptTokenFastOutput',start:()=>startPromptTokenFastDiagnostic('BOTH'),stop:()=>stopPromptTokenFastDiagnostic(),copy:()=>copyPromptTokenFastLog()},
