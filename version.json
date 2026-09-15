@@ -1,1 +1,1 @@
-{"version":"V3.61.91","updatedAt":"2026-09-14T15:20:00+09:00","notes":"per-device estimated API cost (Gemini + STT + TTS) with coverage/partial-data disclosure; Cloud Run remains global-only"}
+{"version":"V3.61.94","updatedAt":"2026-09-15T12:40:00+09:00","notes":"stability release: bounded fail-safe updater, Laos wife Cloudflare-primary routing, corrupt-history recovery, paged telemetry retrieval beyond 500 records, Cloud Run capability reporting, Cloudflare regional failover; translation prompts and translation-quality policy unchanged"}
