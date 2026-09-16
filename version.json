@@ -1,1 +1,1 @@
-{"version":"V3.61.95","updatedAt":"2026-09-15T13:35:00+09:00","notes":"diagnostic device-count stabilization: non-destructive same-device candidate grouping by exact anonymous environment fingerprint; raw pdev count remains visible; translation/STT/TTS, Cloud Run 3.7.12 and Cloudflare Worker V3.61.94 unchanged"}
+{"version":"V3.61.95","updatedAt":"2026-09-15T13:35:00+09:00","notes":"TEST diagnostic only: bilingual live-mic resampler A/B. A=current linear 48/44.1k→16k, B=Blackman-sinc FIR anti-alias; both provider calls denoiser OFF. Production V3.61.95 unchanged."}
