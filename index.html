@@ -9375,6 +9375,12 @@ window.addEventListener('message',function(ev){
     document.getElementById('loadingMask').classList.remove('show');wireSafeUpdateActivityTracking(mode);restoreSafeUpdateDraftForMode(mode);restorePersistentDraftForMode(mode);wirePersistentDraftTracking(mode);syncVisibleViewport();return;
   }
   if(d.type==='integrated-open-general'){
+    // Test-main -> general-app credential bridge.
+    // Keep Relay App Token out of the URL and persist it only for this tab.
+    // Production service is intentionally not involved in this test bridge.
+    sessionStorageSetSafe('general_stt_app_token_v1',EMBEDDED_RELAY_TOKEN);
+    sessionStorageSetSafe('general_stt_relay_url_v1',SEOUL_RELAY_URL);
+    sessionStorageSetSafe('general_testmain_bridge_v1',JSON.stringify({source:'laos-translator',version:INTEGRATED_VERSION,at:Date.now()}));
     const path=String(location.pathname||'/');
     const target=/\/laos-translator(?:\/|$)/i.test(path)
       ? path.replace(/\/laos-translator(?:\/.*)?$/i,'/korean-lao-general/')
