@@ -1,11 +1,1 @@
-{
-  "version": "G1.0.0-RC1",
-  "buildId": "20260917-RC1-1",
-  "channel": "general-rc-test",
-  "stage": "release-candidate",
-  "model": "gemini-3.6-flash",
-  "stt": "google-chirp-3",
-  "sttFallback": ["google-rest", "gemini-audio"],
-  "tts": "azure",
-  "updated": "2026-09-17"
-}
+{"version":"V3.61.95","updatedAt":"2026-09-15T13:35:00+09:00","notes":"diagnostic device-count stabilization: non-destructive same-device candidate grouping by exact anonymous environment fingerprint; raw pdev count remains visible; translation/STT/TTS, Cloud Run 3.7.12 and Cloudflare Worker V3.61.94 unchanged"}
