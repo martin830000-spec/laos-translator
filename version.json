@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.103",
-  "build": "20260918-V361103-TEST-GENERAL-REPO-1",
-  "notes": "TEST 전용 연결: laos-translator ↔ korean-lao-general-test. 남편/아내 ↔ K→L/L→K 모드 handoff 유지. 서비스 wife/korean-lao-general 연결은 변경하지 않음."
+  "version": "V3.61.104",
+  "build": "20260918-V361104-TEST-STATE-ISOLATION-1",
+  "notes": "TEST 안정화: TEST/SERVICE 운영 상태 저장키 분리(인증·기기ID 공용 유지), TEST 번역기 최근기록 복구를 동일 deployment channel로 제한. 일반앱 RC1.19와 짝으로 사용. 번역/역번역/STT/TTS 핵심 로직은 V3.61.103과 동일."
 }
