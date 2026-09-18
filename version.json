@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.99",
-  "build": "20260918-V36199-UNIFIED-QUALITY-DIAG-1",
-  "notes": "Rebuilt diagnostic from scratch for translation quality and usage only; legacy experiment code removed. Main translation engine/prompts unchanged from V3.61.98."
+  "version": "V3.61.100",
+  "build": "20260918-V361100-QUICKMIC-STATE-1",
+  "notes": "Main quickbar voice button now mirrors microphone preparation, recording, timer, processing, cancel-ready and idle states. Translation/STT/TTS engine behavior and prompts retained from V3.61.99."
 }

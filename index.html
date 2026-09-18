@@ -295,7 +295,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.99</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.100</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -315,8 +315,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.99</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.99</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.100</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.100</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -354,7 +354,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.99</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.100</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools()" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -381,7 +381,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="32af3e3e7d7f0c3d58f21520140077a109329745219a8b0acce3c5438b4a189b">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="4534c87538b1416ab0343060afedc1559c2064602ed004f850ee4cce64be95aa">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -698,7 +698,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 #qualityBadge:not(:empty),#backQualityBadge:not(:empty){display:inline-block}
 
-/* V3.61.99 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
+/* V3.61.100 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
 :root{--main-quickbar-h:74px}
 body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 8px)!important}
 .main-quickbar{position:fixed;left:0;right:0;bottom:0;z-index:1450;padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:rgba(255,255,255,.96);border-top:1px solid #dfe5ec;box-shadow:0 -6px 18px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
@@ -706,7 +706,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
 .main-quick-btn{min-width:0;min-height:58px;border:1px solid #d9e0ea;border-radius:12px;background:#fff;color:#334155;padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-weight:900;cursor:pointer;line-height:1.13;overflow:hidden}
 .main-quick-btn:active{transform:translateY(1px)}
 .main-quick-btn .qicon{font-size:17px;line-height:1}.main-quick-btn .qko{font-size:10.5px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.main-quick-btn .qlo{font-size:9px;font-weight:800;color:#667085;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.main-quick-btn.primary{background:#1a73e8;color:#fff;border-color:#1a73e8}.main-quick-btn.primary .qlo{color:#eef5ff}.main-quick-btn.active{background:#e8f0fe;border-color:#9bbbf1;color:#174ea6}.main-quick-btn.active .qlo{color:#315f9e}
+.main-quick-btn.primary{background:#1a73e8;color:#fff;border-color:#1a73e8}.main-quick-btn.primary .qlo{color:#eef5ff}.main-quick-btn.active{background:#e8f0fe;border-color:#9bbbf1;color:#174ea6}.main-quick-btn.active .qlo{color:#315f9e}.main-quick-btn.recording{background:#fff0f0;border-color:#f0a5a5;color:#b42318;box-shadow:0 0 0 2px rgba(217,48,37,.08)}.main-quick-btn.recording .qlo{color:#b42318}.main-quick-btn.processing{background:#fff8e6;border-color:#f1c56b;color:#8a5a00;box-shadow:0 0 0 2px rgba(242,153,0,.08)}.main-quick-btn.processing .qlo{color:#8a5a00}
 @media(max-width:360px){.main-quickbar{padding-left:4px;padding-right:4px}.main-quickbar-inner{gap:3px}.main-quick-btn{padding:4px 1px}.main-quick-btn .qko{font-size:9.7px}.main-quick-btn .qlo{font-size:8.1px}}
 
 &lt;/style&gt;
@@ -894,7 +894,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.99';
+const APP_VERSION='V3.61.100';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or add/omit/soften/intensify facts. Keep an implicit subject across linked clauses unless the source introduces a new actor; never turn a statement/plan/intention into a request or command. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, or fact. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -2452,17 +2452,17 @@ function voiceCancelCapture(discard=true,reason='cancel'){
   const hadDiag=!!voiceDiagCurrent;voiceDiagMark('stopSource',String(reason||'cancel'));voiceDiagEvent('CANCEL',String(reason||'cancel'));voiceSessionId++;voiceRecording=false;voiceProcessing=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);if(hadDiag)voiceDiagFinalize('CANCELLED',String(reason||'USER_CANCEL'));VOICE_UI_IDLE();
 }
 function setVoiceInputUi(state,status=''){
-  const b=document.getElementById('voiceInputBtn'),s=document.getElementById('voiceInputStatus');if(!b||!s)return;b.classList.remove('recording','processing');b.disabled=false;
-  if(state==='recording'){b.classList.add('recording');b.textContent='⏹️ 음성입력 종료'}
-  else if(state==='processing'){b.classList.add('processing');b.textContent='⏳ 인식중 · 다시 누르면 취소';b.disabled=false}
-  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏳ 마이크 준비';b.disabled=true}
-  else b.textContent='🎙️ 음성입력';
+  const b=document.getElementById('voiceInputBtn'),s=document.getElementById('voiceInputStatus'),q=document.getElementById('mainQuickMic');if(!b||!s)return;b.classList.remove('recording','processing');b.disabled=false;if(q){q.classList.remove('recording','processing');q.setAttribute('aria-pressed',state==='recording'?'true':'false')}
+  if(state==='recording'){b.classList.add('recording');b.textContent='⏹️ 음성입력 종료';if(q){q.classList.add('recording');q.innerHTML='<span class="qicon">⏹️</span><span class="qko">듣는 중 · 종료</span><span class="qlo">ກຳລັງຟັງ</span>'}}
+  else if(state==='processing'){b.classList.add('processing');b.textContent='⏳ 인식중 · 다시 누르면 취소';b.disabled=false;if(q){q.classList.add('processing');q.innerHTML='<span class="qicon">⏳</span><span class="qko">인식 중 · 취소</span><span class="qlo">ກຳລັງປະມວນຜົນ</span>'}}
+  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏳ 마이크 준비';b.disabled=true;if(q){q.classList.add('processing');q.innerHTML='<span class="qicon">⏳</span><span class="qko">마이크 준비</span><span class="qlo">ກຽມໄມໂຄຣໂຟນ</span>'}}
+  else {b.textContent='🎙️ 음성입력';if(q)q.innerHTML='<span class="qicon">🎙️</span><span class="qko">한국어 말하기</span><span class="qlo">ເວົ້າພາສາເກົາຫຼີ</span>'}
   if(status){s.textContent=status;s.hidden=false}else{s.textContent='';s.hidden=true}
 }
 function VOICE_UI_PREPARING(){setVoiceInputUi('preparing','마이크와 Google STT 연결을 준비하고 있습니다.')}
 function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',streaming?'🔴 듣는 중 · 다시 누르면 종료합니다. 중간에 쉬어도 자동으로 끝나지 않습니다.':'🔴 듣는 중 · 스트리밍 연결이 불안정해도 종료 후 같은 음성으로 자동 복구합니다.')}
 function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording','🔴 듣는 중 · 스트리밍이 끊겨도 계속 말씀하세요. 종료 후 같은 음성으로 자동 복구합니다.')}
-function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ 종료 · ${m}:${s}`}
+function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn'),q=document.getElementById('mainQuickMic');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ 종료 · ${m}:${s}`;if(q&amp;&amp;voiceRecording)q.innerHTML=`<span class="qicon">⏹️</span><span class="qko">듣는 중 ${m}:${s}</span><span class="qlo">ກຳລັງຟັງ</span>`}
 function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ 1분 이상 듣고 있습니다. 자동 종료하지 않으니 말씀을 마친 뒤 직접 종료하세요.')}
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT가 마지막 음성까지 인식하고 있습니다.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 백업 음성인식으로 같은 녹음을 자동 복구하고 있습니다.')}
@@ -4997,7 +4997,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 
 
 
-// V3.61.99 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
+// V3.61.100 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
 const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
@@ -5021,7 +5021,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="6cd98c367f953a4ecb4bda6c0d277d69575a2f9337e511c92f39404b11219cb2">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="57cd1de7bb0ee772ce9ae6df8b14278fbc288205fcce26e2867e5cb50af642af">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5290,7 +5290,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 #qualityBadge:not(:empty),#backQualityBadge:not(:empty){display:inline-block}
 
-/* V3.61.99 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
+/* V3.61.100 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
 :root{--main-quickbar-h:74px}
 body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 8px)!important}
 .main-quickbar{position:fixed;left:0;right:0;bottom:0;z-index:1450;padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:rgba(255,255,255,.96);border-top:1px solid #dfe5ec;box-shadow:0 -6px 18px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
@@ -5298,7 +5298,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
 .main-quick-btn{min-width:0;min-height:58px;border:1px solid #d9e0ea;border-radius:12px;background:#fff;color:#334155;padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-weight:900;cursor:pointer;line-height:1.13;overflow:hidden}
 .main-quick-btn:active{transform:translateY(1px)}
 .main-quick-btn .qicon{font-size:17px;line-height:1}.main-quick-btn .qko{font-size:10.5px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.main-quick-btn .qlo{font-size:9px;font-weight:800;color:#667085;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.main-quick-btn.primary{background:#1a73e8;color:#fff;border-color:#1a73e8}.main-quick-btn.primary .qlo{color:#eef5ff}.main-quick-btn.active{background:#e8f0fe;border-color:#9bbbf1;color:#174ea6}.main-quick-btn.active .qlo{color:#315f9e}
+.main-quick-btn.primary{background:#1a73e8;color:#fff;border-color:#1a73e8}.main-quick-btn.primary .qlo{color:#eef5ff}.main-quick-btn.active{background:#e8f0fe;border-color:#9bbbf1;color:#174ea6}.main-quick-btn.active .qlo{color:#315f9e}.main-quick-btn.recording{background:#fff0f0;border-color:#f0a5a5;color:#b42318;box-shadow:0 0 0 2px rgba(217,48,37,.08)}.main-quick-btn.recording .qlo{color:#b42318}.main-quick-btn.processing{background:#fff8e6;border-color:#f1c56b;color:#8a5a00;box-shadow:0 0 0 2px rgba(242,153,0,.08)}.main-quick-btn.processing .qlo{color:#8a5a00}
 @media(max-width:360px){.main-quickbar{padding-left:4px;padding-right:4px}.main-quickbar-inner{gap:3px}.main-quick-btn{padding:4px 1px}.main-quick-btn .qko{font-size:9.7px}.main-quick-btn .qlo{font-size:8.1px}}
 
 &lt;/style&gt;
@@ -5474,7 +5474,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.99';
+const APP_VERSION='V3.61.100';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or add/omit/soften/intensify facts. Keep an implicit subject across linked clauses unless the source introduces a new actor; never turn a statement/plan/intention into a request or command. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, or fact. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -6780,17 +6780,17 @@ function voiceCancelCapture(discard=true,reason='cancel'){
   const hadDiag=!!voiceDiagCurrent;voiceDiagMark('stopSource',String(reason||'cancel'));voiceDiagEvent('CANCEL',String(reason||'cancel'));voiceSessionId++;voiceRecording=false;voiceProcessing=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);if(hadDiag)voiceDiagFinalize('CANCELLED',String(reason||'USER_CANCEL'));VOICE_UI_IDLE();
 }
 function setVoiceInputUi(state,status=''){
-  const b=document.getElementById('voiceInputBtn'),s=document.getElementById('voiceInputStatus');if(!b||!s)return;b.classList.remove('recording','processing');b.disabled=false;
-  if(state==='recording'){b.classList.add('recording');b.textContent='⏹️ ຢຸດຮັບສຽງ'}
-  else if(state==='processing'){b.classList.add('processing');b.textContent='⏳ ກຳລັງຮັບຮູ້ · ກົດອີກຄັ້ງເພື່ອຍົກເລີກ';b.disabled=false}
-  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏳ ກຽມໄມໂຄຣໂຟນ';b.disabled=true}
-  else b.textContent='🎙️ ຮັບສຽງ';
+  const b=document.getElementById('voiceInputBtn'),s=document.getElementById('voiceInputStatus'),q=document.getElementById('mainQuickMic');if(!b||!s)return;b.classList.remove('recording','processing');b.disabled=false;if(q){q.classList.remove('recording','processing');q.setAttribute('aria-pressed',state==='recording'?'true':'false')}
+  if(state==='recording'){b.classList.add('recording');b.textContent='⏹️ ຢຸດຮັບສຽງ';if(q){q.classList.add('recording');q.innerHTML='<span class="qicon">⏹️</span><span class="qko">듣는 중 · 종료</span><span class="qlo">ກຳລັງຟັງ · ຢຸດ</span>'}}
+  else if(state==='processing'){b.classList.add('processing');b.textContent='⏳ ກຳລັງປະມວນຜົນ · ກົດອີກຄັ້ງເພື່ອຍົກເລີກ';b.disabled=false;if(q){q.classList.add('processing');q.innerHTML='<span class="qicon">⏳</span><span class="qko">인식 중 · 취소</span><span class="qlo">ກຳລັງປະມວນ · ຍົກເລີກ</span>'}}
+  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏳ ກຽມໄມໂຄຣໂຟນ';b.disabled=true;if(q){q.classList.add('processing');q.innerHTML='<span class="qicon">⏳</span><span class="qko">마이크 준비</span><span class="qlo">ກຽມໄມໂຄຣໂຟນ</span>'}}
+  else {b.textContent='🎙️ ຮັບສຽງ';if(q)q.innerHTML='<span class="qicon">🎙️</span><span class="qko">라오어 말하기</span><span class="qlo">ເວົ້າພາສາລາວ</span>'}
   if(status){s.textContent=status;s.hidden=false}else{s.textContent='';s.hidden=true}
 }
 function VOICE_UI_PREPARING(){setVoiceInputUi('preparing','ກຳລັງກຽມໄມໂຄຣໂຟນ ແລະ Google STT...')}
 function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',streaming?'🔴 ກຳລັງຟັງ · ເວົ້າໄດ້ຊ້າໆ ແລະຢຸດຄິດໄດ້. ກົດອີກຄັ້ງເມື່ອເວົ້າຈົບ.':'🔴 ກຳລັງຟັງ · ຖ້າ Streaming ຂາດ ແອັບຈະໃຊ້ສຽງເດີມກູ້ຄືນຫຼັງກົດຢຸດ.')}
 function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording','🔴 ກຳລັງຟັງ · Streaming ຂາດແລ້ວ ແຕ່ໃຫ້ເວົ້າຕໍ່ໄປ. ຫຼັງກົດຢຸດຈະກູ້ຄືນດ້ວຍສຽງເດີມ.')}
-function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ ຢຸດ · ${m}:${s}`}
+function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn'),q=document.getElementById('mainQuickMic');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ ຢຸດ · ${m}:${s}`;if(q&amp;&amp;voiceRecording)q.innerHTML=`<span class="qicon">⏹️</span><span class="qko">듣는 중 ${m}:${s}</span><span class="qlo">ກຳລັງຟັງ ${m}:${s}</span>`}
 function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ ຟັງເກີນ 1 ນາທີແລ້ວ. ແອັບບໍ່ຢຸດອັດຕະໂນມັດ; ເວົ້າຈົບແລ້ວກົດຢຸດເອງ.')}
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT ກຳລັງປະມວນຜົນສຽງສ່ວນສຸດທ້າຍ.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 ກຳລັງໃຊ້ລະບົບຮັບສຽງສຳຮອງກູ້ຄືນຈາກສຽງເດີມ.')}
@@ -8090,7 +8090,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
 
 
 
-// V3.61.99 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
+// V3.61.100 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
 const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
@@ -8175,7 +8175,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.99';
+const INTEGRATED_VERSION='V3.61.100';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -8196,7 +8196,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='10756b0cd97cd418eb9d827d2b216feb1d7a772c8cef4bb654fe7538f6fdea02';
+const EXTERNAL_DIAGNOSTIC_SHA256='dd57f34a78003bbd2302083ea3ca4c18f36d30b1c651e9ca774704ddb85153ea';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
