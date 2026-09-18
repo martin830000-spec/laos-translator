@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.104",
-  "build": "20260918-V361104-TEST-STATE-ISOLATION-1",
-  "notes": "TEST 안정화: TEST/SERVICE 운영 상태 저장키 분리(인증·기기ID 공용 유지), TEST 번역기 최근기록 복구를 동일 deployment channel로 제한. 일반앱 RC1.19와 짝으로 사용. 번역/역번역/STT/TTS 핵심 로직은 V3.61.103과 동일."
+  "version": "V3.61.105",
+  "build": "20260919-V361105-TEST-UI-POLISH-1",
+  "notes": "TEST UI 폴리싱: 기존 기능/번역·역번역·STT·TTS·Relay 로직 유지. 번역 완료 시 원문 요약+결과 중심 화면, 입력창 자동 축소/수정 시 재확장. 일반앱 RC1.20과 짝으로 사용."
 }
