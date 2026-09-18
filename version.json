@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.100",
-  "build": "20260918-V361100-QUICKMIC-STATE-1",
-  "notes": "Main quickbar voice button now mirrors microphone preparation, recording, timer, processing, cancel-ready and idle states. Translation/STT/TTS engine behavior and prompts retained from V3.61.99."
+  "version": "V3.61.101",
+  "build": "20260918-V361101-INTEGRATED-ADMIN-GUIDE-MIC-1",
+  "notes": "통합 관리자센터 일반앱 진입 연결, 상단 버튼 정렬, 하단 음성입력 상태 표시, 사용자용 상세 설명서 보강."
 }
