@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.102",
-  "build": "20260918-V361102-MODE-HANDOFF-1",
-  "notes": "본앱↔일반앱 전환 시 남편/아내 모드와 K→L/L→K 방향을 양방향으로 이어받음. V3.61.101 통합 관리자/상세 설명서/하단 음성상태 유지."
+  "version": "V3.61.103",
+  "build": "20260918-V361103-TEST-GENERAL-REPO-1",
+  "notes": "TEST 전용 연결: laos-translator ↔ korean-lao-general-test. 남편/아내 ↔ K→L/L→K 모드 handoff 유지. 서비스 wife/korean-lao-general 연결은 변경하지 않음."
 }

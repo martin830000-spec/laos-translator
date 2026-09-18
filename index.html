@@ -310,7 +310,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.102</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.103</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -330,8 +330,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.102</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.102</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.103</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.103</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -369,7 +369,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.102</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.103</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -396,7 +396,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="1db6d26910ec0e738489379719ae2bf35a20b744c5ecf04a7e6821d16140f98f">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="f332abe6a33576e0c5019c57f5b191f72d20f080e957e227034ac04c2dfbdae3">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -713,7 +713,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 #qualityBadge:not(:empty),#backQualityBadge:not(:empty){display:inline-block}
 
-/* V3.61.102 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
+/* V3.61.103 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
 :root{--main-quickbar-h:74px}
 body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 8px)!important}
 .main-quickbar{position:fixed;left:0;right:0;bottom:0;z-index:1450;padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:rgba(255,255,255,.96);border-top:1px solid #dfe5ec;box-shadow:0 -6px 18px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
@@ -911,7 +911,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.102';
+const APP_VERSION='V3.61.103';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or add/omit/soften/intensify facts. Keep an implicit subject across linked clauses unless the source introduces a new actor; never turn a statement/plan/intention into a request or command. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, or fact. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -5023,7 +5023,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 
 
 
-// V3.61.102 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
+// V3.61.103 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
 const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
@@ -5047,7 +5047,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f0ec3063f24ec7ff6efd4fd3fc0fd58d2788cb5b5a87697c86342f62a5952dbf">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="0ff3293887fe68e5ba97f8243b1cc22ceb8ac429653b689062a022a00aee0c89">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5316,7 +5316,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 #qualityBadge:not(:empty),#backQualityBadge:not(:empty){display:inline-block}
 
-/* V3.61.102 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
+/* V3.61.103 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
 :root{--main-quickbar-h:74px}
 body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 8px)!important}
 .main-quickbar{position:fixed;left:0;right:0;bottom:0;z-index:1450;padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:rgba(255,255,255,.96);border-top:1px solid #dfe5ec;box-shadow:0 -6px 18px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
@@ -5502,7 +5502,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.102';
+const APP_VERSION='V3.61.103';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or add/omit/soften/intensify facts. Keep an implicit subject across linked clauses unless the source introduces a new actor; never turn a statement/plan/intention into a request or command. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, or fact. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -8127,7 +8127,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
 
 
 
-// V3.61.102 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
+// V3.61.103 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
 const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
@@ -8212,7 +8212,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.102';
+const INTEGRATED_VERSION='V3.61.103';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + HusbandNativeFocus + ExpandedModeButtons';
@@ -8233,7 +8233,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='aded8d4e627f32129de35c6e2696fe3355d6e3796cb977c0811cba3ab6bf6e99';
+const EXTERNAL_DIAGNOSTIC_SHA256='ad6b2d35990a2d38401a7a04e29292f7aafd677fd01b117372e18d6bf92de06c';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9497,8 +9497,8 @@ window.addEventListener('message',function(ev){
     sessionStorageSetSafe('general_testmain_bridge_v1',JSON.stringify({source:'laos-translator',version:INTEGRATED_VERSION,mode:sourceMode,at:Date.now()}));
     const path=String(location.pathname||'/');
     const target=/\/laos-translator(?:\/|$)/i.test(path)
-      ? path.replace(/\/laos-translator(?:\/.*)?$/i,'/korean-lao-general/')
-      : '/korean-lao-general/';
+      ? path.replace(/\/laos-translator(?:\/.*)?$/i,'/korean-lao-general-test/')
+      : '/korean-lao-general-test/';
     location.href=target+'?mode='+encodeURIComponent(sourceMode)+'&from=main';return;
   }
   if(d.type==='integrated-home'){showSelector();return}
