@@ -1,1 +1,5 @@
-{"version":"V3.61.98","updatedAt":"2026-09-18T10:55:00+09:00","notes":"diagnostic UI slimmed to translation quality + user usage; general-app diagnostic link integrated; translation engine/prompt unchanged from V3.61.97"}
+{
+  "version": "V3.61.99",
+  "build": "20260918-V36199-UNIFIED-QUALITY-DIAG-1",
+  "notes": "Rebuilt diagnostic from scratch for translation quality and usage only; legacy experiment code removed. Main translation engine/prompts unchanged from V3.61.98."
+}
