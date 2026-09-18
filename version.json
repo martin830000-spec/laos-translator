@@ -1,1 +1,1 @@
-{"version":"V3.61.95","updatedAt":"2026-09-15T13:35:00+09:00","notes":"diagnostic device-count stabilization: non-destructive same-device candidate grouping by exact anonymous environment fingerprint; raw pdev count remains visible; translation/STT/TTS, Cloud Run 3.7.12 and Cloudflare Worker V3.61.94 unchanged"}
+{"version":"V3.61.96","updatedAt":"2026-09-18T08:45:00+09:00","notes":"test main: bilingual fixed quickbar + STT-origin auto-interpret; existing translation/STT/TTS/backtranslation/network/recent-history UI retained; manuals renewed in Korean and Lao"}
