@@ -1,1 +1,1 @@
-{"version":"V3.61.97","updatedAt":"2026-09-18T10:15:00+09:00","notes":"quality patch: source-register preservation, subject/clause continuity, temporal-connective fidelity, single-choice output; fixes duration-vs-clock Critical false positives; no extra live Gemini/Judge calls"}
+{"version":"V3.61.98","updatedAt":"2026-09-18T10:55:00+09:00","notes":"diagnostic UI slimmed to translation quality + user usage; general-app diagnostic link integrated; translation engine/prompt unchanged from V3.61.97"}
