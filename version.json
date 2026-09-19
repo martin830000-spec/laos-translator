@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.113",
-  "build": "20260920-V3.61.113-DIAG-FIX-1",
-  "notes": "TEST 진단 복구 최소패치. V3.61.112 스마트 번역 프롬프트/번역엔진/Relay/TTS 동작은 유지. 최근 품질 비교의 const 타이밍 런타임 오류를 실제 timing state로 수정하고, 저장된 과거 실사용 결과(A)와 현재 프롬프트 재번역(B)만 비교하도록 명시. 본앱 prompt SHA 추출을 encoded husband/wife payload 기반 canonical 방식으로 수정하고 빈 프롬프트 hash를 실패 처리. 자체점검에 품질 타이밍 smoke 및 source/runtime prompt fingerprint 일치 검사를 추가. STT는 기존 session total과 별도로 녹음 종료→최종 결과 postStopToResultMs만 기존 operation telemetry detail에 부가 기록. 추가 Gemini/STT/TTS 호출 없음."
+  "version": "V3.61.114",
+  "build": "20260920-V3.61.114-NO-AIEVAL-WARN-1",
+  "notes": "TEST 최소패치. 최근 품질 비교에서 AI 비교평가 호출과 승패/점수/평가 로그를 제거하고, 과거 실사용 원문·번역·역번역 + 현재 재번역·재역번역 + 처리시간/실행오류만 수집. 본앱 남편/아내의 숫자 번역품질 점수 UI를 제거하고 이상징후가 있을 때만 경고 아이콘과 사유를 표시. 내부 QualityGuard/역번역 검사, 스마트 프롬프트, Gemini 모델, 번역·역번역/STT/TTS/Relay/fallback/복사/저장 동작은 유지. 일반앱 RC1.23은 변경하지 않음."
 }
