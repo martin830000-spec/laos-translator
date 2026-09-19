@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.106",
-  "build": "20260919-V361106-STATE-FIX-FINAL-1",
-  "notes": "TEST 최종 검수 후보: 직전 V3.61.105 UI를 유지하면서 자동통역 STT 입력 교체, 번역 시점 원문 스냅샷 표시, 음성출력 OFF 우선 정책을 보강. 일반앱 RC1.21과 짝으로 사용."
+  "version": "V3.61.107",
+  "build": "20260919-V361107-MOBILE-VIEWPORT-FIX-1",
+  "notes": "TEST 모바일 키보드 안정화 후보: V3.61.106 기능을 유지하면서 visualViewport offsetTop을 반영해 삼성폰·Fold·iPhone 계열에서 키보드 표시 시 shell/하단바 사이 빈 공간이 생길 수 있는 계산을 최소 수정. 일반앱 RC1.21은 변경 없음."
 }
