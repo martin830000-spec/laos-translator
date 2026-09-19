@@ -13,7 +13,7 @@
 </div><iframe id="generalFrame" aria-hidden="true" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;border:0;opacity:0"></iframe>
 <script>
 'use strict';
-const DIAG_VERSION='V3.61.109', MODEL='gemini-3.8-flash', API_URL=`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+const DIAG_VERSION='V3.61.110', MODEL='gemini-3.8-flash', API_URL=`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 const $=id=>document.getElementById(id); let stopped=false, activeController=null, auditRows=[], recordText='', statsCache=null;
 
 function applyDefaultDiagnosticApp(){const app=window.__DIAG_DEFAULT_APP__==='general'?'general':'couple';const m=$('manualApp'),a=$('auditApp');if(m)m.value=app;if(a)a.value=app}
