@@ -249,7 +249,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </style>
 
 <style id="shell-ui-final-v361109">
-/* V3.61.111 shell readability only */
+/* V3.61.112 shell readability only */
 .home-btn{flex-basis:62px!important;width:62px!important;min-width:58px!important}
 .home-btn .home-label{font-size:10.5px!important;line-height:1.12!important;white-space:normal!important;text-align:left}
 .home-btn .home-label small{font-size:8.5px!important;line-height:1.12!important;white-space:normal!important}
@@ -319,7 +319,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.111</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.112</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -339,8 +339,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.111</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.111</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.112</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.112</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -378,7 +378,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.111</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.112</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
@@ -405,7 +405,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="272a2b15c0f2e360e9da68e037139711f1fe759a1567cd7bd5ae08b5f672cf3f">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="cfd811bc6db2214e67db5cc31024cf01723d06df868c6926ecae364aba03376f">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -722,7 +722,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 #qualityBadge:not(:empty),#backQualityBadge:not(:empty){display:inline-block}
 
-/* V3.61.111 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
+/* V3.61.112 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
 :root{--main-quickbar-h:74px}
 body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 8px)!important}
 .main-quickbar{position:fixed;left:0;right:0;bottom:0;z-index:1450;padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:rgba(255,255,255,.96);border-top:1px solid #dfe5ec;box-shadow:0 -6px 18px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
@@ -736,7 +736,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
 
 .main-quick-btn.voice-active{background:#fff0ef!important;border-color:#f2b8b5!important;color:#a61b1b!important;box-shadow:0 0 0 2px rgba(198,40,40,.08) inset}.main-quick-btn.voice-processing{background:#fff7e8!important;border-color:#f2cf88!important;color:#805300!important}.main-quick-btn.voice-active .qko,.main-quick-btn.voice-active .qlo,.main-quick-btn.voice-processing .qko,.main-quick-btn.voice-processing .qlo{color:inherit!important}.main-quick-btn.voice-active .qicon{animation:quickMicPulse 1s ease-in-out infinite}@keyframes quickMicPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
-/* V3.61.111 UI polish: result-first presentation without replacing any functional control. */
+/* V3.61.112 UI polish: result-first presentation without replacing any functional control. */
 :root{--ui-card-line:#dbe4ef;--ui-card-shadow:0 8px 24px rgba(24,39,75,.07)}
 .primary-result-section:not(.result-pending){background:#fff;border:1px solid var(--ui-card-line);border-radius:16px;padding:11px 11px 9px;margin:0 0 10px;box-shadow:var(--ui-card-shadow)}
 .ui-source-preview{display:none;margin:0 0 9px;padding:9px 10px;border:1px solid #dce5f1;border-radius:12px;background:#f8fbff;color:#334155}
@@ -771,7 +771,7 @@ body.ui-result-focus .primary-result-section .result-header&gt;div:first-child,b
 &lt;/style&gt;
 
 &lt;style id="ui-final-polish-v361109"&gt;
-/* V3.61.111 UI polish only: readable responsive controls + result order. Core translation/STT/TTS/network logic unchanged. */
+/* V3.61.112 UI polish only: readable responsive controls + result order. Core translation/STT/TTS/network logic unchanged. */
 :root{--main-quickbar-h:84px}
 .main-quickbar{padding:7px max(6px,env(safe-area-inset-right)) max(7px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
 .main-quickbar-inner{gap:clamp(3px,1vw,6px)}
@@ -975,14 +975,17 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.111';
+const APP_VERSION='V3.61.112';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or add/omit/soften/intensify facts. Keep an implicit subject across linked clauses unless the source introduces a new actor; never turn a statement/plan/intention into a request or command. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, or fact. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
-const FAST_L2K_BASE=`Translate only the user's Lao text into natural Korean for a Lao wife speaking to her Korean husband. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: wife=speaker, husband=listener; ຂ້ອຍ=wife/speaker and ordinary ເຈົ້າ/ທີ່ຮັກ=husband/listener. Preserve SOURCE REGISTER: casual/intimate Lao -&gt; natural warm Korean banmal; polite/respectful Lao -&gt; matching conversational 존댓말. Never default all spouse messages to -요/-습니다. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, retell from the husband's viewpoint, or add/omit/soften/intensify facts. Keep an implicit first-person subject across linked clauses unless the Lao introduces a new actor; never turn the wife's statement/plan/intention into a listener request such as 해 줘/해주세요. Preserve first/before/after/then/while distinctions; do not turn 'eat first, then X' into 'while eating, X'. If Lao is malformed, oddly spaced, or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, relationship, or fact. Use standard common Korean wording and keep transport/place context consistent. Preserve unfamiliar names/transliterations by sound/form. Proofread Korean spelling/Unicode once without changing meaning. Output exactly ONE Korean translation: no slash A/B choices, dictionary-style parenthetical synonyms such as 정류장(터미널), labels, or notes. HOMEWORK: ວຽກບ້ານ/ການບ້ານ normally mean school homework/assignment here unless explicit household chores are described; explicit ວຽກເຮືອນ/ວຽກຄົວ or cleaning/cooking/laundry/dishwashing means 집안일/가사.`;
+const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination; never add/omit/soften/intensify facts. Preserve sentence force/polarity: statement/realization/question/command and positive/negative/rhetorical direction must not flip. Never invent event, venue, setting, reason, or fact. Keep an implicit subject across linked clauses unless the source introduces a new actor. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
+const FAST_L2K_BASE=`Translate only the user's Lao text into natural Korean for a Lao wife speaking to her Korean husband. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: wife=speaker, husband=listener; ຂ້ອຍ=wife/speaker and ordinary ເຈົ້າ/ທີ່ຮັກ=husband/listener. Preserve SOURCE REGISTER: casual/intimate Lao -&gt; natural warm Korean banmal; polite/respectful Lao -&gt; matching conversational 존댓말. Never default all spouse messages to -요/-습니다. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or viewpoint; never add/omit/soften/intensify facts. Preserve sentence force/polarity: statement/realization/question/command and positive/negative/rhetorical direction must not flip. Never invent event, venue, setting, reason, or fact. Keep an implicit first-person subject across linked clauses unless the Lao introduces a new actor; do not turn speaker intent into a listener request. Preserve first/before/after/then/while distinctions; do not turn 'eat first, then X' into 'while eating, X'. If Lao is malformed, oddly spaced, or genuinely ambiguous, translate conservatively. Use standard common Korean wording and keep transport/place context consistent. Preserve unfamiliar names/transliterations by sound/form. Proofread Korean spelling/Unicode once without changing meaning. Output exactly ONE Korean translation: no slash A/B choices, dictionary-style parenthetical synonyms such as 정류장(터미널), labels, or notes. HOMEWORK: ວຽກບ້ານ/ການບ້ານ normally mean school homework/assignment here unless explicit household chores are described; explicit ວຽກເຮືອນ/ວຽກຄົວ or cleaning/cooking/laundry/dishwashing means 집안일/가사.`;
+const SMART_K2L_SELF_RULE=`If explicit 나/내/내가 needs an overt Lao self-reference, prefer ອ້າຍ for ordinary intimate husband-to-wife speech; use ຂ້ອຍ only if context/register requires.`;
+const SMART_K2L_HOME_RULE=`For 잘 들어가/조심히 들어가, mean get home/go inside safely, not generic travel.`;
+const SMART_L2K_ELDER_RULE=`If Lao names a parent/elder as third-person subject, keep natural Korean subject honorific -시- even in spouse-facing banmal.`;
 const LONG_MESSAGE_READABILITY_RULE=`For a long multi-clause message, keep one stable entity map across all clauses and never summarize, merge people, switch first/second/third person, or infer unstated kinship/gender.`;
-function buildFastForwardPromptK2L(source){return FAST_K2L_BASE;}
-function buildFastForwardPromptL2K(source){return FAST_L2K_BASE;}
+function buildFastForwardPromptK2L(source){const s=String(source||''),extra=[];if(/(?:^|[\s,.!?~"'“”‘’()])(?:나|나는|난|내가|내|나도|나를|나한테)(?=$|[\s,.!?~"'“”‘’()])/u.test(s))extra.push(SMART_K2L_SELF_RULE);if(/(?:잘|조심(?:히|해서)?)\s*들어가/u.test(s))extra.push(SMART_K2L_HOME_RULE);return extra.length?FAST_K2L_BASE+' '+extra.join(' '):FAST_K2L_BASE;}
+function buildFastForwardPromptL2K(source){const s=String(source||''),extra=[];if(/(?:ແມ່(?!ນ)|ພໍ່|ພໍ່ເຖົ້າ|ແມ່ເຖົ້າ|ປູ່|ຍ່າ)/u.test(s))extra.push(SMART_L2K_ELDER_RULE);return extra.length?FAST_L2K_BASE+' '+extra.join(' '):FAST_L2K_BASE;}
 function detectKoreanRegisterForBack(text){
   const s=String(text||'').trim();if(!s)return'UNKNOWN';
   const formal=/(?:습니다|습니까|입니다|아닙니다|합니다|됩니다|드립니다|십시오)(?:[.!?~…\s]|$)/u.test(s);
@@ -1653,7 +1656,7 @@ function telemetryCommitFailure({runId,direction,sourceText,error,stage,totalMs,
   const record={schemaVersion:2,installId:LIVE_INSTALL_ID,osFamily:LIVE_OS_FAMILY,clientEnv:LIVE_CLIENT_ENV,eventId:a.eventId,traceId:a.traceId,parentTraceId:a.parentTraceId||'',sessionId:LIVE_SESSION_ID,sourceType:'LIVE',direction,mode:INTEGRATED_MODE,appVersion:APP_VERSION,status:'FAILED',sourceText:String(sourceText||''),targetText:'',backText:'',clientCreatedAtMs:Date.now(),quality:{score:null,pass:false,reasons:['TRANSLATION_FAILED'],softReasons:[]},failure:{stage:String(stage||'translate').slice(0,80),error:message,httpStatus:status||null},runtime:{totalMs:Number(totalMs)||0,winningRequestMs:0,winner:'',hedged:false,rescued:false,tailRescued:false,directToServerFallback:rr.some(x=&gt;x?.directFallback===true),routeSummary:[...new Set(rr.map(x=&gt;x.route).filter(Boolean))].join(' → ').slice(0,120),requestCount:rr.length,semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:false,outputLocked:false,userRetry:a.userRetry===true,sessionId:LIVE_SESSION_ID,requestRecords:rr}};
   liveTelemetryLastTraceId=a.traceId;liveTelemetryAttempt=null;telemetryQueuePush(record);
 }
-function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liveTelemetryCurrent;if(!e)return;if(String(e.targetText||'').trim()!==String(targetText||'').trim())return;const t=String(backText||'').trim();if(t)e.backText=t;if(backUsage&amp;&amp;typeof backUsage==='object'){const u=backUsage;e.runtime.backUsage={prompt:Number.isFinite(Number(u.prompt))?Number(u.prompt):null,candidate:Number.isFinite(Number(u.candidate))?Number(u.candidate):null,thoughts:Number.isFinite(Number(u.thoughts))?Number(u.thoughts):null,total:Number.isFinite(Number(u.total))?Number(u.total):null,known:u.known===true||[u.prompt,u.candidate,u.thoughts,u.total].some(v=&gt;Number.isFinite(Number(v))),cloudRunMs:Number.isFinite(Number(u.cloudRunMs))?Math.max(0,Number(u.cloudRunMs)):0,cloudRunRequests:Number.isFinite(Number(u.cloudRunRequests))?Math.max(0,Math.round(Number(u.cloudRunRequests))):0}}telemetryScheduleFinalize(150)}
+function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liveTelemetryCurrent;if(!e)return;if(String(e.targetText||'').trim()!==String(targetText||'').trim())return;const t=String(backText||'').trim();if(t)e.backText=t;if(backUsage&amp;&amp;typeof backUsage==='object'){const u=backUsage;e.runtime.backUsage={prompt:Number.isFinite(Number(u.prompt))?Number(u.prompt):null,candidate:Number.isFinite(Number(u.candidate))?Number(u.candidate):null,thoughts:Number.isFinite(Number(u.thoughts))?Number(u.thoughts):null,total:Number.isFinite(Number(u.total))?Number(u.total):null,known:u.known===true||[u.prompt,u.candidate,u.thoughts,u.total].some(v=&gt;Number.isFinite(Number(v))),cloudRunMs:Number.isFinite(Number(u.cloudRunMs))?Math.max(0,Number(u.cloudRunMs)):0,cloudRunRequests:Number.isFinite(Number(u.cloudRunRequests))?Math.max(0,Math.round(Number(u.cloudRunRequests))):0,totalMs:Number.isFinite(Number(u.clientTotalMs))?Math.max(0,Math.round(Number(u.clientTotalMs))):null,status:String(u.clientStatus||'SUCCESS').slice(0,16),error:String(u.clientError||'').slice(0,160)}}telemetryScheduleFinalize(150)}
 function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voiceRecording||voiceProcessing||appCopyBusy)}
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
@@ -4563,6 +4566,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
         setBackResultState(true, false);
         updateBackQualityBadge(null, false);
         backResultEl.innerText = "라오어를 한국어로 역번역(검증) 중... 필요하면 [검증 중지]를 눌러 취소할 수 있습니다.";
+        const backStartedAt=performance.now();
 
         try {
             const result = await runBackTranslationWithLanguageRecovery(laoText,myRunId);
@@ -4570,7 +4574,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
             // V3.61.25: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
             backResultEl.innerText = result.text;
             setBackResultState(true, true);
-            telemetryAttachBackText(laoText,result.text,result.usage);
+            telemetryAttachBackText(laoText,result.text,{...(result.usage||{}),clientTotalMs:performance.now()-backStartedAt,clientStatus:'SUCCESS'});
             const backScore = backTranslationScoreK2L(lastRequestPayload, result.text, result.quality);
             const backIssues=buildConcreteIssuesK2L(lastRequestPayload,laoText,result.text,{...result.quality,backReviewReasons:[...(reviewBackTranslationK2L(lastRequestPayload,result.text).reasons||[])]});
             updateBackQualityBadge(backScore, !Number.isFinite(Number(backScore)), backIssues);
@@ -4582,6 +4586,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
                 lastForwardQualitySnapshot=reviewedQuality;
             }
         } catch (err) {
+            telemetryAttachBackText(laoText,'',{clientTotalMs:performance.now()-backStartedAt,clientStatus:err?.name==='AbortError'?'ABORTED':'FAILED',clientError:String(err?.message||err||'')});
             if (myRunId !== backTranslationRunId) return;
             updateBackQualityBadge(null, true);
             if(lastForwardTargetSnapshot){updateQualityBadge(markBackReviewUnavailableK2L(lastForwardQualitySnapshot),lastRequestPayload,lastForwardTargetSnapshot);}
@@ -5086,7 +5091,7 @@ window.__runPostTranslationSmokeK2L=__runPostTranslationSmokeK2L;
 
 
 
-// V3.61.111 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
+// V3.61.112 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
 const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_test_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
@@ -5137,7 +5142,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="874b330d493c83f94fec019f871c8bd5249e88aaf06c08437ad6e8bb25995a5b">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="d54950e44d0c818de5ab7735b45d1f99cd737b5397ddb20e33207f1fdf8d5561">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5406,7 +5411,7 @@ textarea{height:198px!important;min-height:198px!important;max-height:none;box-s
 }
 #qualityBadge:not(:empty),#backQualityBadge:not(:empty){display:inline-block}
 
-/* V3.61.111 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
+/* V3.61.112 UI-only: fixed bilingual quickbar + auto-interpret toggle. Existing app layout/engine retained. */
 :root{--main-quickbar-h:74px}
 body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 8px)!important}
 .main-quickbar{position:fixed;left:0;right:0;bottom:0;z-index:1450;padding:6px max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:rgba(255,255,255,.96);border-top:1px solid #dfe5ec;box-shadow:0 -6px 18px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
@@ -5420,7 +5425,7 @@ body{padding-bottom:calc(var(--main-quickbar-h) + env(safe-area-inset-bottom) + 
 
 .main-quick-btn.voice-active{background:#fff0ef!important;border-color:#f2b8b5!important;color:#a61b1b!important;box-shadow:0 0 0 2px rgba(198,40,40,.08) inset}.main-quick-btn.voice-processing{background:#fff7e8!important;border-color:#f2cf88!important;color:#805300!important}.main-quick-btn.voice-active .qko,.main-quick-btn.voice-active .qlo,.main-quick-btn.voice-processing .qko,.main-quick-btn.voice-processing .qlo{color:inherit!important}.main-quick-btn.voice-active .qicon{animation:quickMicPulse 1s ease-in-out infinite}@keyframes quickMicPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
-/* V3.61.111 UI polish: result-first presentation without replacing any functional control. */
+/* V3.61.112 UI polish: result-first presentation without replacing any functional control. */
 :root{--ui-card-line:#dbe4ef;--ui-card-shadow:0 8px 24px rgba(24,39,75,.07)}
 .primary-result-section:not(.result-pending){background:#fff;border:1px solid var(--ui-card-line);border-radius:16px;padding:11px 11px 9px;margin:0 0 10px;box-shadow:var(--ui-card-shadow)}
 .ui-source-preview{display:none;margin:0 0 9px;padding:9px 10px;border:1px solid #dce5f1;border-radius:12px;background:#f8fbff;color:#334155}
@@ -5455,7 +5460,7 @@ body.ui-result-focus .primary-result-section .result-header&gt;div:first-child,b
 &lt;/style&gt;
 
 &lt;style id="ui-final-polish-v361109"&gt;
-/* V3.61.111 UI polish only: readable responsive controls + result order. Core translation/STT/TTS/network logic unchanged. */
+/* V3.61.112 UI polish only: readable responsive controls + result order. Core translation/STT/TTS/network logic unchanged. */
 :root{--main-quickbar-h:84px}
 .main-quickbar{padding:7px max(6px,env(safe-area-inset-right)) max(7px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
 .main-quickbar-inner{gap:clamp(3px,1vw,6px)}
@@ -5647,14 +5652,17 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.111';
+const APP_VERSION='V3.61.112';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or add/omit/soften/intensify facts. Keep an implicit subject across linked clauses unless the source introduces a new actor; never turn a statement/plan/intention into a request or command. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, or fact. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
-const FAST_L2K_BASE=`Translate only the user's Lao text into natural Korean for a Lao wife speaking to her Korean husband. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: wife=speaker, husband=listener; ຂ້ອຍ=wife/speaker and ordinary ເຈົ້າ/ທີ່ຮັກ=husband/listener. Preserve SOURCE REGISTER: casual/intimate Lao -&gt; natural warm Korean banmal; polite/respectful Lao -&gt; matching conversational 존댓말. Never default all spouse messages to -요/-습니다. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, retell from the husband's viewpoint, or add/omit/soften/intensify facts. Keep an implicit first-person subject across linked clauses unless the Lao introduces a new actor; never turn the wife's statement/plan/intention into a listener request such as 해 줘/해주세요. Preserve first/before/after/then/while distinctions; do not turn 'eat first, then X' into 'while eating, X'. If Lao is malformed, oddly spaced, or genuinely ambiguous, translate conservatively instead of inventing a person, request, relay instruction, relationship, or fact. Use standard common Korean wording and keep transport/place context consistent. Preserve unfamiliar names/transliterations by sound/form. Proofread Korean spelling/Unicode once without changing meaning. Output exactly ONE Korean translation: no slash A/B choices, dictionary-style parenthetical synonyms such as 정류장(터미널), labels, or notes. HOMEWORK: ວຽກບ້ານ/ການບ້ານ normally mean school homework/assignment here unless explicit household chores are described; explicit ວຽກເຮືອນ/ວຽກຄົວ or cleaning/cooking/laundry/dishwashing means 집안일/가사.`;
+const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination; never add/omit/soften/intensify facts. Preserve sentence force/polarity: statement/realization/question/command and positive/negative/rhetorical direction must not flip. Never invent event, venue, setting, reason, or fact. Keep an implicit subject across linked clauses unless the source introduces a new actor. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
+const FAST_L2K_BASE=`Translate only the user's Lao text into natural Korean for a Lao wife speaking to her Korean husband. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: wife=speaker, husband=listener; ຂ້ອຍ=wife/speaker and ordinary ເຈົ້າ/ທີ່ຮັກ=husband/listener. Preserve SOURCE REGISTER: casual/intimate Lao -&gt; natural warm Korean banmal; polite/respectful Lao -&gt; matching conversational 존댓말. Never default all spouse messages to -요/-습니다. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination, or viewpoint; never add/omit/soften/intensify facts. Preserve sentence force/polarity: statement/realization/question/command and positive/negative/rhetorical direction must not flip. Never invent event, venue, setting, reason, or fact. Keep an implicit first-person subject across linked clauses unless the Lao introduces a new actor; do not turn speaker intent into a listener request. Preserve first/before/after/then/while distinctions; do not turn 'eat first, then X' into 'while eating, X'. If Lao is malformed, oddly spaced, or genuinely ambiguous, translate conservatively. Use standard common Korean wording and keep transport/place context consistent. Preserve unfamiliar names/transliterations by sound/form. Proofread Korean spelling/Unicode once without changing meaning. Output exactly ONE Korean translation: no slash A/B choices, dictionary-style parenthetical synonyms such as 정류장(터미널), labels, or notes. HOMEWORK: ວຽກບ້ານ/ການບ້ານ normally mean school homework/assignment here unless explicit household chores are described; explicit ວຽກເຮືອນ/ວຽກຄົວ or cleaning/cooking/laundry/dishwashing means 집안일/가사.`;
+const SMART_K2L_SELF_RULE=`If explicit 나/내/내가 needs an overt Lao self-reference, prefer ອ້າຍ for ordinary intimate husband-to-wife speech; use ຂ້ອຍ only if context/register requires.`;
+const SMART_K2L_HOME_RULE=`For 잘 들어가/조심히 들어가, mean get home/go inside safely, not generic travel.`;
+const SMART_L2K_ELDER_RULE=`If Lao names a parent/elder as third-person subject, keep natural Korean subject honorific -시- even in spouse-facing banmal.`;
 const LONG_MESSAGE_READABILITY_RULE=`For a long multi-clause message, keep one stable entity map across all clauses and never summarize, merge people, switch first/second/third person, or infer unstated kinship/gender.`;
-function buildFastForwardPromptK2L(source){return FAST_K2L_BASE;}
-function buildFastForwardPromptL2K(source){return FAST_L2K_BASE;}
+function buildFastForwardPromptK2L(source){const s=String(source||''),extra=[];if(/(?:^|[\s,.!?~"'“”‘’()])(?:나|나는|난|내가|내|나도|나를|나한테)(?=$|[\s,.!?~"'“”‘’()])/u.test(s))extra.push(SMART_K2L_SELF_RULE);if(/(?:잘|조심(?:히|해서)?)\s*들어가/u.test(s))extra.push(SMART_K2L_HOME_RULE);return extra.length?FAST_K2L_BASE+' '+extra.join(' '):FAST_K2L_BASE;}
+function buildFastForwardPromptL2K(source){const s=String(source||''),extra=[];if(/(?:ແມ່(?!ນ)|ພໍ່|ພໍ່ເຖົ້າ|ແມ່ເຖົ້າ|ປູ່|ຍ່າ)/u.test(s))extra.push(SMART_L2K_ELDER_RULE);return extra.length?FAST_L2K_BASE+' '+extra.join(' '):FAST_L2K_BASE;}
 function detectKoreanRegisterForBack(text){
   const s=String(text||'').trim();if(!s)return'UNKNOWN';
   const formal=/(?:습니다|습니까|입니다|아닙니다|합니다|됩니다|드립니다|십시오)(?:[.!?~…\s]|$)/u.test(s);
@@ -6315,7 +6323,7 @@ function telemetryCommitFailure({runId,direction,sourceText,error,stage,totalMs,
   const record={schemaVersion:2,installId:LIVE_INSTALL_ID,osFamily:LIVE_OS_FAMILY,clientEnv:LIVE_CLIENT_ENV,eventId:a.eventId,traceId:a.traceId,parentTraceId:a.parentTraceId||'',sessionId:LIVE_SESSION_ID,sourceType:'LIVE',direction,mode:INTEGRATED_MODE,appVersion:APP_VERSION,status:'FAILED',sourceText:String(sourceText||''),targetText:'',backText:'',clientCreatedAtMs:Date.now(),quality:{score:null,pass:false,reasons:['TRANSLATION_FAILED'],softReasons:[]},failure:{stage:String(stage||'translate').slice(0,80),error:message,httpStatus:status||null},runtime:{totalMs:Number(totalMs)||0,winningRequestMs:0,winner:'',hedged:false,rescued:false,tailRescued:false,directToServerFallback:rr.some(x=&gt;x?.directFallback===true),routeSummary:[...new Set(rr.map(x=&gt;x.route).filter(Boolean))].join(' → ').slice(0,120),requestCount:rr.length,semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:false,outputLocked:false,userRetry:a.userRetry===true,sessionId:LIVE_SESSION_ID,requestRecords:rr}};
   liveTelemetryLastTraceId=a.traceId;liveTelemetryAttempt=null;telemetryQueuePush(record);
 }
-function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liveTelemetryCurrent;if(!e)return;if(String(e.targetText||'').trim()!==String(targetText||'').trim())return;const t=String(backText||'').trim();if(t)e.backText=t;if(backUsage&amp;&amp;typeof backUsage==='object'){const u=backUsage;e.runtime.backUsage={prompt:Number.isFinite(Number(u.prompt))?Number(u.prompt):null,candidate:Number.isFinite(Number(u.candidate))?Number(u.candidate):null,thoughts:Number.isFinite(Number(u.thoughts))?Number(u.thoughts):null,total:Number.isFinite(Number(u.total))?Number(u.total):null,known:u.known===true||[u.prompt,u.candidate,u.thoughts,u.total].some(v=&gt;Number.isFinite(Number(v))),cloudRunMs:Number.isFinite(Number(u.cloudRunMs))?Math.max(0,Number(u.cloudRunMs)):0,cloudRunRequests:Number.isFinite(Number(u.cloudRunRequests))?Math.max(0,Math.round(Number(u.cloudRunRequests))):0}}telemetryScheduleFinalize(150)}
+function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liveTelemetryCurrent;if(!e)return;if(String(e.targetText||'').trim()!==String(targetText||'').trim())return;const t=String(backText||'').trim();if(t)e.backText=t;if(backUsage&amp;&amp;typeof backUsage==='object'){const u=backUsage;e.runtime.backUsage={prompt:Number.isFinite(Number(u.prompt))?Number(u.prompt):null,candidate:Number.isFinite(Number(u.candidate))?Number(u.candidate):null,thoughts:Number.isFinite(Number(u.thoughts))?Number(u.thoughts):null,total:Number.isFinite(Number(u.total))?Number(u.total):null,known:u.known===true||[u.prompt,u.candidate,u.thoughts,u.total].some(v=&gt;Number.isFinite(Number(v))),cloudRunMs:Number.isFinite(Number(u.cloudRunMs))?Math.max(0,Number(u.cloudRunMs)):0,cloudRunRequests:Number.isFinite(Number(u.cloudRunRequests))?Math.max(0,Math.round(Number(u.cloudRunRequests))):0,totalMs:Number.isFinite(Number(u.clientTotalMs))?Math.max(0,Math.round(Number(u.clientTotalMs))):null,status:String(u.clientStatus||'SUCCESS').slice(0,16),error:String(u.clientError||'').slice(0,160)}}telemetryScheduleFinalize(150)}
 function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voiceRecording||voiceProcessing||appCopyBusy)}
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
@@ -8025,18 +8033,20 @@ async function requestBackTranslation(autoTriggered=false){
   setBackResultState(true,false);
   updateBackQualityBadge(null,false);
   el.textContent='ກຳລັງກວດກັບເປັນພາສາລາວ...';
+  const backStartedAt=performance.now();
   try{
     const r=await runBackRaceWithRelationRecovery(korean,runId);
     if(runId!==backTranslationRunId)return;
     // V3.61.25: a non-empty completed back-translation is always shown. Quality never hides or rewrites it.
     el.textContent=r.text;
     setBackResultState(true,true);
-    telemetryAttachBackText(korean,r.text,r.usage);
+    telemetryAttachBackText(korean,r.text,{...(r.usage||{}),clientTotalMs:performance.now()-backStartedAt,clientStatus:'SUCCESS'});
     const backScore=backTranslationScoreL2K(lastRequestPayload,r.text,r.quality);
     const backIssues=buildConcreteIssuesL2K(lastRequestPayload,korean,r.text,{...r.quality,backReviewReasons:[...(reviewBackTranslationL2K(lastRequestPayload,r.text).reasons||[])]});
     updateBackQualityBadge(backScore,!Number.isFinite(Number(backScore)),backIssues);
     if(lastForwardTargetSnapshot===korean&amp;&amp;lastRequestPayload){const reviewedQuality=buildPostBackQualityL2K(lastForwardQualitySnapshot,lastRequestPayload,korean,r.text);updateQualityBadge(reviewedQuality,lastRequestPayload,korean);setTranslationOutputSafety(reviewedQuality,korean);deferStoreTranslation(lastRequestPayload,korean,reviewedQuality,{postBackReviewed:true,backText:r.text,direction:'L2K'});lastForwardQualitySnapshot=reviewedQuality;}
   }catch(e){
+    telemetryAttachBackText(korean,'',{clientTotalMs:performance.now()-backStartedAt,clientStatus:e?.name==='AbortError'?'ABORTED':'FAILED',clientError:String(e?.message||e||'')});
     if(runId!==backTranslationRunId)return;
     updateBackQualityBadge(null,true);
     if(lastForwardTargetSnapshot)updateQualityBadge(markBackReviewUnavailableL2K(lastForwardQualitySnapshot),lastRequestPayload,lastForwardTargetSnapshot);
@@ -8276,7 +8286,7 @@ window.__runPostTranslationSmokeL2K=__runPostTranslationSmokeL2K;
 
 
 
-// V3.61.111 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
+// V3.61.112 quickbar/auto-interpret: only STT-origin text can trigger automatic translation.
 const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_test_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
@@ -8388,7 +8398,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.111';
+const INTEGRATED_VERSION='V3.61.112';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -8409,7 +8419,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='13bee90df1d4db02b37e3715e5f5783a963016a65a6abb62028b4c2d56ee1d08';
+const EXTERNAL_DIAGNOSTIC_SHA256='13e73c6c2310f8d2269243cc49c3b1ea4696fd66eb4c9c5f8a710deceb4ca1d5';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9404,10 +9414,10 @@ function getUnifiedLivePromptSnapshot(){
   const h=getPayloadText('husband'),w=getPayloadText('wife');
   const extractTemplate=(src,name)=>{const token='const '+name+'=`',a=src.indexOf(token);if(a<0)return'';const b=src.indexOf('`;',a+token.length);return b>a?src.slice(a+token.length,b):''};
   const extractBack=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV36149');if(a<0)return'';const chunk=src.slice(a,a+9000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return'';const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):''};
-  return {version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,k2lForward:extractTemplate(h,'FAST_K2L_BASE'),l2kForward:extractTemplate(w,'FAST_L2K_BASE'),husbandBack:extractBack(h,'HUSBAND_BACK_PROMPT'),wifeBack:extractBack(w,'WIFE_BACK_PROMPT')};
+  return {version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,k2lForward:extractTemplate(h,'FAST_K2L_BASE'),l2kForward:extractTemplate(w,'FAST_L2K_BASE'),smartK2lSelf:extractTemplate(h,'SMART_K2L_SELF_RULE'),smartK2lHome:extractTemplate(h,'SMART_K2L_HOME_RULE'),smartL2kElder:extractTemplate(w,'SMART_L2K_ELDER_RULE'),husbandBack:extractBack(h,'HUSBAND_BACK_PROMPT'),wifeBack:extractBack(w,'WIFE_BACK_PROMPT')};
 }
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
-function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife');return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-2'};}
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife');return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-3'};}
 window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 async function getUnifiedRuntimeSafetyAudit(){
@@ -9417,8 +9427,8 @@ async function getUnifiedRuntimeSafetyAudit(){
     const hs=h.indexOf('function _criticalHardOutputCorruptionK2L'),hd=h.indexOf('function detectCriticalMeaningRiskK2L');
     const ws=w.indexOf('function _criticalHardOutputCorruptionL2K'),wd=w.indexOf('function detectCriticalMeaningRiskL2K');
     const hDetect=hd>=0?h.slice(hd,hd+2800):'',wDetect=wd>=0?w.slice(wd,wd+2800):'';
-    const ht0=h.indexOf('async function translateText()'),ht1=h.indexOf('function setBackTranslationButtonState',ht0);
-    const wt0=w.indexOf('async function translateText()'),wt1=w.indexOf('function setBackButton',wt0);
+    const ht0=h.indexOf('async function translateText('),ht1=h.indexOf('function setBackTranslationButtonState',ht0);
+    const wt0=w.indexOf('async function translateText('),wt1=w.indexOf('function setBackButton',wt0);
     const hTranslate=ht0>=0?h.slice(ht0,ht1>ht0?ht1:undefined):'',wTranslate=wt0>=0?w.slice(wt0,wt1>wt0?wt1:undefined):'';
     const hBackStart=h.indexOf('async function runBackTranslationWithLanguageRecovery'),hBackEnd=h.indexOf('async function requestBackTranslation',hBackStart);
     const wBackStart=w.indexOf('async function runBackRaceWithRelationRecovery'),wBackEnd=w.indexOf('function backErrorMessageLao',wBackStart);
@@ -9426,7 +9436,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('VERSION_SYNC',h.includes("const APP_VERSION='"+INTEGRATED_VERSION+"';")&&w.includes("const APP_VERSION='"+INTEGRATED_VERSION+"';")&&diag.includes("const DIAG_VERSION='"+INTEGRATED_VERSION+"';"));
     add('FAST_DIRECT_PROMPTS',h.includes('function buildFastForwardPromptK2L')&&w.includes('function buildFastForwardPromptL2K')&&h.includes('FAST_K2L_BASE')&&w.includes('FAST_L2K_BASE'));
     add('FIXED_SPOUSE_ROLE_PROMPTS',h.includes('HUSBAND')&&h.includes('WIFE')&&w.includes('WIFE')&&w.includes('HUSBAND'));
-    const sourcePolicyOk=src=>/Do not add, infer, omit, normalize, soften, intensify, or replace information/i.test(src)&&/speaker\/listener\/third-party roles/i.test(src)&&/who does what to whom/i.test(src)&&/negation, permission\/prohibition/i.test(src);add('SOURCE_FIDELITY_POLICY',sourcePolicyOk(h)&&sourcePolicyOk(w));
+    const sourcePolicyOk=src=>/Preserve exact meaning/i.test(src)&&/speaker\/listener\/third-party roles/i.test(src)&&/who does what to whom/i.test(src)&&/sentence force\/polarity/i.test(src)&&/Never invent event, venue, setting, reason, or fact/i.test(src);add('SOURCE_FIDELITY_POLICY',sourcePolicyOk(h)&&sourcePolicyOk(w));
     const _extractTemplateConst=(src,name)=>{const token='const '+name+'=`',a=src.indexOf(token);if(a<0)return null;const b=src.indexOf('`;',a+token.length);return b>a?src.slice(a+token.length,b):null};
     const _extractV3604Back=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV3604');if(a<0)return null;const chunk=src.slice(a,a+12000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return null;const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):null};
     const _extractV36149Back=(src,prop)=>{const a=src.indexOf('const SharedBackTranslationPolicyV36149');if(a<0)return null;const chunk=src.slice(a,a+9000),token=prop+':`',p=chunk.indexOf(token);if(p<0)return null;const q=chunk.indexOf('`',p+token.length);return q>p?chunk.slice(p+token.length,q):null};
@@ -9446,7 +9456,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     const hc=_extractCriticalCore(h),wc=_extractCriticalCore(w);
     add('LIVE_CRITICAL_CORE_EMBEDDED_PARITY',!!hc&&hc===wc);
     add('WIFE_VOICE_DIAG_UI_REMOVED_V36140',!h.includes('id="voiceStatusCheckBtn"')&&!w.includes('id="voiceStatusCheckBtn"')&&w.includes('function startVoiceStatusCheck')&&w.includes('function copyVoiceStatusCheckLog'));
-    add('FORWARD_SINGLE_REQUEST_NO_AUTO_RETRY',hTranslate.includes("createGeminiRequest(krText,runId,'정번역'")&&wTranslate.includes("createForwardRequest(source,ctx,'ຄຳແປຫຼັກ'")&&!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy(')&&!hTranslate.includes('영문오염 자동재번역')&&!wTranslate.includes('ແປໃໝ່ຕົວອັງກິດ'));
+    add('FORWARD_SINGLE_GENERATION_LIVE_POLICY',hTranslate.includes("createGeminiRequest(krText,runId,'정번역'")&&wTranslate.includes("createForwardRequest(source,ctx,'ຄຳແປຫຼັກ'")&&!hTranslate.includes('requestCriticalMeaningRepairK2L(')&&!wTranslate.includes('requestCriticalMeaningRepairL2K('));
     add('BACK_SINGLE_REQUEST_NO_AUTO_RECOVERY',hBack.includes("createBackTranslationRequest(laoText,myRunId,'역번역'")&&wBack.includes("createBackRequest(korean,runId,'ກວດຄວາມໝາຍ'")&&!hBack.includes('runBackTranslationRace(')&&!wBack.includes('runBackRace(')&&!hBack.includes('관계복구')&&!wBack.includes('ກູ້'));
     add('V36158_L2K_FORWARD_LOW',/buildFastForwardPromptL2K[\s\S]{0,900}thinkingLevel\s*:\s*['"]low['"]/.test(w));
     add('V36158_K2L_FORWARD_LOW',/buildFastForwardPromptK2L[\s\S]{0,900}thinkingLevel\s*:\s*['"]low['"]/.test(h));
@@ -9486,22 +9496,22 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('DETERMINISTIC_LAUGHTER_LOCALIZATION',h.includes('normalizeCoupleChatLaughter')&&w.includes('normalizeCoupleChatLaughter')&&h.includes("normalizeCoupleChatLaughter('K2L'")&&w.includes("normalizeCoupleChatLaughter('L2K'"));
     add('BACK_REGISTER_METADATA_ONLY',h.includes("detectKoreanRegisterForBack(lastRequestPayload||'')")&&w.includes('detectKoreanRegisterForBack(korean)')&&h.includes('This tag controls speech level only; never use it to reconstruct meaning')&&w.includes('This tag controls speech level only; never use it to reconstruct meaning'));
     add('BACK_ANOMALY_VISIBLE_NO_NORMALIZATION',h.includes('do not silently repair or reinterpret it as the obvious intended word')&&w.includes('do not silently repair or reinterpret it as the obvious intended word')&&h.includes('preserve the anomaly closely enough')&&w.includes('preserve the anomaly closely enough'));
-    add('FORWARD_NO_HEDGE_RESCUE',!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy(')&&hTranslate.includes('hedged:false,rescued:false,tailRescued:false')&&wTranslate.includes('hedged:false,rescued:false,tailRescued:false'));
-    add('TIME_ROLE_NOUN_PRESERVATION_COMPACT_V2',h.includes('who does what to whom')&&w.includes('who does what to whom')&&h.includes('numbers, times, names, brands, foods')&&w.includes('numbers, times, names, brands, foods'));
+    add('FORWARD_NO_BACKGROUND_REWRITE',!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy(')&&!hTranslate.includes('requestCriticalMeaningRepairK2L(')&&!wTranslate.includes('requestCriticalMeaningRepairL2K(')&&hTranslate.includes('hedged:false,rescued:false,tailRescued:false')&&wTranslate.includes('hedged:false,rescued:false,tailRescued:false'));
+    add('TIME_ROLE_NOUN_PRESERVATION_COMPACT_V2',h.includes('who does what to whom')&&w.includes('who does what to whom')&&h.includes('numbers, dates/times, names, places, brands, foods')&&w.includes('numbers, dates/times, names, places, brands, foods'));
     const observedStart=diag.indexOf('async function runPolicyObserved'),observedEnd=diag.indexOf('function historyGuardScoreFromQ',observedStart);const observedSrc=observedStart>=0?diag.slice(observedStart,observedEnd>observedStart?observedEnd:observedStart+1400):'';
     const backStart=diag.indexOf('async function cloudStrictBackTranslation'),backEnd=diag.indexOf('function cloudDirectionSummary',backStart);const backSrc=backStart>=0?diag.slice(backStart,backEnd>backStart?backEnd:backStart+2500):'';
     const abStart=diag.indexOf('async function primaryFirstAbLiveRequest'),abEnd=diag.indexOf('function primaryFirstAbRawRequest',abStart);const abSrc=abStart>=0?diag.slice(abStart,abEnd>abStart?abEnd:abStart+1800):'';
-    add('DIAG_CURRENT_FORWARD_PATH_EXACT',observedSrc.includes('diagRunForegroundLivePathDiagnostic')&&!observedSrc.includes('await runPolicy('));
-    add('DIAG_CURRENT_BACK_PATH_EXACT',backSrc.includes('diagRunForegroundLiveBackDiagnostic'));
+    add('DIAG_CURRENT_FORWARD_PATH_EXACT',diag.includes("m.runUnifiedLivePathDiagnostic(dir,source)")&&diag.includes("__generalDiagnosticForward(dir,source)"));
+    add('DIAG_CURRENT_BACK_PATH_EXACT',diag.includes("m.runUnifiedLiveBackDiagnostic(dir,target)")&&diag.includes("__generalDiagnosticBack(dir,target)"));
     add('DIAG_LIVE_TIMEOUT_QUEUE_RESET_V36163',typeof resetUnifiedDiagnosticLiveState==='function'&&stopUnifiedLivePathDiagnostic.toString().includes('_resetUnifiedDiagnosticLiveState')&&runUnifiedLiveBackDiagnostic.toString().includes('unifiedDiagnosticLiveGenerations')&&runUnifiedLivePathDiagnostic.toString().includes('unifiedDiagnosticLiveGenerations'));
-    add('DIAG_AB_B_PATH_EXACT',abSrc.includes('diagRunForegroundLivePathDiagnostic'));
+    add('DIAG_LEGACY_AB_REMOVED',!diag.includes('primaryFirstAbLiveRequest')&&!diag.includes('diagRunForegroundLivePathDiagnostic'));
     add('DIAG_CLONE_HISTORY_RECOVERY_BLOCKED',_ensureUnifiedDiagnosticLiveFrame.toString().includes('__UNIFIED_DIAGNOSTIC_CLONE__=true')&&h.includes('if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false')&&w.includes('if(window.__UNIFIED_DIAGNOSTIC_CLONE__)return false'));
     const parallelAudit=getUnifiedParallelPostTranslationAudit();add('PARALLEL_TTS_BACK_STATIC_PARITY',parallelAudit.ok===true&&parallelAudit.husband===true&&parallelAudit.wife===true&&parallelAudit.copyUsesPreparedBack===true);
 
     add('CRITICAL_CORE_K2L',hDetect.includes("SharedCriticalMeaningCoreV277.detect('K2L'")&&h.includes('SharedCriticalMeaningCoreV277'));
     add('CRITICAL_CORE_L2K',wDetect.includes("SharedCriticalMeaningCoreV277.detect('L2K'")&&w.includes('SharedCriticalMeaningCoreV277'));
-    add('SEMANTIC_AUTO_REWRITE_DISABLED_K2L',hTranslate.includes('const finalText = result.text')&&!hTranslate.includes('requestCriticalMeaningRepairK2L('));
-    add('SEMANTIC_AUTO_REWRITE_DISABLED_L2K',wTranslate.includes('const finalText=result.text')&&!wTranslate.includes('requestCriticalMeaningRepairL2K('));
+    add('SEMANTIC_REPAIR_NOT_IN_LIVE_DISPLAY_K2L',hTranslate.includes('const finalText = result.text')&&!hTranslate.includes('requestCriticalMeaningRepairK2L('));
+    add('SEMANTIC_REPAIR_NOT_IN_LIVE_DISPLAY_L2K',wTranslate.includes('const finalText=result.text')&&!wTranslate.includes('requestCriticalMeaningRepairL2K('));
     add('BACK_LOW_SCORE_RESULT_VISIBLE_K2L',h.includes('a non-empty completed back-translation is always shown')&&!h.includes("e.name='BackQualityError'")&&!h.includes('repairHusbandBackTranslation('));
     add('BACK_LOW_SCORE_RESULT_VISIBLE_L2K',w.includes('a non-empty completed back-translation is always shown')&&!w.includes("e.name='BackQualityError'")&&!w.includes('repairBackTranslation('));
     add('BACK_QUALITY_SCORE_UI_PARITY',h.includes('id="backQualityBadge"')&&w.includes('id="backQualityBadge"')&&h.includes('id="backQualityReasonBtn"')&&w.includes('id="backQualityReasonBtn"')&&h.includes('function backTranslationScoreK2L')&&w.includes('function backTranslationScoreL2K'));
@@ -9522,7 +9532,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('BACK_THIRD_PERSON_TARGET_PRESERVED',h.includes('third-person relationship targets exactly')&&w.includes('third-person relationship targets exactly'));
     add('BACK_REGISTER_SOURCE_RULE',h.includes("const registerTag=detectKoreanRegisterForBack(lastRequestPayload||'');")&&w.includes('const registerTag=detectKoreanRegisterForBack(korean);'));
     add('BACK_NO_HIDDEN_LANGUAGE_RECOVERY',!hBack.includes('언어복구')&&!hBack.includes('languageRetryCount:1')&&!wBack.includes('relationRecovery')&&!wBack.includes('technicalRecovery'));
-    add('NO_UNSUPPORTED_DETAIL_COMPACT_V2',h.includes('Do not add, infer, omit, normalize, soften, intensify, or replace information')&&w.includes('Do not add, infer, omit, normalize, soften, intensify, or replace information'));
+    add('NO_UNSUPPORTED_DETAIL_COMPACT_V2',h.includes('never add/omit/soften/intensify facts')&&w.includes('never add/omit/soften/intensify facts')&&h.includes('Never invent event, venue, setting, reason, or fact')&&w.includes('Never invent event, venue, setting, reason, or fact'));
     add('MISUNDERSTANDING_ROLE_LOCAL_CHECKS',h.includes('우리/저희→그들로 주체 변경')&&w.includes('우리→그들로 주체 변경')&&h.includes('부모/자녀 관계로 변경')&&w.includes('부모/자녀 관계로 변경')&&h.includes('원문의 동생이 역번역에서 다른 사람/관계 대상으로 바뀌었습니다.'));
     add('LAUGHTER_LOCALIZED_BEFORE_SCRIPT_GUARD',h.includes('deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.')&&w.includes('deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.')&&h.includes("normalizeCoupleChatLaughter('K2L'")&&w.includes("normalizeCoupleChatLaughter('L2K'"));
     add('DORM_VARIANT_REFERENCE_ONLY',h.includes('ຮໍພັກ')&&w.includes('ຮໍພັກ'));
