@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.112",
-  "build": "20260920-V3.61.112-SMART-PERF-1",
-  "notes": "TEST 최소영향 개선: 기존 프롬프트 충돌/중복을 유지한 채 문장행위·극성·없는정보 금지를 강화하고, 확실한 입력에서만 배우자 자기지칭/잘 들어가/부모·윗사람 높임 스마트 규칙을 조건부 추가. 실사용 호출 수/모델/thinking/STT/TTS/Relay 구조는 유지. 역번역 소요시간을 기존 번역 telemetry에 부가 기록하고 관리자 성능 로그에서 1차·역번역·STT·TTS를 분리 집계. 품질 비교는 forward/back/Judge/total 시간을 분리하고 동일버전 재현성을 표기. 자체점검 구형 오탐 기준 현행화."
+  "version": "V3.61.113",
+  "build": "20260920-V3.61.113-DIAG-FIX-1",
+  "notes": "TEST 진단 복구 최소패치. V3.61.112 스마트 번역 프롬프트/번역엔진/Relay/TTS 동작은 유지. 최근 품질 비교의 const 타이밍 런타임 오류를 실제 timing state로 수정하고, 저장된 과거 실사용 결과(A)와 현재 프롬프트 재번역(B)만 비교하도록 명시. 본앱 prompt SHA 추출을 encoded husband/wife payload 기반 canonical 방식으로 수정하고 빈 프롬프트 hash를 실패 처리. 자체점검에 품질 타이밍 smoke 및 source/runtime prompt fingerprint 일치 검사를 추가. STT는 기존 session total과 별도로 녹음 종료→최종 결과 postStopToResultMs만 기존 operation telemetry detail에 부가 기록. 추가 Gemini/STT/TTS 호출 없음."
 }
