@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.115",
-  "build": "20260920-V3.61.115-UI-MANUAL-SYNC-TEST-1",
-  "notes": "TEST UI/설명서 동기화 패치. 일반앱 서비스 승격 전 검증용. 본앱 설명서를 현재 자동 의미확인 및 ⚠️ 이상징후 경고 방식에 맞게 갱신하고, 남편/아내 결과 안내도 자동 역번역 동작과 일치시킴. 번역/역번역 프롬프트, Gemini 모델, STT/TTS, Relay/fallback, 저장/복사, QualityGuard 판정 로직은 변경하지 않음."
+  "version": "V3.61.116",
+  "build": "20260920-V3.61.116-RELEASE-NOTES-PREVIEW-TEST-1",
+  "notes": "TEST 업데이트 안내/업데이트 내역 미리보기. 새 버전 최초 1회 안내 팝업과 자세한 설명서의 업데이트 내역 화면을 추가. TEST 경로와 기존 번역/역번역 프롬프트, STT/TTS, Relay/fallback, 저장/복사, QualityGuard 판정 로직은 변경하지 않음."
 }
