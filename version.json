@@ -1,5 +1,5 @@
 {
-  "version": "V3.61.117",
-  "build": "20260920-V3.61.117-MANUAL-RELEASE-FINAL-TEST-1",
-  "notes": "TEST 최종 마감: 설명서 문구/스크린샷 버전 중립화, 본앱·일반앱 공용 최초 1회 업데이트 안내, 한국어/라오어 표시 및 상태보존 검증. 번역/역번역/STT/TTS/Relay/fallback/QualityGuard 코어는 변경하지 않음."
+  "version": "V3.61.118",
+  "build": "20260920-V3.61.118-RETRANSLATE-TEST-1",
+  "notes": "TEST 재번역 UI 복원: 본앱 남편/아내 의미확인 영역의 수동 역번역 검증 버튼을 제거하고 [복사하기 | 재번역] 순서로 교체. 재번역은 기존 검증된 retryLastTranslation 경로를 그대로 사용하여 같은 원문 정번역 후 자동 의미확인을 다시 실행. 설명서/업데이트 내역 동기화. 번역 프롬프트, STT/TTS, Relay/fallback, QualityGuard 코어는 변경하지 않음."
 }
