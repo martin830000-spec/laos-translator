@@ -1,5 +1,6 @@
 {
-  "version": "V3.61.118",
-  "build": "20260920-V3.61.118-RETRANSLATE-TEST-1",
-  "notes": "TEST 재번역 UI 복원: 본앱 남편/아내 의미확인 영역의 수동 역번역 검증 버튼을 제거하고 [복사하기 | 재번역] 순서로 교체. 재번역은 기존 검증된 retryLastTranslation 경로를 그대로 사용하여 같은 원문 정번역 후 자동 의미확인을 다시 실행. 설명서/업데이트 내역 동기화. 번역 프롬프트, STT/TTS, Relay/fallback, QualityGuard 코어는 변경하지 않음."
+  "version": "V3.61.122 TEST",
+  "build": "20260921-V3.61.122-TEST-MAIN-UI-TTS-1",
+  "buildId": "20260921-V3.61.122-TEST-MAIN-UI-TTS-1",
+  "notes": "TEST 전용 UI/TTS 패치. 본문 중복 번역/음성입력 버튼을 숨기고 하단 퀵바를 사용. 자동 음성 출력과 수동 TTS 듣기를 분리하며 자동통역은 STT→번역→TTS 흐름 유지. 번역/역번역 프롬프트·네트워크 코어는 SERVICE V3.61.121 기준 보존."
 }
