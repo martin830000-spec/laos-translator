@@ -1,6 +1,6 @@
 {
   "version": "V3.61.122 TEST",
-  "build": "20260921-V3.61.122-TEST-MAIN-KEYBOARD-UX4-TTS-ONETAP",
-  "buildId": "20260921-V3.61.122-TEST-MAIN-KEYBOARD-UX4-TTS-ONETAP",
-  "notes": "TEST TTS 상태관리 최소 패치. 본앱 남편/아내 수동 음성듣기 첫 탭 즉시 재생, 로딩 중 재탭 취소, 재생 중 재탭 중지. Keyboard UX3 전체지우기 및 SERVICE V3.61.121 번역/STT/프롬프트/네트워크 코어 보존."
+  "build": "20260921-V3.61.122-TEST-MAIN-UI-LANG-UX5",
+  "buildId": "20260921-V3.61.122-TEST-MAIN-UI-LANG-UX5",
+  "notes": "TEST UI 정리. 남편/아내 활성 모드의 상·하단 UI 언어를 각각 한국어/라오어 단일 언어로 통일하고, 상단 버튼 글자 폭 자동 맞춤을 추가. 기존 TTS One-Tap, Keyboard UX, 전체 지우기, 번역/STT/프롬프트/네트워크 코어 보존."
 }

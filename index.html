@@ -271,6 +271,19 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 <style id="manual-screenshot-version-neutral-v361117">
 .manual-topbar-shot{position:relative}.manual-topbar-shot::after{content:"";position:absolute;z-index:2;pointer-events:none;left:10px;top:10px;width:13%;height:13%;min-height:23px;max-height:35px;border-radius:10px;background:#eef1f4;border:1px solid #d8e0ea;box-sizing:border-box}
 </style>
+
+<style id="v361122-ui6-shell-language-fit">
+/* UX5: one-language shell in active husband/wife mode + measured text fit. */
+.shell-guide-label::after{content:none!important;display:none!important}
+.shell-guide-label,.home-btn .home-label,.mode-btn span{display:block!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;line-height:1.12!important}
+.home-btn .home-label{align-items:initial!important;text-align:center!important}
+.shell-guide-btn,.mode-btn,.home-btn,.shell-admin-gear{min-height:44px!important}
+.shell-guide-btn{min-width:42px;max-width:150px;display:flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;line-height:1!important}
+.shell-guide-icon{flex:0 0 auto;font-size:14px;line-height:1}
+.home-btn{flex-basis:74px!important;width:74px!important;min-width:56px!important}
+.mode-btn{overflow:hidden}
+@media(max-width:400px){.home-btn{flex-basis:64px!important;width:64px!important}.shell-guide-btn{max-width:118px}}
+</style>
 </head>
 <body class="unified-booting">
 <div id="unifiedBootGate" class="unified-boot-gate" role="status" aria-live="polite"><div class="unified-boot-card"><div class="unified-boot-spinner" aria-hidden="true"></div><div id="unifiedBootText" class="unified-boot-text">이전 화면과 설정을 복원하고 있어요…
@@ -417,13 +430,13 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 <div class="shell">
-  <div class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.122 TEST</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ">📖 <span class="shell-guide-label">자세한 설명서</span></button></div>
+  <div id="shellSwitchbar" class="switchbar" role="navigation" aria-label="번역기 모드 선택">
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.122 TEST</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
     <div class="mode-buttons">
-      <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')">🇰🇷 한국</button>
-      <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')">🇱🇦 ລາວ</button>
+      <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')"><span id="husbandModeLabel">🇰🇷 한국</span></button>
+      <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')"><span id="wifeModeLabel">🇱🇦 ລາວ</span></button>
     </div>
-    <div class="shell-right-tools"><button id="firstScreenBtn" class="home-btn" type="button" onclick="goToFirstScreen()" title="처음 화면 · ໜ້າທຳອິດ" aria-label="처음 화면 · ໜ້າທຳອິດ"><span class="home-icon">🏠</span><span class="home-label">처음<small>ໜ້າທຳອິດ</small></span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools('couple')" title="관리자 도구" aria-label="관리자 도구">⚙️</button></div>
+    <div class="shell-right-tools"><button id="firstScreenBtn" class="home-btn" type="button" onclick="goToFirstScreen()" title="처음 화면 · ໜ້າທຳອິດ" aria-label="처음 화면 · ໜ້າທຳອິດ"><span class="home-icon">🏠</span><span id="homeLabelText" class="home-label">처음 · ໜ້າທຳອິດ</span></button><button id="shellAdminGear" class="shell-admin-gear" type="button" onclick="requestUnifiedAdminTools('couple')" title="관리자 도구 · ເຄື່ອງມືຜູ້ດູແລ" aria-label="관리자 도구 · ເຄື່ອງມືຜູ້ດູແລ">⚙️</button></div>
   </div>
 
   <div class="stage">
@@ -445,7 +458,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="87f030509eb5821bd001881e03597d73697a6d4f408611ee282fb043a99b9819">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="40894855090cbe44ccbf579c2bcc31b133d664ed2ed64ebfccc82e215734d2b1">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -863,6 +876,14 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 .main-quick-btn.clear-all{background:#fff6f6;border-color:#efc9c9;color:#a61b1b}
 .main-quick-btn.clear-all .qlo{color:#a84b4b}
 .main-quick-btn.clear-all:active{background:#ffeded}
+&lt;/style&gt;
+
+&lt;style id="v361122-ui6-single-language-quickbar"&gt;
+/* UX5: husband quickbar uses Korean only. */
+.main-quick-btn{min-height:64px!important}
+.main-quick-btn .qko{font-size:clamp(12px,3.3vw,14px)!important;line-height:1.15!important}
+.main-quick-btn .qlo{display:none!important}
+.main-mode-tab{min-height:44px!important}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -5166,7 +5187,7 @@ const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
 function mainQuickStorageSet(k,v){try{safeStorageSet(k,v);return}catch(e){}try{localStorage.setItem(k,v)}catch(_){}}
-function updateMainAutoInterpretUi(){const b=document.getElementById('mainQuickAuto'),s=document.getElementById('mainQuickAutoState');if(b){b.classList.toggle('active',!!mainAutoInterpretEnabled);b.setAttribute('aria-pressed',String(!!mainAutoInterpretEnabled))}if(s)s.textContent=mainAutoInterpretEnabled?'ON':'OFF'}
+function updateMainAutoInterpretUi(){const b=document.getElementById('mainQuickAuto'),s=document.getElementById('mainQuickAutoState');if(b){b.classList.toggle('active',!!mainAutoInterpretEnabled);b.setAttribute('aria-pressed',String(!!mainAutoInterpretEnabled))}if(s)s.textContent=mainAutoInterpretEnabled?'켜짐':'꺼짐'}
 function setMainAutoInterpret(v){mainAutoInterpretEnabled=!!v;mainQuickStorageSet(MAIN_AUTO_INTERPRET_KEY,mainAutoInterpretEnabled?'1':'0');updateMainAutoInterpretUi()}
 function toggleMainAutoInterpret(){setMainAutoInterpret(!mainAutoInterpretEnabled)}
 function requestMainLanguageSwitch(){try{parent.postMessage({type:'integrated-switch-language',mode:INTEGRATED_MODE},'*')}catch(e){}}
@@ -5193,16 +5214,16 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 (function initMainQuickbar(){mainAutoInterpretEnabled=mainQuickStorageGet(MAIN_AUTO_INTERPRET_KEY)==='1';updateMainAutoInterpretUi()})();
 &lt;/script&gt;
 
-&lt;nav class="main-quickbar" id="mainQuickbar" aria-label="빠른 통역 기능 · ເມນູລ່າມແບບດ່ວນ"&gt;
+&lt;nav class="main-quickbar" id="mainQuickbar" aria-label="빠른 통역 기능"&gt;
   &lt;div class="main-mode-switch" role="tablist" aria-label="앱 전환"&gt;
     &lt;button class="main-mode-tab active" type="button" role="tab" aria-selected="true" aria-current="page" disabled&gt;💑 부부대화&lt;/button&gt;
     &lt;button class="main-mode-tab" type="button" role="tab" aria-selected="false" onclick="parent.postMessage({type:'integrated-open-general',mode:'husband'},'*')"&gt;🌏 일반 통역&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class="main-quickbar-inner"&gt;
-    &lt;button class="main-quick-btn" id="mainQuickAuto" type="button" aria-pressed="false" onclick="toggleMainAutoInterpret()"&gt;&lt;span class="qicon"&gt;⚡&lt;/span&gt;&lt;span class="qko"&gt;자동통역 &lt;span id="mainQuickAutoState"&gt;OFF&lt;/span&gt;&lt;/span&gt;&lt;span class="qlo"&gt;ແປອັດຕະໂນມັດ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn clear-all" id="mainQuickClearAll" type="button" onclick="clearAllCurrentView()" aria-label="전체 지우기"&gt;&lt;span class="qicon"&gt;↺&lt;/span&gt;&lt;span class="qko"&gt;전체 지우기&lt;/span&gt;&lt;span class="qlo"&gt;ລ້າງທັງໝົດ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn" id="mainQuickMic" type="button" onclick="toggleKoreanVoiceInput()"&gt;&lt;span class="qicon"&gt;🎙️&lt;/span&gt;&lt;span class="qko"&gt;음성입력&lt;/span&gt;&lt;span class="qlo"&gt;ຮັບສຽງ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn primary" id="mainQuickTranslate" type="button" onclick="handleTranslateAction()"&gt;&lt;span class="qicon"&gt;➤&lt;/span&gt;&lt;span class="qko"&gt;번역하기&lt;/span&gt;&lt;span class="qlo"&gt;ແປ&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn" id="mainQuickAuto" type="button" aria-pressed="false" onclick="toggleMainAutoInterpret()"&gt;&lt;span class="qicon"&gt;⚡&lt;/span&gt;&lt;span class="qko"&gt;자동통역 &lt;span id="mainQuickAutoState"&gt;꺼짐&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn clear-all" id="mainQuickClearAll" type="button" onclick="clearAllCurrentView()" aria-label="전체 지우기"&gt;&lt;span class="qicon"&gt;↺&lt;/span&gt;&lt;span class="qko"&gt;전체 지우기&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn" id="mainQuickMic" type="button" onclick="toggleKoreanVoiceInput()"&gt;&lt;span class="qicon"&gt;🎙️&lt;/span&gt;&lt;span class="qko"&gt;음성입력&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn primary" id="mainQuickTranslate" type="button" onclick="handleTranslateAction()"&gt;&lt;span class="qicon"&gt;➤&lt;/span&gt;&lt;span class="qko"&gt;번역하기&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
 &lt;/nav&gt;
 
@@ -5260,7 +5281,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="db65aa099a83be8092e4c9326422022ce32ad9cead1e27c03dfba1f0eb9535fe">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="42c0e0e0adea6eb92bfaae5285073a563a16aec8ce78783c0c1722f1f1df42ac">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5630,6 +5651,14 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 .main-quick-btn.clear-all{background:#fff6f6;border-color:#efc9c9;color:#a61b1b}
 .main-quick-btn.clear-all .qlo{color:#a84b4b}
 .main-quick-btn.clear-all:active{background:#ffeded}
+&lt;/style&gt;
+
+&lt;style id="v361122-ui6-single-language-quickbar"&gt;
+/* UX5: wife quickbar uses Lao only. */
+.main-quick-btn{min-height:64px!important}
+.main-quick-btn .qko{display:none!important}
+.main-quick-btn .qlo{font-size:clamp(11px,3vw,13.5px)!important;line-height:1.18!important;color:inherit!important}
+.main-mode-tab{min-height:44px!important}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -8438,7 +8467,7 @@ const MAIN_AUTO_INTERPRET_KEY='couple_main_auto_interpret_v1';
 let mainAutoInterpretEnabled=false;
 function mainQuickStorageGet(k){try{return safeStorageGet(k)}catch(e){try{return localStorage.getItem(k)}catch(_){return null}}}
 function mainQuickStorageSet(k,v){try{safeStorageSet(k,v);return}catch(e){}try{localStorage.setItem(k,v)}catch(_){}}
-function updateMainAutoInterpretUi(){const b=document.getElementById('mainQuickAuto'),s=document.getElementById('mainQuickAutoState');if(b){b.classList.toggle('active',!!mainAutoInterpretEnabled);b.setAttribute('aria-pressed',String(!!mainAutoInterpretEnabled))}if(s)s.textContent=mainAutoInterpretEnabled?'ON':'OFF'}
+function updateMainAutoInterpretUi(){const b=document.getElementById('mainQuickAuto'),s=document.getElementById('mainQuickAutoState');if(b){b.classList.toggle('active',!!mainAutoInterpretEnabled);b.setAttribute('aria-pressed',String(!!mainAutoInterpretEnabled))}if(s)s.textContent=mainAutoInterpretEnabled?'ເປີດ':'ປິດ'}
 function setMainAutoInterpret(v){mainAutoInterpretEnabled=!!v;mainQuickStorageSet(MAIN_AUTO_INTERPRET_KEY,mainAutoInterpretEnabled?'1':'0');updateMainAutoInterpretUi()}
 function toggleMainAutoInterpret(){setMainAutoInterpret(!mainAutoInterpretEnabled)}
 function requestMainLanguageSwitch(){try{parent.postMessage({type:'integrated-switch-language',mode:INTEGRATED_MODE},'*')}catch(e){}}
@@ -8465,16 +8494,16 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 (function initMainQuickbar(){mainAutoInterpretEnabled=mainQuickStorageGet(MAIN_AUTO_INTERPRET_KEY)==='1';updateMainAutoInterpretUi()})();
 &lt;/script&gt;
 
-&lt;nav class="main-quickbar" id="mainQuickbar" aria-label="빠른 통역 기능 · ເມນູລ່າມແບບດ່ວນ"&gt;
+&lt;nav class="main-quickbar" id="mainQuickbar" aria-label="ເມນູລ່າມແບບດ່ວນ"&gt;
   &lt;div class="main-mode-switch" role="tablist" aria-label="ສະຫຼັບແອັບ"&gt;
     &lt;button class="main-mode-tab active" type="button" role="tab" aria-selected="true" aria-current="page" disabled&gt;💑 ສົນທະນາຄູ່ສົມລົດ&lt;/button&gt;
     &lt;button class="main-mode-tab" type="button" role="tab" aria-selected="false" onclick="parent.postMessage({type:'integrated-open-general',mode:'wife'},'*')"&gt;🌏 ລ່າມທົ່ວໄປ&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class="main-quickbar-inner"&gt;
-    &lt;button class="main-quick-btn" id="mainQuickAuto" type="button" aria-pressed="false" onclick="toggleMainAutoInterpret()"&gt;&lt;span class="qicon"&gt;⚡&lt;/span&gt;&lt;span class="qko"&gt;자동통역 &lt;span id="mainQuickAutoState"&gt;OFF&lt;/span&gt;&lt;/span&gt;&lt;span class="qlo"&gt;ແປອັດຕະໂນມັດ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn clear-all" id="mainQuickClearAll" type="button" onclick="clearAllCurrentView()" aria-label="ລ້າງທັງໝົດ"&gt;&lt;span class="qicon"&gt;↺&lt;/span&gt;&lt;span class="qko"&gt;전체 지우기&lt;/span&gt;&lt;span class="qlo"&gt;ລ້າງທັງໝົດ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn" id="mainQuickMic" type="button" onclick="toggleLaoVoiceInput()"&gt;&lt;span class="qicon"&gt;🎙️&lt;/span&gt;&lt;span class="qko"&gt;음성입력&lt;/span&gt;&lt;span class="qlo"&gt;ຮັບສຽງ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn primary" id="mainQuickTranslate" type="button" onclick="handleTranslateAction()"&gt;&lt;span class="qicon"&gt;➤&lt;/span&gt;&lt;span class="qko"&gt;번역하기&lt;/span&gt;&lt;span class="qlo"&gt;ແປ&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn" id="mainQuickAuto" type="button" aria-pressed="false" onclick="toggleMainAutoInterpret()"&gt;&lt;span class="qicon"&gt;⚡&lt;/span&gt;&lt;span class="qlo"&gt;ແປອັດຕະໂນມັດ &lt;span id="mainQuickAutoState"&gt;ປິດ&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn clear-all" id="mainQuickClearAll" type="button" onclick="clearAllCurrentView()" aria-label="ລ້າງທັງໝົດ"&gt;&lt;span class="qicon"&gt;↺&lt;/span&gt;&lt;span class="qlo"&gt;ລ້າງທັງໝົດ&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn" id="mainQuickMic" type="button" onclick="toggleLaoVoiceInput()"&gt;&lt;span class="qicon"&gt;🎙️&lt;/span&gt;&lt;span class="qlo"&gt;ຮັບສຽງ&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn primary" id="mainQuickTranslate" type="button" onclick="handleTranslateAction()"&gt;&lt;span class="qicon"&gt;➤&lt;/span&gt;&lt;span class="qlo"&gt;ແປ&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
 &lt;/nav&gt;
 
@@ -9048,7 +9077,40 @@ const buttonByMode={husband:document.getElementById('husbandModeBtn'),wife:docum
 const modeLoadTimers={husband:null,wife:null};
 let currentMode=null;
 
-
+function shellText(id,text){const e=document.getElementById(id);if(e)e.textContent=text}
+function fitShellText(button,textEl,maxPx,minPx){
+  if(!button||!textEl||button.offsetWidth<=0)return;
+  const max=Number(maxPx)||13,min=Number(minPx)||8;
+  textEl.style.fontSize=max+'px';
+  let size=max,guard=30;
+  const icon=button.querySelector('.home-icon,.shell-guide-icon');
+  const iconW=icon?icon.getBoundingClientRect().width+5:0;
+  const cs=getComputedStyle(button),avail=Math.max(8,button.clientWidth-parseFloat(cs.paddingLeft||0)-parseFloat(cs.paddingRight||0)-iconW-3);
+  while(guard-->0&&size>min&&textEl.scrollWidth>avail){size=Math.max(min,size-.5);textEl.style.fontSize=size+'px'}
+}
+function fitShellTopbar(){
+  requestAnimationFrame(()=>{
+    fitShellText(document.getElementById('husbandModeBtn'),document.getElementById('husbandModeLabel'),13,9);
+    fitShellText(document.getElementById('wifeModeBtn'),document.getElementById('wifeModeLabel'),13,8.5);
+    fitShellText(document.querySelector('.shell-guide-btn'),document.getElementById('shellGuideLabel'),12.5,8);
+    fitShellText(document.getElementById('firstScreenBtn'),document.getElementById('homeLabelText'),11.5,8);
+  });
+}
+function applyShellLanguage(mode){
+  const guide=document.querySelector('.shell-guide-btn'),home=document.getElementById('firstScreenBtn'),admin=document.getElementById('shellAdminGear'),nav=document.getElementById('shellSwitchbar'),loading=document.getElementById('loadingMask');
+  if(mode==='wife'){
+    shellText('husbandModeLabel','🇰🇷 ເກົາຫຼີ'); shellText('wifeModeLabel','🇱🇦 ລາວ'); shellText('shellGuideLabel','ຄູ່ມືລະອຽດ'); shellText('homeLabelText','ໜ້າທຳອິດ');
+    guide?.setAttribute('title','ຄູ່ມືລະອຽດ'); guide?.setAttribute('aria-label','ຄູ່ມືລະອຽດ'); home?.setAttribute('title','ໜ້າທຳອິດ'); home?.setAttribute('aria-label','ໜ້າທຳອິດ'); admin?.setAttribute('title','ເຄື່ອງມືຜູ້ດູແລ'); admin?.setAttribute('aria-label','ເຄື່ອງມືຜູ້ດູແລ'); nav?.setAttribute('aria-label','ເລືອກໂໝດພາສາ'); if(loading)loading.textContent='ກຳລັງເປີດແອັບແປ...'; document.documentElement.lang='lo';
+  }else if(mode==='husband'){
+    shellText('husbandModeLabel','🇰🇷 한국'); shellText('wifeModeLabel','🇱🇦 라오스'); shellText('shellGuideLabel','자세한 설명서'); shellText('homeLabelText','처음');
+    guide?.setAttribute('title','자세한 설명서'); guide?.setAttribute('aria-label','자세한 설명서'); home?.setAttribute('title','처음 화면'); home?.setAttribute('aria-label','처음 화면'); admin?.setAttribute('title','관리자 도구'); admin?.setAttribute('aria-label','관리자 도구'); nav?.setAttribute('aria-label','번역기 모드 선택'); if(loading)loading.textContent='번역기를 여는 중...'; document.documentElement.lang='ko';
+  }else{
+    shellText('husbandModeLabel','🇰🇷 한국'); shellText('wifeModeLabel','🇱🇦 ລາວ'); shellText('shellGuideLabel','설명서 · ຄູ່ມື'); shellText('homeLabelText','처음 · ໜ້າທຳອິດ');
+    guide?.setAttribute('title','자세한 설명서 · ຄູ່ມືລະອຽດ'); guide?.setAttribute('aria-label','자세한 설명서 · ຄູ່ມືລະອຽດ'); home?.setAttribute('title','처음 화면 · ໜ້າທຳອິດ'); home?.setAttribute('aria-label','처음 화면 · ໜ້າທຳອິດ'); admin?.setAttribute('title','관리자 도구 · ເຄື່ອງມືຜູ້ດູແລ'); admin?.setAttribute('aria-label','관리자 도구 · ເຄື່ອງມືຜູ້ດູແລ'); nav?.setAttribute('aria-label','번역기 모드 선택 · ເລືອກໂໝດພາສາ'); if(loading)loading.textContent='번역기를 여는 중... · ກຳລັງເປີດແອັບແປ...'; document.documentElement.lang='ko';
+  }
+  fitShellTopbar();
+}
+try{new ResizeObserver(fitShellTopbar).observe(document.getElementById('shellSwitchbar'))}catch(_){window.addEventListener('resize',fitShellTopbar)}
 
 function ensureModeLoaded(mode){
   const frame=frameByMode[mode];if(!frame)throw new Error('UNKNOWN_MODE');
@@ -9078,7 +9140,7 @@ function updateModeButtons(mode){
 function selectMode(mode){
   if(!frameByMode[mode])return;refreshSharedCredentials();if(!sharedKeys.gemini){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return;}
   if(currentMode&&currentMode!==mode)suspendMode(currentMode);
-  ensureModeLoaded(mode);document.getElementById('selector').classList.add('hidden');Object.entries(frameByMode).forEach(([key,frame])=>frame.classList.toggle('active',key===mode));currentMode=mode;updateModeButtons(mode);writeUnifiedPersistentUiState();
+  ensureModeLoaded(mode);document.getElementById('selector').classList.add('hidden');Object.entries(frameByMode).forEach(([key,frame])=>frame.classList.toggle('active',key===mode));currentMode=mode;updateModeButtons(mode);applyShellLanguage(mode);writeUnifiedPersistentUiState();
 }
 
 
@@ -9087,6 +9149,7 @@ function goToFirstScreen(){
   Object.values(frameByMode).forEach(frame=>frame.classList.remove('active'));
   currentMode=null;
   updateModeButtons(null);
+  applyShellLanguage(null);
   const loading=document.getElementById('loadingMask');if(loading)loading.classList.remove('show');
   const selector=document.getElementById('selector');if(selector)selector.classList.remove('hidden');
   const auth=document.getElementById('authScreen');if(auth)auth.classList.remove('hidden');
@@ -9916,6 +9979,7 @@ window.getUnifiedShellHealth=getUnifiedShellHealth;
 cleanupLegacyCredentialResidue().then(s=>{if(!s?.ok)console.warn('[V3.60 CREDENTIAL CLEANUP] incomplete',s)});
 initializeSafeAutoUpdate();
 initializeUnifiedLogin();
+applyShellLanguage(currentMode);
 syncVisibleViewport();
 </script>
 
