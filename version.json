@@ -1,6 +1,6 @@
 {
   "version": "V3.61.122 TEST",
-  "build": "20260921-V3.61.122-TEST-MAIN-KEYBOARD-UX3-CLEARALL",
-  "buildId": "20260921-V3.61.122-TEST-MAIN-KEYBOARD-UX3-CLEARALL",
-  "notes": "TEST UI 패치. 하단 텍스트입력 버튼을 전체 지우기로 교체. 한 번에 현재 입력/1차 번역/역번역/현재 상태/키보드를 초기화하며 최근번역·즐겨찾기·자동통역·자동음성 등 저장 설정은 보존. Keyboard UX-2 및 SERVICE V3.61.121 코어 보존."
+  "build": "20260921-V3.61.122-TEST-MAIN-KEYBOARD-UX4-TTS-ONETAP",
+  "buildId": "20260921-V3.61.122-TEST-MAIN-KEYBOARD-UX4-TTS-ONETAP",
+  "notes": "TEST TTS 상태관리 최소 패치. 본앱 남편/아내 수동 음성듣기 첫 탭 즉시 재생, 로딩 중 재탭 취소, 재생 중 재탭 중지. Keyboard UX3 전체지우기 및 SERVICE V3.61.121 번역/STT/프롬프트/네트워크 코어 보존."
 }

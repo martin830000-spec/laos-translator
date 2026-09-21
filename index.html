@@ -445,7 +445,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="6513a495f13283272e2cea1e39c7102f333855e1de292466eab938dfd78e3e41">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="87f030509eb5821bd001881e03597d73697a6d4f408611ee282fb043a99b9819">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -859,7 +859,7 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 &lt;/style&gt;
 
 &lt;style id="v361122-clearall-ui"&gt;
-/* V3.61.122 TEST: current-screen full reset. Persistent settings/history are intentionally preserved. */
+/* V3.61.122 TEST UX4: TTS one-tap state fix + current-screen reset. Persistent settings/history are intentionally preserved. */
 .main-quick-btn.clear-all{background:#fff6f6;border-color:#efc9c9;color:#a61b1b}
 .main-quick-btn.clear-all .qlo{color:#a84b4b}
 .main-quick-btn.clear-all:active{background:#ffeded}
@@ -1776,10 +1776,20 @@ window.addEventListener('message',function(ev){
     };
 
     function unlockSafariAudio() {
-        if (!currentAudioObj) {
-            currentAudioObj = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');
-        }
-        currentAudioObj.play().then(() =&gt; { currentAudioObj.pause(); }).catch(() =&gt; {});
+        // Keep the user-gesture unlock probe separate from the real TTS player.
+        // Reusing currentAudioObj here makes toggleSpeech() mistake the silent probe for active speech.
+        try {
+            if (!window.__ttsUnlockAudioObj) {
+                window.__ttsUnlockAudioObj = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');
+                window.__ttsUnlockAudioObj.preload = 'auto';
+            }
+            const a = window.__ttsUnlockAudioObj;
+            try { a.currentTime = 0; } catch (_) {}
+            const p = a.play();
+            if (p &amp;&amp; typeof p.then === 'function') {
+                p.then(() =&gt; { try { a.pause(); a.currentTime = 0; } catch (_) {} }).catch(() =&gt; {});
+            }
+        } catch (_) {}
     }
 
     function checkAccessKey() {
@@ -4806,9 +4816,13 @@ function sanitizeTextForTts(text){
 
     function toggleSpeech() {
         if (!currentTtsKey) { updateSpeechButtonAvailability(); return; }
+        // A second tap while loading cancels the pending TTS request.
+        if (ttsAbortController) { stopLao(); return; }
+        // A second tap while audio is playing stops playback.
+        if (currentAudioObj &amp;&amp; !currentAudioObj.paused &amp;&amp; !currentAudioObj.ended) { stopLao(); return; }
+        // First tap must start TTS immediately; the Safari unlock probe uses a separate Audio object.
         unlockSafariAudio();
-        if (currentAudioObj &amp;&amp; !currentAudioObj.paused) stopLao();
-        else speakLao();
+        void speakLao();
     }
 
 
@@ -5246,7 +5260,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="e7e09c633d04e55778067b4c994d39c58c97166c437f56e641938c3fd4798776">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="db65aa099a83be8092e4c9326422022ce32ad9cead1e27c03dfba1f0eb9535fe">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5612,7 +5626,7 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 &lt;/style&gt;
 
 &lt;style id="v361122-clearall-ui"&gt;
-/* V3.61.122 TEST: current-screen full reset. Persistent settings/history are intentionally preserved. */
+/* V3.61.122 TEST UX4: TTS one-tap state fix + current-screen reset. Persistent settings/history are intentionally preserved. */
 .main-quick-btn.clear-all{background:#fff6f6;border-color:#efc9c9;color:#a61b1b}
 .main-quick-btn.clear-all .qlo{color:#a84b4b}
 .main-quick-btn.clear-all:active{background:#ffeded}
@@ -6564,7 +6578,7 @@ function hasSpeakableKoreanResult(){const el=document.getElementById('koResult')
 function updateSpeechButtonAvailability(){const b=document.getElementById('speakBtn');if(!b)return;if(!hasSpeakableKoreanResult()){b.style.display='none';b.disabled=true;return}b.style.display='block';if(!currentTtsKey){b.disabled=true;b.setAttribute('aria-disabled','true');b.textContent='🔇 ຕ້ອງເຊື່ອມຕໍ່ສຽງ';b.style.background='#9aa0a6';b.style.cursor='not-allowed';b.style.opacity='0.72';return}b.disabled=false;b.setAttribute('aria-disabled','false');b.style.cursor='pointer';b.style.opacity='1';if(!(currentAudioObj&amp;&amp;!currentAudioObj.paused)){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}}
 function applyTtsKeyAvailability(){if(currentTtsKey){const b=document.getElementById('soundToggleBtn');if(b){b.classList.toggle('off',!isAutoSoundOn);b.textContent=isAutoSoundOn?'🔊 ສຽງອັດຕະໂນມັດ: ເປີດ':'🔇 ສຽງ: ປິດ'}updateSpeechButtonAvailability();return}isAutoSoundOn=false;const b=document.getElementById('soundToggleBtn');if(b){b.classList.add('off');b.textContent='🔇 ສຽງອັດຕະໂນມັດ: ປິດ'}stopKorean();updateSpeechButtonAvailability();}
 function toggleSoundMode(){const next=!isAutoSoundOn;const b=document.getElementById('soundToggleBtn');if(next&amp;&amp;!currentTtsKey){isAutoSoundOn=false;b.classList.add('off');b.textContent='🔇 ສຽງອັດຕະໂນມັດ: ປິດ';stopKorean();updateSpeechButtonAvailability();alert('⚠️ ການເຊື່ອມຕໍ່ສຽງຍັງບໍ່ພ້ອມ. ກະລຸນາລອງໃໝ່ພາຍຫຼັງ.');return}isAutoSoundOn=next;safeStorageSet(AUTO_SOUND_STORAGE_KEY,isAutoSoundOn?'1':'0');b.classList.toggle('off',!isAutoSoundOn);b.textContent=isAutoSoundOn?'🔊 ສຽງອັດຕະໂນມັດ: ເປີດ':'🔇 ສຽງ: ປິດ';if(!isAutoSoundOn)stopKorean();updateSpeechButtonAvailability();}
-function unlockSafariAudio(){if(!currentAudioObj)currentAudioObj=new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');currentAudioObj.play().then(()=&gt;currentAudioObj.pause()).catch(()=&gt;{});}
+function unlockSafariAudio(){try{if(!window.__ttsUnlockAudioObj){window.__ttsUnlockAudioObj=new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');window.__ttsUnlockAudioObj.preload='auto'}const a=window.__ttsUnlockAudioObj;try{a.currentTime=0}catch(_){}const p=a.play();if(p&amp;&amp;typeof p.then==='function')p.then(()=&gt;{try{a.pause();a.currentTime=0}catch(_){}}).catch(()=&gt;{})}catch(_){}}
 
 function returnToTranslationResultTop(){
   try{
@@ -8212,7 +8226,7 @@ function sanitizeTextForTts(text){
 
 async function speakKorean(){if(!currentTtsKey){updateSpeechButtonAvailability();return}const rawText=document.getElementById('koResult').innerText.trim();if(!rawText||!/[\uAC00-\uD7A3]/.test(rawText))return;const text=sanitizeTextForTts(rawText);if(!text)return;stopKorean();const run=++ttsRunId,c=new AbortController(),started=performance.now();ttsAbortController=c;let didTimeout=false,res=null,blob=null;const timer=setTimeout(()=&gt;{didTimeout=true;try{c.abort()}catch(e){}},TTS_TIMEOUT_MS),b=document.getElementById('speakBtn');b.textContent='⏳ ກຳລັງໂຫຼດສຽງ...';b.style.background='#f29900';try{const ssml=`&lt;speak version='1.0' xml:lang='ko-KR'&gt;&lt;voice xml:lang='ko-KR' name='${KOREAN_VOICE}'&gt;${escapeXml(text)}&lt;/voice&gt;&lt;/speak&gt;`;res=await fetchSecondaryDirect(`https://${AZURE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`,{method:'POST',headers:{'Content-Type':'application/ssml+xml; charset=utf-8','X-Microsoft-OutputFormat':'audio-24khz-48kbitrate-mono-mp3'},body:ssml,signal:c.signal},{action:'tts'});if(!res.ok){const e=new Error(`TTS_HTTP_${res.status}`);e.status=res.status;e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}blob=await res.blob();if(!blob.size)throw new Error('EMPTY_AUDIO');if(run!==ttsRunId)return;if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);currentAudioUrl=URL.createObjectURL(blob);if(!currentAudioObj)currentAudioObj=new Audio();currentAudioObj.src=currentAudioUrl;b.textContent='⏹️ ຢຸດສຽງ';b.style.background='#d93025';currentAudioObj.onended=()=&gt;{if(run===ttsRunId){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}};await currentAudioObj.play();telemetryLogOperation('TTS','SUCCESS',{route:telemetryResponseRoute(res),via:String(res?.__clientRoute||''),region:String(res?.__relayRegion||''),fallback:res?.__relayFailover===true,totalMs:performance.now()-started,providerMs:Number(res?.headers?.get?.('X-Provider-Ms')),attempts:1},{audioBytes:blob.size,playback:'started',textChars:text.length,languageCode:'ko-KR'})}catch(e){if(run!==ttsRunId)return;if(e?.name!=='AbortError'||didTimeout)console.warn('[KOREAN TTS]',e);telemetryLogOperation('TTS','FAILED',{route:res?telemetryResponseRoute(res):'',via:String(res?.__clientRoute||''),region:String(res?.__relayRegion||integratedRelayState.lastRegion||''),fallback:res?.__relayFailover===true||integratedRelayState.lastFailover===true,totalMs:performance.now()-started,providerMs:Number(res?.headers?.get?.('X-Provider-Ms')),attempts:1,error:telemetrySafeErrorText(e)},{httpStatus:Number(res?.status)||0,didTimeout,textChars:text.length,languageCode:'ko-KR'});b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}finally{clearTimeout(timer);if(ttsAbortController===c)ttsAbortController=null;telemetryScheduleFinalize(120)}}
 function stopKorean(){ttsRunId++;if(ttsAbortController){try{ttsAbortController.abort()}catch(e){}ttsAbortController=null}if(currentAudioObj){try{currentAudioObj.pause();currentAudioObj.currentTime=0;currentAudioObj.src=''}catch(e){}}const b=document.getElementById('speakBtn');if(b){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}}
-function toggleSpeech(){if(!currentTtsKey){updateSpeechButtonAvailability();return}unlockSafariAudio();if(currentAudioObj&amp;&amp;!currentAudioObj.paused)stopKorean();else speakKorean();}
+function toggleSpeech(){if(!currentTtsKey){updateSpeechButtonAvailability();return}if(ttsAbortController){stopKorean();return}if(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended){stopKorean();return}unlockSafariAudio();void speakKorean();}
 
 
 &lt;/script&gt;
