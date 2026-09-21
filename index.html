@@ -445,7 +445,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="4a9a82ac13acd44630b553c4568c97e054fa8b376095dbb087c385894158b530">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="6513a495f13283272e2cea1e39c7102f333855e1de292466eab938dfd78e3e41">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -856,6 +856,13 @@ body.mobile-keyboard-open .main-mode-switch,body.mobile-keyboard-open .main-quic
 body.mobile-keyboard-open .main-keyboard-translate{display:block}
 body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 @media(max-width:600px){.input-actions&gt;button,.input-actions #clearInputBtn,.input-actions .btn-clear{min-height:44px!important}}
+&lt;/style&gt;
+
+&lt;style id="v361122-clearall-ui"&gt;
+/* V3.61.122 TEST: current-screen full reset. Persistent settings/history are intentionally preserved. */
+.main-quick-btn.clear-all{background:#fff6f6;border-color:#efc9c9;color:#a61b1b}
+.main-quick-btn.clear-all .qlo{color:#a84b4b}
+.main-quick-btn.clear-all:active{background:#ffeded}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -5150,6 +5157,24 @@ function setMainAutoInterpret(v){mainAutoInterpretEnabled=!!v;mainQuickStorageSe
 function toggleMainAutoInterpret(){setMainAutoInterpret(!mainAutoInterpretEnabled)}
 function requestMainLanguageSwitch(){try{parent.postMessage({type:'integrated-switch-language',mode:INTEGRATED_MODE},'*')}catch(e){}}
 function focusMainTextInput(){try{voiceCancel(true)}catch(e){}const c=document.getElementById('inputComposer'),i=document.getElementById('krInput');if(c)c.classList.add('ui-editing');if(i){try{i.focus({preventScroll:true})}catch(e){try{i.focus()}catch(_){}}try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}}
+function clearAllCurrentView(){
+  try{voiceCancel(true)}catch(e){}
+  try{if(isTranslating)stopTranslation(true)}catch(e){}
+  try{cancelBackTranslation(false)}catch(e){}
+  try{stopLao()}catch(e){}
+  const input=document.getElementById('krInput');
+  if(input){input.value='';try{input.blur()}catch(e){}}
+  appInputDirty=false;isJustTranslated=false;lastRequestPayload='';loadedHistoryRecall=null;
+  try{clearVoiceScore()}catch(e){}
+  try{clearResultBox()}catch(e){}
+  try{updateInputCharCount()}catch(e){}
+  const label=document.getElementById('laoLabel');if(label)label.textContent='🇱🇦 라오어 번역 결과:';
+  const composer=document.getElementById('inputComposer');if(composer)composer.classList.remove('ui-editing');
+  document.body.classList.remove('ui-result-focus','mobile-keyboard-open');
+  try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}
+  try{window.__keyboardTranslateUi?.sync?.()}catch(e){}
+}
+
 function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnabled)return;const expected=String(text||'').trim();if(!expected)return;setTimeout(()=&gt;{if(!mainAutoInterpretEnabled||session!==voiceSessionId||voiceRecording||voiceProcessing||isTranslating)return;const input=document.getElementById('krInput');if(!input||String(input.value||'').trim()!==expected)return;try{if(currentTtsKey)unlockSafariAudio()}catch(e){}void translateText({forceTts:true,autoInterpret:true})},0)}
 (function initMainQuickbar(){mainAutoInterpretEnabled=mainQuickStorageGet(MAIN_AUTO_INTERPRET_KEY)==='1';updateMainAutoInterpretUi()})();
 &lt;/script&gt;
@@ -5161,7 +5186,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
   &lt;/div&gt;
   &lt;div class="main-quickbar-inner"&gt;
     &lt;button class="main-quick-btn" id="mainQuickAuto" type="button" aria-pressed="false" onclick="toggleMainAutoInterpret()"&gt;&lt;span class="qicon"&gt;⚡&lt;/span&gt;&lt;span class="qko"&gt;자동통역 &lt;span id="mainQuickAutoState"&gt;OFF&lt;/span&gt;&lt;/span&gt;&lt;span class="qlo"&gt;ແປອັດຕະໂນມັດ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn" id="mainQuickText" type="button" onclick="focusMainTextInput()"&gt;&lt;span class="qicon"&gt;⌨️&lt;/span&gt;&lt;span class="qko"&gt;텍스트입력&lt;/span&gt;&lt;span class="qlo"&gt;ພິມຂໍ້ຄວາມ&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn clear-all" id="mainQuickClearAll" type="button" onclick="clearAllCurrentView()" aria-label="전체 지우기"&gt;&lt;span class="qicon"&gt;↺&lt;/span&gt;&lt;span class="qko"&gt;전체 지우기&lt;/span&gt;&lt;span class="qlo"&gt;ລ້າງທັງໝົດ&lt;/span&gt;&lt;/button&gt;
     &lt;button class="main-quick-btn" id="mainQuickMic" type="button" onclick="toggleKoreanVoiceInput()"&gt;&lt;span class="qicon"&gt;🎙️&lt;/span&gt;&lt;span class="qko"&gt;음성입력&lt;/span&gt;&lt;span class="qlo"&gt;ຮັບສຽງ&lt;/span&gt;&lt;/button&gt;
     &lt;button class="main-quick-btn primary" id="mainQuickTranslate" type="button" onclick="handleTranslateAction()"&gt;&lt;span class="qicon"&gt;➤&lt;/span&gt;&lt;span class="qko"&gt;번역하기&lt;/span&gt;&lt;span class="qlo"&gt;ແປ&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
@@ -5221,7 +5246,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f312abfa6c1259e51f5876b1064fb260df6995df7c729dcd8a1ed2a124416893">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="e7e09c633d04e55778067b4c994d39c58c97166c437f56e641938c3fd4798776">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5584,6 +5609,13 @@ body.mobile-keyboard-open .main-mode-switch,body.mobile-keyboard-open .main-quic
 body.mobile-keyboard-open .main-keyboard-translate{display:block}
 body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 @media(max-width:600px){.input-actions&gt;button,.input-actions #clearInputBtn,.input-actions .btn-clear{min-height:44px!important}}
+&lt;/style&gt;
+
+&lt;style id="v361122-clearall-ui"&gt;
+/* V3.61.122 TEST: current-screen full reset. Persistent settings/history are intentionally preserved. */
+.main-quick-btn.clear-all{background:#fff6f6;border-color:#efc9c9;color:#a61b1b}
+.main-quick-btn.clear-all .qlo{color:#a84b4b}
+.main-quick-btn.clear-all:active{background:#ffeded}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -8397,6 +8429,24 @@ function setMainAutoInterpret(v){mainAutoInterpretEnabled=!!v;mainQuickStorageSe
 function toggleMainAutoInterpret(){setMainAutoInterpret(!mainAutoInterpretEnabled)}
 function requestMainLanguageSwitch(){try{parent.postMessage({type:'integrated-switch-language',mode:INTEGRATED_MODE},'*')}catch(e){}}
 function focusMainTextInput(){try{voiceCancel(true)}catch(e){}const c=document.getElementById('inputComposer'),i=document.getElementById('loInput');if(c)c.classList.add('ui-editing');if(i){try{i.focus({preventScroll:true})}catch(e){try{i.focus()}catch(_){}}try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}}
+function clearAllCurrentView(){
+  try{voiceCancel(true)}catch(e){}
+  try{if(isTranslating)stopTranslation(true)}catch(e){}
+  try{cancelBackTranslation(false)}catch(e){}
+  try{stopKorean()}catch(e){}
+  const input=document.getElementById('loInput');
+  if(input){input.value='';try{input.blur()}catch(e){}}
+  appInputDirty=false;isJustTranslated=false;lastRequestPayload='';loadedHistoryRecall=null;
+  try{clearVoiceScore()}catch(e){}
+  try{clearResultBox()}catch(e){}
+  try{updateInputCharCount()}catch(e){}
+  const label=document.getElementById('koLabel');if(label)label.textContent='🇰🇷 ຜົນແປ:';
+  const composer=document.getElementById('inputComposer');if(composer)composer.classList.remove('ui-editing');
+  document.body.classList.remove('ui-result-focus','mobile-keyboard-open');
+  try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}
+  try{window.__keyboardTranslateUi?.sync?.()}catch(e){}
+}
+
 function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnabled)return;const expected=String(text||'').trim();if(!expected)return;setTimeout(()=&gt;{if(!mainAutoInterpretEnabled||session!==voiceSessionId||voiceRecording||voiceProcessing||isTranslating)return;const input=document.getElementById('loInput');if(!input||String(input.value||'').trim()!==expected)return;try{if(currentTtsKey)unlockSafariAudio()}catch(e){}void translateText({forceTts:true,autoInterpret:true})},0)}
 (function initMainQuickbar(){mainAutoInterpretEnabled=mainQuickStorageGet(MAIN_AUTO_INTERPRET_KEY)==='1';updateMainAutoInterpretUi()})();
 &lt;/script&gt;
@@ -8408,7 +8458,7 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
   &lt;/div&gt;
   &lt;div class="main-quickbar-inner"&gt;
     &lt;button class="main-quick-btn" id="mainQuickAuto" type="button" aria-pressed="false" onclick="toggleMainAutoInterpret()"&gt;&lt;span class="qicon"&gt;⚡&lt;/span&gt;&lt;span class="qko"&gt;자동통역 &lt;span id="mainQuickAutoState"&gt;OFF&lt;/span&gt;&lt;/span&gt;&lt;span class="qlo"&gt;ແປອັດຕະໂນມັດ&lt;/span&gt;&lt;/button&gt;
-    &lt;button class="main-quick-btn" id="mainQuickText" type="button" onclick="focusMainTextInput()"&gt;&lt;span class="qicon"&gt;⌨️&lt;/span&gt;&lt;span class="qko"&gt;텍스트입력&lt;/span&gt;&lt;span class="qlo"&gt;ພິມຂໍ້ຄວາມ&lt;/span&gt;&lt;/button&gt;
+    &lt;button class="main-quick-btn clear-all" id="mainQuickClearAll" type="button" onclick="clearAllCurrentView()" aria-label="ລ້າງທັງໝົດ"&gt;&lt;span class="qicon"&gt;↺&lt;/span&gt;&lt;span class="qko"&gt;전체 지우기&lt;/span&gt;&lt;span class="qlo"&gt;ລ້າງທັງໝົດ&lt;/span&gt;&lt;/button&gt;
     &lt;button class="main-quick-btn" id="mainQuickMic" type="button" onclick="toggleLaoVoiceInput()"&gt;&lt;span class="qicon"&gt;🎙️&lt;/span&gt;&lt;span class="qko"&gt;음성입력&lt;/span&gt;&lt;span class="qlo"&gt;ຮັບສຽງ&lt;/span&gt;&lt;/button&gt;
     &lt;button class="main-quick-btn primary" id="mainQuickTranslate" type="button" onclick="handleTranslateAction()"&gt;&lt;span class="qicon"&gt;➤&lt;/span&gt;&lt;span class="qko"&gt;번역하기&lt;/span&gt;&lt;span class="qlo"&gt;ແປ&lt;/span&gt;&lt;/button&gt;
   &lt;/div&gt;
