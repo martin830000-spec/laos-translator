@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.122 TEST",
-  "build": "20260921-V3.61.122-TEST-MAIN-UI-LANG-UX5",
-  "buildId": "20260921-V3.61.122-TEST-MAIN-UI-LANG-UX5",
-  "notes": "TEST UI 정리. 남편/아내 활성 모드의 상·하단 UI 언어를 각각 한국어/라오어 단일 언어로 통일하고, 상단 버튼 글자 폭 자동 맞춤을 추가. 기존 TTS One-Tap, Keyboard UX, 전체 지우기, 번역/STT/프롬프트/네트워크 코어 보존."
+  "version": "V3.61.123 TEST",
+  "build": "20260921-V3.61.123-TEST-MAIN-RESUME-PROMPT-UX7",
+  "buildId": "20260921-V3.61.123-TEST-MAIN-RESUME-PROMPT-UX7",
+  "notes": "TEST UX7. 본앱↔일반앱/iframe 복귀 시 자동통역 저장 상태를 초기로드·pageshow·visibility·integrated-resume에서 재동기화. FAST 정번역에 추측·공감·확인질문 등 문장기능 보존 규칙을 최소 보강. 기존 UI/TTS/STT/키보드/전체지우기/네트워크/역번역 코어 보존."
 }
