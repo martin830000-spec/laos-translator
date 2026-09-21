@@ -445,7 +445,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="c9b609686a1e5855e838dbb8baea4042623babf0193db3d66197c4e04d559bb9">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="4a9a82ac13acd44630b553c4568c97e054fa8b376095dbb087c385894158b530">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -843,6 +843,19 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
 &lt;style id="v361122-test-ui-patch"&gt;
 /* V3.61.122 TEST: bottom quickbar owns translate/mic; keep hidden DOM for legacy state wiring. */
 #translateBtn,#voiceInputBtn{display:none!important}
+&lt;/style&gt;
+
+&lt;style id="v361122-keyboard-translate-ui"&gt;
+/* V3.61.122 TEST keyboard UX: Samsung/Galaxy-friendly single translate bar while editing. */
+.main-keyboard-translate{display:none;width:min(760px,100%);margin:0 auto}
+.main-keyboard-translate-btn{width:100%;min-height:54px;border:0;border-radius:13px;background:#1a73e8;color:#fff;font-size:16px;font-weight:950;line-height:1.2;padding:11px 14px;box-shadow:0 5px 14px rgba(26,115,232,.22);touch-action:manipulation;cursor:pointer}
+.main-keyboard-translate-btn:active{transform:translateY(1px);background:#1769d2}
+body.mobile-keyboard-open{--main-quickbar-h:76px}
+body.mobile-keyboard-open .main-quickbar{padding-top:7px}
+body.mobile-keyboard-open .main-mode-switch,body.mobile-keyboard-open .main-quickbar-inner{display:none!important}
+body.mobile-keyboard-open .main-keyboard-translate{display:block}
+body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
+@media(max-width:600px){.input-actions&gt;button,.input-actions #clearInputBtn,.input-actions .btn-clear{min-height:44px!important}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -2685,6 +2698,8 @@ function handleTranslateAction() {
         if (isTranslating) {
             stopTranslation();
         } else {
+            const input=document.getElementById('krInput');
+            if(input&amp;&amp;!String(input.value||'').trim()){focusMainTextInput();return;}
             returnToTranslationResultTop();
             translateText();
         }
@@ -4208,7 +4223,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
             return;
         }
         if (!krText.trim()) {
-            alert("⚠️ 텍스트를 입력해주세요!");
+            focusMainTextInput();
             return;
         }
 
@@ -5178,9 +5193,35 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 })();
 &lt;/script&gt;
 
+
+&lt;script id="v361122-keyboard-translate-script"&gt;
+(function installKeyboardTranslateUi(){
+  if(window.__keyboardTranslateUiInstalled)return;window.__keyboardTranslateUiInstalled=true;
+  const input=document.getElementById('krInput'),bar=document.getElementById('mainQuickbar');
+  if(!input||!bar)return;
+  const panel=document.createElement('div');panel.className='main-keyboard-translate';panel.innerHTML='&lt;button id="mainKeyboardTranslateBtn" class="main-keyboard-translate-btn" type="button" aria-label="번역하기"&gt;➤ 번역하기&lt;/button&gt;';
+  bar.appendChild(panel);
+  const btn=panel.querySelector('#mainKeyboardTranslateBtn');
+  let baseline=Math.max(0,window.innerHeight||0,window.visualViewport?.height||0),parentBaseline=0,parentVisible=0,lastPointer=0;
+  const focused=()=&gt;document.activeElement===input;
+  const visibleHeight=()=&gt;{const own=Number(window.visualViewport?.height)||Number(window.innerHeight)||0;return parentVisible&gt;0?Math.min(own||parentVisible,parentVisible):own};
+  function updateBaseline(){if(focused())return;const own=Math.max(Number(window.innerHeight)||0,Number(window.visualViewport?.height)||0);if(own&gt;baseline)baseline=own;if(parentVisible&gt;parentBaseline)parentBaseline=parentVisible}
+  function keyboardOpen(){if(!focused())return false;const cur=visibleHeight(),base=Math.max(parentBaseline||0,baseline||0);if(!cur||!base)return false;return (base-cur)&gt;=Math.max(110,Math.round(base*.16))}
+  function sync(){updateBaseline();document.body.classList.toggle('mobile-keyboard-open',keyboardOpen())}
+  function refocus(){try{input.focus({preventScroll:true})}catch(_){try{input.focus()}catch(__){}}try{input.setSelectionRange(input.value.length,input.value.length)}catch(_){}}
+  function commit(){const source=String(input.value||'').trim();if(!source){refocus();setTimeout(sync,40);return}document.body.classList.remove('mobile-keyboard-open');try{input.blur()}catch(_){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(_){}setTimeout(()=&gt;{try{handleTranslateAction()}catch(e){console.error('[KEYBOARD TRANSLATE]',e)}},55)}
+  btn.addEventListener('pointerdown',e=&gt;{lastPointer=Date.now();e.preventDefault();commit()});
+  btn.addEventListener('click',e=&gt;{e.preventDefault();if(Date.now()-lastPointer&lt;500)return;commit()});
+  input.addEventListener('focus',()=&gt;{if(!parentBaseline&amp;&amp;parentVisible)parentBaseline=parentVisible;setTimeout(sync,70);setTimeout(sync,260);setTimeout(sync,520)});
+  input.addEventListener('blur',()=&gt;setTimeout(sync,260));
+  window.visualViewport?.addEventListener('resize',sync,{passive:true});window.visualViewport?.addEventListener('scroll',sync,{passive:true});window.addEventListener('resize',sync,{passive:true});
+  window.addEventListener('message',ev=&gt;{const d=ev?.data;if(!d||d.type!=='integrated-viewport')return;const h=Number(d.height)||0;if(h&gt;0){parentVisible=h;if(!parentBaseline)parentBaseline=focused()?Math.max(baseline||0,h):h;else if(!focused()&amp;&amp;h&gt;parentBaseline)parentBaseline=h}sync()});
+  window.__keyboardTranslateUi={sync,commit,isOpen:()=&gt;document.body.classList.contains('mobile-keyboard-open')};sync();
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="01c222ae43c8aef633ece403775c541b74d92ec036d88410ca02fb8cf3e097fd">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f312abfa6c1259e51f5876b1064fb260df6995df7c729dcd8a1ed2a124416893">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5530,6 +5571,19 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
 &lt;style id="v361122-test-ui-patch"&gt;
 /* V3.61.122 TEST: bottom quickbar owns translate/mic; keep hidden DOM for legacy state wiring. */
 #translateBtn,#voiceInputBtn{display:none!important}
+&lt;/style&gt;
+
+&lt;style id="v361122-keyboard-translate-ui"&gt;
+/* V3.61.122 TEST keyboard UX: Samsung/Galaxy-friendly single translate bar while editing. */
+.main-keyboard-translate{display:none;width:min(760px,100%);margin:0 auto}
+.main-keyboard-translate-btn{width:100%;min-height:54px;border:0;border-radius:13px;background:#1a73e8;color:#fff;font-size:16px;font-weight:950;line-height:1.2;padding:11px 14px;box-shadow:0 5px 14px rgba(26,115,232,.22);touch-action:manipulation;cursor:pointer}
+.main-keyboard-translate-btn:active{transform:translateY(1px);background:#1769d2}
+body.mobile-keyboard-open{--main-quickbar-h:76px}
+body.mobile-keyboard-open .main-quickbar{padding-top:7px}
+body.mobile-keyboard-open .main-mode-switch,body.mobile-keyboard-open .main-quickbar-inner{display:none!important}
+body.mobile-keyboard-open .main-keyboard-translate{display:block}
+body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
+@media(max-width:600px){.input-actions&gt;button,.input-actions #clearInputBtn,.input-actions .btn-clear{min-height:44px!important}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -7063,7 +7117,7 @@ window.addEventListener('load',initConvenienceUI);
 let inputFocusAnchorSeq=0;
 function scheduleInputFocusAnchor(inputId='loInput',composerId='inputComposer'){if(!window.matchMedia||!window.matchMedia('(max-width: 600px)').matches)return;const input=document.getElementById(inputId),composer=document.getElementById(composerId);if(!input||!composer)return;const seq=++inputFocusAnchorSeq;const align=()=&gt;{if(seq!==inputFocusAnchorSeq||document.activeElement!==input)return;const vv=window.visualViewport,visibleTop=vv&amp;&amp;Number.isFinite(vv.offsetTop)?vv.offsetTop:0,desiredTop=visibleTop+8,rect=composer.getBoundingClientRect(),delta=rect.top-desiredTop;if(Math.abs(delta)&gt;=12){try{window.scrollBy({top:delta,left:0,behavior:'auto'})}catch(e){window.scrollBy(0,delta)}}};setTimeout(align,280);setTimeout(align,560)}
 
-function handleTranslateAction(){if(isAutoSoundOn&amp;&amp;currentTtsKey)unlockSafariAudio();if(isTranslating)stopTranslation(false);else{returnToTranslationResultTop();translateText();}}
+function handleTranslateAction(){if(isAutoSoundOn&amp;&amp;currentTtsKey)unlockSafariAudio();if(isTranslating)stopTranslation(false);else{const input=document.getElementById('loInput');if(input&amp;&amp;!String(input.value||'').trim()){focusMainTextInput();return}returnToTranslationResultTop();translateText();}}
 function sleep(ms){return new Promise(r=&gt;setTimeout(r,ms));}
 function makeAbortError(msg='Aborted'){try{return new DOMException(msg,'AbortError')}catch(e){const x=new Error(msg);x.name='AbortError';return x}}
 function abortSet(set,except=null){for(const c of [...set]){if(c===except)continue;try{c.abort()}catch(e){}}}
@@ -7951,7 +8005,7 @@ function errorMessageLao(error,records){if(error?.name==='CriticalSafetyError')r
 async function translateText(options={}){const forceTts=options?.forceTts===true;
   translationOutputLocked=false;translationOutputLockReason='';
   updateQualityBadge(null);
-  const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){alert('⚠️ ກະລຸນາພິມຂໍ້ຄວາມພາສາລາວ.');return}
+  const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){focusMainTextInput();return}
   cancelBackTranslation(false);stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);document.getElementById('speakBtn').style.display='none';setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
   try{const singleHandle=createForwardRequest(source,ctx,'ຄຳແປຫຼັກ',GEMINI_TIMEOUT_MS,forwardMaxOutputTokensForSource(source));const singleOutcome=await singleHandle.outcome;if(!ctx.isActive())return;if(!singleOutcome.ok)throw singleOutcome.error;let result={...singleOutcome.result,hedged:false,rescued:false,tailRescued:false,winner:'ຄຳແປຫຼັກ'};const minorAutoRepaired=false,latinResidueAutoRetried=false,brokenCharAutoRetried=false;// V3.61.85 final policy: one forward generation is displayed immediately; QualityGuard only flags possible anomalies.
   const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;clearInputDirtyIfUnchanged(source,'loInput');deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,latinResidueAutoRetried,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn||forceTts)void speakKorean();void requestBackTranslation(true);}
@@ -8386,6 +8440,32 @@ function queueMainAutoInterpretFromVoice(text,session){if(!mainAutoInterpretEnab
 })();
 &lt;/script&gt;
 
+
+&lt;script id="v361122-keyboard-translate-script"&gt;
+(function installKeyboardTranslateUi(){
+  if(window.__keyboardTranslateUiInstalled)return;window.__keyboardTranslateUiInstalled=true;
+  const input=document.getElementById('loInput'),bar=document.getElementById('mainQuickbar');
+  if(!input||!bar)return;
+  const panel=document.createElement('div');panel.className='main-keyboard-translate';panel.innerHTML='&lt;button id="mainKeyboardTranslateBtn" class="main-keyboard-translate-btn" type="button" aria-label="ແປ"&gt;➤ ແປ&lt;/button&gt;';
+  bar.appendChild(panel);
+  const btn=panel.querySelector('#mainKeyboardTranslateBtn');
+  let baseline=Math.max(0,window.innerHeight||0,window.visualViewport?.height||0),parentBaseline=0,parentVisible=0,lastPointer=0;
+  const focused=()=&gt;document.activeElement===input;
+  const visibleHeight=()=&gt;{const own=Number(window.visualViewport?.height)||Number(window.innerHeight)||0;return parentVisible&gt;0?Math.min(own||parentVisible,parentVisible):own};
+  function updateBaseline(){if(focused())return;const own=Math.max(Number(window.innerHeight)||0,Number(window.visualViewport?.height)||0);if(own&gt;baseline)baseline=own;if(parentVisible&gt;parentBaseline)parentBaseline=parentVisible}
+  function keyboardOpen(){if(!focused())return false;const cur=visibleHeight(),base=Math.max(parentBaseline||0,baseline||0);if(!cur||!base)return false;return (base-cur)&gt;=Math.max(110,Math.round(base*.16))}
+  function sync(){updateBaseline();document.body.classList.toggle('mobile-keyboard-open',keyboardOpen())}
+  function refocus(){try{input.focus({preventScroll:true})}catch(_){try{input.focus()}catch(__){}}try{input.setSelectionRange(input.value.length,input.value.length)}catch(_){}}
+  function commit(){const source=String(input.value||'').trim();if(!source){refocus();setTimeout(sync,40);return}document.body.classList.remove('mobile-keyboard-open');try{input.blur()}catch(_){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(_){}setTimeout(()=&gt;{try{handleTranslateAction()}catch(e){console.error('[KEYBOARD TRANSLATE]',e)}},55)}
+  btn.addEventListener('pointerdown',e=&gt;{lastPointer=Date.now();e.preventDefault();commit()});
+  btn.addEventListener('click',e=&gt;{e.preventDefault();if(Date.now()-lastPointer&lt;500)return;commit()});
+  input.addEventListener('focus',()=&gt;{if(!parentBaseline&amp;&amp;parentVisible)parentBaseline=parentVisible;setTimeout(sync,70);setTimeout(sync,260);setTimeout(sync,520)});
+  input.addEventListener('blur',()=&gt;setTimeout(sync,260));
+  window.visualViewport?.addEventListener('resize',sync,{passive:true});window.visualViewport?.addEventListener('scroll',sync,{passive:true});window.addEventListener('resize',sync,{passive:true});
+  window.addEventListener('message',ev=&gt;{const d=ev?.data;if(!d||d.type!=='integrated-viewport')return;const h=Number(d.height)||0;if(h&gt;0){parentVisible=h;if(!parentBaseline)parentBaseline=focused()?Math.max(baseline||0,h):h;else if(!focused()&amp;&amp;h&gt;parentBaseline)parentBaseline=h}sync()});
+  window.__keyboardTranslateUi={sync,commit,isOpen:()=&gt;document.body.classList.contains('mobile-keyboard-open')};sync();
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </textarea>
