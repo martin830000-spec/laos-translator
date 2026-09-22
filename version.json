@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.136",
-  "build": "20260922-V3.61.136-TEST-MAIN-UI-COMPACT-M3",
-  "buildId": "20260922-V3.61.136-TEST-MAIN-UI-COMPACT-M3",
-  "notes": "TEST launcher based on SERVICE V3.61.133 translation core. Main input title and clear button share one row; visible input capacity count hidden. General route remains /korean-lao-general-test/. SERVICE untouched."
+  "version": "V3.61.137",
+  "build": "20260922-V3.61.137-TEST-MAIN-UI-POLISH-M4",
+  "buildId": "20260922-V3.61.137-TEST-MAIN-UI-POLISH-M4",
+  "notes": "TEST launcher based on V3.61.136. UI-only: couple-app bottom quickbar matches general-app sizing. General route adds stable mode-switch scroll, main-sized topbar, and removes technical footer copy. SERVICE untouched; Cloud Run 3.7.17 unchanged."
 }

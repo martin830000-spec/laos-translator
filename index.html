@@ -377,7 +377,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.136</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.137</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -397,8 +397,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.136</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.136</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.137</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.137</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -436,7 +436,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div id="shellSwitchbar" class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.136</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.137</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')"><span id="husbandModeLabel">🇰🇷 한국</span></button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')"><span id="wifeModeLabel">🇱🇦 ລາວ</span></button>
@@ -463,7 +463,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="a3af0f4b8707bf4e87143ae5a4d11b4f22dc06574a85255db9ef454ce60a072e">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="84a5687c5cbd06a4a2c6823ab417a27b2897adc3f2032faeac113a5a00bfc7b9">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -911,12 +911,27 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 &lt;/style&gt;
 
 &lt;style id="v361136-input-compact"&gt;
-/* V3.61.136 TEST UI-only: input title and clear action share one row; visible capacity counter removed. */
+/* V3.61.137 TEST UI-only: input title and clear action share one row; visible capacity counter removed. */
 #inputComposer .input-top-group{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin-bottom:6px!important;min-width:0!important}
 #inputComposer .input-top-group&gt;.label{min-width:0!important;flex:1 1 auto!important;margin:0!important;line-height:1.3!important}
 #inputComposer .input-top-group&gt;.btn-clear{width:auto!important;min-width:84px!important;max-width:122px!important;min-height:34px!important;padding:5px 9px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;white-space:normal!important}
 #inputCharCount{display:none!important}
 @media(max-width:360px){#inputComposer .input-top-group&gt;.btn-clear{min-width:78px!important;max-width:108px!important;font-size:11px!important;padding-left:7px!important;padding-right:7px!important}}
+&lt;/style&gt;
+
+&lt;style id="v361137-main-bottombar-match-general"&gt;
+/* V3.61.137 TEST UI-only: couple-app bottom bar matches general-app bottom bar dimensions. */
+:root{--main-quickbar-h:132px!important}
+.main-quickbar{padding:6px max(8px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important}
+.main-mode-switch{margin:0 auto 6px!important;gap:6px!important}
+.main-mode-tab{min-height:44px!important;padding:7px 9px!important;font-size:12px!important;border-radius:11px!important}
+.main-quickbar-inner{gap:4px!important}
+.main-quick-btn{min-height:52px!important;padding:6px 2px!important;border-radius:12px!important}
+.main-quick-btn .qicon{font-size:20px!important;line-height:1!important;margin-bottom:3px!important}
+.main-quick-btn .qko{font-size:12px!important;line-height:1.12!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:keep-all!important}
+.main-quick-btn .qlo{display:none!important}
+@media(max-width:430px){.main-quick-btn{font-size:10.5px!important}.main-quick-btn .qicon{font-size:19px!important}.main-quick-btn .qko{font-size:10.5px!important}}@media(max-width:350px){.main-quick-btn{font-size:10px!important;padding-left:1px!important;padding-right:1px!important}.main-quick-btn .qicon{font-size:18px!important}.main-quick-btn .qko{font-size:10px!important}}
+@media(max-width:360px){:root{--main-quickbar-h:136px!important}.main-mode-switch{gap:4px!important;margin-bottom:5px!important}.main-mode-tab{min-height:44px!important;padding:6px 5px!important;font-size:11px!important}.main-quickbar{padding-left:8px!important;padding-right:8px!important}.main-quickbar-inner{gap:4px!important}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -1099,7 +1114,7 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.136';
+const APP_VERSION='V3.61.137';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination; never add/omit/soften/intensify facts. Preserve sentence force/polarity and epistemic/interpersonal force: statement, realization, inference/assumption, empathy, confirmation question, ordinary question, suggestion, request, and command must not flip; positive/negative/rhetorical direction must not flip. In particular, Korean speculative/empathic endings such as ~겠다/~겠네/~나 보다/~것 같아 must not be converted into a yes/no confirmation question unless the source itself is asking one. Never invent event, venue, setting, reason, or fact. Keep an implicit subject across linked clauses unless the source introduces a new actor. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -5389,7 +5404,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="606ba9be9cd3d7dd51c0ab8cf1b5714ee14fef708e670af8936784ce6b863359">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="83c7c8fa17b602f45bd783aba2e9fc5179493a10addd7206e33f3d79fc935fa3">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5789,12 +5804,27 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 &lt;/style&gt;
 
 &lt;style id="v361136-input-compact"&gt;
-/* V3.61.136 TEST UI-only: input title and clear action share one row; visible capacity counter removed. */
+/* V3.61.137 TEST UI-only: input title and clear action share one row; visible capacity counter removed. */
 #inputComposer .input-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin-bottom:6px!important;min-width:0!important;flex-wrap:nowrap!important}
 #inputComposer .input-head&gt;.section-title{min-width:0!important;flex:1 1 auto!important;margin:0!important;line-height:1.3!important}
 #inputComposer .input-head&gt;#clearInputBtn{width:auto!important;min-width:92px!important;max-width:138px!important;min-height:34px!important;padding:5px 9px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 auto!important;white-space:normal!important}
 #inputCharCount{display:none!important}
 @media(max-width:360px){#inputComposer .input-head&gt;#clearInputBtn{min-width:88px!important;max-width:126px!important;font-size:11px!important;padding-left:7px!important;padding-right:7px!important}}
+&lt;/style&gt;
+
+&lt;style id="v361137-main-bottombar-match-general"&gt;
+/* V3.61.137 TEST UI-only: couple-app bottom bar matches general-app bottom bar dimensions. */
+:root{--main-quickbar-h:132px!important}
+.main-quickbar{padding:6px max(8px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))!important}
+.main-mode-switch{margin:0 auto 6px!important;gap:6px!important}
+.main-mode-tab{min-height:44px!important;padding:7px 9px!important;font-size:12px!important;border-radius:11px!important}
+.main-quickbar-inner{gap:4px!important}
+.main-quick-btn{min-height:52px!important;padding:6px 2px!important;border-radius:12px!important}
+.main-quick-btn .qicon{font-size:20px!important;line-height:1!important;margin-bottom:3px!important}
+.main-quick-btn .qko{font-size:12px!important;line-height:1.12!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:keep-all!important}
+.main-quick-btn .qlo{display:none!important}
+@media(max-width:430px){.main-quick-btn{font-size:10.5px!important}.main-quick-btn .qicon{font-size:19px!important}.main-quick-btn .qko{font-size:10.5px!important}}@media(max-width:350px){.main-quick-btn{font-size:10px!important;padding-left:1px!important;padding-right:1px!important}.main-quick-btn .qicon{font-size:18px!important}.main-quick-btn .qko{font-size:10px!important}}
+@media(max-width:360px){:root{--main-quickbar-h:136px!important}.main-mode-switch{gap:4px!important;margin-bottom:5px!important}.main-mode-tab{min-height:44px!important;padding:6px 5px!important;font-size:11px!important}.main-quickbar{padding-left:8px!important;padding-right:8px!important}.main-quickbar-inner{gap:4px!important}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -5965,7 +5995,7 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.136';
+const APP_VERSION='V3.61.137';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination; never add/omit/soften/intensify facts. Preserve sentence force/polarity and epistemic/interpersonal force: statement, realization, inference/assumption, empathy, confirmation question, ordinary question, suggestion, request, and command must not flip; positive/negative/rhetorical direction must not flip. In particular, Korean speculative/empathic endings such as ~겠다/~겠네/~나 보다/~것 같아 must not be converted into a yes/no confirmation question unless the source itself is asking one. Never invent event, venue, setting, reason, or fact. Keep an implicit subject across linked clauses unless the source introduces a new actor. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -8831,7 +8861,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.136';
+const INTEGRATED_VERSION='V3.61.137';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
