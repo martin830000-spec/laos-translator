@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.133",
-  "build": "20260922-V3.61.133-TEST-MAIN-MULTILANG-LAUNCHER-M1",
-  "buildId": "20260922-V3.61.133-TEST-MAIN-MULTILANG-LAUNCHER-M1",
-  "notes": "TEST launcher based on SERVICE V3.61.133. Only general-app route points to /korean-lao-general-test/. Embedded husband/wife translation core unchanged."
+  "version": "V3.61.136",
+  "build": "20260922-V3.61.136-TEST-MAIN-UI-COMPACT-M3",
+  "buildId": "20260922-V3.61.136-TEST-MAIN-UI-COMPACT-M3",
+  "notes": "TEST launcher based on SERVICE V3.61.133 translation core. Main input title and clear button share one row; visible input capacity count hidden. General route remains /korean-lao-general-test/. SERVICE untouched."
 }
