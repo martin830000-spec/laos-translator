@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.141 TEST",
-  "build": "20260922-V3.61.141-TEST-UI-STABILITY-M2",
-  "buildId": "20260922-V3.61.141-TEST-UI-STABILITY-M2",
-  "notes": "Main app behavior retained; version-only sync to V3.61.141 TEST. General app stability/UI patch only. Cloud Run 3.7.17 unchanged."
+  "version": "V3.61.142 TEST",
+  "build": "20260922-V3.61.142-TEST-BACKTIME-M1",
+  "buildId": "20260922-V3.61.142-TEST-BACKTIME-M1",
+  "notes": "V3.61.142 TEST: main app meaning-check/back-translation elapsed time is shown beside the meaning-check heading in both husband and wife views. General app build metadata synchronization fix included. Translation/STT/TTS/Relay core unchanged; Cloud Run 3.7.17 unchanged."
 }
