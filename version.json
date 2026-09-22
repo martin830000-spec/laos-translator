@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.140 TEST",
-  "build": "20260922-V3.61.140-TEST-RESULT-COMPACT-M1",
-  "buildId": "20260922-V3.61.140-TEST-RESULT-COMPACT-M1",
-  "notes": "V3.61.139 main app behavior retained; version-only sync to V3.61.140 TEST package. General app result-card UI compacted. Translation/back-translation/STT/TTS/Relay/fallback unchanged; Cloud Run 3.7.17 unchanged."
+  "version": "V3.61.141 TEST",
+  "build": "20260922-V3.61.141-TEST-UI-STABILITY-M2",
+  "buildId": "20260922-V3.61.141-TEST-UI-STABILITY-M2",
+  "notes": "Main app behavior retained; version-only sync to V3.61.141 TEST. General app stability/UI patch only. Cloud Run 3.7.17 unchanged."
 }
