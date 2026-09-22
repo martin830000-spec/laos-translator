@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.137",
-  "build": "20260922-V3.61.137-TEST-MAIN-UI-POLISH-M4",
-  "buildId": "20260922-V3.61.137-TEST-MAIN-UI-POLISH-M4",
-  "notes": "TEST launcher based on V3.61.136. UI-only: couple-app bottom quickbar matches general-app sizing. General route adds stable mode-switch scroll, main-sized topbar, and removes technical footer copy. SERVICE untouched; Cloud Run 3.7.17 unchanged."
+  "version": "V3.61.139 TEST",
+  "build": "20260922-V3.61.139-TEST-UI-POLISH-FINAL",
+  "buildId": "20260922-V3.61.139-TEST-UI-POLISH-FINAL",
+  "notes": "V3.61.138 GENERAL REBUILD R1 baseline + V3.61.139 UI polish only. Translation/back-translation/STT/TTS/Relay/fallback behavior retained; Cloud Run 3.7.17 unchanged."
 }

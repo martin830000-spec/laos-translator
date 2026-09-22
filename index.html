@@ -377,7 +377,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.137</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.139</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -397,8 +397,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.137</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.137</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.139</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.139</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -436,7 +436,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div id="shellSwitchbar" class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.137</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.139</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')"><span id="husbandModeLabel">🇰🇷 한국</span></button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')"><span id="wifeModeLabel">🇱🇦 ລາວ</span></button>
@@ -463,7 +463,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="84a5687c5cbd06a4a2c6823ab417a27b2897adc3f2032faeac113a5a00bfc7b9">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="3a8f66b5dc6e5090685e7e14b77f5ee04e1c913f287f5739e0633d7b558ff37e">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -933,6 +933,37 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 @media(max-width:430px){.main-quick-btn{font-size:10.5px!important}.main-quick-btn .qicon{font-size:19px!important}.main-quick-btn .qko{font-size:10.5px!important}}@media(max-width:350px){.main-quick-btn{font-size:10px!important;padding-left:1px!important;padding-right:1px!important}.main-quick-btn .qicon{font-size:18px!important}.main-quick-btn .qko{font-size:10px!important}}
 @media(max-width:360px){:root{--main-quickbar-h:136px!important}.main-mode-switch{gap:4px!important;margin-bottom:5px!important}.main-mode-tab{min-height:44px!important;padding:6px 5px!important;font-size:11px!important}.main-quickbar{padding-left:8px!important;padding-right:8px!important}.main-quickbar-inner{gap:4px!important}}
 &lt;/style&gt;
+
+&lt;style&gt;
+/* V3.61.139 TEST — presentation-only overrides; runtime winner data remains intact. */
+body #appScreen .header{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;justify-content:stretch!important;gap:7px!important;min-width:0!important;margin-bottom:2px!important}
+body #appScreen .header&gt;h2{min-width:0!important;margin:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body #appScreen .header .wife-signature.header-signature{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:4px!important;width:auto!important;min-width:0!important;margin:0 0 0 auto!important;white-space:nowrap!important;text-align:right!important;font-size:9.5px!important;line-height:1.08!important;color:#7a7a7a!important}
+body #appScreen .header .wife-signature.header-signature .signature-love,body #appScreen .header .wife-signature.header-signature .signature-made{white-space:nowrap!important}
+body #appScreen #primaryResultSection&gt;.result-header:first-child{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:4px!important;flex-wrap:nowrap!important;max-width:100%!important;min-width:0!important}
+body #appScreen #primaryResultSection&gt;.result-header:first-child&gt;div:first-child{display:flex!important;align-items:center!important;gap:4px!important;min-width:0!important;max-width:100%!important;overflow:hidden!important;flex-wrap:nowrap!important}
+body #appScreen #primaryResultSection&gt;.result-header:first-child #laoLabel{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body #appScreen #primaryResultSection&gt;.result-header:first-child #retryBtn{flex:0 0 auto!important;white-space:nowrap!important}
+body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-top{display:flex!important;align-items:center!important;gap:4px!important;flex:0 0 auto!important;flex-wrap:nowrap!important;width:auto!important;max-width:none!important;min-width:0!important}
+body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-top button{flex:0 0 auto!important;width:auto!important;min-width:0!important;white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important;padding-left:6px!important;padding-right:6px!important;font-size:10.5px!important}
+@media(max-width:430px){
+  body #appScreen .header{gap:5px!important}
+  body #appScreen .header&gt;h2{font-size:18px!important}
+  body #appScreen .header .wife-signature.header-signature{display:grid!important;grid-template-columns:1fr!important;gap:0!important;justify-items:end!important;font-size:8.5px!important;line-height:1.02!important}
+  body #appScreen .header .wife-signature.header-signature .signature-divider{display:none!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-top{gap:3px!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-top button{font-size:9.5px!important;padding-left:4px!important;padding-right:4px!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child #retryBtn{font-size:9.5px!important;padding-left:4px!important;padding-right:4px!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child #laoLabel{font-size:10.5px!important}
+}
+@media(max-width:350px){
+  body #appScreen .header&gt;h2{font-size:16.5px!important}
+  body #appScreen .header .wife-signature.header-signature{font-size:7.8px!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-top button{font-size:8.8px!important;padding-left:3px!important;padding-right:3px!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child #retryBtn{font-size:8.8px!important}
+  body #appScreen #primaryResultSection&gt;.result-header:first-child #laoLabel{font-size:9.8px!important}
+}
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -946,10 +977,10 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
                 &lt;span class="version-tag" data-local-version&gt;--&lt;/span&gt;
             &lt;/div&gt;
             &lt;h2&gt;💑 부부 대화 번역&lt;/h2&gt;
+            &lt;div class="wife-signature header-signature"&gt;&lt;span class="signature-love"&gt;For My Wife Muay ❤️&lt;/span&gt;&lt;span class="signature-divider"&gt;|&lt;/span&gt;&lt;span class="signature-made"&gt;Made by &lt;b&gt;Martin.Yang&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="model-row"&gt;
             &lt;div class="model-info"&gt;아내와의 대화를 자연스럽게 번역합니다&lt;/div&gt;
-            &lt;div class="wife-signature"&gt;For my wife, Muay ❤️ &lt;span class="signature-divider"&gt;|&lt;/span&gt; Made by &lt;b&gt;Martin.Yang&lt;/b&gt;&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="top-audio-toolbar" aria-label="음성 출력 제어"&gt;
             &lt;button type="button" id="soundToggleBtn" class="top-audio-btn btn-toggle-sound" onclick="toggleSoundMode()"&gt;🔊 자동 음성 출력: 켜짐&lt;/button&gt;
@@ -1114,7 +1145,7 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.137';
+const APP_VERSION='V3.61.139 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination; never add/omit/soften/intensify facts. Preserve sentence force/polarity and epistemic/interpersonal force: statement, realization, inference/assumption, empathy, confirmation question, ordinary question, suggestion, request, and command must not flip; positive/negative/rhetorical direction must not flip. In particular, Korean speculative/empathic endings such as ~겠다/~겠네/~나 보다/~것 같아 must not be converted into a yes/no confirmation question unless the source itself is asking one. Never invent event, venue, setting, reason, or fact. Keep an implicit subject across linked clauses unless the source introduces a new actor. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -5402,9 +5433,26 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 })();
 &lt;/script&gt;
 
+
+&lt;script&gt;
+(function(){
+  function stripVisibleWinner(){
+    var el=document.getElementById('laoLabel'); if(!el)return;
+    var t=String(el.textContent||'');
+    var clean=t.replace(/\s*\/\s*[^)]+(?=\):)/,'');
+    if(clean!==t)el.textContent=clean;
+  }
+  function attach(){
+    var el=document.getElementById('laoLabel'); if(!el)return;
+    stripVisibleWinner();
+    new MutationObserver(stripVisibleWinner).observe(el,{childList:true,characterData:true,subtree:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach,{once:true}); else attach();
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="83c7c8fa17b602f45bd783aba2e9fc5179493a10addd7206e33f3d79fc935fa3">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="2276c42ae7302819352c06565df04e4d122786f059801bc9c5eeef594580fe24">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5826,6 +5874,32 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
 @media(max-width:430px){.main-quick-btn{font-size:10.5px!important}.main-quick-btn .qicon{font-size:19px!important}.main-quick-btn .qko{font-size:10.5px!important}}@media(max-width:350px){.main-quick-btn{font-size:10px!important;padding-left:1px!important;padding-right:1px!important}.main-quick-btn .qicon{font-size:18px!important}.main-quick-btn .qko{font-size:10px!important}}
 @media(max-width:360px){:root{--main-quickbar-h:136px!important}.main-mode-switch{gap:4px!important;margin-bottom:5px!important}.main-mode-tab{min-height:44px!important;padding:6px 5px!important;font-size:11px!important}.main-quickbar{padding-left:8px!important;padding-right:8px!important}.main-quickbar-inner{gap:4px!important}}
 &lt;/style&gt;
+
+&lt;style&gt;
+body #appScreen .header{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;justify-content:stretch!important;gap:7px!important;min-width:0!important;margin-bottom:2px!important}
+body #appScreen .header&gt;h1{min-width:0!important;margin:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body #appScreen .header .signature.header-signature{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:4px!important;width:auto!important;min-width:0!important;margin:0 0 0 auto!important;white-space:nowrap!important;text-align:right!important;font-size:9.5px!important;line-height:1.08!important;color:#7a7a7a!important}
+body #appScreen #primaryResultSection&gt;.section-head:first-child{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:4px!important;max-width:100%!important;min-width:0!important}
+body #appScreen #primaryResultSection&gt;.section-head:first-child .result-title-group{display:flex!important;align-items:center!important;gap:4px!important;min-width:0!important;overflow:hidden!important;flex-wrap:nowrap!important}
+body #appScreen #primaryResultSection&gt;.section-head:first-child #koLabel{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body #appScreen #primaryResultSection&gt;.section-head:first-child .actions{display:flex!important;align-items:center!important;gap:4px!important;flex:0 0 auto!important;flex-wrap:nowrap!important;width:auto!important;max-width:none!important;min-width:0!important;margin:0!important}
+body #appScreen #primaryResultSection&gt;.section-head:first-child .actions button{flex:0 0 auto!important;width:auto!important;min-width:0!important;white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important}
+@media(max-width:430px){
+  body #appScreen .header{gap:5px!important}
+  body #appScreen .header&gt;h1{font-size:17px!important}
+  body #appScreen .header .signature.header-signature{display:grid!important;grid-template-columns:1fr!important;gap:0!important;justify-items:end!important;font-size:8.5px!important;line-height:1.02!important}
+  body #appScreen .header .signature.header-signature .signature-divider{display:none!important}
+  body #appScreen #primaryResultSection&gt;.section-head:first-child .actions{gap:3px!important}
+  body #appScreen #primaryResultSection&gt;.section-head:first-child .actions button,body #appScreen #primaryResultSection&gt;.section-head:first-child #retryBtn{font-size:9.5px!important;padding-left:4px!important;padding-right:4px!important}
+  body #appScreen #primaryResultSection&gt;.section-head:first-child #koLabel{font-size:10.5px!important}
+}
+@media(max-width:350px){
+  body #appScreen .header&gt;h1{font-size:15.5px!important}
+  body #appScreen .header .signature.header-signature{font-size:7.8px!important}
+  body #appScreen #primaryResultSection&gt;.section-head:first-child .actions button,body #appScreen #primaryResultSection&gt;.section-head:first-child #retryBtn{font-size:8.8px!important;padding-left:3px!important;padding-right:3px!important}
+  body #appScreen #primaryResultSection&gt;.section-head:first-child #koLabel{font-size:9.8px!important}
+}
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class="container"&gt;
@@ -5838,10 +5912,10 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
         &lt;span class="version-tag" data-local-version&gt;--&lt;/span&gt;
       &lt;/div&gt;
       &lt;h1&gt;💑 ແປການສົນທະນາຄູ່ສົມລົດ&lt;/h1&gt;
+      &lt;div class="signature header-signature"&gt;&lt;span class="signature-love"&gt;For My Wife Muay ❤️&lt;/span&gt;&lt;span class="signature-divider"&gt;│&lt;/span&gt;&lt;span class="signature-made"&gt;Made by &lt;b&gt;Martin.Yang&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="model-row"&gt;
       &lt;div class="model-info"&gt;ແປການສົນທະນາກັບສາມີໃຫ້ເປັນທຳມະຊາດ&lt;/div&gt;
-      &lt;div class="signature"&gt;For my wife, Muay ❤️ &lt;span&gt;│&lt;/span&gt; Made by &lt;b&gt;Martin.Yang&lt;/b&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="top-audio-toolbar" aria-label="ການຄວບຄຸມສຽງ"&gt;
       &lt;button id="soundToggleBtn" class="top-audio-btn btn-sound" type="button" onclick="toggleSoundMode()"&gt;🔊 ສຽງອັດຕະໂນມັດ: ເປີດ&lt;/button&gt;
@@ -5995,7 +6069,7 @@ body.mobile-keyboard-open #inputComposer{scroll-margin-bottom:82px}
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.137';
+const APP_VERSION='V3.61.139 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 const FAST_K2L_BASE=`Translate only the user's Korean text into natural Lao for a Korean husband speaking to his Lao wife. Preserve exact meaning, speaker/listener/third-party roles, who does what to whom, relationships, negation, permission/prohibition, requests, uncertainty, numbers, dates/times, names, places, brands, foods, and movement direction. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Spouse-use 자기 forms mean wife/listener unless clearly 자기 자신/자기 스스로 or a sleep-use from 자다. 여보/자기야/내 사랑 are listener-directed affection, not a literal wife noun. In ordinary couple context 우리 means husband+wife unless another group is explicit. Preserve SOURCE REGISTER: casual/banmal Korean -&gt; natural intimate everyday Lao; polite/respectful Korean -&gt; matching respectful Lao. Never normalize all messages to one politeness level. Never swap speaker/listener, actor/target, caller/receiver, mover/origin/destination; never add/omit/soften/intensify facts. Preserve sentence force/polarity and epistemic/interpersonal force: statement, realization, inference/assumption, empathy, confirmation question, ordinary question, suggestion, request, and command must not flip; positive/negative/rhetorical direction must not flip. In particular, Korean speculative/empathic endings such as ~겠다/~겠네/~나 보다/~것 같아 must not be converted into a yes/no confirmation question unless the source itself is asking one. Never invent event, venue, setting, reason, or fact. Keep an implicit subject across linked clauses unless the source introduces a new actor. Preserve first/before/after/then/while distinctions. If wording is malformed or genuinely ambiguous, translate conservatively. Keep transport context consistent (bus staff must not become airplane staff). Use standard common Lao wording for ordinary nouns. Preserve unfamiliar names/transliterations by sound/form. Proofread Lao spelling/Unicode once without changing meaning. Output exactly ONE Lao translation: no slash A/B choices, parenthetical synonym alternatives, labels, or notes. HOMEWORK: 숙제 is school homework; 과제 is an assignment and is academic in study context. Use housework meaning only for explicit 집안일/가사/청소/설거지/빨래/요리 or clear household context.`;
@@ -8861,7 +8935,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.137';
+const INTEGRATED_VERSION='V3.61.139 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -8869,7 +8943,7 @@ function syncUnifiedVersionMetadata(){
   // 화면용 라벨과 <html> 런타임 메타데이터를 절대 같은 attribute로 공유하지 않는다.
   document.querySelectorAll('[data-manual-version],[data-app-version]').forEach(function(el){
     if(el===document.documentElement||el===document.body)return;
-    el.textContent=INTEGRATED_VERSION;
+    el.textContent=INTEGRATED_VERSION.replace(/\s+TEST$/,'');
   });
   document.documentElement.removeAttribute('data-app-version');
   document.documentElement.setAttribute('data-runtime-app-version',INTEGRATED_VERSION);
@@ -8882,7 +8956,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='df44a71d41cadeceeb887e2c058d288f90d38d2f01c1fab4234f9713d1fb07cd';
+const EXTERNAL_DIAGNOSTIC_SHA256='fa23b22e96128f439ea84319687218cf02550eda41c44e957256456549cb1456';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9329,10 +9403,10 @@ function fitShellText(button,textEl,maxPx,minPx){
 }
 function fitShellTopbar(){
   requestAnimationFrame(()=>{
-    fitShellText(document.getElementById('husbandModeBtn'),document.getElementById('husbandModeLabel'),15,9.5);
-    fitShellText(document.getElementById('wifeModeBtn'),document.getElementById('wifeModeLabel'),15,9);
-    fitShellText(document.querySelector('.shell-guide-btn'),document.getElementById('shellGuideLabel'),13.5,8.5);
-    fitShellText(document.getElementById('firstScreenBtn'),document.getElementById('homeLabelText'),13,6);
+    fitShellText(document.getElementById('husbandModeBtn'),document.getElementById('husbandModeLabel'),16.5,10);
+    fitShellText(document.getElementById('wifeModeBtn'),document.getElementById('wifeModeLabel'),16.5,9.5);
+    fitShellText(document.querySelector('.shell-guide-btn'),document.getElementById('shellGuideLabel'),14.5,9);
+    fitShellText(document.getElementById('firstScreenBtn'),document.getElementById('homeLabelText'),14,7);
   });
 }
 function applyShellLanguage(mode){
