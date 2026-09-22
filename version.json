@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.123 TEST",
-  "build": "20260921-V3.61.123-TEST-MAIN-RESUME-PROMPT-UX7",
-  "buildId": "20260921-V3.61.123-TEST-MAIN-RESUME-PROMPT-UX7",
-  "notes": "TEST UX7. 본앱↔일반앱/iframe 복귀 시 자동통역 저장 상태를 초기로드·pageshow·visibility·integrated-resume에서 재동기화. FAST 정번역에 추측·공감·확인질문 등 문장기능 보존 규칙을 최소 보강. 기존 UI/TTS/STT/키보드/전체지우기/네트워크/역번역 코어 보존."
+  "version": "V3.61.133",
+  "build": "20260922-V3.61.133-TEST-MAIN-MULTILANG-LAUNCHER-M1",
+  "buildId": "20260922-V3.61.133-TEST-MAIN-MULTILANG-LAUNCHER-M1",
+  "notes": "TEST launcher based on SERVICE V3.61.133. Only general-app route points to /korean-lao-general-test/. Embedded husband/wife translation core unchanged."
 }
