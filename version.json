@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.154 TEST",
-  "build": "20260924-V3.61.154-TEST-REL-CONTINUITY-M1",
-  "buildId": "20260924-V3.61.154-TEST-REL-CONTINUITY-M1",
-  "notes": "V3.61.154 TEST / P153A: REL-only semantic refinement from V153/P152A. Keeps clear third-party sibling references distinct from spouse/self across clauses and keeps Lao transfer recipients distinct from possession. Base/back prompts and non-REL SMART rules unchanged; general app/STT/TTS/Cloud Run 3.7.17/relay/fallback/UI/foreign-script manual-retranslate flow unchanged."
+  "version": "V3.61.155 TEST",
+  "build": "20260924-V3.61.155-TEST-REL-ROLE-LOCK-M1",
+  "buildId": "20260924-V3.61.155-TEST-REL-ROLE-LOCK-M1",
+  "notes": "V3.61.155 TEST / P154A: compact replacement of existing relation/role safeguards. Strengthens couple-use 자기+kin, clear third-party sibling continuity, Lao recipient-vs-possession grammar, action preservation, and back-translation role interpretation without adding SMART categories. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/UI/foreign-script manual-retranslate flow unchanged."
 }

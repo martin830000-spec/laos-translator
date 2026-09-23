@@ -825,7 +825,7 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
 body.ui-result-focus .primary-result-section .result-header&gt;div:first-child,body.ui-result-focus .primary-result-section .result-title-group{min-width:0;flex:1 1 auto}
 @media(max-width:360px){body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-result-focus .primary-result-section .actions button{padding:5px 6px!important;font-size:10px!important}}
 
-/* V3.61.154 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
+/* V3.61.155 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
 .forward-script-warning{display:none;margin:7px 0 3px;padding:9px 10px;border:2px solid #d97706;border-radius:10px;background:#fff7e6;color:#8a4b00;font-size:12px;font-weight:850;line-height:1.45}
 .forward-script-warning.show{display:block}.result-box.script-contamination{outline:2px solid #d97706;outline-offset:2px}.script-warning-action{border:2px solid #d97706!important;font-weight:950!important}
 &lt;/style&gt;
@@ -1150,10 +1150,10 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.154 TEST';
+const APP_VERSION='V3.61.155 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-// V3.61.154 TEST: P153A keeps the P152 base/back structure and tightens REL only for third-party sibling continuity and recipient-vs-possession roles.
+// V3.61.155 TEST: P154A rewrites the existing REL locks for third-party continuity and recipient-vs-possession, with no new SMART category.
 const COUPLE_PROMPT_CONFIG=(window.__COUPLE_PROMPT_CONFIG__&amp;&amp;typeof window.__COUPLE_PROMPT_CONFIG__==='object')?window.__COUPLE_PROMPT_CONFIG__:null;
 if(!COUPLE_PROMPT_CONFIG||COUPLE_PROMPT_CONFIG.schemaVersion!==1||COUPLE_PROMPT_CONFIG.channel!=='TEST')throw new Error('PROMPT_CONFIG_NOT_READY');
 const COUPLE_PROMPT_REVISION=String(COUPLE_PROMPT_CONFIG.promptRevision||'');
@@ -5819,7 +5819,7 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
 body.ui-result-focus .primary-result-section .result-header&gt;div:first-child,body.ui-result-focus .primary-result-section .result-title-group{min-width:0;flex:1 1 auto}
 @media(max-width:360px){body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-result-focus .primary-result-section .actions button{padding:5px 6px!important;font-size:10px!important}}
 
-/* V3.61.154 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
+/* V3.61.155 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
 .forward-script-warning{display:none;margin:7px 0 3px;padding:9px 10px;border:2px solid #d97706;border-radius:10px;background:#fff7e6;color:#8a4b00;font-size:12px;font-weight:850;line-height:1.45}
 .forward-script-warning.show{display:block}.result-box.script-contamination{outline:2px solid #d97706;outline-offset:2px}.script-warning-action{border:2px solid #d97706!important;font-weight:950!important}
 &lt;/style&gt;
@@ -6127,10 +6127,10 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.154 TEST';
+const APP_VERSION='V3.61.155 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-// V3.61.154 TEST: P153A keeps the P152 base/back structure and tightens REL only for third-party sibling continuity and recipient-vs-possession roles.
+// V3.61.155 TEST: P154A rewrites the existing REL locks for third-party continuity and recipient-vs-possession, with no new SMART category.
 const COUPLE_PROMPT_CONFIG=(window.__COUPLE_PROMPT_CONFIG__&amp;&amp;typeof window.__COUPLE_PROMPT_CONFIG__==='object')?window.__COUPLE_PROMPT_CONFIG__:null;
 if(!COUPLE_PROMPT_CONFIG||COUPLE_PROMPT_CONFIG.schemaVersion!==1||COUPLE_PROMPT_CONFIG.channel!=='TEST')throw new Error('PROMPT_CONFIG_NOT_READY');
 const COUPLE_PROMPT_REVISION=String(COUPLE_PROMPT_CONFIG.promptRevision||'');
@@ -9032,7 +9032,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.154 TEST';
+const INTEGRATED_VERSION='V3.61.155 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9053,7 +9053,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='0e89d53f6bae3a2691459f1090a6da131eede0e960f609de1e5f2731cdbaaabf';
+const EXTERNAL_DIAGNOSTIC_SHA256='82c75d08b5b2f76ff53f5094638a1077635e5a7e3489c85b6652f6825f2aff9f';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9086,13 +9086,13 @@ async function sha256HexText(text){
   return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// V3.61.154 TEST: external active prompt config. Translation requests never fetch this file.
+// V3.61.155 TEST: external active prompt config. Translation requests never fetch this file.
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.154 TEST: never let a previous-build LKG older than the prompt required by this app build lock the session.
+// V3.61.155 TEST: never let a previous-build LKG older than the prompt required by this app build lock the session.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
-const COUPLE_PROMPT_MIN_REVISION='P153A';
+const COUPLE_PROMPT_MIN_REVISION='P154A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
 let unifiedPromptConfig=null,unifiedPromptConfigSource='none',unifiedPromptConfigError='',unifiedPromptConfigPromise=null,unifiedPromptRemotePromise=null,unifiedPromptSessionLocked=false;
 function couplePromptRevisionRank(v){
@@ -10495,9 +10495,9 @@ applyShellLanguage(currentMode);
 syncVisibleViewport();
 </script>
 
-<script id="release-notes-final-script-v361153">
+<script id="release-notes-final-script-v361155">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361154-rel-continuity-m1","seenKey":"translator_release_notice_seen_test_v361154","ko":{"sub":"V3.61.154 TEST는 P152A 구조를 유지하고 실제 로그에서 남은 REL 의미 오류만 P153A로 최소 보강한 버전입니다.","summary":["명백한 제3자 동생이 아내 자신으로 바뀌지 않도록 같은 인물 참조를 유지합니다.","라오어 전달 문장에서 '~에게' 수령자가 '네 것' 소유자로 바뀌는 오류를 줄입니다.","BASE·ACT/READ 구조·역번역 프롬프트·일반앱·STT/TTS·Cloud Run·Relay/Fallback은 변경하지 않습니다."],"sections":[["REL 최소 보강",["자기/너/당신+친족은 상대방 친족으로 유지합니다.","명백한 제3자 동생은 spouse-self bare ນ້ອງ으로 만들지 않고 후속 절에서도 같은 인물로 유지합니다.","전달/수령 구조에서는 ຂອງ(소유)과 ໃຫ້(수령/수혜)을 구분합니다."]],["그대로 유지",["문법적 완벽함보다 의미전달과 빠른 이해를 우선합니다.","외국어 혼입은 경고만 표시하고 자동 재번역하지 않습니다.","bare ນ້ອງ을 무조건 동생으로 강제하지 않습니다."]]],"previous":"V3.61.153 TEST / P152A: prompt loader 및 진단기 해시 정상화."},"lo":{"sub":"V3.61.154 TEST ຮັກສາໂຄງສ້າງ P152A ແລະ ປັບສະເພາະ REL ເປັນ P153A ຕາມ log ຈິງ.","summary":["ຮັກສານ້ອງທີ່ເປັນບຸກຄົນທີສາມບໍ່ໃຫ້ກາຍເປັນຄູ່ສົນທະນາ.","ແຍກຜູ້ຮັບໃນປະໂຫຍກສົ່ງ/ໃຫ້ ອອກຈາກຄວາມເປັນເຈົ້າຂອງ.","BASE, back prompt, ແອັບລ່າມ, STT/TTS, Cloud Run ແລະ Relay/Fallback ບໍ່ປ່ຽນ."],"sections":[["REL",["ຮັກສາຜູ້ອ້າງອີງຄົນເດີມຂ້າມຫຼາຍ clause.","ໃນການສົ່ງ/ໃຫ້ ແຍກ ຂອງ ກັບ ໃຫ້ ໃຫ້ຊັດ."]],["ຄົງເດີມ",["bare ນ້ອງ ບໍ່ຖືກບັງຄັບເປັນ 동생.","ພາສາອື່ນປົນກັນເຕືອນຢ່າງດຽວ ແລະ ບໍ່ແປໃໝ່ອັດຕະໂນມັດ."]]],"previous":"V3.61.153 TEST / P152A: ແກ້ prompt loader ແລະ diagnostic hash."}});
+ const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361155-rel-role-lock-m1","seenKey":"translator_release_notice_seen_test_v361155","ko":{"sub":"V3.61.155 TEST는 P153A 구조를 유지하면서 실제 로그에서 반복된 관계·수령/소유 의미 오류를 P154A에서 더 짧고 강한 규칙으로 교체한 버전입니다.","summary":["새 SMART를 추가하지 않고 기존 REL 문구를 교체해 자기+친족, 제3자 동생, 수령자/소유자 역할을 더 강하게 고정합니다.","L→K 기본 프롬프트의 기존 의미보존 문구를 교체해 원문의 행동을 다른 행동으로 바꾸지 않도록 강화합니다.","역번역의 기존 역할 문구를 교체해 자기/여보 및 plain ເຈົ້າ/ໂຕ가 화자·청자를 뒤집지 않도록 보강합니다."],"sections":[["의미 잠금",["부부대화의 자기/너/당신+친족은 상대방 친족으로 유지하고 가까운 제3자에게 잘못 붙이지 않습니다.","명백한 제3자 동생은 아내 자칭 bare ນ້ອງ과 같은 사람으로 합치지 않습니다.","ໃຫ້+사람은 수령/수혜, ຂອງ은 소유로 구분하고 목적어를 소유물로 바꾸지 않습니다."]],["그대로 유지",["문법적 완벽함보다 뜻을 빠르고 정확하게 이해하는 것을 우선합니다.","ACT/READ는 BASE에 흡수된 상태를 유지하고 SELF/HOME/REL/ELDER 구조는 그대로입니다.","일반앱·STT/TTS·Cloud Run·Relay/Fallback·외국어 혼입 경고/수동 재번역은 변경하지 않습니다."]]],"previous":"V3.61.154 TEST / P153A: REL continuity 최소 보강."},"lo":{"sub":"V3.61.155 TEST ຮັກສາໂຄງສ້າງ P153A ແລະ ປ່ຽນຂໍ້ຄວາມ REL ເປັນ P154A ໃຫ້ສັ້ນແຕ່ຊັດເຈນກວ່າ.","summary":["ບໍ່ເພີ່ມ SMART ໃໝ່; ຮັກສາບົດບາດຄົນ ແລະ ຄວາມສຳພັນໃຫ້ຄົງທີ່.","ແຍກ ໃຫ້+ຄົນ ເປັນຜູ້ຮັບ/ຜູ້ໄດ້ຮັບ ແລະ ຂອງ ເປັນຄວາມເປັນເຈົ້າຂອງ.","ປັບຄຳສັ່ງ back-translation ເພື່ອບໍ່ໃຫ້ຜູ້ເວົ້າ/ຜູ້ຟັງສະຫຼັບກັນ."],"sections":[["REL",["ຮັກສາບຸກຄົນທີສາມໃຫ້ແຍກຈາກຄູ່ສົນທະນາ.","ບໍ່ແປຜູ້ຮັບໃຫ້ກາຍເປັນເຈົ້າຂອງສິ່ງຂອງ."]],["ຄົງເດີມ",["ບໍ່ເພີ່ມ SMART ໃໝ່.","ແອັບລ່າມ, STT/TTS, Cloud Run, Relay/Fallback ແລະ ການເຕືອນພາສາອື່ນບໍ່ປ່ຽນ."]]],"previous":"V3.61.154 TEST / P153A: ປັບ REL ແບບຈຳກັດ."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
