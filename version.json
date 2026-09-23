@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.145 TEST",
-  "build": "20260923-V3.61.145-TEST-DIAGPROMPT-M3",
-  "buildId": "20260923-V3.61.145-TEST-DIAGPROMPT-M3",
-  "notes": "V3.61.145 TEST: V3.61.144의 최근 품질 비교 진단 clone이 외부 prompt-config를 주입받지 못해 isTranslating ReferenceError로 전건 실패하던 문제 수정. visible iframe과 diagnostic clone이 같은 boot builder를 사용하도록 통합하고 prompt revision/SHA/runtime readiness 검증 및 품질비교 사전점검을 추가. 번역 프롬프트 P143A, 번역/역번역/STT/TTS/Relay/Cloud Run 3.7.17 로직은 변경하지 않음."
+  "version": "V3.61.146 TEST",
+  "build": "20260923-V3.61.146-TEST-PROMPTPERF-M4",
+  "buildId": "20260923-V3.61.146-TEST-PROMPTPERF-M4",
+  "notes": "V3.61.146 TEST: 외부 prompt-config 연동을 다시 감사하고 L→K telemetryRecord ReferenceError를 수정. TEST 진단기는 TEST 일반앱, SERVICE 진단기는 SERVICE 일반앱을 기본 대상으로 사용하도록 환경 분리. 자체점검 4개 항목을 실제 runtime prompt-config 기준으로 변경. P146A는 원문에 없는 구체 장소 추가를 억제하고 SMART 문구/발동범위를 축소해 평상시 1차 번역 부담을 줄임. 일반앱 번역 core/Cloud Run 3.7.17 unchanged."
 }
