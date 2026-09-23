@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.146 TEST",
-  "build": "20260923-V3.61.146-TEST-PROMPTPERF-M4",
-  "buildId": "20260923-V3.61.146-TEST-PROMPTPERF-M4",
-  "notes": "V3.61.146 TEST: 외부 prompt-config 연동을 다시 감사하고 L→K telemetryRecord ReferenceError를 수정. TEST 진단기는 TEST 일반앱, SERVICE 진단기는 SERVICE 일반앱을 기본 대상으로 사용하도록 환경 분리. 자체점검 4개 항목을 실제 runtime prompt-config 기준으로 변경. P146A는 원문에 없는 구체 장소 추가를 억제하고 SMART 문구/발동범위를 축소해 평상시 1차 번역 부담을 줄임. 일반앱 번역 core/Cloud Run 3.7.17 unchanged."
+  "version": "V3.61.147 TEST",
+  "build": "20260923-V3.61.147-TEST-QUALITYTIMING-M5",
+  "buildId": "20260923-V3.61.147-TEST-QUALITYTIMING-M5",
+  "notes": "V3.61.147 TEST: 최근 품질 비교의 정번역 계측을 firstDisplayMs(화면 첫 표시)와 forwardTotalMs(진단 전체 완료)로 분리. SMART 실제 telemetry label, 요청/네트워크 trace, usage token, 외국문자 혼입, 동시 진단 감지를 로그에 추가. 번역 프롬프트 P146A와 Cloud Run 3.7.17은 변경하지 않음."
 }
