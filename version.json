@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.157 TEST",
-  "build": "20260924-V3.61.157-TEST-DIAG-RECOVERY-M2",
-  "buildId": "20260924-V3.61.157-TEST-DIAG-RECOVERY-M2",
-  "notes": "V3.61.157 TEST / P154A unchanged: diagnostic recovery M2. Fixes exact 25-case fetch, captures timeout clone state, hard-recycles both couple diagnostic clones, waits for fresh readiness and retries the same phase once, stops after 2 consecutive unrecovered timeout cases, and updates two stale runtime-audit checks to current P154A semantics. Translation prompts/SMART/general-app live logic/STT/TTS/Cloud Run/relay unchanged."
+  "version": "V3.61.158 TEST",
+  "build": "20260924-V3.61.158-TEST-DIAG-LIFECYCLE-M3",
+  "buildId": "20260924-V3.61.158-TEST-DIAG-LIFECYCLE-M3",
+  "notes": "V3.61.158 TEST / P154A unchanged: diagnostic lifecycle M3. Removes timer-wait cleanup from couple diagnostic forward paths; fixes L2K runtime snapshot controller; starts each quality run with fresh clones and tears them down at end/abort; makes clone creation generation-safe; recovers only the affected direction; aborts the run if recovery readiness fails; pauses watchdog budget while the diagnostic page is backgrounded; records visibility/network/watchdog timing; strengthens runtime self-check lifecycle calls. Translation prompts/SMART/general-app live logic/STT/TTS/Cloud Run/relay unchanged."
 }
