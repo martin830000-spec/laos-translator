@@ -377,7 +377,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.152</span>
+    <span class="auth-corner-version" data-app-version aria-label="앱 버전">V3.61.153</span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -397,8 +397,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.152</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.152</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.153</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.153</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -436,7 +436,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div id="shellSwitchbar" class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.152</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version>V3.61.153</span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')"><span id="husbandModeLabel">🇰🇷 한국</span></button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')"><span id="wifeModeLabel">🇱🇦 ລາວ</span></button>
@@ -825,7 +825,7 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
 body.ui-result-focus .primary-result-section .result-header&gt;div:first-child,body.ui-result-focus .primary-result-section .result-title-group{min-width:0;flex:1 1 auto}
 @media(max-width:360px){body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-result-focus .primary-result-section .actions button{padding:5px 6px!important;font-size:10px!important}}
 
-/* V3.61.152 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
+/* V3.61.153 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
 .forward-script-warning{display:none;margin:7px 0 3px;padding:9px 10px;border:2px solid #d97706;border-radius:10px;background:#fff7e6;color:#8a4b00;font-size:12px;font-weight:850;line-height:1.45}
 .forward-script-warning.show{display:block}.result-box.script-contamination{outline:2px solid #d97706;outline-offset:2px}.script-warning-action{border:2px solid #d97706!important;font-weight:950!important}
 &lt;/style&gt;
@@ -1150,10 +1150,10 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.152 TEST';
+const APP_VERSION='V3.61.153 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-// V3.61.152 TEST: P152A keeps ACT/READ in the base and tightens role/relation/recipient meaning safeguards without adding runtime SMART categories.
+// V3.61.153 TEST: P152A keeps ACT/READ in the base and tightens role/relation/recipient meaning safeguards without adding runtime SMART categories.
 const COUPLE_PROMPT_CONFIG=(window.__COUPLE_PROMPT_CONFIG__&amp;&amp;typeof window.__COUPLE_PROMPT_CONFIG__==='object')?window.__COUPLE_PROMPT_CONFIG__:null;
 if(!COUPLE_PROMPT_CONFIG||COUPLE_PROMPT_CONFIG.schemaVersion!==1||COUPLE_PROMPT_CONFIG.channel!=='TEST')throw new Error('PROMPT_CONFIG_NOT_READY');
 const COUPLE_PROMPT_REVISION=String(COUPLE_PROMPT_CONFIG.promptRevision||'');
@@ -5819,7 +5819,7 @@ body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-resul
 body.ui-result-focus .primary-result-section .result-header&gt;div:first-child,body.ui-result-focus .primary-result-section .result-title-group{min-width:0;flex:1 1 auto}
 @media(max-width:360px){body.ui-result-focus .primary-result-section .btn-group-top button,body.ui-result-focus .primary-result-section .actions button{padding:5px 6px!important;font-size:10px!important}}
 
-/* V3.61.152 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
+/* V3.61.153 TEST: warning-only foreign-script contamination notice; never auto-retranslate. */
 .forward-script-warning{display:none;margin:7px 0 3px;padding:9px 10px;border:2px solid #d97706;border-radius:10px;background:#fff7e6;color:#8a4b00;font-size:12px;font-weight:850;line-height:1.45}
 .forward-script-warning.show{display:block}.result-box.script-contamination{outline:2px solid #d97706;outline-offset:2px}.script-warning-action{border:2px solid #d97706!important;font-weight:950!important}
 &lt;/style&gt;
@@ -6127,10 +6127,10 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.152 TEST';
+const APP_VERSION='V3.61.153 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-// V3.61.152 TEST: P152A keeps ACT/READ in the base and tightens role/relation/recipient meaning safeguards without adding runtime SMART categories.
+// V3.61.153 TEST: P152A keeps ACT/READ in the base and tightens role/relation/recipient meaning safeguards without adding runtime SMART categories.
 const COUPLE_PROMPT_CONFIG=(window.__COUPLE_PROMPT_CONFIG__&amp;&amp;typeof window.__COUPLE_PROMPT_CONFIG__==='object')?window.__COUPLE_PROMPT_CONFIG__:null;
 if(!COUPLE_PROMPT_CONFIG||COUPLE_PROMPT_CONFIG.schemaVersion!==1||COUPLE_PROMPT_CONFIG.channel!=='TEST')throw new Error('PROMPT_CONFIG_NOT_READY');
 const COUPLE_PROMPT_REVISION=String(COUPLE_PROMPT_CONFIG.promptRevision||'');
@@ -9032,7 +9032,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.152 TEST';
+const INTEGRATED_VERSION='V3.61.153 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9086,19 +9086,33 @@ async function sha256HexText(text){
   return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// V3.61.152 TEST: external active prompt config. Translation requests never fetch this file.
+// V3.61.153 TEST: external active prompt config. Translation requests never fetch this file.
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
+// V3.61.153 TEST: never let a previous-build LKG older than the prompt required by this app build lock the session.
+// Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
+const COUPLE_PROMPT_MIN_REVISION='P152A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
 let unifiedPromptConfig=null,unifiedPromptConfigSource='none',unifiedPromptConfigError='',unifiedPromptConfigPromise=null,unifiedPromptRemotePromise=null,unifiedPromptSessionLocked=false;
-const COUPLE_PROMPT_FORWARD_MAX_CHARS=2600,COUPLE_PROMPT_SMART_MAX_CHARS=190,COUPLE_PROMPT_BACK_MAX_CHARS=1900;
+function couplePromptRevisionRank(v){
+  const m=/^P(\d+)([A-Z]?)$/i.exec(String(v||'').trim());
+  if(!m)return null;
+  const suffix=m[2]?m[2].toUpperCase().charCodeAt(0)-64:0;
+  return Number(m[1])*100+Math.max(0,suffix);
+}
+function couplePromptRevisionAtLeast(actual,minimum){
+  const a=couplePromptRevisionRank(actual),m=couplePromptRevisionRank(minimum);
+  return a!==null&&m!==null&&a>=m;
+}
+const COUPLE_PROMPT_FORWARD_MAX_CHARS=2600,COUPLE_PROMPT_SMART_MAX_CHARS=240,COUPLE_PROMPT_BACK_MAX_CHARS=2050;
 function canonicalPromptConfigText(cfg){return JSON.stringify({schemaVersion:cfg.schemaVersion,channel:cfg.channel,promptRevision:cfg.promptRevision,forward:cfg.forward,smart:cfg.smart,back:cfg.back})}
 async function validateUnifiedPromptConfig(cfg){
   if(!cfg||typeof cfg!=='object')throw new Error('PROMPT_CONFIG_NOT_OBJECT');
   if(Number(cfg.schemaVersion)!==COUPLE_PROMPT_SCHEMA_VERSION)throw new Error('PROMPT_CONFIG_SCHEMA');
   if(String(cfg.channel||'')!==COUPLE_PROMPT_CHANNEL)throw new Error('PROMPT_CONFIG_CHANNEL');
   if(!String(cfg.promptRevision||'').trim())throw new Error('PROMPT_CONFIG_REVISION');
+  if(!couplePromptRevisionAtLeast(cfg.promptRevision,COUPLE_PROMPT_MIN_REVISION))throw new Error('PROMPT_CONFIG_STALE_REVISION_'+String(cfg.promptRevision||'')+'_LT_'+COUPLE_PROMPT_MIN_REVISION);
   const forwardFields=[cfg.forward?.k2l,cfg.forward?.l2k],smartFields=[cfg.smart?.k2lSelf,cfg.smart?.k2lHome,cfg.smart?.l2kElder,cfg.smart?.k2lSpeechAct,cfg.smart?.l2kSpeechAct,cfg.smart?.k2lRelation,cfg.smart?.l2kRelation,cfg.smart?.l2kReadability],backFields=[cfg.back?.husband,cfg.back?.wife,cfg.back?.husbandRecovery,cfg.back?.wifeRecovery];
   for(const x of [...forwardFields,...smartFields,...backFields])if(typeof x!=='string'||!x.trim())throw new Error('PROMPT_CONFIG_REQUIRED_FIELD');
   if(forwardFields.some(x=>x.length>COUPLE_PROMPT_FORWARD_MAX_CHARS))throw new Error('PROMPT_CONFIG_FORWARD_SIZE');
@@ -9125,10 +9139,12 @@ async function initializeUnifiedPromptConfig(){
 function ensureUnifiedPromptConfigReady(){if(unifiedPromptConfig)return Promise.resolve(unifiedPromptConfig);if(!unifiedPromptConfigPromise)unifiedPromptConfigPromise=initializeUnifiedPromptConfig();return unifiedPromptConfigPromise.then(()=>{if(!unifiedPromptConfig)throw new Error(unifiedPromptConfigError||'PROMPT_CONFIG_UNAVAILABLE');return unifiedPromptConfig})}
 async function lockUnifiedPromptConfigForSession(){
   await ensureUnifiedPromptConfigReady();
-  if(unifiedPromptConfigSource==='lkg'&&unifiedPromptRemotePromise){try{await Promise.race([unifiedPromptRemotePromise,new Promise(r=>setTimeout(r,1500))])}catch(_){}}
+  // Prefer the current no-cache prompt-config.json before freezing the session. The fetch already has a 3.5s hard timeout.
+  // If it fails, a validated LKG at or above this build's minimum revision remains usable.
+  if(unifiedPromptConfigSource==='lkg'&&unifiedPromptRemotePromise){try{await unifiedPromptRemotePromise}catch(_){}}
   if(!unifiedPromptConfig)throw new Error(unifiedPromptConfigError||'PROMPT_CONFIG_UNAVAILABLE');unifiedPromptSessionLocked=true;return unifiedPromptConfig;
 }
-function getUnifiedPromptConfigStatus(){const c=unifiedPromptConfig;return{ready:!!c,source:unifiedPromptConfigSource,sessionLocked:unifiedPromptSessionLocked,schemaVersion:Number(c?.schemaVersion)||0,channel:String(c?.channel||''),promptRevision:String(c?.promptRevision||''),promptSha256:String(c?.promptSha256||''),error:unifiedPromptConfigError}}
+function getUnifiedPromptConfigStatus(){const c=unifiedPromptConfig;return{ready:!!c,source:unifiedPromptConfigSource,sessionLocked:unifiedPromptSessionLocked,schemaVersion:Number(c?.schemaVersion)||0,channel:String(c?.channel||''),minimumPromptRevision:COUPLE_PROMPT_MIN_REVISION,promptRevision:String(c?.promptRevision||''),promptSha256:String(c?.promptSha256||''),error:unifiedPromptConfigError}}
 window.getUnifiedPromptConfigStatus=getUnifiedPromptConfigStatus;
 
 unifiedPromptConfigPromise=initializeUnifiedPromptConfig().catch(e=>{unifiedPromptConfigError=String(e?.message||e);return null});
@@ -10479,9 +10495,9 @@ applyShellLanguage(currentMode);
 syncVisibleViewport();
 </script>
 
-<script id="release-notes-final-script-v361151">
+<script id="release-notes-final-script-v361153">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361152-rolesemantic-m1","seenKey":"translator_release_notice_seen_test_v361152","ko":{"sub":"V3.61.152 TEST는 P151A 구조를 유지하면서 인물관계·소유/수령·자기 해석·금지 강도와 역번역 역할 확인을 보강한 테스트 버전입니다.","summary":["자기/제3자·동생 관계와 소유/수령 대상을 더 안정적으로 구분합니다.","직접 금지의 강도가 약해지지 않도록 보강하고, ACT/READ는 계속 기본 프롬프트에 흡수된 상태를 유지합니다.","역번역에서 자기/여보가 자기 자신이나 literal 배우자 명사로 바뀌는 오류를 줄이며, 일반앱·STT/TTS·Cloud Run·Relay/Fallback은 변경하지 않습니다."],"sections":[["번역 의미 중심",["문법적 완벽함보다 부부가 뜻을 빠르고 정확하게 이해하는 것을 우선합니다.","자연스러운 어순 변경은 허용하지만 인물관계·사실·확정성·화행·감정 강도는 바꾸지 않습니다."]],["SMART 효율화",["ACT와 READ는 기본 프롬프트에 흡수합니다.","SELF/HOME/REL/ELDER는 실제 언어쌍 특수 위험 때문에 유지합니다.","bare ນ້ອງ은 명확한 친족 문맥 없이 동생으로 강제하지 않습니다."]],["변경 제외",["외국어 혼입은 기존처럼 경고만 표시하고 사용자가 재번역합니다.","구형 dead fallback은 이번 품질 패치에서 건드리지 않습니다."]]],"previous":"V3.61.151 TEST: 의미 중심 기본 프롬프트 통합 및 ACT/READ 흡수."},"lo":{"sub":"V3.61.152 TEST ຮັກສາໂຄງສ້າງ P151A ແລະ ເພີ່ມຄວາມແມ່ນຍຳດ້ານບຸກຄົນ ການຄອບຄອງ/ຜູ້ຮັບ ແລະ ການກວດຄວາມໝາຍ.","summary":["prompt K→L/L→K ຮັກສາຜູ້ເວົ້າ·ຜູ້ຟັງ·ບຸກຄົນທີສາມ, ຄວາມແນ່ນອນ, ເຈດຕະນາ ແລະ ຄວາມແຮງ.","L→K ຈັດລຳດັບປະໂຫຍກໃຫ້ອ່ານງ່າຍໂດຍບໍ່ປ່ຽນຄວາມໝາຍ; ACT/READ ບໍ່ເພີ່ມໃສ່ຄຳຂໍແປອີກ.","SELF/HOME/REL/ELDER ແລະ ກົດ bare ນ້ອງ ຂອງ V150 ຍັງຄົງເດີມ."],"sections":[["ຈຸດໝາຍການແປ",["ເນັ້ນໃຫ້ຜົວເມຍເຂົ້າໃຈຄວາມໝາຍໄວ ແລະ ຖືກຕ້ອງ.","ປັບລຳດັບຄຳໄດ້ ແຕ່ຫ້າມປ່ຽນຄົນ, ຂໍ້ເທັດຈິງ, ຄວາມແນ່ນອນ ຫຼື ຄວາມແຮງ."]],["SMART",["ACT/READ ຖືກລວມເຂົ້າ prompt ຫຼັກ.","SELF/HOME/REL/ELDER ຍັງໃຊ້.","bare ນ້ອງ ບໍ່ຖືກບັງຄັບເປັນ 동생 ໂດຍບໍ່ມີບໍລິບົດຊັດ."]],["ບໍ່ປ່ຽນ",["ແອັບລ່າມ, STT/TTS, Cloud Run, Relay/Fallback ບໍ່ປ່ຽນ.","ການເຕືອນພາສາອື່ນ ແລະ ການກົດແປໃໝ່ເອງຍັງເດີມ."]]],"previous":"V3.61.151 TEST: ລວມ meaning-core ແລະ ACT/READ ເຂົ້າ prompt ຫຼັກ."}});
+ const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361153-prompt-loader-m1","seenKey":"translator_release_notice_seen_test_v361153","ko":{"sub":"V3.61.153 TEST는 P152A 번역 프롬프트는 그대로 두고, 이전 P151A LKG가 새 빌드에서 잘못 고정되는 프롬프트 로더 문제만 수정한 테스트 버전입니다.","summary":["자기/제3자·동생 관계와 소유/수령 대상을 더 안정적으로 구분합니다.","직접 금지의 강도가 약해지지 않도록 보강하고, ACT/READ는 계속 기본 프롬프트에 흡수된 상태를 유지합니다.","역번역에서 자기/여보가 자기 자신이나 literal 배우자 명사로 바뀌는 오류를 줄이며, 일반앱·STT/TTS·Cloud Run·Relay/Fallback은 변경하지 않습니다."],"sections":[["번역 의미 중심",["문법적 완벽함보다 부부가 뜻을 빠르고 정확하게 이해하는 것을 우선합니다.","자연스러운 어순 변경은 허용하지만 인물관계·사실·확정성·화행·감정 강도는 바꾸지 않습니다."]],["SMART 효율화",["ACT와 READ는 기본 프롬프트에 흡수합니다.","SELF/HOME/REL/ELDER는 실제 언어쌍 특수 위험 때문에 유지합니다.","bare ນ້ອງ은 명확한 친족 문맥 없이 동생으로 강제하지 않습니다."]],["변경 제외",["외국어 혼입은 기존처럼 경고만 표시하고 사용자가 재번역합니다.","구형 dead fallback은 이번 품질 패치에서 건드리지 않습니다."]]],"previous":"V3.61.152 TEST: P152A 의미·관계·역번역 보강."},"lo":{"sub":"V3.61.153 TEST ຮັກສາ prompt P152A ເດີມ ແລະ ແກ້ບັນຫາ LKG P151A ເກົ່າຖືກລັອກໃນ session ຫຼັງອັບເດດ.","summary":["prompt K→L/L→K ຮັກສາຜູ້ເວົ້າ·ຜູ້ຟັງ·ບຸກຄົນທີສາມ, ຄວາມແນ່ນອນ, ເຈດຕະນາ ແລະ ຄວາມແຮງ.","L→K ຈັດລຳດັບປະໂຫຍກໃຫ້ອ່ານງ່າຍໂດຍບໍ່ປ່ຽນຄວາມໝາຍ; ACT/READ ບໍ່ເພີ່ມໃສ່ຄຳຂໍແປອີກ.","SELF/HOME/REL/ELDER ແລະ ກົດ bare ນ້ອງ ຂອງ V150 ຍັງຄົງເດີມ."],"sections":[["ຈຸດໝາຍການແປ",["ເນັ້ນໃຫ້ຜົວເມຍເຂົ້າໃຈຄວາມໝາຍໄວ ແລະ ຖືກຕ້ອງ.","ປັບລຳດັບຄຳໄດ້ ແຕ່ຫ້າມປ່ຽນຄົນ, ຂໍ້ເທັດຈິງ, ຄວາມແນ່ນອນ ຫຼື ຄວາມແຮງ."]],["SMART",["ACT/READ ຖືກລວມເຂົ້າ prompt ຫຼັກ.","SELF/HOME/REL/ELDER ຍັງໃຊ້.","bare ນ້ອງ ບໍ່ຖືກບັງຄັບເປັນ 동생 ໂດຍບໍ່ມີບໍລິບົດຊັດ."]],["ບໍ່ປ່ຽນ",["ແອັບລ່າມ, STT/TTS, Cloud Run, Relay/Fallback ບໍ່ປ່ຽນ.","ການເຕືອນພາສາອື່ນ ແລະ ການກົດແປໃໝ່ເອງຍັງເດີມ."]]],"previous":"V3.61.152 TEST: P152A ປັບປຸງຄວາມໝາຍ ຄວາມສຳພັນ ແລະ back-translation."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}

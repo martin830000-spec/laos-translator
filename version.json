@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.152 TEST",
-  "build": "20260924-V3.61.152-TEST-ROLESEMANTIC-M1",
-  "buildId": "20260924-V3.61.152-TEST-ROLESEMANTIC-M1",
-  "notes": "V3.61.152 TEST: P152A targeted meaning-safety refinement. Stabilizes Korean 자기/listener vs clear third-person reflexive use, third-person kin vs spouse/listener, possession vs recipient roles, direct prohibition strength, and verification back-translation spouse/reflexive interpretation. ACT/READ remain absorbed; SELF/HOME/REL/ELDER runtime SMART activation unchanged. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/UI/foreign-script manual retranslation flow unchanged."
+  "version": "V3.61.153 TEST",
+  "build": "20260924-V3.61.153-TEST-PROMPTLOADER-M1",
+  "buildId": "20260924-V3.61.153-TEST-PROMPTLOADER-M1",
+  "notes": "V3.61.153 TEST: prompt-loader hotfix only. Keeps P152A translation/back-translation prompts unchanged, rejects stale pre-P152A LKG configs, and waits for the current no-cache prompt-config.json before session lock when starting from LKG. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/UI/foreign-script manual retranslation flow unchanged."
 }
