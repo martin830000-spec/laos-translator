@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.147 TEST",
-  "build": "20260923-V3.61.147-TEST-QUALITYTIMING-M5",
-  "buildId": "20260923-V3.61.147-TEST-QUALITYTIMING-M5",
-  "notes": "V3.61.147 TEST: 최근 품질 비교의 정번역 계측을 firstDisplayMs(화면 첫 표시)와 forwardTotalMs(진단 전체 완료)로 분리. SMART 실제 telemetry label, 요청/네트워크 trace, usage token, 외국문자 혼입, 동시 진단 감지를 로그에 추가. 번역 프롬프트 P146A와 Cloud Run 3.7.17은 변경하지 않음."
+  "version": "V3.61.148 TEST",
+  "build": "20260923-V3.61.148-TEST-SMARTQUALITY-M1",
+  "buildId": "20260923-V3.61.148-TEST-SMARTQUALITY-M1",
+  "notes": "V3.61.148 TEST: P146A/Cloud Run 3.7.17/번역 호출 경로는 유지. detector 전용 NFC 정규화와 K→L ACT 최소 보강, L→K ACT/REL/ELDER matcher 정밀화로 추측·제안 보존 누락과 Lao 부분문자 false positive를 줄임. 일반앱/STT/TTS/relay/fallback 변경 없음."
 }
