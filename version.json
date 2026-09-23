@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.148 TEST",
-  "build": "20260923-V3.61.148-TEST-SMARTQUALITY-M1",
-  "buildId": "20260923-V3.61.148-TEST-SMARTQUALITY-M1",
-  "notes": "V3.61.148 TEST: P146A/Cloud Run 3.7.17/번역 호출 경로는 유지. detector 전용 NFC 정규화와 K→L ACT 최소 보강, L→K ACT/REL/ELDER matcher 정밀화로 추측·제안 보존 누락과 Lao 부분문자 false positive를 줄임. 일반앱/STT/TTS/relay/fallback 변경 없음."
+  "version": "V3.61.149 TEST",
+  "build": "20260923-V3.61.149-TEST-ROLEBACK-M1",
+  "buildId": "20260923-V3.61.149-TEST-ROLEBACK-M1",
+  "notes": "V3.61.149 TEST: V3.61.148 기반 최소 수정. P146A base forward/K→L/SMART matcher 코드는 유지하고, P149A에서 L→K REL의 실제 동생 vs 배우자 역할 판별 및 ທີ່ຮັກ 주어형(여보가/자기가, 자기야가 금지), 남편앱 역번역의 ນ້ອງ 제3자 역할 판별만 보강. 일반앱/STT/TTS/Cloud Run/relay/fallback 변경 없음."
 }
