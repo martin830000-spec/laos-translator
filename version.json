@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.155 TEST",
-  "build": "20260924-V3.61.155-TEST-REL-ROLE-LOCK-M1",
-  "buildId": "20260924-V3.61.155-TEST-REL-ROLE-LOCK-M1",
-  "notes": "V3.61.155 TEST / P154A: compact replacement of existing relation/role safeguards. Strengthens couple-use 자기+kin, clear third-party sibling continuity, Lao recipient-vs-possession grammar, action preservation, and back-translation role interpretation without adding SMART categories. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/UI/foreign-script manual-retranslate flow unchanged."
+  "version": "V3.61.156 TEST",
+  "build": "20260924-V3.61.156-TEST-DIAG-RECOVERY-M1",
+  "buildId": "20260924-V3.61.156-TEST-DIAG-RECOVERY-M1",
+  "notes": "V3.61.156 TEST / P154A unchanged: diagnostic-only recovery. Adds 25-case quality option, 30s per-phase watchdog with continue-on-timeout/reset, fixes nested general-app payload bridge discovery, and repairs runtime safety audit SOURCE_FIDELITY_POLICY/PROMPT_NO_PER_TRANSLATION_FETCH false failures. Translation prompts, SMART, general-app live logic, STT/TTS, Cloud Run 3.7.17, relay/fallback unchanged."
 }
