@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.142 TEST",
-  "build": "20260922-V3.61.142-TEST-BACKTIME-M1",
-  "buildId": "20260922-V3.61.142-TEST-BACKTIME-M1",
-  "notes": "V3.61.142 TEST: main app meaning-check/back-translation elapsed time is shown beside the meaning-check heading in both husband and wife views. General app build metadata synchronization fix included. Translation/STT/TTS/Relay core unchanged; Cloud Run 3.7.17 unchanged."
+  "version": "V3.61.143 TEST",
+  "build": "20260923-V3.61.143-TEST-PROMPTSMART-M1",
+  "buildId": "20260923-V3.61.143-TEST-PROMPTSMART-M1",
+  "notes": "V3.61.143 TEST: SERVICE V3.61.142 기반. 본앱 active prompt 외부화, 의미/화행·관계·L→K 가독성 SMART 규칙, 외국문자 혼입 경고 강화, 최근 실사용 기록 500건 조회. 일반앱 번역 prompt/core와 Cloud Run 3.7.17은 변경하지 않음."
 }
