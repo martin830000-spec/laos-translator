@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.143 TEST",
-  "build": "20260923-V3.61.143-TEST-PROMPTSMART-M1",
-  "buildId": "20260923-V3.61.143-TEST-PROMPTSMART-M1",
-  "notes": "V3.61.143 TEST: SERVICE V3.61.142 기반. 본앱 active prompt 외부화, 의미/화행·관계·L→K 가독성 SMART 규칙, 외국문자 혼입 경고 강화, 최근 실사용 기록 500건 조회. 일반앱 번역 prompt/core와 Cloud Run 3.7.17은 변경하지 않음."
+  "version": "V3.61.144 TEST",
+  "build": "20260923-V3.61.144-TEST-PROMPTSMART-M2",
+  "buildId": "20260923-V3.61.144-TEST-PROMPTSMART-M2",
+  "notes": "V3.61.144 TEST: V3.61.143의 iframe boot script 누락으로 발생한 본앱 내부 초기화 실패 수정. 외부 prompt/SMART/500건 기능은 그대로 유지하며 번역·역번역·STT·TTS·Relay·Cloud Run 3.7.17 로직은 변경하지 않음."
 }
