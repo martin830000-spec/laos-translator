@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.151 TEST",
-  "build": "20260923-V3.61.151-TEST-MEANINGCORE-M1",
-  "buildId": "20260923-V3.61.151-TEST-MEANINGCORE-M1",
-  "notes": "V3.61.151 TEST: P151A meaning-core optimization. K→L/L→K base prompts now always preserve roles, factual/epistemic/interpersonal force and use natural target-language structure. ACT/READ SMART activation removed from runtime; SELF/HOME/REL/ELDER remain. V150 bare ນ້ອງ policy retained. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/foreign-script manual retranslation flow unchanged."
+  "version": "V3.61.152 TEST",
+  "build": "20260924-V3.61.152-TEST-ROLESEMANTIC-M1",
+  "buildId": "20260924-V3.61.152-TEST-ROLESEMANTIC-M1",
+  "notes": "V3.61.152 TEST: P152A targeted meaning-safety refinement. Stabilizes Korean 자기/listener vs clear third-person reflexive use, third-person kin vs spouse/listener, possession vs recipient roles, direct prohibition strength, and verification back-translation spouse/reflexive interpretation. ACT/READ remain absorbed; SELF/HOME/REL/ELDER runtime SMART activation unchanged. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/UI/foreign-script manual retranslation flow unchanged."
 }
