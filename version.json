@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.150 TEST",
-  "build": "20260923-V3.61.150-TEST-ROLESAFE-M1",
-  "buildId": "20260923-V3.61.150-TEST-ROLESAFE-M1",
-  "notes": "V3.61.150 TEST: V3.61.149 기반 최소 안전패치. 자기야가 방지 규칙은 유지하고, bare ນ້ອງ을 별도 ເຈົ້າ/ໂຕ만으로 동생으로 강제하던 규칙을 제거. 명시적 ນ້ອງຊາຍ/ນ້ອງສາວ·명확한 소유/친족 문맥에서만 동생으로 고정. P146A base forward, K→L, SMART matcher, 일반앱/STT/TTS/Cloud Run/relay/fallback 변경 없음."
+  "version": "V3.61.151 TEST",
+  "build": "20260923-V3.61.151-TEST-MEANINGCORE-M1",
+  "buildId": "20260923-V3.61.151-TEST-MEANINGCORE-M1",
+  "notes": "V3.61.151 TEST: P151A meaning-core optimization. K→L/L→K base prompts now always preserve roles, factual/epistemic/interpersonal force and use natural target-language structure. ACT/READ SMART activation removed from runtime; SELF/HOME/REL/ELDER remain. V150 bare ນ້ອງ policy retained. General app/STT/TTS/Cloud Run 3.7.17/relay/fallback/foreign-script manual retranslation flow unchanged."
 }
