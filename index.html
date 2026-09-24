@@ -463,7 +463,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="bd98cc289745d6125ff7d8f375f630acfb3fca4b7ec0dec7ea87b4dcc6a60512">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="45cbda399b2dbf2afa9fc59818a0f885dabeeb6e6dd87114cb9a710962613db6">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1150,10 +1150,10 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.160 TEST';
+const APP_VERSION='V3.61.161 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-// V3.61.160 TEST: embedded-version synchronization hotfix; P154A and selective semantic guard behavior are unchanged.
+// V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
 const COUPLE_PROMPT_CONFIG=(window.__COUPLE_PROMPT_CONFIG__&amp;&amp;typeof window.__COUPLE_PROMPT_CONFIG__==='object')?window.__COUPLE_PROMPT_CONFIG__:null;
 if(!COUPLE_PROMPT_CONFIG||COUPLE_PROMPT_CONFIG.schemaVersion!==1||COUPLE_PROMPT_CONFIG.channel!=='TEST')throw new Error('PROMPT_CONFIG_NOT_READY');
 const COUPLE_PROMPT_REVISION=String(COUPLE_PROMPT_CONFIG.promptRevision||'');
@@ -5496,7 +5496,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="ba9c67264bb6ba39005245d549ef1a8c306e83eab8b6362dc42981e11af652c4">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="611ba2ed6ac2911c96a7d32a02409c329b6a5020866a9f50f05684c245e8e573">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6118,10 +6118,10 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.160 TEST';
+const APP_VERSION='V3.61.161 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
-// V3.61.160 TEST: embedded-version synchronization hotfix; P154A and selective semantic guard behavior are unchanged.
+// V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
 const COUPLE_PROMPT_CONFIG=(window.__COUPLE_PROMPT_CONFIG__&amp;&amp;typeof window.__COUPLE_PROMPT_CONFIG__==='object')?window.__COUPLE_PROMPT_CONFIG__:null;
 if(!COUPLE_PROMPT_CONFIG||COUPLE_PROMPT_CONFIG.schemaVersion!==1||COUPLE_PROMPT_CONFIG.channel!=='TEST')throw new Error('PROMPT_CONFIG_NOT_READY');
 const COUPLE_PROMPT_REVISION=String(COUPLE_PROMPT_CONFIG.promptRevision||'');
@@ -9013,7 +9013,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.160 TEST';
+const INTEGRATED_VERSION='V3.61.161 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9034,7 +9034,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='85e5a5a91a607f03d23ce7d4d1c82a8238d65c1e7392eb1c448c72ac5855940b';
+const EXTERNAL_DIAGNOSTIC_SHA256='21dd3c67f261947217aba3d64ef924077084ff32d8c29f2d56e58b3c69634bc4';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9067,11 +9067,11 @@ async function sha256HexText(text){
   return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// V3.61.160 TEST: P154A and V3.61.159 selective semantic guard remain byte-identical; this build fixes embedded version synchronization.
+// V3.61.161 TEST: P154A and selective semantic guard remain byte-identical; this build integrates the general-app G148A prompt split.
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.160 TEST: retain P154A minimum revision; version-sync hotfix must not accept older prompt LKG.
+// V3.61.161 TEST: retain P154A minimum revision; general-app update must not alter or downgrade the couple prompt LKG.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P154A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10511,7 +10511,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361160-version-sync-hotfix","seenKey":"translator_release_notice_seen_test_v361160","ko":{"sub":"V3.61.160 TEST는 V3.61.159의 번역 기능을 그대로 유지하면서 내장 번역기 버전 동기화 오류만 수정했습니다.","summary":["남편/아내 내장 번역기의 APP_VERSION을 통합 앱과 V3.61.160 TEST로 일치시켰습니다.","P154A와 V3.61.159 Selective Semantic Guard M1의 번역 동작은 변경하지 않았습니다.","진단기·본앱·일반앱 연결 및 버전 handshake를 함께 검증하는 회귀검사를 추가했습니다."],"sections":[["그대로 유지",["일반앱 V3.61.147 TEST, STT/TTS, Cloud Run, Relay/Fallback은 변경하지 않습니다.","의미보존 가드의 정상 1회 번역 / 위험 시 1회 복구 / 8초 상한 정책도 그대로입니다."]]],"previous":"V3.61.159 TEST / Selective Semantic Guard M1."},"lo":{"sub":"V3.61.160 TEST ແກ້ໄຂສະເພາະການຊິງເວີຊັນຂອງຕົວແປພາສາພາຍໃນ ໂດຍຮັກສາພຶດຕິກຳການແປຂອງ V3.61.159 ໄວ້ເດີມ.","summary":["APP_VERSION ຂອງຝັ່ງຜົວ/ເມຍຖືກຊິງກັບ V3.61.160 TEST.","P154A ແລະ Selective Semantic Guard M1 ບໍ່ປ່ຽນ.","ກວດຮ່ວມ main / diagnostic / general ແລະ version handshake."],"sections":[["ຄົງເດີມ",["General app V3.61.147 TEST, STT/TTS, Cloud Run, Relay/Fallback ບໍ່ປ່ຽນ."]]],"previous":"V3.61.159 TEST / Selective Semantic Guard M1."}});
+ const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361161-general-prompt-split-g148a","seenKey":"translator_release_notice_seen_test_v361161","ko":{"sub":"V3.61.161 TEST는 본앱 P154A/의미보존 가드를 그대로 유지하면서 일반앱의 한국어↔라오어 프롬프트를 본앱과 같은 외부 분리 구조로 개편했습니다.","summary":["본앱 P154A와 Selective Semantic Guard M1 번역 로직은 변경하지 않았습니다.","일반앱 V3.61.148 TEST / G148A에서 K→L·L→K 기본/SMART/역번역 프롬프트를 분리했습니다.","진단센터가 일반앱 prompt revision/SHA/runtime parity까지 확인하도록 보강되었습니다."],"sections":[["일반앱",["REL/SPEECH/READ 규칙은 로컬에서 선별되며 별도 AI 판정 호출이 없습니다.","영어·중국어·일본어·태국어 및 STT/TTS/Relay 경로는 기존 그대로입니다."]],["본앱",["P154A prompt-config.json은 바이트 변경 없이 유지합니다.","남편/아내 내장 버전만 통합 앱 V3.61.161 TEST에 맞춰 동기화합니다."]]],"previous":"V3.61.160 TEST / version synchronization hotfix."},"lo":{"sub":"V3.61.161 TEST ຮັກສາ P154A/semantic guard ຂອງແອັບຫຼັກ ແລະ ປັບ prompt ເກົາຫຼີ↔ລາວຂອງແອັບທົ່ວໄປເປັນໂຄງສ້າງແຍກ G148A.","summary":["P154A ແລະ Selective Semantic Guard M1 ຂອງແອັບຫຼັກບໍ່ປ່ຽນ.","General V3.61.148 TEST ແຍກ base/SMART/back prompt.","ສູນວິນິດໄສກວດ revision/SHA/runtime parity ຂອງ general prompt ເພີ່ມ."],"sections":[["General",["REL/SPEECH/READ ເລືອກໃນເຄື່ອງ ບໍ່ມີ AI call ເພີ່ມ.","STT/TTS/Relay ແລະ ພາສາອື່ນຄົງເດີມ."]]],"previous":"V3.61.160 TEST."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
