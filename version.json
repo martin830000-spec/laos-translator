@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.159 TEST",
-  "build": "20260924-V3.61.159-TEST-SELECTIVE-SEMANTIC-GUARD-M1",
-  "buildId": "20260924-V3.61.159-TEST-SELECTIVE-SEMANTIC-GUARD-M1",
-  "notes": "V3.61.159 TEST / P154A unchanged: selective semantic guard M1. Normal translations keep the V3.61.158 single-request path. A zero-network high-confidence relation/recipient detector runs after the first candidate; only material role/recipient drift triggers one source-grounded repair request with an 8s cap and no hedge. Repair output must pass the same local guard before display. General app/STT/TTS/Cloud Run/relay unchanged. Also fixes the stale DIAG_QUALITY_PHASE_WATCHDOG runtime-audit string from V3.61.158."
+  "version": "V3.61.160 TEST",
+  "build": "20260924-V3.61.160-TEST-VERSION-SYNC-HOTFIX",
+  "buildId": "20260924-V3.61.160-TEST-VERSION-SYNC-HOTFIX",
+  "notes": "V3.61.160 TEST: packaging/version synchronization hotfix on top of V3.61.159. Embedded husband/wife APP_VERSION now matches the integrated shell. P154A, Selective Semantic Guard M1, general app, STT/TTS, Cloud Run, relay/fallback and diagnostic logic are unchanged except diagnostic/main version metadata and integrity hashes."
 }
