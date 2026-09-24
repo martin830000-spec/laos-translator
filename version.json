@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.161 TEST",
-  "build": "20260924-V3.61.161-TEST-GENERAL-PROMPT-SPLIT-G148A",
-  "buildId": "20260924-V3.61.161-TEST-GENERAL-PROMPT-SPLIT-G148A",
-  "notes": "V3.61.161 TEST: main P154A + Selective Semantic Guard M1 unchanged. Integrates General V3.61.148 TEST / G148A external split prompt structure and diagnostic runtime SHA/revision checks. Main embedded husband/wife APP_VERSION synchronized to 161. STT/TTS, Cloud Run and relay/fallback unchanged."
+  "version": "V3.61.163 TEST",
+  "build": "20260924-V3.61.163-TEST-MAIN-LARGE-VIEW-M1",
+  "buildId": "20260924-V3.61.163-TEST-MAIN-LARGE-VIEW-M1",
+  "notes": "V3.61.163 TEST: unified version retained. Couple app husband/wife translation result header gains a large-view button immediately left of translation-copy; large view supports 180-degree rotation and expands over the outer shell. P154A, Selective Semantic Guard M1, back-translation, STT/TTS, Cloud Run and relay/fallback unchanged."
 }

@@ -305,6 +305,11 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 .manual-end-note{text-align:center;padding:12px 8px 2px;color:#68768a;font-size:11px;line-height:1.6}.manual-end-note b{color:#315d96}
 @media(max-width:560px){.manual-fastflow{grid-template-columns:repeat(2,1fr)}.manual-shot-two{grid-template-columns:1fr}.manual-do-grid,.manual-caution-grid{grid-template-columns:1fr}.manual-card.manual-renew-card{padding:14px}.manual-hero.manual-renew{padding:17px 14px}.manual-renew h1{font-size:20px}}
 </style>
+
+<style id="v361163-couple-payload-overlay-style">
+.shell.payload-overlay-active .stage{position:fixed!important;inset:0!important;z-index:2147483100!important;background:#fff!important}
+.shell.payload-overlay-active .switchbar{visibility:hidden!important}
+</style>
 </head>
 <body class="unified-booting">
 <div id="unifiedBootGate" class="unified-boot-gate" role="status" aria-live="polite"><div class="unified-boot-card"><div class="unified-boot-spinner" aria-hidden="true"></div><div id="unifiedBootText" class="unified-boot-text">이전 화면과 설정을 복원하고 있어요…
@@ -463,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="45cbda399b2dbf2afa9fc59818a0f885dabeeb6e6dd87114cb9a710962613db6">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="c3755cd3a2a040cc1ca391e9a6bbbe88d28265ca8472933da02d51a7fc0fa1bf">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -968,6 +973,19 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   body #appScreen #primaryResultSection&gt;.result-header:first-child #laoLabel{font-size:9.8px!important}
 }
 &lt;/style&gt;
+
+&lt;style id="v361163-couple-large-view-style"&gt;
+.btn-large-view{min-height:40px;background:#3157d5;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:900;cursor:pointer}
+.couple-fullscreen{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;background:#fff;padding:66px max(18px,env(safe-area-inset-right)) max(28px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));box-sizing:border-box}
+.couple-fullscreen.show{display:flex}
+.couple-fs-close{position:absolute;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));width:46px;height:46px;border:0;border-radius:50%;background:#eef1f6;color:#344054;font-size:28px;font-weight:700;line-height:1;cursor:pointer;z-index:3}
+.couple-fs-rotate{position:absolute;right:max(14px,env(safe-area-inset-right));top:calc(max(14px,env(safe-area-inset-top)) + 54px);min-width:94px;height:46px;border:1px solid #d9e0ea;border-radius:23px;background:#eef1f6;color:#344054;font-size:13px;font-weight:900;padding:0 14px;cursor:pointer;z-index:3}
+.couple-fs-text{width:min(1100px,100%);max-height:calc(100vh - 108px);max-height:calc(100dvh - 108px);overflow:auto;-webkit-overflow-scrolling:touch;text-align:center;font-size:clamp(30px,8vw,74px);font-weight:850;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;transform:rotate(0deg);transform-origin:center center;padding:10px}
+.couple-fs-text.medium{font-size:clamp(28px,6.5vw,62px)}
+.couple-fs-text.long{font-size:clamp(22px,4.8vw,46px);line-height:1.38}
+.couple-fs-text.rotated{transform:rotate(180deg)}
+@media(max-width:480px){.couple-fullscreen{padding:64px 16px 24px}.couple-fs-close{width:42px;height:42px}.couple-fs-rotate{height:42px;min-width:82px;font-size:12px;top:calc(max(14px,env(safe-area-inset-top)) + 50px)}.btn-large-view{padding-left:7px;padding-right:7px}}
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -1002,6 +1020,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
                 &lt;button type="button" id="retryBtn" class="btn-retry" onclick="retryLastTranslation()"&gt;🔄 다시 시도&lt;/button&gt;
             &lt;/div&gt;
             &lt;div class="btn-group-top"&gt;
+                &lt;button type="button" id="largeViewBtn" class="btn-large-view" onclick="openCoupleLargeView()"&gt;⛶ 크게보기&lt;/button&gt;
                 &lt;button type="button" id="copyLaoBtn" class="btn-copy" onclick="copyPrimaryTranslation()"&gt;📋 번역본 복사&lt;/button&gt;
                 &lt;button type="button" class="btn-clear-result" onclick="clearResultBox()"&gt;🗑️ 지우기&lt;/button&gt;
             &lt;/div&gt;
@@ -1150,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.161 TEST';
+const APP_VERSION='V3.61.163 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5352,6 +5371,25 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 (function initMainQuickbar(){const sync=()=&gt;syncMainAutoInterpretFromStorage();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});else setTimeout(sync,0);window.addEventListener('pageshow',sync);document.addEventListener('visibilitychange',()=&gt;{if(document.visibilityState==='visible')sync()})})();
 &lt;/script&gt;
 
+
+&lt;div class="couple-fullscreen" id="coupleFullscreen" role="dialog" aria-modal="true" aria-hidden="true"&gt;
+  &lt;button class="couple-fs-close fs-close" id="coupleFsClose" type="button" aria-label="닫기" onclick="closeCoupleLargeView()"&gt;×&lt;/button&gt;
+  &lt;button class="couple-fs-rotate" id="coupleFsRotate" type="button" aria-pressed="false" aria-label="큰 글자 방향 180도 전환" onclick="toggleCoupleLargeViewRotation()"&gt;↻ 회전&lt;/button&gt;
+  &lt;div class="couple-fs-text" id="coupleFsText"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script id="v361163-couple-large-view-script"&gt;
+let coupleLargeViewPreviousOverflow='';
+let coupleLargeViewPreviousFocus=null;
+function coupleLargeViewNotify(open){try{if(parent!==window)parent.postMessage({type:'integrated-payload-overlay',mode:INTEGRATED_MODE||'husband',open:!!open},'*')}catch(_){}}
+function coupleLargeViewText(){const el=document.getElementById('laoResult');return String(el?.innerText||el?.textContent||'').trim()}
+function openCoupleLargeView(){const fs=document.getElementById('coupleFullscreen'),textEl=document.getElementById('coupleFsText'),rot=document.getElementById('coupleFsRotate'),close=document.getElementById('coupleFsClose');if(!fs||!textEl)return;const text=coupleLargeViewText();if(!text)return;coupleLargeViewPreviousFocus=document.activeElement;coupleLargeViewPreviousOverflow=document.body.style.overflow||'';textEl.textContent=text;textEl.classList.remove('medium','long','rotated');const n=[...text].length;if(n&gt;90)textEl.classList.add('long');else if(n&gt;42)textEl.classList.add('medium');if(rot)rot.setAttribute('aria-pressed','false');fs.classList.add('show');fs.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';coupleLargeViewNotify(true);setTimeout(()=&gt;{try{close?.focus({preventScroll:true})}catch(_){}},0)}
+function closeCoupleLargeView(){const fs=document.getElementById('coupleFullscreen'),textEl=document.getElementById('coupleFsText'),rot=document.getElementById('coupleFsRotate');if(!fs)return;const wasOpen=fs.classList.contains('show');fs.classList.remove('show');fs.setAttribute('aria-hidden','true');textEl?.classList.remove('rotated');if(rot)rot.setAttribute('aria-pressed','false');document.body.style.overflow=coupleLargeViewPreviousOverflow;if(wasOpen)coupleLargeViewNotify(false);const prev=coupleLargeViewPreviousFocus;coupleLargeViewPreviousFocus=null;setTimeout(()=&gt;{try{if(prev&amp;&amp;document.contains(prev)&amp;&amp;typeof prev.focus==='function')prev.focus({preventScroll:true})}catch(_){}},0)}
+function toggleCoupleLargeViewRotation(){const textEl=document.getElementById('coupleFsText'),rot=document.getElementById('coupleFsRotate');if(!textEl)return;const on=textEl.classList.toggle('rotated');if(rot)rot.setAttribute('aria-pressed',String(on))}
+window.addEventListener('keydown',e=&gt;{if(e.key==='Escape'&amp;&amp;document.getElementById('coupleFullscreen')?.classList.contains('show'))closeCoupleLargeView()});
+window.addEventListener('message',e=&gt;{if(e?.data?.type==='integrated-suspend'&amp;&amp;document.getElementById('coupleFullscreen')?.classList.contains('show'))closeCoupleLargeView()});
+window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFullscreen')?.classList.contains('show'))coupleLargeViewNotify(false)});
+&lt;/script&gt;
 &lt;nav class="main-quickbar" id="mainQuickbar" aria-label="빠른 통역 기능"&gt;
   &lt;div class="main-mode-switch" role="tablist" aria-label="앱 전환"&gt;
     &lt;button class="main-mode-tab active" type="button" role="tab" aria-selected="true" aria-current="page" disabled&gt;💑 부부대화&lt;/button&gt;
@@ -5496,7 +5534,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="611ba2ed6ac2911c96a7d32a02409c329b6a5020866a9f50f05684c245e8e573">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="43834130f0f2a5b0dcbef195dfd8d81176f8db3614c60842732a1cc8d9be7041">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5948,6 +5986,19 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   body #appScreen #primaryResultSection&gt;.section-head:first-child #koLabel{font-size:9.8px!important}
 }
 &lt;/style&gt;
+
+&lt;style id="v361163-couple-large-view-style"&gt;
+.btn-large-view{min-height:40px;background:#3157d5;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:900;cursor:pointer}
+.couple-fullscreen{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;background:#fff;padding:66px max(18px,env(safe-area-inset-right)) max(28px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));box-sizing:border-box}
+.couple-fullscreen.show{display:flex}
+.couple-fs-close{position:absolute;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));width:46px;height:46px;border:0;border-radius:50%;background:#eef1f6;color:#344054;font-size:28px;font-weight:700;line-height:1;cursor:pointer;z-index:3}
+.couple-fs-rotate{position:absolute;right:max(14px,env(safe-area-inset-right));top:calc(max(14px,env(safe-area-inset-top)) + 54px);min-width:94px;height:46px;border:1px solid #d9e0ea;border-radius:23px;background:#eef1f6;color:#344054;font-size:13px;font-weight:900;padding:0 14px;cursor:pointer;z-index:3}
+.couple-fs-text{width:min(1100px,100%);max-height:calc(100vh - 108px);max-height:calc(100dvh - 108px);overflow:auto;-webkit-overflow-scrolling:touch;text-align:center;font-size:clamp(30px,8vw,74px);font-weight:850;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;transform:rotate(0deg);transform-origin:center center;padding:10px}
+.couple-fs-text.medium{font-size:clamp(28px,6.5vw,62px)}
+.couple-fs-text.long{font-size:clamp(22px,4.8vw,46px);line-height:1.38}
+.couple-fs-text.rotated{transform:rotate(180deg)}
+@media(max-width:480px){.couple-fullscreen{padding:64px 16px 24px}.couple-fs-close{width:42px;height:42px}.couple-fs-rotate{height:42px;min-width:82px;font-size:12px;top:calc(max(14px,env(safe-area-inset-top)) + 50px)}.btn-large-view{padding-left:7px;padding-right:7px}}
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class="container"&gt;
@@ -5980,6 +6031,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
         &lt;button id="retryBtn" class="mini-btn btn-retry" type="button" onclick="retryLastTranslation()"&gt;🔄 ລອງໃໝ່&lt;/button&gt;
       &lt;/div&gt;
       &lt;div class="actions"&gt;
+        &lt;button id="largeViewBtn" class="mini-btn btn-large-view" type="button" onclick="openCoupleLargeView()"&gt;⛶ ເບິ່ງຕົວໃຫຍ່&lt;/button&gt;
         &lt;button id="copyKoreanBtn" class="mini-btn btn-copy" type="button" onclick="copyPrimaryTranslation()"&gt;📋 ຄັດລອກ&lt;/button&gt;
         &lt;button class="mini-btn btn-clear" type="button" onclick="clearResultBox()"&gt;🗑️ ລ້າງ&lt;/button&gt;
       &lt;/div&gt;
@@ -6118,7 +6170,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.161 TEST';
+const APP_VERSION='V3.61.163 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -8825,6 +8877,25 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 (function initMainQuickbar(){const sync=()=&gt;syncMainAutoInterpretFromStorage();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});else setTimeout(sync,0);window.addEventListener('pageshow',sync);document.addEventListener('visibilitychange',()=&gt;{if(document.visibilityState==='visible')sync()})})();
 &lt;/script&gt;
 
+
+&lt;div class="couple-fullscreen" id="coupleFullscreen" role="dialog" aria-modal="true" aria-hidden="true"&gt;
+  &lt;button class="couple-fs-close fs-close" id="coupleFsClose" type="button" aria-label="ປິດ" onclick="closeCoupleLargeView()"&gt;×&lt;/button&gt;
+  &lt;button class="couple-fs-rotate" id="coupleFsRotate" type="button" aria-pressed="false" aria-label="ໝຸນຂໍ້ຄວາມ 180 ອົງສາ" onclick="toggleCoupleLargeViewRotation()"&gt;↻ ໝຸນ&lt;/button&gt;
+  &lt;div class="couple-fs-text" id="coupleFsText"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script id="v361163-couple-large-view-script"&gt;
+let coupleLargeViewPreviousOverflow='';
+let coupleLargeViewPreviousFocus=null;
+function coupleLargeViewNotify(open){try{if(parent!==window)parent.postMessage({type:'integrated-payload-overlay',mode:INTEGRATED_MODE||'wife',open:!!open},'*')}catch(_){}}
+function coupleLargeViewText(){const el=document.getElementById('koResult');return String(el?.innerText||el?.textContent||'').trim()}
+function openCoupleLargeView(){const fs=document.getElementById('coupleFullscreen'),textEl=document.getElementById('coupleFsText'),rot=document.getElementById('coupleFsRotate'),close=document.getElementById('coupleFsClose');if(!fs||!textEl)return;const text=coupleLargeViewText();if(!text)return;coupleLargeViewPreviousFocus=document.activeElement;coupleLargeViewPreviousOverflow=document.body.style.overflow||'';textEl.textContent=text;textEl.classList.remove('medium','long','rotated');const n=[...text].length;if(n&gt;90)textEl.classList.add('long');else if(n&gt;42)textEl.classList.add('medium');if(rot)rot.setAttribute('aria-pressed','false');fs.classList.add('show');fs.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';coupleLargeViewNotify(true);setTimeout(()=&gt;{try{close?.focus({preventScroll:true})}catch(_){}},0)}
+function closeCoupleLargeView(){const fs=document.getElementById('coupleFullscreen'),textEl=document.getElementById('coupleFsText'),rot=document.getElementById('coupleFsRotate');if(!fs)return;const wasOpen=fs.classList.contains('show');fs.classList.remove('show');fs.setAttribute('aria-hidden','true');textEl?.classList.remove('rotated');if(rot)rot.setAttribute('aria-pressed','false');document.body.style.overflow=coupleLargeViewPreviousOverflow;if(wasOpen)coupleLargeViewNotify(false);const prev=coupleLargeViewPreviousFocus;coupleLargeViewPreviousFocus=null;setTimeout(()=&gt;{try{if(prev&amp;&amp;document.contains(prev)&amp;&amp;typeof prev.focus==='function')prev.focus({preventScroll:true})}catch(_){}},0)}
+function toggleCoupleLargeViewRotation(){const textEl=document.getElementById('coupleFsText'),rot=document.getElementById('coupleFsRotate');if(!textEl)return;const on=textEl.classList.toggle('rotated');if(rot)rot.setAttribute('aria-pressed',String(on))}
+window.addEventListener('keydown',e=&gt;{if(e.key==='Escape'&amp;&amp;document.getElementById('coupleFullscreen')?.classList.contains('show'))closeCoupleLargeView()});
+window.addEventListener('message',e=&gt;{if(e?.data?.type==='integrated-suspend'&amp;&amp;document.getElementById('coupleFullscreen')?.classList.contains('show'))closeCoupleLargeView()});
+window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFullscreen')?.classList.contains('show'))coupleLargeViewNotify(false)});
+&lt;/script&gt;
 &lt;nav class="main-quickbar" id="mainQuickbar" aria-label="ເມນູລ່າມແບບດ່ວນ"&gt;
   &lt;div class="main-mode-switch" role="tablist" aria-label="ສະຫຼັບແອັບ"&gt;
     &lt;button class="main-mode-tab active" type="button" role="tab" aria-selected="true" aria-current="page" disabled&gt;💑 ສົນທະນາຄູ່ສົມລົດ&lt;/button&gt;
@@ -9013,7 +9084,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.161 TEST';
+const INTEGRATED_VERSION='V3.61.163 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9034,7 +9105,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='21dd3c67f261947217aba3d64ef924077084ff32d8c29f2d56e58b3c69634bc4';
+const EXTERNAL_DIAGNOSTIC_SHA256='c5e2a9fe44c2742e18b030569c6ed042aaf31bdc9ddfcce00ab6e74a17045c70';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9067,11 +9138,11 @@ async function sha256HexText(text){
   return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// V3.61.161 TEST: P154A and selective semantic guard remain byte-identical; this build integrates the general-app G148A prompt split.
+// V3.61.163 TEST: add presentation-only large view to couple translation results; P154A and Selective Semantic Guard M1 remain unchanged.
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.161 TEST: retain P154A minimum revision; general-app update must not alter or downgrade the couple prompt LKG.
+// V3.61.163 TEST: retain P154A minimum revision; large-view UI must not alter or downgrade translation, back-translation or prompt LKG behavior.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P154A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10511,7 +10582,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361161-general-prompt-split-g148a","seenKey":"translator_release_notice_seen_test_v361161","ko":{"sub":"V3.61.161 TEST는 본앱 P154A/의미보존 가드를 그대로 유지하면서 일반앱의 한국어↔라오어 프롬프트를 본앱과 같은 외부 분리 구조로 개편했습니다.","summary":["본앱 P154A와 Selective Semantic Guard M1 번역 로직은 변경하지 않았습니다.","일반앱 V3.61.148 TEST / G148A에서 K→L·L→K 기본/SMART/역번역 프롬프트를 분리했습니다.","진단센터가 일반앱 prompt revision/SHA/runtime parity까지 확인하도록 보강되었습니다."],"sections":[["일반앱",["REL/SPEECH/READ 규칙은 로컬에서 선별되며 별도 AI 판정 호출이 없습니다.","영어·중국어·일본어·태국어 및 STT/TTS/Relay 경로는 기존 그대로입니다."]],["본앱",["P154A prompt-config.json은 바이트 변경 없이 유지합니다.","남편/아내 내장 버전만 통합 앱 V3.61.161 TEST에 맞춰 동기화합니다."]]],"previous":"V3.61.160 TEST / version synchronization hotfix."},"lo":{"sub":"V3.61.161 TEST ຮັກສາ P154A/semantic guard ຂອງແອັບຫຼັກ ແລະ ປັບ prompt ເກົາຫຼີ↔ລາວຂອງແອັບທົ່ວໄປເປັນໂຄງສ້າງແຍກ G148A.","summary":["P154A ແລະ Selective Semantic Guard M1 ຂອງແອັບຫຼັກບໍ່ປ່ຽນ.","General V3.61.148 TEST ແຍກ base/SMART/back prompt.","ສູນວິນິດໄສກວດ revision/SHA/runtime parity ຂອງ general prompt ເພີ່ມ."],"sections":[["General",["REL/SPEECH/READ ເລືອກໃນເຄື່ອງ ບໍ່ມີ AI call ເພີ່ມ.","STT/TTS/Relay ແລະ ພາສາອື່ນຄົງເດີມ."]]],"previous":"V3.61.160 TEST."}});
+ const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361163-main-large-view-m1","seenKey":"translator_release_notice_seen_test_v361163","ko":{"sub":"V3.61.163 TEST는 통합 버전을 유지하면서 본앱 번역 결과에 크게보기를 추가했습니다. 번역본복사 왼쪽에서 열 수 있고 180° 회전을 지원합니다.","summary":["본앱 P154A와 Selective Semantic Guard M1 번역 로직은 변경하지 않았습니다.","일반앱 G148A 프롬프트 분리 구조와 번역 로직은 그대로 유지합니다.","진단센터가 일반앱 prompt revision/SHA/runtime parity까지 확인하도록 보강되었습니다."],"sections":[["일반앱",["REL/SPEECH/READ 규칙은 로컬에서 선별되며 별도 AI 판정 호출이 없습니다.","영어·중국어·일본어·태국어 및 STT/TTS/Relay 경로는 기존 그대로입니다."]],["본앱",["P154A prompt-config.json은 바이트 변경 없이 유지합니다.","남편/아내 내장앱과 일반앱·진단기까지 모두 V3.61.163 TEST로 동기화합니다."]]],"previous":"V3.61.160 TEST / version synchronization hotfix."},"lo":{"sub":"V3.61.163 TEST ຮັກສາເວີຊັນລວມ ແລະ ເພີ່ມປຸ່ມເບິ່ງຄຳແປຕົວໃຫຍ່ໃນແອັບຫຼັກ ພ້ອມໝຸນ 180°.","summary":["P154A ແລະ Selective Semantic Guard M1 ຂອງແອັບຫຼັກບໍ່ປ່ຽນ.","General G148A base/SMART/back prompt ຍັງຄົງເດີມ.","ສູນວິນິດໄສກວດ revision/SHA/runtime parity ຂອງ general prompt ເພີ່ມ."],"sections":[["General",["REL/SPEECH/READ ເລືອກໃນເຄື່ອງ ບໍ່ມີ AI call ເພີ່ມ.","STT/TTS/Relay ແລະ ພາສາອື່ນຄົງເດີມ."]]],"previous":"V3.61.160 TEST."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
@@ -10532,6 +10603,18 @@ syncVisibleViewport();
  for(const id of ['releaseNoticeOverlay','manualUpdateHistoryOverlay'])document.getElementById(id)?.addEventListener('click',e=>{if(e.target===e.currentTarget){if(id==='releaseNoticeOverlay')closeReleaseNotice();else closeManualUpdateHistory()}});
  window.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!document.getElementById('releaseNoticeOverlay')?.hidden)closeReleaseNotice();else if(!document.getElementById('manualUpdateHistoryOverlay')?.hidden)closeManualUpdateHistory()});
  if(window.__releaseNoticeAfterRestorePending&&!String(document.title||'').startsWith('[TEST]'))requestReleaseNoticeAfterRestore();
+})();
+</script>
+
+<script id="v361163-couple-payload-overlay-bridge">
+(function installCouplePayloadOverlayBridge(){
+  if(window.__couplePayloadOverlayBridgeV361163)return;window.__couplePayloadOverlayBridgeV361163=true;
+  const shell=document.querySelector('.shell');if(!shell)return;
+  function setOpen(open){shell.classList.toggle('payload-overlay-active',!!open)}
+  window.addEventListener('message',e=>{const d=e?.data;if(!d||d.type!=='integrated-payload-overlay')return;const mode=String(d.mode||'');const frame=frameByMode?.[mode];if(!frame||e.source!==frame.contentWindow)return;if(d.open===true&&currentMode!==mode)return;setOpen(d.open===true)});
+  Object.values(frameByMode||{}).forEach(f=>f?.addEventListener('load',()=>setOpen(false)));
+  window.addEventListener('pageshow',()=>{if(!currentMode)setOpen(false)});
+  window.__setCouplePayloadOverlayV361163=setOpen;
 })();
 </script>
 </body>
