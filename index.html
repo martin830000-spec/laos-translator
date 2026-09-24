@@ -463,7 +463,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="92db2610f7238323a83eff519245dfa1648b410e046fcb378de4a397cf5bef88">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="d7a919a1396a8ae7145be18c4f7d9446422fd23e699d0f21dc3f76402fb4bccc">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1407,6 +1407,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const RESCUE_TIMEOUT_MS = 18000;   // 최종 복구 요청 안전 타임아웃
     const CRITICAL_REPAIR_HEDGE_MS = 2500; // 치명 오류 안전재번역 보조 요청 시작
     const CRITICAL_REPAIR_DEADLINE_MS = 10000; // 치명 오류 안전재번역 전체 절대마감
+    const SELECTIVE_SEMANTIC_REPAIR_TIMEOUT_MS = 8000; // V3.61.159: one selective repair only; no hedge/second repair
     const BACK_HEDGE_DELAY_MS = 2500;  // 수동 역번역 1차가 늦으면 보조 요청 시작
     const BACK_PAIR_DEADLINE_MS = 20000; // 로밍 지연을 고려한 수동 역번역 전체 마감
     const BACK_REQUEST_TIMEOUT_MS = 24000; // 로밍 지연을 고려한 수동 역번역 개별 요청 안전 타임아웃
@@ -3581,67 +3582,50 @@ const SharedCriticalMeaningCoreV277=(()=&gt;{
 })();
 
 
-function detectCriticalMeaningRiskK2L(source,target){return SharedCriticalMeaningCoreV277.detect('K2L',source,target)}
+function _mergeSelectiveCriticalRiskK2L(base,extra){const reasons=[...(base?.reasons||[])];for(const r of(extra?.reasons||[]))if(r&amp;&amp;!reasons.includes(r))reasons.push(r);return{critical:reasons.length&gt;0,reasons}}
+function detectSelectiveRelationRiskK2L(source,target){
+  const s=String(source||'').normalize('NFC'),t=String(target||'').normalize('NFC'),reasons=[];
+  const push=r=&gt;{if(r&amp;&amp;!reasons.includes(r))reasons.push(r)};
+  const hasKin=/(?:남동생|여동생|친동생|동생|언니|누나|형|오빠)/u.test(s);
+  const transferToListener=/(?:자기|여보|너|당신)(?:한테|에게)/u.test(s)&amp;&amp;/(?:주(?:고|면|는|려고|기로|었|겠|다)|전달|건네|가져다주|갖다주|보내|넘겨)/u.test(s);
+  const explicitThirdParty=/(?:ນ້ອງ(?:ຊາຍ|ສາວ|\s*ຂອງ|\s*ຄົນນັ້ນ)|ລາວ)/u.test(t);
+  const explicitListenerRecipient=/ໃຫ້[^.!?\n]{0,10}(?:ເຈົ້າ|ທີ່ຮັກ|ໂຕ(?:ເອງ)?)/u.test(t)||(explicitThirdParty&amp;&amp;/ໃຫ້\s*ນ້ອງ/u.test(t));
+  if(hasKin&amp;&amp;transferToListener&amp;&amp;!explicitListenerRecipient)push('REL_RECIPIENT_LISTENER_LOST_OR_COLLIDED');
+  const speakerOwnedKin=/(?:(?:내|제|우리)\s*(?:남동생|여동생|친동생|동생)|(?:나|저)의\s*(?:남동생|여동생|친동생|동생))/u.test(s);
+  const speakerOwnedKinLao=/ນ້ອງ(?:ຊາຍ|ສາວ)?\s*ຂອງ\s*(?:ອ້າຍ|ຂ້ອຍ|ເຮົາ)/u.test(t);
+  if(speakerOwnedKin&amp;&amp;!speakerOwnedKinLao)push('REL_SPEAKER_KIN_OWNER_LOST_OR_CHANGED');
+  const listenerOwnedKin=/(?:자기|여보|너|당신)(?:의\s*|\s*)(?:남동생|여동생|친동생|동생)/u.test(s);
+  const listenerOwnedKinLao=/ນ້ອງ(?:ຊາຍ|ສາວ)?\s*ຂອງ\s*(?:ເຈົ້າ|ໂຕ(?:ເອງ)?|ທີ່ຮັກ|ນ້ອງ)/u.test(t);
+  if(listenerOwnedKin&amp;&amp;!listenerOwnedKinLao)push('REL_LISTENER_KIN_OWNER_LOST_OR_CHANGED');
+  const parentSiblingMention=/(?:엄마|어머니|아빠|아버지)[^.!?\n]{0,40}(?:남동생|여동생|친동생|동생)(?:이|가|한테|에게|을|를|은|는|도)/u.test(s);
+  if(parentSiblingMention&amp;&amp;/(?:ແມ່|ພໍ່)[^.!?\n]{0,48}ນ້ອງ(?!\s*(?:ຊາຍ|ສາວ|ຂອງ|ຄົນ))/u.test(t))push('REL_THIRD_PARTY_SIBLING_AMBIGUOUS_AS_SPOUSE');
+  const kinSubjectToListener=/(?:남동생|여동생|친동생|동생)(?:이|가)[^.!?\n]{0,90}(?:자기|여보|너|당신)(?:한테|에게)/u.test(s);
+  if(kinSubjectToListener&amp;&amp;!explicitThirdParty)push('REL_THIRD_PARTY_SIBLING_IDENTITY_NOT_EXPLICIT');
+  return{critical:reasons.length&gt;0,reasons};
+}
+function detectCriticalMeaningRiskK2L(source,target){return _mergeSelectiveCriticalRiskK2L(SharedCriticalMeaningCoreV277.detect('K2L',source,target),detectSelectiveRelationRiskK2L(source,target))}
 function markCriticalMeaningQuality(base,risk){
   const q={...(base||{})};
   q.pass=false;q.criticalMeaning=true;q.criticalReasons=[...(risk?.reasons||[])];
   q.reasons=[...(q.reasons||[]),...q.criticalReasons.map(x=&gt;'의미반전 위험: '+x)];
   q.softContamination=false;return q;
 }
-const CRITICAL_REPAIR_PROMPT_K2L=SharedTranslationPolicyV3604.K2L_CRITICAL_REPAIR_PROMPT;
+const CRITICAL_REPAIR_PROMPT_K2L=SharedTranslationPolicyV3604.K2L_CRITICAL_REPAIR_PROMPT+' RELATION COLLISION REPAIR: Korean 동생/남동생/여동생 is a third party unless the source clearly says otherwise. In this couple app Lao ນ້ອງ can also denote the wife/listener, so when a third-party sibling and the wife/listener coexist, explicitly disambiguate the third party by possession, sex, or a stable third-person reference and use a distinct listener reference. Preserve 에게/한테 as recipient and 의 as possession; never convert one into the other.';
 function createCriticalRepairAttemptK2L(source,runId,label,timeoutMs){
   const controller=new AbortController();activeGeminiControllers.add(controller);let didTimeout=false;const started=performance.now();
+  const telemetryRecord=(liveTelemetryAttempt&amp;&amp;liveTelemetryAttempt.runId===runId)?{label,state:'pending',elapsedMs:null,httpStatus:null,providerMs:null,relayRoundTripMs:null,estimatedRelayNetworkMs:null,promptChars:CRITICAL_REPAIR_PROMPT_K2L.length,finishReason:'',retryable:false,route:'',directFallback:false,usagePromptTokens:null,usageCandidateTokens:null,usageThoughtTokens:null,usageTotalTokens:null,maxOutputTokens:1024}:null;
+  if(telemetryRecord)liveTelemetryAttempt.requestRecords.push(telemetryRecord);if(livePerfStats.runId===runId){livePerfStats.requestCount++;livePerfStats.promptCharsTotal+=CRITICAL_REPAIR_PROMPT_K2L.length;livePerfStats.promptCharsMax=Math.max(livePerfStats.promptCharsMax,CRITICAL_REPAIR_PROMPT_K2L.length);livePerfStats.labels.push(label)}
   const timer=setTimeout(()=&gt;{didTimeout=true;try{controller.abort()}catch(e){}},Math.max(1,timeoutMs));
-  const promise=(async()=&gt;{
-    try{
-      const response=await fetchPrimaryDirect('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:CRITICAL_REPAIR_PROMPT_K2L}]},contents:[{role:'user',parts:[{text:source}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'translate'});
-      if(!response.ok)throw Object.assign(new Error('CRITICAL_REPAIR_HTTP_'+response.status),{status:response.status,bodyText:response.__providerErrorBody||await integratedSafeResponseText(response),credentialKind:response.__passwordErrorKind||''});
-      const data=await response.json();if(runId!==translationRunId||!isTranslating)throw makeAbortError('STALE');
-      const parsed=extractGeminiText(data);if(parsed.finishReason!=='STOP'||!parsed.text)throw new Error('CRITICAL_REPAIR_FINISH_'+parsed.finishReason);
-      const quality=analyzeMainTranslationQuality(parsed.text,source);const recheck=detectCriticalMeaningRiskK2L(source,parsed.text);
-      if(!quality.pass||recheck.critical)throw Object.assign(new Error('CRITICAL_REPAIR_RECHECK'),{recheck,quality,rejectedText:parsed.text});
-      return{text:parsed.text,quality,elapsedMs:performance.now()-started,label,controller};
-    }catch(e){
-      if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('CRITICAL_REPAIR_TIMEOUT');x.name='TimeoutError';x.retryable=true;throw x;}
-      throw e;
-    }finally{clearTimeout(timer);activeGeminiControllers.delete(controller);}
-  })();
+  const promise=(async()=&gt;{try{
+    const response=await fetchPrimaryDirect('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:CRITICAL_REPAIR_PROMPT_K2L}]},contents:[{role:'user',parts:[{text:source}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'translate'});telemetryResponseMeta(telemetryRecord,response,started);
+    if(!response.ok)throw Object.assign(new Error('CRITICAL_REPAIR_HTTP_'+response.status),{status:response.status,bodyText:response.__providerErrorBody||await integratedSafeResponseText(response),credentialKind:response.__passwordErrorKind||''});
+    const data=await response.json();const usage=data?.usageMetadata||{};if(telemetryRecord){telemetryRecord.usagePromptTokens=Number.isFinite(Number(usage.promptTokenCount))?Number(usage.promptTokenCount):null;telemetryRecord.usageCandidateTokens=Number.isFinite(Number(usage.candidatesTokenCount))?Number(usage.candidatesTokenCount):null;telemetryRecord.usageThoughtTokens=Number.isFinite(Number(usage.thoughtsTokenCount))?Number(usage.thoughtsTokenCount):null;telemetryRecord.usageTotalTokens=Number.isFinite(Number(usage.totalTokenCount))?Number(usage.totalTokenCount):null}
+    if(runId!==translationRunId||!isTranslating)throw makeAbortError('STALE');const parsed=extractGeminiText(data);if(telemetryRecord)telemetryRecord.finishReason=String(parsed.finishReason||'');if(parsed.finishReason!=='STOP'||!parsed.text)throw new Error('CRITICAL_REPAIR_FINISH_'+parsed.finishReason);
+    const normalizedText=normalizeLaoCombiningMarks(normalizeCoupleChatLaughter('K2L',normalizeTranslationText(parsed.text),source));const quality=analyzeMainTranslationQuality(normalizedText,source),recheck=detectCriticalMeaningRiskK2L(source,normalizedText);if(!quality.pass||recheck.critical)throw Object.assign(new Error('CRITICAL_REPAIR_RECHECK'),{recheck,quality,rejectedText:normalizedText});if(telemetryRecord)telemetryRecord.state='success';return{text:normalizedText,quality,elapsedMs:performance.now()-started,label,controller};
+  }catch(e){if(telemetryRecord){telemetryRecord.elapsedMs=Math.max(0,performance.now()-started);telemetryRecord.retryable=e?.retryable===true;telemetryRecord.state=e?.name==='AbortError'?'aborted':(e?.name==='TimeoutError'?'timeout':'error');if(Number.isInteger(Number(e?.status)))telemetryRecord.httpStatus=Number(e.status)}if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('CRITICAL_REPAIR_TIMEOUT');x.name='TimeoutError';x.retryable=true;throw x}throw e}finally{clearTimeout(timer);activeGeminiControllers.delete(controller);if(telemetryRecord&amp;&amp;telemetryRecord.elapsedMs==null)telemetryRecord.elapsedMs=Math.max(0,performance.now()-started)}})();
   return{controller,promise,label};
 }
-async function requestCriticalMeaningRepairK2L(source,risk,runId){
-  const started=performance.now();const attempts=[];
-  const abortOthers=(winner)=&gt;{for(const a of attempts){if(a.controller!==winner){try{a.controller.abort()}catch(e){}}}};
-  const remaining=()=&gt;Math.max(1,CRITICAL_REPAIR_DEADLINE_MS-(performance.now()-started));
-  const launch=(label)=&gt;{const a=createCriticalRepairAttemptK2L(source,runId,label,remaining());attempts.push(a);return a;};
-  const first=launch('안전재번역1');
-  try{
-    const gate=await Promise.race([
-      first.promise.then(v=&gt;({type:'success',v})).catch(e=&gt;({type:'failure',e})),
-      sleep(CRITICAL_REPAIR_HEDGE_MS).then(()=&gt;({type:'hedge'}))
-    ]);
-    if(gate.type==='success'){abortOthers(gate.v.controller);return gate.v;}
-    // V3.60: a completed first safety rewrite is the single automatic repair stage.
-    // Only a still-pending/slow first request may trigger Hedge below.
-    if(gate.type==='failure')return null;
-    if(runId!==translationRunId||!isTranslating){abortOthers(null);return null;}
-    if(remaining()&lt;=1){abortOthers(null);return null;}
-    const second=launch('안전재번역2');
-    try{
-      const deadlinePromise=sleep(remaining()).then(()=&gt;({deadline:true}));
-      const settle=(a,id)=&gt;a.promise.then(v=&gt;({id,ok:true,v}),e=&gt;({id,ok:false,e}));
-      const firstEvent=settle(first,'first'),secondEvent=settle(second,'second');
-      const one=await Promise.race([firstEvent,secondEvent,deadlinePromise]);
-      if(one?.deadline)return null;
-      if(one.ok){abortOthers(one.v.controller);return one.v;}
-      if(one.e?.name==='AbortError'||isFatalClientGeminiStatus(one.e?.status))return null;
-      const other=one.id==='first'?secondEvent:firstEvent;
-      const two=await Promise.race([other,deadlinePromise]);
-      if(two?.deadline)return null;
-      if(two.ok){abortOthers(two.v.controller);return two.v;}
-      return null;
-    }catch(e){console.warn('[CRITICAL REPAIR Hedge 실패]',e,risk);return null;}
-  }finally{abortOthers(null);}
-}
+async function requestCriticalMeaningRepairK2L(source,risk,runId){const a=createCriticalRepairAttemptK2L(source,runId,'의미보존재번역',SELECTIVE_SEMANTIC_REPAIR_TIMEOUT_MS);try{return await a.promise}catch(e){console.warn('[SELECTIVE SEMANTIC REPAIR K2L FAILED]',e,risk);return null}finally{try{a.controller.abort()}catch(e){}}}
 
 
 function makeCriticalSafetyErrorK2L(risk){const e=new Error('CRITICAL_SAFETY_BLOCKED');e.name='CriticalSafetyError';e.criticalRisk=risk;e.retryable=true;return e}
@@ -4421,8 +4405,9 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
             if(runId!==translationRunId||!isTranslating)return;
             if(!singleOutcome.ok)throw singleOutcome.error;
             let result={...singleOutcome.result,hedged:false,rescued:false,tailRescued:false,winner:'정번역'};
+            let semanticRepaired=false,semanticRepairFailed=false;const initialCriticalRisk=detectCriticalMeaningRiskK2L(krText,result.text);if(initialCriticalRisk.critical){const repaired=await requestCriticalMeaningRepairK2L(krText,initialCriticalRisk,runId);if(runId!==translationRunId||!isTranslating)return;if(!repaired){semanticRepairFailed=true;throw makeCriticalSafetyErrorK2L(initialCriticalRisk)}result={...repaired,hedged:false,rescued:false,tailRescued:false,winner:'의미보존재번역'};semanticRepaired=true}
             const minorAutoRepaired=false,latinResidueAutoRetried=false,brokenCharAutoRetried=false;
-            // V3.61.85 final policy: one forward generation is displayed immediately. QualityGuard only flags possible anomalies; all retries are user-initiated.
+            // V3.61.159: normal path remains one request; only a high-confidence local semantic failure triggers one repair request.
             const finalText = result.text;
             // V2.18: 이해 가능한 경미한 품질 경고는 추가 요청 없이 즉시 표시.
             // 속도와 안정성을 우선하고, 실제 사용을 방해하는 큰 오류만 차단한다.
@@ -4435,7 +4420,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
             setLaoCopyReady(true);
             isJustTranslated = true;
             clearInputDirtyIfUnchanged(krText,'krInput');
-            deferStoreTranslation(krText, finalText, result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-totalStartedAt});
+            deferStoreTranslation(krText, finalText, result.quality,{winner:result.winner,semanticRepaired,semanticRepairFailed,elapsedMs:performance.now()-totalStartedAt});
             const totalGeminiMs = performance.now() - totalStartedAt;
             stopTimer("완료");
             document.getElementById('laoLabel').innerText = `🇱🇦 라오어 번역 - 완료 (${(totalGeminiMs / 1000).toFixed(1)}s / ${result.winner}):`;
@@ -4443,8 +4428,8 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
             resetTranslationUI();
             updateSpeechButtonAvailability();
 
-            recordLivePerfSample({totalMs:Math.round(totalGeminiMs),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:livePerfStats.requestCount,promptCharsMax:livePerfStats.promptCharsMax,promptCharsTotal:livePerfStats.promptCharsTotal,semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:krText.length,targetChars:finalText.length});
-            telemetryCommitPrimary({runId,direction:'K2L',sourceText:krText,targetText:finalText,quality:result.quality,totalMs:Math.round(totalGeminiMs),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:liveTelemetryAttempt?.requestRecords||[]});
+            recordLivePerfSample({totalMs:Math.round(totalGeminiMs),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:livePerfStats.requestCount,promptCharsMax:livePerfStats.promptCharsMax,promptCharsTotal:livePerfStats.promptCharsTotal,semanticRepaired,semanticRepairFailed,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:krText.length,targetChars:finalText.length});
+            telemetryCommitPrimary({runId,direction:'K2L',sourceText:krText,targetText:finalText,quality:result.quality,totalMs:Math.round(totalGeminiMs),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired,semanticRepairFailed,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:liveTelemetryAttempt?.requestRecords||[]});
 
             console.log('[번역 성능]', {
                 totalGeminiMs: Math.round(totalGeminiMs),
@@ -4455,6 +4440,8 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
                 chars: finalText.length,
                 minorContaminationDetected: result.quality?.softContamination === true,
                 minorAutoRepaired,
+                semanticRepaired,
+                semanticRepairFailed,
                 brokenCharAutoRetried,
                 latinResidueAutoRetried,
                 outputLocked:translationOutputLocked,
@@ -5509,7 +5496,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="9556be734209bc39fe2cbd3559c6ed4aaa69548453d9abea0043e20fae0709b5">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="bcb349a28a974ae757b76d594bdfb7cbbc911f928ccfb8fc4f9a9abadce5987a">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6394,6 +6381,7 @@ const GEMINI_TIMEOUT_MS=18000;
 const RESCUE_TIMEOUT_MS=18000;
 const CRITICAL_REPAIR_HEDGE_MS=2500;
 const CRITICAL_REPAIR_DEADLINE_MS=10000;
+const SELECTIVE_SEMANTIC_REPAIR_TIMEOUT_MS=8000; // V3.61.159: one selective repair only; no hedge/second repair
 const BACK_HEDGE_DELAY_MS=2500;
 const BACK_PAIR_DEADLINE_MS=20000;
 const BACK_REQUEST_TIMEOUT_MS=24000;
@@ -8149,58 +8137,43 @@ const SharedCriticalMeaningCoreV277=(()=&gt;{
 })();
 
 
-function detectCriticalMeaningRiskL2K(source,target){return SharedCriticalMeaningCoreV277.detect('L2K',source,target)}
+function _mergeSelectiveCriticalRiskL2K(base,extra){const reasons=[...(base?.reasons||[])];for(const r of(extra?.reasons||[]))if(r&amp;&amp;!reasons.includes(r))reasons.push(r);return{critical:reasons.length&gt;0,reasons}}
+function detectSelectiveRelationRiskL2K(source,target){
+  const s=String(source||'').normalize('NFC'),t=String(target||'').normalize('NFC'),reasons=[];
+  const push=r=&gt;{if(r&amp;&amp;!reasons.includes(r))reasons.push(r)};
+  const transfer=/(?:ເອົາ|ສົ່ງ|ມອບ|ຍື່ນ|ໃຫ້)/u.test(s);
+  const explicitKin=/(?:ນ້ອງຊາຍ|ນ້ອງສາວ)(?:\s*ຂອງ\s*(?:ຂ້ອຍ|ເຈົ້າ|ລາວ))?/u.test(s);
+  const toListener=transfer&amp;&amp;/ໃຫ້\s*ເຈົ້າ/u.test(s);
+  const koListenerRecipient=/(?:자기|여보|당신|너|오빠)(?:한테|에게)|(?:자기|여보|당신|너|오빠)에게/u.test(t);
+  if(explicitKin&amp;&amp;toListener&amp;&amp;!koListenerRecipient)push('REL_EXPLICIT_KIN_RECIPIENT_LOST_OR_BECAME_POSSESSOR');
+  const toSpeaker=transfer&amp;&amp;/ໃຫ້\s*ຂ້ອຍ/u.test(s);
+  const koSpeakerRecipient=/(?:나|저)(?:한테|에게)|(?:내|제)게/u.test(t);
+  if(explicitKin&amp;&amp;toSpeaker&amp;&amp;!koSpeakerRecipient)push('REL_EXPLICIT_KIN_TO_SPEAKER_RECIPIENT_LOST');
+  const listenerOwnedKin=/(?:ນ້ອງ(?:ຊາຍ|ສາວ)?\s*ຂອງ\s*(?:ເຈົ້າ|ອ້າຍ|ທີ່ຮັກ))/u.test(s);
+  const koListenerOwnedKin=/(?:자기|네|너|당신|오빠)(?:의\s*|\s*)(?:남동생|여동생|친동생|동생)/u.test(t);
+  if(listenerOwnedKin&amp;&amp;!koListenerOwnedKin)push('REL_LISTENER_KIN_POSSESSION_LOST');
+  const speakerOwnedKin=/(?:ນ້ອງ(?:ຊາຍ|ສາວ)?\s*ຂອງ\s*ຂ້ອຍ)/u.test(s);
+  const koSpeakerOwnedKin=/(?:(?:내|제|우리)\s*(?:남동생|여동생|친동생|동생)|(?:나|저)의\s*(?:남동생|여동생|친동생|동생))/u.test(t);
+  if(speakerOwnedKin&amp;&amp;!koSpeakerOwnedKin)push('REL_SPEAKER_KIN_POSSESSION_LOST');
+  return{critical:reasons.length&gt;0,reasons};
+}
+function detectCriticalMeaningRiskL2K(source,target){return _mergeSelectiveCriticalRiskL2K(SharedCriticalMeaningCoreV277.detect('L2K',source,target),detectSelectiveRelationRiskL2K(source,target))}
 function markCriticalMeaningQuality(base,risk){
   const q={...(base||{})};q.pass=false;q.criticalMeaning=true;q.criticalReasons=[...(risk?.reasons||[])];
   q.reasons=[...(q.reasons||[]),...q.criticalReasons.map(x=&gt;'CRITICAL_MEANING:'+x)];q.softContamination=false;return q;
 }
-const CRITICAL_REPAIR_PROMPT_L2K=SharedTranslationPolicyV3604.L2K_CRITICAL_REPAIR_PROMPT;
-function createCriticalRepairAttemptL2K(source,runId,label,timeoutMs){
-  const controller=new AbortController();mainControllers.add(controller);let didTimeout=false;const started=performance.now();
+const CRITICAL_REPAIR_PROMPT_L2K=SharedTranslationPolicyV3604.L2K_CRITICAL_REPAIR_PROMPT+' RELATION COLLISION REPAIR: bare ນ້ອງ may be wife/self in couple speech, but explicit ນ້ອງຊາຍ/ນ້ອງສາວ or ນ້ອງຂອງ X is a third-party kin relation. In X ເອົາ Y ... ໃຫ້ Z, Z is the recipient/beneficiary; never turn Z into the possessor of Y and never omit an explicit recipient. ຂອງ marks possession. Keep each person stable across clauses.';
+function createCriticalRepairAttemptL2K(source,runId,label,timeoutMs,ctx=null){
+  const controller=new AbortController();mainControllers.add(controller);let didTimeout=false;const started=performance.now();const record=ctx?.records?{label,state:'pending',elapsedMs:null,httpStatus:null,finishReason:null,qualityReasons:[],promptChars:CRITICAL_REPAIR_PROMPT_L2K.length,usagePromptTokens:null,usageCandidateTokens:null,usageThoughtTokens:null,usageTotalTokens:null,maxOutputTokens:1024}:null;if(record)ctx.records.push(record);
   const timer=setTimeout(()=&gt;{didTimeout=true;try{controller.abort()}catch(e){}},Math.max(1,timeoutMs));
   const promise=(async()=&gt;{try{
-    const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:CRITICAL_REPAIR_PROMPT_L2K}]},contents:[{role:'user',parts:[{text:source}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'translate'});
-    if(!res.ok){const e=Object.assign(new Error('CRITICAL_REPAIR_HTTP_'+res.status),{status:res.status,bodyText:res.__providerErrorBody||await integratedSafeResponseText(res),credentialKind:res.__passwordErrorKind||''});throw e;}
-    const data=await res.json();if(runId!==translationRunId||!isTranslating)throw makeAbortError('STALE');
-    const p=extractGeminiText(data);if(p.finishReason!=='STOP'||!p.text)throw new Error('CRITICAL_REPAIR_FINISH_'+p.finishReason);
-    const quality=analyzeKoreanQuality(p.text,source),recheck=detectCriticalMeaningRiskL2K(source,p.text);
-    if(!quality.pass||recheck.critical)throw Object.assign(new Error('CRITICAL_REPAIR_RECHECK'),{recheck,quality,rejectedText:p.text});
-    return{text:p.text,quality,elapsedMs:performance.now()-started,label,controller};
-  }catch(e){if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('CRITICAL_REPAIR_TIMEOUT');x.name='TimeoutError';x.retryable=true;throw x;}throw e}
-  finally{clearTimeout(timer);mainControllers.delete(controller)}})();
-  return{controller,promise,label};
+    const res=await fetchPrimaryDirect(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:CRITICAL_REPAIR_PROMPT_L2K}]},contents:[{role:'user',parts:[{text:source}]}],generationConfig:{maxOutputTokens:1024,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:controller.signal},{action:'translate'});if(record){record.httpStatus=res.status;telemetryResponseMeta(record,res,started)}
+    if(!res.ok){const e=Object.assign(new Error('CRITICAL_REPAIR_HTTP_'+res.status),{status:res.status,bodyText:res.__providerErrorBody||await integratedSafeResponseText(res),credentialKind:res.__passwordErrorKind||''});throw e}
+    const data=await res.json();const usage=data?.usageMetadata||{};if(record){record.usagePromptTokens=Number.isFinite(Number(usage.promptTokenCount))?Number(usage.promptTokenCount):null;record.usageCandidateTokens=Number.isFinite(Number(usage.candidatesTokenCount))?Number(usage.candidatesTokenCount):null;record.usageThoughtTokens=Number.isFinite(Number(usage.thoughtsTokenCount))?Number(usage.thoughtsTokenCount):null;record.usageTotalTokens=Number.isFinite(Number(usage.totalTokenCount))?Number(usage.totalTokenCount):null}if(runId!==translationRunId||!isTranslating)throw makeAbortError('STALE');
+    const p=extractGeminiText(data);if(record)record.finishReason=p.finishReason;if(p.finishReason!=='STOP'||!p.text)throw new Error('CRITICAL_REPAIR_FINISH_'+p.finishReason);const normalizedText=normalizeCoupleChatLaughter('L2K',normalizeTranslationText(p.text),source),quality=analyzeKoreanQuality(normalizedText,source),recheck=detectCriticalMeaningRiskL2K(source,normalizedText);if(!quality.pass||recheck.critical)throw Object.assign(new Error('CRITICAL_REPAIR_RECHECK'),{recheck,quality,rejectedText:normalizedText});if(record){record.state='success';record.elapsedMs=performance.now()-started;record.qualityReasons=quality.reasons||[]}return{text:normalizedText,quality,elapsedMs:performance.now()-started,label,controller};
+  }catch(e){if(record){record.elapsedMs=performance.now()-started;record.retryable=e?.retryable===true;record.state=e?.name==='AbortError'?'aborted':(e?.name==='TimeoutError'?'timeout':'error')}if(e?.name==='AbortError'&amp;&amp;didTimeout){const x=new Error('CRITICAL_REPAIR_TIMEOUT');x.name='TimeoutError';x.retryable=true;throw x}throw e}finally{clearTimeout(timer);mainControllers.delete(controller)}})();return{controller,promise,label};
 }
-async function requestCriticalMeaningRepairL2K(source,risk,runId){
-  const started=performance.now(),attempts=[];
-  const abortOthers=winner=&gt;{for(const a of attempts){if(a.controller!==winner){try{a.controller.abort()}catch(e){}}}};
-  const remaining=()=&gt;Math.max(1,CRITICAL_REPAIR_DEADLINE_MS-(performance.now()-started));
-  const launch=label=&gt;{const a=createCriticalRepairAttemptL2K(source,runId,label,remaining());attempts.push(a);return a};
-  const first=launch('ແປປອດໄພ1');
-  try{
-    const gate=await Promise.race([first.promise.then(v=&gt;({type:'success',v})).catch(e=&gt;({type:'failure',e})),sleep(CRITICAL_REPAIR_HEDGE_MS).then(()=&gt;({type:'hedge'}))]);
-    if(gate.type==='success'){abortOthers(gate.v.controller);return gate.v}
-    // V3.60: a completed first safety rewrite is the single automatic repair stage.
-    // Only a still-pending/slow first request may trigger Hedge below.
-    if(gate.type==='failure')return null;
-    if(runId!==translationRunId||!isTranslating){abortOthers(null);return null}
-    if(remaining()&lt;=1){abortOthers(null);return null}
-    const second=launch('ແປປອດໄພ2');
-    try{
-      const deadlinePromise=sleep(remaining()).then(()=&gt;({deadline:true}));
-      const settle=(a,id)=&gt;a.promise.then(v=&gt;({id,ok:true,v}),e=&gt;({id,ok:false,e}));
-      const firstEvent=settle(first,'first'),secondEvent=settle(second,'second');
-      const one=await Promise.race([firstEvent,secondEvent,deadlinePromise]);
-      if(one?.deadline)return null;
-      if(one.ok){abortOthers(one.v.controller);return one.v}
-      if(one.e?.name==='AbortError'||isFatalStatus(one.e?.status)||one.e?.status===429)return null;
-      const other=one.id==='first'?secondEvent:firstEvent;
-      const two=await Promise.race([other,deadlinePromise]);
-      if(two?.deadline)return null;
-      if(two.ok){abortOthers(two.v.controller);return two.v}
-      return null;
-    }catch(e){console.warn('[CRITICAL REPAIR hedge failed]',e,risk);return null}
-  }finally{abortOthers(null)}
-}
+async function requestCriticalMeaningRepairL2K(source,risk,runId,ctx=null){const a=createCriticalRepairAttemptL2K(source,runId,'ກວດຄວາມໝາຍແລ້ວແປໃໝ່',SELECTIVE_SEMANTIC_REPAIR_TIMEOUT_MS,ctx);try{return await a.promise}catch(e){console.warn('[SELECTIVE SEMANTIC REPAIR L2K FAILED]',e,risk);return null}finally{try{a.controller.abort()}catch(e){}}}
 
 
 function makeCriticalSafetyErrorL2K(risk){const e=new Error('CRITICAL_SAFETY_BLOCKED');e.name='CriticalSafetyError';e.criticalRisk=risk;e.retryable=true;return e}
@@ -8418,8 +8391,8 @@ async function translateText(options={}){const forceTts=options?.forceTts===true
   updateQualityBadge(null);
   const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){focusMainTextInput();return}
   cancelBackTranslation(false);setBackTime('');stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);updateSpeechButtonAvailability();setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
-  try{const singleHandle=createForwardRequest(source,ctx,'ຄຳແປຫຼັກ',GEMINI_TIMEOUT_MS,forwardMaxOutputTokensForSource(source));const singleOutcome=await singleHandle.outcome;if(!ctx.isActive())return;if(!singleOutcome.ok)throw singleOutcome.error;let result={...singleOutcome.result,hedged:false,rescued:false,tailRescued:false,winner:'ຄຳແປຫຼັກ'};const minorAutoRepaired=false,latinResidueAutoRetried=false,brokenCharAutoRetried=false;// V3.61.85 final policy: one forward generation is displayed immediately; QualityGuard only flags possible anomalies.
-  const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;clearInputDirtyIfUnchanged(source,'loInput');deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired:false,semanticRepairFailed:false,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired:false,semanticRepairFailed:false,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,latinResidueAutoRetried,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn||forceTts)void speakKorean();void requestBackTranslation(true);}
+  try{const singleHandle=createForwardRequest(source,ctx,'ຄຳແປຫຼັກ',GEMINI_TIMEOUT_MS,forwardMaxOutputTokensForSource(source));const singleOutcome=await singleHandle.outcome;if(!ctx.isActive())return;if(!singleOutcome.ok)throw singleOutcome.error;let result={...singleOutcome.result,hedged:false,rescued:false,tailRescued:false,winner:'ຄຳແປຫຼັກ'};let semanticRepaired=false,semanticRepairFailed=false;const initialCriticalRisk=detectCriticalMeaningRiskL2K(source,result.text);if(initialCriticalRisk.critical){const repaired=await requestCriticalMeaningRepairL2K(source,initialCriticalRisk,runId,ctx);if(!ctx.isActive())return;if(!repaired){semanticRepairFailed=true;throw makeCriticalSafetyErrorL2K(initialCriticalRisk)}result={...repaired,hedged:false,rescued:false,tailRescued:false,winner:'ກວດຄວາມໝາຍແລ້ວແປໃໝ່'};semanticRepaired=true}const minorAutoRepaired=false,latinResidueAutoRetried=false,brokenCharAutoRetried=false;// V3.61.159: normal path remains one request; only a high-confidence local semantic failure triggers one repair request.
+  const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;clearInputDirtyIfUnchanged(source,'loInput');deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired,semanticRepairFailed,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired,semanticRepairFailed,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired,semanticRepairFailed,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,latinResidueAutoRetried,semanticRepaired,semanticRepairFailed,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn||forceTts)void speakKorean();void requestBackTranslation(true);}
   catch(e){if(runId!==translationRunId)return;resetTranslationUI();setKoreanCopyReady(false);setRetry(true);setPrimaryResultVisible(true);if(e?.name==='AbortError'){stopTimer('ຢຸດແລ້ວ');document.getElementById('koResult').textContent='⚠️ ການແປຖືກຢຸດແລ້ວ.';return}
     if(hasCriticalTranslationFailure(e)){stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'critical-translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION CRITICAL BLOCK]',e,records);return}
     stopTimer('ລົ້ມເຫຼວ');document.getElementById('koResult').textContent=errorMessageLao(e,records);telemetryCommitFailure({runId,direction:'L2K',sourceText:source,error:e,stage:'translation-failure',totalMs:Math.round(performance.now()-started),requestRecords:records});console.error('[WIFE TRANSLATION]',e,records);}
@@ -9040,7 +9013,7 @@ function syncMainAutoInterpretFromStorage(){mainAutoInterpretEnabled=mainQuickSt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.158 TEST';
+const INTEGRATED_VERSION='V3.61.159 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9061,7 +9034,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='303eeda5e4747391851a952ea1639a431cae61c9f127dd51ee4385f56e6dfa1e';
+const EXTERNAL_DIAGNOSTIC_SHA256='3bc5a4ab985c2d6fb7fa73343aeae7cdd5aab21d5116c094a06ed66ff519dca5';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9094,11 +9067,11 @@ async function sha256HexText(text){
   return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// V3.61.158 TEST: external active P154A prompt config unchanged. Translation requests never fetch this file.
+// V3.61.159 TEST: external active P154A prompt config remains byte-identical; selective semantic guard is runtime-only.
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.158 TEST: retain P154A minimum revision; diagnostic-only patch must not accept older prompt LKG.
+// V3.61.159 TEST: retain P154A minimum revision; semantic-guard patch must not accept older prompt LKG.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P154A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10218,7 +10191,7 @@ function getUnifiedDiagnosticSessionId(){return UNIFIED_HOST_SESSION_ID;}
 window.getUnifiedDiagnosticSessionId=getUnifiedDiagnosticSessionId;
 function getUnifiedLivePromptSnapshot(){const c=unifiedPromptConfig||{};return{version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,source:unifiedPromptConfigSource,schemaVersion:Number(c.schemaVersion)||0,channel:String(c.channel||''),promptRevision:String(c.promptRevision||''),promptSha256:String(c.promptSha256||''),k2lForward:String(c.forward?.k2l||''),l2kForward:String(c.forward?.l2k||''),smartK2lSelf:String(c.smart?.k2lSelf||''),smartK2lHome:String(c.smart?.k2lHome||''),smartL2kElder:String(c.smart?.l2kElder||''),smartK2lSpeechAct:String(c.smart?.k2lSpeechAct||''),smartL2kSpeechAct:String(c.smart?.l2kSpeechAct||''),smartK2lRelation:String(c.smart?.k2lRelation||''),smartL2kRelation:String(c.smart?.l2kRelation||''),smartL2kReadability:String(c.smart?.l2kReadability||''),husbandBack:String(c.back?.husband||''),wifeBack:String(c.back?.wife||''),husbandRecovery:String(c.back?.husbandRecovery||''),wifeRecovery:String(c.back?.wifeRecovery||'')}}
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
-function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-10-DIAG-LIFECYCLE-M3',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-11-SEMANTIC-GUARD-M1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
 window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 async function getUnifiedRuntimeSafetyAudit(){
@@ -10260,7 +10233,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     const hc=_extractCriticalCore(h),wc=_extractCriticalCore(w);
     add('LIVE_CRITICAL_CORE_EMBEDDED_PARITY',!!hc&&hc===wc);
     add('WIFE_VOICE_DIAG_UI_REMOVED_V36140',!h.includes('id="voiceStatusCheckBtn"')&&!w.includes('id="voiceStatusCheckBtn"')&&w.includes('function startVoiceStatusCheck')&&w.includes('function copyVoiceStatusCheckLog'));
-    add('FORWARD_SINGLE_GENERATION_LIVE_POLICY',hTranslate.includes("createGeminiRequest(krText,runId,'정번역'")&&wTranslate.includes("createForwardRequest(source,ctx,'ຄຳແປຫຼັກ'")&&!hTranslate.includes('requestCriticalMeaningRepairK2L(')&&!wTranslate.includes('requestCriticalMeaningRepairL2K('));
+    add('FORWARD_PRIMARY_SINGLE_PLUS_SELECTIVE_REPAIR',hTranslate.includes("createGeminiRequest(krText,runId,'정번역'")&&wTranslate.includes("createForwardRequest(source,ctx,'ຄຳແປຫຼັກ'")&&hTranslate.includes('detectCriticalMeaningRiskK2L(')&&wTranslate.includes('detectCriticalMeaningRiskL2K(')&&hTranslate.includes('await requestCriticalMeaningRepairK2L(')&&wTranslate.includes('await requestCriticalMeaningRepairL2K(')&&!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy('));
     add('BACK_SINGLE_REQUEST_NO_AUTO_RECOVERY',hBack.includes("createBackTranslationRequest(laoText,myRunId,'역번역'")&&wBack.includes("createBackRequest(korean,runId,'ກວດຄວາມໝາຍ'")&&!hBack.includes('runBackTranslationRace(')&&!wBack.includes('runBackRace(')&&!hBack.includes('관계복구')&&!wBack.includes('ກູ້'));
     add('V36158_L2K_FORWARD_LOW',/buildFastForwardPromptL2K[\s\S]{0,900}thinkingLevel\s*:\s*['"]low['"]/.test(w));
     add('V36158_K2L_FORWARD_LOW',/buildFastForwardPromptK2L[\s\S]{0,900}thinkingLevel\s*:\s*['"]low['"]/.test(h));
@@ -10300,7 +10273,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('DETERMINISTIC_LAUGHTER_LOCALIZATION',h.includes('normalizeCoupleChatLaughter')&&w.includes('normalizeCoupleChatLaughter')&&h.includes("normalizeCoupleChatLaughter('K2L'")&&w.includes("normalizeCoupleChatLaughter('L2K'"));
     add('BACK_REGISTER_METADATA_ONLY',h.includes("detectKoreanRegisterForBack(lastRequestPayload||'')")&&w.includes('detectKoreanRegisterForBack(korean)')&&h.includes('This tag controls speech level only; never use it to reconstruct meaning')&&w.includes('This tag controls speech level only; never use it to reconstruct meaning'));
     add('BACK_ANOMALY_VISIBLE_NO_NORMALIZATION',husbandBackPrompt.includes('do not silently repair or reinterpret it as the obvious intended word')&&wifeBackPrompt.includes('do not silently repair or reinterpret it as the obvious intended word')&&husbandBackPrompt.includes('preserve the anomaly closely enough')&&wifeBackPrompt.includes('preserve the anomaly closely enough'));
-    add('FORWARD_NO_BACKGROUND_REWRITE',!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy(')&&!hTranslate.includes('requestCriticalMeaningRepairK2L(')&&!wTranslate.includes('requestCriticalMeaningRepairL2K(')&&hTranslate.includes('hedged:false,rescued:false,tailRescued:false')&&wTranslate.includes('hedged:false,rescued:false,tailRescued:false'));
+    add('FORWARD_NO_BACKGROUND_REWRITE',!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy(')&&hTranslate.indexOf('await requestCriticalMeaningRepairK2L(')<hTranslate.indexOf('const finalText = result.text')&&wTranslate.indexOf('await requestCriticalMeaningRepairL2K(')<wTranslate.indexOf('const finalText=result.text')&&hTranslate.includes('hedged:false,rescued:false,tailRescued:false')&&wTranslate.includes('hedged:false,rescued:false,tailRescued:false'));
     add('TIME_ROLE_NOUN_PRESERVATION_COMPACT_V2',k2lPrompt.includes('Preserve exact meaning')&&l2kPrompt.includes('Preserve exact meaning')&&k2lPrompt.includes('speaker/listener/third-party roles')&&l2kPrompt.includes('speaker/listener/third-party roles')&&k2lPrompt.includes('who does what to whom')&&l2kPrompt.includes('who does what to whom')&&k2lPrompt.includes('numbers, dates/times, names, places, brands, foods')&&l2kPrompt.includes('numbers, times, names, movement direction, and event order')&&l2kPrompt.includes('preserve unfamiliar names, brands'));
     const observedStart=diag.indexOf('async function runPolicyObserved'),observedEnd=diag.indexOf('function historyGuardScoreFromQ',observedStart);const observedSrc=observedStart>=0?diag.slice(observedStart,observedEnd>observedStart?observedEnd:observedStart+1400):'';
     const backStart=diag.indexOf('async function cloudStrictBackTranslation'),backEnd=diag.indexOf('function cloudDirectionSummary',backStart);const backSrc=backStart>=0?diag.slice(backStart,backEnd>backStart?backEnd:backStart+2500):'';
@@ -10315,8 +10288,12 @@ async function getUnifiedRuntimeSafetyAudit(){
 
     add('CRITICAL_CORE_K2L',hDetect.includes("SharedCriticalMeaningCoreV277.detect('K2L'")&&h.includes('SharedCriticalMeaningCoreV277'));
     add('CRITICAL_CORE_L2K',wDetect.includes("SharedCriticalMeaningCoreV277.detect('L2K'")&&w.includes('SharedCriticalMeaningCoreV277'));
-    add('SEMANTIC_REPAIR_NOT_IN_LIVE_DISPLAY_K2L',hTranslate.includes('const finalText = result.text')&&!hTranslate.includes('requestCriticalMeaningRepairK2L('));
-    add('SEMANTIC_REPAIR_NOT_IN_LIVE_DISPLAY_L2K',wTranslate.includes('const finalText=result.text')&&!wTranslate.includes('requestCriticalMeaningRepairL2K('));
+    add('SELECTIVE_SEMANTIC_GUARD_K2L',h.includes('detectSelectiveRelationRiskK2L')&&h.includes('SELECTIVE_SEMANTIC_REPAIR_TIMEOUT_MS = 8000')&&h.includes('의미보존재번역'));
+    add('SELECTIVE_SEMANTIC_GUARD_L2K',w.includes('detectSelectiveRelationRiskL2K')&&w.includes('SELECTIVE_SEMANTIC_REPAIR_TIMEOUT_MS=8000')&&w.includes('ກວດຄວາມໝາຍແລ້ວແປໃໝ່'));
+    add('SELECTIVE_REPAIR_SINGLE_ATTEMPT',!h.includes("launch('안전재번역2')")&&!w.includes("launch('ແປປອດໄພ2')")&&h.includes('requestCriticalMeaningRepairK2L')&&w.includes('requestCriticalMeaningRepairL2K'));
+    add('SELECTIVE_GUARD_P154A_UNCHANGED',String(pc.promptRevision||'')==='P154A');
+    add('SEMANTIC_REPAIR_BEFORE_DISPLAY_K2L',hTranslate.includes('await requestCriticalMeaningRepairK2L(')&&hTranslate.indexOf('await requestCriticalMeaningRepairK2L(')<hTranslate.indexOf('const finalText = result.text')&&hTranslate.indexOf('const finalText = result.text')<hTranslate.indexOf('laoResultEl.innerText = finalText'));
+    add('SEMANTIC_REPAIR_BEFORE_DISPLAY_L2K',wTranslate.includes('await requestCriticalMeaningRepairL2K(')&&wTranslate.indexOf('await requestCriticalMeaningRepairL2K(')<wTranslate.indexOf('const finalText=result.text')&&wTranslate.indexOf('const finalText=result.text')<wTranslate.indexOf("document.getElementById('koResult').textContent=finalText"));
     add('BACK_LOW_SCORE_RESULT_VISIBLE_K2L',h.includes('a non-empty completed back-translation is always shown')&&!h.includes("e.name='BackQualityError'")&&!h.includes('repairHusbandBackTranslation('));
     add('BACK_LOW_SCORE_RESULT_VISIBLE_L2K',w.includes('a non-empty completed back-translation is always shown')&&!w.includes("e.name='BackQualityError'")&&!w.includes('repairBackTranslation('));
     add('BACK_QUALITY_WARNING_UI_PARITY',h.includes('id="backQualityBadge"')&&w.includes('id="backQualityBadge"')&&h.includes('id="backQualityReasonBtn"')&&w.includes('id="backQualityReasonBtn"')&&h.includes('⚠️ 주의 이유 보기')&&w.includes('⚠️ ເບິ່ງເຫດຜົນທີ່ຄວນກວດ'));
@@ -10386,7 +10363,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('DIAG_USAGE_BIG_METRICS',diag.includes('id="mTranslations"')&&diag.includes('id="mPrompt"')&&diag.includes('id="mOutput"')&&diag.includes('id="mCost"'));
     add('DIAG_UNIFIED_COUPLE_GENERAL',diag.includes('__generalDiagnosticForward')&&diag.includes('__generalDiagnosticBack')&&diag.includes('runUnifiedLivePathDiagnostic')&&diag.includes('runUnifiedLiveBackDiagnostic'));
     add('DIAG_GENERAL_NESTED_PAYLOAD_BRIDGE',diag.includes('function generalBridgeWindow')&&diag.includes('payloadWin')&&diag.includes('generalBridgeReady'));
-    add('DIAG_QUALITY_PHASE_WATCHDOG',diag.includes('const QUALITY_PHASE_TIMEOUT_MS=30000')&&diag.includes('qualityPhaseExecute(()=>runForward')&&diag.includes('qualityPhaseExecute(()=>runBack')&&diag.includes("resetUnifiedDiagnosticLiveState('ALL'")&&diag.includes('QUALITY_CIRCUIT_BREAKER_CONSECUTIVE_TIMEOUT_CASES=2'));
+    add('DIAG_QUALITY_PHASE_WATCHDOG',diag.includes('const QUALITY_PHASE_TIMEOUT_MS=30000')&&diag.includes('qualityPhaseExecute(()=>runForward')&&diag.includes('qualityPhaseExecute(()=>runBack')&&diag.includes('resetLocalCoupleState(mode')&&diag.includes('QUALITY_CIRCUIT_BREAKER_CONSECUTIVE_TIMEOUT_CASES=2'));
     add('DIAG_AUTO_EVAL_REMOVED',diag.includes('AUTO_EVALUATION=false')&&diag.includes('현재 재번역 + 현재 재역번역')&&!diag.includes('preference=')&&!diag.includes('oldScore=')&&!diag.includes('currentScore='));
     add('DIAG_READ_ONLY_TELEMETRY',diag.includes('/admin/stats')&&diag.includes('/telemetry/sample')&&!diag.includes('/telemetry/replay')&&!diag.includes('/telemetry/review'));
     add('DIAG_RECENT_COUNTS_25_50_100_200',diag.includes('value="25"')&&diag.includes('value="50"')&&diag.includes('value="100"')&&diag.includes('value="200"'));
@@ -10534,7 +10511,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361157-diag-recovery-m2","seenKey":"translator_release_notice_seen_test_v361157","ko":{"sub":"V3.61.158 TEST는 P154A를 그대로 유지하면서 품질진단의 timeout 복구를 완성한 진단 전용 패치입니다.","summary":["25건 선택 시 실제 25건만 조회·실행합니다.","timeout 시 진단 clone 상태를 기록하고 husband/wife clone을 완전 재생성한 뒤 같은 단계를 1회 재시도합니다.","복구 후에도 2개 CASE가 연속 timeout이면 circuit breaker로 즉시 종료해 부분결과를 보존합니다."],"sections":[["진단 복구",["timeout 전 내부 상태(stage/controller/READY/generation)를 로그에 남깁니다.","새 clone의 P154A revision/SHA/READY를 확인한 뒤 재시도합니다.","runtime safety audit의 구형 Compact V2 문자열 검사 2개를 현재 P154A 의미 기준으로 갱신합니다."]],["그대로 유지",["P154A 정번역·역번역·SMART 프롬프트는 변경하지 않습니다.","일반앱 실사용 번역 로직, STT/TTS, Cloud Run, Relay/Fallback은 변경하지 않습니다."]]],"previous":"V3.61.156 TEST / 진단 watchdog·general bridge 복구."},"lo":{"sub":"V3.61.158 TEST ຮັກສາ P154A ເດີມ ແລະ ປັບປຸງການກູ້ຄືນ timeout ຂອງ diagnostic.","summary":["ເລືອກ 25 ຈະກວດ 25 ລາຍການແທ້.","ເມື່ອ timeout ຈະສ້າງ diagnostic clone ໃໝ່ ແລະ ລອງຄືນ 1 ຄັ້ງ.","ຖ້າ timeout ຕໍ່ເນື່ອງ 2 CASE ຈະຢຸດແລະຮັກສາຜົນບາງສ່ວນ."],"sections":[["ຄົງເດີມ",["P154A, SMART, STT/TTS, Cloud Run ແລະ Relay/Fallback ບໍ່ປ່ຽນ."]]],"previous":"V3.61.156 TEST."}});
+ const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361159-selective-semantic-guard-m1","seenKey":"translator_release_notice_seen_test_v361159","ko":{"sub":"V3.61.159 TEST는 P154A를 그대로 유지하면서 관계/수신자 오역만 선별 복구하는 의미보존 가드를 추가했습니다.","summary":["일반 문장은 V3.61.158과 동일하게 1회 번역하며 추가 검증 API 호출이 없습니다.","고신뢰 관계 충돌이 로컬 검사에서 확인된 경우에만 원문 기준 재번역을 1회 수행합니다.","재번역은 최대 8초, 1회만 수행하며 2중 hedge 재번역은 사용하지 않습니다."],"sections":[["선별 의미보존",["동생과 배우자 호칭이 겹치는 경우, 제3자/청자 역할을 분리합니다.","에게/한테 수신자를 소유자로 바꾸거나 생략하는 오류를 검사합니다.","복구 결과도 같은 로컬 의미검사를 다시 통과해야 표시됩니다."]],["그대로 유지",["P154A 정번역·역번역·SMART 프롬프트 바이트는 변경하지 않습니다.","일반앱, STT/TTS, Cloud Run, Relay/Fallback은 변경하지 않습니다."]]],"previous":"V3.61.158 TEST / 진단 lifecycle M3 안정화."},"lo":{"sub":"V3.61.159 TEST ຮັກສາ P154A ເດີມ ແລະ ເພີ່ມ selective semantic guard ສຳລັບຄວາມສຳພັນ/ຜູ້ຮັບ.","summary":["ປະໂຫຍກທົ່ວໄປແປ 1 ຄັ້ງຄືເກົ່າ.","ຈະແປໃໝ່ 1 ຄັ້ງສະເພາະເມື່ອ local guard ພົບຄວາມສ່ຽງສູງ.","ການແປໃໝ່ຈຳກັດ 8 ວິນາທີ ແລະ ບໍ່ມີ hedge ຄັ້ງທີ 2."],"sections":[["ຄົງເດີມ",["P154A, general app, STT/TTS, Cloud Run ແລະ Relay/Fallback ບໍ່ປ່ຽນ."]]],"previous":"V3.61.158 TEST."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
