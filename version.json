@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.164 TEST",
-  "build": "20260924-V3.61.164-TEST-SEMANTIC-GUARD-M2",
-  "buildId": "20260924-V3.61.164-TEST-SEMANTIC-GUARD-M2",
-  "notes": "V3.61.164 TEST: Selective Semantic Guard M2. P154A/G148A unchanged. K2L relation guard demotes source-ambiguous bare sibling wording and missing disambiguators to advisory-only, while explicit owner/recipient/gender contradictions remain repair-before-display. Repair observability and diagnostic policy audit fixed. V3.61.163 large view and general keyboard translate retained."
+  "version": "V3.61.165 TEST",
+  "build": "20260924-V3.61.165-TEST-USER-RETRY-POLICY",
+  "buildId": "20260924-V3.61.165-TEST-USER-RETRY-POLICY",
+  "notes": "V3.61.165 TEST: semantic detectors are advisory-only in live couple translation. No automatic semantic repair and no hard block; first translation is shown and user may retranslate after checking back-translation. Wife quickbar geometry matches husband quickbar while keeping Lao labels. P154A/G148A, STT/TTS, Cloud Run/relay/fallback, general keyboard translate and couple large view are unchanged."
 }
