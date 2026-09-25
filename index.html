@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="7c17e8d58419f6c1dedad3861a5bc52c2a2ec06d15067243ec5a0a2658e55bf6">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="9d92182e9b3daf34822e5768ef78b9a9efce8515561f333979f077f013472f0b">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.169 TEST';
+const APP_VERSION='V3.61.170 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5563,7 +5563,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="b09a1a276dcf38752d68860d0fe9110ee289d54774df42877e6ae89bf45e4a57">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="eef4e09b6660ef9a4a71ab1a8de6f6c81b1f03f95682004515e3e796e3593abe">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6209,7 +6209,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.169 TEST';
+const APP_VERSION='V3.61.170 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9123,7 +9123,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.169 TEST';
+const INTEGRATED_VERSION='V3.61.170 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9144,7 +9144,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='af2f79f3456861bb175a0cb779f43a95e2befa25e0e99cdf97ef5fcd30837a85';
+const EXTERNAL_DIAGNOSTIC_SHA256='8b40a74c9a1c718a40eca3c1f919cfd4a94798f62bc1eddbe3c47ed41dd02338';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9181,7 +9181,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.169 TEST: P155A Semantic Fidelity R1 changes prompt policy only; translation call count, user-retry policy, STT/TTS and network behavior remain unchanged.
+// V3.61.170 TEST: P155A Semantic Fidelity R1 changes prompt policy only; translation call count, user-retry policy, STT/TTS and network behavior remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P155A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10622,7 +10622,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.169 TEST","id":"test-v361169-semantic-fidelity-r1","seenKey":"translator_release_notice_seen_test_v361169","ko":{"sub":"V3.61.169 TEST는 번역 속도 구조를 유지하면서 의미 보존 우선순위를 강화한 TEST 빌드입니다.","summary":["부부앱 P155A와 일반앱 G149A로 프롬프트를 교체했습니다.","문법·어순은 자연스럽게 다듬되 원문에 없는 주체·대상·의도·관계·사실을 추론해 추가하지 않도록 강화했습니다.","정번역/역번역의 AI 호출 수, STT/TTS, Seoul/Bangkok relay, Cloudflare fallback은 변경하지 않았습니다."],"sections":[["의미 보존",["주체·대상·수신자·소유·부정·조건·목적·시제·숫자·고유명사·장소관계를 우선 보존합니다.","짧거나 애매한 문장은 앞뒤 문맥으로 임의 완성하지 않고 애매함을 유지합니다."]],["역번역",["역번역은 읽기 쉬운 문법·어순만 자연화하고, 정번역 결과의 의미를 원문처럼 복원하지 않습니다."]],["유지",["추가 AI 검수/자동 재번역을 넣지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.168 TEST / Version Sync Guard R1."},"lo":{"sub":"V3.61.169 TEST ເນັ້ນຮັກສາຄວາມໝາຍໃຫ້ແມ່ນຍຳ ໂດຍບໍ່ເພີ່ມ AI call.","summary":["ປ່ຽນ prompt ແອັບຄູ່ເປັນ P155A ແລະ ແອັບທົ່ວໄປເປັນ G149A.","ປັບໄວຍາກອນໃຫ້ທຳມະຊາດໄດ້ ແຕ່ຫ້າມເດົາ/ເພີ່ມຄວາມໝາຍ.","STT/TTS ແລະ network ບໍ່ປ່ຽນ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.170 TEST","id":"test-v361169-semantic-fidelity-r1","seenKey":"translator_release_notice_seen_test_v361169","ko":{"sub":"V3.61.170 TEST는 번역 속도 구조를 유지하면서 의미 보존 우선순위를 강화한 TEST 빌드입니다.","summary":["부부앱 P155A와 일반앱 G149A 프롬프트는 V3.61.169와 동일하게 유지합니다.","일반앱 K↔L 실사용 정번역·역번역 기록을 비동기 텔레메트리로 저장해 번역기록/품질비교/성능 진단에서 앱별 조회할 수 있게 했습니다.","정번역/역번역 AI 호출 수, P155A/G149A, STT/TTS, Seoul/Bangkok relay, Cloudflare fallback은 변경하지 않았습니다."],"sections":[["의미 보존",["주체·대상·수신자·소유·부정·조건·목적·시제·숫자·고유명사·장소관계를 우선 보존합니다.","짧거나 애매한 문장은 앞뒤 문맥으로 임의 완성하지 않고 애매함을 유지합니다."]],["역번역",["역번역은 읽기 쉬운 문법·어순만 자연화하고, 정번역 결과의 의미를 원문처럼 복원하지 않습니다."]],["유지",["추가 AI 검수/자동 재번역을 넣지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.168 TEST / Version Sync Guard R1."},"lo":{"sub":"V3.61.170 TEST ເນັ້ນຮັກສາຄວາມໝາຍໃຫ້ແມ່ນຍຳ ໂດຍບໍ່ເພີ່ມ AI call.","summary":["ປ່ຽນ prompt ແອັບຄູ່ເປັນ P155A ແລະ ແອັບທົ່ວໄປເປັນ G149A.","ປັບໄວຍາກອນໃຫ້ທຳມະຊາດໄດ້ ແຕ່ຫ້າມເດົາ/ເພີ່ມຄວາມໝາຍ.","STT/TTS ແລະ network ບໍ່ປ່ຽນ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
