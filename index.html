@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="19fd7233a74fd1591e24821f7f19dd80967e63d0f4a5bb963404466b3ae119d6">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="7c17e8d58419f6c1dedad3861a5bc52c2a2ec06d15067243ec5a0a2658e55bf6">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.168 TEST';
+const APP_VERSION='V3.61.169 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5563,7 +5563,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="115131f0130b328dd017a78d16d20548063593b8f7027ed81c019c9cc45bddce">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="b09a1a276dcf38752d68860d0fe9110ee289d54774df42877e6ae89bf45e4a57">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6209,7 +6209,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.168 TEST';
+const APP_VERSION='V3.61.169 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9123,7 +9123,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.168 TEST';
+const INTEGRATED_VERSION='V3.61.169 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9144,7 +9144,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='cf00c3307bf51dcc71f23fe4c61e7f0e826230b8578e6c07d9c00e0836708911';
+const EXTERNAL_DIAGNOSTIC_SHA256='af2f79f3456861bb175a0cb779f43a95e2befa25e0e99cdf97ef5fcd30837a85';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9181,9 +9181,9 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.168 TEST: retain P154A minimum revision; user-retry policy and wife quickbar parity must not alter prompt LKG, translation/back-translation, STT/TTS or network behavior.
+// V3.61.169 TEST: P155A Semantic Fidelity R1 changes prompt policy only; translation call count, user-retry policy, STT/TTS and network behavior remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
-const COUPLE_PROMPT_MIN_REVISION='P154A';
+const COUPLE_PROMPT_MIN_REVISION='P155A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
 let unifiedPromptConfig=null,unifiedPromptConfigSource='none',unifiedPromptConfigError='',unifiedPromptConfigPromise=null,unifiedPromptRemotePromise=null,unifiedPromptSessionLocked=false;
 function couplePromptRevisionRank(v){
@@ -10320,7 +10320,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('VERSION_SYNC',h.includes("const APP_VERSION='"+INTEGRATED_VERSION+"';")&&w.includes("const APP_VERSION='"+INTEGRATED_VERSION+"';")&&diag.includes("const DIAG_VERSION='"+INTEGRATED_VERSION+"';"));
     add('FAST_DIRECT_PROMPTS',h.includes('function buildFastForwardPromptK2L')&&w.includes('function buildFastForwardPromptL2K')&&h.includes('COUPLE_PROMPT_CONFIG.forward?.k2l')&&w.includes('COUPLE_PROMPT_CONFIG.forward?.l2k'));
     add('FIXED_SPOUSE_ROLE_PROMPTS',h.includes('HUSBAND')&&h.includes('WIFE')&&w.includes('WIFE')&&w.includes('HUSBAND'));
-    const pc=unifiedPromptConfig||{},k2lPrompt=String(pc.forward?.k2l||''),l2kPrompt=String(pc.forward?.l2k||''),husbandBackPrompt=String(pc.back?.husband||''),wifeBackPrompt=String(pc.back?.wife||''),sourcePolicyOk=src=>/Preserve exact meaning/i.test(src)&&/speaker\/listener\/third-party roles/i.test(src)&&/who does what to whom/i.test(src)&&/sentence force\/polarity/i.test(src)&&/Never invent(?: or substitute)?\s+(?:an?\s+)?event(?:\/action)?[\s\S]{0,80}venue[\s\S]{0,80}setting[\s\S]{0,80}reason[\s\S]{0,80}fact/i.test(src);add('SOURCE_FIDELITY_POLICY',sourcePolicyOk(k2lPrompt)&&sourcePolicyOk(l2kPrompt));
+    const pc=unifiedPromptConfig||{},k2lPrompt=String(pc.forward?.k2l||''),l2kPrompt=String(pc.forward?.l2k||''),husbandBackPrompt=String(pc.back?.husband||''),wifeBackPrompt=String(pc.back?.wife||''),sourcePolicyOk=src=>/Naturalize syntax, not semantics/i.test(src)&&/Preserve exact meaning/i.test(src)&&/speaker\/listener\/third-party roles/i.test(src)&&/who does what to whom/i.test(src)&&/purpose\/intention/i.test(src)&&/never add, omit, infer, reinterpret/i.test(src);add('SOURCE_FIDELITY_POLICY',sourcePolicyOk(k2lPrompt)&&sourcePolicyOk(l2kPrompt));
     add('EXTERNAL_PROMPT_CONFIG_VALIDATED',!!pc&&pc.channel==='TEST'&&Number(pc.schemaVersion)===1&&!!pc.promptRevision&&!!pc.promptSha256);
     add('SMART_PROMPT_LOCAL_ONLY',h.includes('getActiveSmartRuleIdsK2L')&&w.includes('getActiveSmartRuleIdsL2K')&&!h.includes('SMART_CLASSIFIER_API')&&!w.includes('SMART_CLASSIFIER_API'));
     add('SMART_RULES_PRESENT',!!pc.smart?.k2lSpeechAct&&!!pc.smart?.l2kSpeechAct&&!!pc.smart?.k2lRelation&&!!pc.smart?.l2kRelation&&!!pc.smart?.l2kReadability);
@@ -10384,7 +10384,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('BACK_REGISTER_METADATA_ONLY',h.includes("detectKoreanRegisterForBack(lastRequestPayload||'')")&&w.includes('detectKoreanRegisterForBack(korean)')&&h.includes('This tag controls speech level only; never use it to reconstruct meaning')&&w.includes('This tag controls speech level only; never use it to reconstruct meaning'));
     add('BACK_ANOMALY_VISIBLE_NO_NORMALIZATION',husbandBackPrompt.includes('do not silently repair or reinterpret it as the obvious intended word')&&wifeBackPrompt.includes('do not silently repair or reinterpret it as the obvious intended word')&&husbandBackPrompt.includes('preserve the anomaly closely enough')&&wifeBackPrompt.includes('preserve the anomaly closely enough'));
     add('FORWARD_NO_BACKGROUND_REWRITE',!hTranslate.includes('requestGeminiWithHedge(')&&!wTranslate.includes('runForwardPolicy(')&&hTranslate.indexOf('await requestCriticalMeaningRepairK2L(')<hTranslate.indexOf('const finalText = result.text')&&wTranslate.indexOf('await requestCriticalMeaningRepairL2K(')<wTranslate.indexOf('const finalText=result.text')&&hTranslate.includes('hedged:false,rescued:false,tailRescued:false')&&wTranslate.includes('hedged:false,rescued:false,tailRescued:false'));
-    add('TIME_ROLE_NOUN_PRESERVATION_COMPACT_V2',k2lPrompt.includes('Preserve exact meaning')&&l2kPrompt.includes('Preserve exact meaning')&&k2lPrompt.includes('speaker/listener/third-party roles')&&l2kPrompt.includes('speaker/listener/third-party roles')&&k2lPrompt.includes('who does what to whom')&&l2kPrompt.includes('who does what to whom')&&k2lPrompt.includes('numbers, dates/times, names, places, brands, foods')&&l2kPrompt.includes('numbers, times, names, movement direction, and event order')&&l2kPrompt.includes('preserve unfamiliar names, brands'));
+    add('SEMANTIC_FIDELITY_CONTRACT_P155A',k2lPrompt.includes('Naturalize syntax, not semantics')&&l2kPrompt.includes('Naturalize syntax, not semantics')&&k2lPrompt.includes('speaker/listener/third-party roles')&&l2kPrompt.includes('speaker/listener/third-party roles')&&k2lPrompt.includes('who does what to whom')&&l2kPrompt.includes('who does what to whom')&&k2lPrompt.includes('purpose/intention')&&l2kPrompt.includes('purpose/intention')&&k2lPrompt.includes('lexical strength')&&l2kPrompt.includes('lexical strength'));
     const observedStart=diag.indexOf('async function runPolicyObserved'),observedEnd=diag.indexOf('function historyGuardScoreFromQ',observedStart);const observedSrc=observedStart>=0?diag.slice(observedStart,observedEnd>observedStart?observedEnd:observedStart+1400):'';
     const backStart=diag.indexOf('async function cloudStrictBackTranslation'),backEnd=diag.indexOf('function cloudDirectionSummary',backStart);const backSrc=backStart>=0?diag.slice(backStart,backEnd>backStart?backEnd:backStart+2500):'';
     const abStart=diag.indexOf('async function primaryFirstAbLiveRequest'),abEnd=diag.indexOf('function primaryFirstAbRawRequest',abStart);const abSrc=abStart>=0?diag.slice(abStart,abEnd>abStart?abEnd:abStart+1800):'';
@@ -10401,7 +10401,7 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('SEMANTIC_ADVISORY_K2L',h.includes('detectSelectiveRelationRiskK2L')&&h.includes('semanticAdvisory:true')&&h.includes('사용자 확인')&&h.includes('function retryLastTranslation()'));
     add('SEMANTIC_ADVISORY_L2K',w.includes('detectSelectiveRelationRiskL2K')&&w.includes('semanticAdvisory:true')&&w.includes('사용자 확인')&&w.includes('function retryLastTranslation()'));
     add('SELECTIVE_REPAIR_SINGLE_ATTEMPT',!h.includes("launch('안전재번역2')")&&!w.includes("launch('ແປປອດໄພ2')")&&h.includes('requestCriticalMeaningRepairK2L')&&w.includes('requestCriticalMeaningRepairL2K'));
-    add('SELECTIVE_GUARD_P154A_UNCHANGED',String(pc.promptRevision||'')==='P154A');
+    add('SEMANTIC_PROMPT_P155A_ACTIVE',String(pc.promptRevision||'')==='P155A');
     add('SEMANTIC_NO_AUTOREPAIR_K2L',!hTranslate.includes('requestCriticalMeaningRepairK2L(')&&!hTranslate.includes('makeCriticalSafetyErrorK2L(')&&hTranslate.includes('semanticAdvisory:true')&&hTranslate.indexOf('const finalText = result.text')<hTranslate.indexOf('laoResultEl.innerText = finalText'));
     add('SEMANTIC_NO_AUTOREPAIR_L2K',!wTranslate.includes('requestCriticalMeaningRepairL2K(')&&!wTranslate.includes('makeCriticalSafetyErrorL2K(')&&wTranslate.includes('semanticAdvisory:true')&&wTranslate.indexOf('const finalText=result.text')<wTranslate.indexOf("document.getElementById('koResult').textContent=finalText"));
     add('BACK_LOW_SCORE_RESULT_VISIBLE_K2L',h.includes('a non-empty completed back-translation is always shown')&&!h.includes("e.name='BackQualityError'")&&!h.includes('repairHusbandBackTranslation('));
@@ -10425,14 +10425,14 @@ async function getUnifiedRuntimeSafetyAudit(){
     add('BACK_THIRD_PERSON_TARGET_PRESERVED',h.includes('third-person relationship targets exactly')&&w.includes('third-person relationship targets exactly'));
     add('BACK_REGISTER_SOURCE_RULE',h.includes("const registerTag=detectKoreanRegisterForBack(lastRequestPayload||'');")&&w.includes('const registerTag=detectKoreanRegisterForBack(korean);'));
     add('BACK_NO_HIDDEN_LANGUAGE_RECOVERY',!hBack.includes('언어복구')&&!hBack.includes('languageRetryCount:1')&&!wBack.includes('relationRecovery')&&!wBack.includes('technicalRecovery'));
-    add('NO_UNSUPPORTED_DETAIL_COMPACT_V2',k2lPrompt.includes('Never invent event, venue, setting, reason, or fact')&&l2kPrompt.includes('Never invent or substitute an event/action, venue, setting, reason, or fact')&&k2lPrompt.includes('do not invent a person, relationship, possessor, or generic place')&&l2kPrompt.includes('never invent a person, relationship, possessor, or fact')&&k2lPrompt.includes('never weaken or intensify meaning')&&l2kPrompt.includes('weaken/intensify meaning'));
+    add('NO_CONTEXT_COMPLETION_P155A',k2lPrompt.includes('never invent it from prior context')&&l2kPrompt.includes('from prior context')&&k2lPrompt.includes('preserve the ambiguity instead of guessing')&&l2kPrompt.includes('preserve the ambiguity and translate conservatively'));
     add('MISUNDERSTANDING_ROLE_LOCAL_CHECKS',h.includes('우리/저희→그들로 주체 변경')&&w.includes('우리→그들로 주체 변경')&&h.includes('부모/자녀 관계로 변경')&&w.includes('부모/자녀 관계로 변경')&&h.includes('원문의 동생이 역번역에서 다른 사람/관계 대상으로 바뀌었습니다.'));
     add('LAUGHTER_LOCALIZED_BEFORE_SCRIPT_GUARD',h.includes('deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.')&&w.includes('deterministic laughter normalization runs before this detector; any remaining Hangul is corruption.')&&h.includes("normalizeCoupleChatLaughter('K2L'")&&w.includes("normalizeCoupleChatLaughter('L2K'"));
     add('DORM_VARIANT_REFERENCE_ONLY',h.includes('ຮໍພັກ')&&w.includes('ຮໍພັກ'));
     const maxTokensRetryable=src=>/retryable\s*=\s*\[[^\]]*["']MAX_TOKENS["']/.test(src);
     add('MAX_TOKENS_MANUAL_RETRY',maxTokensRetryable(h)&&maxTokensRetryable(w)&&h.includes("finishReason === 'MAX_TOKENS'")&&w.includes("finishReason==='MAX_TOKENS'")&&h.includes('[다시 시도]')&&w.includes('[ລອງໃໝ່]'));
 
-    add('NATURAL_VERIFICATION_BACKTRANSLATION',h.includes('SharedBackTranslationPolicyV36149.HUSBAND_BACK_PROMPT')&&w.includes('SharedBackTranslationPolicyV36149.WIFE_BACK_PROMPT')&&husbandBackPrompt.includes('sole evidence for meaning; never reconstruct')&&wifeBackPrompt.includes('sole evidence for meaning; never reconstruct')&&husbandBackPrompt.includes('smooth, natural, and gently conversational')&&wifeBackPrompt.includes('smooth, natural, and gently conversational'));
+    add('MEANING_FIXED_NATURAL_BACKTRANSLATION',h.includes('SharedBackTranslationPolicyV36149.HUSBAND_BACK_PROMPT')&&w.includes('SharedBackTranslationPolicyV36149.WIFE_BACK_PROMPT')&&husbandBackPrompt.includes('sole evidence for meaning')&&wifeBackPrompt.includes('sole evidence for meaning')&&husbandBackPrompt.includes('Naturalize syntax, not semantics')&&wifeBackPrompt.includes('Naturalize syntax, not semantics')&&husbandBackPrompt.includes('Do not restore a lost explicit name')&&wifeBackPrompt.includes('Do not restore a lost explicit name'));
     add('V36144_BACK_TRUTH_TENSE_REGISTER_IDENTITY',h.includes('_koAspectReviewV36144')&&h.includes('_koTogetherReviewV36144')&&w.includes('_loAspectReviewV36144')&&w.includes('_loTogetherReviewV36144')&&h.includes('ongoing/in progress must remain ongoing')&&w.includes('ongoing/in progress must remain ongoing'));
     add('BACKTRANSLATION_NO_SOURCE_LEAK',h.includes('parts: [{ text: laoText }]')&&w.includes('parts:[{text:korean}]'));
     add('COPY_TRANSLATION_PLUS_BACK_PARITY',h.includes("laoText+'\\n'+backText")&&w.includes("koreanText+'\\n'+backText")&&h.includes('waitForBackTranslationForCopy')&&w.includes('waitForBackTranslationForCopy'));
@@ -10622,7 +10622,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361168-version-sync-guard-r1","seenKey":"translator_release_notice_seen_test_v361168","ko":{"sub":"V3.61.168 TEST는 번역 동작을 바꾸지 않고 버전/빌드 동기화 검증을 강화한 TEST 빌드입니다.","summary":["P154A/G148A, 번역·역번역, STT/TTS, Seoul/Bangkok relay 및 Cloudflare fallback 동작은 변경하지 않았습니다.","현재 advisory-only 정책과 모순되던 구식 runtime safety audit 조건을 수정했습니다.","최근 품질 비교에 메타설명 누출·비정상 문자 혼입·출력 과다·숫자/시간 불일치 위험신호를 advisory 방식으로 추가했습니다."],"sections":[["검증",["배포 전 payload/diagnostic SHA, prompt hash, 핵심 함수 parity, 버전 동기화, JS 문법, 의미정책을 자동 확인합니다.","품질 위험신호는 번역을 차단하거나 자동수정하지 않고 진단 로그에 PASS/CHECK/HIGH로만 표시합니다."]],["유지",["사용자 화면과 번역 실행 경로에는 새 기능을 추가하지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.165 TEST / User Retry Policy."},"lo":{"sub":"V3.61.168 TEST ເພີ່ມການກວດກາເວີຊັນ/ບິວໃຫ້ກົງກັນ ໂດຍບໍ່ປ່ຽນການແປຈິງ.","summary":["P154A/G148A, ການແປ/ແປກັບ, STT/TTS, Seoul/Bangkok relay ແລະ Cloudflare fallback ບໍ່ປ່ຽນ.","ແກ້ self-audit ເກົ່າທີ່ຂັດກັບນະໂຍບາຍ advisory-only.","ເພີ່ມ Golden Regression Pack, release manifest ແລະ Release Gate."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.169 TEST","id":"test-v361169-semantic-fidelity-r1","seenKey":"translator_release_notice_seen_test_v361169","ko":{"sub":"V3.61.169 TEST는 번역 속도 구조를 유지하면서 의미 보존 우선순위를 강화한 TEST 빌드입니다.","summary":["부부앱 P155A와 일반앱 G149A로 프롬프트를 교체했습니다.","문법·어순은 자연스럽게 다듬되 원문에 없는 주체·대상·의도·관계·사실을 추론해 추가하지 않도록 강화했습니다.","정번역/역번역의 AI 호출 수, STT/TTS, Seoul/Bangkok relay, Cloudflare fallback은 변경하지 않았습니다."],"sections":[["의미 보존",["주체·대상·수신자·소유·부정·조건·목적·시제·숫자·고유명사·장소관계를 우선 보존합니다.","짧거나 애매한 문장은 앞뒤 문맥으로 임의 완성하지 않고 애매함을 유지합니다."]],["역번역",["역번역은 읽기 쉬운 문법·어순만 자연화하고, 정번역 결과의 의미를 원문처럼 복원하지 않습니다."]],["유지",["추가 AI 검수/자동 재번역을 넣지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.168 TEST / Version Sync Guard R1."},"lo":{"sub":"V3.61.169 TEST ເນັ້ນຮັກສາຄວາມໝາຍໃຫ້ແມ່ນຍຳ ໂດຍບໍ່ເພີ່ມ AI call.","summary":["ປ່ຽນ prompt ແອັບຄູ່ເປັນ P155A ແລະ ແອັບທົ່ວໄປເປັນ G149A.","ປັບໄວຍາກອນໃຫ້ທຳມະຊາດໄດ້ ແຕ່ຫ້າມເດົາ/ເພີ່ມຄວາມໝາຍ.","STT/TTS ແລະ network ບໍ່ປ່ຽນ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
