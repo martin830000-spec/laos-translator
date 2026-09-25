@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="eeb71c86bd774bf89d838bd4d1bd94cd4aa99918d10c50d76b1c4bd1f4ad8281">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="59d0caf2bd6adbead4e9f23a911d9b368805eb94d4c78e9de3b042b880640cea">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.171 TEST';
+const APP_VERSION='V3.61.172 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5563,7 +5563,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="b756da26a46be21e10d650bac059738772c8689a374c09f3bcd200b5a8b3e689">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="59c9ccafe1971bf060061facc79686deeba5548df6fd1504ea0c412f3ed6cb7f">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6209,7 +6209,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.171 TEST';
+const APP_VERSION='V3.61.172 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9123,7 +9123,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.171 TEST';
+const INTEGRATED_VERSION='V3.61.172 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9144,7 +9144,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='80167d16e48c91dd578a339389ffe5e23ce78b9d55b9d71a48eaf119d3488a92';
+const EXTERNAL_DIAGNOSTIC_SHA256='120edbb26871f1ab2941f93a260da5ffae556cb0a6adbcb86af91ded08f03101';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9181,7 +9181,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.171 TEST: P156A Semantic Fidelity R2 minimally tightens four observed meaning-drift patterns; call count, user-retry policy, STT/TTS and network behavior remain unchanged.
+// V3.61.172 TEST: P156A Semantic Fidelity R2 minimally tightens four observed meaning-drift patterns; call count, user-retry policy, STT/TTS and network behavior remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P156A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10623,7 +10623,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.171 TEST","id":"test-v361171-semantic-fidelity-r2","seenKey":"translator_release_notice_seen_test_v361171","ko":{"sub":"V3.61.171 TEST는 본앱 P156A 의미 보존 규칙만 최소 보강한 TEST 빌드입니다.","summary":["본앱 프롬프트를 P155A→P156A로 변경했습니다.","얻어먹다/목적 과해석, 평서·순서→조건 변형, 명시된 제3자·관계 혼동, 불완전 입력 임의완성을 최소 보강했습니다.","일반앱 G149A, AI 호출 수, STT/TTS, 네트워크/relay, Cloud Run은 변경하지 않았습니다."],"sections":[["P156A",["입력에 이미 있는 주체·대상·관계·조건·목적을 그대로 보존하는 데 집중합니다.","덕분에처럼 원인이 생략된 한국어를 임의 추론해서 해결하는 규칙은 추가하지 않았습니다."]],["유지",["역번역 프롬프트와 자동 재번역 정책은 변경하지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.170 TEST / General Telemetry R1."},"lo":{"sub":"V3.61.171 TEST ປັບສະເພາະ prompt P156A ຂອງແອັບຄູ່.","summary":["P155A → P156A ສຳລັບແອັບຄູ່.","ຮັກສາຈຸດປະສົງ, ລຳດັບ/ເງື່ອນໄຂ, ບຸກຄົນທີສາມ ແລະ ຂໍ້ຄວາມບໍ່ສົມບູນ.","G149A, STT/TTS, network ແລະ Cloud Run ບໍ່ປ່ຽນ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.172 TEST","id":"test-v361171-semantic-fidelity-r2","seenKey":"translator_release_notice_seen_test_v361171","ko":{"sub":"V3.61.172 TEST는 본앱 P156A 의미 보존 규칙만 최소 보강한 TEST 빌드입니다.","summary":["본앱 프롬프트를 P155A→P156A로 변경했습니다.","얻어먹다/목적 과해석, 평서·순서→조건 변형, 명시된 제3자·관계 혼동, 불완전 입력 임의완성을 최소 보강했습니다.","일반앱 G150A, AI 호출 수, STT/TTS, 네트워크/relay, Cloud Run은 변경하지 않았습니다."],"sections":[["P156A",["입력에 이미 있는 주체·대상·관계·조건·목적을 그대로 보존하는 데 집중합니다.","덕분에처럼 원인이 생략된 한국어를 임의 추론해서 해결하는 규칙은 추가하지 않았습니다."]],["유지",["역번역 프롬프트와 자동 재번역 정책은 변경하지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.170 TEST / General Telemetry R1."},"lo":{"sub":"V3.61.172 TEST ປັບສະເພາະ prompt P156A ຂອງແອັບຄູ່.","summary":["P155A → P156A ສຳລັບແອັບຄູ່.","ຮັກສາຈຸດປະສົງ, ລຳດັບ/ເງື່ອນໄຂ, ບຸກຄົນທີສາມ ແລະ ຂໍ້ຄວາມບໍ່ສົມບູນ.","G150A, STT/TTS, network ແລະ Cloud Run ບໍ່ປ່ຽນ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
