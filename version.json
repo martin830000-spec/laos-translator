@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.165 TEST",
-  "build": "20260924-V3.61.165-TEST-USER-RETRY-POLICY",
-  "buildId": "20260924-V3.61.165-TEST-USER-RETRY-POLICY",
-  "notes": "V3.61.165 TEST: semantic detectors are advisory-only in live couple translation. No automatic semantic repair and no hard block; first translation is shown and user may retranslate after checking back-translation. Wife quickbar geometry matches husband quickbar while keeping Lao labels. P154A/G148A, STT/TTS, Cloud Run/relay/fallback, general keyboard translate and couple large view are unchanged."
+  "version": "V3.61.166 TEST",
+  "build": "20260925-V3.61.166-TEST-STRUCTURE-SAFETY-R1",
+  "buildId": "20260925-V3.61.166-TEST-STRUCTURE-SAFETY-R1",
+  "notes": "V3.61.166 TEST Structure Safety R1. Runtime translation/back-translation/STT/TTS/network behavior is frozen from V3.61.165. Fixes the stale runtime safety audit condition that contradicted advisory-only/no-autoRepair policy. Adds offline Golden Regression/Release Gate artifacts at package root."
 }
