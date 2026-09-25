@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="f8ce2c9d5f2d67f474504551592689aa446d6d3d47f3ecaf04a6924728cb2afe">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="a2ab475c82457815888eedcdaed2668d2aa0aa9500eac8adcedc461d8601dfb3">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.166 TEST';
+const APP_VERSION='V3.61.167 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5563,7 +5563,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f13faf217b71e738f6c3a40f9fcabff82ea95932477d4a1ff41f475ea8fec809">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="671a44dd4bf95bf11d16cd62e5e0139d087dfbbc1e3db6f58fa6cdf99a8b2a52">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6209,7 +6209,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.166 TEST';
+const APP_VERSION='V3.61.167 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9123,7 +9123,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.166 TEST';
+const INTEGRATED_VERSION='V3.61.167 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9144,7 +9144,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='8eb8670c3afe334b119f8eedfd8dd4c318b7ef206bcefe895855cb56bdeb722c';
+const EXTERNAL_DIAGNOSTIC_SHA256='4694bf41f1e0fbc57a69fc6bd547c6942591177b79b359d92f50775568ad716b';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9181,7 +9181,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.166 TEST: retain P154A minimum revision; user-retry policy and wife quickbar parity must not alter prompt LKG, translation/back-translation, STT/TTS or network behavior.
+// V3.61.167 TEST: retain P154A minimum revision; user-retry policy and wife quickbar parity must not alter prompt LKG, translation/back-translation, STT/TTS or network behavior.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P154A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10301,7 +10301,7 @@ function getUnifiedDiagnosticSessionId(){return UNIFIED_HOST_SESSION_ID;}
 window.getUnifiedDiagnosticSessionId=getUnifiedDiagnosticSessionId;
 function getUnifiedLivePromptSnapshot(){const c=unifiedPromptConfig||{};return{version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,source:unifiedPromptConfigSource,schemaVersion:Number(c.schemaVersion)||0,channel:String(c.channel||''),promptRevision:String(c.promptRevision||''),promptSha256:String(c.promptSha256||''),k2lForward:String(c.forward?.k2l||''),l2kForward:String(c.forward?.l2k||''),smartK2lSelf:String(c.smart?.k2lSelf||''),smartK2lHome:String(c.smart?.k2lHome||''),smartL2kElder:String(c.smart?.l2kElder||''),smartK2lSpeechAct:String(c.smart?.k2lSpeechAct||''),smartL2kSpeechAct:String(c.smart?.l2kSpeechAct||''),smartK2lRelation:String(c.smart?.k2lRelation||''),smartL2kRelation:String(c.smart?.l2kRelation||''),smartL2kReadability:String(c.smart?.l2kReadability||''),husbandBack:String(c.back?.husband||''),wifeBack:String(c.back?.wife||''),husbandRecovery:String(c.back?.husbandRecovery||''),wifeRecovery:String(c.back?.wifeRecovery||'')}}
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
-function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-14-STRUCTURE-SAFETY-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-15-OUTPUT-GUARD-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
 window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 async function getUnifiedRuntimeSafetyAudit(){
@@ -10622,7 +10622,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361166-structure-safety-r1","seenKey":"translator_release_notice_seen_test_v361166","ko":{"sub":"V3.61.166 TEST는 번역 동작을 바꾸지 않고 구조 안전망을 보강한 검증 빌드입니다.","summary":["P154A/G148A, 번역·역번역, STT/TTS, Seoul/Bangkok relay 및 Cloudflare fallback 동작은 변경하지 않았습니다.","현재 advisory-only 정책과 모순되던 구식 runtime safety audit 조건을 수정했습니다.","Golden Regression Pack, 단일 release manifest, 자동 Release Gate를 패키지에 추가했습니다."],"sections":[["검증",["배포 전 payload/diagnostic SHA, prompt hash, 핵심 함수 parity, 버전 동기화, JS 문법, 의미정책을 자동 확인합니다.","실사용 200건을 Golden Regression Pack으로 보존해 이후 품질 회귀 비교 기준으로 사용합니다."]],["유지",["사용자 화면과 번역 실행 경로에는 새 기능을 추가하지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.165 TEST / User Retry Policy."},"lo":{"sub":"V3.61.166 TEST ເປັນ build ສຳລັບເພີ່ມຄວາມປອດໄພໃນການກວດສອບ ໂດຍບໍ່ປ່ຽນການແປຈິງ.","summary":["P154A/G148A, ການແປ/ແປກັບ, STT/TTS, Seoul/Bangkok relay ແລະ Cloudflare fallback ບໍ່ປ່ຽນ.","ແກ້ self-audit ເກົ່າທີ່ຂັດກັບນະໂຍບາຍ advisory-only.","ເພີ່ມ Golden Regression Pack, release manifest ແລະ Release Gate."]}});
+ const RELEASE_DATA=Object.freeze({"version":INTEGRATED_VERSION,"id":"test-v361167-quality-guard-r1","seenKey":"translator_release_notice_seen_test_v361167","ko":{"sub":"V3.61.167 TEST는 번역 동작을 바꾸지 않고 진단 품질 위험신호 자동탐지를 추가한 검증 빌드입니다.","summary":["P154A/G148A, 번역·역번역, STT/TTS, Seoul/Bangkok relay 및 Cloudflare fallback 동작은 변경하지 않았습니다.","현재 advisory-only 정책과 모순되던 구식 runtime safety audit 조건을 수정했습니다.","최근 품질 비교에 메타설명 누출·비정상 문자 혼입·출력 과다·숫자/시간 불일치 위험신호를 advisory 방식으로 추가했습니다."],"sections":[["검증",["배포 전 payload/diagnostic SHA, prompt hash, 핵심 함수 parity, 버전 동기화, JS 문법, 의미정책을 자동 확인합니다.","품질 위험신호는 번역을 차단하거나 자동수정하지 않고 진단 로그에 PASS/CHECK/HIGH로만 표시합니다."]],["유지",["사용자 화면과 번역 실행 경로에는 새 기능을 추가하지 않았습니다.","SERVICE는 변경하지 않습니다."]]],"previous":"V3.61.165 TEST / User Retry Policy."},"lo":{"sub":"V3.61.167 TEST ເພີ່ມການກວດສັນຍານຄວາມສ່ຽງໃນຜົນການແປຂອງໜ້າວິນິດໄສ ໂດຍບໍ່ປ່ຽນການແປຈິງ.","summary":["P154A/G148A, ການແປ/ແປກັບ, STT/TTS, Seoul/Bangkok relay ແລະ Cloudflare fallback ບໍ່ປ່ຽນ.","ແກ້ self-audit ເກົ່າທີ່ຂັດກັບນະໂຍບາຍ advisory-only.","ເພີ່ມ Golden Regression Pack, release manifest ແລະ Release Gate."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
