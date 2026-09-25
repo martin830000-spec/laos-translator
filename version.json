@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.167 TEST",
-  "build": "20260925-V3.61.167-TEST-QUALITY-GUARD-R1",
-  "buildId": "20260925-V3.61.167-TEST-QUALITY-GUARD-R1",
-  "notes": "V3.61.167 TEST Quality Guard R1. Translation/back-translation/STT/TTS/network behavior remains frozen from V3.61.165. Diagnostic quality comparison now emits advisory PASS/CHECK/HIGH output-risk flags for meta-explanation leakage, foreign-script contamination, excessive expansion, missing target script, and number/time mismatches."
+  "version": "V3.61.168 TEST",
+  "build": "20260925-V3.61.168-TEST-VERSION-SYNC-GUARD-R1",
+  "buildId": "20260925-V3.61.168-TEST-VERSION-SYNC-GUARD-R1",
+  "notes": "V3.61.168 TEST Version Sync Guard R1. Translation/back-translation/STT/TTS/network and Quality Guard behavior are unchanged; release metadata synchronization is hardened."
 }
