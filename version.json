@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.176 TEST",
-  "build": "20260926-V3.61.176-TEST-SEMANTIC-FIDELITY-R4",
-  "buildId": "20260926-V3.61.176-TEST-SEMANTIC-FIDELITY-R4",
-  "notes": "V3.61.176 TEST Semantic Fidelity R4 final candidate. Couple P158A and General G151A add only state-breadth preservation for personal condition/feeling terms, including verification back-translation. Existing semantic locks, live call logic, STT/TTS, network, Cloud Run 3.7.18 and Firestore are unchanged."
+  "version": "V3.61.177 TEST",
+  "build": "20260926-V3.61.177-TEST-SEMANTIC-FIDELITY-R5",
+  "buildId": "20260926-V3.61.177-TEST-SEMANTIC-FIDELITY-R5",
+  "notes": "V3.61.177 TEST final micro-patch. Couple P159A adds only negative-confirmation polarity, 얻어먹다 provider/no-invented-request, and explicit contrast separation; P158A state-breadth remains. General G151A, STT/TTS, live call logic, network, Cloud Run 3.7.18 and Firestore are unchanged."
 }
