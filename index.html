@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="5ee76a02b8ca5fc4e2ff4ce6a6b57b93328b5072e760238337cc944568934e07">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="4f7659583cb64aad39c907c182c33923800c3d3af6bd056765be622c0ba24409">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.173 TEST';
+const APP_VERSION='V3.61.174 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5563,7 +5563,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="c93863e0cc22859eb72038d81205e2a712c1263d34fabe1cbacf7ef73ff38e49">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="924a4d4be3efb13e3505168cd5e9820445347e96c2afdec9201070c88b3d3905">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6209,7 +6209,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.173 TEST';
+const APP_VERSION='V3.61.174 TEST';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9123,7 +9123,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.173 TEST';
+const INTEGRATED_VERSION='V3.61.174 TEST';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9144,7 +9144,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='c5feeeb389cdfa828d62a02d68ce6920fa50ea2dc737ef5a70aa842642710200';
+const EXTERNAL_DIAGNOSTIC_SHA256='f682a0a2ac4202493944a8444930cebad3c78479202b96c64313da46bb380f92';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9181,7 +9181,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.173 TEST: diagnostic-only general quality-compare bridge fix; P156A/G150A, STT/TTS, network and Cloud Run behavior remain unchanged.
+// V3.61.174 TEST: diagnostic-only bulk stress test UI; P156A/G150A, live translation/backtranslation, STT/TTS, network and Cloud Run behavior remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P156A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10301,7 +10301,7 @@ function getUnifiedDiagnosticSessionId(){return UNIFIED_HOST_SESSION_ID;}
 window.getUnifiedDiagnosticSessionId=getUnifiedDiagnosticSessionId;
 function getUnifiedLivePromptSnapshot(){const c=unifiedPromptConfig||{};return{version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,source:unifiedPromptConfigSource,schemaVersion:Number(c.schemaVersion)||0,channel:String(c.channel||''),promptRevision:String(c.promptRevision||''),promptSha256:String(c.promptSha256||''),k2lForward:String(c.forward?.k2l||''),l2kForward:String(c.forward?.l2k||''),smartK2lSelf:String(c.smart?.k2lSelf||''),smartK2lHome:String(c.smart?.k2lHome||''),smartL2kElder:String(c.smart?.l2kElder||''),smartK2lSpeechAct:String(c.smart?.k2lSpeechAct||''),smartL2kSpeechAct:String(c.smart?.l2kSpeechAct||''),smartK2lRelation:String(c.smart?.k2lRelation||''),smartL2kRelation:String(c.smart?.l2kRelation||''),smartL2kReadability:String(c.smart?.l2kReadability||''),husbandBack:String(c.back?.husband||''),wifeBack:String(c.back?.wife||''),husbandRecovery:String(c.back?.husbandRecovery||''),wifeRecovery:String(c.back?.wifeRecovery||'')}}
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
-function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-15-OUTPUT-GUARD-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-16-BULK-STRESS-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
 window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 async function getUnifiedRuntimeSafetyAudit(){
@@ -10623,7 +10623,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.173 TEST","id":"test-v361173-general-diag-bridge-r1","seenKey":"translator_release_notice_seen_test_v361173","ko":{"sub":"V3.61.173 TEST는 일반앱 품질비교 진단 브리지 오류만 수정한 TEST 빌드입니다.","summary":["일반앱 실제 번역은 정상인데 품질비교 재번역에서 발생하던 reloadCommonCredentials 오류를 수정했습니다.","P156A와 G150A 프롬프트, 실제 번역/역번역 호출 경로는 변경하지 않았습니다.","Cloud Run 3.7.18, Firestore, STT/TTS, 네트워크/Relay도 그대로입니다."],"sections":[["진단 수정",["일반앱 진단 전용 브리지가 현재 인증 로더 readCredentials를 사용합니다.","진단 자체점검에서 일반앱 인증 로더 의존성을 확인합니다."]],["유지",["SERVICE는 변경하지 않습니다.","Cloud Run 재배포는 필요하지 않습니다."]]],"previous":"V3.61.172 TEST / General + Cloud Scope R1."},"lo":{"sub":"V3.61.173 TEST ແກ້ສະເພາະ bridge ຂອງການກວດ Quality Compare ໃນແອັບທົ່ວໄປ.","summary":["ແກ້ error reloadCommonCredentials ໃນການ re-translate ຂອງ diagnostic.","P156A/G150A ແລະ ເສັ້ນທາງແປຈິງບໍ່ປ່ຽນ.","Cloud Run 3.7.18, Firestore, STT/TTS ແລະ network ບໍ່ປ່ຽນ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.174 TEST","id":"test-v361174-bulk-stress-diag-r1","seenKey":"translator_release_notice_seen_test_v361174","ko":{"sub":"V3.61.174 TEST는 진단센터에 자유 붙여넣기 일괄 스트레스 테스트를 추가한 TEST 빌드입니다.","summary":["새 예문을 한 줄씩 여러 개 붙여넣어 본앱/일반앱 현재 프롬프트로 일괄 정번역·역번역할 수 있습니다.","P156A와 G150A 프롬프트, 실사용 번역/역번역·STT/TTS 호출 경로는 변경하지 않았습니다.","Cloud Run 3.7.18, Firestore, STT/TTS, 네트워크/Relay도 그대로입니다."],"sections":[["진단 수정",["일괄 스트레스 테스트는 한 줄 자동 방향판별, K2L|/L2K| 강제 방향, 1/3회 반복, 선택 재실행을 지원합니다.","진단 결과는 실사용 번역기록에 저장하지 않고 로그로만 수집합니다."]],["유지",["SERVICE는 변경하지 않습니다.","Cloud Run 재배포는 필요하지 않습니다."]]],"previous":"V3.61.173 TEST / General Diagnostic Bridge R1."},"lo":{"sub":"V3.61.174 TEST ເພີ່ມ bulk stress test ໃນ diagnostic center.","summary":["ສາມາດວາງຫຼາຍປະໂຫຍກ ແລ້ວທົດສອບການແປ/ແປກັບດ້ວຍ prompt ປັດຈຸບັນໄດ້.","P156A/G150A ແລະ ເສັ້ນທາງແປຈິງບໍ່ປ່ຽນ.","Cloud Run 3.7.18, Firestore, STT/TTS ແລະ network ບໍ່ປ່ຽນ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
