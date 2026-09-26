@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.174 TEST",
-  "build": "20260926-V3.61.174-TEST-BULK-STRESS-DIAG-R1",
-  "buildId": "20260926-V3.61.174-TEST-BULK-STRESS-DIAG-R1",
-  "notes": "V3.61.174 TEST Bulk Stress Diagnostic R1. Adds free-paste batch stress testing in diagnostics only. P156A/G150A, live translation, STT/TTS, Cloud Run 3.7.18 and Firestore are unchanged."
+  "version": "V3.61.175 TEST",
+  "build": "20260926-V3.61.175-TEST-SEMANTIC-FIDELITY-R3",
+  "buildId": "20260926-V3.61.175-TEST-SEMANTIC-FIDELITY-R3",
+  "notes": "V3.61.175 TEST Semantic Fidelity R3. Couple prompt P157A strengthens provider/payer/recipient role fidelity and blocks source-absent attribute/time additions. G150A, live call logic, STT/TTS, network, Cloud Run 3.7.18 and Firestore are unchanged."
 }
