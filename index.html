@@ -310,6 +310,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 .shell.payload-overlay-active .stage{position:fixed!important;inset:0!important;z-index:2147483100!important;background:#fff!important}
 .shell.payload-overlay-active .switchbar{visibility:hidden!important}
 </style>
+
+<style id="unified-dialog-style">.unified-dialog{position:fixed;inset:0;z-index:2147483600;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}.unified-dialog[hidden]{display:none!important}.unified-dialog-card{width:min(430px,100%);background:#fff;color:#172033;border-radius:18px;box-shadow:0 18px 60px rgba(15,23,42,.28);padding:20px 18px 16px;box-sizing:border-box}.unified-dialog-message{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.55;font-weight:650}.unified-dialog-actions{display:flex;justify-content:flex-end;margin-top:18px}.unified-dialog-actions button{min-width:82px;min-height:42px;border:0;border-radius:11px;background:#3157d5;color:#fff;font-weight:800;font-size:14px;padding:8px 14px}</style>
 </head>
 <body class="unified-booting">
 <div id="unifiedBootGate" class="unified-boot-gate" role="status" aria-live="polite"><div class="unified-boot-card"><div class="unified-boot-spinner" aria-hidden="true"></div><div id="unifiedBootText" class="unified-boot-text">이전 화면과 설정을 복원하고 있어요…
@@ -468,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="c87c543a9c86ac8103b728535b4af826eca85019b2e861332ea3981fbaf80008">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="b5ecb882d5575b337cbc79d8e21efeeb472e48e2d211034559f5304697c0b603">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1186,7 +1188,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.186';
+const APP_VERSION='V3.61.187';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5598,7 +5600,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="d445275eaff00f3e725f8ecdc890955ed82fcc07957b6f41f3a133f208297507">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="8819f9c6460147208eea091f5e0b6c86e11add935c0c29bddd5a450669947f27">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6261,7 +6263,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.186';
+const APP_VERSION='V3.61.187';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9190,7 +9192,9 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.186';
+const INTEGRATED_VERSION='V3.61.187';
+function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
+
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9211,7 +9215,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='9fda51c8fbca021016dde4531f20f098d027ac7841f418407ca6e973f0f59826';
+const EXTERNAL_DIAGNOSTIC_SHA256='a9cc5af28104b5d1ed14ecaf7658afbbaeab4612dc3cdc143177a71b15a7fe29';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9248,7 +9252,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.186: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
+// V3.61.187: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -9461,7 +9465,7 @@ async function checkUnifiedConnection(){
   finally{if(btn){btn.disabled=false;btn.textContent='🌐 서울·방콕 서버 확인\nກວດ Seoul·Bangkok'}}
 }
 window.checkUnifiedConnection=checkUnifiedConnection;
-async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);alert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
+async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
 function showUnifiedLogin(clearFields){if(currentMode)suspendMode(currentMode);resetLoadedFrames();document.getElementById('selector').classList.remove('hidden');document.getElementById('authScreen').classList.remove('hidden');if(clearFields){try{localStorage.removeItem(UNIFIED_UI_STATE_KEY);localStorage.removeItem(LEGACY_UNIFIED_UI_STATE_KEY)}catch(e){}}autoConnectUnified()}
 
 
@@ -9756,10 +9760,10 @@ function ensureModeLoaded(mode){
   refreshSharedCredentials();if(!sharedKeys.gemini){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}
   if(frame.dataset.loaded==='1'||frame.dataset.loaded==='loading')return false;
   let srcdoc='';
-  try{srcdoc=injectUnifiedKeys(getPayloadText(mode),mode)}catch(e){frame.dataset.loaded='0';document.getElementById('loadingMask').classList.remove('show');console.error('[EMBEDDED BOOT BUILD FAILED]',mode,e);alert('번역기 내부 초기화 준비에 실패했습니다. 새로고침 후 다시 시도해주세요.');return false}
+  try{srcdoc=injectUnifiedKeys(getPayloadText(mode),mode)}catch(e){frame.dataset.loaded='0';document.getElementById('loadingMask').classList.remove('show');console.error('[EMBEDDED BOOT BUILD FAILED]',mode,e);unifiedAlert('번역기 내부 초기화 준비에 실패했습니다. 새로고침 후 다시 시도해주세요.');return false}
   document.getElementById('loadingMask').classList.add('show');frame.dataset.loaded='loading';
   frame.addEventListener('load',function firstLoad(){frame.removeEventListener('load',firstLoad);syncVisibleViewport();});
-  if(modeLoadTimers[mode])clearTimeout(modeLoadTimers[mode]);modeLoadTimers[mode]=setTimeout(function(){modeLoadTimers[mode]=null;if(frame.dataset.loaded==='loading'){frame.dataset.loaded='0';document.getElementById('loadingMask').classList.remove('show');console.error('[EMBEDDED READY TIMEOUT]',mode);alert('번역기 내부 초기화 확인에 실패했습니다. 새로고침 후 다시 시도해주세요.')}},6000);
+  if(modeLoadTimers[mode])clearTimeout(modeLoadTimers[mode]);modeLoadTimers[mode]=setTimeout(function(){modeLoadTimers[mode]=null;if(frame.dataset.loaded==='loading'){frame.dataset.loaded='0';document.getElementById('loadingMask').classList.remove('show');console.error('[EMBEDDED READY TIMEOUT]',mode);unifiedAlert('번역기 내부 초기화 확인에 실패했습니다. 새로고침 후 다시 시도해주세요.')}},6000);
   frame.srcdoc=srcdoc;return true;
 }
 
@@ -9786,7 +9790,7 @@ function updateModeButtons(mode){
 }
 
 function selectMode(mode){
-  if(!frameByMode[mode])return;if(!unifiedPromptConfig){void ensureUnifiedPromptConfigReady().then(()=>selectMode(mode)).catch(e=>{console.error('[PROMPT CONFIG SELECT]',e);alert('번역 프롬프트를 준비하지 못했습니다. 새로고침 후 다시 시도해주세요.')});return}refreshSharedCredentials();if(!sharedKeys.gemini){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return;}
+  if(!frameByMode[mode])return;if(!unifiedPromptConfig){void ensureUnifiedPromptConfigReady().then(()=>selectMode(mode)).catch(e=>{console.error('[PROMPT CONFIG SELECT]',e);unifiedAlert('번역 프롬프트를 준비하지 못했습니다. 새로고침 후 다시 시도해주세요.')});return}refreshSharedCredentials();if(!sharedKeys.gemini){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return;}
   if(currentMode&&currentMode!==mode)suspendMode(currentMode);
   ensureModeLoaded(mode);document.getElementById('selector').classList.add('hidden');Object.entries(frameByMode).forEach(([key,frame])=>frame.classList.toggle('active',key===mode));currentMode=mode;updateModeButtons(mode);applyShellLanguage(mode);resumeMode(mode);writeUnifiedPersistentUiState();
 }
@@ -10368,7 +10372,7 @@ function getUnifiedDiagnosticSessionId(){return UNIFIED_HOST_SESSION_ID;}
 window.getUnifiedDiagnosticSessionId=getUnifiedDiagnosticSessionId;
 function getUnifiedLivePromptSnapshot(){const c=unifiedPromptConfig||{};return{version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,source:unifiedPromptConfigSource,schemaVersion:Number(c.schemaVersion)||0,channel:String(c.channel||''),promptRevision:String(c.promptRevision||''),promptSha256:String(c.promptSha256||''),k2lForward:String(c.forward?.k2l||''),l2kForward:String(c.forward?.l2k||''),smartK2lSelf:String(c.smart?.k2lSelf||''),smartK2lHome:String(c.smart?.k2lHome||''),smartL2kElder:String(c.smart?.l2kElder||''),smartK2lSpeechAct:String(c.smart?.k2lSpeechAct||''),smartL2kSpeechAct:String(c.smart?.l2kSpeechAct||''),smartK2lRelation:String(c.smart?.k2lRelation||''),smartL2kRelation:String(c.smart?.l2kRelation||''),smartL2kReadability:String(c.smart?.l2kReadability||''),husbandBack:String(c.back?.husband||''),wifeBack:String(c.back?.wife||''),husbandRecovery:String(c.back?.husbandRecovery||''),wifeRecovery:String(c.back?.wifeRecovery||'')}}
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
-function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-20-STT-CLEANUP-G152A-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-20-STT-CLEANUP-G154A-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
 window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 async function getUnifiedRuntimeSafetyAudit(){
@@ -10599,7 +10603,7 @@ function createUnifiedDiagnosticPopup(message='진단도구를 불러오는 중.
 async function openUnifiedAdminDiagnostic(preopenedPopup=null){
   const popup=(preopenedPopup&&!preopenedPopup.closed)?preopenedPopup:createUnifiedDiagnosticPopup();
   if(!popup){
-    alert('팝업이 차단되었습니다. 이 사이트의 팝업을 허용해주세요.');
+    unifiedAlert('팝업이 차단되었습니다. 이 사이트의 팝업을 허용해주세요.');
     return;
   }
   unifiedDiagnosticPopup=popup;
@@ -10614,7 +10618,7 @@ async function openUnifiedAdminDiagnostic(preopenedPopup=null){
     unifiedDiagnosticPopup=null;
     externalDiagnosticSource='';
     console.error('[DIAGNOSTIC OPEN]',e);
-    alert('관리자 종합 성능 테스트 창을 열지 못했습니다. index.html과 diagnostic.html이 같은 위치에 있는지 확인해주세요.');
+    unifiedAlert('관리자 종합 성능 테스트 창을 열지 못했습니다. index.html과 diagnostic.html이 같은 위치에 있는지 확인해주세요.');
   }
 }
 window.openUnifiedAdminDiagnostic=openUnifiedAdminDiagnostic;
@@ -10647,7 +10651,7 @@ window.addEventListener('message',function(ev){
       frame.dataset.loaded='0';document.getElementById('loadingMask').classList.remove('show');
       if(modeLoadTimers[mode]){clearTimeout(modeLoadTimers[mode]);modeLoadTimers[mode]=null}
       console.error('[EMBEDDED VERSION MISMATCH]',mode,d.version,INTEGRATED_VERSION);
-      alert('내장 번역기 버전이 통합 앱과 일치하지 않습니다.');return;
+      unifiedAlert('내장 번역기 버전이 통합 앱과 일치하지 않습니다.');return;
     }
     frame.dataset.loaded='1';
     if(modeLoadTimers[mode]){clearTimeout(modeLoadTimers[mode]);modeLoadTimers[mode]=null}
@@ -10691,7 +10695,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.186","id":"test-v361185-stt-cleanup-g152a-r1","seenKey":"translator_release_notice_seen_test_v361185_stt_cleanup_g152a_r1","ko":{"sub":"V3.61.186 TEST · STT 발화정리 + 일반앱 G152A","summary":["부부앱 한국어/라오어 STT에도 명시적 자기정정·말더듬 정리를 적용합니다.","일반앱은 6개 입력 언어에 같은 발화정리 원칙을 적용합니다.","G152A는 짧은 문장의 과잉설명과 시간 관계 왜곡을 억제합니다."],"sections":[["보존 항목",["P159A는 변경하지 않았습니다.","Relay/Cloudflare, STREAM→REST→AI, TTS 코어는 유지합니다."]]],"previous":"V3.61.184 TEST."},"lo":{"sub":"V3.61.186 TEST · ປັບປຸງ STT ແລະ G152A","summary":["ປັບປຸງການຈັດຄຳເວົ້າ STT ພາສາເກົາຫຼີ/ລາວໃນແອັບຄູ່ສົມລົດ.","ແອັບທົ່ວໄປໃຊ້ຫຼັກການນີ້ກັບ 6 ພາສາ.","G152A ຫຼຸດການແປທີ່ຍາວເກີນໄປ ແລະຮັກສາເວລາໃຫ້ຖືກ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.187","id":"test-v361187-stable-parity-g154a-r1","seenKey":"translator_release_notice_seen_test_v361187_stable_parity_g154a_r1","ko":{"sub":"V3.61.187 TEST · 안정 기준 유지 + 다국어 STT/팝업/프롬프트 정리","summary":["SERVICE V3.61.179의 번역 속도·품질 기준을 해치지 않도록 General 프롬프트를 G151A 기반 G154A로 재설계했습니다.","일반앱 6개 언어 STT는 Relay /health의 실제 지원 언어를 확인해 STREAM/REST 또는 AI 경로를 자동 선택합니다.","브라우저 기본 경고창 대신 앱 자체 안내창을 사용합니다."],"sections":[["보존 항목",["부부앱 P159A는 변경하지 않았습니다.","자동음성 토글, STT 발화정리, 진단 격리 정책을 유지합니다."]]],"previous":"V3.61.185 TEST 기반. V3.61.186은 프롬프트 크기 초과로 폐기."},"lo":{"sub":"V3.61.187 TEST · ຮັກສາຄວາມໄວ/ຄຸນນະພາບ + STT ຫຼາຍພາສາ","summary":["ຮັກສາ P159A ແລະຈັດ prompt General ໃຫ້ກະຊັບຂຶ້ນ.","STT ກວດພາສາທີ່ Relay ຮອງຮັບແລ້ວເລືອກເສັ້ນທາງອັດຕະໂນມັດ.","ປ່ຽນກ່ອງເຕືອນ browser ເປັນກ່ອງແຈ້ງເຕືອນໃນແອັບ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
