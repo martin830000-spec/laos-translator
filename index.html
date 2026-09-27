@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="ac0837c28d17d8c31e4a5e6e61207e4e49bfa79894309ba957a116f81fedaf04">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="62c5d1e69260fc8d082965f49fe03a91c5e7d1290a3bec9a35ec5de2e435f2a5">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.184';
+const APP_VERSION='V3.61.185';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -2824,11 +2824,19 @@ function closeVoiceScoreReasonDialog(){const dlg=document.getElementById('voiceS
 function openVoiceScoreReasonDialog(){const dlg=document.getElementById('voiceScoreReasonDialog'),btn=document.getElementById('voiceScoreReasonBtn');if(!dlg||!btn||!btn.classList.contains('show'))return;dlg.hidden=false;btn.setAttribute('aria-expanded','true')}
 function clearVoiceScore(){const badge=document.getElementById('voiceScoreBadge'),btn=document.getElementById('voiceScoreReasonBtn'),detail=document.getElementById('voiceScoreDetail');if(badge){badge.className='quality-badge';badge.textContent=''}if(btn){btn.className='quality-reason-btn';btn.style.display='none';btn.setAttribute('aria-expanded','false')}if(detail){detail.className='quality-detail';detail.textContent=''}closeVoiceScoreReasonDialog()}
 function updateVoiceScore(assessment,usedFallback=false){const badge=document.getElementById('voiceScoreBadge'),btn=document.getElementById('voiceScoreReasonBtn'),detail=document.getElementById('voiceScoreDetail');if(!badge)return;const r=voiceRecognitionScoreFromAssessment(assessment,usedFallback),failed=(assessment?.level==='hard'||r.score&lt;70);badge.className='quality-badge '+(failed?'bad':'ok');badge.textContent=failed?'⛔ 음성인식 실패':'✅ 음성인식 성공';if(detail){detail.textContent=(r.details.length?r.details:['내부 이상 신호 없음']).map(x=&gt;'• '+x).join('\n');detail.className=failed?'quality-detail bad':'quality-detail info'}if(btn){btn.className='quality-reason-btn';btn.style.display='none';btn.setAttribute('aria-expanded','false')}closeVoiceScoreReasonDialog()}
+
+function coupleVoiceCleanupRepairCue(text,lang){const t=String(text||'').trim();if(lang==='ko-KR')return /(?:^|[\s,.!?…])(아니(?:\s*(?:잠깐|말고|그게\s*아니라|다시))?|다시\s*말(?:할게|하면)|정정(?:할게|하면)|그러니까)(?=[\s,.!?…]|$)/.test(t);if(lang==='lo-LA')return /(?:ບໍ່ແມ່ນ|ບໍ່\s*[,，…]|ເວົ້າໃໝ່|ໝາຍຄວາມວ່າ|ຂໍແກ້)/.test(t);return false}
+function coupleVoiceCleanupLooksUseful(text,lang){const t=String(text||'').trim();if(!t)return false;if(coupleVoiceCleanupRepairCue(t,lang))return true;const tok=t.split(/\s+/).filter(Boolean);for(let i=1;i&lt;tok.length;i++){const a=tok[i-1].replace(/[.,!?…:;]+$/g,''),b=tok[i].replace(/[.,!?…:;]+$/g,'');if(a&amp;&amp;a===b&amp;&amp;!['진짜','정말','너무','절대','꼭','ຫຼາຍ','ແທ້'].includes(a))return true}for(let n=2;n&lt;=4;n++)for(let i=0;i+n*2&lt;=tok.length;i++){const a=tok.slice(i,i+n).join(' ').replace(/[.,!?…:;]/g,''),b=tok.slice(i+n,i+n*2).join(' ').replace(/[.,!?…:;]/g,'');if(a&amp;&amp;a===b)return true}if(lang==='ko-KR'&amp;&amp;/(?:^|[\s,.!?…])(?:어|음|아|저|그)\s+(?:어|음|아|저|그|뭐지)(?=[\s,.!?…]|$)|(?:^|[\s,.!?…])그\s*뭐지(?=[\s,.!?…]|$)/.test(t))return true;if(lang==='lo-LA'&amp;&amp;/(?:^|[\s,.!?…])(?:ເອີ|ອືມ|ແບບວ່າ)(?:[\s,.!?…]|$)/.test(t))return true;return /(?:\.\.\.|…{2,})/.test(t)}
+function coupleVoiceCleanupSafe(before,after,lang){const a=String(before||'').trim(),b=String(after||'').trim();if(!a||!b)return false;const nums=x=&gt;(String(x).match(/\d+(?:[.,:/-]\d+)*/g)||[]),bn=nums(a),an=nums(b),repair=coupleVoiceCleanupRepairCue(a,lang);if(repair){const pool=[...bn];for(const n of an){const i=pool.indexOf(n);if(i&lt;0)return false;pool.splice(i,1)}}else if(bn.join('|')!==an.join('|'))return false;const ratio=b.length/Math.max(1,a.length);return ratio&gt;=(repair?0.16:0.42)&amp;&amp;ratio&lt;=(repair?1.30:1.35)}
+function coupleVoiceCleanupPrompt(lang){const name=lang==='lo-LA'?'Lao':'Korean';return `Clean this ${name} ASR transcript for spouse-to-spouse live translation. Remove only obvious filler, accidental stuttering/repeated fragments, abandoned false starts, and word-search scaffolding. When the speaker explicitly self-corrects X to Y, remove abandoned X and keep final Y, including a number/time/person/place/polarity only when the source itself clearly replaces it. Never invent a value. Keep intentional emphasis/repetition and genuine uncertainty/alternatives. Preserve roles, pronouns, negation, permission/prohibition, request/question/command force, register, emotion and all factual content. Do not translate, summarize, explain or add politeness. If a repair is unclear, keep the source wording. Output one cleaned ${name} transcript only.`}
+async function coupleVoiceCleanupTranscript(text,lang,session){const original=VOICE_CLEAN_TRANSCRIPT(text);if(!currentApiKey||!coupleVoiceCleanupLooksUseful(original,lang))return{text:original,changed:false};const c=new AbortController(),timer=setTimeout(()=&gt;c.abort(),8000);try{const res=await fetchPrimaryDirect('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:coupleVoiceCleanupPrompt(lang)}]},contents:[{role:'user',parts:[{text:original}]}],generationConfig:{maxOutputTokens:512,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:c.signal},{action:'stt-cleanup'});if(session!==voiceSessionId)return{text:original,changed:false};const data=await res.json().catch(()=&gt;({}));if(!res.ok)return{text:original,changed:false};const corrected=VOICE_CLEAN_TRANSCRIPT(extractGeminiText(data));if(!corrected||!coupleVoiceCleanupSafe(original,corrected,lang))return{text:original,changed:false};return{text:corrected,changed:corrected!==original}}catch(_){return{text:original,changed:false}}finally{clearTimeout(timer)}}
+
 async function VOICE_POSTPROCESS_TRANSCRIPT(transcript,allPcm,languageCode,usedFallback,session){
   let t=String(transcript||'').trim(),assessment=assessKoreanVoiceTranscript(t),retried=!!usedFallback;
   if(assessment.level==='hard'&amp;&amp;!usedFallback){try{t=VOICE_CLEAN_TRANSCRIPT(await voiceRecoveryTranscribe(allPcm,languageCode,session));retried=true;assessment=assessKoreanVoiceTranscript(t)}catch(e){console.warn('[HUSBAND STT RECOVERY FAILED]',e)}}
   if(assessment.level==='hard'){updateVoiceScore(assessment,retried);return{transcript:'',assessment,hard:true,retried}}
-  updateVoiceScore(assessment,retried);return{transcript:t,assessment,retried};
+  const raw=t,clean=await coupleVoiceCleanupTranscript(t,languageCode,session);if(session!==voiceSessionId)return{transcript:'',assessment,hard:false,retried};t=clean.text;assessment=assessKoreanVoiceTranscript(t);voiceDiagMark('finalTranscript',t);voiceDiagEvent('VOICE_CLEANUP',clean.changed?'changed':'unchanged');
+  updateVoiceScore(assessment,retried);return{transcript:t,assessment,retried,cleanupChanged:!!clean.changed,rawTranscript:raw};
 }
 function revealVoiceInputText(inputId='krInput',composerId='inputComposer'){
   const input=document.getElementById(inputId),composer=document.getElementById(composerId);if(!input||!composer)return;
@@ -5573,7 +5581,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="626674347e6992a2047473337f96489aaff8b0d0bf3c7ef3ed8b36c359f8b779">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="c679f62438504c58da5e706702d34e02110ba3fb341b601bb064ab879f8b5e44">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6219,7 +6227,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.184';
+const APP_VERSION='V3.61.185';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -7603,11 +7611,19 @@ function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(
 function VOICE_UI_ENABLE_BUTTON(){const b=document.getElementById('voiceInputBtn');if(b)b.disabled=false;const q=document.getElementById('mainQuickMic');if(q)q.disabled=false}
 function VOICE_UI_IDLE(){setVoiceInputUi('idle')}
 function VOICE_CLEAN_TRANSCRIPT(t){return cleanVoiceTranscript(t)}
+
+function coupleVoiceCleanupRepairCue(text,lang){const t=String(text||'').trim();if(lang==='ko-KR')return /(?:^|[\s,.!?…])(아니(?:\s*(?:잠깐|말고|그게\s*아니라|다시))?|다시\s*말(?:할게|하면)|정정(?:할게|하면)|그러니까)(?=[\s,.!?…]|$)/.test(t);if(lang==='lo-LA')return /(?:ບໍ່ແມ່ນ|ບໍ່\s*[,，…]|ເວົ້າໃໝ່|ໝາຍຄວາມວ່າ|ຂໍແກ້)/.test(t);return false}
+function coupleVoiceCleanupLooksUseful(text,lang){const t=String(text||'').trim();if(!t)return false;if(coupleVoiceCleanupRepairCue(t,lang))return true;const tok=t.split(/\s+/).filter(Boolean);for(let i=1;i&lt;tok.length;i++){const a=tok[i-1].replace(/[.,!?…:;]+$/g,''),b=tok[i].replace(/[.,!?…:;]+$/g,'');if(a&amp;&amp;a===b&amp;&amp;!['진짜','정말','너무','절대','꼭','ຫຼາຍ','ແທ້'].includes(a))return true}for(let n=2;n&lt;=4;n++)for(let i=0;i+n*2&lt;=tok.length;i++){const a=tok.slice(i,i+n).join(' ').replace(/[.,!?…:;]/g,''),b=tok.slice(i+n,i+n*2).join(' ').replace(/[.,!?…:;]/g,'');if(a&amp;&amp;a===b)return true}if(lang==='ko-KR'&amp;&amp;/(?:^|[\s,.!?…])(?:어|음|아|저|그)\s+(?:어|음|아|저|그|뭐지)(?=[\s,.!?…]|$)|(?:^|[\s,.!?…])그\s*뭐지(?=[\s,.!?…]|$)/.test(t))return true;if(lang==='lo-LA'&amp;&amp;/(?:^|[\s,.!?…])(?:ເອີ|ອືມ|ແບບວ່າ)(?:[\s,.!?…]|$)/.test(t))return true;return /(?:\.\.\.|…{2,})/.test(t)}
+function coupleVoiceCleanupSafe(before,after,lang){const a=String(before||'').trim(),b=String(after||'').trim();if(!a||!b)return false;const nums=x=&gt;(String(x).match(/\d+(?:[.,:/-]\d+)*/g)||[]),bn=nums(a),an=nums(b),repair=coupleVoiceCleanupRepairCue(a,lang);if(repair){const pool=[...bn];for(const n of an){const i=pool.indexOf(n);if(i&lt;0)return false;pool.splice(i,1)}}else if(bn.join('|')!==an.join('|'))return false;const ratio=b.length/Math.max(1,a.length);return ratio&gt;=(repair?0.16:0.42)&amp;&amp;ratio&lt;=(repair?1.30:1.35)}
+function coupleVoiceCleanupPrompt(lang){const name=lang==='lo-LA'?'Lao':'Korean';return `Clean this ${name} ASR transcript for spouse-to-spouse live translation. Remove only obvious filler, accidental stuttering/repeated fragments, abandoned false starts, and word-search scaffolding. When the speaker explicitly self-corrects X to Y, remove abandoned X and keep final Y, including a number/time/person/place/polarity only when the source itself clearly replaces it. Never invent a value. Keep intentional emphasis/repetition and genuine uncertainty/alternatives. Preserve roles, pronouns, negation, permission/prohibition, request/question/command force, register, emotion and all factual content. Do not translate, summarize, explain or add politeness. If a repair is unclear, keep the source wording. Output one cleaned ${name} transcript only.`}
+async function coupleVoiceCleanupTranscript(text,lang,session){const original=VOICE_CLEAN_TRANSCRIPT(text);if(!currentApiKey||!coupleVoiceCleanupLooksUseful(original,lang))return{text:original,changed:false};const c=new AbortController(),timer=setTimeout(()=&gt;c.abort(),8000);try{const res=await fetchPrimaryDirect('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':currentApiKey},body:JSON.stringify({system_instruction:{parts:[{text:coupleVoiceCleanupPrompt(lang)}]},contents:[{role:'user',parts:[{text:original}]}],generationConfig:{maxOutputTokens:512,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}}),signal:c.signal},{action:'stt-cleanup'});if(session!==voiceSessionId)return{text:original,changed:false};const data=await res.json().catch(()=&gt;({}));if(!res.ok)return{text:original,changed:false};const corrected=VOICE_CLEAN_TRANSCRIPT(extractGeminiText(data));if(!corrected||!coupleVoiceCleanupSafe(original,corrected,lang))return{text:original,changed:false};return{text:corrected,changed:corrected!==original}}catch(_){return{text:original,changed:false}}finally{clearTimeout(timer)}}
+
 async function VOICE_POSTPROCESS_TRANSCRIPT(transcript,allPcm,languageCode,usedFallback,session){
   let t=String(transcript||'').trim(),assessment=assessLaoSttTranscript(t),retried=!!usedFallback;
   if(assessment.level==='hard'&amp;&amp;!usedFallback){try{t=VOICE_CLEAN_TRANSCRIPT(await voiceRecoveryTranscribe(allPcm,languageCode,session));retried=true;assessment=assessLaoSttTranscript(t)}catch(e){console.warn('[WIFE STT RECOVERY FAILED]',e)}}
   if(assessment.level==='hard'){updateVoiceScore(assessment,retried);return{transcript:'',assessment,hard:true,retried}}
-  updateVoiceScore(assessment,retried);return{transcript:t,assessment,retried};
+  const raw=t,clean=await coupleVoiceCleanupTranscript(t,languageCode,session);if(session!==voiceSessionId)return{transcript:'',assessment,hard:false,retried};t=clean.text;assessment=assessLaoSttTranscript(t);voiceDiagMark('finalTranscript',t);voiceDiagEvent('VOICE_CLEANUP',clean.changed?'changed':'unchanged');
+  updateVoiceScore(assessment,retried);return{transcript:t,assessment,retried,cleanupChanged:!!clean.changed,rawTranscript:raw};
 }
 function VOICE_APPEND_TRANSCRIPT(text){appendVoiceTranscript(text)}
 async function startLaoVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){alert('⚠️ ກະລຸນາລໍຖ້າໃຫ້ການແປ/ກວດຄວາມໝາຍແບບກົດເອງສຳເລັດກ່ອນໃຊ້ໄມໂຄຣໂຟນ.');return}try{stopKorean()}catch(e){}revealVoiceInputText('loInput','inputComposer');await voiceStartCapture('lo-LA');revealVoiceInputText('loInput','inputComposer')}
@@ -9140,7 +9156,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.184';
+const INTEGRATED_VERSION='V3.61.185';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9161,7 +9177,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='299bb941ecfd293fb8e2d92e8e5172578682c564671f8c46578b392f9fe41f68';
+const EXTERNAL_DIAGNOSTIC_SHA256='9389075913913b7c87c50e329a85c92f5b58f51fdc1dfc9e111fabcfd5ea9e08';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9198,7 +9214,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.181: STT/TTS telemetry-only R1; P159A/G151A and live translation/STT/TTS/network/Cloud Run behavior remain unchanged.
+// V3.61.185: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10318,7 +10334,7 @@ function getUnifiedDiagnosticSessionId(){return UNIFIED_HOST_SESSION_ID;}
 window.getUnifiedDiagnosticSessionId=getUnifiedDiagnosticSessionId;
 function getUnifiedLivePromptSnapshot(){const c=unifiedPromptConfig||{};return{version:INTEGRATED_VERSION,sessionId:UNIFIED_HOST_SESSION_ID,source:unifiedPromptConfigSource,schemaVersion:Number(c.schemaVersion)||0,channel:String(c.channel||''),promptRevision:String(c.promptRevision||''),promptSha256:String(c.promptSha256||''),k2lForward:String(c.forward?.k2l||''),l2kForward:String(c.forward?.l2k||''),smartK2lSelf:String(c.smart?.k2lSelf||''),smartK2lHome:String(c.smart?.k2lHome||''),smartL2kElder:String(c.smart?.l2kElder||''),smartK2lSpeechAct:String(c.smart?.k2lSpeechAct||''),smartL2kSpeechAct:String(c.smart?.l2kSpeechAct||''),smartK2lRelation:String(c.smart?.k2lRelation||''),smartL2kRelation:String(c.smart?.l2kRelation||''),smartL2kReadability:String(c.smart?.l2kReadability||''),husbandBack:String(c.back?.husband||''),wifeBack:String(c.back?.wife||''),husbandRecovery:String(c.back?.husbandRecovery||''),wifeRecovery:String(c.back?.wifeRecovery||'')}}
 window.getUnifiedLivePromptSnapshot=getUnifiedLivePromptSnapshot;
-function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-19-STT-AUTO-TTS-CONTROL-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
+function getUnifiedBuildFingerprint(){const h=document.getElementById('payload-husband'),w=document.getElementById('payload-wife'),p=getUnifiedPromptConfigStatus();return{version:INTEGRATED_VERSION,husbandPayloadSha256:String(h?.dataset?.sha256||''),wifePayloadSha256:String(w?.dataset?.sha256||''),diagnosticSha256:EXTERNAL_DIAGNOSTIC_SHA256,diagnosticSchema:'QUALITY-OPS-20-STT-CLEANUP-G152A-R1',promptRevision:p.promptRevision,promptSha256:p.promptSha256,promptSource:p.source};}
 window.getUnifiedBuildFingerprint=getUnifiedBuildFingerprint;
 
 async function getUnifiedRuntimeSafetyAudit(){
@@ -10641,7 +10657,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.184","id":"test-v361183-stt-diagnostic-fix-r1","seenKey":"translator_release_notice_seen_test_v361183_stt_diag_fix_r1","ko":{"sub":"V3.61.184 TEST는 관리자 진단창 무결성 해시 동기화 오류를 수정한 검증 빌드입니다.","summary":["발화정리 자동검사의 ReferenceError를 수정했습니다.","중단 버튼이 진행 중인 음성 진단 요청을 취소하도록 개선했습니다.","P159A/G151A와 실사용 번역·STT/TTS 코어는 그대로입니다."],"sections":[["진단기 수정",["발화정리 자동검사가 실제 현재 로직을 측정하도록 bridge를 수정했습니다.","자체점검에서 voice correction diagnostic smoke를 실제 호출합니다."]]],"previous":"V3.61.182 TEST."},"lo":{"sub":"V3.61.184 TEST ແກ້ໄຂການວິນິດໄສ STT ແລະປຸ່ມຢຸດ.","summary":["ແກ້ ReferenceError ໃນການກວດຈັດຄຳເວົ້າ.","ປຸ່ມຢຸດຈະຍົກເລີກຄຳຮ້ອງຂໍວິນິດໄສທີ່ກຳລັງເຮັດ.","P159A/G151A ແລະ live translation/STT/TTS ຄົງເດີມ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.185","id":"test-v361185-stt-cleanup-g152a-r1","seenKey":"translator_release_notice_seen_test_v361185_stt_cleanup_g152a_r1","ko":{"sub":"V3.61.185 TEST · STT 발화정리 + 일반앱 G152A","summary":["부부앱 한국어/라오어 STT에도 명시적 자기정정·말더듬 정리를 적용합니다.","일반앱은 6개 입력 언어에 같은 발화정리 원칙을 적용합니다.","G152A는 짧은 문장의 과잉설명과 시간 관계 왜곡을 억제합니다."],"sections":[["보존 항목",["P159A는 변경하지 않았습니다.","Relay/Cloudflare, STREAM→REST→AI, TTS 코어는 유지합니다."]]],"previous":"V3.61.184 TEST."},"lo":{"sub":"V3.61.185 TEST · ປັບປຸງ STT ແລະ G152A","summary":["ປັບປຸງການຈັດຄຳເວົ້າ STT ພາສາເກົາຫຼີ/ລາວໃນແອັບຄູ່ສົມລົດ.","ແອັບທົ່ວໄປໃຊ້ຫຼັກການນີ້ກັບ 6 ພາສາ.","G152A ຫຼຸດການແປທີ່ຍາວເກີນໄປ ແລະຮັກສາເວລາໃຫ້ຖືກ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
