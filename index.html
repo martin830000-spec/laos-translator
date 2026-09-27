@@ -1169,7 +1169,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.183';
+const APP_VERSION='V3.61.184';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -6219,7 +6219,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.183';
+const APP_VERSION='V3.61.184';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9140,7 +9140,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.183';
+const INTEGRATED_VERSION='V3.61.184';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9161,7 +9161,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='d23b48334d60e9391b73ad10670bc46b2692cac9081a285c5ed0d7fa4e3b383a';
+const EXTERNAL_DIAGNOSTIC_SHA256='299bb941ecfd293fb8e2d92e8e5172578682c564671f8c46578b392f9fe41f68';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -10641,7 +10641,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.183","id":"test-v361183-stt-diagnostic-fix-r1","seenKey":"translator_release_notice_seen_test_v361183_stt_diag_fix_r1","ko":{"sub":"V3.61.183 TEST는 음성/STT 진단 오류와 중단 동작을 수정한 검증 빌드입니다.","summary":["발화정리 자동검사의 ReferenceError를 수정했습니다.","중단 버튼이 진행 중인 음성 진단 요청을 취소하도록 개선했습니다.","P159A/G151A와 실사용 번역·STT/TTS 코어는 그대로입니다."],"sections":[["진단기 수정",["발화정리 자동검사가 실제 현재 로직을 측정하도록 bridge를 수정했습니다.","자체점검에서 voice correction diagnostic smoke를 실제 호출합니다."]]],"previous":"V3.61.182 TEST."},"lo":{"sub":"V3.61.183 TEST ແກ້ໄຂການວິນິດໄສ STT ແລະປຸ່ມຢຸດ.","summary":["ແກ້ ReferenceError ໃນການກວດຈັດຄຳເວົ້າ.","ປຸ່ມຢຸດຈະຍົກເລີກຄຳຮ້ອງຂໍວິນິດໄສທີ່ກຳລັງເຮັດ.","P159A/G151A ແລະ live translation/STT/TTS ຄົງເດີມ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.184","id":"test-v361183-stt-diagnostic-fix-r1","seenKey":"translator_release_notice_seen_test_v361183_stt_diag_fix_r1","ko":{"sub":"V3.61.184 TEST는 관리자 진단창 무결성 해시 동기화 오류를 수정한 검증 빌드입니다.","summary":["발화정리 자동검사의 ReferenceError를 수정했습니다.","중단 버튼이 진행 중인 음성 진단 요청을 취소하도록 개선했습니다.","P159A/G151A와 실사용 번역·STT/TTS 코어는 그대로입니다."],"sections":[["진단기 수정",["발화정리 자동검사가 실제 현재 로직을 측정하도록 bridge를 수정했습니다.","자체점검에서 voice correction diagnostic smoke를 실제 호출합니다."]]],"previous":"V3.61.182 TEST."},"lo":{"sub":"V3.61.184 TEST ແກ້ໄຂການວິນິດໄສ STT ແລະປຸ່ມຢຸດ.","summary":["ແກ້ ReferenceError ໃນການກວດຈັດຄຳເວົ້າ.","ປຸ່ມຢຸດຈະຍົກເລີກຄຳຮ້ອງຂໍວິນິດໄສທີ່ກຳລັງເຮັດ.","P159A/G151A ແລະ live translation/STT/TTS ຄົງເດີມ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
