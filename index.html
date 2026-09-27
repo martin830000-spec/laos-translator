@@ -468,7 +468,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="62c5d1e69260fc8d082965f49fe03a91c5e7d1290a3bec9a35ec5de2e435f2a5">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="c87c543a9c86ac8103b728535b4af826eca85019b2e861332ea3981fbaf80008">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -986,6 +986,23 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
 .couple-fs-text.rotated{transform:rotate(180deg)}
 @media(max-width:480px){.couple-fullscreen{padding:64px 16px 24px}.couple-fs-close{width:42px;height:42px}.couple-fs-rotate{height:42px;min-width:82px;font-size:12px;top:calc(max(14px,env(safe-area-inset-top)) + 50px)}.btn-large-view{padding-left:7px;padding-right:7px}}
 &lt;/style&gt;
+
+&lt;style id="app-custom-dialog-style"&gt;
+.app-custom-dialog{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.42);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}.app-custom-dialog[hidden]{display:none!important}.app-custom-dialog-card{width:min(420px,100%);background:#fff;color:#172033;border-radius:18px;box-shadow:0 18px 60px rgba(15,23,42,.28);padding:20px 18px 16px;box-sizing:border-box}.app-custom-dialog-message{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.55;font-weight:650;text-align:left}.app-custom-dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.app-custom-dialog-actions button{min-width:78px;min-height:42px;border-radius:11px;border:1px solid #d9dfeb;background:#f3f5f9;color:#263248;font-weight:800;font-size:14px;padding:8px 14px}.app-custom-dialog-actions button[data-primary="1"]{background:#3157d5;border-color:#3157d5;color:#fff}
+&lt;/style&gt;
+
+&lt;script id="app-custom-dialog-runtime"&gt;
+(function(){
+  let active=null;
+  function laoUi(){try{return typeof uiLang==='function'&amp;&amp;uiLang()==='lo'}catch(_){return (document.documentElement.lang||'').toLowerCase().startsWith('lo')}}
+  function ensure(){let o=document.getElementById('appCustomDialog');if(o)return o;o=document.createElement('div');o.id='appCustomDialog';o.className='app-custom-dialog';o.hidden=true;o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML='&lt;div class="app-custom-dialog-card"&gt;&lt;div class="app-custom-dialog-message" id="appCustomDialogMessage"&gt;&lt;/div&gt;&lt;div class="app-custom-dialog-actions"&gt;&lt;button type="button" id="appCustomDialogCancel"&gt;&lt;/button&gt;&lt;button type="button" id="appCustomDialogOk" data-primary="1"&gt;&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;';document.body.appendChild(o);return o}
+  function finish(v){if(!active)return;const a=active;active=null;const o=ensure();o.hidden=true;try{a.resolve(v)}catch(_){}}
+  function show(message,confirmMode){const o=ensure(),m=o.querySelector('#appCustomDialogMessage'),ok=o.querySelector('#appCustomDialogOk'),cancel=o.querySelector('#appCustomDialogCancel');if(active)finish(false);m.textContent=String(message??'');ok.textContent=laoUi()?'ຕົກລົງ':'확인';cancel.textContent=laoUi()?'ຍົກເລີກ':'취소';cancel.hidden=!confirmMode;o.hidden=false;return new Promise(resolve=&gt;{active={resolve};ok.onclick=()=&gt;finish(true);cancel.onclick=()=&gt;finish(false);o.onclick=e=&gt;{if(confirmMode&amp;&amp;e.target===o)finish(false)}})}
+  window.appAlert=function(message){return show(message,false)};
+  window.appConfirm=function(message){return show(message,true)};
+  window.addEventListener('keydown',e=&gt;{if(e.key==='Escape'&amp;&amp;active){e.preventDefault();finish(false)}},true);
+})();
+&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -1169,7 +1186,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.185';
+const APP_VERSION='V3.61.186';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -1954,7 +1971,7 @@ window.addEventListener('message',function(ev){
         const inputEl1 = document.getElementById('accessKeyInput1');
         if (!inputEl1) return;
         const k1 = inputEl1.value.trim();
-        if (!k1) { alert("⚠️ 1차 비밀번호를 입력해주세요!"); return; }
+        if (!k1) { appAlert("⚠️ 1차 비밀번호를 입력해주세요!"); return; }
         currentApiKey = k1; currentTtsKey = currentTtsKey || 'SERVER_AUDIO'; applyTtsKeyAvailability();
         document.getElementById('lockScreen').style.display = 'none';
         document.getElementById('appScreen').style.display = 'block';
@@ -2024,7 +2041,7 @@ window.addEventListener('message',function(ev){
             btn.textContent='⏳ 역번역 확인 중...';
             let backText='';try{backText=await waitForBackTranslationForCopy()}catch(e){backText=''}
             if(btn.dataset.copyToken!==token||translationRunId!==sourceRunId)return;
-            if(!backText){btn.textContent='⚠️ 역번역 준비 실패';btn.disabled=false;alert('⚠️ 역번역을 준비하지 못했습니다. 역번역을 다시 확인한 뒤 복사해주세요.');setTimeout(()=&gt;{if(btn.dataset.copyToken===token)resetCopyButtonVisual('copyLaoBtn')},1400);return;}
+            if(!backText){btn.textContent='⚠️ 역번역 준비 실패';btn.disabled=false;appAlert('⚠️ 역번역을 준비하지 못했습니다. 역번역을 다시 확인한 뒤 복사해주세요.');setTimeout(()=&gt;{if(btn.dataset.copyToken===token)resetCopyButtonVisual('copyLaoBtn')},1400);return;}
             const ok=await writeClipboardSafe(laoText+'\n'+backText);
             if(btn.dataset.copyToken!==token)return;
             btn.textContent=ok?'✅ 복사됨':'⚠️ 복사 실패';btn.disabled=false;
@@ -2192,7 +2209,7 @@ window.addEventListener('message',function(ev){
             btn.classList.add('off');
             stopLao();
             updateSpeechButtonAvailability();
-            alert('⚠️ 음성 연결을 준비하지 못했습니다. 잠시 후 다시 시도해주세요.');
+            appAlert('⚠️ 음성 연결을 준비하지 못했습니다. 잠시 후 다시 시도해주세요.');
             return;
         }
         isAutoSoundOn = next;
@@ -2365,12 +2382,12 @@ function returnToTranslationResultTop(){
 
     function toggleHistoryFavorite(id) {
         const list=readTranslationHistory(); const item=list.find(x=&gt;x.id===id); if(!item)return;
-        if(!item.favorite&amp;&amp;list.filter(x=&gt;x.favorite).length&gt;=HISTORY_FAVORITE_LIMIT){alert('즐겨찾기는 최대 50개까지 저장할 수 있습니다.');return;}
+        if(!item.favorite&amp;&amp;list.filter(x=&gt;x.favorite).length&gt;=HISTORY_FAVORITE_LIMIT){appAlert('즐겨찾기는 최대 50개까지 저장할 수 있습니다.');return;}
         item.favorite=!item.favorite; item.ts=Date.now(); writeTranslationHistory(trimTranslationHistory(list)); renderTranslationHistory();
     }
 
-    function clearTranslationHistory() {
-        if (!confirm('최근 번역과 즐겨찾기 기록을 모두 삭제할까요?')) return;
+    async function clearTranslationHistory() {
+        if (!await appConfirm('최근 번역과 즐겨찾기 기록을 모두 삭제할까요?')) return;
         // [] is an intentional user-clear sentinel. A missing key means unexpected local loss/new device.
         historyMutationGeneration++;
         try{localStorage.setItem(LOCAL_HISTORY_KEY,'[]')}catch(e){} renderTranslationHistory();
@@ -2532,7 +2549,7 @@ function voiceStatusCheckComplete(r){
   voiceStatusCheckActive=false;if(voiceStatusCheckAutoTimer){clearTimeout(voiceStatusCheckAutoTimer);voiceStatusCheckAutoTimer=null}if(voiceStatusCheckCountdownTimer){clearInterval(voiceStatusCheckCountdownTimer);voiceStatusCheckCountdownTimer=null}
   voiceStatusCheckButtonBusy(false);voiceStatusCheckSet(voiceStatusCheckUserText(r));const a=document.getElementById('voiceStatusCheckActions');if(a)a.hidden=false;
 }
-async function copyVoiceStatusCheckLog(){const text=voiceStatusCheckLogText();try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}voiceStatusCheckSet(voiceStatusCheckUserText(voiceDiagLastResult)+(INTEGRATED_MODE==='wife'?'\n\n✅ ຄັດລອກຜົນແລ້ວ. ສົ່ງຂໍ້ຄວາມນີ້ທາງ Messenger ໄດ້ເລີຍ.':'\n\n✅ 상세 결과를 복사했습니다. 메신저에 그대로 붙여넣으면 됩니다.'))}catch(e){alert(INTEGRATED_MODE==='wife'?'⚠️ ຄັດລອກບໍ່ສຳເລັດ.':'⚠️ 결과를 복사하지 못했습니다.')}}
+async function copyVoiceStatusCheckLog(){const text=voiceStatusCheckLogText();try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}voiceStatusCheckSet(voiceStatusCheckUserText(voiceDiagLastResult)+(INTEGRATED_MODE==='wife'?'\n\n✅ ຄັດລອກຜົນແລ້ວ. ສົ່ງຂໍ້ຄວາມນີ້ທາງ Messenger ໄດ້ເລີຍ.':'\n\n✅ 상세 결과를 복사했습니다. 메신저에 그대로 붙여넣으면 됩니다.'))}catch(e){appAlert(INTEGRATED_MODE==='wife'?'⚠️ ຄັດລອກບໍ່ສຳເລັດ.':'⚠️ 결과를 복사하지 못했습니다.')}}
 async function startVoiceStatusCheck(languageCode){
   if(voiceStatusCheckActive||voiceRecording||voiceProcessing){voiceStatusCheckSet(INTEGRATED_MODE==='wife'?'ກະລຸນາລໍຖ້າໃຫ້ການຮັບສຽງປັດຈຸບັນສຳເລັດກ່ອນ.':'현재 음성입력이 끝난 뒤 다시 눌러주세요.');return}
   if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){voiceStatusCheckSet(INTEGRATED_MODE==='wife'?'ກະລຸນາລໍຖ້າໃຫ້ການແປສຳເລັດກ່ອນ.':'번역이 끝난 뒤 음성입력 상태를 확인해주세요.');return}
@@ -2804,10 +2821,10 @@ function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ 1분 이�
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT가 마지막 음성까지 인식하고 있습니다.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 백업 음성인식으로 같은 녹음을 자동 복구하고 있습니다.')}
 function VOICE_UI_SUCCESS(post,usedFallback){const sec=Number.isFinite(post?.resultMs)?(post.resultMs/1000).toFixed(2):'-',auto=!!mainAutoInterpretEnabled;const base=usedFallback?`✅ 음성입력 완료 · 자동 복구 · 말끝→결과 ${sec}초.`:`✅ 음성입력 완료 · 말끝→결과 ${sec}초.`;setVoiceInputUi('idle',base+(auto?' 자동통역을 시작합니다.':' 입력된 한국어를 확인한 뒤 번역하세요.'));setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},6000)}
-function VOICE_UI_NO_SPEECH(post){setVoiceInputUi('idle');if(post?.hard){updateVoiceScore(post.assessment||{level:'hard',reasons:['HARD_OUTPUT']},!!post.retried);alert('⚠️ 음성인식 결과가 크게 비정상이라 같은 녹음으로 자동 복구했지만 정상 결과를 얻지 못했습니다. 다시 말씀해주세요.')}else{updateVoiceScore({level:'hard',reasons:['NO_SPEECH']},false);alert('⚠️ 인식된 말이 없습니다. 마이크 권한과 음량을 확인한 뒤 다시 시도해주세요.')}}
-function VOICE_UI_UNSUPPORTED(){alert('⚠️ 이 브라우저에서는 앱 음성입력을 사용할 수 없습니다. 최신 Chrome/Safari에서 다시 시도해주세요.')}
-function VOICE_UI_START_ERROR(e){setVoiceInputUi('idle');if(e?.name==='NotAllowedError'||e?.name==='SecurityError')alert('⚠️ 마이크 권한이 필요합니다. 브라우저의 마이크 사용을 허용한 뒤 다시 눌러주세요.');else alert('⚠️ 마이크를 시작하지 못했습니다. 다시 시도해주세요.')}
-function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(e?.name==='AbortError'||e?.__relayAttemptTimeout)alert('⚠️ 음성인식 연결이 지연되었습니다. 잠시 후 다시 말씀해주세요.');else alert('⚠️ 음성을 인식하지 못했습니다. 다시 말씀해주세요.')}
+function VOICE_UI_NO_SPEECH(post){setVoiceInputUi('idle');if(post?.hard){updateVoiceScore(post.assessment||{level:'hard',reasons:['HARD_OUTPUT']},!!post.retried);appAlert('⚠️ 음성인식 결과가 크게 비정상이라 같은 녹음으로 자동 복구했지만 정상 결과를 얻지 못했습니다. 다시 말씀해주세요.')}else{updateVoiceScore({level:'hard',reasons:['NO_SPEECH']},false);appAlert('⚠️ 인식된 말이 없습니다. 마이크 권한과 음량을 확인한 뒤 다시 시도해주세요.')}}
+function VOICE_UI_UNSUPPORTED(){appAlert('⚠️ 이 브라우저에서는 앱 음성입력을 사용할 수 없습니다. 최신 Chrome/Safari에서 다시 시도해주세요.')}
+function VOICE_UI_START_ERROR(e){setVoiceInputUi('idle');if(e?.name==='NotAllowedError'||e?.name==='SecurityError')appAlert('⚠️ 마이크 권한이 필요합니다. 브라우저의 마이크 사용을 허용한 뒤 다시 눌러주세요.');else appAlert('⚠️ 마이크를 시작하지 못했습니다. 다시 시도해주세요.')}
+function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(e?.name==='AbortError'||e?.__relayAttemptTimeout)appAlert('⚠️ 음성인식 연결이 지연되었습니다. 잠시 후 다시 말씀해주세요.');else appAlert('⚠️ 음성을 인식하지 못했습니다. 다시 말씀해주세요.')}
 function VOICE_UI_ENABLE_BUTTON(){const b=document.getElementById('voiceInputBtn');if(b)b.disabled=false;const q=document.getElementById('mainQuickMic');if(q)q.disabled=false}
 function VOICE_UI_IDLE(){setVoiceInputUi('idle')}
 function VOICE_CLEAN_TRANSCRIPT(t){return String(t||'').trim()}
@@ -2845,7 +2862,7 @@ function revealVoiceInputText(inputId='krInput',composerId='inputComposer'){
   setTimeout(align,0);setTimeout(align,180);setTimeout(()=&gt;{try{input.scrollTop=input.scrollHeight}catch(e){}},220);
 }
 function VOICE_APPEND_TRANSCRIPT(text){const input=document.getElementById('krInput');if(!input)return;const cur=input.value;input.value=mainAutoInterpretEnabled?String(text||''):(cur?(cur.replace(/\s+$/,'')+'\n'+text):text);isJustTranslated=false;appInputDirty=true;updateInputCharCount();try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{input.setSelectionRange(input.value.length,input.value.length)}catch(e){}try{input.scrollTop=input.scrollHeight}catch(e){}revealVoiceInputText('krInput','inputComposer')}
-async function startKoreanVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){alert('⚠️ 번역/수동 역번역이 끝난 뒤 음성입력을 사용해주세요.');return}try{stopLao()}catch(e){}revealVoiceInputText('krInput','inputComposer');await voiceStartCapture('ko-KR');revealVoiceInputText('krInput','inputComposer')}
+async function startKoreanVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){appAlert('⚠️ 번역/수동 역번역이 끝난 뒤 음성입력을 사용해주세요.');return}try{stopLao()}catch(e){}revealVoiceInputText('krInput','inputComposer');await voiceStartCapture('ko-KR');revealVoiceInputText('krInput','inputComposer')}
 function stopKoreanVoiceInput(discard=false){return voiceStopCapture('ko-KR',discard,discard?'discard':'user-click')}
 function cancelKoreanVoiceInput(discard=true){voiceCancelCapture(discard,'user-cancel')}
 async function toggleKoreanVoiceInput(){if(voiceProcessing){cancelKoreanVoiceInput(true);return}if(voiceRecording){await stopKoreanVoiceInput(false);return}await startKoreanVoiceInput()}
@@ -4427,7 +4444,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
         const krText = document.getElementById('krInput').value;
         if (!currentApiKey) {
             requestIntegratedCredentialEntry('primary','translate',0);
-            alert("⚠️ 1차 비밀번호가 필요합니다. 1차 비밀번호를 다시 입력해주세요.");
+            appAlert("⚠️ 1차 비밀번호가 필요합니다. 1차 비밀번호를 다시 입력해주세요.");
             return;
         }
         if (!krText.trim()) {
@@ -4822,7 +4839,7 @@ function normalizeLaoCombiningMarks(text){return String(text||'').replace(/([\u0
 
         const laoText = document.getElementById('laoResult').innerText;
         if (!laoText || laoText.includes("라오어 번역 결과가 여기에") || laoText.includes("처리 중") || laoText.includes("지연") || laoText.includes("중지") || laoText.includes("오류") || laoText.includes("실패")) {
-            alert("⚠️ 먼저 번역할 정상적인 라오어 문장이 있어야 합니다!");
+            appAlert("⚠️ 먼저 번역할 정상적인 라오어 문장이 있어야 합니다!");
             return;
         }
 
@@ -5581,7 +5598,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="c679f62438504c58da5e706702d34e02110ba3fb341b601bb064ab879f8b5e44">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="d445275eaff00f3e725f8ecdc890955ed82fcc07957b6f41f3a133f208297507">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6056,6 +6073,23 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
 @media(max-width:430px){.main-quick-btn .qlo{font-size:10.5px!important}}
 @media(max-width:350px){.main-quick-btn .qlo{font-size:10px!important}}
 &lt;/style&gt;
+
+&lt;style id="app-custom-dialog-style"&gt;
+.app-custom-dialog{position:fixed;inset:0;z-index:2147483000;background:rgba(15,23,42,.42);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}.app-custom-dialog[hidden]{display:none!important}.app-custom-dialog-card{width:min(420px,100%);background:#fff;color:#172033;border-radius:18px;box-shadow:0 18px 60px rgba(15,23,42,.28);padding:20px 18px 16px;box-sizing:border-box}.app-custom-dialog-message{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.55;font-weight:650;text-align:left}.app-custom-dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.app-custom-dialog-actions button{min-width:78px;min-height:42px;border-radius:11px;border:1px solid #d9dfeb;background:#f3f5f9;color:#263248;font-weight:800;font-size:14px;padding:8px 14px}.app-custom-dialog-actions button[data-primary="1"]{background:#3157d5;border-color:#3157d5;color:#fff}
+&lt;/style&gt;
+
+&lt;script id="app-custom-dialog-runtime"&gt;
+(function(){
+  let active=null;
+  function laoUi(){try{return typeof uiLang==='function'&amp;&amp;uiLang()==='lo'}catch(_){return (document.documentElement.lang||'').toLowerCase().startsWith('lo')}}
+  function ensure(){let o=document.getElementById('appCustomDialog');if(o)return o;o=document.createElement('div');o.id='appCustomDialog';o.className='app-custom-dialog';o.hidden=true;o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.innerHTML='&lt;div class="app-custom-dialog-card"&gt;&lt;div class="app-custom-dialog-message" id="appCustomDialogMessage"&gt;&lt;/div&gt;&lt;div class="app-custom-dialog-actions"&gt;&lt;button type="button" id="appCustomDialogCancel"&gt;&lt;/button&gt;&lt;button type="button" id="appCustomDialogOk" data-primary="1"&gt;&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;';document.body.appendChild(o);return o}
+  function finish(v){if(!active)return;const a=active;active=null;const o=ensure();o.hidden=true;try{a.resolve(v)}catch(_){}}
+  function show(message,confirmMode){const o=ensure(),m=o.querySelector('#appCustomDialogMessage'),ok=o.querySelector('#appCustomDialogOk'),cancel=o.querySelector('#appCustomDialogCancel');if(active)finish(false);m.textContent=String(message??'');ok.textContent=laoUi()?'ຕົກລົງ':'확인';cancel.textContent=laoUi()?'ຍົກເລີກ':'취소';cancel.hidden=!confirmMode;o.hidden=false;return new Promise(resolve=&gt;{active={resolve};ok.onclick=()=&gt;finish(true);cancel.onclick=()=&gt;finish(false);o.onclick=e=&gt;{if(confirmMode&amp;&amp;e.target===o)finish(false)}})}
+  window.appAlert=function(message){return show(message,false)};
+  window.appConfirm=function(message){return show(message,true)};
+  window.addEventListener('keydown',e=&gt;{if(e.key==='Escape'&amp;&amp;active){e.preventDefault();finish(false)}},true);
+})();
+&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class="container"&gt;
@@ -6227,7 +6261,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.185';
+const APP_VERSION='V3.61.186';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -6983,7 +7017,7 @@ window.addEventListener('load',()=&gt;{
 function showApp(){document.getElementById('lockScreen').style.display='none';document.getElementById('appScreen').style.display='block';}
 function checkAccessKey(){
   const el=document.getElementById('accessKeyInput1');const k1=el?el.value.trim():'';
-  if(!k1){alert('⚠️ ກະລຸນາໃສ່ລະຫັດທີ 1.');return;}
+  if(!k1){appAlert('⚠️ ກະລຸນາໃສ່ລະຫັດທີ 1.');return;}
   currentApiKey=k1;currentTtsKey=currentTtsKey||'SERVER_AUDIO';showApp();applyTtsKeyAvailability();
 }
 function logoutApp(){cancelLaoVoiceInput(true);stopTranslation(true);cancelBackTranslation(false);stopKorean();location.reload();}
@@ -7006,7 +7040,7 @@ async function copyPrimaryTranslation(){
     b.textContent='⏳ ກຳລັງກວດຜົນແປກັບ...';
     let backText='';try{backText=await waitForBackTranslationForCopy()}catch(e){backText=''}
     if(b.dataset.copyToken!==token||translationRunId!==sourceRunId)return;
-    if(!backText){b.textContent='⚠️ ກຽມຜົນແປກັບບໍ່ສຳເລັດ';b.disabled=false;alert('⚠️ ຍັງກຽມຜົນແປກັບບໍ່ສຳເລັດ. ກະລຸນາກວດຜົນແປກັບແລ້ວຄ່ອຍຄັດລອກ.');setTimeout(()=&gt;{if(b.dataset.copyToken===token)resetCopyButtonVisual('copyKoreanBtn')},1400);return}
+    if(!backText){b.textContent='⚠️ ກຽມຜົນແປກັບບໍ່ສຳເລັດ';b.disabled=false;appAlert('⚠️ ຍັງກຽມຜົນແປກັບບໍ່ສຳເລັດ. ກະລຸນາກວດຜົນແປກັບແລ້ວຄ່ອຍຄັດລອກ.');setTimeout(()=&gt;{if(b.dataset.copyToken===token)resetCopyButtonVisual('copyKoreanBtn')},1400);return}
     const ok=await writeClipboardSafe(koreanText+'\n'+backText);
     if(b.dataset.copyToken!==token)return;
     b.textContent=ok?'✅ ຄັດລອກແລ້ວ':'⚠️ ຄັດລອກບໍ່ສຳເລັດ';b.disabled=false;
@@ -7038,7 +7072,7 @@ async function copyText(id,btnId){const el=document.getElementById(id);let t=el?
 function hasSpeakableKoreanResult(){const el=document.getElementById('koResult');const text=el?el.innerText.trim():'';return !!text&amp;&amp;/[\uAC00-\uD7A3]/.test(text)&amp;&amp;!text.includes('ຢຸດ')&amp;&amp;!text.includes('ຜິດພາດ')&amp;&amp;!text.includes('ລົ້ມເຫຼວ');}
 function updateSpeechButtonAvailability(){const b=document.getElementById('speakBtn');if(!b)return;b.style.display='flex';if(!hasSpeakableKoreanResult()){b.disabled=true;b.setAttribute('aria-disabled','true');b.textContent='🔊 ຟັງສຽງ';b.style.cursor='default';b.style.opacity='1';return}if(!currentTtsKey){b.disabled=true;b.setAttribute('aria-disabled','true');b.textContent='🔇 ຕ້ອງເຊື່ອມຕໍ່ສຽງ';b.style.cursor='not-allowed';b.style.opacity='1';return}b.disabled=false;b.setAttribute('aria-disabled','false');b.style.cursor='pointer';b.style.opacity='1';if(!(currentAudioObj&amp;&amp;!currentAudioObj.paused)){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}}
 function applyTtsKeyAvailability(){if(currentTtsKey){const b=document.getElementById('soundToggleBtn');if(b){b.classList.toggle('off',!isAutoSoundOn);b.textContent=isAutoSoundOn?'🔊 ສຽງອັດຕະໂນມັດ: ເປີດ':'🔇 ສຽງອັດຕະໂນມັດ: ປິດ'}updateSpeechButtonAvailability();return}isAutoSoundOn=false;const b=document.getElementById('soundToggleBtn');if(b){b.classList.add('off');b.textContent='🔇 ສຽງອັດຕະໂນມັດ: ປິດ'}stopKorean();updateSpeechButtonAvailability();}
-function toggleSoundMode(){const next=!isAutoSoundOn;const b=document.getElementById('soundToggleBtn');if(next&amp;&amp;!currentTtsKey){isAutoSoundOn=false;b.classList.add('off');b.textContent='🔇 ສຽງອັດຕະໂນມັດ: ປິດ';stopKorean();updateSpeechButtonAvailability();alert('⚠️ ການເຊື່ອມຕໍ່ສຽງຍັງບໍ່ພ້ອມ. ກະລຸນາລອງໃໝ່ພາຍຫຼັງ.');return}isAutoSoundOn=next;safeStorageSet(AUTO_SOUND_STORAGE_KEY,isAutoSoundOn?'1':'0');b.classList.toggle('off',!isAutoSoundOn);b.textContent=isAutoSoundOn?'🔊 ສຽງອັດຕະໂນມັດ: ເປີດ':'🔇 ສຽງອັດຕະໂນມັດ: ປິດ';if(!isAutoSoundOn)stopKorean();updateSpeechButtonAvailability();}
+function toggleSoundMode(){const next=!isAutoSoundOn;const b=document.getElementById('soundToggleBtn');if(next&amp;&amp;!currentTtsKey){isAutoSoundOn=false;b.classList.add('off');b.textContent='🔇 ສຽງອັດຕະໂນມັດ: ປິດ';stopKorean();updateSpeechButtonAvailability();appAlert('⚠️ ການເຊື່ອມຕໍ່ສຽງຍັງບໍ່ພ້ອມ. ກະລຸນາລອງໃໝ່ພາຍຫຼັງ.');return}isAutoSoundOn=next;safeStorageSet(AUTO_SOUND_STORAGE_KEY,isAutoSoundOn?'1':'0');b.classList.toggle('off',!isAutoSoundOn);b.textContent=isAutoSoundOn?'🔊 ສຽງອັດຕະໂນມັດ: ເປີດ':'🔇 ສຽງອັດຕະໂນມັດ: ປິດ';if(!isAutoSoundOn)stopKorean();updateSpeechButtonAvailability();}
 function unlockSafariAudio(){try{if(!window.__ttsUnlockAudioObj){window.__ttsUnlockAudioObj=new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==');window.__ttsUnlockAudioObj.preload='auto'}const a=window.__ttsUnlockAudioObj;try{a.currentTime=0}catch(_){}const p=a.play();if(p&amp;&amp;typeof p.then==='function')p.then(()=&gt;{try{a.pause();a.currentTime=0}catch(_){}}).catch(()=&gt;{})}catch(_){}}
 
 function returnToTranslationResultTop(){
@@ -7087,8 +7121,8 @@ function escapeHistoryHtml(v){return String(v??'').replace(/[&amp;&lt;&gt;"']/g,
 function renderTranslationHistory(){const host=document.getElementById('localHistoryList');if(!host)return;let list=readTranslationHistory().sort((a,b)=&gt;(b.ts||0)-(a.ts||0));if(historyViewMode==='favorite')list=list.filter(x=&gt;x.favorite).slice(0,HISTORY_FAVORITE_LIMIT);else list=list.slice(0,20);if(!list.length){host.innerHTML=`&lt;div class="history-empty"&gt;${historyViewMode==='favorite'?'ຍັງບໍ່ມີລາຍການມັກ.':'ຍັງບໍ່ມີປະຫວັດການແປ.'}&lt;/div&gt;`;return}host.innerHTML=list.map(item=&gt;`&lt;div class="history-item"&gt;&lt;div class="history-source"&gt;${escapeHistoryHtml(item.source)}&lt;/div&gt;&lt;div class="history-target"&gt;${escapeHistoryHtml(item.target)}&lt;/div&gt;&lt;div class="history-actions"&gt;&lt;button type="button" onclick="loadHistoryItem('${item.id}')"&gt;↩ ໃຊ້ອີກ&lt;/button&gt;&lt;button type="button" onclick="copyHistoryTarget('${item.id}',this)"&gt;📋 ຄັດລອກ&lt;/button&gt;&lt;button type="button" class="${item.favorite?'fav-on':''}" onclick="toggleHistoryFavorite('${item.id}')"&gt;${item.favorite?'★ ບັນທຶກແລ້ວ':'☆ ລາຍການມັກ'}&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;`).join('')}
 function loadHistoryItem(id){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const input=document.getElementById('loInput');if(!input)return;try{voiceCancel(true)}catch(e){}try{clearResultBox()}catch(e){}input.value=item.source;appInputDirty=true;isJustTranslated=false;updateInputCharCount();loadedHistoryRecall={source:String(item.source||'').trim(),direction:'L2K',id:String(item.id||'')};try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}}
 async function copyHistoryTarget(id,btn){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const old=btn.textContent,ok=await writeClipboardSafe(item.target);btn.textContent=ok?'✅ ຄັດລອກແລ້ວ':'⚠️ ບໍ່ສຳເລັດ';setTimeout(()=&gt;btn.textContent=old,1100)}
-function toggleHistoryFavorite(id){const list=readTranslationHistory(),item=list.find(x=&gt;x.id===id);if(!item)return;if(!item.favorite&amp;&amp;list.filter(x=&gt;x.favorite).length&gt;=HISTORY_FAVORITE_LIMIT){alert('ລາຍການມັກສາມາດບັນທຶກໄດ້ສູງສຸດ 50 ລາຍການ.');return}item.favorite=!item.favorite;item.ts=Date.now();writeTranslationHistory(trimTranslationHistory(list));renderTranslationHistory()}
-function clearTranslationHistory(){if(!confirm('ລຶບປະຫວັດການແປ ແລະ ລາຍການມັກທັງໝົດບໍ?'))return;historyMutationGeneration++;try{localStorage.setItem(LOCAL_HISTORY_KEY,'[]')}catch(e){}renderTranslationHistory()}
+function toggleHistoryFavorite(id){const list=readTranslationHistory(),item=list.find(x=&gt;x.id===id);if(!item)return;if(!item.favorite&amp;&amp;list.filter(x=&gt;x.favorite).length&gt;=HISTORY_FAVORITE_LIMIT){appAlert('ລາຍການມັກສາມາດບັນທຶກໄດ້ສູງສຸດ 50 ລາຍການ.');return}item.favorite=!item.favorite;item.ts=Date.now();writeTranslationHistory(trimTranslationHistory(list));renderTranslationHistory()}
+async function clearTranslationHistory(){if(!await appConfirm('ລຶບປະຫວັດການແປ ແລະ ລາຍການມັກທັງໝົດບໍ?'))return;historyMutationGeneration++;try{localStorage.setItem(LOCAL_HISTORY_KEY,'[]')}catch(e){}renderTranslationHistory()}
 function isRecoverableTranslationHistoryRecord(x){
     const source=String(x?.sourceText||'').trim(),target=String(x?.targetText||'').trim();
     if(!source||!target)return false;
@@ -7301,7 +7335,7 @@ function voiceDiagAudioAgreement(results){const a=Array.isArray(results)?results
 function voiceStatusCheckUserText(r){return`✅ ການທົດສອບສຳເລັດແລ້ວ.\n\nກະລຸນາກົດປຸ່ມ “ຄັດລອກບັນທຶກ” ຢູ່ດ້ານລຸ່ມ ແລ້ວສົ່ງໃຫ້ສາມີຜ່ານ Facebook Messenger.`}
 function voiceStatusCheckLogText(r=voiceDiagLastResult){if(!r)return'VOICE_STATUS_CHECK: NO_RESULT';const n=r.networkDiagnostics||{},t=n.tests||{},lines=[`VOICE_STATUS_CHECK ${r.appVersion||APP_VERSION}`,`diagId=${r.diagId||'-'}`,`startedAtLocal=${r.startedAtLocal||'-'} startedAtUtc=${r.startedAtUtc||'-'} epochMs=${r.startedAtEpochMs??'-'}`,`mode=${r.mode} direction=${r.direction} language=${r.languageCode}`,`browser=${r.browser} iosVersion=${n.iosVersion||'-'} secureContext=${r.secureContext} online=${n.online??'-'} iframe=${n.inIframe??'-'} visibility=${n.visibility||'-'} displayMode=${n.displayMode||'-'} standalone=${n.standalone??'-'} swControlled=${n.serviceWorkerControlled??'-'} timezone=${n.timeZone||'-'} offsetMin=${n.utcOffsetMinutes??'-'}`,`referrerHost=${n.referrerHost||'-'} permissionMic=${n.permissionMicBefore||'-'} -&gt; ${n.permissionMicAfter||'-'}`,`userAgent=${n.userAgent||'-'}`,`EXPECTED_PHRASE=${VOICE_DIAG_EXPECTED_LAO}`,`mediaDevices=${r.mediaDevices} getUserMedia=${r.getUserMedia} micGranted=${r.micGranted} getUserMediaMs=${r.getUserMediaMs??'-'}`,`track settings=${JSON.stringify(r.trackSettings||{})} state=${r.trackReadyStateStart||'-'} muted=${r.trackMutedStart} beforeStop=${r.trackReadyStateBeforeStop||'-'}/${r.trackMutedBeforeStop} stopped=${r.trackStopped} events mute=${r.trackMuteEvents} unmute=${r.trackUnmuteEvents} ended=${r.trackEndedEvents}`,`audioContext=${r.audioContextInitial||'-'} -&gt; ${r.audioContextAfterMic||'-'} -&gt; ${r.audioContextAfterConnect||'-'} sampleRate=${r.sampleRate??'-'} trackSampleRate=${r.trackSampleRate??'-'} channels=${r.trackChannelCount??'-'} stateEvents=${JSON.stringify(r.audioContextStateEvents||[])}`,`sourceSamples=${r.sourceSamples} sourceFrames=${r.sourceFrames} sourceSeconds=${r.sourceSeconds} pcmSamples=${r.pcmSamples} pcmFrames=${r.pcmFrames} pcmSeconds=${r.pcmSeconds} resampleDeltaMs=${r.resampleDurationDeltaMs} recordingWallMs=${r.recordingWallMs??'-'} coverage=${r.sourceCoverageRatio??'-'} callbackGapAvg=${r.sourceCallbackGapAvgMs??'-'} callbackGapMax=${r.sourceCallbackGapMaxMs??'-'} callbackLate=${r.sourceCallbackLateCount??0}`,`audio rms=${r.pcmRms} meanAbs=${r.pcmMeanAbs} peak=${r.pcmPeak} dc=${r.pcmDcOffset} clippingRatio=${r.clippingRatio} silentRatio=${r.silentRatio} voicedRatio=${r.voicedRatio} firstPcmMs=${r.firstPcmMs??'-'} firstVoicedMs=${r.firstVoicedMs??'-'}`,`actualWs=${r.wsVia||'direct'}:${r.wsRegion||'-'} fallback=${r.wsFallbackUsed??false} attempts=${r.wsAttemptCount??'-'} create=${r.wsCreateMs??'-'} open=${r.wsOpenMs??'-'} ready=${r.wsReadyMs??'-'} endSent=${r.wsEndSentMs??'-'} done=${r.wsDoneMs??'-'} error=${r.wsError||'-'} close=${r.wsCloseCode??'-'}/${r.wsCloseReason||'-'}`,`ws transport preReady=${r.preReadyBufferedSamples??0} preReadyMax=${r.preReadyBufferedMax??0} preReadyDropped=${r.preReadyDroppedSamples??0} sentSamples=${r.sentSamples??0} frames=${r.wsFramesSent??0} bytes=${r.wsBytesSent??0} sendErrors=${r.wsSendErrors??0} bufferedMax=${r.wsBufferedAmountMax??0} sendGapAvg=${r.wsSendGapAvgMs??'-'} sendGapMax=${r.wsSendGapMaxMs??'-'} sendLate=${r.wsSendLateCount??0}`,`page focus=${r.hasFocusStart??'-'} -&gt; ${r.hasFocusEnd??'-'} visibilityEvents=${JSON.stringify(r.pageVisibilityEvents||[])} lifecycle=${JSON.stringify(r.pageLifecycleEvents||[])}`,`STREAM_TRANSCRIPT=${r.streamTranscript||'-'}`,`FINAL_TRANSCRIPT=${r.finalTranscript||'-'}`,`expectedMatch=${r.expectedMatch} expectedCER=${r.expectedCer??'-'} targetScriptOkay=${r.targetScriptOkay??'-'}`,`stopSource=${r.stopSource||'-'} stopBeforeReady=${r.stopBeforeReady} liveStopToFinalMs=${r.liveStopToFinalMs??'-'} diagnosticStopToFinalMs=${r.stopToFinalMs??'-'} abortStage=${r.abortStage||'-'}`,`DIAG_COMPONENTS actualWs=${r.actualWsOk===true?'PASS':r.actualWsOk===false?'FAIL':'-'} matrix=${r.matrixOk===true?'PASS':r.matrixOk===false?'FAIL':'-'} failover=${r.failoverOk===true?'PASS':r.failoverOk===false?'FAIL':'-'} transport=${r.transportOk===true?'PASS':r.transportOk===false?'FAIL':'-'}`,'NETWORK_PATHS:'];for(const k of Object.keys(t).sort())lines.push('  '+voiceDiagFormatTest(k,t[k]));lines.push('LIVE_PATH_AUDIT: '+JSON.stringify(n.livePathAudit||{}));if(Array.isArray(n.failoverDrills)){lines.push('FAILOVER_DRILLS:');for(const x of n.failoverDrills)lines.push(`  ${x.name} ok=${x.ok} injected=${x.injected||'-'} primary=${x.primary||'-'} selected=${x.selected||'-'} failover=${x.failover===true} status=${x.status||0} ms=${x.ms||0}${x.error?' error='+x.error:''}`)}if(Array.isArray(r.audioDiagnostics?.results)){lines.push('AUDIO_STT_MATRIX:');for(const x of r.audioDiagnostics.results)lines.push(`  ${x.name} via=${x.via} region=${x.region||'-'} reached=${x.reached} recognized=${x.recognized===true} status=${x.status??0} ms=${x.ms??0} chars=${x.chars??0} scriptOkay=${x.scriptOkay??'-'} expectedMatch=${x.expectedMatch??'-'} CER=${x.expectedCer??'-'} frames=${x.framesSent??'-'} bytes=${x.bytesSent??'-'} sendGapMax=${x.sendGapMaxMs??'-'} transcript=${JSON.stringify(x.transcript||'')}${x.error?' error='+x.error:''}`);lines.push('AUDIO_AGREEMENT: '+JSON.stringify(voiceDiagAudioAgreement(r.audioDiagnostics.results)))}lines.push(`classification=${r.classification||n.classification||'INCONCLUSIVE'} bypassUseful=${r.bypassUseful===true||n.bypassUseful===true}`,`cleanup pcmCleared=${r.pcmCleared} wsCloseRequested=${r.wsCloseRequested} rawAudioStoredRemotely=${r.rawAudioStoredRemotely}`,`status=${r.status} error=${r.error||'-'} resultMs=${r.resultMs??'-'}`,`firestore=${r.firestoreUpload||'-'} relay=${r.firestoreRelay||'-'} ms=${r.firestoreUploadMs??'-'} error=${r.firestoreError||'-'}`,`firestoreAttempts=${JSON.stringify(r.firestoreAttempts||[])}`);if(Array.isArray(r.events)&amp;&amp;r.events.length){lines.push('VOICE_EVENTS:');for(const e of r.events)lines.push(`  +${e.ms}ms ${e.name}${e.detail?' · '+e.detail:''}`)}return lines.join('\n')}
 function voiceStatusCheckComplete(r){voiceStatusCheckActive=false;if(voiceStatusCheckAutoTimer){clearTimeout(voiceStatusCheckAutoTimer);voiceStatusCheckAutoTimer=null}if(voiceStatusCheckCountdownTimer){clearInterval(voiceStatusCheckCountdownTimer);voiceStatusCheckCountdownTimer=null}voiceStatusCheckButtonBusy(false);voiceStatusCheckSet(voiceStatusCheckUserText(r));const a=document.getElementById('voiceStatusCheckActions');if(a)a.hidden=false}
-async function copyVoiceStatusCheckLog(){const text=voiceStatusCheckLogText();try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}voiceStatusCheckSet('✅ ຄັດລອກບັນທຶກແລ້ວ.\n\nກະລຸນາສົ່ງຂໍ້ຄວາມນີ້ຜ່ານ Facebook Messenger ໃຫ້ສາມີ.')}catch(e){alert('⚠️ ຄັດລອກບັນທຶກບໍ່ສຳເລັດ. ກະລຸນາລອງອີກຄັ້ງ.')}}
+async function copyVoiceStatusCheckLog(){const text=voiceStatusCheckLogText();try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}voiceStatusCheckSet('✅ ຄັດລອກບັນທຶກແລ້ວ.\n\nກະລຸນາສົ່ງຂໍ້ຄວາມນີ້ຜ່ານ Facebook Messenger ໃຫ້ສາມີ.')}catch(e){appAlert('⚠️ ຄັດລອກບັນທຶກບໍ່ສຳເລັດ. ກະລຸນາລອງອີກຄັ້ງ.')}}
 async function startVoiceStatusCheck(languageCode){if(voiceStatusCheckActive||voiceRecording||voiceProcessing){voiceStatusCheckSet('ກະລຸນາລໍຖ້າໃຫ້ການຮັບສຽງປັດຈຸບັນສຳເລັດກ່ອນ.');return}if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){voiceStatusCheckSet('ກະລຸນາລໍຖ້າໃຫ້ການແປສຳເລັດກ່ອນ.');return}const startedAtMs=Date.now(),startedPerf=performance.now(),diagId=voiceDiagNewId();voiceStatusSessionMeta={startedAtMs,startedPerf,diagId};voiceStatusNetworkResult=voiceDiagNetBase(voiceStatusSessionMeta);voiceStatusNetworkPromise=voiceDiagNetworkSuite(voiceStatusSessionMeta).catch(e=&gt;{voiceStatusNetworkResult.notes?.push('NETWORK_SUITE:'+voiceDiagSafeError(e));return voiceStatusNetworkResult});voiceStatusCheckActive=true;voiceStatusCheckButtonBusy(true);const a=document.getElementById('voiceStatusCheckActions');if(a)a.hidden=true;voiceStatusCheckSet(`🎙️ ກຳລັງເປີດໄມໂຄຣໂຟນ.\n\nກະລຸນາເວົ້າພຽງປະໂຫຍກນີ້ 1 ຄັ້ງ ແລ້ວຢຸດ:\n“${VOICE_DIAG_EXPECTED_LAO}”`);await voiceStartCapture(languageCode);if(!voiceStatusCheckActive)return;if(!voiceRecording){const r=voiceDiagLastResult||voiceDiagFinalize('FAILED','VOICE_RECORDING_NOT_STARTED');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r);return}const started=Date.now();voiceStatusCheckSet(`🔴 ກຳລັງກວດ · ເວົ້າພຽງປະໂຫຍກນີ້ 1 ຄັ້ງ:\n“${VOICE_DIAG_EXPECTED_LAO}”`);voiceStatusCheckCountdownTimer=setInterval(()=&gt;{if(!voiceStatusCheckActive)return;const left=Math.max(0,5-Math.floor((Date.now()-started)/1000));voiceStatusCheckSet(`🔴 ກຳລັງກວດ · ຫຼັງເວົ້າ 1 ຄັ້ງ ໃຫ້ຢຸດລໍຖ້າ... ${left}s\n“${VOICE_DIAG_EXPECTED_LAO}”`)},1000);voiceStatusCheckAutoTimer=setTimeout(()=&gt;{if(voiceStatusCheckActive&amp;&amp;voiceRecording){voiceStatusCheckSet('⏳ ບັນທຶກສຽງຄົບແລ້ວ · ກຳລັງກວດທຸກເສັ້ນທາງຫຼັກ/ສຳຮອງ ແລະ ການຮັບຮູ້ສຽງ...');void voiceStopCapture(languageCode,false,'status-auto')}},5200)}
 
 async function voiceDiagAudioProbe(name,url,token,body,timeoutMs,via,region){const r=await voiceDiagFetchRaw(name,url,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json','X-App-Token':token},body:JSON.stringify(body)},timeoutMs,'json',{via,region});let text='';try{text=VOICE_CLEAN_TRANSCRIPT(String(r.data?.transcript||r.data?.text||''))}catch(e){text=String(r.data?.transcript||r.data?.text||'').trim()}const recognized=!!text&amp;&amp;text!=='[[NO_SPEECH]]',metrics=recognized?voiceDiagExpectedMetrics(text):{expectedMatch:false,expectedCer:null};const summary=voiceDiagCleanFetchRecord(r,{recognized,chars:recognized?text.length:0,scriptOkay:recognized?voiceAiTranscriptAcceptable(text,'lo-LA',Math.max(16000,Number(body?.pcmSamples||0))):null,transcript:recognized?text:'',...metrics});if(!summary.recognized&amp;&amp;r.reached&amp;&amp;!r.ok&amp;&amp;!summary.error)summary.error=String(r.data?.error||'HTTP_'+r.status).slice(0,180);return{summary,text:summary.recognized?text:''}}
@@ -7604,10 +7638,10 @@ function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ ຟັງ
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT ກຳລັງປະມວນຜົນສຽງສ່ວນສຸດທ້າຍ.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 ກຳລັງໃຊ້ລະບົບຮັບສຽງສຳຮອງກູ້ຄືນຈາກສຽງເດີມ.')}
 function VOICE_UI_SUCCESS(post,usedFallback){const sec=Number.isFinite(post?.resultMs)?(post.resultMs/1000).toFixed(2):'-',auto=!!mainAutoInterpretEnabled;let msg=usedFallback?`✅ ຮັບສຽງສຳເລັດ · ກູ້ຄືນອັດຕະໂນມັດ · ຈົບສຽງ→ຜົນ ${sec}s.`:(post?.assessment?.level==='review'?`⚠️ ໃສ່ຂໍ້ຄວາມແລ້ວ · ຈົບສຽງ→ຜົນ ${sec}s · ມີບາງສ່ວນ/ຊື່ທີ່ຄວນກວດ.`:`✅ ຮັບສຽງສຳເລັດ · ຈົບສຽງ→ຜົນ ${sec}s.`);msg+=auto?' ກຳລັງເລີ່ມແປອັດຕະໂນມັດ.':' ກວດຂໍ້ຄວາມກ່ອນກົດແປ.';setVoiceInputUi('idle',msg);setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},6500)}
-function VOICE_UI_NO_SPEECH(post){if(post?.hard){updateVoiceScore({level:'hard',reasons:['HARD_OUTPUT']},true);alert('⚠️ ຜົນຮັບສຽງຍັງຜິດປົກກະຕິຫຼາຍຫຼັງກູ້ຄືນ ຈຶ່ງບໍ່ໃສ່ໃນຊ່ອງ. ກະລຸນາລອງໃໝ່.')}else{updateVoiceScore({level:'hard',reasons:['NO_SPEECH']},false);alert('⚠️ ບໍ່ພົບຄຳເວົ້າທີ່ຊັດເຈນ. ກະລຸນາລອງໃໝ່.')}setVoiceInputUi('idle')}
-function VOICE_UI_UNSUPPORTED(){alert('⚠️ ບຣາວເຊີນີ້ບໍ່ຮອງຮັບການຮັບສຽງໃນແອັບ. ກະລຸນາໃຊ້ Chrome/Safari ລຸ້ນປັດຈຸບັນ.')}
-function VOICE_UI_START_ERROR(e){setVoiceInputUi('idle');if(e?.name==='NotAllowedError'||e?.name==='SecurityError')alert('⚠️ ກະລຸນາອະນຸຍາດ Microphone ໃນບຣາວເຊີແລ້ວລອງໃໝ່.');else alert('⚠️ ບໍ່ສາມາດເປີດໄມໂຄຣໂຟນໄດ້. ກະລຸນາລອງໃໝ່.')}
-function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(e?.name==='AbortError'||e?.__relayAttemptTimeout)alert('⚠️ ການເຊື່ອມຕໍ່ຮັບສຽງຊ້າ. ກະລຸນາລອງເວົ້າໃໝ່ອີກຄັ້ງ.');else alert('⚠️ ບໍ່ສາມາດຮັບຮູ້ສຽງໄດ້. ກະລຸນາລອງເວົ້າໃໝ່.')}
+function VOICE_UI_NO_SPEECH(post){if(post?.hard){updateVoiceScore({level:'hard',reasons:['HARD_OUTPUT']},true);appAlert('⚠️ ຜົນຮັບສຽງຍັງຜິດປົກກະຕິຫຼາຍຫຼັງກູ້ຄືນ ຈຶ່ງບໍ່ໃສ່ໃນຊ່ອງ. ກະລຸນາລອງໃໝ່.')}else{updateVoiceScore({level:'hard',reasons:['NO_SPEECH']},false);appAlert('⚠️ ບໍ່ພົບຄຳເວົ້າທີ່ຊັດເຈນ. ກະລຸນາລອງໃໝ່.')}setVoiceInputUi('idle')}
+function VOICE_UI_UNSUPPORTED(){appAlert('⚠️ ບຣາວເຊີນີ້ບໍ່ຮອງຮັບການຮັບສຽງໃນແອັບ. ກະລຸນາໃຊ້ Chrome/Safari ລຸ້ນປັດຈຸບັນ.')}
+function VOICE_UI_START_ERROR(e){setVoiceInputUi('idle');if(e?.name==='NotAllowedError'||e?.name==='SecurityError')appAlert('⚠️ ກະລຸນາອະນຸຍາດ Microphone ໃນບຣາວເຊີແລ້ວລອງໃໝ່.');else appAlert('⚠️ ບໍ່ສາມາດເປີດໄມໂຄຣໂຟນໄດ້. ກະລຸນາລອງໃໝ່.')}
+function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(e?.name==='AbortError'||e?.__relayAttemptTimeout)appAlert('⚠️ ການເຊື່ອມຕໍ່ຮັບສຽງຊ້າ. ກະລຸນາລອງເວົ້າໃໝ່ອີກຄັ້ງ.');else appAlert('⚠️ ບໍ່ສາມາດຮັບຮູ້ສຽງໄດ້. ກະລຸນາລອງເວົ້າໃໝ່.')}
 function VOICE_UI_ENABLE_BUTTON(){const b=document.getElementById('voiceInputBtn');if(b)b.disabled=false;const q=document.getElementById('mainQuickMic');if(q)q.disabled=false}
 function VOICE_UI_IDLE(){setVoiceInputUi('idle')}
 function VOICE_CLEAN_TRANSCRIPT(t){return cleanVoiceTranscript(t)}
@@ -7626,7 +7660,7 @@ async function VOICE_POSTPROCESS_TRANSCRIPT(transcript,allPcm,languageCode,usedF
   updateVoiceScore(assessment,retried);return{transcript:t,assessment,retried,cleanupChanged:!!clean.changed,rawTranscript:raw};
 }
 function VOICE_APPEND_TRANSCRIPT(text){appendVoiceTranscript(text)}
-async function startLaoVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){alert('⚠️ ກະລຸນາລໍຖ້າໃຫ້ການແປ/ກວດຄວາມໝາຍແບບກົດເອງສຳເລັດກ່ອນໃຊ້ໄມໂຄຣໂຟນ.');return}try{stopKorean()}catch(e){}revealVoiceInputText('loInput','inputComposer');await voiceStartCapture('lo-LA');revealVoiceInputText('loInput','inputComposer')}
+async function startLaoVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){appAlert('⚠️ ກະລຸນາລໍຖ້າໃຫ້ການແປ/ກວດຄວາມໝາຍແບບກົດເອງສຳເລັດກ່ອນໃຊ້ໄມໂຄຣໂຟນ.');return}try{stopKorean()}catch(e){}revealVoiceInputText('loInput','inputComposer');await voiceStartCapture('lo-LA');revealVoiceInputText('loInput','inputComposer')}
 function stopLaoVoiceInput(discard=false){return voiceStopCapture('lo-LA',discard,discard?'discard':'user-click')}
 function cancelLaoVoiceInput(discard=true){voiceCancelCapture(discard,'user-cancel')}
 async function toggleLaoVoiceInput(){if(voiceProcessing){cancelLaoVoiceInput(true);return}if(voiceRecording){await stopLaoVoiceInput(false);return}await startLaoVoiceInput()}
@@ -8512,7 +8546,7 @@ function errorMessageLao(error,records){if(error?.name==='CriticalSafetyError')r
 async function translateText(options={}){
   translationOutputLocked=false;translationOutputLockReason='';
   updateQualityBadge(null);
-  const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);alert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){focusMainTextInput();return}
+  const source=document.getElementById('loInput').value.trim();if(!currentApiKey){requestIntegratedCredentialEntry('primary','translate',0);appAlert('⚠️ ຕ້ອງໃສ່ລະຫັດທີ 1 ໃໝ່.');return}if(!source){focusMainTextInput();return}
   cancelBackTranslation(false);setBackTime('');stopKorean();const runId=++translationRunId;telemetryBeginAttempt(runId);lastRequestPayload=source;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';setRetry(false);isTranslating=true;const btn=document.getElementById('translateBtn');btn.textContent='⏹️ ຢຸດການແປ';btn.style.background='#d93025';startTimer();document.getElementById('koResult').textContent='';setPrimaryResultVisible(false);document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);updateSpeechButtonAvailability();setKoreanCopyReady(false);const records=[];const ctx={activeSet:mainControllers,records,isActive:()=&gt;runId===translationRunId&amp;&amp;isTranslating,onStatus:t=&gt;{const el=document.getElementById('loadingText');if(el)el.textContent=t}};const started=performance.now();
   try{const singleHandle=createForwardRequest(source,ctx,'ຄຳແປຫຼັກ',GEMINI_TIMEOUT_MS,forwardMaxOutputTokensForSource(source));const singleOutcome=await singleHandle.outcome;if(!ctx.isActive())return;if(!singleOutcome.ok)throw singleOutcome.error;let result={...singleOutcome.result,hedged:false,rescued:false,tailRescued:false,winner:'ຄຳແປຫຼັກ'};let semanticRepaired=false,semanticRepairFailed=false;const initialCriticalRisk=detectCriticalMeaningRiskL2K(source,result.text);if(initialCriticalRisk.critical){result.quality={...(result.quality||{}),semanticAdvisory:true,semanticAdvisoryReasons:[...(initialCriticalRisk.reasons||[]),...(initialCriticalRisk.advisoryReasons||[])]};result.winner='ຄຳແປຫຼັກ · 사용자 확인'}const minorAutoRepaired=false,latinResidueAutoRetried=false,brokenCharAutoRetried=false;// V3.61.165: semantic detectors are advisory-only. Show the first result; no automatic semantic retranslation and no hard block.
   const finalText=result.text;/* V2.18: 경미한 품질 경고는 추가 정리 없이 즉시 표시 */document.getElementById('koResult').textContent=finalText;setPrimaryResultVisible(true);lastForwardQualitySnapshot={...(result.quality||{})};lastForwardTargetSnapshot=finalText;updateQualityBadge({...result.quality,postBackPending:true}, source, finalText);setTranslationOutputSafety(result.quality,finalText);isJustTranslated=true;clearInputDirtyIfUnchanged(source,'loInput');deferStoreTranslation(source,finalText,result.quality,{winner:result.winner,semanticRepaired,semanticRepairFailed,elapsedMs:performance.now()-started});const sec=((performance.now()-started)/1000).toFixed(1);recordLivePerfSample({totalMs:Math.round(performance.now()-started),winner:String(result.winner||''),hedged:!!result.hedged,rescued:!!result.rescued,winningRequestMs:Math.round(result.elapsedMs||0),requestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),semanticRepaired,semanticRepairFailed,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,sourceChars:source.length,targetChars:finalText.length});telemetryCommitPrimary({runId,direction:'L2K',sourceText:source,targetText:finalText,quality:result.quality,totalMs:Math.round(performance.now()-started),winner:result.winner,hedged:!!result.hedged,rescued:!!result.rescued,tailRescued:!!result.tailRescued,winningRequestMs:Math.round(result.elapsedMs||0),semanticRepaired,semanticRepairFailed,brokenCharAutoRetried:!!brokenCharAutoRetried,outputLocked:!!translationOutputLocked,requestRecords:records});console.log('[WIFE TRANSLATION SUCCESS]',{elapsedSec:sec,winner:result.winner,hedged:result.hedged,rescued:result.rescued,minorContaminationDetected:result.quality?.softContamination===true,minorAutoRepaired,latinResidueAutoRetried,semanticRepaired,semanticRepairFailed,geminiRequestCount:records.length,promptCharsMax:Math.max(0,...records.map(x=&gt;Number(x.promptChars||0))),promptCharsTotal:records.reduce((n,x)=&gt;n+Number(x.promptChars||0),0),requestLabels:records.map(x=&gt;x.label)});stopTimer('ສຳເລັດ');resetTranslationUI();setKoreanCopyReady(true);updateSpeechButtonAvailability();if(isAutoSoundOn)void speakKorean();void requestBackTranslation(true);}
@@ -8635,7 +8669,7 @@ async function requestBackTranslation(autoTriggered=false){
     return
   }
   const korean=document.getElementById('koResult').innerText.trim();
-  if(!korean||!/[\uAC00-\uD7A3]/.test(korean)){alert('⚠️ ຕ້ອງມີຜົນແປພາສາເກົາຫຼີກ່ອນ.');return}
+  if(!korean||!/[\uAC00-\uD7A3]/.test(korean)){appAlert('⚠️ ຕ້ອງມີຜົນແປພາສາເກົາຫຼີກ່ອນ.');return}
   const runId=++backTranslationRunId;
   isBackTranslating=true;
   isAutoBackTranslating=!!autoTriggered;
@@ -9156,7 +9190,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.185';
+const INTEGRATED_VERSION='V3.61.186';
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
 const UNIFIED_AZURE_REGION='koreacentral';
 const INTEGRATED_ARCHITECTURE='FastDirectText-OnePrimaryPassword-LocalStorage + DualRegionAudioSpeechRelay-SeoulBangkok + DirectFirstRelayFallback + V287QualityGateRestored + AutoBackTranslationParallelTTS + GoogleStreamingRealMic-BothApps + SafeAutoUpdate + InAppAdminAuth + S23UIParity + ResultFocusUIPolish';
@@ -9177,7 +9211,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='9389075913913b7c87c50e329a85c92f5b58f51fdc1dfc9e111fabcfd5ea9e08';
+const EXTERNAL_DIAGNOSTIC_SHA256='9fda51c8fbca021016dde4531f20f098d027ac7841f418407ca6e973f0f59826';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9214,7 +9248,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.185: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
+// V3.61.186: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10657,7 +10691,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.185","id":"test-v361185-stt-cleanup-g152a-r1","seenKey":"translator_release_notice_seen_test_v361185_stt_cleanup_g152a_r1","ko":{"sub":"V3.61.185 TEST · STT 발화정리 + 일반앱 G152A","summary":["부부앱 한국어/라오어 STT에도 명시적 자기정정·말더듬 정리를 적용합니다.","일반앱은 6개 입력 언어에 같은 발화정리 원칙을 적용합니다.","G152A는 짧은 문장의 과잉설명과 시간 관계 왜곡을 억제합니다."],"sections":[["보존 항목",["P159A는 변경하지 않았습니다.","Relay/Cloudflare, STREAM→REST→AI, TTS 코어는 유지합니다."]]],"previous":"V3.61.184 TEST."},"lo":{"sub":"V3.61.185 TEST · ປັບປຸງ STT ແລະ G152A","summary":["ປັບປຸງການຈັດຄຳເວົ້າ STT ພາສາເກົາຫຼີ/ລາວໃນແອັບຄູ່ສົມລົດ.","ແອັບທົ່ວໄປໃຊ້ຫຼັກການນີ້ກັບ 6 ພາສາ.","G152A ຫຼຸດການແປທີ່ຍາວເກີນໄປ ແລະຮັກສາເວລາໃຫ້ຖືກ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.186","id":"test-v361185-stt-cleanup-g152a-r1","seenKey":"translator_release_notice_seen_test_v361185_stt_cleanup_g152a_r1","ko":{"sub":"V3.61.186 TEST · STT 발화정리 + 일반앱 G152A","summary":["부부앱 한국어/라오어 STT에도 명시적 자기정정·말더듬 정리를 적용합니다.","일반앱은 6개 입력 언어에 같은 발화정리 원칙을 적용합니다.","G152A는 짧은 문장의 과잉설명과 시간 관계 왜곡을 억제합니다."],"sections":[["보존 항목",["P159A는 변경하지 않았습니다.","Relay/Cloudflare, STREAM→REST→AI, TTS 코어는 유지합니다."]]],"previous":"V3.61.184 TEST."},"lo":{"sub":"V3.61.186 TEST · ປັບປຸງ STT ແລະ G152A","summary":["ປັບປຸງການຈັດຄຳເວົ້າ STT ພາສາເກົາຫຼີ/ລາວໃນແອັບຄູ່ສົມລົດ.","ແອັບທົ່ວໄປໃຊ້ຫຼັກການນີ້ກັບ 6 ພາສາ.","G152A ຫຼຸດການແປທີ່ຍາວເກີນໄປ ແລະຮັກສາເວລາໃຫ້ຖືກ."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
