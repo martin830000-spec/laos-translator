@@ -470,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="297fba1b7f754ba0d5aa5c9a846991b021bc878ef54916394ab5314c67af6430">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="577c991a5bdabe23fe525c31b2f9821d6065fcac4feb4aceaa0930cb9a2d06bd">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1188,7 +1188,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.190';
+const APP_VERSION='V3.61.191';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5600,7 +5600,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="e047c285f9bdd9f5901ff1d098eb7cfe43fe7cc50bd4690ae94e173dd7463af0">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="ff0980b527f3aebeaa3f108de48645243cbe2f97bcff6daacc2669afdcf92afe">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6263,7 +6263,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.190';
+const APP_VERSION='V3.61.191';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9192,7 +9192,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.190';
+const INTEGRATED_VERSION='V3.61.191';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
@@ -9252,7 +9252,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.190: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
+// V3.61.191: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10695,7 +10695,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.190","id":"test-v361190-g157a-fidelity-r1","seenKey":"translator_release_notice_seen_test_v361190_g157a_fidelity_r1","ko":{"sub":"V3.61.190 TEST · G157A 말투/중복 최소 보정 · 기존 기능 유지","summary":["부부앱 P159A와 V3.61.189의 코드/STT/UI는 유지하고 General 프롬프트만 G157A로 최소 보정했습니다.","K→L에서 한 번의 행동 요청이 공손 표현 때문에 중복되지 않도록 규칙을 강화했습니다.","역번역은 과도한 격식 상승과 괄호·슬래시 대안 나열을 억제합니다."],"sections":[["보존 항목",["부부앱 P159A는 변경하지 않았습니다.","자동음성 토글, STT 발화정리, 다국어 경로, 진단 격리 정책을 유지합니다."]]],"previous":"V3.61.189 TEST / G156A 기준."},"lo":{"sub":"V3.61.190 TEST · G157A · ປັບຄຳຊ້ຳ/ລະດັບພາສາ","summary":["ຮັກສາ P159A ແລະ code/STT/UI ຈາກ V3.61.189.","ຫຼຸດການກະທຳດຽວຊ້ຳໃນການແປ K→L.","ການແປກັບຮັກສາຄວາມສຸພາບ ແລະບໍ່ສະແດງຄຳທາງເລືອກໃນວົງເລັບ/ສະແລັດໂດຍບໍ່ຈຳເປັນ."]}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.191","id":"test-v361191-critical-review-r1","seenKey":"translator_release_notice_seen_test_v361191_critical_review_r1","ko":{"sub":"V3.61.191 TEST · 크리티컬 출력 사용자 확인 · 자동 재번역 없음","summary":["General G157A와 부부앱 P159A 프롬프트는 그대로 유지합니다.","General에서 메타 설명 누출·심한 출력 폭증·명백한 대상언어 이상만 사용자 확인으로 표시합니다.","자동 재번역은 없으며 사용자가 재번역을 누를 때만 다시 요청합니다."],"sections":[["보존 항목",["부부앱 번역/STT/TTS와 General STT/TTS/Relay/다국어 경로는 변경하지 않았습니다."]]],"previous":"V3.61.190 TEST / G157A 기준."},"lo":{"sub":"V3.61.191 TEST · ເຕືອນຜົນແປຜິດປົກກະຕິ","summary":["ຮັກສາ General G157A ແລະ P159A ເດີມ.","General ແຈ້ງເຕືອນສະເພາະຜົນຜິດປົກກະຕິຊັດເຈນ.","ບໍ່ແປໃໝ່ອັດຕະໂນມັດ; ຜູ້ໃຊ້ເປັນຄົນກົດແປໃໝ່."]}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
