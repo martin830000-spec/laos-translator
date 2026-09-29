@@ -470,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="7aedb003c9a5255ac8e686a1c39531fde4a224ebd0c54cefb769885d5390ac9d">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="342689056400d0a9a332f4f6ed26e8f8258db2769ec6c5b5b3cbe1b91b5a43e7">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1005,12 +1005,13 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.addEventListener('keydown',e=&gt;{if(e.key==='Escape'&amp;&amp;active){e.preventDefault();finish(false)}},true);
 })();
 &lt;/script&gt;
-&lt;style id="v361195-stt-ready-ux"&gt;
-.voice-input-status.stt-preparing,.voice-input-status.stt-ready,.voice-input-status.stt-listening{display:block!important;text-align:center!important;border-radius:12px;padding:10px 12px;margin:7px 0 9px!important;font-weight:850;line-height:1.45;box-sizing:border-box}
-.voice-input-status.stt-preparing{font-size:13px;background:#f4f6f9;color:#526174;border:1px solid #dfe5ec}
-.voice-input-status.stt-ready{font-size:clamp(18px,5vw,22px);background:#eef7ff;color:#0b57d0;border:2px solid #7bb1ff;box-shadow:0 3px 12px rgba(11,87,208,.13)}
-.voice-input-status.stt-listening{font-size:13px;background:#f1f8f3;color:#18743a;border:1px solid #b9dfc5}
-@media(max-width:400px){.voice-input-status.stt-ready{font-size:18px;padding:11px 8px}}
+&lt;style id="v361196-stt-ready-ux"&gt;
+.voice-input-status.stt-preparing,.voice-input-status.stt-ready,.voice-input-status.stt-listening{display:flex!important;min-height:90px;height:90px;overflow:hidden;flex-direction:column;align-items:center;justify-content:center;text-align:center!important;border-radius:12px;padding:9px 12px;margin:7px 0 9px!important;font-weight:850;line-height:1.35;box-sizing:border-box}
+.voice-input-status.stt-preparing{font-size:14px;background:#f4f6f9;color:#526174;border:1px solid #dfe5ec}
+.voice-input-status.stt-ready,.voice-input-status.stt-listening{font-size:clamp(17px,4.6vw,21px);background:#eef7ff;color:#0b57d0;border:2px solid #7bb1ff;box-shadow:0 3px 12px rgba(11,87,208,.13)}
+.voice-input-status.stt-preparing::after,.voice-input-status.stt-ready::after,.voice-input-status.stt-listening::after{content:attr(data-stt-tip);display:block;max-width:100%;margin-top:5px;font-size:11.5px;font-weight:700;line-height:1.35;color:#607086;white-space:normal}
+.voice-input-status.stt-ready::after,.voice-input-status.stt-listening::after{color:#48637f}
+@media(max-width:400px){.voice-input-status.stt-preparing,.voice-input-status.stt-ready,.voice-input-status.stt-listening{height:94px;min-height:94px;padding:8px}.voice-input-status.stt-ready,.voice-input-status.stt-listening{font-size:17px}.voice-input-status.stt-preparing::after,.voice-input-status.stt-ready::after,.voice-input-status.stt-listening::after{font-size:11px}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -1195,7 +1196,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.195';
+const APP_VERSION='V3.61.196';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -1911,7 +1912,7 @@ function telemetryCommitFailure({runId,direction,sourceText,error,stage,totalMs,
   liveTelemetryLastTraceId=a.traceId;liveTelemetryAttempt=null;telemetryQueuePush(record);
 }
 function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liveTelemetryCurrent;if(!e)return;if(String(e.targetText||'').trim()!==String(targetText||'').trim())return;const t=String(backText||'').trim();if(t)e.backText=t;if(backUsage&amp;&amp;typeof backUsage==='object'){const u=backUsage;e.runtime.backUsage={prompt:Number.isFinite(Number(u.prompt))?Number(u.prompt):null,candidate:Number.isFinite(Number(u.candidate))?Number(u.candidate):null,thoughts:Number.isFinite(Number(u.thoughts))?Number(u.thoughts):null,total:Number.isFinite(Number(u.total))?Number(u.total):null,known:u.known===true||[u.prompt,u.candidate,u.thoughts,u.total].some(v=&gt;Number.isFinite(Number(v))),cloudRunMs:Number.isFinite(Number(u.cloudRunMs))?Math.max(0,Number(u.cloudRunMs)):0,cloudRunRequests:Number.isFinite(Number(u.cloudRunRequests))?Math.max(0,Math.round(Number(u.cloudRunRequests))):0,totalMs:Number.isFinite(Number(u.clientTotalMs))?Math.max(0,Math.round(Number(u.clientTotalMs))):null,status:String(u.clientStatus||'SUCCESS').slice(0,16),error:String(u.clientError||'').slice(0,160)}}telemetryScheduleFinalize(150)}
-function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voiceRecording||voiceProcessing||appCopyBusy)}
+function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voicePreparing||voiceRecording||voiceProcessing||appCopyBusy)}
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
 function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean)}
@@ -2449,8 +2450,10 @@ const GOOGLE_VOICE_REST_TIMEOUT_MS=6500;
 const GOOGLE_VOICE_REST_HEDGE_DELAY_MS=700;
 const GOOGLE_VOICE_AI_TIMEOUT_MS=9000;
 const GOOGLE_VOICE_WARN_MS=60000;
+const GOOGLE_VOICE_CAPTURE_READY_TIMEOUT_MS=4500;
 let voiceRecording=false;
 let voiceProcessing=false;
+let voicePreparing=false;
 let voiceStream=null;
 let voiceAudioContext=null;
 let voiceSourceNode=null;
@@ -2472,6 +2475,7 @@ let voiceRecordStartedAt=0;
 let voiceTimerInterval=null;
 let voiceWarnTimer=null;
 let voiceReadyUiTimer=null;
+let voicePrepareWatchdog=null;
 let voiceCaptureReady=false;
 let voiceSeq=0;
 let voiceSentSamples=0;
@@ -2610,6 +2614,9 @@ function voiceResamplePush(input,flush=false){
   return voiceFloatToInt16(new Float32Array(out));
 }
 function voiceConcatAllPcm(parts){let total=0;for(const p of parts)total+=p.length;const out=new Int16Array(total);let off=0;for(const p of parts){out.set(p,off);off+=p.length}return out}
+function voiceLocalActivity(pcm){const n=Number(pcm?.length)||0;if(!n)return{samples:0,seconds:0,peak:0,rms:0};let ss=0,peak=0;for(let i=0;i&lt;n;i++){const x=Math.abs((Number(pcm[i])||0)/32768);ss+=x*x;if(x&gt;peak)peak=x}return{samples:n,seconds:n/GOOGLE_VOICE_SAMPLE_RATE,peak,rms:Math.sqrt(ss/n)}}
+function voiceSpeechEvidence(pcm){const a=voiceLocalActivity(pcm),frame=320,levels=[];for(let o=0;o+frame&lt;=pcm.length;o+=frame){let ss=0;for(let i=o;i&lt;o+frame;i++){const x=(Number(pcm[i])||0)/32768;ss+=x*x}levels.push(Math.sqrt(ss/frame))}if(!levels.length)return{...a,noise:0,p90:0,activeRatio:0,speechLikely:false};const sorted=[...levels].sort((x,y)=&gt;x-y),pick=q=&gt;sorted[Math.min(sorted.length-1,Math.max(0,Math.floor((sorted.length-1)*q)))],noise=pick(.20),p90=pick(.90),threshold=Math.max(.00075,noise*1.7+.00015),active=levels.filter(x=&gt;x&gt;=threshold).length,activeRatio=active/levels.length,speechLikely=a.seconds&gt;=.20&amp;&amp;active&gt;=3&amp;&amp;activeRatio&gt;=.03&amp;&amp;((p90&gt;=.00075&amp;&amp;activeRatio&gt;=.08)||(a.peak&gt;=.0035&amp;&amp;activeRatio&gt;=.12));return{...a,noise,p90,activeRatio,speechLikely}}
+function voiceDefinitelyNoSpeech(pcm){const e=voiceSpeechEvidence(pcm);return e.seconds&gt;=.20&amp;&amp;((e.peak&lt;=.0015&amp;&amp;e.rms&lt;=.0006)||(e.seconds&gt;=.60&amp;&amp;!e.speechLikely&amp;&amp;e.p90&lt;=.0028&amp;&amp;e.rms&lt;=.0032))}
 function voicePcmToWavBlob(pcm){
   const ab=new ArrayBuffer(44+pcm.length*2),v=new DataView(ab);let p=0;
   const s=x=&gt;{for(let i=0;i&lt;x.length;i++)v.setUint8(p++,x.charCodeAt(i))};
@@ -2716,8 +2723,8 @@ function voiceDisconnectAudio(){
   try{if(voiceStream)for(const t of voiceStream.getTracks())t.stop()}catch(e){}voiceStream=null;
   try{if(voiceAudioContext&amp;&amp;voiceAudioContext.state!=='closed')voiceAudioContext.close()}catch(e){}voiceAudioContext=null;
 }
-function voiceClearTimers(){if(voiceTimerInterval){clearInterval(voiceTimerInterval);voiceTimerInterval=null}if(voiceWarnTimer){clearTimeout(voiceWarnTimer);voiceWarnTimer=null}if(voiceReadyUiTimer){clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=null}}
-function voiceRecordingClock(){if(!voiceRecording||!voiceCaptureReady||voiceReadyUiTimer)return;const sec=Math.floor(Math.max(0,Date.now()-voiceRecordStartedAt)/1000),m=Math.floor(sec/60),s=String(sec%60).padStart(2,'0');VOICE_UI_CLOCK(m,s)}
+function voiceClearTimers(){if(voiceTimerInterval){clearInterval(voiceTimerInterval);voiceTimerInterval=null}if(voiceWarnTimer){clearTimeout(voiceWarnTimer);voiceWarnTimer=null}if(voiceReadyUiTimer){clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=null}if(voicePrepareWatchdog){clearTimeout(voicePrepareWatchdog);voicePrepareWatchdog=null}}
+function voiceRecordingClock(){if(!voiceRecording||!voiceCaptureReady||!voiceRecordStartedAt)return;const sec=Math.floor(Math.max(0,Date.now()-voiceRecordStartedAt)/1000),m=Math.floor(sec/60),s=String(sec%60).padStart(2,'0');VOICE_UI_CLOCK(m,s)}
 function voiceAbortFallbacks(){
   for(const c of [...voiceFallbackControllers]){try{c.abort()}catch(e){}}voiceFallbackControllers.clear();if(voiceFallbackController){try{voiceFallbackController.abort()}catch(e){}voiceFallbackController=null}
 }
@@ -2743,6 +2750,7 @@ async function voiceRecoveryTranscribe(pcm,languageCode,session){
     const r=await voiceRestHedge(audioBase64,languageCode,session,eps,streamName);if(session!==voiceSessionId)return'';voiceLastRecoveryStage='rest';voiceDiagMark('recoveryStage','rest');voiceDiagMark('restRegion',r.region);voiceDiagMark('restVia',String(r.via||''));voiceDiagMark('restMs',r.ms);voiceDiagMark('restStatus',r.status);voiceDiagMark('restError','');return r.text;
   }catch(e){lastErr=e;voiceDiagMark('restError',String(e?.message||e));}
   if(session!==voiceSessionId)return'';
+  const speechEvidence=voiceSpeechEvidence(pcm);voiceDiagMark('speechEvidence',speechEvidence.speechLikely);voiceDiagMark('speechActiveRatio',speechEvidence.activeRatio);voiceDiagMark('speechP90',speechEvidence.p90);if(!speechEvidence.speechLikely){voiceDiagEvent('AI_SKIP_NO_SPEECH_EVIDENCE',`peak=${speechEvidence.peak.toFixed(6)} rms=${speechEvidence.rms.toFixed(6)} active=${speechEvidence.activeRatio.toFixed(3)}`);const noSpeechErr=new Error('NO_SPEECH_EVIDENCE_FOR_AI');noSpeechErr.name='NoSpeechError';throw noSpeechErr}
   const preferred=eps.find(x=&gt;String(x?.name||'')!==String(streamName||''))||eps[0],aiOrder=[preferred,...eps.filter(x=&gt;x!==preferred)].slice(0,2);
   for(const aiEp of aiOrder){
     if(session!==voiceSessionId)return'';voiceDiagMark('aiRegion',String(aiEp?.name||''));voiceDiagMark('aiVia','');
@@ -2756,9 +2764,9 @@ async function voiceRecoveryTranscribe(pcm,languageCode,session){
 
 
 async function voiceStartCapture(languageCode){
-  if(voiceRecording||voiceProcessing)return;const session=++voiceSessionId;voiceDiagStart(languageCode,voiceStatusCheckActive);
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){const r=voiceDiagFinalize('FAILED','GET_USER_MEDIA_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
-  const AC=window.AudioContext||window.webkitAudioContext;if(!AC){const r=voiceDiagFinalize('FAILED','AUDIO_CONTEXT_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
+  if(voicePreparing||voiceRecording||voiceProcessing)return;voicePreparing=true;const session=++voiceSessionId;voiceDiagStart(languageCode,voiceStatusCheckActive);
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){voicePreparing=false;const r=voiceDiagFinalize('FAILED','GET_USER_MEDIA_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC){voicePreparing=false;const r=voiceDiagFinalize('FAILED','AUDIO_CONTEXT_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
   try{
     VOICE_UI_PREPARING();voiceDiagEvent('AUDIO_CONTEXT_CREATE');try{voiceAudioContext=new AC({latencyHint:'interactive'})}catch(e){voiceAudioContext=new AC()}voiceDiagMark('audioContextInitial',String(voiceAudioContext.state||''));try{await voiceAudioContext.resume()}catch(e){}
     if(session!==voiceSessionId)return;
@@ -2769,21 +2777,21 @@ async function voiceStartCapture(languageCode){
     voiceInputSampleRate=Number(voiceAudioContext.sampleRate||48000);voiceDiagMark('sampleRate',voiceInputSampleRate);try{const st=voiceStream?.getAudioTracks?.()[0]?.getSettings?.()||{};voiceDiagMark('trackSampleRate',Number(st.sampleRate)||null);voiceDiagMark('trackChannelCount',Number(st.channelCount)||null)}catch(e){}
     voiceResamplePending=new Float32Array(0);voiceResamplePos=0;voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);voiceSeq=0;voiceSentSamples=0;voiceLastSendAt=0;
     voiceSourceNode=voiceAudioContext.createMediaStreamSource(voiceStream);voiceProcessorNode=voiceAudioContext.createScriptProcessor(2048,1,1);voiceSilentGain=voiceAudioContext.createGain();voiceSilentGain.gain.value=0;
-    voiceProcessorNode.onaudioprocess=ev=&gt;{if(!voiceRecording||session!==voiceSessionId)return;if(!voiceCaptureReady){voiceCaptureReady=true;voiceDiagEvent('CAPTURE_READY');VOICE_UI_READY_TO_SPEAK();voiceRecordingClock()}const input=ev.inputBuffer.getChannelData(0);voiceAcceptPcm(voiceResamplePush(new Float32Array(input),false))};
-    voiceSourceNode.connect(voiceProcessorNode);voiceProcessorNode.connect(voiceSilentGain);voiceSilentGain.connect(voiceAudioContext.destination);try{if(voiceAudioContext.state!=='running')await voiceAudioContext.resume()}catch(e){}voiceDiagMark('audioContextAfterConnect',String(voiceAudioContext.state||''));
-    voiceRecording=true;voiceProcessing=false;voiceCaptureReady=false;voiceRecordStartedAt=Date.now();voiceDiagEvent('RECORDING_START');voiceTimerInterval=setInterval(voiceRecordingClock,250);voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS);
-    // V3.61.25: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
+    voiceProcessorNode.onaudioprocess=ev=&gt;{if(!voiceRecording||session!==voiceSessionId)return;if(!voiceCaptureReady){voiceCaptureReady=true;voicePreparing=false;if(voicePrepareWatchdog){clearTimeout(voicePrepareWatchdog);voicePrepareWatchdog=null}voiceRecordStartedAt=Date.now();voiceDiagEvent('CAPTURE_READY');VOICE_UI_READY_TO_SPEAK();voiceRecordingClock();voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS)}const input=ev.inputBuffer.getChannelData(0);voiceAcceptPcm(voiceResamplePush(new Float32Array(input),false))};    voiceSourceNode.connect(voiceProcessorNode);voiceProcessorNode.connect(voiceSilentGain);voiceSilentGain.connect(voiceAudioContext.destination);try{if(voiceAudioContext.state!=='running')await voiceAudioContext.resume()}catch(e){}voiceDiagMark('audioContextAfterConnect',String(voiceAudioContext.state||''));
+    voiceRecording=true;voiceProcessing=false;voiceCaptureReady=false;voiceRecordStartedAt=0;voiceDiagMark('recordingStartedPerf',performance.now());voiceDiagEvent('RECORDING_START');voiceTimerInterval=setInterval(voiceRecordingClock,250);voicePrepareWatchdog=setTimeout(()=&gt;{if(session!==voiceSessionId||!voiceRecording||voiceCaptureReady)return;voiceDiagEvent('CAPTURE_READY_TIMEOUT',String(GOOGLE_VOICE_CAPTURE_READY_TIMEOUT_MS));voiceSessionId++;voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);voiceDiagFinalize('FAILED','CAPTURE_READY_TIMEOUT');VOICE_UI_PREPARE_TIMEOUT()},GOOGLE_VOICE_CAPTURE_READY_TIMEOUT_MS);    // V3.61.25: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
     voiceWsAllowFailover=true;voiceWsOpenPromise=voiceOpenWebSocket(languageCode,session);void voiceWsOpenPromise.then(ready=&gt;{if(session!==voiceSessionId)return;if(voiceRecording&amp;&amp;voiceCaptureReady&amp;&amp;(!ready||voiceWsFailed))VOICE_UI_STREAM_FALLBACK()}).catch(e=&gt;{if(session===voiceSessionId){voiceMarkStreamFailed(e?.message||e);if(voiceRecording&amp;&amp;voiceCaptureReady)VOICE_UI_STREAM_FALLBACK()}});
-  }catch(e){voiceClearTimers();voiceDisconnectAudio();voiceCloseWs(true);voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceDiagEvent('START_ERROR',String(e?.name||'Error')+':'+String(e?.message||e));const dedicated=voiceStatusCheckActive,r=voiceDiagFinalize('FAILED',String(e?.name||'Error')+':'+String(e?.message||e));if(session===voiceSessionId){if(dedicated)setVoiceInputUi('idle');else VOICE_UI_START_ERROR(e)}return r}
+  }catch(e){voiceClearTimers();voiceDisconnectAudio();voiceCloseWs(true);voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceDiagEvent('START_ERROR',String(e?.name||'Error')+':'+String(e?.message||e));const dedicated=voiceStatusCheckActive,r=voiceDiagFinalize('FAILED',String(e?.name||'Error')+':'+String(e?.message||e));if(session===voiceSessionId){if(dedicated)setVoiceInputUi('idle');else VOICE_UI_START_ERROR(e)}return r}
 }
 
 async function voiceStopCapture(languageCode,discard=false,stopSource='user-click'){
-  if(!voiceRecording)return;const session=voiceSessionId,stopStarted=performance.now(),dedicated=voiceStatusCheckActive;voiceDiagMark('stopStartedPerf',stopStarted);voiceDiagMark('stopSource',String(stopSource||'unknown'));voiceDiagEvent('STOP_REQUEST',String(stopSource||'unknown'));voiceRecording=false;voiceProcessing=!discard;voiceCaptureReady=false;voiceClearTimers();
+  if(!voiceRecording)return;const session=voiceSessionId,stopStarted=performance.now(),dedicated=voiceStatusCheckActive;voiceDiagMark('stopStartedPerf',stopStarted);voiceDiagMark('stopSource',String(stopSource||'unknown'));voiceDiagEvent('STOP_REQUEST',String(stopSource||'unknown'));voicePreparing=false;voiceRecording=false;voiceProcessing=!discard;voiceCaptureReady=false;voiceClearTimers();
   try{voiceAcceptPcm(voiceResamplePush(new Float32Array(0),true))}catch(e){}
   voiceDisconnectAudio();const allPcm=voiceConcatAllPcm(voiceLocalPcmParts);voiceDiagMark('pcmSamples',allPcm.length);
   if(discard){voiceProcessing=false;voiceAbortFallbacks();voiceCloseWs(true);voiceSendPending=new Int16Array(0);const r=voiceDiagFinalize('CANCELLED','USER_CANCEL');if(!dedicated)VOICE_UI_IDLE();else{await voiceDiagAwaitPersistence(r);voiceStatusCheckComplete(r)}return r}
   VOICE_UI_PROCESSING();let transcript='',usedFallback=false;
   try{
+    const localActivity=voiceLocalActivity(allPcm);voiceDiagMark('stopLocalRms',localActivity.rms);voiceDiagMark('stopLocalPeak',localActivity.peak);
+    if(!dedicated&amp;&amp;voiceDefinitelyNoSpeech(allPcm)){voiceDiagEvent('LOCAL_NO_SPEECH',`peak=${localActivity.peak.toFixed(6)} rms=${localActivity.rms.toFixed(6)}`);voiceWsAllowFailover=false;voiceAbortFallbacks();voiceCloseWs(true);VOICE_UI_EMPTY_CAPTURE();voiceDiagFinalize('FAILED','NO_SPEECH_LOCAL');return}
     if(!voiceWsReady&amp;&amp;!voiceWsFailed&amp;&amp;voiceWs){voiceDiagMark('stopBeforeReady',true);voiceDiagEvent('STOP_BEFORE_STREAM_READY',String(stopSource||''));const postStopReady=await Promise.race([(voiceWsOpenPromise||Promise.resolve(false)).catch(()=&gt;false),new Promise(r=&gt;setTimeout(()=&gt;r(false),GOOGLE_VOICE_POST_STOP_READY_WAIT_MS))]);if(!postStopReady||!voiceWsReady){voiceWsAllowFailover=false;voiceDiagMark('wsError','STOP_BEFORE_STREAM_READY_TIMEOUT');voiceDiagEvent('STOP_BEFORE_READY_TIMEOUT',String(GOOGLE_VOICE_POST_STOP_READY_WAIT_MS));voiceCloseWs(true)}}
     if(voiceWsReady&amp;&amp;voiceWs&amp;&amp;voiceWs.readyState===WebSocket.OPEN){
       if(voiceSendPending.length){voiceSendPcmFrame(voiceSendPending);voiceSendPending=new Int16Array(0)}
@@ -2799,13 +2807,13 @@ async function voiceStopCapture(languageCode,discard=false,stopSource='user-clic
     if(dedicated){const good=!!transcript&amp;&amp;voiceAiTranscriptAcceptable(transcript,languageCode,allPcm.length),r=voiceDiagFinalize(good?'SUCCESS':(transcript?'WARNING':'FAILED'),good?'':(transcript?'TARGET_SCRIPT_CHECK':'NO_TRANSCRIPT'));setVoiceInputUi('idle');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r);return r}
     const post=await VOICE_POSTPROCESS_TRANSCRIPT(transcript,allPcm,languageCode,usedFallback,session);if(session!==voiceSessionId)return;
     if(post&amp;&amp;post.transcript){post.resultMs=performance.now()-stopStarted;VOICE_APPEND_TRANSCRIPT(post.transcript);VOICE_UI_SUCCESS(post,usedFallback||!!post.retried);voiceDiagFinalize('SUCCESS','',{transcriptChars:post.transcript.length,displayTranscript:String(post.transcript||''),postprocessRetried:!!post.retried,postprocessLevel:String(post?.assessment?.level||'')});queueMainAutoInterpretFromVoice(post.transcript,session)}else{VOICE_UI_NO_SPEECH(post);voiceDiagFinalize('FAILED',post?.hard?'HARD_OR_NO_SPEECH':'NO_SPEECH')}
-  }catch(e){if(session===voiceSessionId){const err=String(e?.name||'Error')+':'+String(e?.message||e),r=voiceDiagFinalize('FAILED',err);if(dedicated){setVoiceInputUi('idle');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r)}else VOICE_UI_PROCESS_ERROR(e)}}finally{
+  }catch(e){if(session===voiceSessionId){const noSpeech=String(e?.message||'')==='NO_SPEECH_EVIDENCE_FOR_AI'||e?.name==='NoSpeechError',err=String(e?.name||'Error')+':'+String(e?.message||e),r=voiceDiagFinalize('FAILED',noSpeech?'NO_SPEECH_LOCAL_EVIDENCE':err);if(dedicated){setVoiceInputUi('idle');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r)}else if(noSpeech)VOICE_UI_EMPTY_CAPTURE();else VOICE_UI_PROCESS_ERROR(e)}}finally{
     if(session===voiceSessionId){voiceProcessing=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);voiceAbortFallbacks();voiceCloseWs(false);VOICE_UI_ENABLE_BUTTON()}
   }
 }
 
 function voiceCancelCapture(discard=true,reason='cancel'){
-  const hadDiag=!!voiceDiagCurrent;voiceDiagMark('stopSource',String(reason||'cancel'));voiceDiagEvent('CANCEL',String(reason||'cancel'));voiceSessionId++;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);if(hadDiag)voiceDiagFinalize('CANCELLED',String(reason||'USER_CANCEL'));VOICE_UI_IDLE();
+  const hadDiag=!!voiceDiagCurrent;voiceDiagMark('stopSource',String(reason||'cancel'));voiceDiagEvent('CANCEL',String(reason||'cancel'));voiceSessionId++;voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);if(hadDiag)voiceDiagFinalize('CANCELLED',String(reason||'USER_CANCEL'));VOICE_UI_IDLE();
 }
 function syncMainQuickMicUi(state,clock=''){
   const q=document.getElementById('mainQuickMic');if(!q)return;
@@ -2813,30 +2821,34 @@ function syncMainQuickMicUi(state,clock=''){
   if(state==='recording'){q.classList.add('voice-active');if(ko)ko.textContent=clock?`종료 · ${clock}`:'듣는 중 · 종료';if(lo)lo.textContent='ກຳລັງຟັງ · ຢຸດ'}
   else if(state==='ready'){q.classList.add('voice-active');if(ko)ko.textContent='이제 말씀하세요';if(lo)lo.textContent='ເລີ່ມເວົ້າໄດ້ແລ້ວ'}
   else if(state==='processing'){q.classList.add('voice-processing');if(ko)ko.textContent='인식 중 · 취소';if(lo)lo.textContent='ກຳລັງຮັບຮູ້ · ຍົກເລີກ'}
-  else if(state==='preparing'){q.classList.add('voice-processing');q.disabled=true;if(ko)ko.textContent='마이크 준비';if(lo)lo.textContent='ກຳລັງກຽມໄມໂຄຣໂຟນ'}
+  else if(state==='preparing'){q.classList.add('voice-processing');q.disabled=false;if(ko)ko.textContent='준비 취소';if(lo)lo.textContent='ຍົກເລີກການກຽມ'}
   else{if(ko)ko.textContent='한국어 말하기';if(lo)lo.textContent='ເວົ້າພາສາເກົາຫຼີ'}
 }
-function setVoiceInputUi(state,status=''){
+function setVoiceInputUi(state,status='',tip=''){
   const b=document.getElementById('voiceInputBtn'),s=document.getElementById('voiceInputStatus');if(!b||!s)return;b.classList.remove('recording','processing');b.disabled=false;
   if(state==='recording'){b.classList.add('recording');b.textContent='⏹️ 음성입력 종료'}
   else if(state==='ready'){b.classList.add('recording');b.textContent='🎙 이제 말씀하세요'}
   else if(state==='processing'){b.classList.add('processing');b.textContent='⏳ 인식중 · 다시 누르면 취소';b.disabled=false}
-  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏳ 준비 중...';b.disabled=true}
+  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏹️ 준비 취소';b.disabled=false}
   else b.textContent='🎙️ 음성입력';
   s.classList.remove('stt-preparing','stt-ready','stt-listening');if(state==='preparing')s.classList.add('stt-preparing');else if(state==='ready')s.classList.add('stt-ready');else if(state==='recording')s.classList.add('stt-listening');
+  s.dataset.sttTip=String(tip||'');
   if(status){s.textContent=status;s.hidden=false}else{s.textContent='';s.hidden=true}
   syncMainQuickMicUi(state);
 }
-function VOICE_UI_PREPARING(){setVoiceInputUi('preparing','🎙 음성입력을 준비하고 있습니다…')}
-function VOICE_UI_READY_TO_SPEAK(){setVoiceInputUi('ready','🎙 이제 말씀하세요');if(voiceReadyUiTimer)clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=setTimeout(()=&gt;{voiceReadyUiTimer=null;if(voiceRecording&amp;&amp;voiceCaptureReady)setVoiceInputUi('recording','● 음성을 듣고 있습니다…')},1400)}
-function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',streaming?'🔴 듣는 중 · 다시 누르면 종료합니다. 중간에 쉬어도 자동으로 끝나지 않습니다.':'🔴 듣는 중 · 스트리밍 연결이 불안정해도 종료 후 같은 음성으로 자동 복구합니다.')}
-function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording','🔴 듣는 중 · 스트리밍이 끊겨도 계속 말씀하세요. 종료 후 같은 음성으로 자동 복구합니다.')}
+function VOICE_UI_PREPARING(){setVoiceInputUi('preparing',"🎙 음성입력을 준비하고 있어요","잠시만 기다려 주세요. 오래 걸리면 준비 취소 후 다시 눌러 주세요.")}
+function VOICE_UI_PREPARE_TIMEOUT(){setVoiceInputUi('idle',"⚠️ 마이크 준비가 오래 걸렸어요. 다시 눌러 주세요.");setTimeout(()=&gt;{if(!voicePreparing&amp;&amp;!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},3500)}
+function VOICE_UI_READY_TO_SPEAK(){if(voiceReadyUiTimer){clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=null}setVoiceInputUi('ready',"🎙 이제 말씀해 주세요 · 듣고 있어요","작게 속삭이거나 웅얼거리면 놓칠 수 있어요. 평소 목소리로 천천히 또박또박 말씀해 주세요.")}
+function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',"🎙 이제 말씀해 주세요 · 듣고 있어요","작게 속삭이거나 웅얼거리면 놓칠 수 있어요. 평소 목소리로 천천히 또박또박 말씀해 주세요.")}
+function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording',"🎙 이제 말씀해 주세요 · 듣고 있어요","작게 속삭이거나 웅얼거리면 놓칠 수 있어요. 평소 목소리로 천천히 또박또박 말씀해 주세요.")}
 function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ 종료 · ${m}:${s}`;syncMainQuickMicUi('recording',`${m}:${s}`)}
 function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ 1분 이상 듣고 있습니다. 자동 종료하지 않으니 말씀을 마친 뒤 직접 종료하세요.')}
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT가 마지막 음성까지 인식하고 있습니다.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 백업 음성인식으로 같은 녹음을 자동 복구하고 있습니다.')}
 function VOICE_UI_SUCCESS(post,usedFallback){const sec=Number.isFinite(post?.resultMs)?(post.resultMs/1000).toFixed(2):'-',auto=!!mainAutoInterpretEnabled;const base=usedFallback?`✅ 음성입력 완료 · 자동 복구 · 말끝→결과 ${sec}초.`:`✅ 음성입력 완료 · 말끝→결과 ${sec}초.`;setVoiceInputUi('idle',base+(auto?' 자동통역을 시작합니다.':' 입력된 한국어를 확인한 뒤 번역하세요.'));setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},6000)}
 function VOICE_UI_NO_SPEECH(post){setVoiceInputUi('idle');if(post?.hard){updateVoiceScore(post.assessment||{level:'hard',reasons:['HARD_OUTPUT']},!!post.retried);appAlert('⚠️ 음성인식 결과가 크게 비정상이라 같은 녹음으로 자동 복구했지만 정상 결과를 얻지 못했습니다. 다시 말씀해주세요.')}else{updateVoiceScore({level:'hard',reasons:['NO_SPEECH']},false);appAlert('⚠️ 인식된 말이 없습니다. 마이크 권한과 음량을 확인한 뒤 다시 시도해주세요.')}}
+
+function VOICE_UI_EMPTY_CAPTURE(){setVoiceInputUi('idle',"🎙 말씀이 들리지 않았어요. 다시 눌러 말씀해 주세요.");setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},3200)}
 function VOICE_UI_UNSUPPORTED(){appAlert('⚠️ 이 브라우저에서는 앱 음성입력을 사용할 수 없습니다. 최신 Chrome/Safari에서 다시 시도해주세요.')}
 function VOICE_UI_START_ERROR(e){setVoiceInputUi('idle');if(e?.name==='NotAllowedError'||e?.name==='SecurityError')appAlert('⚠️ 마이크 권한이 필요합니다. 브라우저의 마이크 사용을 허용한 뒤 다시 눌러주세요.');else appAlert('⚠️ 마이크를 시작하지 못했습니다. 다시 시도해주세요.')}
 function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(e?.name==='AbortError'||e?.__relayAttemptTimeout)appAlert('⚠️ 음성인식 연결이 지연되었습니다. 잠시 후 다시 말씀해주세요.');else appAlert('⚠️ 음성을 인식하지 못했습니다. 다시 말씀해주세요.')}
@@ -2880,7 +2892,7 @@ function VOICE_APPEND_TRANSCRIPT(text){const input=document.getElementById('krIn
 async function startKoreanVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){appAlert('⚠️ 번역/수동 역번역이 끝난 뒤 음성입력을 사용해주세요.');return}try{stopLao()}catch(e){}revealVoiceInputText('krInput','inputComposer');await voiceStartCapture('ko-KR');revealVoiceInputText('krInput','inputComposer')}
 function stopKoreanVoiceInput(discard=false){return voiceStopCapture('ko-KR',discard,discard?'discard':'user-click')}
 function cancelKoreanVoiceInput(discard=true){voiceCancelCapture(discard,'user-cancel')}
-async function toggleKoreanVoiceInput(){if(voiceProcessing){cancelKoreanVoiceInput(true);return}if(voiceRecording){await stopKoreanVoiceInput(false);return}await startKoreanVoiceInput()}
+async function toggleKoreanVoiceInput(){if(voicePreparing){cancelKoreanVoiceInput(true);return}if(voiceProcessing){cancelKoreanVoiceInput(true);return}if(voiceRecording){await stopKoreanVoiceInput(false);return}await startKoreanVoiceInput()}
 
     function initConvenienceUI() {
         const input=document.getElementById('krInput');
@@ -2918,6 +2930,7 @@ async function toggleKoreanVoiceInput(){if(voiceProcessing){cancelKoreanVoiceInp
     }
 
 function handleTranslateAction() {
+        if(voicePreparing||voiceRecording||voiceProcessing){appAlert('⚠️ 음성입력이 끝난 뒤 번역해 주세요.');return;}
         if (isAutoSoundOn &amp;&amp; currentTtsKey) unlockSafariAudio();
         if (isTranslating) {
             stopTranslation();
@@ -5616,7 +5629,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="d4e40f23390f98205f75b35f1719c39035b8293d31b0c3a05da39bc5c489f3d0">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="164775ade23d0b1d5a36bcc3229ecb860aaad5c63f75e9e4a15f397176421b5d">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6108,12 +6121,13 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.addEventListener('keydown',e=&gt;{if(e.key==='Escape'&amp;&amp;active){e.preventDefault();finish(false)}},true);
 })();
 &lt;/script&gt;
-&lt;style id="v361195-stt-ready-ux"&gt;
-.voice-input-status.stt-preparing,.voice-input-status.stt-ready,.voice-input-status.stt-listening{display:block!important;text-align:center!important;border-radius:12px;padding:10px 12px;margin:7px 0 9px!important;font-weight:850;line-height:1.45;box-sizing:border-box}
-.voice-input-status.stt-preparing{font-size:13px;background:#f4f6f9;color:#526174;border:1px solid #dfe5ec}
-.voice-input-status.stt-ready{font-size:clamp(18px,5vw,22px);background:#eef7ff;color:#0b57d0;border:2px solid #7bb1ff;box-shadow:0 3px 12px rgba(11,87,208,.13)}
-.voice-input-status.stt-listening{font-size:13px;background:#f1f8f3;color:#18743a;border:1px solid #b9dfc5}
-@media(max-width:400px){.voice-input-status.stt-ready{font-size:18px;padding:11px 8px}}
+&lt;style id="v361196-stt-ready-ux"&gt;
+.voice-input-status.stt-preparing,.voice-input-status.stt-ready,.voice-input-status.stt-listening{display:flex!important;min-height:90px;height:90px;overflow:hidden;flex-direction:column;align-items:center;justify-content:center;text-align:center!important;border-radius:12px;padding:9px 12px;margin:7px 0 9px!important;font-weight:850;line-height:1.35;box-sizing:border-box}
+.voice-input-status.stt-preparing{font-size:14px;background:#f4f6f9;color:#526174;border:1px solid #dfe5ec}
+.voice-input-status.stt-ready,.voice-input-status.stt-listening{font-size:clamp(17px,4.6vw,21px);background:#eef7ff;color:#0b57d0;border:2px solid #7bb1ff;box-shadow:0 3px 12px rgba(11,87,208,.13)}
+.voice-input-status.stt-preparing::after,.voice-input-status.stt-ready::after,.voice-input-status.stt-listening::after{content:attr(data-stt-tip);display:block;max-width:100%;margin-top:5px;font-size:11.5px;font-weight:700;line-height:1.35;color:#607086;white-space:normal}
+.voice-input-status.stt-ready::after,.voice-input-status.stt-listening::after{color:#48637f}
+@media(max-width:400px){.voice-input-status.stt-preparing,.voice-input-status.stt-ready,.voice-input-status.stt-listening{height:94px;min-height:94px;padding:8px}.voice-input-status.stt-ready,.voice-input-status.stt-listening{font-size:17px}.voice-input-status.stt-preparing::after,.voice-input-status.stt-ready::after,.voice-input-status.stt-listening::after{font-size:11px}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -6286,7 +6300,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.195';
+const APP_VERSION='V3.61.196';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -6992,7 +7006,7 @@ function telemetryCommitFailure({runId,direction,sourceText,error,stage,totalMs,
   liveTelemetryLastTraceId=a.traceId;liveTelemetryAttempt=null;telemetryQueuePush(record);
 }
 function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liveTelemetryCurrent;if(!e)return;if(String(e.targetText||'').trim()!==String(targetText||'').trim())return;const t=String(backText||'').trim();if(t)e.backText=t;if(backUsage&amp;&amp;typeof backUsage==='object'){const u=backUsage;e.runtime.backUsage={prompt:Number.isFinite(Number(u.prompt))?Number(u.prompt):null,candidate:Number.isFinite(Number(u.candidate))?Number(u.candidate):null,thoughts:Number.isFinite(Number(u.thoughts))?Number(u.thoughts):null,total:Number.isFinite(Number(u.total))?Number(u.total):null,known:u.known===true||[u.prompt,u.candidate,u.thoughts,u.total].some(v=&gt;Number.isFinite(Number(v))),cloudRunMs:Number.isFinite(Number(u.cloudRunMs))?Math.max(0,Number(u.cloudRunMs)):0,cloudRunRequests:Number.isFinite(Number(u.cloudRunRequests))?Math.max(0,Math.round(Number(u.cloudRunRequests))):0,totalMs:Number.isFinite(Number(u.clientTotalMs))?Math.max(0,Math.round(Number(u.clientTotalMs))):null,status:String(u.clientStatus||'SUCCESS').slice(0,16),error:String(u.clientError||'').slice(0,160)}}telemetryScheduleFinalize(150)}
-function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voiceRecording||voiceProcessing||appCopyBusy)}
+function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voicePreparing||voiceRecording||voiceProcessing||appCopyBusy)}
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
 function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean)}
@@ -7247,8 +7261,10 @@ const GOOGLE_VOICE_REST_TIMEOUT_MS=6500;
 const GOOGLE_VOICE_REST_HEDGE_DELAY_MS=700;
 const GOOGLE_VOICE_AI_TIMEOUT_MS=9000;
 const GOOGLE_VOICE_WARN_MS=60000;
+const GOOGLE_VOICE_CAPTURE_READY_TIMEOUT_MS=4500;
 let voiceRecording=false;
 let voiceProcessing=false;
+let voicePreparing=false;
 let voiceStream=null;
 let voiceAudioContext=null;
 let voiceSourceNode=null;
@@ -7270,6 +7286,7 @@ let voiceRecordStartedAt=0;
 let voiceTimerInterval=null;
 let voiceWarnTimer=null;
 let voiceReadyUiTimer=null;
+let voicePrepareWatchdog=null;
 let voiceCaptureReady=false;
 let voiceSeq=0;
 let voiceSentSamples=0;
@@ -7442,6 +7459,9 @@ function voiceResamplePush(input,flush=false){
   return voiceFloatToInt16(new Float32Array(out));
 }
 function voiceConcatAllPcm(parts){let total=0;for(const p of parts)total+=p.length;const out=new Int16Array(total);let off=0;for(const p of parts){out.set(p,off);off+=p.length}return out}
+function voiceLocalActivity(pcm){const n=Number(pcm?.length)||0;if(!n)return{samples:0,seconds:0,peak:0,rms:0};let ss=0,peak=0;for(let i=0;i&lt;n;i++){const x=Math.abs((Number(pcm[i])||0)/32768);ss+=x*x;if(x&gt;peak)peak=x}return{samples:n,seconds:n/GOOGLE_VOICE_SAMPLE_RATE,peak,rms:Math.sqrt(ss/n)}}
+function voiceSpeechEvidence(pcm){const a=voiceLocalActivity(pcm),frame=320,levels=[];for(let o=0;o+frame&lt;=pcm.length;o+=frame){let ss=0;for(let i=o;i&lt;o+frame;i++){const x=(Number(pcm[i])||0)/32768;ss+=x*x}levels.push(Math.sqrt(ss/frame))}if(!levels.length)return{...a,noise:0,p90:0,activeRatio:0,speechLikely:false};const sorted=[...levels].sort((x,y)=&gt;x-y),pick=q=&gt;sorted[Math.min(sorted.length-1,Math.max(0,Math.floor((sorted.length-1)*q)))],noise=pick(.20),p90=pick(.90),threshold=Math.max(.00075,noise*1.7+.00015),active=levels.filter(x=&gt;x&gt;=threshold).length,activeRatio=active/levels.length,speechLikely=a.seconds&gt;=.20&amp;&amp;active&gt;=3&amp;&amp;activeRatio&gt;=.03&amp;&amp;((p90&gt;=.00075&amp;&amp;activeRatio&gt;=.08)||(a.peak&gt;=.0035&amp;&amp;activeRatio&gt;=.12));return{...a,noise,p90,activeRatio,speechLikely}}
+function voiceDefinitelyNoSpeech(pcm){const e=voiceSpeechEvidence(pcm);return e.seconds&gt;=.20&amp;&amp;((e.peak&lt;=.0015&amp;&amp;e.rms&lt;=.0006)||(e.seconds&gt;=.60&amp;&amp;!e.speechLikely&amp;&amp;e.p90&lt;=.0028&amp;&amp;e.rms&lt;=.0032))}
 function voicePcmToWavBlob(pcm){
   const ab=new ArrayBuffer(44+pcm.length*2),v=new DataView(ab);let p=0;
   const s=x=&gt;{for(let i=0;i&lt;x.length;i++)v.setUint8(p++,x.charCodeAt(i))};
@@ -7548,8 +7568,8 @@ function voiceDisconnectAudio(){
   try{if(voiceStream)for(const t of voiceStream.getTracks()){voiceDiagMark('trackReadyStateBeforeStop',String(t.readyState||''));voiceDiagMark('trackMutedBeforeStop',!!t.muted);t.stop();voiceDiagMark('trackStopped',String(t.readyState||'')==='ended')}}catch(e){}voiceStream=null;
   try{if(voiceAudioContext&amp;&amp;voiceAudioContext.state!=='closed'){voiceDiagEvent('AUDIO_CONTEXT_CLOSE_REQUEST',String(voiceAudioContext.state||''));voiceAudioContext.close()}}catch(e){}voiceAudioContext=null;
 }
-function voiceClearTimers(){if(voiceTimerInterval){clearInterval(voiceTimerInterval);voiceTimerInterval=null}if(voiceWarnTimer){clearTimeout(voiceWarnTimer);voiceWarnTimer=null}if(voiceReadyUiTimer){clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=null}}
-function voiceRecordingClock(){if(!voiceRecording||!voiceCaptureReady||voiceReadyUiTimer)return;const sec=Math.floor(Math.max(0,Date.now()-voiceRecordStartedAt)/1000),m=Math.floor(sec/60),s=String(sec%60).padStart(2,'0');VOICE_UI_CLOCK(m,s)}
+function voiceClearTimers(){if(voiceTimerInterval){clearInterval(voiceTimerInterval);voiceTimerInterval=null}if(voiceWarnTimer){clearTimeout(voiceWarnTimer);voiceWarnTimer=null}if(voiceReadyUiTimer){clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=null}if(voicePrepareWatchdog){clearTimeout(voicePrepareWatchdog);voicePrepareWatchdog=null}}
+function voiceRecordingClock(){if(!voiceRecording||!voiceCaptureReady||!voiceRecordStartedAt)return;const sec=Math.floor(Math.max(0,Date.now()-voiceRecordStartedAt)/1000),m=Math.floor(sec/60),s=String(sec%60).padStart(2,'0');VOICE_UI_CLOCK(m,s)}
 function voiceAbortFallbacks(){
   for(const c of [...voiceFallbackControllers]){try{c.abort()}catch(e){}}voiceFallbackControllers.clear();if(voiceFallbackController){try{voiceFallbackController.abort()}catch(e){}voiceFallbackController=null}
 }
@@ -7575,6 +7595,7 @@ async function voiceRecoveryTranscribe(pcm,languageCode,session){
     const r=await voiceRestHedge(audioBase64,languageCode,session,eps,streamName);if(session!==voiceSessionId)return'';voiceLastRecoveryStage='rest';voiceDiagMark('recoveryStage','rest');voiceDiagMark('restRegion',r.region);voiceDiagMark('restVia',String(r.via||''));voiceDiagMark('restMs',r.ms);voiceDiagMark('restStatus',r.status);voiceDiagMark('restError','');return r.text;
   }catch(e){lastErr=e;voiceDiagMark('restError',String(e?.message||e));}
   if(session!==voiceSessionId)return'';
+  const speechEvidence=voiceSpeechEvidence(pcm);voiceDiagMark('speechEvidence',speechEvidence.speechLikely);voiceDiagMark('speechActiveRatio',speechEvidence.activeRatio);voiceDiagMark('speechP90',speechEvidence.p90);if(!speechEvidence.speechLikely){voiceDiagEvent('AI_SKIP_NO_SPEECH_EVIDENCE',`peak=${speechEvidence.peak.toFixed(6)} rms=${speechEvidence.rms.toFixed(6)} active=${speechEvidence.activeRatio.toFixed(3)}`);const noSpeechErr=new Error('NO_SPEECH_EVIDENCE_FOR_AI');noSpeechErr.name='NoSpeechError';throw noSpeechErr}
   const preferred=eps.find(x=&gt;String(x?.name||'')!==String(streamName||''))||eps[0],aiOrder=[preferred,...eps.filter(x=&gt;x!==preferred)].slice(0,2);
   for(const aiEp of aiOrder){
     if(session!==voiceSessionId)return'';voiceDiagMark('aiRegion',String(aiEp?.name||''));voiceDiagMark('aiVia','');
@@ -7588,9 +7609,9 @@ async function voiceRecoveryTranscribe(pcm,languageCode,session){
 
 
 async function voiceStartCapture(languageCode){
-  if(voiceRecording||voiceProcessing)return;const session=++voiceSessionId;voiceDiagStart(languageCode,voiceStatusCheckActive);
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){const r=voiceDiagFinalize('FAILED','GET_USER_MEDIA_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
-  const AC=window.AudioContext||window.webkitAudioContext;if(!AC){const r=voiceDiagFinalize('FAILED','AUDIO_CONTEXT_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
+  if(voicePreparing||voiceRecording||voiceProcessing)return;voicePreparing=true;const session=++voiceSessionId;voiceDiagStart(languageCode,voiceStatusCheckActive);
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){voicePreparing=false;const r=voiceDiagFinalize('FAILED','GET_USER_MEDIA_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC){voicePreparing=false;const r=voiceDiagFinalize('FAILED','AUDIO_CONTEXT_UNSUPPORTED');if(!r?.dedicated)VOICE_UI_UNSUPPORTED();return}
   try{
     VOICE_UI_PREPARING();voiceDiagEvent('AUDIO_CONTEXT_CREATE');try{voiceAudioContext=new AC({latencyHint:'interactive'})}catch(e){voiceAudioContext=new AC()}voiceDiagAttachAudioContext(voiceAudioContext);voiceDiagMark('audioContextInitial',String(voiceAudioContext.state||''));try{await voiceAudioContext.resume()}catch(e){}
     if(session!==voiceSessionId)return;
@@ -7601,21 +7622,21 @@ async function voiceStartCapture(languageCode){
     voiceInputSampleRate=Number(voiceAudioContext.sampleRate||48000);voiceDiagMark('sampleRate',voiceInputSampleRate);try{const tr=voiceStream?.getAudioTracks?.()[0]||null,st=tr?.getSettings?.()||{};voiceDiagMark('trackSampleRate',Number(st.sampleRate)||null);voiceDiagMark('trackChannelCount',Number(st.channelCount)||null);voiceDiagAttachTrack(tr)}catch(e){}
     voiceResamplePending=new Float32Array(0);voiceResamplePos=0;voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);voiceSeq=0;voiceSentSamples=0;voiceLastSendAt=0;
     voiceSourceNode=voiceAudioContext.createMediaStreamSource(voiceStream);voiceProcessorNode=voiceAudioContext.createScriptProcessor(2048,1,1);voiceSilentGain=voiceAudioContext.createGain();voiceSilentGain.gain.value=0;
-    voiceProcessorNode.onaudioprocess=ev=&gt;{if(!voiceRecording||session!==voiceSessionId)return;if(!voiceCaptureReady){voiceCaptureReady=true;voiceDiagEvent('CAPTURE_READY');VOICE_UI_READY_TO_SPEAK();voiceRecordingClock()}const input=ev.inputBuffer.getChannelData(0);voiceDiagSourceInput(input);voiceAcceptPcm(voiceResamplePush(new Float32Array(input),false))};
-    voiceSourceNode.connect(voiceProcessorNode);voiceProcessorNode.connect(voiceSilentGain);voiceSilentGain.connect(voiceAudioContext.destination);try{if(voiceAudioContext.state!=='running')await voiceAudioContext.resume()}catch(e){}voiceDiagMark('audioContextAfterConnect',String(voiceAudioContext.state||''));
-    voiceRecording=true;voiceProcessing=false;voiceCaptureReady=false;voiceRecordStartedAt=Date.now();voiceDiagMark('recordingStartedPerf',performance.now());voiceDiagEvent('RECORDING_START');voiceTimerInterval=setInterval(voiceRecordingClock,250);voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS);
-    // V3.61.25: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
+    voiceProcessorNode.onaudioprocess=ev=&gt;{if(!voiceRecording||session!==voiceSessionId)return;if(!voiceCaptureReady){voiceCaptureReady=true;voicePreparing=false;if(voicePrepareWatchdog){clearTimeout(voicePrepareWatchdog);voicePrepareWatchdog=null}voiceRecordStartedAt=Date.now();voiceDiagEvent('CAPTURE_READY');VOICE_UI_READY_TO_SPEAK();voiceRecordingClock();voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS)}const input=ev.inputBuffer.getChannelData(0);voiceDiagSourceInput(input);voiceAcceptPcm(voiceResamplePush(new Float32Array(input),false))};    voiceSourceNode.connect(voiceProcessorNode);voiceProcessorNode.connect(voiceSilentGain);voiceSilentGain.connect(voiceAudioContext.destination);try{if(voiceAudioContext.state!=='running')await voiceAudioContext.resume()}catch(e){}voiceDiagMark('audioContextAfterConnect',String(voiceAudioContext.state||''));
+    voiceRecording=true;voiceProcessing=false;voiceCaptureReady=false;voiceRecordStartedAt=0;voiceDiagMark('recordingStartedPerf',performance.now());voiceDiagEvent('RECORDING_START');voiceTimerInterval=setInterval(voiceRecordingClock,250);voicePrepareWatchdog=setTimeout(()=&gt;{if(session!==voiceSessionId||!voiceRecording||voiceCaptureReady)return;voiceDiagEvent('CAPTURE_READY_TIMEOUT',String(GOOGLE_VOICE_CAPTURE_READY_TIMEOUT_MS));voiceSessionId++;voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);voiceDiagFinalize('FAILED','CAPTURE_READY_TIMEOUT');VOICE_UI_PREPARE_TIMEOUT()},GOOGLE_VOICE_CAPTURE_READY_TIMEOUT_MS);    // V3.61.25: local recording starts before network readiness. Safari/WebView speech is retained even when streaming is slow or unavailable.
     voiceWsAllowFailover=true;voiceWsOpenPromise=voiceOpenWebSocket(languageCode,session);void voiceWsOpenPromise.then(ready=&gt;{if(session!==voiceSessionId)return;if(voiceRecording&amp;&amp;voiceCaptureReady&amp;&amp;(!ready||voiceWsFailed))VOICE_UI_STREAM_FALLBACK()}).catch(e=&gt;{if(session===voiceSessionId){voiceMarkStreamFailed(e?.message||e);if(voiceRecording&amp;&amp;voiceCaptureReady)VOICE_UI_STREAM_FALLBACK()}});
-  }catch(e){voiceClearTimers();voiceDisconnectAudio();voiceCloseWs(true);voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceDiagEvent('START_ERROR',String(e?.name||'Error')+':'+String(e?.message||e));const dedicated=voiceStatusCheckActive,r=voiceDiagFinalize('FAILED',String(e?.name||'Error')+':'+String(e?.message||e));if(session===voiceSessionId){if(dedicated)setVoiceInputUi('idle');else VOICE_UI_START_ERROR(e)}return r}
+  }catch(e){voiceClearTimers();voiceDisconnectAudio();voiceCloseWs(true);voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceDiagEvent('START_ERROR',String(e?.name||'Error')+':'+String(e?.message||e));const dedicated=voiceStatusCheckActive,r=voiceDiagFinalize('FAILED',String(e?.name||'Error')+':'+String(e?.message||e));if(session===voiceSessionId){if(dedicated)setVoiceInputUi('idle');else VOICE_UI_START_ERROR(e)}return r}
 }
 
 async function voiceStopCapture(languageCode,discard=false,stopSource='user-click'){
-  if(!voiceRecording)return;const session=voiceSessionId,stopStarted=performance.now(),dedicated=voiceStatusCheckActive;voiceDiagMark('stopStartedPerf',stopStarted);if(voiceDiagCurrent&amp;&amp;Number.isFinite(voiceDiagCurrent.recordingStartedPerf)){const wall=Math.max(0,stopStarted-voiceDiagCurrent.recordingStartedPerf);voiceDiagMark('recordingWallMs',wall);const sourceSec=Number(voiceDiagCurrent.sourceSamples||0)/Math.max(1,Number(voiceDiagCurrent.sampleRate)||48000);voiceDiagMark('sourceCoverageRatio',wall&gt;0?sourceSec/(wall/1000):null)}voiceDiagMark('stopSource',String(stopSource||'unknown'));voiceDiagEvent('STOP_REQUEST',String(stopSource||'unknown'));voiceRecording=false;voiceProcessing=!discard;voiceCaptureReady=false;voiceClearTimers();
+  if(!voiceRecording)return;const session=voiceSessionId,stopStarted=performance.now(),dedicated=voiceStatusCheckActive;voiceDiagMark('stopStartedPerf',stopStarted);if(voiceDiagCurrent&amp;&amp;Number.isFinite(voiceDiagCurrent.recordingStartedPerf)){const wall=Math.max(0,stopStarted-voiceDiagCurrent.recordingStartedPerf);voiceDiagMark('recordingWallMs',wall);const sourceSec=Number(voiceDiagCurrent.sourceSamples||0)/Math.max(1,Number(voiceDiagCurrent.sampleRate)||48000);voiceDiagMark('sourceCoverageRatio',wall&gt;0?sourceSec/(wall/1000):null)}voiceDiagMark('stopSource',String(stopSource||'unknown'));voiceDiagEvent('STOP_REQUEST',String(stopSource||'unknown'));voicePreparing=false;voiceRecording=false;voiceProcessing=!discard;voiceCaptureReady=false;voiceClearTimers();
   try{voiceAcceptPcm(voiceResamplePush(new Float32Array(0),true))}catch(e){}
   voiceDisconnectAudio();const allPcm=voiceConcatAllPcm(voiceLocalPcmParts);voiceDiagMark('pcmSamples',allPcm.length);
   if(discard){voiceProcessing=false;voiceAbortFallbacks();voiceCloseWs(true);voiceSendPending=new Int16Array(0);const r=voiceDiagFinalize('CANCELLED','USER_CANCEL');if(!dedicated)VOICE_UI_IDLE();else{await voiceDiagAwaitPersistence(r);voiceStatusCheckComplete(r)}return r}
   VOICE_UI_PROCESSING();let transcript='',usedFallback=false;
   try{
+    const localActivity=voiceLocalActivity(allPcm);voiceDiagMark('stopLocalRms',localActivity.rms);voiceDiagMark('stopLocalPeak',localActivity.peak);
+    if(!dedicated&amp;&amp;voiceDefinitelyNoSpeech(allPcm)){voiceDiagEvent('LOCAL_NO_SPEECH',`peak=${localActivity.peak.toFixed(6)} rms=${localActivity.rms.toFixed(6)}`);voiceWsAllowFailover=false;voiceAbortFallbacks();voiceCloseWs(true);VOICE_UI_EMPTY_CAPTURE();voiceDiagFinalize('FAILED','NO_SPEECH_LOCAL');return}
     if(!voiceWsReady&amp;&amp;!voiceWsFailed&amp;&amp;voiceWs){voiceDiagMark('stopBeforeReady',true);voiceDiagEvent('STOP_BEFORE_STREAM_READY',String(stopSource||''));const postStopReady=await Promise.race([(voiceWsOpenPromise||Promise.resolve(false)).catch(()=&gt;false),new Promise(r=&gt;setTimeout(()=&gt;r(false),GOOGLE_VOICE_POST_STOP_READY_WAIT_MS))]);if(!postStopReady||!voiceWsReady){voiceWsAllowFailover=false;voiceDiagMark('wsError','STOP_BEFORE_STREAM_READY_TIMEOUT');voiceDiagEvent('STOP_BEFORE_READY_TIMEOUT',String(GOOGLE_VOICE_POST_STOP_READY_WAIT_MS));voiceCloseWs(true)}}
     if(voiceWsReady&amp;&amp;voiceWs&amp;&amp;voiceWs.readyState===WebSocket.OPEN){
       if(voiceSendPending.length){voiceSendPcmFrame(voiceSendPending);voiceSendPending=new Int16Array(0)}
@@ -7631,14 +7652,14 @@ async function voiceStopCapture(languageCode,discard=false,stopSource='user-clic
     transcript=VOICE_CLEAN_TRANSCRIPT(transcript);voiceDiagMark('finalTranscript',transcript);voiceDiagMark('transcriptChars',transcript.length);voiceDiagMark('targetScriptOkay',voiceAiTranscriptAcceptable(transcript,languageCode,allPcm.length));
     const post=await VOICE_POSTPROCESS_TRANSCRIPT(transcript,allPcm,languageCode,usedFallback,session);if(session!==voiceSessionId)return;
     if(post&amp;&amp;post.transcript){post.resultMs=performance.now()-stopStarted;VOICE_APPEND_TRANSCRIPT(post.transcript);VOICE_UI_SUCCESS(post,usedFallback||!!post.retried);voiceDiagFinalize('SUCCESS','',{transcriptChars:post.transcript.length,displayTranscript:String(post.transcript||''),postprocessRetried:!!post.retried,postprocessLevel:String(post?.assessment?.level||'')});queueMainAutoInterpretFromVoice(post.transcript,session)}else{VOICE_UI_NO_SPEECH(post);voiceDiagFinalize('FAILED',post?.hard?'HARD_OR_NO_SPEECH':'NO_SPEECH')}
-  }catch(e){if(session===voiceSessionId){const err=String(e?.name||'Error')+':'+String(e?.message||e),r=voiceDiagFinalize('FAILED',err);if(dedicated){setVoiceInputUi('idle');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r)}else VOICE_UI_PROCESS_ERROR(e)}}finally{
+  }catch(e){if(session===voiceSessionId){const noSpeech=String(e?.message||'')==='NO_SPEECH_EVIDENCE_FOR_AI'||e?.name==='NoSpeechError',err=String(e?.name||'Error')+':'+String(e?.message||e),r=voiceDiagFinalize('FAILED',noSpeech?'NO_SPEECH_LOCAL_EVIDENCE':err);if(dedicated){setVoiceInputUi('idle');await voiceDiagAwaitPersistence(r);if(voiceStatusCheckActive)voiceStatusCheckComplete(r)}else if(noSpeech)VOICE_UI_EMPTY_CAPTURE();else VOICE_UI_PROCESS_ERROR(e)}}finally{
     try{if(allPcm?.fill)allPcm.fill(0)}catch(e){}
     if(session===voiceSessionId){voiceProcessing=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);voiceAbortFallbacks();voiceCloseWs(false);VOICE_UI_ENABLE_BUTTON()}
   }
 }
 
 function voiceCancelCapture(discard=true,reason='cancel'){
-  const hadDiag=!!voiceDiagCurrent;voiceDiagMark('stopSource',String(reason||'cancel'));voiceDiagEvent('CANCEL',String(reason||'cancel'));voiceSessionId++;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);if(hadDiag)voiceDiagFinalize('CANCELLED',String(reason||'USER_CANCEL'));VOICE_UI_IDLE();
+  const hadDiag=!!voiceDiagCurrent;voiceDiagMark('stopSource',String(reason||'cancel'));voiceDiagEvent('CANCEL',String(reason||'cancel'));voiceSessionId++;voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceWsAllowFailover=false;voiceWsOpenPromise=null;voiceClearTimers();voiceDisconnectAudio();voiceAbortFallbacks();voiceCloseWs(true);voiceLocalPcmParts=[];voiceSendPending=new Int16Array(0);if(hadDiag)voiceDiagFinalize('CANCELLED',String(reason||'USER_CANCEL'));VOICE_UI_IDLE();
 }
 function syncMainQuickMicUi(state,clock=''){
   const q=document.getElementById('mainQuickMic');if(!q)return;
@@ -7646,30 +7667,34 @@ function syncMainQuickMicUi(state,clock=''){
   if(state==='recording'){q.classList.add('voice-active');if(ko)ko.textContent=clock?`종료 · ${clock}`:'듣는 중 · 종료';if(lo)lo.textContent='ກຳລັງຟັງ · ຢຸດ'}
   else if(state==='ready'){q.classList.add('voice-active');if(ko)ko.textContent='이제 말씀하세요';if(lo)lo.textContent='ເລີ່ມເວົ້າໄດ້ແລ້ວ'}
   else if(state==='processing'){q.classList.add('voice-processing');if(ko)ko.textContent='인식 중 · 취소';if(lo)lo.textContent='ກຳລັງຮັບຮູ້ · ຍົກເລີກ'}
-  else if(state==='preparing'){q.classList.add('voice-processing');q.disabled=true;if(ko)ko.textContent='마이크 준비';if(lo)lo.textContent='ກຳລັງກຽມໄມໂຄຣໂຟນ'}
+  else if(state==='preparing'){q.classList.add('voice-processing');q.disabled=false;if(ko)ko.textContent='준비 취소';if(lo)lo.textContent='ຍົກເລີກການກຽມ'}
   else{if(ko)ko.textContent='라오어 말하기';if(lo)lo.textContent='ເວົ້າພາສາລາວ'}
 }
-function setVoiceInputUi(state,status=''){
+function setVoiceInputUi(state,status='',tip=''){
   const b=document.getElementById('voiceInputBtn'),s=document.getElementById('voiceInputStatus');if(!b||!s)return;b.classList.remove('recording','processing');b.disabled=false;
   if(state==='recording'){b.classList.add('recording');b.textContent='⏹️ ຢຸດຮັບສຽງ'}
   else if(state==='ready'){b.classList.add('recording');b.textContent='🎙 ເລີ່ມເວົ້າໄດ້ແລ້ວ'}
   else if(state==='processing'){b.classList.add('processing');b.textContent='⏳ ກຳລັງຮັບຮູ້ · ກົດອີກຄັ້ງເພື່ອຍົກເລີກ';b.disabled=false}
-  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏳ ກຳລັງກຽມ...';b.disabled=true}
+  else if(state==='preparing'){b.classList.add('processing');b.textContent='⏹️ ຍົກເລີກການກຽມ';b.disabled=false}
   else b.textContent='🎙️ ຮັບສຽງ';
   s.classList.remove('stt-preparing','stt-ready','stt-listening');if(state==='preparing')s.classList.add('stt-preparing');else if(state==='ready')s.classList.add('stt-ready');else if(state==='recording')s.classList.add('stt-listening');
+  s.dataset.sttTip=String(tip||'');
   if(status){s.textContent=status;s.hidden=false}else{s.textContent='';s.hidden=true}
   syncMainQuickMicUi(state);
 }
-function VOICE_UI_PREPARING(){setVoiceInputUi('preparing','🎙 ກຳລັງກຽມການຮັບສຽງ…')}
-function VOICE_UI_READY_TO_SPEAK(){setVoiceInputUi('ready','🎙 ເລີ່ມເວົ້າໄດ້ແລ້ວ');if(voiceReadyUiTimer)clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=setTimeout(()=&gt;{voiceReadyUiTimer=null;if(voiceRecording&amp;&amp;voiceCaptureReady)setVoiceInputUi('recording','● ກຳລັງຟັງສຽງຢູ່…')},1400)}
-function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',streaming?'🔴 ກຳລັງຟັງ · ເວົ້າໄດ້ຊ້າໆ ແລະຢຸດຄິດໄດ້. ກົດອີກຄັ້ງເມື່ອເວົ້າຈົບ.':'🔴 ກຳລັງຟັງ · ຖ້າ Streaming ຂາດ ແອັບຈະໃຊ້ສຽງເດີມກູ້ຄືນຫຼັງກົດຢຸດ.')}
-function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording','🔴 ກຳລັງຟັງ · Streaming ຂາດແລ້ວ ແຕ່ໃຫ້ເວົ້າຕໍ່ໄປ. ຫຼັງກົດຢຸດຈະກູ້ຄືນດ້ວຍສຽງເດີມ.')}
+function VOICE_UI_PREPARING(){setVoiceInputUi('preparing',"🎙 ກຳລັງກຽມການຮັບສຽງ…","ລໍຖ້າໜ້ອຍໜຶ່ງ. ຖ້າດົນເກີນໄປ ກົດຍົກເລີກແລ້ວລອງໃໝ່.")}
+function VOICE_UI_PREPARE_TIMEOUT(){setVoiceInputUi('idle',"⚠️ ການກຽມໄມໂຄຣໂຟນໃຊ້ເວລາດົນເກີນໄປ. ກົດລອງໃໝ່.");setTimeout(()=&gt;{if(!voicePreparing&amp;&amp;!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},3500)}
+function VOICE_UI_READY_TO_SPEAK(){if(voiceReadyUiTimer){clearTimeout(voiceReadyUiTimer);voiceReadyUiTimer=null}setVoiceInputUi('ready',"🎙 ເວົ້າໄດ້ເລີຍ · ກຳລັງຟັງຢູ່","ຖ້າເວົ້າເບົາເກີນໄປ ຫຼື ເວົ້າບໍ່ຊັດ ອາດຟັງບໍ່ຄົບ. ກະລຸນາເວົ້າດ້ວຍສຽງປົກກະຕິ ຊ້າໆ ແລະຊັດເຈນ.")}
+function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',"🎙 ເວົ້າໄດ້ເລີຍ · ກຳລັງຟັງຢູ່","ຖ້າເວົ້າເບົາເກີນໄປ ຫຼື ເວົ້າບໍ່ຊັດ ອາດຟັງບໍ່ຄົບ. ກະລຸນາເວົ້າດ້ວຍສຽງປົກກະຕິ ຊ້າໆ ແລະຊັດເຈນ.")}
+function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording',"🎙 ເວົ້າໄດ້ເລີຍ · ກຳລັງຟັງຢູ່","ຖ້າເວົ້າເບົາເກີນໄປ ຫຼື ເວົ້າບໍ່ຊັດ ອາດຟັງບໍ່ຄົບ. ກະລຸນາເວົ້າດ້ວຍສຽງປົກກະຕິ ຊ້າໆ ແລະຊັດເຈນ.")}
 function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ ຢຸດ · ${m}:${s}`;syncMainQuickMicUi('recording',`${m}:${s}`)}
 function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ ຟັງເກີນ 1 ນາທີແລ້ວ. ແອັບບໍ່ຢຸດອັດຕະໂນມັດ; ເວົ້າຈົບແລ້ວກົດຢຸດເອງ.')}
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT ກຳລັງປະມວນຜົນສຽງສ່ວນສຸດທ້າຍ.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 ກຳລັງໃຊ້ລະບົບຮັບສຽງສຳຮອງກູ້ຄືນຈາກສຽງເດີມ.')}
 function VOICE_UI_SUCCESS(post,usedFallback){const sec=Number.isFinite(post?.resultMs)?(post.resultMs/1000).toFixed(2):'-',auto=!!mainAutoInterpretEnabled;let msg=usedFallback?`✅ ຮັບສຽງສຳເລັດ · ກູ້ຄືນອັດຕະໂນມັດ · ຈົບສຽງ→ຜົນ ${sec}s.`:(post?.assessment?.level==='review'?`⚠️ ໃສ່ຂໍ້ຄວາມແລ້ວ · ຈົບສຽງ→ຜົນ ${sec}s · ມີບາງສ່ວນ/ຊື່ທີ່ຄວນກວດ.`:`✅ ຮັບສຽງສຳເລັດ · ຈົບສຽງ→ຜົນ ${sec}s.`);msg+=auto?' ກຳລັງເລີ່ມແປອັດຕະໂນມັດ.':' ກວດຂໍ້ຄວາມກ່ອນກົດແປ.';setVoiceInputUi('idle',msg);setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},6500)}
 function VOICE_UI_NO_SPEECH(post){if(post?.hard){updateVoiceScore({level:'hard',reasons:['HARD_OUTPUT']},true);appAlert('⚠️ ຜົນຮັບສຽງຍັງຜິດປົກກະຕິຫຼາຍຫຼັງກູ້ຄືນ ຈຶ່ງບໍ່ໃສ່ໃນຊ່ອງ. ກະລຸນາລອງໃໝ່.')}else{updateVoiceScore({level:'hard',reasons:['NO_SPEECH']},false);appAlert('⚠️ ບໍ່ພົບຄຳເວົ້າທີ່ຊັດເຈນ. ກະລຸນາລອງໃໝ່.')}setVoiceInputUi('idle')}
+
+function VOICE_UI_EMPTY_CAPTURE(){setVoiceInputUi('idle',"🎙 ຍັງບໍ່ໄດ້ຍິນຄຳເວົ້າ. ກົດອີກຄັ້ງແລ້ວລອງເວົ້າໃໝ່.");setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},3200)}
 function VOICE_UI_UNSUPPORTED(){appAlert('⚠️ ບຣາວເຊີນີ້ບໍ່ຮອງຮັບການຮັບສຽງໃນແອັບ. ກະລຸນາໃຊ້ Chrome/Safari ລຸ້ນປັດຈຸບັນ.')}
 function VOICE_UI_START_ERROR(e){setVoiceInputUi('idle');if(e?.name==='NotAllowedError'||e?.name==='SecurityError')appAlert('⚠️ ກະລຸນາອະນຸຍາດ Microphone ໃນບຣາວເຊີແລ້ວລອງໃໝ່.');else appAlert('⚠️ ບໍ່ສາມາດເປີດໄມໂຄຣໂຟນໄດ້. ກະລຸນາລອງໃໝ່.')}
 function VOICE_UI_PROCESS_ERROR(e){setVoiceInputUi('idle');clearVoiceScore();if(e?.name==='AbortError'||e?.__relayAttemptTimeout)appAlert('⚠️ ການເຊື່ອມຕໍ່ຮັບສຽງຊ້າ. ກະລຸນາລອງເວົ້າໃໝ່ອີກຄັ້ງ.');else appAlert('⚠️ ບໍ່ສາມາດຮັບຮູ້ສຽງໄດ້. ກະລຸນາລອງເວົ້າໃໝ່.')}
@@ -7694,7 +7719,7 @@ function VOICE_APPEND_TRANSCRIPT(text){if(typeof text!=='string')return;const sa
 async function startLaoVoiceInput(){clearVoiceScore();if(isTranslating||(isBackTranslating&amp;&amp;!isAutoBackTranslating)){appAlert('⚠️ ກະລຸນາລໍຖ້າໃຫ້ການແປ/ກວດຄວາມໝາຍແບບກົດເອງສຳເລັດກ່ອນໃຊ້ໄມໂຄຣໂຟນ.');return}try{stopKorean()}catch(e){}revealVoiceInputText('loInput','inputComposer');await voiceStartCapture('lo-LA');revealVoiceInputText('loInput','inputComposer')}
 function stopLaoVoiceInput(discard=false){return voiceStopCapture('lo-LA',discard,discard?'discard':'user-click')}
 function cancelLaoVoiceInput(discard=true){voiceCancelCapture(discard,'user-cancel')}
-async function toggleLaoVoiceInput(){if(voiceProcessing){cancelLaoVoiceInput(true);return}if(voiceRecording){await stopLaoVoiceInput(false);return}await startLaoVoiceInput()}
+async function toggleLaoVoiceInput(){if(voicePreparing){cancelLaoVoiceInput(true);return}if(voiceProcessing){cancelLaoVoiceInput(true);return}if(voiceRecording){await stopLaoVoiceInput(false);return}await startLaoVoiceInput()}
 
 function initConvenienceUI(){const input=document.getElementById('loInput');if(input){input.addEventListener('input',()=&gt;{clearVoiceScore();appInputDirty=true;updateInputCharCount()});input.addEventListener('focus',()=&gt;scheduleInputFocusAnchor('loInput','inputComposer'));input.addEventListener('keydown',ev=&gt;{if(ev.key==='Enter'&amp;&amp;(ev.ctrlKey||ev.metaKey)){ev.preventDefault();if(!isTranslating)handleTranslateAction()}})}updateInputCharCount();renderTranslationHistory();setTimeout(()=&gt;recoverTranslationHistoryIfMissing(),700)}
 window.addEventListener('load',initConvenienceUI);
@@ -7703,7 +7728,7 @@ window.addEventListener('load',initConvenienceUI);
 let inputFocusAnchorSeq=0;
 function scheduleInputFocusAnchor(inputId='loInput',composerId='inputComposer'){if(!window.matchMedia||!window.matchMedia('(max-width: 600px)').matches)return;const input=document.getElementById(inputId),composer=document.getElementById(composerId);if(!input||!composer)return;const seq=++inputFocusAnchorSeq;const align=()=&gt;{if(seq!==inputFocusAnchorSeq||document.activeElement!==input)return;const vv=window.visualViewport,visibleTop=vv&amp;&amp;Number.isFinite(vv.offsetTop)?vv.offsetTop:0,desiredTop=visibleTop+8,rect=composer.getBoundingClientRect(),delta=rect.top-desiredTop;if(Math.abs(delta)&gt;=12){try{window.scrollBy({top:delta,left:0,behavior:'auto'})}catch(e){window.scrollBy(0,delta)}}};setTimeout(align,280);setTimeout(align,560)}
 
-function handleTranslateAction(){if(isAutoSoundOn&amp;&amp;currentTtsKey)unlockSafariAudio();if(isTranslating)stopTranslation(false);else{const input=document.getElementById('loInput');if(input&amp;&amp;!String(input.value||'').trim()){focusMainTextInput();return}returnToTranslationResultTop();translateText();}}
+function handleTranslateAction(){if(voicePreparing||voiceRecording||voiceProcessing){appAlert('⚠️ ກະລຸນາໃຫ້ການຮັບສຽງສຳເລັດກ່ອນແລ້ວຈຶ່ງກົດແປ.');return}if(isAutoSoundOn&amp;&amp;currentTtsKey)unlockSafariAudio();if(isTranslating)stopTranslation(false);else{const input=document.getElementById('loInput');if(input&amp;&amp;!String(input.value||'').trim()){focusMainTextInput();return}returnToTranslationResultTop();translateText();}}
 function sleep(ms){return new Promise(r=&gt;setTimeout(r,ms));}
 function makeAbortError(msg='Aborted'){try{return new DOMException(msg,'AbortError')}catch(e){const x=new Error(msg);x.name='AbortError';return x}}
 function abortSet(set,except=null){for(const c of [...set]){if(c===except)continue;try{c.abort()}catch(e){}}}
@@ -9224,7 +9249,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.195';
+const INTEGRATED_VERSION='V3.61.196';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
@@ -9247,7 +9272,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='6da98f2fbf08bc0c68c8a31aa3e2a5f6b47852132d9b837ee5d832b5e1d3b3ec';
+const EXTERNAL_DIAGNOSTIC_SHA256='ce48229704a1d4870723ca92a68cbf87f6774aa31aa1042170afb310d53de473';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9284,7 +9309,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.195: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
+// V3.61.196: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10728,7 +10753,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.195","id":"test-v361195-structure-rebuild-r2","seenKey":"translator_release_notice_seen_test_v361195_structure_rebuild_r2","ko":{"sub":"V3.61.195 TEST · 구조개편 회귀 수정 R2","summary":["초기화 false failure와 설명서 업데이트 내역 클릭 문제를 수정했습니다.","음성입력 교정 결과의 [object Object] 노출을 차단하고 음성입력 중 번역 버튼을 보호합니다.","음성입력은 준비 중 → 이제 말씀하세요 → 듣는 중 상태를 더 눈에 띄게 표시합니다."],"sections":[["초기화·설명서",["내장 번역기의 load/ready 상태를 marker/probe로 재확인해 단순 시간초과 오판을 줄였습니다.","업데이트 내역 렌더러를 안전하게 만들고 클릭 이벤트를 명시적으로 연결했습니다."]],["음성입력",["STT 교정 객체에서 실제 text만 추출하며 문자열이 아닌 결과는 입력창에 넣지 않습니다.","부부앱도 음성입력 중에는 번역 실행을 막고 안내합니다.","준비 완료 시 입력 영역과 버튼에 이제 말씀하세요를 표시합니다. 비프음/진동은 사용하지 않습니다."]],["보존 항목",["P159A/G157A, 번역·역번역 알고리즘, TTS, Relay/Cloudflare/Cloud Run 경로는 변경하지 않았습니다."]]],"previous":"V3.61.194 STRUCTURE REBUILD R1 기준에서 확인된 실사용 회귀만 수정했습니다."},"lo":{"sub":"V3.61.195 TEST · ແກ້ regression ຫຼັງປັບໂຄງສ້າງ R2","summary":["ແກ້ການແຈ້ງຜິດວ່າເລີ່ມຕົ້ນບໍ່ສຳເລັດ ແລະ ປຸ່ມປະຫວັດອັບເດດ.","ປ້ອງກັນ [object Object] ຈາກ STT ແລະ ບໍ່ໃຫ້ກົດແປໃນຂະນະຮັບສຽງ.","ສະແດງ ກຳລັງກຽມ → ເລີ່ມເວົ້າໄດ້ແລ້ວ → ກຳລັງຟັງ ໃຫ້ເຫັນຊັດ."],"sections":[["ການເລີ່ມຕົ້ນ / ຄູ່ມື",["ກວດ load/ready ດ້ວຍ marker/probe ເພື່ອຫຼຸດການແຈ້ງ timeout ຜິດ.","ແກ້ renderer ຂອງປະຫວັດອັບເດດ ແລະ ເຊື່ອມ click event ໂດຍກົງ."]],["ຮັບສຽງ",["ໃຊ້ສະເພາະ text ຈາກຜົນແກ້ STT ແລະ ບໍ່ໃສ່ object ລົງຊ່ອງພິມ.","ໃນແອັບຄູ່ສົມລົດ ຈະບໍ່ໃຫ້ແປຂະນະກຳລັງຮັບ/ປະມວນສຽງ.","ເມື່ອພ້ອມ ຈະສະແດງ “ເລີ່ມເວົ້າໄດ້ແລ້ວ” ຢ່າງຊັດເຈນ; ບໍ່ມີສຽງ beep ຫຼື ສັ່ນ."]],["ສ່ວນທີ່ຄົງເດີມ",["P159A/G157A, ອັນກໍຣິທຶມແປ/ແປກັບ, TTS ແລະ Relay/Cloudflare/Cloud Run ບໍ່ໄດ້ປ່ຽນ."]]],"previous":"ແກ້ສະເພາະ regression ທີ່ພົບຈາກ V3.61.194 STRUCTURE REBUILD R1."}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.196","id":"test-v361195-structure-rebuild-r2","seenKey":"translator_release_notice_seen_test_v361195_structure_rebuild_r2","ko":{"sub":"V3.61.196 TEST · 구조개편 회귀 수정 R2","summary":["초기화 false failure와 설명서 업데이트 내역 클릭 문제를 수정했습니다.","음성입력 교정 결과의 [object Object] 노출을 차단하고 음성입력 중 번역 버튼을 보호합니다.","음성입력은 준비 중 → 이제 말씀하세요 → 듣는 중 상태를 더 눈에 띄게 표시합니다."],"sections":[["초기화·설명서",["내장 번역기의 load/ready 상태를 marker/probe로 재확인해 단순 시간초과 오판을 줄였습니다.","업데이트 내역 렌더러를 안전하게 만들고 클릭 이벤트를 명시적으로 연결했습니다."]],["음성입력",["STT 교정 객체에서 실제 text만 추출하며 문자열이 아닌 결과는 입력창에 넣지 않습니다.","부부앱도 음성입력 중에는 번역 실행을 막고 안내합니다.","준비 완료 시 입력 영역과 버튼에 이제 말씀하세요를 표시합니다. 비프음/진동은 사용하지 않습니다."]],["보존 항목",["P159A/G157A, 번역·역번역 알고리즘, TTS, Relay/Cloudflare/Cloud Run 경로는 변경하지 않았습니다."]]],"previous":"V3.61.194 STRUCTURE REBUILD R1 기준에서 확인된 실사용 회귀만 수정했습니다."},"lo":{"sub":"V3.61.196 TEST · ແກ້ regression ຫຼັງປັບໂຄງສ້າງ R2","summary":["ແກ້ການແຈ້ງຜິດວ່າເລີ່ມຕົ້ນບໍ່ສຳເລັດ ແລະ ປຸ່ມປະຫວັດອັບເດດ.","ປ້ອງກັນ [object Object] ຈາກ STT ແລະ ບໍ່ໃຫ້ກົດແປໃນຂະນະຮັບສຽງ.","ສະແດງ ກຳລັງກຽມ → ເລີ່ມເວົ້າໄດ້ແລ້ວ → ກຳລັງຟັງ ໃຫ້ເຫັນຊັດ."],"sections":[["ການເລີ່ມຕົ້ນ / ຄູ່ມື",["ກວດ load/ready ດ້ວຍ marker/probe ເພື່ອຫຼຸດການແຈ້ງ timeout ຜິດ.","ແກ້ renderer ຂອງປະຫວັດອັບເດດ ແລະ ເຊື່ອມ click event ໂດຍກົງ."]],["ຮັບສຽງ",["ໃຊ້ສະເພາະ text ຈາກຜົນແກ້ STT ແລະ ບໍ່ໃສ່ object ລົງຊ່ອງພິມ.","ໃນແອັບຄູ່ສົມລົດ ຈະບໍ່ໃຫ້ແປຂະນະກຳລັງຮັບ/ປະມວນສຽງ.","ເມື່ອພ້ອມ ຈະສະແດງ “ເລີ່ມເວົ້າໄດ້ແລ້ວ” ຢ່າງຊັດເຈນ; ບໍ່ມີສຽງ beep ຫຼື ສັ່ນ."]],["ສ່ວນທີ່ຄົງເດີມ",["P159A/G157A, ອັນກໍຣິທຶມແປ/ແປກັບ, TTS ແລະ Relay/Cloudflare/Cloud Run ບໍ່ໄດ້ປ່ຽນ."]]],"previous":"ແກ້ສະເພາະ regression ທີ່ພົບຈາກ V3.61.194 STRUCTURE REBUILD R1."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
