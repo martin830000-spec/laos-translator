@@ -470,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="60b82ab746fae2206b1371796fed27b0da3c1795cb8301b8758d90369a2e9099">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="4d0be1d9123db45cac852c7f1760c936bfb25b989f286c2d57b83f3abb3fadbb">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1196,7 +1196,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.199';
+const APP_VERSION='V3.61.200';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5626,7 +5626,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="067770a6830a4231b84fe5554293cb6353fd1b29603f4ea4123d7fd4ed7a5d53">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="a71f968858054b62963cb439ae1469aa6d7533d36900d60020422d94f48ba671">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6297,7 +6297,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.199';
+const APP_VERSION='V3.61.200';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9245,7 +9245,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.199';
+const INTEGRATED_VERSION='V3.61.200';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
@@ -9268,7 +9268,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='4a0b4e7d923f02f1f78ccc725733dee4705273ea464099df9069dc3b76cdf5bc';
+const EXTERNAL_DIAGNOSTIC_SHA256='2cfe1820de69769d7c05a3014f7537e2f3c19b157bfa43bf880bb2dc5ea2c38d';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9305,7 +9305,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.199: P160A meaning-invariant prompt; STT/TTS/network contracts remain unchanged.
+// V3.61.200: P160A meaning-invariant prompt; STT/TTS/network contracts remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P160A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10752,7 +10752,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.199","id":"test-v361199-meaning-invariant-r1","seenKey":"translator_release_notice_seen_test_v361199_meaning_invariant_r1","ko":{"sub":"V3.61.199 TEST · 의미 불변/역번역 검증 R1","summary":["정번역에서 예정·진행·반복·완료와 시간 정밀도, 의미 범위·고유대상 동일성을 더 강하게 보존합니다.","긴 라오어 문장은 필요한 경우에만 READ SMART를 붙여 자연스러운 한국어 문법으로 재배열하되 의미를 추가하지 않습니다.","역번역은 화면의 번역문만 근거로 하면서도 직역체가 아니라 읽기 쉬운 자연스러운 문법으로 보여줍니다."],"sections":[["경고 정책",["문자혼입·깨진 문자·목표언어 실패·명시적 어제↔내일 반전 같은 확정 신호만 강하게 표시합니다.","주체·관계·시제 등 휴리스틱 의미 의심은 진단 로그에 남기되 사용자 경고/점수에는 반영하지 않습니다."]],["보존 항목",["자동 재번역은 추가하지 않았습니다. STT/TTS, Relay/Cloudflare/Cloud Run, 재번역 텔레메트리와 SERVICE V3.61.193은 변경하지 않았습니다."]]],"previous":"V3.61.198 RETRANSLATION TELEMETRY R1 기준에서 번역/역번역 의미 보존과 경고 정책만 정밀 조정했습니다."},"lo":{"sub":"V3.61.199 TEST · ຮັກສາຄວາມໝາຍ / ກວດແປກັບ R1","summary":["ຮັກສາສະຖານະເຫດການ, ເວລາ ແລະ ຄວາມໝາຍຂອງຄຳໃຫ້ແມ່ນຍຳຂຶ້ນ.","ປະໂຫຍກລາວຍາວຈະໃຊ້ READ SMART ເມື່ອຈຳເປັນ ເພື່ອຈັດປະໂຫຍກເກົາຫຼີໃຫ້ອ່ານງ່າຍ ໂດຍບໍ່ເພີ່ມຄວາມໝາຍ.","ການແປກັບໃຊ້ສະເພາະຜົນແປທີ່ສະແດງ ແຕ່ຈັດໄວຍາກອນໃຫ້ອ່ານງ່າຍ."],"sections":[["ການເຕືອນ",["ສະແດງເຕືອນແຮງສະເພາະຂໍ້ຜິດພາດຊັດເຈນ ເຊັ່ນ ຕົວອັກສອນປົນ/ເສຍ ຫຼື ມື້ວານ↔ມື້ອື່ນກັບທິດ.","ສັນຍານຄວາມໝາຍທີ່ເປັນ heuristic ຍັງບັນທຶກໄວ້ໃນ diagnostic ແຕ່ບໍ່ຮົບກວນໜ້າຜູ້ໃຊ້."]],["ຄົງເດີມ",["ບໍ່ເພີ່ມການແປໃໝ່ອັດຕະໂນມັດ; STT/TTS, Relay/Cloudflare/Cloud Run ແລະ telemetry ການແປໃໝ່ຄົງເດີມ."]]],"previous":"ປັບຈາກ V3.61.198 ສະເພາະຄຸນນະພາບຄວາມໝາຍ/ແປກັບ ແລະນະໂຍບາຍເຕືອນ."}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.200","id":"test-v361200-general-transient-ui-reset-r1","seenKey":"translator_release_notice_seen_test_v361200_general_transient_ui_reset_r1","ko":{"sub":"V3.61.200 TEST · 일반앱 화면상태 초기화 R1","summary":["P160A/G158A 번역·역번역 품질 정책은 V3.61.199와 동일합니다.","일반앱은 업데이트/재진입/앱간 복귀 시 최근 대화를 항상 접힌 상태로 시작합니다.","최근 대화 내용과 자동통역·자동음성·언어 설정은 그대로 보존합니다."],"sections":[["변경 범위",["일반앱의 펼침·오버레이·큰글자·스크롤 같은 임시 화면 상태만 초기화합니다.","STT/TTS, Relay/Cloudflare/Cloud Run, 재번역 텔레메트리와 SERVICE V3.61.193은 변경하지 않았습니다."]]],"previous":"V3.61.199 TEST / P160A · G158A 의미 불변 R1을 그대로 유지합니다."},"lo":{"sub":"V3.61.200 TEST · ຣີເຊັດສະຖານະໜ້າຈໍແອັບທົ່ວໄປ R1","summary":["P160A/G158A ແລະນະໂຍບາຍການແປຄົງເດີມຈາກ V3.61.199.","ເມື່ອອັບເດດ/ເຂົ້າໃໝ່/ກັບຈາກອີກແອັບ ປະຫວັດສົນທະນາໃນແອັບທົ່ວໄປຈະພັບໄວ້ສະເໝີ.","ຂໍ້ມູນປະຫວັດ ແລະ ການຕັ້ງຄ່າຫຼັກຍັງຖືກເກັບໄວ້."],"sections":[["ຂອບເຂດການປ່ຽນ",["ຣີເຊັດສະເພາະສະຖານະໜ້າຈໍຊົ່ວຄາວຂອງແອັບທົ່ວໄປ.","STT/TTS, Relay/Cloudflare/Cloud Run ແລະ telemetry ຄົງເດີມ."]]],"previous":"ຄົງ P160A/G158A ຈາກ V3.61.199 TEST."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
