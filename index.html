@@ -470,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="5ca3e45f76c6fae3f777ba94d0635afc7cce975f1f113d8aebc39487d9695a14">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="46cc7e1e8ef21af541cc2355bd39e7906a73938883bd09c067720c71224dfab3">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1196,7 +1196,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.197';
+const APP_VERSION='V3.61.198';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5632,7 +5632,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f3f35bbf93e205d0f4d27b34c9c69316310f35f7ad8e601455ccdda207dab976">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="ec527c7feed1bb604e7f5f81a9f64a315ef89e9992dbebd50b19b38cb5d1168b">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6303,7 +6303,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.197';
+const APP_VERSION='V3.61.198';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9252,7 +9252,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.197';
+const INTEGRATED_VERSION='V3.61.198';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
@@ -9275,7 +9275,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='01d3d0f2a89609a304b97e703ab592273090efa91e1537c4e4b5c00ab8cf10e9';
+const EXTERNAL_DIAGNOSTIC_SHA256='515fe16651d5ce6d1d95db3a1f02663ba00dca1c677517ea1407974787993e31';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9312,7 +9312,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.197: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
+// V3.61.198: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10756,7 +10756,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.197","id":"test-v361195-structure-rebuild-r2","seenKey":"translator_release_notice_seen_test_v361195_structure_rebuild_r2","ko":{"sub":"V3.61.197 TEST · 구조개편 회귀 수정 R2","summary":["초기화 false failure와 설명서 업데이트 내역 클릭 문제를 수정했습니다.","음성입력 교정 결과의 [object Object] 노출을 차단하고 음성입력 중 번역 버튼을 보호합니다.","음성입력은 준비 중 → 이제 말씀하세요 → 듣는 중 상태를 더 눈에 띄게 표시합니다."],"sections":[["초기화·설명서",["내장 번역기의 load/ready 상태를 marker/probe로 재확인해 단순 시간초과 오판을 줄였습니다.","업데이트 내역 렌더러를 안전하게 만들고 클릭 이벤트를 명시적으로 연결했습니다."]],["음성입력",["STT 교정 객체에서 실제 text만 추출하며 문자열이 아닌 결과는 입력창에 넣지 않습니다.","부부앱도 음성입력 중에는 번역 실행을 막고 안내합니다.","준비 완료 시 입력 영역과 버튼에 이제 말씀하세요를 표시합니다. 비프음/진동은 사용하지 않습니다."]],["보존 항목",["P159A/G157A, 번역·역번역 알고리즘, TTS, Relay/Cloudflare/Cloud Run 경로는 변경하지 않았습니다."]]],"previous":"V3.61.194 STRUCTURE REBUILD R1 기준에서 확인된 실사용 회귀만 수정했습니다."},"lo":{"sub":"V3.61.197 TEST · ແກ້ regression ຫຼັງປັບໂຄງສ້າງ R2","summary":["ແກ້ການແຈ້ງຜິດວ່າເລີ່ມຕົ້ນບໍ່ສຳເລັດ ແລະ ປຸ່ມປະຫວັດອັບເດດ.","ປ້ອງກັນ [object Object] ຈາກ STT ແລະ ບໍ່ໃຫ້ກົດແປໃນຂະນະຮັບສຽງ.","ສະແດງ ກຳລັງກຽມ → ເລີ່ມເວົ້າໄດ້ແລ້ວ → ກຳລັງຟັງ ໃຫ້ເຫັນຊັດ."],"sections":[["ການເລີ່ມຕົ້ນ / ຄູ່ມື",["ກວດ load/ready ດ້ວຍ marker/probe ເພື່ອຫຼຸດການແຈ້ງ timeout ຜິດ.","ແກ້ renderer ຂອງປະຫວັດອັບເດດ ແລະ ເຊື່ອມ click event ໂດຍກົງ."]],["ຮັບສຽງ",["ໃຊ້ສະເພາະ text ຈາກຜົນແກ້ STT ແລະ ບໍ່ໃສ່ object ລົງຊ່ອງພິມ.","ໃນແອັບຄູ່ສົມລົດ ຈະບໍ່ໃຫ້ແປຂະນະກຳລັງຮັບ/ປະມວນສຽງ.","ເມື່ອພ້ອມ ຈະສະແດງ “ເລີ່ມເວົ້າໄດ້ແລ້ວ” ຢ່າງຊັດເຈນ; ບໍ່ມີສຽງ beep ຫຼື ສັ່ນ."]],["ສ່ວນທີ່ຄົງເດີມ",["P159A/G157A, ອັນກໍຣິທຶມແປ/ແປກັບ, TTS ແລະ Relay/Cloudflare/Cloud Run ບໍ່ໄດ້ປ່ຽນ."]]],"previous":"ແກ້ສະເພາະ regression ທີ່ພົບຈາກ V3.61.194 STRUCTURE REBUILD R1."}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.198","id":"test-v361195-structure-rebuild-r2","seenKey":"translator_release_notice_seen_test_v361195_structure_rebuild_r2","ko":{"sub":"V3.61.198 TEST · 구조개편 회귀 수정 R2","summary":["초기화 false failure와 설명서 업데이트 내역 클릭 문제를 수정했습니다.","음성입력 교정 결과의 [object Object] 노출을 차단하고 음성입력 중 번역 버튼을 보호합니다.","음성입력은 준비 중 → 이제 말씀하세요 → 듣는 중 상태를 더 눈에 띄게 표시합니다."],"sections":[["초기화·설명서",["내장 번역기의 load/ready 상태를 marker/probe로 재확인해 단순 시간초과 오판을 줄였습니다.","업데이트 내역 렌더러를 안전하게 만들고 클릭 이벤트를 명시적으로 연결했습니다."]],["음성입력",["STT 교정 객체에서 실제 text만 추출하며 문자열이 아닌 결과는 입력창에 넣지 않습니다.","부부앱도 음성입력 중에는 번역 실행을 막고 안내합니다.","준비 완료 시 입력 영역과 버튼에 이제 말씀하세요를 표시합니다. 비프음/진동은 사용하지 않습니다."]],["보존 항목",["P159A/G157A, 번역·역번역 알고리즘, TTS, Relay/Cloudflare/Cloud Run 경로는 변경하지 않았습니다."]]],"previous":"V3.61.194 STRUCTURE REBUILD R1 기준에서 확인된 실사용 회귀만 수정했습니다."},"lo":{"sub":"V3.61.198 TEST · ແກ້ regression ຫຼັງປັບໂຄງສ້າງ R2","summary":["ແກ້ການແຈ້ງຜິດວ່າເລີ່ມຕົ້ນບໍ່ສຳເລັດ ແລະ ປຸ່ມປະຫວັດອັບເດດ.","ປ້ອງກັນ [object Object] ຈາກ STT ແລະ ບໍ່ໃຫ້ກົດແປໃນຂະນະຮັບສຽງ.","ສະແດງ ກຳລັງກຽມ → ເລີ່ມເວົ້າໄດ້ແລ້ວ → ກຳລັງຟັງ ໃຫ້ເຫັນຊັດ."],"sections":[["ການເລີ່ມຕົ້ນ / ຄູ່ມື",["ກວດ load/ready ດ້ວຍ marker/probe ເພື່ອຫຼຸດການແຈ້ງ timeout ຜິດ.","ແກ້ renderer ຂອງປະຫວັດອັບເດດ ແລະ ເຊື່ອມ click event ໂດຍກົງ."]],["ຮັບສຽງ",["ໃຊ້ສະເພາະ text ຈາກຜົນແກ້ STT ແລະ ບໍ່ໃສ່ object ລົງຊ່ອງພິມ.","ໃນແອັບຄູ່ສົມລົດ ຈະບໍ່ໃຫ້ແປຂະນະກຳລັງຮັບ/ປະມວນສຽງ.","ເມື່ອພ້ອມ ຈະສະແດງ “ເລີ່ມເວົ້າໄດ້ແລ້ວ” ຢ່າງຊັດເຈນ; ບໍ່ມີສຽງ beep ຫຼື ສັ່ນ."]],["ສ່ວນທີ່ຄົງເດີມ",["P159A/G157A, ອັນກໍຣິທຶມແປ/ແປກັບ, TTS ແລະ Relay/Cloudflare/Cloud Run ບໍ່ໄດ້ປ່ຽນ."]]],"previous":"ແກ້ສະເພາະ regression ທີ່ພົບຈາກ V3.61.194 STRUCTURE REBUILD R1."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
