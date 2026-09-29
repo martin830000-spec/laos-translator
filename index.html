@@ -470,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="342689056400d0a9a332f4f6ed26e8f8258db2769ec6c5b5b3cbe1b91b5a43e7">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="5ca3e45f76c6fae3f777ba94d0635afc7cce975f1f113d8aebc39487d9695a14">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1196,7 +1196,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.196';
+const APP_VERSION='V3.61.197';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -2002,6 +2002,7 @@ window.addEventListener('message',function(ev){
     }
 
     function clearText() {
+        try{voiceCancelCapture(true,'clear-input')}catch(e){}
         const input=document.getElementById('krInput');
         input.value = '';
         appInputDirty=false;
@@ -2382,7 +2383,7 @@ function returnToTranslationResultTop(){
             &lt;/div&gt;`).join('');
     }
 
-    function loadHistoryItem(id){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const input=document.getElementById('krInput');if(!input)return;try{voiceCancel(true)}catch(e){}try{clearResultBox()}catch(e){}input.value=item.source;appInputDirty=true;isJustTranslated=false;updateInputCharCount();loadedHistoryRecall={source:String(item.source||'').trim(),direction:'K2L',id:String(item.id||'')};try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}}
+    function loadHistoryItem(id){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const input=document.getElementById('krInput');if(!input)return;try{voiceCancelCapture(true,'history-load')}catch(e){}try{clearResultBox()}catch(e){}input.value=item.source;appInputDirty=true;isJustTranslated=false;updateInputCharCount();loadedHistoryRecall={source:String(item.source||'').trim(),direction:'K2L',id:String(item.id||'')};try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}}
 
     async function copyHistoryTarget(id, btn) {
         const item = readTranslationHistory().find(x=&gt;x.id===id); if(!item)return;
@@ -2842,7 +2843,7 @@ function VOICE_UI_READY_TO_SPEAK(){if(voiceReadyUiTimer){clearTimeout(voiceReady
 function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',"🎙 이제 말씀해 주세요 · 듣고 있어요","작게 속삭이거나 웅얼거리면 놓칠 수 있어요. 평소 목소리로 천천히 또박또박 말씀해 주세요.")}
 function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording',"🎙 이제 말씀해 주세요 · 듣고 있어요","작게 속삭이거나 웅얼거리면 놓칠 수 있어요. 평소 목소리로 천천히 또박또박 말씀해 주세요.")}
 function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ 종료 · ${m}:${s}`;syncMainQuickMicUi('recording',`${m}:${s}`)}
-function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ 1분 이상 듣고 있습니다. 자동 종료하지 않으니 말씀을 마친 뒤 직접 종료하세요.')}
+function VOICE_UI_LONG_RECORDING(){voiceRecordingClock()}
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT가 마지막 음성까지 인식하고 있습니다.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 백업 음성인식으로 같은 녹음을 자동 복구하고 있습니다.')}
 function VOICE_UI_SUCCESS(post,usedFallback){const sec=Number.isFinite(post?.resultMs)?(post.resultMs/1000).toFixed(2):'-',auto=!!mainAutoInterpretEnabled;const base=usedFallback?`✅ 음성입력 완료 · 자동 복구 · 말끝→결과 ${sec}초.`:`✅ 음성입력 완료 · 말끝→결과 ${sec}초.`;setVoiceInputUi('idle',base+(auto?' 자동통역을 시작합니다.':' 입력된 한국어를 확인한 뒤 번역하세요.'));setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},6000)}
@@ -4954,6 +4955,7 @@ function sanitizeTextForTts(text){
 }
 
     async function speakLao() {
+        if(voicePreparing||voiceRecording||voiceProcessing)return;
         // OFF 상태에서는 Azure TTS 요청을 절대 만들지 않는다.
         if (!currentTtsKey) { updateSpeechButtonAvailability(); return; }
         const rawText = document.getElementById('laoResult').innerText;
@@ -5068,6 +5070,7 @@ function sanitizeTextForTts(text){
     }
 
     function toggleSpeech() {
+        if(voicePreparing||voiceRecording||voiceProcessing){appAlert('⚠️ 음성입력이 끝난 뒤 다시 듣기를 사용해 주세요.');return;}
         if (!currentTtsKey) { updateSpeechButtonAvailability(); return; }
         // A second tap while loading cancels the pending TTS request.
         if (ttsAbortController) { stopLao(); return; }
@@ -5440,9 +5443,9 @@ function updateMainAutoInterpretUi(){const b=document.getElementById('mainQuickA
 function setMainAutoInterpret(v){mainAutoInterpretEnabled=!!v;mainQuickStorageSet(MAIN_AUTO_INTERPRET_KEY,mainAutoInterpretEnabled?'1':'0');updateMainAutoInterpretUi()}
 function toggleMainAutoInterpret(){syncMainAutoInterpretFromStorage();setMainAutoInterpret(!mainAutoInterpretEnabled)}
 function requestMainLanguageSwitch(){try{parent.postMessage({type:'integrated-switch-language',mode:INTEGRATED_MODE},'*')}catch(e){}}
-function focusMainTextInput(){try{voiceCancel(true)}catch(e){}const c=document.getElementById('inputComposer'),i=document.getElementById('krInput');if(c)c.classList.add('ui-editing');if(i){try{i.focus({preventScroll:true})}catch(e){try{i.focus()}catch(_){}}try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}}
+function focusMainTextInput(){try{voiceCancelCapture(true,'input-focus')}catch(e){}const c=document.getElementById('inputComposer'),i=document.getElementById('krInput');if(c)c.classList.add('ui-editing');if(i){try{i.focus({preventScroll:true})}catch(e){try{i.focus()}catch(_){}}try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}}
 function clearAllCurrentView(){
-  try{voiceCancel(true)}catch(e){}
+  try{voiceCancelCapture(true,'clear-all')}catch(e){}
   try{if(isTranslating)stopTranslation(true)}catch(e){}
   try{cancelBackTranslation(false)}catch(e){}
   try{stopLao()}catch(e){}
@@ -5629,7 +5632,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="164775ade23d0b1d5a36bcc3229ecb860aaad5c63f75e9e4a15f397176421b5d">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="f3f35bbf93e205d0f4d27b34c9c69316310f35f7ad8e601455ccdda207dab976">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6300,7 +6303,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.196';
+const APP_VERSION='V3.61.197';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -7061,7 +7064,7 @@ function checkAccessKey(){
 }
 function logoutApp(){cancelLaoVoiceInput(true);stopTranslation(true);cancelBackTranslation(false);stopKorean();location.reload();}
 function shutdownApp(){cancelLaoVoiceInput(true);stopTranslation(true);cancelBackTranslation(false);stopKorean();window.location.href='about:blank';}
-function clearText(){const input=document.getElementById('loInput');input.value='';appInputDirty=false;isJustTranslated=false;clearVoiceScore();updateInputCharCount();try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}}
+function clearText(){try{voiceCancelCapture(true,'clear-input')}catch(e){}const input=document.getElementById('loInput');input.value='';appInputDirty=false;isJustTranslated=false;clearVoiceScore();updateInputCharCount();try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}}
 function setPrimaryResultVisible(visible=false){const section=document.getElementById('primaryResultSection');if(section)section.classList.toggle('result-pending',!visible)}
 function clearResultBox(){setBackTime('');translationOutputLocked=false;lastForwardQualitySnapshot=null;lastForwardTargetSnapshot='';updateQualityBadge(null);cancelBackTranslation(false);stopKorean();document.getElementById('koResult').textContent='';document.getElementById('backResult').innerHTML=DEFAULT_BACK_HTML;setBackResultState(false,false);updateSpeechButtonAvailability();setKoreanCopyReady(false);setRetry(false);setPrimaryResultVisible(false);}
 function setRetry(v){document.getElementById('retryBtn').style.display=v?'inline-block':'none';}
@@ -7158,7 +7161,7 @@ function escapeHistoryHtml(v){return String(v??'').replace(/[&amp;&lt;&gt;"']/g,
 
     function setHistoryView(mode){historyViewMode=mode==='favorite'?'favorite':'recent';const r=document.getElementById('historyRecentTab'),f=document.getElementById('historyFavoriteTab');if(r)r.classList.toggle('active',historyViewMode==='recent');if(f)f.classList.toggle('active',historyViewMode==='favorite');renderTranslationHistory()}
 function renderTranslationHistory(){const host=document.getElementById('localHistoryList');if(!host)return;let list=readTranslationHistory().sort((a,b)=&gt;(b.ts||0)-(a.ts||0));if(historyViewMode==='favorite')list=list.filter(x=&gt;x.favorite).slice(0,HISTORY_FAVORITE_LIMIT);else list=list.slice(0,20);if(!list.length){host.innerHTML=`&lt;div class="history-empty"&gt;${historyViewMode==='favorite'?'ຍັງບໍ່ມີລາຍການມັກ.':'ຍັງບໍ່ມີປະຫວັດການແປ.'}&lt;/div&gt;`;return}host.innerHTML=list.map(item=&gt;`&lt;div class="history-item"&gt;&lt;div class="history-source"&gt;${escapeHistoryHtml(item.source)}&lt;/div&gt;&lt;div class="history-target"&gt;${escapeHistoryHtml(item.target)}&lt;/div&gt;&lt;div class="history-actions"&gt;&lt;button type="button" onclick="loadHistoryItem('${item.id}')"&gt;↩ ໃຊ້ອີກ&lt;/button&gt;&lt;button type="button" onclick="copyHistoryTarget('${item.id}',this)"&gt;📋 ຄັດລອກ&lt;/button&gt;&lt;button type="button" class="${item.favorite?'fav-on':''}" onclick="toggleHistoryFavorite('${item.id}')"&gt;${item.favorite?'★ ບັນທຶກແລ້ວ':'☆ ລາຍການມັກ'}&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;`).join('')}
-function loadHistoryItem(id){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const input=document.getElementById('loInput');if(!input)return;try{voiceCancel(true)}catch(e){}try{clearResultBox()}catch(e){}input.value=item.source;appInputDirty=true;isJustTranslated=false;updateInputCharCount();loadedHistoryRecall={source:String(item.source||'').trim(),direction:'L2K',id:String(item.id||'')};try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}}
+function loadHistoryItem(id){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const input=document.getElementById('loInput');if(!input)return;try{voiceCancelCapture(true,'history-load')}catch(e){}try{clearResultBox()}catch(e){}input.value=item.source;appInputDirty=true;isJustTranslated=false;updateInputCharCount();loadedHistoryRecall={source:String(item.source||'').trim(),direction:'L2K',id:String(item.id||'')};try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(e){}}
 async function copyHistoryTarget(id,btn){const item=readTranslationHistory().find(x=&gt;x.id===id);if(!item)return;const old=btn.textContent,ok=await writeClipboardSafe(item.target);btn.textContent=ok?'✅ ຄັດລອກແລ້ວ':'⚠️ ບໍ່ສຳເລັດ';setTimeout(()=&gt;btn.textContent=old,1100)}
 function toggleHistoryFavorite(id){const list=readTranslationHistory(),item=list.find(x=&gt;x.id===id);if(!item)return;if(!item.favorite&amp;&amp;list.filter(x=&gt;x.favorite).length&gt;=HISTORY_FAVORITE_LIMIT){appAlert('ລາຍການມັກສາມາດບັນທຶກໄດ້ສູງສຸດ 50 ລາຍການ.');return}item.favorite=!item.favorite;item.ts=Date.now();writeTranslationHistory(trimTranslationHistory(list));renderTranslationHistory()}
 async function clearTranslationHistory(){if(!await appConfirm('ລຶບປະຫວັດການແປ ແລະ ລາຍການມັກທັງໝົດບໍ?'))return;historyMutationGeneration++;try{localStorage.setItem(LOCAL_HISTORY_KEY,'[]')}catch(e){}renderTranslationHistory()}
@@ -7688,7 +7691,7 @@ function VOICE_UI_READY_TO_SPEAK(){if(voiceReadyUiTimer){clearTimeout(voiceReady
 function VOICE_UI_RECORDING(streaming){setVoiceInputUi('recording',"🎙 ເວົ້າໄດ້ເລີຍ · ກຳລັງຟັງຢູ່","ຖ້າເວົ້າເບົາເກີນໄປ ຫຼື ເວົ້າບໍ່ຊັດ ອາດຟັງບໍ່ຄົບ. ກະລຸນາເວົ້າດ້ວຍສຽງປົກກະຕິ ຊ້າໆ ແລະຊັດເຈນ.")}
 function VOICE_UI_STREAM_FALLBACK(){setVoiceInputUi('recording',"🎙 ເວົ້າໄດ້ເລີຍ · ກຳລັງຟັງຢູ່","ຖ້າເວົ້າເບົາເກີນໄປ ຫຼື ເວົ້າບໍ່ຊັດ ອາດຟັງບໍ່ຄົບ. ກະລຸນາເວົ້າດ້ວຍສຽງປົກກະຕິ ຊ້າໆ ແລະຊັດເຈນ.")}
 function VOICE_UI_CLOCK(m,s){const b=document.getElementById('voiceInputBtn');if(b&amp;&amp;voiceRecording)b.textContent=`⏹️ ຢຸດ · ${m}:${s}`;syncMainQuickMicUi('recording',`${m}:${s}`)}
-function VOICE_UI_LONG_RECORDING(){setVoiceInputUi('recording','ℹ️ ຟັງເກີນ 1 ນາທີແລ້ວ. ແອັບບໍ່ຢຸດອັດຕະໂນມັດ; ເວົ້າຈົບແລ້ວກົດຢຸດເອງ.')}
+function VOICE_UI_LONG_RECORDING(){voiceRecordingClock()}
 function VOICE_UI_PROCESSING(){setVoiceInputUi('processing','⏳ Google STT ກຳລັງປະມວນຜົນສຽງສ່ວນສຸດທ້າຍ.')}
 function VOICE_UI_RECOVERING(){setVoiceInputUi('processing','🛟 ກຳລັງໃຊ້ລະບົບຮັບສຽງສຳຮອງກູ້ຄືນຈາກສຽງເດີມ.')}
 function VOICE_UI_SUCCESS(post,usedFallback){const sec=Number.isFinite(post?.resultMs)?(post.resultMs/1000).toFixed(2):'-',auto=!!mainAutoInterpretEnabled;let msg=usedFallback?`✅ ຮັບສຽງສຳເລັດ · ກູ້ຄືນອັດຕະໂນມັດ · ຈົບສຽງ→ຜົນ ${sec}s.`:(post?.assessment?.level==='review'?`⚠️ ໃສ່ຂໍ້ຄວາມແລ້ວ · ຈົບສຽງ→ຜົນ ${sec}s · ມີບາງສ່ວນ/ຊື່ທີ່ຄວນກວດ.`:`✅ ຮັບສຽງສຳເລັດ · ຈົບສຽງ→ຜົນ ${sec}s.`);msg+=auto?' ກຳລັງເລີ່ມແປອັດຕະໂນມັດ.':' ກວດຂໍ້ຄວາມກ່ອນກົດແປ.';setVoiceInputUi('idle',msg);setTimeout(()=&gt;{if(!voiceRecording&amp;&amp;!voiceProcessing)setVoiceInputUi('idle')},6500)}
@@ -8781,9 +8784,9 @@ function sanitizeTextForTts(text){
     return s;
 }
 
-async function speakKorean(){if(!currentTtsKey){updateSpeechButtonAvailability();return}const rawText=document.getElementById('koResult').innerText.trim();if(!rawText||!/[\uAC00-\uD7A3]/.test(rawText))return;const text=sanitizeTextForTts(rawText);if(!text)return;stopKorean();const run=++ttsRunId,c=new AbortController(),started=performance.now();ttsAbortController=c;let didTimeout=false,res=null,blob=null,ttsHttpMs=null,ttsBlobReadyMs=null,ttsPlayStartMs=null;const timer=setTimeout(()=&gt;{didTimeout=true;try{c.abort()}catch(e){}},TTS_TIMEOUT_MS),b=document.getElementById('speakBtn');b.textContent='⏳ ກຳລັງໂຫຼດສຽງ...';b.style.background='#f29900';try{const ssml=`&lt;speak version='1.0' xml:lang='ko-KR'&gt;&lt;voice xml:lang='ko-KR' name='${KOREAN_VOICE}'&gt;${escapeXml(text)}&lt;/voice&gt;&lt;/speak&gt;`;res=await fetchSecondaryDirect(`https://${AZURE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`,{method:'POST',headers:{'Content-Type':'application/ssml+xml; charset=utf-8','X-Microsoft-OutputFormat':'audio-24khz-48kbitrate-mono-mp3'},body:ssml,signal:c.signal},{action:'tts'});ttsHttpMs=performance.now()-started;if(!res.ok){const e=new Error(`TTS_HTTP_${res.status}`);e.status=res.status;e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}blob=await res.blob();ttsBlobReadyMs=performance.now()-started;if(!blob.size)throw new Error('EMPTY_AUDIO');if(run!==ttsRunId)return;if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);currentAudioUrl=URL.createObjectURL(blob);if(!currentAudioObj)currentAudioObj=new Audio();currentAudioObj.src=currentAudioUrl;b.textContent='⏹️ ຢຸດສຽງ';b.style.background='#d93025';currentAudioObj.onended=()=&gt;{if(run===ttsRunId){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}};await currentAudioObj.play();ttsPlayStartMs=performance.now()-started;telemetryLogOperation('TTS','SUCCESS',{route:telemetryResponseRoute(res),via:String(res?.__clientRoute||''),region:String(res?.__relayRegion||''),fallback:res?.__relayFailover===true,totalMs:performance.now()-started,providerMs:Number(res?.headers?.get?.('X-Provider-Ms')),attempts:1},{audioBytes:blob.size,playback:'started',textChars:text.length,languageCode:'ko-KR',httpResponseMs:Number.isFinite(ttsHttpMs)?Math.round(ttsHttpMs):null,blobReadyMs:Number.isFinite(ttsBlobReadyMs)?Math.round(ttsBlobReadyMs):null,blobReadMs:Number.isFinite(ttsHttpMs)&amp;&amp;Number.isFinite(ttsBlobReadyMs)?Math.round(ttsBlobReadyMs-ttsHttpMs):null,playStartMs:Number.isFinite(ttsPlayStartMs)?Math.round(ttsPlayStartMs):null,playStartAfterBlobMs:Number.isFinite(ttsBlobReadyMs)&amp;&amp;Number.isFinite(ttsPlayStartMs)?Math.round(ttsPlayStartMs-ttsBlobReadyMs):null})}catch(e){if(run!==ttsRunId)return;if(e?.name!=='AbortError'||didTimeout)console.warn('[KOREAN TTS]',e);telemetryLogOperation('TTS','FAILED',{route:res?telemetryResponseRoute(res):'',via:String(res?.__clientRoute||''),region:String(res?.__relayRegion||integratedRelayState.lastRegion||''),fallback:res?.__relayFailover===true||integratedRelayState.lastFailover===true,totalMs:performance.now()-started,providerMs:Number(res?.headers?.get?.('X-Provider-Ms')),attempts:1,error:telemetrySafeErrorText(e)},{httpStatus:Number(res?.status)||0,didTimeout,textChars:text.length,languageCode:'ko-KR',httpResponseMs:Number.isFinite(ttsHttpMs)?Math.round(ttsHttpMs):null,blobReadyMs:Number.isFinite(ttsBlobReadyMs)?Math.round(ttsBlobReadyMs):null,playStartMs:Number.isFinite(ttsPlayStartMs)?Math.round(ttsPlayStartMs):null});b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}finally{clearTimeout(timer);if(ttsAbortController===c)ttsAbortController=null;telemetryScheduleFinalize(120)}}
+async function speakKorean(){if(voicePreparing||voiceRecording||voiceProcessing)return;if(!currentTtsKey){updateSpeechButtonAvailability();return}const rawText=document.getElementById('koResult').innerText.trim();if(!rawText||!/[\uAC00-\uD7A3]/.test(rawText))return;const text=sanitizeTextForTts(rawText);if(!text)return;stopKorean();const run=++ttsRunId,c=new AbortController(),started=performance.now();ttsAbortController=c;let didTimeout=false,res=null,blob=null,ttsHttpMs=null,ttsBlobReadyMs=null,ttsPlayStartMs=null;const timer=setTimeout(()=&gt;{didTimeout=true;try{c.abort()}catch(e){}},TTS_TIMEOUT_MS),b=document.getElementById('speakBtn');b.textContent='⏳ ກຳລັງໂຫຼດສຽງ...';b.style.background='#f29900';try{const ssml=`&lt;speak version='1.0' xml:lang='ko-KR'&gt;&lt;voice xml:lang='ko-KR' name='${KOREAN_VOICE}'&gt;${escapeXml(text)}&lt;/voice&gt;&lt;/speak&gt;`;res=await fetchSecondaryDirect(`https://${AZURE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`,{method:'POST',headers:{'Content-Type':'application/ssml+xml; charset=utf-8','X-Microsoft-OutputFormat':'audio-24khz-48kbitrate-mono-mp3'},body:ssml,signal:c.signal},{action:'tts'});ttsHttpMs=performance.now()-started;if(!res.ok){const e=new Error(`TTS_HTTP_${res.status}`);e.status=res.status;e.bodyText=res.__providerErrorBody||await integratedSafeResponseText(res);e.credentialKind=res.__passwordErrorKind||'';throw e}blob=await res.blob();ttsBlobReadyMs=performance.now()-started;if(!blob.size)throw new Error('EMPTY_AUDIO');if(run!==ttsRunId)return;if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);currentAudioUrl=URL.createObjectURL(blob);if(!currentAudioObj)currentAudioObj=new Audio();currentAudioObj.src=currentAudioUrl;b.textContent='⏹️ ຢຸດສຽງ';b.style.background='#d93025';currentAudioObj.onended=()=&gt;{if(run===ttsRunId){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}};await currentAudioObj.play();ttsPlayStartMs=performance.now()-started;telemetryLogOperation('TTS','SUCCESS',{route:telemetryResponseRoute(res),via:String(res?.__clientRoute||''),region:String(res?.__relayRegion||''),fallback:res?.__relayFailover===true,totalMs:performance.now()-started,providerMs:Number(res?.headers?.get?.('X-Provider-Ms')),attempts:1},{audioBytes:blob.size,playback:'started',textChars:text.length,languageCode:'ko-KR',httpResponseMs:Number.isFinite(ttsHttpMs)?Math.round(ttsHttpMs):null,blobReadyMs:Number.isFinite(ttsBlobReadyMs)?Math.round(ttsBlobReadyMs):null,blobReadMs:Number.isFinite(ttsHttpMs)&amp;&amp;Number.isFinite(ttsBlobReadyMs)?Math.round(ttsBlobReadyMs-ttsHttpMs):null,playStartMs:Number.isFinite(ttsPlayStartMs)?Math.round(ttsPlayStartMs):null,playStartAfterBlobMs:Number.isFinite(ttsBlobReadyMs)&amp;&amp;Number.isFinite(ttsPlayStartMs)?Math.round(ttsPlayStartMs-ttsBlobReadyMs):null})}catch(e){if(run!==ttsRunId)return;if(e?.name!=='AbortError'||didTimeout)console.warn('[KOREAN TTS]',e);telemetryLogOperation('TTS','FAILED',{route:res?telemetryResponseRoute(res):'',via:String(res?.__clientRoute||''),region:String(res?.__relayRegion||integratedRelayState.lastRegion||''),fallback:res?.__relayFailover===true||integratedRelayState.lastFailover===true,totalMs:performance.now()-started,providerMs:Number(res?.headers?.get?.('X-Provider-Ms')),attempts:1,error:telemetrySafeErrorText(e)},{httpStatus:Number(res?.status)||0,didTimeout,textChars:text.length,languageCode:'ko-KR',httpResponseMs:Number.isFinite(ttsHttpMs)?Math.round(ttsHttpMs):null,blobReadyMs:Number.isFinite(ttsBlobReadyMs)?Math.round(ttsBlobReadyMs):null,playStartMs:Number.isFinite(ttsPlayStartMs)?Math.round(ttsPlayStartMs):null});b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}finally{clearTimeout(timer);if(ttsAbortController===c)ttsAbortController=null;telemetryScheduleFinalize(120)}}
 function stopKorean(){ttsRunId++;if(ttsAbortController){try{ttsAbortController.abort()}catch(e){}ttsAbortController=null}if(currentAudioObj){try{currentAudioObj.pause();currentAudioObj.currentTime=0;currentAudioObj.src=''}catch(e){}}const b=document.getElementById('speakBtn');if(b){b.textContent='🔊 ຟັງສຽງ';b.style.background='#34a853'}}
-function toggleSpeech(){if(!currentTtsKey){updateSpeechButtonAvailability();return}if(ttsAbortController){stopKorean();return}if(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended){stopKorean();return}unlockSafariAudio();void speakKorean();}
+function toggleSpeech(){if(voicePreparing||voiceRecording||voiceProcessing){appAlert('⚠️ ກະລຸນາໃຫ້ການຮັບສຽງສຳເລັດກ່ອນແລ້ວຈຶ່ງໃຊ້ການຟັງຊ້ຳ.');return}if(!currentTtsKey){updateSpeechButtonAvailability();return}if(ttsAbortController){stopKorean();return}if(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended){stopKorean();return}unlockSafariAudio();void speakKorean();}
 
 
 &lt;/script&gt;
@@ -9016,9 +9019,9 @@ function updateMainAutoInterpretUi(){const b=document.getElementById('mainQuickA
 function setMainAutoInterpret(v){mainAutoInterpretEnabled=!!v;mainQuickStorageSet(MAIN_AUTO_INTERPRET_KEY,mainAutoInterpretEnabled?'1':'0');updateMainAutoInterpretUi()}
 function toggleMainAutoInterpret(){syncMainAutoInterpretFromStorage();setMainAutoInterpret(!mainAutoInterpretEnabled)}
 function requestMainLanguageSwitch(){try{parent.postMessage({type:'integrated-switch-language',mode:INTEGRATED_MODE},'*')}catch(e){}}
-function focusMainTextInput(){try{voiceCancel(true)}catch(e){}const c=document.getElementById('inputComposer'),i=document.getElementById('loInput');if(c)c.classList.add('ui-editing');if(i){try{i.focus({preventScroll:true})}catch(e){try{i.focus()}catch(_){}}try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}}
+function focusMainTextInput(){try{voiceCancelCapture(true,'input-focus')}catch(e){}const c=document.getElementById('inputComposer'),i=document.getElementById('loInput');if(c)c.classList.add('ui-editing');if(i){try{i.focus({preventScroll:true})}catch(e){try{i.focus()}catch(_){}}try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}}
 function clearAllCurrentView(){
-  try{voiceCancel(true)}catch(e){}
+  try{voiceCancelCapture(true,'clear-all')}catch(e){}
   try{if(isTranslating)stopTranslation(true)}catch(e){}
   try{cancelBackTranslation(false)}catch(e){}
   try{stopKorean()}catch(e){}
@@ -9249,7 +9252,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.196';
+const INTEGRATED_VERSION='V3.61.197';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
@@ -9272,7 +9275,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='ce48229704a1d4870723ca92a68cbf87f6774aa31aa1042170afb310d53de473';
+const EXTERNAL_DIAGNOSTIC_SHA256='01d3d0f2a89609a304b97e703ab592273090efa91e1537c4e4b5c00ab8cf10e9';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9309,7 +9312,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.196: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
+// V3.61.197: P159A remains unchanged; K/L live STT adds conservative disfluency/self-repair cleanup before translation.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P159A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10753,7 +10756,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.196","id":"test-v361195-structure-rebuild-r2","seenKey":"translator_release_notice_seen_test_v361195_structure_rebuild_r2","ko":{"sub":"V3.61.196 TEST · 구조개편 회귀 수정 R2","summary":["초기화 false failure와 설명서 업데이트 내역 클릭 문제를 수정했습니다.","음성입력 교정 결과의 [object Object] 노출을 차단하고 음성입력 중 번역 버튼을 보호합니다.","음성입력은 준비 중 → 이제 말씀하세요 → 듣는 중 상태를 더 눈에 띄게 표시합니다."],"sections":[["초기화·설명서",["내장 번역기의 load/ready 상태를 marker/probe로 재확인해 단순 시간초과 오판을 줄였습니다.","업데이트 내역 렌더러를 안전하게 만들고 클릭 이벤트를 명시적으로 연결했습니다."]],["음성입력",["STT 교정 객체에서 실제 text만 추출하며 문자열이 아닌 결과는 입력창에 넣지 않습니다.","부부앱도 음성입력 중에는 번역 실행을 막고 안내합니다.","준비 완료 시 입력 영역과 버튼에 이제 말씀하세요를 표시합니다. 비프음/진동은 사용하지 않습니다."]],["보존 항목",["P159A/G157A, 번역·역번역 알고리즘, TTS, Relay/Cloudflare/Cloud Run 경로는 변경하지 않았습니다."]]],"previous":"V3.61.194 STRUCTURE REBUILD R1 기준에서 확인된 실사용 회귀만 수정했습니다."},"lo":{"sub":"V3.61.196 TEST · ແກ້ regression ຫຼັງປັບໂຄງສ້າງ R2","summary":["ແກ້ການແຈ້ງຜິດວ່າເລີ່ມຕົ້ນບໍ່ສຳເລັດ ແລະ ປຸ່ມປະຫວັດອັບເດດ.","ປ້ອງກັນ [object Object] ຈາກ STT ແລະ ບໍ່ໃຫ້ກົດແປໃນຂະນະຮັບສຽງ.","ສະແດງ ກຳລັງກຽມ → ເລີ່ມເວົ້າໄດ້ແລ້ວ → ກຳລັງຟັງ ໃຫ້ເຫັນຊັດ."],"sections":[["ການເລີ່ມຕົ້ນ / ຄູ່ມື",["ກວດ load/ready ດ້ວຍ marker/probe ເພື່ອຫຼຸດການແຈ້ງ timeout ຜິດ.","ແກ້ renderer ຂອງປະຫວັດອັບເດດ ແລະ ເຊື່ອມ click event ໂດຍກົງ."]],["ຮັບສຽງ",["ໃຊ້ສະເພາະ text ຈາກຜົນແກ້ STT ແລະ ບໍ່ໃສ່ object ລົງຊ່ອງພິມ.","ໃນແອັບຄູ່ສົມລົດ ຈະບໍ່ໃຫ້ແປຂະນະກຳລັງຮັບ/ປະມວນສຽງ.","ເມື່ອພ້ອມ ຈະສະແດງ “ເລີ່ມເວົ້າໄດ້ແລ້ວ” ຢ່າງຊັດເຈນ; ບໍ່ມີສຽງ beep ຫຼື ສັ່ນ."]],["ສ່ວນທີ່ຄົງເດີມ",["P159A/G157A, ອັນກໍຣິທຶມແປ/ແປກັບ, TTS ແລະ Relay/Cloudflare/Cloud Run ບໍ່ໄດ້ປ່ຽນ."]]],"previous":"ແກ້ສະເພາະ regression ທີ່ພົບຈາກ V3.61.194 STRUCTURE REBUILD R1."}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.197","id":"test-v361195-structure-rebuild-r2","seenKey":"translator_release_notice_seen_test_v361195_structure_rebuild_r2","ko":{"sub":"V3.61.197 TEST · 구조개편 회귀 수정 R2","summary":["초기화 false failure와 설명서 업데이트 내역 클릭 문제를 수정했습니다.","음성입력 교정 결과의 [object Object] 노출을 차단하고 음성입력 중 번역 버튼을 보호합니다.","음성입력은 준비 중 → 이제 말씀하세요 → 듣는 중 상태를 더 눈에 띄게 표시합니다."],"sections":[["초기화·설명서",["내장 번역기의 load/ready 상태를 marker/probe로 재확인해 단순 시간초과 오판을 줄였습니다.","업데이트 내역 렌더러를 안전하게 만들고 클릭 이벤트를 명시적으로 연결했습니다."]],["음성입력",["STT 교정 객체에서 실제 text만 추출하며 문자열이 아닌 결과는 입력창에 넣지 않습니다.","부부앱도 음성입력 중에는 번역 실행을 막고 안내합니다.","준비 완료 시 입력 영역과 버튼에 이제 말씀하세요를 표시합니다. 비프음/진동은 사용하지 않습니다."]],["보존 항목",["P159A/G157A, 번역·역번역 알고리즘, TTS, Relay/Cloudflare/Cloud Run 경로는 변경하지 않았습니다."]]],"previous":"V3.61.194 STRUCTURE REBUILD R1 기준에서 확인된 실사용 회귀만 수정했습니다."},"lo":{"sub":"V3.61.197 TEST · ແກ້ regression ຫຼັງປັບໂຄງສ້າງ R2","summary":["ແກ້ການແຈ້ງຜິດວ່າເລີ່ມຕົ້ນບໍ່ສຳເລັດ ແລະ ປຸ່ມປະຫວັດອັບເດດ.","ປ້ອງກັນ [object Object] ຈາກ STT ແລະ ບໍ່ໃຫ້ກົດແປໃນຂະນະຮັບສຽງ.","ສະແດງ ກຳລັງກຽມ → ເລີ່ມເວົ້າໄດ້ແລ້ວ → ກຳລັງຟັງ ໃຫ້ເຫັນຊັດ."],"sections":[["ການເລີ່ມຕົ້ນ / ຄູ່ມື",["ກວດ load/ready ດ້ວຍ marker/probe ເພື່ອຫຼຸດການແຈ້ງ timeout ຜິດ.","ແກ້ renderer ຂອງປະຫວັດອັບເດດ ແລະ ເຊື່ອມ click event ໂດຍກົງ."]],["ຮັບສຽງ",["ໃຊ້ສະເພາະ text ຈາກຜົນແກ້ STT ແລະ ບໍ່ໃສ່ object ລົງຊ່ອງພິມ.","ໃນແອັບຄູ່ສົມລົດ ຈະບໍ່ໃຫ້ແປຂະນະກຳລັງຮັບ/ປະມວນສຽງ.","ເມື່ອພ້ອມ ຈະສະແດງ “ເລີ່ມເວົ້າໄດ້ແລ້ວ” ຢ່າງຊັດເຈນ; ບໍ່ມີສຽງ beep ຫຼື ສັ່ນ."]],["ສ່ວນທີ່ຄົງເດີມ",["P159A/G157A, ອັນກໍຣິທຶມແປ/ແປກັບ, TTS ແລະ Relay/Cloudflare/Cloud Run ບໍ່ໄດ້ປ່ຽນ."]]],"previous":"ແກ້ສະເພາະ regression ທີ່ພົບຈາກ V3.61.194 STRUCTURE REBUILD R1."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
