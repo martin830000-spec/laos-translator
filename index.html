@@ -470,7 +470,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="4d0be1d9123db45cac852c7f1760c936bfb25b989f286c2d57b83f3abb3fadbb">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="288014307fd3d590386d9f8a4fef1e49eab3769acd1807aa733eda79e0372fbd">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1060,7 +1060,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
             &lt;div class="quality-reason-card" role="dialog" aria-modal="true" aria-labelledby="qualityReasonTitle"&gt;
                 &lt;div class="quality-reason-head"&gt;&lt;div id="qualityReasonTitle" class="quality-reason-title"&gt;번역 확인 사유&lt;/div&gt;&lt;button type="button" class="quality-reason-close" onclick="closeQualityReasonDialog()" aria-label="닫기"&gt;×&lt;/button&gt;&lt;/div&gt;
                 &lt;div id="qualityDetail" class="quality-detail"&gt;&lt;/div&gt;
-                &lt;div class="quality-reason-note"&gt;※ 이 경고는 문자·형식 검사와 역번역의 의미 보존 신호에서 확인이 필요한 이상 징후가 감지됐을 때만 표시하는 참고용입니다. 번역이 틀렸다고 단정하지 않으며 번역문을 자동 교체하지 않습니다. 원문·번역문·역번역을 함께 확인하세요.&lt;/div&gt;
+                &lt;div class="quality-reason-note"&gt;※ 이 경고는 깨진 문자, 목표 언어/문자체계 오류, 명시적 어제↔내일 반전처럼 실제 출력에서 확인 가능한 높은 확신도의 이상이 감지됐을 때만 표시합니다. 주체·관계·시제·말투 같은 의미 휴리스틱은 진단용 신호이며 이 경고 사유로 사용하지 않습니다. 번역문을 자동 교체하지 않으므로 원문·번역문·역번역을 함께 확인하세요.&lt;/div&gt;
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="result-header"&gt;
@@ -1196,7 +1196,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.200';
+const APP_VERSION='V3.61.201';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -5626,7 +5626,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="a71f968858054b62963cb439ae1469aa6d7533d36900d60020422d94f48ba671">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="2f96235a954da752394ea9ba99c4e2385313569542f889172d81b55327215247">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6171,7 +6171,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
       &lt;div class="quality-reason-card" role="dialog" aria-modal="true" aria-labelledby="qualityReasonTitle"&gt;
         &lt;div class="quality-reason-head"&gt;&lt;div id="qualityReasonTitle" class="quality-reason-title"&gt;ເຫດຜົນທີ່ຄວນກວດຄຳແປ&lt;/div&gt;&lt;button type="button" class="quality-reason-close" onclick="closeQualityReasonDialog()" aria-label="ປິດ"&gt;×&lt;/button&gt;&lt;/div&gt;
         &lt;div id="qualityDetail" class="quality-detail"&gt;&lt;/div&gt;
-        &lt;div class="quality-reason-note"&gt;※ ຄຳເຕືອນນີ້ຈະສະແດງເມື່ອການກວດຕົວອັກສອນ/ຮູບແບບ ຫຼື ສັນຍານຈາກການແປກັບພົບຈຸດທີ່ຄວນກວດ. ບໍ່ໄດ້ຕັດສິນວ່າຄຳແປຜິດ ແລະ ບໍ່ປ່ຽນຄຳແປເອງ. ກະລຸນາທຽບຕົ້ນສະບັບ, ຄຳແປ ແລະ ຄຳແປກັບ.&lt;/div&gt;
+        &lt;div class="quality-reason-note"&gt;※ ຄຳເຕືອນນີ້ສະແດງສະເພາະເມື່ອພົບຄວາມຜິດປົກກະຕິທີ່ມີຄວາມໝັ້ນໃຈສູງ ເຊັ່ນ ຕົວອັກສອນເສຍ, ພາສາ/ຊຸດຕົວອັກສອນຜິດ ຫຼື ການກັບທິດເວລາ ມື້ວານ↔ມື້ອື່ນ ທີ່ຊັດເຈນ. heuristic ກ່ຽວກັບຜູ້ກະທຳ, ຄວາມສຳພັນ, ເວລາ/ກາລ ແລະນ້ຳສຽງ ເກັບໄວ້ໃຊ້ໃນ diagnostic ເທົ່ານັ້ນ ແລະບໍ່ໃຊ້ເປັນເຫດໃຫ້ຂຶ້ນຄຳເຕືອນນີ້. ລະບົບບໍ່ປ່ຽນຄຳແປເອງ; ກະລຸນາທຽບຕົ້ນສະບັບ, ຄຳແປ ແລະ ຄຳແປກັບ.&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="section-head"&gt;
@@ -6297,7 +6297,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.200';
+const APP_VERSION='V3.61.201';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9245,7 +9245,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.200';
+const INTEGRATED_VERSION='V3.61.201';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
 const UNIFIED_HOST_SESSION_ID='host-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);
@@ -9268,7 +9268,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='2cfe1820de69769d7c05a3014f7537e2f3c19b157bfa43bf880bb2dc5ea2c38d';
+const EXTERNAL_DIAGNOSTIC_SHA256='e756bb7114623d8c293ce0d3bba677338672d1c82ef5390279c130ad1aedc03d';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9305,7 +9305,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.200: P160A meaning-invariant prompt; STT/TTS/network contracts remain unchanged.
+// V3.61.201: P160A meaning-invariant prompt; STT/TTS/network contracts remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P160A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10752,7 +10752,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.200","id":"test-v361200-general-transient-ui-reset-r1","seenKey":"translator_release_notice_seen_test_v361200_general_transient_ui_reset_r1","ko":{"sub":"V3.61.200 TEST · 일반앱 화면상태 초기화 R1","summary":["P160A/G158A 번역·역번역 품질 정책은 V3.61.199와 동일합니다.","일반앱은 업데이트/재진입/앱간 복귀 시 최근 대화를 항상 접힌 상태로 시작합니다.","최근 대화 내용과 자동통역·자동음성·언어 설정은 그대로 보존합니다."],"sections":[["변경 범위",["일반앱의 펼침·오버레이·큰글자·스크롤 같은 임시 화면 상태만 초기화합니다.","STT/TTS, Relay/Cloudflare/Cloud Run, 재번역 텔레메트리와 SERVICE V3.61.193은 변경하지 않았습니다."]]],"previous":"V3.61.199 TEST / P160A · G158A 의미 불변 R1을 그대로 유지합니다."},"lo":{"sub":"V3.61.200 TEST · ຣີເຊັດສະຖານະໜ້າຈໍແອັບທົ່ວໄປ R1","summary":["P160A/G158A ແລະນະໂຍບາຍການແປຄົງເດີມຈາກ V3.61.199.","ເມື່ອອັບເດດ/ເຂົ້າໃໝ່/ກັບຈາກອີກແອັບ ປະຫວັດສົນທະນາໃນແອັບທົ່ວໄປຈະພັບໄວ້ສະເໝີ.","ຂໍ້ມູນປະຫວັດ ແລະ ການຕັ້ງຄ່າຫຼັກຍັງຖືກເກັບໄວ້."],"sections":[["ຂອບເຂດການປ່ຽນ",["ຣີເຊັດສະເພາະສະຖານະໜ້າຈໍຊົ່ວຄາວຂອງແອັບທົ່ວໄປ.","STT/TTS, Relay/Cloudflare/Cloud Run ແລະ telemetry ຄົງເດີມ."]]],"previous":"ຄົງ P160A/G158A ຈາກ V3.61.199 TEST."}});
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.201","id":"test-v361201-pre-service-cleanup-r1","seenKey":"translator_release_notice_seen_test_v361201_pre_service_cleanup_r1","ko":{"sub":"V3.61.201 TEST · 서비스 전 마감 정리 R1","summary":["일반앱 BFCache/재진입 시 업데이트 안내·업데이트 내역 팝업도 임시 UI와 함께 닫히도록 보완했습니다.","본앱 품질 경고 설명을 P160A의 실제 동작에 맞춰 높은 확신도의 출력 이상만 사용자 경고라는 점이 분명하도록 정리했습니다.","P160A/G158A 번역·역번역, STT/TTS, Relay/Cloudflare/Cloud Run 및 재번역 텔레메트리는 V3.61.200과 동일합니다."],"sections":[["서비스 전 최소 수정",["팝업 transient reset은 seen 상태를 자동 저장하지 않습니다.","번역 Guard/점수/재번역 동작은 바꾸지 않고 도움말 문구만 현재 정책에 맞췄습니다."]]],"previous":"V3.61.200 TEST 일반앱 화면상태 초기화 R1 기준."},"lo":{"sub":"V3.61.201 TEST · ກວດແກ້ກ່ອນຂຶ້ນ SERVICE R1","summary":["ເມື່ອ BFCache/ການເຂົ້າຄືນຂອງແອັບທົ່ວໄປ popup ແຈ້ງອັບເດດ ແລະປະຫວັດອັບເດດຈະຖືກປິດພ້ອມ UI ຊົ່ວຄາວອື່ນ.","ຄຳອະທິບາຍຄຳເຕືອນຄຸນນະພາບຖືກປັບໃຫ້ກົງກັບການເຮັດວຽກ P160A ຈິງ.","P160A/G158A, STT/TTS, Relay/Cloudflare/Cloud Run ແລະ telemetry ຄົງເດີມຈາກ V3.61.200."],"sections":[["ການແກ້ໄຂຂັ້ນສຸດທ້າຍ",["ການ reset popup ບໍ່ບັນທຶກ seen ໃຫ້ເອງ.","ບໍ່ປ່ຽນ Guard/ຄະແນນ/ການແປໃໝ່; ປັບສະເພາະຄຳອະທິບາຍ."]]],"previous":"ອີງໃສ່ V3.61.200 TEST."}});
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
