@@ -398,7 +398,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version data-channel="TEST" aria-label="앱 버전"><span data-version-number>V3.61.205</span><small data-version-channel>TEST</small></span>
+    <span class="auth-corner-version" data-app-version data-channel="TEST" aria-label="앱 버전"><span data-version-number>V3.61.206</span><small data-version-channel>TEST</small></span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -418,8 +418,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.205 · TEST</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.205 · TEST</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.206 · TEST</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.206 · TEST</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -457,7 +457,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div id="shellSwitchbar" class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version data-channel="TEST"><span class="shell-version-number" data-version-number>V3.61.205</span><span class="shell-version-channel" data-version-channel>TEST</span></span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version data-channel="TEST"><span class="shell-version-number" data-version-number>V3.61.206</span><span class="shell-version-channel" data-version-channel>TEST</span></span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')"><span id="husbandModeLabel">🇰🇷 한국</span></button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')"><span id="wifeModeLabel">🇱🇦 ລາວ</span></button>
@@ -484,7 +484,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="fc12a68a0bf8adc577fe2b5a063ed26d4354c106fdeeb3b8c7de846320728b76">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="ab693a60f480cfa853aae57dd4108e044b7f64dde711a05f54da2af5f0cb3b3e">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1216,7 +1216,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.205';
+const APP_VERSION='V3.61.206';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -2911,8 +2911,9 @@ function revealVoiceInputText(inputId='krInput',composerId='inputComposer'){
 }
 function VOICE_APPEND_TRANSCRIPT(text){const input=document.getElementById('krInput');if(!input||typeof text!=='string')return;const safe=text.trim();if(!safe)return;const cur=input.value;input.value=mainAutoInterpretEnabled?safe:(cur?(cur.replace(/\s+$/,'')+'\n'+safe):safe);isJustTranslated=false;appInputDirty=true;updateInputCharCount();try{input.dispatchEvent(new Event('input',{bubbles:true}))}catch(e){}try{input.setSelectionRange(input.value.length,input.value.length)}catch(e){}try{input.scrollTop=input.scrollHeight}catch(e){}revealVoiceInputText('krInput','inputComposer')}
 
-// V3.61.205 TEST: keep Chirp 3 / Google STT selectable, restore live Google transcription preview,
-// and keep one app-level canonical transcript across result-list replay and recognizer restarts.
+// V3.61.206 TEST: keep V205 live preview, but harden canonical snapshot folding for Android Chrome.
+// Equal/cumulative final result slots are treated as provider snapshots, not blindly appended.
+// Exact short suffix→prefix carry-over is removed only at deterministic result/restart boundaries.
 // Browser/provider silence/onend is never completion authority; only the user's Stop may auto-translate.
 const HUSBAND_STT_ENGINE_VALUES=Object.freeze(['chirp','google']);
 let husbandSttEngine='chirp';
@@ -2942,6 +2943,7 @@ let googleSttFinalized=false;
 let googleSttCanonical='';
 let googleSttRecognizerFinalSlots=[];
 let googleSttRecognizerCommitted=false;
+let googleSttRecognizerIsRestart=false;
 let googleSttInterim='';
 let googleSttInputBase='';
 let googleSttAppendToBase=false;
@@ -2964,42 +2966,46 @@ function googleSttClearOwnTimers(){if(googleSttRestartTimer){clearTimeout(google
 function googleSttNormalizePiece(text){return typeof text==='string'?text.replace(/\s+/g,' ').trim():''}
 function googleSttTokenKey(text){return googleSttNormalizePiece(text).toLowerCase().replace(/[.,!?~…·:;"'“”‘’()\[\]{}，。！？、]/g,'')}
 function googleSttTokens(text){return googleSttNormalizePiece(text).split(' ').filter(Boolean).map(raw=&gt;({raw,key:googleSttTokenKey(raw)})).filter(x=&gt;x.key)}
-function googleSttStrongOverlap(tokens){const chars=tokens.reduce((n,x)=&gt;n+x.key.length,0);return chars&gt;=10||(tokens.length&gt;=3&amp;&amp;chars&gt;=7)}
 function googleSttTokenPrefix(longer,shorter){if(!shorter.length||longer.length&lt;shorter.length)return false;for(let i=0;i&lt;shorter.length;i++)if(longer[i].key!==shorter[i].key)return false;return true}
-function googleSttMergeBoundary(base,next,{preserveEqual=true}={}){
+function googleSttExactOverlapAllowed(tokens){if(!tokens.length)return false;if(tokens.length&gt;=2)return true;return tokens[0].key.length&gt;=2}
+function googleSttExactOverlapCount(at,bt){
+  const max=Math.min(at.length,bt.length);for(let k=max;k&gt;=1;k--){let ok=true;for(let i=0;i&lt;k;i++){if(at[at.length-k+i].key!==bt[i].key){ok=false;break}}if(ok&amp;&amp;googleSttExactOverlapAllowed(bt.slice(0,k)))return k}return 0;
+}
+function googleSttMergeSnapshot(base,next){
   const a=googleSttNormalizePiece(base),b=googleSttNormalizePiece(next);if(!a)return b;if(!b)return a;
-  const at=googleSttTokens(a),bt=googleSttTokens(b);if(!at.length||!bt.length)return a===b?(preserveEqual?(a+' '+b):a):(a+' '+b);
-  if(a===b||at.length===bt.length&amp;&amp;googleSttTokenPrefix(at,bt)){return preserveEqual?(a+' '+b):a}
-  // Strict cumulative snapshot: the newer text fully contains the previous snapshot at its beginning.
+  const at=googleSttTokens(a),bt=googleSttTokens(b);if(!at.length||!bt.length)return a===b?a:(a+' '+b);
+  // Android Chrome may place the same snapshot into a new result slot. Exact equals are provider replay.
+  if(a===b||at.length===bt.length&amp;&amp;googleSttTokenPrefix(at,bt))return a;
+  // Cumulative snapshots (A -&gt; A+B -&gt; A+B+C) replace the older snapshot.
   if(bt.length&gt;at.length&amp;&amp;googleSttTokenPrefix(bt,at))return b;
-  // A shorter replay of a substantial prefix should not roll the canonical text backwards.
-  if(at.length&gt;bt.length&amp;&amp;googleSttTokenPrefix(at,bt)&amp;&amp;googleSttStrongOverlap(bt))return a;
-  let best=0;const max=Math.min(at.length,bt.length);
-  for(let k=max;k&gt;=1;k--){let ok=true;for(let i=0;i&lt;k;i++){if(at[at.length-k+i].key!==bt[i].key){ok=false;break}}if(ok&amp;&amp;googleSttStrongOverlap(bt.slice(0,k))){best=k;break}}
-  if(best&gt;0){const tail=bt.slice(best).map(x=&gt;x.raw).join(' ');return tail?(a+' '+tail):a}
+  // A shorter replay must never roll the canonical text backwards.
+  if(at.length&gt;bt.length&amp;&amp;googleSttTokenPrefix(at,bt))return a;
+  // Deterministic exact overlap only. A single overlap token must have &gt;=2 normalized characters.
+  const k=googleSttExactOverlapCount(at,bt);if(k&gt;0){const tail=bt.slice(k).map(x=&gt;x.raw).join(' ');return tail?(a+' '+tail):a}
   return a+' '+b;
 }
+function googleSttMergeRestartBoundary(base,next){return googleSttMergeSnapshot(base,next)}
 function googleSttFoldRecognizerFinals(){
-  let out='';for(const raw of googleSttRecognizerFinalSlots){const tx=googleSttNormalizePiece(raw);if(!tx)continue;out=googleSttMergeBoundary(out,tx,{preserveEqual:true})}return googleSttNormalizePiece(out)
+  let out='';for(const raw of googleSttRecognizerFinalSlots){const tx=googleSttNormalizePiece(raw);if(!tx)continue;out=googleSttMergeSnapshot(out,tx)}return googleSttNormalizePiece(out)
 }
 function googleSttCurrentRecognizerTranscript(){return googleSttFoldRecognizerFinals()}
-function googleSttCurrentRecognizerPreview(){const f=googleSttCurrentRecognizerTranscript();return googleSttInterim?googleSttMergeBoundary(f,googleSttInterim,{preserveEqual:false}):f}
-function googleSttLiveTranscript(){const current=googleSttCurrentRecognizerPreview();return current?googleSttMergeBoundary(googleSttCanonical,current,{preserveEqual:true}):googleSttCanonical}
+function googleSttCurrentRecognizerPreview(){const f=googleSttCurrentRecognizerTranscript();return googleSttInterim?googleSttMergeSnapshot(f,googleSttInterim):f}
+function googleSttLiveTranscript(){const current=googleSttCurrentRecognizerPreview();if(!current)return googleSttCanonical;if(!googleSttCanonical)return current;return googleSttRecognizerIsRestart?googleSttMergeRestartBoundary(googleSttCanonical,current):googleSttMergeSnapshot(googleSttCanonical,current)}
 function googleSttComposeInput(text){const t=googleSttNormalizePiece(text);if(!t)return googleSttInputBase;if(!googleSttAppendToBase)return t;const base=String(googleSttInputBase||'').replace(/\s+$/,'');return base?(base+'\n'+t):t}
 function googleSttSetInputValue(value){const input=document.getElementById('krInput');if(!input)return;const v=String(value??'');if(input.value===v){googleSttLastRendered=v;return}input.value=v;googleSttLastRendered=v;isJustTranslated=false;appInputDirty=true;try{if(typeof loadedHistoryRecall!=='undefined')loadedHistoryRecall=null}catch(_){}updateInputCharCount();try{input.setSelectionRange(v.length,v.length)}catch(_){}try{input.scrollTop=input.scrollHeight}catch(_){}}
 function googleSttRenderPreview(){const live=googleSttLiveTranscript();if(!live)return;googleSttPreviewActive=true;googleSttSetInputValue(googleSttComposeInput(live))}
 function googleSttRestoreBaseInput(){if(!googleSttPreviewActive)return;googleSttPreviewActive=false;googleSttSetInputValue(googleSttInputBase);googleSttLastRendered=''}
 function googleSttWriteFinalInput(text){const t=googleSttNormalizePiece(text);googleSttPreviewActive=false;googleSttSetInputValue(googleSttComposeInput(t));try{const input=document.getElementById('krInput');if(input)revealVoiceInputText('krInput','inputComposer')}catch(_){}return t}
 function googleSttCommitCurrentRecognizer(){
-  if(googleSttRecognizerCommitted)return;googleSttRecognizerCommitted=true;const t=googleSttCurrentRecognizerTranscript();if(t)googleSttCanonical=googleSttMergeBoundary(googleSttCanonical,t,{preserveEqual:true});googleSttRecognizerFinalSlots=[];googleSttInterim='';if(googleSttCanonical)googleSttRenderPreview();
+  if(googleSttRecognizerCommitted)return;googleSttRecognizerCommitted=true;const t=googleSttCurrentRecognizerTranscript();if(t)googleSttCanonical=googleSttCanonical?(googleSttRecognizerIsRestart?googleSttMergeRestartBoundary(googleSttCanonical,t):googleSttMergeSnapshot(googleSttCanonical,t)):t;googleSttRecognizerFinalSlots=[];googleSttInterim='';if(googleSttCanonical)googleSttRenderPreview();
 }
-function googleSttTranscript(){if(googleSttRecognizerCommitted)return googleSttNormalizePiece(googleSttCanonical);const current=googleSttCurrentRecognizerTranscript();return current?googleSttMergeBoundary(googleSttCanonical,current,{preserveEqual:true}):googleSttNormalizePiece(googleSttCanonical)}
+function googleSttTranscript(){if(googleSttRecognizerCommitted)return googleSttNormalizePiece(googleSttCanonical);const current=googleSttCurrentRecognizerTranscript();if(!current)return googleSttNormalizePiece(googleSttCanonical);if(!googleSttCanonical)return current;return googleSttRecognizerIsRestart?googleSttMergeRestartBoundary(googleSttCanonical,current):googleSttMergeSnapshot(googleSttCanonical,current)}
 function googleSttUpdateRecognizerResults(ev){
   const results=ev?.results||[],len=Math.max(0,Number(results.length)||0),from=Math.max(0,Number(ev?.resultIndex)||0);if(googleSttRecognizerFinalSlots.length&gt;len)googleSttRecognizerFinalSlots.length=len;const interim=[];
   for(let i=0;i&lt;len;i++){const item=results[i],alt=item?.[0],tx=googleSttNormalizePiece(alt?.transcript);if(item?.isFinal){googleSttRecognizerFinalSlots[i]=tx}else{if(i&gt;=from)googleSttRecognizerFinalSlots[i]='';if(tx)interim.push(tx)}}
   googleSttInterim=interim.join(' ').replace(/\s+/g,' ').trim();const state={resultIndex:from,resultCount:len,finalText:googleSttCurrentRecognizerTranscript(),interimText:googleSttInterim,liveText:googleSttLiveTranscript()};googleSttRenderPreview();return state;
 }
-function googleSttTelemetry(status,error='',extra={}){try{telemetryLogOperation('STT_BROWSER',status,{route:'android-speechrecognition',via:'google-browser',region:'device',fallback:false,totalMs:Number(extra.totalMs)||0,attempts:Math.max(1,googleSttRestartCount+1),error:String(error||'')},{engine:'google-stt',languageCode:'ko-KR',restartCount:googleSttRestartCount,transcriptChars:Number(extra.transcriptChars)||0,manualStop:extra.manualStop===true||googleSttStopRequested===true,timeout:extra.timeout===true,livePreview:true})}catch(_){}}
+function googleSttTelemetry(status,error='',extra={}){try{telemetryLogOperation('STT_BROWSER',status,{route:'android-speechrecognition',via:'google-browser',region:'device',fallback:false,totalMs:Number(extra.totalMs)||0,attempts:Math.max(1,googleSttRestartCount+1),error:String(error||'')},{engine:'google-stt',languageCode:'ko-KR',restartCount:googleSttRestartCount,transcriptChars:Number(extra.transcriptChars)||0,manualStop:extra.manualStop===true||googleSttStopRequested===true,timeout:extra.timeout===true,livePreview:true,snapshotMerge:'r2'})}catch(_){}}
 function googleSttFinishState(){voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceClearTimers();googleSttClearOwnTimers();googleSttUserActive=false;googleSttStopRequested=false;googleSttRecognition=null;husbandActiveSttEngine='';syncHusbandSttEngineUi();VOICE_UI_ENABLE_BUTTON()}
 function googleSttAbortRecognizer(){const r=googleSttRecognition;googleSttRecognition=null;if(r){try{r.onresult=r.onerror=r.onend=r.onstart=null;r.abort()}catch(_){}}}
 function googleSttFailSession(message,errorCode='GOOGLE_STT_FAILED'){
@@ -3026,7 +3032,7 @@ function googleSttScheduleRestart(session){
 }
 function googleSttLaunchRecognizer(session,isRestart=false){
   if(session!==voiceSessionId||!googleSttUserActive||googleSttStopRequested||googleSttFinalized)return;const Ctor=husbandGoogleSttCtor();if(typeof Ctor!=='function'){googleSttFailSession('⚠️ Google STT를 사용할 수 없습니다.','UNSUPPORTED');return}
-  let r;try{r=new Ctor()}catch(e){googleSttFailSession('⚠️ Google STT를 시작하지 못했습니다.','CONSTRUCTOR_FAILED');return}googleSttRecognition=r;googleSttHadResultThisRecognizer=false;googleSttRecognizerFinalSlots=[];googleSttRecognizerCommitted=false;googleSttInterim='';googleSttRecognizerStartedPerf=performance.now();if(isRestart)googleSttRestartCount++;
+  let r;try{r=new Ctor()}catch(e){googleSttFailSession('⚠️ Google STT를 시작하지 못했습니다.','CONSTRUCTOR_FAILED');return}googleSttRecognition=r;googleSttHadResultThisRecognizer=false;googleSttRecognizerFinalSlots=[];googleSttRecognizerCommitted=false;googleSttRecognizerIsRestart=!!isRestart;googleSttInterim='';googleSttRecognizerStartedPerf=performance.now();if(isRestart)googleSttRestartCount++;
   try{r.lang='ko-KR';r.continuous=true;r.interimResults=true;r.maxAlternatives=1}catch(_){}
   r.onstart=()=&gt;{if(session!==voiceSessionId||googleSttRecognition!==r||googleSttStopRequested||googleSttFinalized){try{r.abort()}catch(_){}return}if(googleSttStartWatchdog){clearTimeout(googleSttStartWatchdog);googleSttStartWatchdog=null}if(!voiceCaptureReady){voiceCaptureReady=true;voicePreparing=false;voiceRecording=true;voiceProcessing=false;voiceRecordStartedAt=Date.now();voiceTimerInterval=setInterval(voiceRecordingClock,250);voiceWarnTimer=setTimeout(()=&gt;{if(voiceRecording&amp;&amp;session===voiceSessionId)VOICE_UI_LONG_RECORDING()},GOOGLE_VOICE_WARN_MS);VOICE_UI_READY_TO_SPEAK();voiceRecordingClock()}else{voicePreparing=false;voiceRecording=true;VOICE_UI_RECORDING(true)}syncHusbandSttEngineUi()};
   r.onresult=ev=&gt;{if(session!==voiceSessionId||googleSttRecognition!==r||googleSttFinalized)return;googleSttHadResultThisRecognizer=true;googleSttNetworkErrorCount=0;googleSttUpdateRecognizerResults(ev)};
@@ -3036,7 +3042,7 @@ function googleSttLaunchRecognizer(session,isRestart=false){
   try{r.start()}catch(e){if(googleSttStartWatchdog){clearTimeout(googleSttStartWatchdog);googleSttStartWatchdog=null}googleSttRecognition=null;if(isRestart){googleSttFastEndCount++;if(googleSttFastEndCount&lt;3){googleSttScheduleRestart(session);return}}googleSttFailSession('⚠️ Google STT를 시작하지 못했습니다. 다시 시도해주세요.',String(e?.name||'START_ERROR'))}
 }
 async function startGoogleBrowserStt(){
-  if(voicePreparing||voiceRecording||voiceProcessing)return;if(!husbandGoogleSttSupported()){appAlert('⚠️ 현재 브라우저에서는 Google STT를 사용할 수 없습니다.');return}const input=document.getElementById('krInput');const session=++voiceSessionId;googleSttSession=session;googleSttUserActive=true;googleSttStopRequested=false;googleSttFinalized=false;googleSttCanonical='';googleSttRecognizerFinalSlots=[];googleSttRecognizerCommitted=false;googleSttInterim='';googleSttInputBase=String(input?.value||'');googleSttAppendToBase=!mainAutoInterpretEnabled;googleSttPreviewActive=false;googleSttLastRendered=googleSttInputBase;googleSttFastEndCount=0;googleSttNetworkErrorCount=0;googleSttRestartCount=0;googleSttStopStartedPerf=0;voicePreparing=true;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;husbandActiveSttEngine='google';VOICE_UI_PREPARING();syncHusbandSttEngineUi();googleSttLaunchRecognizer(session,false)
+  if(voicePreparing||voiceRecording||voiceProcessing)return;if(!husbandGoogleSttSupported()){appAlert('⚠️ 현재 브라우저에서는 Google STT를 사용할 수 없습니다.');return}const input=document.getElementById('krInput');const session=++voiceSessionId;googleSttSession=session;googleSttUserActive=true;googleSttStopRequested=false;googleSttFinalized=false;googleSttCanonical='';googleSttRecognizerFinalSlots=[];googleSttRecognizerCommitted=false;googleSttRecognizerIsRestart=false;googleSttInterim='';googleSttInputBase=String(input?.value||'');googleSttAppendToBase=!mainAutoInterpretEnabled;googleSttPreviewActive=false;googleSttLastRendered=googleSttInputBase;googleSttFastEndCount=0;googleSttNetworkErrorCount=0;googleSttRestartCount=0;googleSttStopStartedPerf=0;voicePreparing=true;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;husbandActiveSttEngine='google';VOICE_UI_PREPARING();syncHusbandSttEngineUi();googleSttLaunchRecognizer(session,false)
 }
 async function stopGoogleBrowserStt(discard=false,reason='user-click'){
   const session=googleSttSession;if(session!==voiceSessionId)return;if(discard){cancelGoogleBrowserStt(true,reason);return}if(googleSttStopRequested||googleSttFinalized)return;googleSttStopRequested=true;googleSttUserActive=false;googleSttStopStartedPerf=performance.now();voicePreparing=false;voiceRecording=false;voiceProcessing=true;voiceCaptureReady=false;voiceClearTimers();if(googleSttRestartTimer){clearTimeout(googleSttRestartTimer);googleSttRestartTimer=null}VOICE_UI_PROCESSING();syncHusbandSttEngineUi();
@@ -3044,7 +3050,7 @@ async function stopGoogleBrowserStt(discard=false,reason='user-click'){
   const r=googleSttRecognition;if(r){try{r.stop()}catch(_){googleSttRecognition=null;setTimeout(()=&gt;void googleSttFinalizeAfterUserStop(session),120)}}else setTimeout(()=&gt;void googleSttFinalizeAfterUserStop(session),120)
 }
 function cancelGoogleBrowserStt(discard=true,reason='user-cancel'){
-  const session=googleSttSession;googleSttUserActive=false;googleSttStopRequested=false;googleSttFinalized=true;googleSttClearOwnTimers();googleSttAbortRecognizer();googleSttRestoreBaseInput();if(session===voiceSessionId)voiceSessionId++;voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceClearTimers();googleSttCanonical='';googleSttRecognizerFinalSlots=[];googleSttRecognizerCommitted=false;googleSttInterim='';googleSttInputBase='';googleSttAppendToBase=false;googleSttPreviewActive=false;googleSttLastRendered='';husbandActiveSttEngine='';VOICE_UI_IDLE();syncHusbandSttEngineUi();
+  const session=googleSttSession;googleSttUserActive=false;googleSttStopRequested=false;googleSttFinalized=true;googleSttClearOwnTimers();googleSttAbortRecognizer();googleSttRestoreBaseInput();if(session===voiceSessionId)voiceSessionId++;voicePreparing=false;voiceRecording=false;voiceProcessing=false;voiceCaptureReady=false;voiceClearTimers();googleSttCanonical='';googleSttRecognizerFinalSlots=[];googleSttRecognizerCommitted=false;googleSttRecognizerIsRestart=false;googleSttInterim='';googleSttInputBase='';googleSttAppendToBase=false;googleSttPreviewActive=false;googleSttLastRendered='';husbandActiveSttEngine='';VOICE_UI_IDLE();syncHusbandSttEngineUi();
 }
 
 async function startKoreanVoiceInput(){
@@ -3060,7 +3066,7 @@ function cancelKoreanVoiceInput(discard=true,reason='user-cancel'){
   voiceCancelCapture(discard,reason);husbandActiveSttEngine='';syncHusbandSttEngineUi()
 }
 async function toggleKoreanVoiceInput(){if(voicePreparing){cancelKoreanVoiceInput(true);return}if(voiceProcessing){cancelKoreanVoiceInput(true);return}if(voiceRecording){await stopKoreanVoiceInput(false);return}await startKoreanVoiceInput()}
-window.__getHusbandSttEngineState=()=&gt;({selected:husbandSttEngine,active:husbandActiveSttEngine,supportedGoogle:husbandGoogleSttSupported(),preparing:!!voicePreparing,recording:!!voiceRecording,processing:!!voiceProcessing,restarts:googleSttRestartCount,finalChars:googleSttTranscript().length,currentRecognizerSlots:googleSttRecognizerFinalSlots.filter(Boolean).length});
+window.__getHusbandSttEngineState=()=&gt;({selected:husbandSttEngine,active:husbandActiveSttEngine,supportedGoogle:husbandGoogleSttSupported(),preparing:!!voicePreparing,recording:!!voiceRecording,processing:!!voiceProcessing,restarts:googleSttRestartCount,finalChars:googleSttTranscript().length,currentRecognizerSlots:googleSttRecognizerFinalSlots.filter(Boolean).length,restartRecognizer:googleSttRecognizerIsRestart});
 
     function initConvenienceUI() {
         const input=document.getElementById('krInput');
@@ -5794,7 +5800,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="ada4c3622a7592e4bdcbe4d79b54817cad845f9288a5e985976864ab84450d3d">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="bc52c45b66c33350dc592ee2d7c105913264de5b7feafc7d1c6677d8eaf6eb22">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6465,7 +6471,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.205';
+const APP_VERSION='V3.61.206';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -9413,7 +9419,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.205';
+const INTEGRATED_VERSION='V3.61.206';
 const INTEGRATED_CHANNEL='TEST';
 function unifiedAlert(message){let o=document.getElementById('unifiedCustomDialog');if(!o){o=document.createElement('div');o.id='unifiedCustomDialog';o.className='unified-dialog';o.hidden=true;o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');o.innerHTML='<div class="unified-dialog-card"><div class="unified-dialog-message" id="unifiedCustomDialogMessage"></div><div class="unified-dialog-actions"><button type="button" id="unifiedCustomDialogOk">확인 · ຕົກລົງ</button></div></div>';document.body.appendChild(o);o.querySelector('#unifiedCustomDialogOk').onclick=()=>{o.hidden=true};}o.querySelector('#unifiedCustomDialogMessage').textContent=String(message??'');o.hidden=false;return false;}
 
@@ -9444,7 +9450,7 @@ try{syncUnifiedVersionMetadata()}catch(e){console.warn('[VERSION EARLY SYNC]',e)
 
 const PAYLOAD_IDS={husband:'payload-husband',wife:'payload-wife'};
 const EXTERNAL_DIAGNOSTIC_URL='diagnostic.html';
-const EXTERNAL_DIAGNOSTIC_SHA256='8f969862db44d7989f0ef4f744108d6dc8c1151c434e4705298f887c9b083e17';
+const EXTERNAL_DIAGNOSTIC_SHA256='e34b11144f73a225c114002c98abdd71c2e26b716ef7a96e8d44dbc9799d711c';
 let externalDiagnosticSource='';
 const SHARED_RELAY_URL_STORAGE='unified_google_stt_relay_url';
 const SHARED_RELAY_TOKEN_STORAGE='unified_google_stt_relay_token';
@@ -9481,7 +9487,7 @@ async function sha256HexText(text){
 const COUPLE_PROMPT_CONFIG_URL='prompt-config.json';
 const COUPLE_PROMPT_SCHEMA_VERSION=1;
 const COUPLE_PROMPT_CHANNEL='TEST';
-// V3.61.205: P160A meaning-invariant prompt; STT/TTS/network contracts remain unchanged.
+// V3.61.206: P160A meaning-invariant prompt; STT/TTS/network contracts remain unchanged.
 // Newer externally deployed prompt revisions remain allowed, so prompt-config.json stays independently updatable.
 const COUPLE_PROMPT_MIN_REVISION='P160A';
 const COUPLE_PROMPT_LKG_STORAGE='translator_test_prompt_config_lkg_v1';
@@ -10928,7 +10934,7 @@ syncVisibleViewport();
 
 <script id="release-notes-final-script-v361157">
 (function(){
- const RELEASE_DATA=Object.freeze({"version":"V3.61.205","id":"test-v361205-google-stt-live-canonical-r1","seenKey":"translator_release_notice_seen_test_v361205_google_stt_live_canonical_r1","ko":{"sub":"V3.61.205 TEST · Google STT 실시간 전사/중복 방지 R1","summary":["Google STT가 말하는 동안 interim/final 결과를 입력창에 실시간 미리보기로 표시하도록 복원했습니다.","서로 다른 result 슬롯이 A → A+B → A+B+C처럼 누적 스냅샷으로 들어와도 이전 문장을 계속 append하지 않고 최신 누적본으로 정리합니다.","브라우저 인식기가 중간에 재시작되어도 확정 문장은 canonical transcript 하나로 병합하며, 번역은 사용자가 직접 종료했을 때만 1회 실행합니다."],"sections":[["보존 범위",["Chirp 3와 Google STT 선택 방식, Chirp 3 기본값과 기존 Chirp 경로는 그대로입니다.","짧은 실제 반복 발화는 보존하며 전체 문장 fuzzy dedup은 사용하지 않습니다.","Android/Chrome이 약 1초 무음 뒤 세션을 끝내며 내는 시스템 비프음/무음 종료시간 자체는 이번 빌드에서 변경하지 않았습니다.","아내 STT·일반앱 STT·P160A/G158A·번역/역번역·TTS·Relay/Cloudflare/Cloud Run은 변경하지 않았습니다."]]],"previous":"V3.61.204 TEST Google STT Result Index R1 기준."},"lo":{"sub":"V3.61.205 TEST · Google STT Live Transcript / Canonical Merge R1","summary":["ສະແດງ interim/final ຂອງ Google STT ແບບສົດໃນຊ່ອງປ້ອນຂໍ້ຄວາມ.","ຜົນທີ່ສະສົມແບບ A → A+B → A+B+C ຈະຖືກແທນດ້ວຍ snapshot ຫຼ້າສຸດ ແທນການຕໍ່ຊ້ຳ.","ເມື່ອ recognizer restart ຂໍ້ຄວາມ final ຈະຖືກຮວບຮວມເປັນ canonical transcript ດຽວ ແລະແປພຽງເມື່ອຜູ້ໃຊ້ກົດຢຸດ."],"sections":[["ຂອບເຂດທີ່ຄົງເດີມ",["Chirp 3 / Google STT selector ແລະ Chirp 3 default ຄົງເດີມ.","ການເວົ້າຊ້ຳສັ້ນໆຈິງຍັງຖືກຮັກສາ; ບໍ່ໃຊ້ fuzzy dedup ທັງປະໂຫຍກ.","ສຽງ beep/ໄລຍະ silence endpoint ຂອງ Android Chrome ບໍ່ໄດ້ປ່ຽນໃນ build ນີ້.","STT ຝ່າຍເມຍ/ແອັບທົ່ວໄປ, prompts, translation, TTS ແລະ network ຄົງເດີມ."]]],"previous":"ອີງໃສ່ V3.61.204 TEST."}})
+ const RELEASE_DATA=Object.freeze({"version":"V3.61.206","id":"test-v361206-google-stt-snapshot-merge-r2","seenKey":"translator_release_notice_seen_test_v361206_google_stt_snapshot_merge_r2","ko":{"sub":"V3.61.206 TEST · Google STT 반복전사 방지 R2","summary":["V205의 실시간 스트리밍 전사 표시는 그대로 유지합니다.","Android Chrome이 동일 final 슬롯이나 누적 snapshot을 여러 result 슬롯으로 보내도 중복해서 이어붙이지 않도록 canonical 병합을 수정했습니다.","인식기 재시작 전후에는 짧은 exact 겹침도 carry-over로 정리해 이전 문장이 반복 증식하지 않도록 했습니다."],"sections":[["보존 범위",["Chirp 3와 Google STT 선택 방식, Chirp 3 기본값과 기존 Chirp 경로는 그대로입니다.","전체 문장 fuzzy dedup은 사용하지 않습니다. 한 provider transcript 안에 들어온 실제 반복 표현은 그대로 보존합니다.","Android/Chrome 시스템 비프음과 약 1초 무음 endpoint 자체는 이번 빌드에서 변경하지 않았습니다.","아내 STT·일반앱 STT·P160A/G158A·번역/역번역·TTS·Relay/Cloudflare/Cloud Run은 변경하지 않았습니다."]]],"previous":"V3.61.205 TEST Google STT Live Canonical R1 기준."},"lo":{"sub":"V3.61.206 TEST · Google STT Duplicate Transcript Guard R2","summary":["ຍັງຄົງການສະແດງ transcript ແບບສົດຈາກ V205.","final slot ທີ່ຊ້ຳ ຫຼື cumulative snapshot ຈະບໍ່ຖືກຕໍ່ຊ້ຳເຂົ້າ canonical transcript.","ຫຼັງ recognizer restart ຈະລວມ exact overlap ສັ້ນໆເພື່ອປ້ອງກັນ carry-over ຊ້ຳ."],"sections":[["ຂອບເຂດທີ່ຄົງເດີມ",["Chirp 3 / Google STT selector ແລະ Chirp 3 default ຄົງເດີມ.","ບໍ່ໃຊ້ fuzzy dedup ທັງປະໂຫຍກ; ຄຳຊ້ຳທີ່ຢູ່ໃນ transcript ດຽວຍັງຄົງໄວ້.","ສຽງ beep/ໄລຍະ silence endpoint ຂອງ Android Chrome ບໍ່ໄດ້ປ່ຽນໃນ build ນີ້.","STT ຝ່າຍເມຍ/ແອັບທົ່ວໄປ, prompts, translation, TTS ແລະ network ຄົງເດີມ."]]],"previous":"ອີງໃສ່ V3.61.205 TEST."}})
  function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}} function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){} }
  function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
  function releaseLang(){try{if(currentMode==='wife')return 'lo';if(currentMode==='husband')return 'ko';const st=typeof readUnifiedPersistentUiState==='function'?readUnifiedPersistentUiState():null;return st&&(st.currentMode==='wife'||st.view==='wife')?'lo':'ko'}catch(_){return 'ko'}}
