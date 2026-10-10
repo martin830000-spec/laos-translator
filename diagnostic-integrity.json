@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "cd287cbd9cd069941f4f1804dc002e54f50f93465171ef36f17199197e12986d",
-  "revision": "H2-CONTROLLED-R7-ONE-WIFE-PATH-REPLAY-R6",
-  "policy": "H2 TEST diagnostics only: SHA-verifiable exact R7 A baseline or immutable P160A; R7 A requires B exactly one changed wife forward.l2k OR back.wife; previous local 4-case balanced cohort can be frozen/replayed for controlled tests; four-path R3, single-pass calls, full token usage and historic sample record protection retained. No main app/SERVICE code change."
+  "sha256": "0d4eafd783ede04d8a031ad2f1553c87d79cc3aa019ec4f82895cb24a1f3cafe",
+  "revision": "H2-R7-LOCAL-PRIVATE-PRESET-VAULT-R7",
+  "policy": "H2 TEST-only UI: one-time local private JSON bundle import into namespaced diagnostic IndexedDB; exact R7 SHA and one wife forward/back field controlled candidate SHA validation; subsequent one-click preset A/B. No public prompt text or SERVICE/TEST app changes."
 }
