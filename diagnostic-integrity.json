@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "cc351ed2c5c76a8cfc4c77f2b4d343910e53c645b1b428c3ba460becfde4ccec",
-  "revision": "H2-R3-FOUR-PATH-BACK-TRACE-PERSIST-R2",
-  "policy": "TEST-only: A P160A, B pasteable candidate; persist both back detail and exposed safe token usage or UNKNOWN. Identical isolated single-pass runtime. SERVICE frozen."
+  "sha256": "d15327d3e36f0f1ae3c921645463626a3b8ea4e294651c48ed9cee2393bb604d",
+  "revision": "H2-R3-FOUR-PATH-BACK-GEMINI-TOKEN-COST-TRACE-R3",
+  "policy": "Diagnostic only: restore existing Gemini back response usage into isolated A/B clone trace; protected four-path Standard USD estimate; every missing back usage remains UNKNOWN. Historical P160A A unchanged. SERVICE and TEST production runtime frozen."
 }
