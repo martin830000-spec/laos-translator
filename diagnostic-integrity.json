@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "8450366b090318dcc57d5251f220f3efc8f37858700ad6af1fcfe16019820e75",
-  "revision": "H2-FOUR-PATH-TOKEN-BRIDGE-R4-4CASE-SMOKE",
-  "policy": "Diagnostic-only A/B clone: reverse usage bridge, forward+reverse guarded token cost estimates and balanced 4-case smoke (2 K2L +2 L2K). Both app directions and historical A P160A remain; SERVICE/TEST main app unchanged."
+  "sha256": "018a1cfcb6ec3511111629338b45ee742c393f73ce40b740a220e66bb0f1b4fc",
+  "revision": "H2-NEW-COHORT-FOUR-PATH-STAGE-R5",
+  "policy": "TEST-only H2: new-only balanced DB cohorts excluding 50 historic fingerprint seeds and browser-tracked A/B cases, near-duplicate filter; explicit legacy regression mode; source-forward vs forward-back manual stage labels and heuristic format warnings only; immutable P160A, full four-path cost and single-pass observed counts retained. SERVICE and TEST main untouched."
 }
