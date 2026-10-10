@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "b87cb9021e2c07d9e90b2ff099defabb9c7bbf2229d134b1e824169a4bbe16f7",
-  "revision": "H2-GEMINI-LATENCY-R3-REPAIR-RECHECK-DIAGNOSTICS-R1",
-  "policy": "Update diagnostic file and this manifest together; never weaken SHA verification."
+  "sha256": "83d47097ef92f2a09832c778f1d483a07d93d4ec0e644117f80251211f71ceef",
+  "revision": "H2-SINGLE-PASS-FORWARD-BACK-CLIENT-COUNTERS-R3",
+  "policy": "Match deployed H2 file exactly; treat front-end counters as client-only; report backend retries unknown."
 }
