@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "2898f2ad5ce0f80e69889e57713bed41f7a02bed0ccdf7c5fea6001da01081b6",
-  "revision": "H2-R3-P160A-VS-STRUCTURAL-SEMANTIC-R2",
-  "policy": "TEST H2 only. A immutable P160A historical configuration. B structural P160 semantic fidelity R2 experiment. Same fast single-pass TEST runtime and independent back. SERVICE P168A preserved; client-only traces."
+  "sha256": "cc351ed2c5c76a8cfc4c77f2b4d343910e53c645b1b428c3ba460becfde4ccec",
+  "revision": "H2-R3-FOUR-PATH-BACK-TRACE-PERSIST-R2",
+  "policy": "TEST-only: A P160A, B pasteable candidate; persist both back detail and exposed safe token usage or UNKNOWN. Identical isolated single-pass runtime. SERVICE frozen."
 }
