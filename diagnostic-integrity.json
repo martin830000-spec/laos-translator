@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "0d4eafd783ede04d8a031ad2f1553c87d79cc3aa019ec4f82895cb24a1f3cafe",
-  "revision": "H2-R7-LOCAL-PRIVATE-PRESET-VAULT-R7",
-  "policy": "H2 TEST-only UI: one-time local private JSON bundle import into namespaced diagnostic IndexedDB; exact R7 SHA and one wife forward/back field controlled candidate SHA validation; subsequent one-click preset A/B. No public prompt text or SERVICE/TEST app changes."
+  "sha256": "2e2326ff1f04646c737da289d32a58c9ec66370eb3a18e854a2bc406329784ab",
+  "revision": "H2-R7-PINNED-AUTO-INITIAL-REALDB-R8",
+  "policy": "TEST H2 only. Missing previous local pinned 4-case cohort now freezes balanced real-use DB 2+2 once without Gemini generations; subsequent F1/B1 runs replay identical sample. Preset SHA validation preserved. Never touches SERVICE or TEST main app."
 }
