@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "3fe7548dd7555fac30d4945d363e3b1353d72bd43ebed88fff8dbd8f7f509d6d",
-  "revision": "H2-R3-SINGLE-PASS-SELFTEST-POLICY-SYNC",
+  "sha256": "e67bc7cf6775cb3bc78f1ae67eb38bd5d771ef841f7cde5ae9296f5044da35ac",
+  "revision": "H2-R3-SINGLE-PASS-SELFTEST-AUTO-EVAL-KEY-SYNC",
   "policy": "Match deployed H2 file exactly; treat front-end counters as client-only; report backend retries unknown."
 }
