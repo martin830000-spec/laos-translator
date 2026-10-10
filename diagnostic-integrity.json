@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "c0c8b3de2410c6c5234d25b628f31d0b2ae1b041e3daa84241619717daede654",
-  "revision": "H2-NEW-COHORT-FOUR-PATH-STAGE-R5-SLASH-UNICODE-FIX",
-  "policy": "TEST-only H2: new-only balanced DB cohorts excluding 50 historic fingerprint seeds and browser-tracked A/B cases, near-duplicate filter; explicit legacy regression mode; source-forward vs forward-back manual stage labels and heuristic format warnings only; immutable P160A, full four-path cost and single-pass observed counts retained. SERVICE and TEST main untouched. Unicode language independent slash-alternatives detector corrected after 4-case live NEW smoke logged unflagged Korean 아멘/사투 output, coverage for Lao & Korean and URL-safe exclusions."
+  "sha256": "cd287cbd9cd069941f4f1804dc002e54f50f93465171ef36f17199197e12986d",
+  "revision": "H2-CONTROLLED-R7-ONE-WIFE-PATH-REPLAY-R6",
+  "policy": "H2 TEST diagnostics only: SHA-verifiable exact R7 A baseline or immutable P160A; R7 A requires B exactly one changed wife forward.l2k OR back.wife; previous local 4-case balanced cohort can be frozen/replayed for controlled tests; four-path R3, single-pass calls, full token usage and historic sample record protection retained. No main app/SERVICE code change."
 }
