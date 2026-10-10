@@ -347,7 +347,7 @@ function pcStageFlags(dir,forward,back){
     const t=String(text||''),flags=[];
     if(!t.trim())return['EMPTY_OUTPUT'];
     if(/(?:\bwait[,.:]|\blet me\b|\btranslation\s*:|\bcorrection\s*:|\bactually[,.:]|->)/i.test(t))flags.push('META_EXPLANATION_SUSPECT');
-    if(/\b[^\s/]+\s*\/\s*[^\s/]+/u.test(t)&&!/(?:https?:\/\/|\d\/\d)/u.test(t))flags.push('SLASH_ALTERNATIVES_SUSPECT');
+    if(/[\p{L}\p{M}][\p{L}\p{M}\p{N}]*\s*\/\s*[\p{L}\p{M}][\p{L}\p{M}\p{N}]*/u.test(t.replace(/https?:\/\/\S+/giu,'')))flags.push('SLASH_ALTERNATIVES_SUSPECT');
     if(expectLao){
       if(/[\u0e00-\u0e7f]/u.test(t))flags.push('THAI_SCRIPT_SUSPECT');
       if(/[A-Za-z]{4,}/u.test(t))flags.push('FOREIGN_LATIN_SUSPECT');
