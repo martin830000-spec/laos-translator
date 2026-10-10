@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "d15327d3e36f0f1ae3c921645463626a3b8ea4e294651c48ed9cee2393bb604d",
-  "revision": "H2-R3-FOUR-PATH-BACK-GEMINI-TOKEN-COST-TRACE-R3",
-  "policy": "Diagnostic only: restore existing Gemini back response usage into isolated A/B clone trace; protected four-path Standard USD estimate; every missing back usage remains UNKNOWN. Historical P160A A unchanged. SERVICE and TEST production runtime frozen."
+  "sha256": "8450366b090318dcc57d5251f220f3efc8f37858700ad6af1fcfe16019820e75",
+  "revision": "H2-FOUR-PATH-TOKEN-BRIDGE-R4-4CASE-SMOKE",
+  "policy": "Diagnostic-only A/B clone: reverse usage bridge, forward+reverse guarded token cost estimates and balanced 4-case smoke (2 K2L +2 L2K). Both app directions and historical A P160A remain; SERVICE/TEST main app unchanged."
 }
