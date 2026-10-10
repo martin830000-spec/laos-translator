@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "e67bc7cf6775cb3bc78f1ae67eb38bd5d771ef841f7cde5ae9296f5044da35ac",
-  "revision": "H2-R3-SINGLE-PASS-SELFTEST-AUTO-EVAL-KEY-SYNC",
-  "policy": "Match deployed H2 file exactly; treat front-end counters as client-only; report backend retries unknown."
+  "sha256": "579ffceab2370cdd0b6406b9f320b80d57cab1c42efda44024d089e62ae44ac9",
+  "revision": "H2-R3-P160A-ORIGIN-VS-EXP-R1",
+  "policy": "TEST H2 only: A=exact historical P160A, B=P160-origin EXP, same isolated TEST single-pass runtime. SERVICE P168A unchanged. Backend/provider retries unknown."
 }
