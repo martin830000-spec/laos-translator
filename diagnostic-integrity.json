@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "efdc09595ae0c135e2c49ca7f843c8de9273517fddee8050896bd574d417370f",
-  "revision": "H2-PRIVATE-P168A-R2-EXACT6-R1",
-  "policy": "R2 private file import SHA-gated 6 true real-use historical cases 2+4, independent A/B forward/back on user action only. Retain R1/P160/R7/500-1000 log retrieval; no private source/prompt in public source. SERVICE and fast TEST unchanged."
+  "sha256": "8a1deccea2f9df28d22da80dceeecfa75b390117e6f6090591393bb8ccbf8925",
+  "revision": "H2-TEST-R3-BUILD-FINGERPRINT-AB-UX-R1",
+  "policy": "H2 A/B compact setup and protected advanced legacy controls; both TEST husband/wife payload SHA-256 verified from opener before any A/B request; explicit per-run paid-call confirmation. Preserves all diagnostic entry point IDs, prior A/B logs and private browser IndexedDB; SERVICE and fast TEST source unchanged."
 }
