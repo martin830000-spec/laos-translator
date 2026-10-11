@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "16eda8c739c5f2930000c4ea1b433997c06de32fb023ca8e384ddcfb59f46f8b",
-  "revision": "H2-RECORDS-1000-EXPORT-R1",
-  "policy": "TEST H2 diagnostic only: recent translation-record export supports 50/100/200/500/1000 with independent back records. Historical APIs and lower limits preserved; backend-returned count is explicit; no main-app, prompts or service edits."
+  "sha256": "0beaef4fce247dad204cf147df11fbbfff512a14ecd66c89be4aaed013371590",
+  "revision": "H2-P168A-PRIVATE-ROLE-PILOT-R1",
+  "policy": "H2-only P168A live runtime baseline and optional private file importer; 20 new real-use cases 10+10; user-started A/B; existing R7 presets/1000 export retained. No candidate prompts in public source, no production app edits."
 }
