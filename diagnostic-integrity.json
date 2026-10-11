@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "0beaef4fce247dad204cf147df11fbbfff512a14ecd66c89be4aaed013371590",
-  "revision": "H2-P168A-PRIVATE-ROLE-PILOT-R1",
-  "policy": "H2-only P168A live runtime baseline and optional private file importer; 20 new real-use cases 10+10; user-started A/B; existing R7 presets/1000 export retained. No candidate prompts in public source, no production app edits."
+  "sha256": "efdc09595ae0c135e2c49ca7f843c8de9273517fddee8050896bd574d417370f",
+  "revision": "H2-PRIVATE-P168A-R2-EXACT6-R1",
+  "policy": "R2 private file import SHA-gated 6 true real-use historical cases 2+4, independent A/B forward/back on user action only. Retain R1/P160/R7/500-1000 log retrieval; no private source/prompt in public source. SERVICE and fast TEST unchanged."
 }
