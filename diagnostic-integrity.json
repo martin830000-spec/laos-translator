@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "5cd020934bdd6acd3f1a62d13a033b183c5058ed27b2ef2c648c7f18006fa9f8",
-  "revision": "H2-TEST-R5-DIAGNOSTIC-DOCTYPE-PARITY-AND-ISOLATION-LOG",
-  "policy": "H2 only: relocate TEST-provided diagnostic bootstrap script from before DOCTYPE into HEAD in quality/stress and A/B clones, preserving payload/boot exact bytes and standard CSS1Compat. Log actual A/B base/candidate revision+SHA. No modifications to TEST app, SERVICE, Cloudflare or Gemini. Paid calls not made."
+  "sha256": "88604bea875e27066c2d34d1fca772a9a4a16fd61f16293f20bb3f39ef15f3c2",
+  "revision": "H2-TEST-P160-AB-CLEAN-R2-PAGES-20261011",
+  "policy": "H2 TEST Pages only: A=P160A locked; B=user JSON; NEW 20/50/100; free preflight; explicit paid confirmation; four-path results; minimal A/B controls. SERVICE/TEST app unchanged."
 }
