@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "6145e8507cde615f56f3aae336d45ce62abd075f30abdea4215401f3687e9864",
-  "revision": "H2-TEST-R4-AB-UNIFIED-SAMPLE-OFFLINE-PREFLIGHT",
-  "policy": "Consolidated A/B sample mode+count UI; preserves underlying controls in advanced settings and all legacy candidate import/review/ID contracts; confirms opener TEST SHA and candidate offline, no Gemini before explicit per-run confirmation. SERVICE and TEST translator source frozen."
+  "sha256": "5cd020934bdd6acd3f1a62d13a033b183c5058ed27b2ef2c648c7f18006fa9f8",
+  "revision": "H2-TEST-R5-DIAGNOSTIC-DOCTYPE-PARITY-AND-ISOLATION-LOG",
+  "policy": "H2 only: relocate TEST-provided diagnostic bootstrap script from before DOCTYPE into HEAD in quality/stress and A/B clones, preserving payload/boot exact bytes and standard CSS1Compat. Log actual A/B base/candidate revision+SHA. No modifications to TEST app, SERVICE, Cloudflare or Gemini. Paid calls not made."
 }
