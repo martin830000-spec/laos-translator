@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "8a1deccea2f9df28d22da80dceeecfa75b390117e6f6090591393bb8ccbf8925",
-  "revision": "H2-TEST-R3-BUILD-FINGERPRINT-AB-UX-R1",
-  "policy": "H2 A/B compact setup and protected advanced legacy controls; both TEST husband/wife payload SHA-256 verified from opener before any A/B request; explicit per-run paid-call confirmation. Preserves all diagnostic entry point IDs, prior A/B logs and private browser IndexedDB; SERVICE and fast TEST source unchanged."
+  "sha256": "6145e8507cde615f56f3aae336d45ce62abd075f30abdea4215401f3687e9864",
+  "revision": "H2-TEST-R4-AB-UNIFIED-SAMPLE-OFFLINE-PREFLIGHT",
+  "policy": "Consolidated A/B sample mode+count UI; preserves underlying controls in advanced settings and all legacy candidate import/review/ID contracts; confirms opener TEST SHA and candidate offline, no Gemini before explicit per-run confirmation. SERVICE and TEST translator source frozen."
 }
