@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "88604bea875e27066c2d34d1fca772a9a4a16fd61f16293f20bb3f39ef15f3c2",
-  "revision": "H2-TEST-P160-AB-CLEAN-R2-PAGES-20261011",
-  "policy": "H2 TEST Pages only: A=P160A locked; B=user JSON; NEW 20/50/100; free preflight; explicit paid confirmation; four-path results; minimal A/B controls. SERVICE/TEST app unchanged."
+  "sha256": "dfd0af830c2653355bbdbf1d9d42ff6cf51b58fd85a552d8c9bee801ab38988d",
+  "revision": "H2-TEST-P168A-SMART-ON-OFF-R1-PAGES-20261013",
+  "policy": "Existing H2 prompt A/B only: A=P168A exact SHA or historical P160A, SMART ON; B=SMART OFF diagnostic clone or JSON candidate; four paths; paid run confirmation; SERVICE/TEST translation apps and server unchanged."
 }

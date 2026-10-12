@@ -564,7 +564,7 @@ async function runPromptCompare(){if($('promptCompareRun').disabled)return;
     const check=await promptCompareCandidateConfig(),n=Number($('promptCompareCount').value)||4;
     const mode=$('promptCompareSampleMode').value;
     
-    const msg='H2 A/B 유료 검사 실행 전 확인\\n\\nA: '+check.base.promptRevision+'\\nB: '+check.candidate.promptRevision+
+    const msg='H2 A/B 유료 검사 실행 전 확인\\n\\nA: '+check.base.promptRevision+' · SMART ON\\nB: '+check.candidate.promptRevision+' · '+(check.smartMode==='A_ON_B_OFF'?'SMART OFF':'SMART ON / JSON 후보')+
       '\\n표본: '+n+'건 ('+mode+')\\n정번역/독립 역번역: 남편·아내 각 2경로\\n최대 Gemini 요청: '+(n*4)+'회\\n\\n실행하시겠습니까?';
     if(!window.confirm(msg.replace(/\\n/g,'\\n')))return;
   }catch(e){status('promptCompareStatus','A/B 시작 전 검사 실패 · '+String(e?.message||e),'err');return;}
