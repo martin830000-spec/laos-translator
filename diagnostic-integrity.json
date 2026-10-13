@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "1b94fa1f231428a08931f6cb156dca1ce747fafa7385804dd3199ea3df905372",
-  "revision": "H2-TEST-P168A-COMPACT-C1-AB-PAGES-20261013-R1",
-  "policy": "Existing H2 A/B comparison supports P168A SMART ON/OFF and JSON candidate C1 with both lanes SMART OFF (or quality-floor A SMART ON); NEW/REGRESSION 20+; four paths, SHA integrity, paid-run consent, SERVICE and translator unchanged."
+  "sha256": "28ed08e4643d3d39ca1e5c1dbed5b4d82cad9d15baafbca6082ad12aa0713dae",
+  "revision": "H2-WB1-FIXED-BACK-8-SAME-INPUT-TEST-20261013-R1",
+  "policy": "Existing H2 A/B comparison supports P168A SMART ON/OFF and JSON candidate C1 with both lanes SMART OFF (or quality-floor A SMART ON); NEW/REGRESSION 20+; four paths, SHA integrity, paid-run consent, SERVICE and translator unchanged. Diagnostic update: private local eight-case wife independent back A/B, identical Korean input, 0 forward and at most 16 user-confirmed paid back calls, isolated to H2. Do not promote WB1 or alter SERVICE."
 }
