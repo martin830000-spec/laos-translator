@@ -48,6 +48,16 @@
 <div class="ab-buttons"><button type="button" class="btn secondary" id="pcAbDryRun">무료 준비 검사</button><button type="button" class="btn" id="promptCompareRun">A/B 검사 시작</button></div>
 <div id="promptCompareStatus" class="status" aria-live="polite">A=P168A SMART ON / B=P168A SMART OFF · 무료 준비 검사 후 시작하세요. 유료 Gemini 호출은 사용자가 확인한 후에만 실행합니다.</div>
 
+
+<details class="ab-group" id="pcL1Panel">
+ <summary style="cursor:pointer;font-weight:800">아내 정번역 · L1 최소 A/B (8건 · 정번역만 16회)</summary>
+ <div class="ab-note">L1 후보 JSON 파일만 선택하세요. TEST 실사용 DB에서 라오어 원문 8건을 브라우저에 임시로 읽어와 P168A와 L1에 동일하게 번역시킵니다. 별도의 SMART 설정·고정문장 파일·역번역 호출이 필요하지 않습니다. 원문은 GitHub나 새로운 DB에 저장하지 않습니다.</div>
+ <div class="ab-file"><input type="file" id="pcL1File" accept=".json,application/json" hidden><button type="button" class="btn secondary" id="pcL1Choose">L1 후보 JSON 선택</button><span class="ab-file-status" id="pcL1Info">L1 후보 미선택</span></div>
+ <div class="ab-buttons"><button type="button" class="btn" id="pcL1Start">아내 정번역 8건 A/B 시작</button><button type="button" class="btn danger" id="pcL1Stop" disabled>현재 호출 후 중단</button><button type="button" class="btn secondary" id="pcL1Save" disabled>결과 TXT 저장</button></div>
+ <div class="status" id="pcL1Status" aria-live="polite">대기 · Gemini 0회 · 실행 전 무료 무결성 검사 및 16회 유료 호출 확인</div>
+ <div class="ab-note" id="pcL1Progress">A/B 동일한 라오어 8건 · SMART OFF 동등 조건 · 정번역 16회 · 역번역 0회 · 자동 품질 판정 없음</div>
+ <div id="pcL1Cases" class="cases"></div>
+</details>
 <details class="ab-group" id="pcFixedBackPanel">
  <summary style="cursor:pointer;font-weight:800">아내 독립 역번역 · 고정문장 A/B (정번역 0회)</summary>
  <div class="ab-note">비공개 고정문장 JSON은 이 브라우저 메모리에서만 읽습니다. 한국어 고정문장을 A=P168A, B=WB1의 <b>독립 역번역</b>에 똑같이 전달합니다. 원문이나 결과를 GitHub/실사용 DB에 저장하지 않습니다.</div>
@@ -610,6 +620,125 @@ function pcApplySamplePreset(){
   $('promptCompareSampleMode').value=plan.mode;$('promptCompareCount').value=plan.count;updatePromptCompareEstimate();
 }
 
+
+/* H2 L1 R1 — focused wife L2K FORWARD-only paired comparison. Private DB read only; no automatic back or DB writes. */
+const PC_L1_REV='EXP-P168A-L2K-EVENT-STANCE-L1-R1';
+const PC_L1_SHA='ed7b2dcb2634dba418ec531db9af6cc92e9b143121ac0263eff1f341aae848d5';
+let pcL1Candidate=null,pcL1Rows=[],pcL1Log='',pcL1RunId='',pcL1Calls=0,pcL1Busy=false,pcL1Running=false,pcL1Stopped=false;
+function pcL1Message(msg,kind){status('pcL1Status',msg,kind||'')}
+async function pcL1Import(file){
+ if(pcL1Busy||pcL1Running)throw Error('L1_RUN_IN_PROGRESS');
+ if(!file||file.size>1000000)throw Error('L1_JSON_FILE_INVALID');
+ let cfg;try{cfg=JSON.parse(await file.text())}catch(e){throw Error('L1_JSON_PARSE_FAILED')}
+ promptCompareRequired(cfg);
+ const checksum=await promptCompareHash(promptCompareCanonical(cfg));
+ if(cfg.promptRevision!==PC_L1_REV||cfg.promptSha256!==PC_L1_SHA||checksum!==PC_L1_SHA)throw Error('L1_REV_OR_SHA_MISMATCH');
+ const live=promptCompareLiveConfig();
+ if(live.promptRevision!==PROMPT_COMPARE_SERVICE_REV||live.promptSha256!==PROMPT_COMPARE_SERVICE_SHA)throw Error('L1_MAIN_P168A_REQUIRED');
+ if(JSON.stringify(pcChanged(live,cfg))!==JSON.stringify(['forward.l2k']))throw Error('L1_NOT_WIFE_FORWARD_ONLY');
+ pcL1Candidate=promptCompareDeep(cfg);
+ $('pcL1Info').textContent='L1 검증됨 · SHA '+checksum.slice(0,12)+'… · 아내 정번역만 수정';
+ pcL1Rows=[];pcL1Log='';pcL1RunId='';pcL1Calls=0;$('pcL1Save').disabled=true;$('pcL1Cases').replaceChildren();
+ pcL1Message('L1 JSON 검사 PASS · A/B 자동 설정 · Gemini 0회 · 검사 시작을 누르세요','ok');
+}
+async function pcL1Prepare(){
+ if(pcL1Busy||pcL1Running||pcFixedBackRunning||$('promptCompareRun').disabled||$('qualityRun').disabled||$('stressRun').disabled)throw Error('OTHER_H2_RUN_ACTIVE');
+ if(!pcL1Candidate)throw Error('L1_JSON_SELECTION_REQUIRED');
+ await pcVerifyTestOpener();
+ const live=promptCompareLiveConfig();
+ promptCompareRequired(live);
+ const sha=await promptCompareHash(promptCompareCanonical(live));
+ if(sha!==PROMPT_COMPARE_SERVICE_SHA||live.promptSha256!==sha||live.promptRevision!=='P168A')throw Error('P168A_LIVE_SHA_MISMATCH');
+ const cfg=promptCompareDeep(pcL1Candidate);
+ promptCompareRequired(cfg);
+ const candidateSha=await promptCompareHash(promptCompareCanonical(cfg));
+ if(cfg.promptRevision!==PC_L1_REV||candidateSha!==PC_L1_SHA||cfg.promptSha256!==candidateSha)throw Error('L1_CANDIDATE_SHA_MISMATCH');
+ if(JSON.stringify(pcChanged(live,cfg))!==JSON.stringify(['forward.l2k']))throw Error('L1_FORWARD_L2K_ONLY_REQUIRED');
+ const a=promptCompareDeep(live),b=promptCompareDeep(cfg);
+ a.__h2SmartOff=true;b.__h2SmartOff=true;
+ return{base:a,candidate:b,changed:['forward.l2k'],smartMode:'A_OFF_B_OFF_JSON'};
+}
+function pcL1SelectRows(pool){
+ const valid=[],seen=new Set();
+ for(const rec of pool){
+  const source=pcSourceCanonical(rec.sourceText),hash=pcSourceHash(source);
+  if(!source||source.length>2500||source.length<3||!/[\\u0e80-\\u0eff]/u.test(source)||seen.has(hash))continue;
+  seen.add(hash);valid.push({id:String(rec.traceId||rec.translationSessionId||'-').slice(0,90),source,recordedAt:recordTs(rec),hash});
+ }
+ const selected=[],used=new Set();
+ const categories=[
+  ['COMPLETION',/ແລ້ວ|ກິນ|ສັ່ງ/u],
+  ['FUTURE',/ຈະ|ຊິ|ຢາກ|ຕັ້ງໃຈ/u],
+  ['REPORTED_SPEECH',/ບອກ|ເວົ້າ|ວ່າ/u],
+  ['EMOTION',/ຄຽດ|ໂມໂຫ|ລຳຄານ|ເສຍໃຈ/u],
+  ['CONDITION',/ຖ້າ|ເມື່ອ|ແຕ່/u],
+  ['RELATION',/ອ້າຍ|ນ້ອງ|ທີ່ຮັກ|ພໍ່ແມ່/u]
+ ];
+ for(const [tag,re] of categories){const x=valid.find(r=>!used.has(r.hash)&&re.test(r.source));if(x){selected.push({...x,tag});used.add(x.hash)}}
+ for(const x of valid){if(selected.length>=8)break;if(used.has(x.hash)||selected.some(z=>pcNearDuplicate(x.source,z.source)))continue;selected.push({...x,tag:'HOLDOUT'});used.add(x.hash)}
+ if(selected.length!==8)throw Error('NEED_8_UNIQUE_WIFE_LAO_DB_RECORDS_FOUND_'+selected.length);
+ return selected;
+}
+function pcL1Render(){
+ const n=pcL1Rows.filter(x=>x.a?.ok&&x.b?.ok).length;
+ $('pcL1Progress').textContent='완료 '+n+'/8쌍 · 시도한 Gemini 정번역 '+pcL1Calls+'/16회 · 역번역 0회 · A/B 동일 원문 · 자동 품질 합격 판정 없음';
+ $('pcL1Cases').innerHTML=pcL1Rows.map((r,i)=>{
+ const entry=(v,name)=>'<div class="case-meta"><b>'+esc(name)+'</b> · '+(v?.ok?'성공':v?.attempted?'오류':'미실행')+' · '+(Number.isFinite(v?.ms)?Math.round(v.ms)+'ms':'-')+' · 단일호출 '+esc(v?.detail?.singlePassForwardStatus||'UNKNOWN')+'<div style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(v?.text||v?.error||'-')+'</div></div>';
+ return '<div class="case"><div class="case-title">#'+(i+1)+' · '+esc(r.tag)+' · '+esc(r.id)+'</div><div class="case-meta"><b>라오어 원문 (A/B 동일)</b><div style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(r.source)+'</div></div>'+entry(r.a,'A P168A')+entry(r.b,'B L1')+'</div>';
+ }).join('');
+}
+function pcL1MakeLog(){
+ const rate=pcCostRate(),p=pcL1Rows,stats=lane=>{const a=p.filter(x=>x[lane]?.ok).map(x=>x[lane].ms),costs=p.map(x=>pcStageUsageCost(x[lane]?.detail,rate)).filter(Boolean);return{n:a.length,meanMs:a.length?a.reduce((s,v)=>s+v,0)/a.length:null,p50Ms:median(a),p95Ms:p95(a),knownCost:costs.length,estimatedUsd:costs.length===p.filter(x=>x[lane]?.attempted).length?costs.reduce((s,x)=>s+x.usd,0):null,actualInvoice:'UNKNOWN'}};
+ const lines=['H2_WIFE_L2K_FORWARD_L1_AB R1','DIAGNOSTIC_ONLY=true','DB_ACCESS=READ_ONLY','PRIVATE_INPUT_NOT_PUBLICLY_COMMITTED=true','NO_BACK_GENERATION=true','MODEL_CALLS_MAX=16','MANUAL_QUALITY_REVIEW_REQUIRED=true','RUN_ID='+pcL1RunId,'A_REV=P168A','A_SHA='+PROMPT_COMPARE_SERVICE_SHA,'B_REV='+PC_L1_REV,'B_SHA='+PC_L1_SHA,'CHANGED_FIELDS=forward.l2k','SMART_COMPARE_MODE=A_OFF_B_OFF_JSON','SOURCE_POLICY=8 distinct real-use L2K Lao records from DB; identical source both lanes; no invented historical fixed cases','PAIRED_CASES='+p.length,'FORWARD_GEMINI_CALLS_ATTEMPTED='+pcL1Calls,'A_STATS_JSON='+JSON.stringify(stats('a')),'B_STATS_JSON='+JSON.stringify(stats('b')),'RATE_ESTIMATE_JSON='+JSON.stringify(rate),''];
+ for(const r of p)lines.push('[CASE '+r.id+']','TAG='+r.tag,'RECORDED_AT='+fmtDate(r.recordedAt),'[LAO_SOURCE]',r.source,'[A KOREAN FORWARD]',r.a?.text||'-','[B KOREAN FORWARD]',r.b?.text||'-','A_MS='+(r.a?.ms??'-')+' B_MS='+(r.b?.ms??'-'),'A_FORWARD_DETAIL_JSON='+JSON.stringify(r.a?.detail||null),'B_FORWARD_DETAIL_JSON='+JSON.stringify(r.b?.detail||null),'A_ERROR='+(r.a?.error||'-')+' B_ERROR='+(r.b?.error||'-'),'');
+ return lines.join('\n');
+}
+async function pcL1Start(){
+ if(pcL1Busy||pcL1Running)return;
+ pcL1Busy=true;$('pcL1Start').disabled=true;
+ let selected,pre;
+ try{
+  pcL1Message('TEST 실행 경로와 후보 SHA 무료 확인 중… · Gemini 0회','run');
+  // Temporarily allow preparation to run with the preparation gate locked by this handler.
+  pcL1Busy=false;pre=await pcL1Prepare();pcL1Busy=true;
+  pcL1Message('실사용 아내 라오어 원문 8건을 읽는 중… · Gemini 0회','run');
+  const records=await fetchRecentRecords('L2K',120,'couple',500,'all');
+  selected=pcL1SelectRows(records);
+  if(!window.confirm('아내 정번역 L1 최소 A/B 검사\\n\\n기존 P168A vs 새 L1 후보\\n실사용 DB의 라오어 원문 8건 (동일 입력)\\nA/B 모두 SMART OFF, 변동 필드 forward.l2k 1개\\nGemini 정번역 최대 16회 · 유료 호출\\nGemini 역번역 0회 · DB 기록 변경 없음\\n자동 품질 합격 판정 없음\\n\\n실행할까요?')){pcL1Message('검사 취소 · Gemini 0회','ok');return}
+ }catch(e){pcL1Message('준비 중단 · '+String(e?.message||e)+' · Gemini 0회','err');return}
+ finally{pcL1Busy=false;$('pcL1Start').disabled=false}
+ pcL1Running=true;pcL1Stopped=false;pcL1Rows=[];pcL1Log='';pcL1RunId=makeRunId();pcL1Calls=0;
+ const locked=['pcL1Start','pcL1Choose','promptCompareRun','pcFixedBackStart','pcFixedBackDryRun','pcAbDryRun'];
+ const previous=locked.map(id=>[id,$(id).disabled]);for(const id of locked)$(id).disabled=true;
+ $('pcL1Stop').disabled=false;$('pcL1Save').disabled=true;
+ try{
+  promptCompareResetFrames('WIFE_L1_FORWARD_AB_START');
+  for(let i=0;i<selected.length;i++){
+   if(pcL1Stopped)break;
+   const data=selected[i],row={...data,a:null,b:null};pcL1Rows.push(row);
+   for(const lane of i%2?['b','a']:['a','b']){
+    if(pcL1Stopped)break;
+    const cfg=lane==='a'?pre.base:pre.candidate;
+    pcL1Message((i+1)+'/8 · '+lane.toUpperCase()+' 아내 정번역 진행 · Gemini '+pcL1Calls+'/16회 시도','run');
+    const start=performance.now();let result=null,error='';
+    pcL1Calls++;
+    try{result=await promptCompareCandidateForward('L2K',data.source,cfg)}catch(e){error=String(e?.message||e)}
+    const detail=pcForwardDetail(result),ok=!error&&result?.ok===true&&!!String(result?.text||'').trim();
+    row[lane]={attempted:true,ok,ms:performance.now()-start,text:ok?String(result.text):'',error:error||(!ok?String(result?.error||'FORWARD_EMPTY_OR_FAILED'):''),detail};
+    pcL1Render();
+   }
+  }
+  pcL1Log=pcL1MakeLog();
+  const incomplete=pcL1Rows.filter(x=>!x.a?.ok||!x.b?.ok).length;
+  pcL1Message(pcL1Stopped?'사용자 중단 · 부분결과 로컬 보존':incomplete?'검사 완료 · '+incomplete+'쌍 오류, 로그 검토 필요':'정번역 8쌍 완료 · TXT 저장 후 업로드해 주세요 · 자동 품질 판정 없음',pcL1Stopped||incomplete?'err':'ok');
+ }catch(e){pcL1Log=pcL1MakeLog();pcL1Message('검사 중단 · '+String(e?.message||e)+' · 결과 보존','err')}
+ finally{
+  promptCompareResetFrames('WIFE_L1_FORWARD_AB_END');pcL1Running=false;
+  for(const [id,was] of previous)$(id).disabled=was;
+  $('pcL1Stop').disabled=true;$('pcL1Save').disabled=!pcL1Log;pcL1Render();
+ }
+}
+function pcL1Stop(){pcL1Stopped=true;pcL1Message('현재 호출 종료 후 남은 검사 중단합니다.','err')}
 /* H2 WB1 R1: LOCAL ONLY, source-identical wife independent BACK paired tester. No DB, no new diagnostic app. */
 let pcFixedBackExamples=[],pcFixedBackRows=[],pcFixedBackRunning=false,pcFixedBackStopped=false,pcFixedBackResultLog='',pcFixedBackRunId='',pcFixedBackAttempted=0;
 function pcFixedBackMessage(msg,kind){status('pcFixedBackStatus',msg,kind||'')}
@@ -895,6 +1024,12 @@ async function selfRun(){const lines=[],add=(n,v,detail='')=>lines.push(`${v?'PA
 for(const b of document.querySelectorAll('.tab'))b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.pane').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab))});
 $('usageRefresh').addEventListener('click',loadUsage);$('usageWindow').addEventListener('change',()=>{if(statsCache)renderUsage()});$('pcSamplePreset').addEventListener('change',pcApplySamplePreset);$('promptCompareBaseMode').addEventListener('change',updatePromptCompareEstimate);$('pcBaseSmartMode').addEventListener('change',updatePromptCompareEstimate);$('promptCompareCandidateMode').addEventListener('change',pcCompareCandidateModeChanged);
 
+
+$('pcL1Choose').addEventListener('click',()=>$('pcL1File').click());
+$('pcL1File').addEventListener('change',async e=>{try{if(e.target.files?.[0])await pcL1Import(e.target.files[0])}catch(err){pcL1Message('L1 파일 검증 실패 · '+String(err?.message||err)+' · Gemini 0회','err')}finally{e.target.value=''}});
+$('pcL1Start').addEventListener('click',pcL1Start);
+$('pcL1Stop').addEventListener('click',pcL1Stop);
+$('pcL1Save').addEventListener('click',()=>{if(pcL1Log)saveTextFile('wife-l2k-L1-'+pcL1RunId+'.txt',pcL1Log)});
 $('pcFixedBackChoose').addEventListener('click',()=>$('pcFixedBackFile').click());
 $('pcFixedBackFile').addEventListener('change',async e=>{try{if(e.target.files?.[0])await pcFixedBackLoad(e.target.files[0])}catch(err){pcFixedBackMessage('고정문장 불러오기 실패 · '+String(err?.message||err),'err')}finally{e.target.value=''}});
 $('pcFixedBackDryRun').addEventListener('click',pcFixedBackDryRun);
