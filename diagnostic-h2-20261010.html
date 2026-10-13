@@ -642,7 +642,7 @@ async function pcL1Import(file){
  pcL1Message('L1 JSON 검사 PASS · A/B 자동 설정 · Gemini 0회 · 검사 시작을 누르세요','ok');
 }
 async function pcL1Prepare(){
- if(pcL1Busy||pcL1Running||pcFixedBackRunning||$('promptCompareRun').disabled||$('qualityRun').disabled||$('stressRun').disabled)throw Error('OTHER_H2_RUN_ACTIVE');
+ if(pcL1Running||pcFixedBackRunning||$('promptCompareRun').disabled||$('qualityRun').disabled||$('stressRun').disabled)throw Error('OTHER_H2_RUN_ACTIVE');
  if(!pcL1Candidate)throw Error('L1_JSON_SELECTION_REQUIRED');
  await pcVerifyTestOpener();
  const live=promptCompareLiveConfig();
@@ -662,7 +662,7 @@ function pcL1SelectRows(pool){
  const valid=[],seen=new Set();
  for(const rec of pool){
   const source=pcSourceCanonical(rec.sourceText),hash=pcSourceHash(source);
-  if(!source||source.length>2500||source.length<3||!/[\\u0e80-\\u0eff]/u.test(source)||seen.has(hash))continue;
+  if(!source||source.length>2500||source.length<3||!/[\u0e80-\u0eff]/u.test(source)||seen.has(hash))continue;
   seen.add(hash);valid.push({id:String(rec.traceId||rec.translationSessionId||'-').slice(0,90),source,recordedAt:recordTs(rec),hash});
  }
  const selected=[],used=new Set();
@@ -699,12 +699,11 @@ async function pcL1Start(){
  let selected,pre;
  try{
   pcL1Message('TEST 실행 경로와 후보 SHA 무료 확인 중… · Gemini 0회','run');
-  // Temporarily allow preparation to run with the preparation gate locked by this handler.
-  pcL1Busy=false;pre=await pcL1Prepare();pcL1Busy=true;
+  pre=await pcL1Prepare();
   pcL1Message('실사용 아내 라오어 원문 8건을 읽는 중… · Gemini 0회','run');
   const records=await fetchRecentRecords('L2K',120,'couple',500,'all');
   selected=pcL1SelectRows(records);
-  if(!window.confirm('아내 정번역 L1 최소 A/B 검사\\n\\n기존 P168A vs 새 L1 후보\\n실사용 DB의 라오어 원문 8건 (동일 입력)\\nA/B 모두 SMART OFF, 변동 필드 forward.l2k 1개\\nGemini 정번역 최대 16회 · 유료 호출\\nGemini 역번역 0회 · DB 기록 변경 없음\\n자동 품질 합격 판정 없음\\n\\n실행할까요?')){pcL1Message('검사 취소 · Gemini 0회','ok');return}
+  if(!window.confirm('아내 정번역 L1 최소 A/B 검사\n\n기존 P168A vs 새 L1 후보\n실사용 DB의 라오어 원문 8건 (동일 입력)\nA/B 모두 SMART OFF, 변동 필드 forward.l2k 1개\nGemini 정번역 최대 16회 · 유료 호출\nGemini 역번역 0회 · DB 기록 변경 없음\n자동 품질 합격 판정 없음\n\n실행할까요?')){pcL1Message('검사 취소 · Gemini 0회','ok');return}
  }catch(e){pcL1Message('준비 중단 · '+String(e?.message||e)+' · Gemini 0회','err');return}
  finally{pcL1Busy=false;$('pcL1Start').disabled=false}
  pcL1Running=true;pcL1Stopped=false;pcL1Rows=[];pcL1Log='';pcL1RunId=makeRunId();pcL1Calls=0;
