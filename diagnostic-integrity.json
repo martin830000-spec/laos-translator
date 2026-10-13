@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "dfd0af830c2653355bbdbf1d9d42ff6cf51b58fd85a552d8c9bee801ab38988d",
-  "revision": "H2-TEST-P168A-SMART-ON-OFF-R1-PAGES-20261013",
-  "policy": "Existing H2 prompt A/B only: A=P168A exact SHA or historical P160A, SMART ON; B=SMART OFF diagnostic clone or JSON candidate; four paths; paid run confirmation; SERVICE/TEST translation apps and server unchanged."
+  "sha256": "1b94fa1f231428a08931f6cb156dca1ce747fafa7385804dd3199ea3df905372",
+  "revision": "H2-TEST-P168A-COMPACT-C1-AB-PAGES-20261013-R1",
+  "policy": "Existing H2 A/B comparison supports P168A SMART ON/OFF and JSON candidate C1 with both lanes SMART OFF (or quality-floor A SMART ON); NEW/REGRESSION 20+; four paths, SHA integrity, paid-run consent, SERVICE and translator unchanged."
 }
