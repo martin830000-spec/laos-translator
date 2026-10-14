@@ -1,6 +1,6 @@
 {
   "version": "V3.61.209",
-  "build": "20261010-V3.61.209-TEST-SINGLE-PASS-R2",
-  "buildId": "20261010-V3.61.209-TEST-SINGLE-PASS-R2",
-  "notes": "TEST ONLY, SERVICE unaffected. Single-pass forward/back generation, no hidden repair or model duplicate retries; preselected wife Cloudflare and husband selected path. Underlying P168A R8 / G158A prompts unchanged. Real-device and provider traces pending. Revert TEST to backup/test-v361202-before-single-pass-20261010 if needed."
+  "build": "20261014-V3.61.209-TEST-TEXT-DIRECT-R1",
+  "buildId": "20261014-V3.61.209-TEST-TEXT-DIRECT-R1",
+  "notes": "TEST staging only (not deployed): husband and wife couple/general text forward and independent back use single direct Gemini API generation with LOW; no automatic relay retry for translation. Speech STT/TTS primary route: husband Cloud Run, wife Cloudflare, with existing speech fallback preserved. Prompts and SERVICE unchanged. Real-device Laos and Korea acceptance pending."
 }
