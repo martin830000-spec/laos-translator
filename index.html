@@ -484,7 +484,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="02a9887994c955bf902f2815a76bd9f29c68520de1d1f88af1ba636a7702300f">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="35a5d0a6110bba62988c1b26b1f800ebe93cb51af070fee3f4063293a1ad20b0">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -5649,61 +5649,9 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',attach,{once:true}); else attach();
 })();
 &lt;/script&gt;
-&lt;script id="android-ime-return-r3"&gt;
-(function installAndroidVoiceImeReturnR3(){
-  'use strict';
-  if(window.__androidVoiceImeReturnR3 || !/Android/i.test(String(navigator.userAgent||''))) return;
-  const input=document.getElementById('krInput');
-  const header=document.querySelector('#inputComposer .input-top-group');
-  if(!input||!header)return;
-  window.__androidVoiceImeReturnR3=true;
-  const isLao=false;
-  const button=document.createElement('button');
-  button.id='androidImeKeyboardBtnR3';
-  button.type='button';
-  button.className='android-ime-keyboard-btn-r3';
-  button.textContent=isLao?'⌨ ແປ້ນພິມ':'⌨ 자판';
-  button.setAttribute('aria-label',isLao?'ລອງກັບໄປໃຊ້ແປ້ນພິມ':'일반 자판으로 전환 시도');
-  button.title=isLao?'ຖ້າບໍ່ປ່ຽນ ກົດລູກສອນກັບຢູ່ຈໍຮັບສຽງ Google':'전환되지 않으면 Google 음성입력 화면의 왼쪽 화살표를 누르세요.';
-  const css=document.createElement('style');
-  css.id='android-ime-keyboard-style-r3';
-  css.textContent='.android-ime-keyboard-btn-r3{flex:0 0 auto;white-space:nowrap;min-height:34px;padding:5px 7px;font-size:11px;font-weight:800;color:#334155;background:#edf3fa;border:1px solid #ccd6e0;border-radius:8px;cursor:pointer;touch-action:manipulation;margin-left:auto}.android-ime-keyboard-btn-r3:active{background:#dbeafe}';
-  document.head.appendChild(css);
-  const clear=header.querySelector('button');
-  if(clear)header.insertBefore(button,clear);else header.appendChild(button);
-  let lastValue=String(input.value||''),possibleVoiceUntil=0,touchPending=false,composing=false;
-  function tryKeyboardReturn(){
-    // Android IME cannot be switched by a web page; this is a single best-effort focus refresh.
-    possibleVoiceUntil=0;touchPending=false;
-    const start=input.selectionStart,end=input.selectionEnd;
-    try{input.blur()}catch(_){}
-    try{navigator.virtualKeyboard?.hide?.()}catch(_){}
-    try{input.focus({preventScroll:true})}catch(_){try{input.focus()}catch(__){}}
-    try{if(typeof start==='number'&amp;&amp;typeof end==='number'&amp;&amp;document.activeElement===input)input.setSelectionRange(start,end)}catch(_){}
-  }
-  input.addEventListener('compositionstart',()=&gt;{composing=true;possibleVoiceUntil=0;});
-  input.addEventListener('compositionend',()=&gt;{composing=false;lastValue=String(input.value||'');});
-  input.addEventListener('input',e=&gt;{
-    const next=String(input.value||''),kind=String(e.inputType||''),added=String(e.data||'');
-    // No API can identify Google dictation: only trusted, non-paste bulk insertion is treated as a clue.
-    if(e.isTrusted===true&amp;&amp;!composing&amp;&amp;!e.isComposing&amp;&amp;!/paste|drop|history|delete/i.test(kind)&amp;&amp;
-       (/dictat|speech/i.test(kind)||(/insert/i.test(kind)&amp;&amp;
-       ((added.length&gt;=8&amp;&amp;/\s/.test(added))||(next.length-lastValue.length&gt;=8&amp;&amp;/\s/.test(next)))))){
-      possibleVoiceUntil=Date.now()+30000;
-    }
-    lastValue=next;
-  });
-  input.addEventListener('pointerdown',e=&gt;{touchPending=e.isPrimary!==false&amp;&amp;e.pointerType==='touch';},{passive:true});
-  input.addEventListener('click',()=&gt;{
-    if(touchPending&amp;&amp;document.activeElement===input&amp;&amp;Date.now()&lt;possibleVoiceUntil)tryKeyboardReturn();
-    touchPending=false;
-  });
-  button.addEventListener('click',e=&gt;{e.preventDefault();tryKeyboardReturn()});
-})();
-&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="9f74cd96db721b5421a48d8ac0535cef8447be2dec85e536572778241f5c8b67">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="3a75245234dde87df9e8fec45dd51adbf18f0138115097bf1152ca8f6778b076">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -9267,58 +9215,6 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 })();
 &lt;/script&gt;
 
-&lt;script id="android-ime-return-r3"&gt;
-(function installAndroidVoiceImeReturnR3(){
-  'use strict';
-  if(window.__androidVoiceImeReturnR3 || !/Android/i.test(String(navigator.userAgent||''))) return;
-  const input=document.getElementById('loInput');
-  const header=document.querySelector('#inputComposer .input-head');
-  if(!input||!header)return;
-  window.__androidVoiceImeReturnR3=true;
-  const isLao=true;
-  const button=document.createElement('button');
-  button.id='androidImeKeyboardBtnR3';
-  button.type='button';
-  button.className='android-ime-keyboard-btn-r3';
-  button.textContent=isLao?'⌨ ແປ້ນພິມ':'⌨ 자판';
-  button.setAttribute('aria-label',isLao?'ລອງກັບໄປໃຊ້ແປ້ນພິມ':'일반 자판으로 전환 시도');
-  button.title=isLao?'ຖ້າບໍ່ປ່ຽນ ກົດລູກສອນກັບຢູ່ຈໍຮັບສຽງ Google':'전환되지 않으면 Google 음성입력 화면의 왼쪽 화살표를 누르세요.';
-  const css=document.createElement('style');
-  css.id='android-ime-keyboard-style-r3';
-  css.textContent='.android-ime-keyboard-btn-r3{flex:0 0 auto;white-space:nowrap;min-height:34px;padding:5px 7px;font-size:11px;font-weight:800;color:#334155;background:#edf3fa;border:1px solid #ccd6e0;border-radius:8px;cursor:pointer;touch-action:manipulation;margin-left:auto}.android-ime-keyboard-btn-r3:active{background:#dbeafe}';
-  document.head.appendChild(css);
-  const clear=header.querySelector('button');
-  if(clear)header.insertBefore(button,clear);else header.appendChild(button);
-  let lastValue=String(input.value||''),possibleVoiceUntil=0,touchPending=false,composing=false;
-  function tryKeyboardReturn(){
-    // Android IME cannot be switched by a web page; this is a single best-effort focus refresh.
-    possibleVoiceUntil=0;touchPending=false;
-    const start=input.selectionStart,end=input.selectionEnd;
-    try{input.blur()}catch(_){}
-    try{navigator.virtualKeyboard?.hide?.()}catch(_){}
-    try{input.focus({preventScroll:true})}catch(_){try{input.focus()}catch(__){}}
-    try{if(typeof start==='number'&amp;&amp;typeof end==='number'&amp;&amp;document.activeElement===input)input.setSelectionRange(start,end)}catch(_){}
-  }
-  input.addEventListener('compositionstart',()=&gt;{composing=true;possibleVoiceUntil=0;});
-  input.addEventListener('compositionend',()=&gt;{composing=false;lastValue=String(input.value||'');});
-  input.addEventListener('input',e=&gt;{
-    const next=String(input.value||''),kind=String(e.inputType||''),added=String(e.data||'');
-    // No API can identify Google dictation: only trusted, non-paste bulk insertion is treated as a clue.
-    if(e.isTrusted===true&amp;&amp;!composing&amp;&amp;!e.isComposing&amp;&amp;!/paste|drop|history|delete/i.test(kind)&amp;&amp;
-       (/dictat|speech/i.test(kind)||(/insert/i.test(kind)&amp;&amp;
-       ((added.length&gt;=8&amp;&amp;/\s/.test(added))||(next.length-lastValue.length&gt;=8&amp;&amp;/\s/.test(next)))))){
-      possibleVoiceUntil=Date.now()+30000;
-    }
-    lastValue=next;
-  });
-  input.addEventListener('pointerdown',e=&gt;{touchPending=e.isPrimary!==false&amp;&amp;e.pointerType==='touch';},{passive:true});
-  input.addEventListener('click',()=&gt;{
-    if(touchPending&amp;&amp;document.activeElement===input&amp;&amp;Date.now()&lt;possibleVoiceUntil)tryKeyboardReturn();
-    touchPending=false;
-  });
-  button.addEventListener('click',e=&gt;{e.preventDefault();tryKeyboardReturn()});
-})();
-&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </textarea>
