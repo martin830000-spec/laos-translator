@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>KO↔LO 다중 번역 엔진 비교 · TEST R2</title>
+<title>KO↔LO 다중 번역 엔진 비교 · TEST R3</title>
 <style>
 :root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
 *{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
@@ -26,7 +26,7 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
 </head>
 <body>
 <main>
-<header><h1>한국어 ↔ 라오어 · 다중 엔진 비교</h1><div class="muted">독립 TEST R1 · 기존 SERVICE / H2 수정 없음 · 동일 문장 원클릭 비교</div></header>
+<header><h1>한국어 ↔ 라오어 · 다중 엔진 비교</h1><div class="muted">독립 TEST R3 · 기존 SERVICE / H2 수정 없음 · 동일 문장 원클릭 비교</div></header>
 <section class="card">
 <h2>① 엔진 및 API 키</h2>
 <p class="warning">키는 이 브라우저의 localStorage에 자동 저장됩니다. 서버·GitHub·결과 파일에 저장하지 않지만, 같은 웹사이트의 스크립트 또는 PC 접근자가 읽을 수 있습니다. <b>테스트 전용 키만 입력</b>하세요. 시크릿 모드·사이트 데이터 삭제 시 사라집니다. Lara 엔진을 실행하면 외부 jsDelivr SDK가 로드되며, 해당 코드는 입력 키에 접근할 수 있습니다.</p>
@@ -55,40 +55,68 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
 <section class="card">
 <h2>② 고정 비교 문장</h2>
 <p class="muted">한 줄에 <b>K|한국어 원문</b> 또는 <b>L|라오어 원문</b>을 입력하세요. 실제 부부 대화가 아닌 가상 예문만 기본 제공해요. K는 남편 정·역, L은 아내 정·역입니다.</p>
-<textarea id="cases" spellcheck="false">K|오늘은 몸이 조금 나아졌지만 아직 어지러워서 밖에 나가지는 않을게.
-L|ມື້ນີ້ຂ້ອຍດີຂຶ້ນໜ້ອຍໜຶ່ງ ແຕ່ຍັງມຶນຫົວ ເລີຍຈະບໍ່ອອກໄປຂ້າງນອກ.
-K|서류가 반려됐다는 사실을 미리 알려줬다면 다시 준비했을 텐데.
-L|ຖ້າເຈົ້າເມື່ອຍ ກໍພັກຜ່ອນກ່ອນເດີ ບໍ່ຕ້ອງຝືນ.</textarea>
+<textarea id="cases" spellcheck="false">K|어제보다 덜 어지럽긴 하지만, 아직 몸이 완전히 나은 건 아니니까 오늘은 쉬려고 해.
+L|ມື້ນີ້ຂ້ອຍບໍ່ໄດ້ເຈັບຫົວ ແຕ່ຍັງມຶນຫົວຢູ່ ເລີຍຢາກພັກກ່ອນ.
+K|서류를 제출했다는 말이지, 승인이 났다는 말은 아니야.
+L|ຂ້ອຍຈະໄປຮັບເອກະສານມື້ອື່ນ ບໍ່ແມ່ນວ່າໄປຮັບມາແລ້ວ.
+K|여보가 화난 건 이해해. 그렇다고 내가 여보 편이 아니라는 건 아니잖아.
+L|ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍພຽງແຕ່ນ້ອຍໃຈທີ່ເຈົ້າບໍ່ບອກຂ້ອຍກ່ອນ.
+K|비가 안 오면 나갈 수도 있지만, 지금 당장 가겠다고 약속한 건 아니야.
+L|ຖ້າອາກາດບໍ່ດີ ຢ່າຝືນອອກໄປ ແຕ່ຖ້າດີຂຶ້ນກໍຄ່ອຍໄປ.
+K|친구가 경찰서에서 다시 오라고 들었다는데, 내가 직접 확인한 건 아니야.
+L|ໝູ່ຂ້ອຍບອກວ່າເອກະສານອາດຈະຖືກສົ່ງກັບ ແຕ່ຍັງບໍ່ມີໃຜຢືນຢັນ.
+K|열 장 중에서 세 장만 수정하면 되고, 나머지 일곱 장은 다시 만들 필요 없어.
+L|ຂ້ອຍຊື້ຢາ 2 ກ່ອງ ແຕ່ກິນໄປແລ້ວພຽງ 1 ເມັດ ບໍ່ແມ່ນ 1 ກ່ອງ.
+K|우리 언니가 여보 동생에게 연락한 거야. 여보 언니한테 연락한 게 아니고.
+L|ເອື້ອຍຂອງຂ້ອຍໂທຫານ້ອງຊາຍເຈົ້າ ບໍ່ແມ່ນນ້ອງຊາຍຂ້ອຍ.
+K|아마 늦어질 것 같다고 했을 뿐인데, 왜 무조건 못 온다고 이해했어?
+L|ອາດຈະມີຄົນມາຊ່ວຍ ແຕ່ຂ້ອຍຍັງບໍ່ແນ່ໃຈ ຈຶ່ງບໍ່ກ້າຮັບປາກ.
+K|오늘 꼭 전화하라는 뜻이 아니라, 시간 날 때 연락 한 번만 해달라는 거야.
+L|ຂ້ອຍຂໍໃຫ້ເຈົ້າຊ່ວຍກວດເອກະສານ ບໍ່ໄດ້ສັ່ງໃຫ້ເຈົ້າໄປຍື່ນເອງ.
+K|조금만 더 기다려 보자고 한 거지, 언제까지나 참으라는 뜻은 아니야.
+L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂົ້າ ບໍ່ໄດ້ບອກວ່າທັກແລ້ວ.</textarea>
+<div class="row"><button type="button" id="load20">기본 스트레스 20문장 불러오기</button><span class="pill">한국어 10 · 라오어 10 · 고정 20문장</span></div>
 <p class="note"><b>품질 비교 주의:</b> 이 페이지의 Gemini는 중립 단순 프롬프트로 호출하므로 기존 SERVICE P168A의 정확한 실행 경로·SMART·LOW 설정과 동등한 기준선이 아닙니다. 엔진별 결과 참고용이며 SERVICE 대비 우월성 판정에 사용하지 마세요.</p><p class="note">역번역은 해당 엔진의 정번역 결과만 새 요청으로 다시 번역합니다. 원문과 별도의 '정답'을 주지 않으며, 역번역 일치율만으로 정번역 품질을 평가하지 않습니다.</p>
 <div class="grid">
-<div><label for="sampleCount">검사 문장 수</label><select id="sampleCount"><option value="2">2건 (한국어 1 + 라오어 1) · 기본</option><option value="4">4건</option><option value="8">8건</option></select></div>
-<div><label for="maxCalls">호출 제한 (이번 실행)</label><select id="maxCalls"><option value="20">20회</option><option value="40" selected>40회</option><option value="60">60회</option></select></div>
+<div><label for="sampleCount">검사 문장 수</label><select id="sampleCount"><option value="2">2건 (한국어 1 + 라오어 1) · 기본</option><option value="4">4건</option><option value="8">8건</option><option value="20" selected>20건 · 본검사</option></select></div>
+<div><label for="repeatCount">반복 횟수</label><select id="repeatCount"><option value="1" selected>1회 · 먼저 실행</option><option value="2">2회 연속 · 정밀검사</option></select></div>
+<div><label for="maxCalls">호출 제한 (이번 실행)</label><select id="maxCalls"><option value="20">20회</option><option value="40">40회</option><option value="60">60회</option><option value="100">100회</option><option value="200" selected>200회 (20문장 × 5엔진 × 정·역)</option><option value="400">400회 (2회 연속)</option></select></div>
 </div>
-<p class="warning">검사는 엔진별 정번역 1회 + 독립 역번역 최대 1회입니다. <b>실제 API 과금은 각 업체 계정에 발생할 수 있으며 1,000원 지출 한도를 보장하지 않습니다.</b> 자동 재시도·품질 평가 추가 호출은 없습니다.</p>
+<p class="note"><b>권장 순서:</b> 20건 × 1회 → 결과 저장 → 같은 문장으로 다시 20건 × 1회. 같은 탭에서는 1차·2차 결과를 합쳐 저장합니다. 새로고침하면 화면의 검사 결과는 사라지니 회차마다 파일을 저장하세요.</p><p class="warning">검사는 엔진별 정번역 1회 + 독립 역번역 최대 1회입니다. <b>실제 API 과금은 각 업체 계정에 발생할 수 있으며 1,000원 지출 한도를 보장하지 않습니다.</b> 자동 재시도·품질 평가 추가 호출은 없습니다.</p>
 <div class="row" style="margin-top:11px"><button class="primary" id="run">전체 엔진 한 번에 검사</button><button id="stop" disabled>검사 중지</button><button id="export" disabled>결과 JSON 저장</button><button id="exportTxt" disabled>결과 TXT 저장</button></div>
-<p id="plan" class="note"></p><progress id="prog" max="1" value="0"></progress><p id="state">대기 중</p>
+<p id="plan" class="note"></p><p id="caseStatus" class="note"></p><progress id="prog" max="1" value="0"></progress><p id="state">대기 중</p>
 </section>
-<section class="card"><h2>③ 실제 결과 <span class="pill" id="resultCount">0건</span></h2><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
-<div class="tablewrap"><table><thead><tr><th>엔진</th><th>경로</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>상태·원인</th></tr></thead><tbody id="results"></tbody></table></div></section>
-<footer class="note">ENGINE COMPARE TEST R2 · 2026-10-14 · 중국산 엔진 제외 · SERVICE V3.61.209 / P168A R8 미변경 · 검증되지 않은 엔진 응답은 PASS로 표시하지 않습니다.</footer>
+<section class="card"><h2>③ 실제 결과 <span class="pill" id="resultCount">0건</span></h2><p id="summary" class="note">검사 후 엔진별 성공 건수와 속도, 반복 출력의 차이가 표시됩니다.</p><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
+<div class="tablewrap"><table><thead><tr><th>회차</th><th>번호</th><th>엔진</th><th>경로</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>상태·원인</th></tr></thead><tbody id="results"></tbody></table></div></section>
+<footer class="note">ENGINE COMPARE TEST R3 · 2026-10-14 · 중국산 엔진 제외 · SERVICE V3.61.209 / P168A R8 미변경 · 검증되지 않은 엔진 응답은 PASS로 표시하지 않습니다.</footer>
 </main>
 <script>
 (function(){
 'use strict';
 const STORE='ko-lao-engine-compare-r1-keys';
-const ids=['geminiKey','geminiModel','laraId','laraSecret','azureKey','azureRegion','googleKey','googleProject','googleRegion','laraStyle','cases','sampleCount','maxCalls'];
+const ids=['geminiKey','geminiModel','laraId','laraSecret','azureKey','azureRegion','googleKey','googleProject','googleRegion','laraStyle','cases','sampleCount','repeatCount','maxCalls'];
 const secretIds=['geminiKey','laraId','laraSecret','azureKey','googleKey'];
 const $=id=>document.getElementById(id);
-let records=[], abort=null, active=false, completed=0, planned=0, laraClient=null;
+let records=[], abort=null, active=false, completed=0, planned=0, laraClient=null, runCounter=0;
 const engineNames={gemini:'Gemini (중립 프롬프트)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM'};
+const CASES20="K|어제보다 덜 어지럽긴 하지만, 아직 몸이 완전히 나은 건 아니니까 오늘은 쉬려고 해.\nL|ມື້ນີ້ຂ້ອຍບໍ່ໄດ້ເຈັບຫົວ ແຕ່ຍັງມຶນຫົວຢູ່ ເລີຍຢາກພັກກ່ອນ.\nK|서류를 제출했다는 말이지, 승인이 났다는 말은 아니야.\nL|ຂ້ອຍຈະໄປຮັບເອກະສານມື້ອື່ນ ບໍ່ແມ່ນວ່າໄປຮັບມາແລ້ວ.\nK|여보가 화난 건 이해해. 그렇다고 내가 여보 편이 아니라는 건 아니잖아.\nL|ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍພຽງແຕ່ນ້ອຍໃຈທີ່ເຈົ້າບໍ່ບອກຂ້ອຍກ່ອນ.\nK|비가 안 오면 나갈 수도 있지만, 지금 당장 가겠다고 약속한 건 아니야.\nL|ຖ້າອາກາດບໍ່ດີ ຢ່າຝືນອອກໄປ ແຕ່ຖ້າດີຂຶ້ນກໍຄ່ອຍໄປ.\nK|친구가 경찰서에서 다시 오라고 들었다는데, 내가 직접 확인한 건 아니야.\nL|ໝູ່ຂ້ອຍບອກວ່າເອກະສານອາດຈະຖືກສົ່ງກັບ ແຕ່ຍັງບໍ່ມີໃຜຢືນຢັນ.\nK|열 장 중에서 세 장만 수정하면 되고, 나머지 일곱 장은 다시 만들 필요 없어.\nL|ຂ້ອຍຊື້ຢາ 2 ກ່ອງ ແຕ່ກິນໄປແລ້ວພຽງ 1 ເມັດ ບໍ່ແມ່ນ 1 ກ່ອງ.\nK|우리 언니가 여보 동생에게 연락한 거야. 여보 언니한테 연락한 게 아니고.\nL|ເອື້ອຍຂອງຂ້ອຍໂທຫານ້ອງຊາຍເຈົ້າ ບໍ່ແມ່ນນ້ອງຊາຍຂ້ອຍ.\nK|아마 늦어질 것 같다고 했을 뿐인데, 왜 무조건 못 온다고 이해했어?\nL|ອາດຈະມີຄົນມາຊ່ວຍ ແຕ່ຂ້ອຍຍັງບໍ່ແນ່ໃຈ ຈຶ່ງບໍ່ກ້າຮັບປາກ.\nK|오늘 꼭 전화하라는 뜻이 아니라, 시간 날 때 연락 한 번만 해달라는 거야.\nL|ຂ້ອຍຂໍໃຫ້ເຈົ້າຊ່ວຍກວດເອກະສານ ບໍ່ໄດ້ສັ່ງໃຫ້ເຈົ້າໄປຍື່ນເອງ.\nK|조금만 더 기다려 보자고 한 거지, 언제까지나 참으라는 뜻은 아니야.\nL|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂົ້າ ບໍ່ໄດ້ບອກວ່າທັກແລ້ວ.";
+const LEGACY_CASES="K|오늘은 몸이 조금 나아졌지만 아직 어지러워서 밖에 나가지는 않을게.\nL|ມື້ນີ້ຂ້ອຍດີຂຶ້ນໜ້ອຍໜຶ່ງ ແຕ່ຍັງມຶນຫົວ ເລີຍຈະບໍ່ອອກໄປຂ້າງນອກ.\nK|서류가 반려됐다는 사실을 미리 알려줬다면 다시 준비했을 텐데.\nL|ຖ້າເຈົ້າເມື່ອຍ ກໍພັກຜ່ອນກ່ອນເດີ ບໍ່ຕ້ອງຝືນ.";
+const SETTINGS_UPGRADE='ko-lao-engine-compare-r3-suite-setup';
 const defaults={geminiModel:'gemini-3.8-flash',azureRegion:'koreacentral',googleProject:'gen-lang-client-0422436907',googleRegion:'us-central1',laraStyle:'faithful'};
 function settings(){const o={};for(const id of ids){o[id]=$(id).type==='checkbox'?$(id).checked:$(id).value;}o.engines=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).map(x=>x.dataset.engine);return o;}
 function save(){try{localStorage.setItem(STORE,JSON.stringify(settings()));$('keyStatus').textContent='이 브라우저에 자동 저장됨';}catch(e){$('keyStatus').textContent='저장 실패: 브라우저 저장 제한';}}
-function load(){let o={};try{o=JSON.parse(localStorage.getItem(STORE)||'{}');}catch(e){}for(const id of ids){const x=$(id);if(Object.prototype.hasOwnProperty.call(o,id)){if(x.type==='checkbox')x.checked=!!o[id];else x.value=o[id];}else if(defaults[id])x.value=defaults[id];}if(Array.isArray(o.engines)){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=o.engines.includes(x.dataset.engine));}save();}
-for(const id of ids){$(id).addEventListener('input',save);$(id).addEventListener('change',save);}
-document.querySelectorAll('[data-engine]').forEach(x=>x.addEventListener('change',save));
+function load(){let o={};try{o=JSON.parse(localStorage.getItem(STORE)||'{}');}catch(e){}for(const id of ids){const x=$(id);if(Object.prototype.hasOwnProperty.call(o,id)){if(x.type==='checkbox')x.checked=!!o[id];else x.value=o[id];}else if(defaults[id])x.value=defaults[id];}if(Array.isArray(o.engines)){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=o.engines.includes(x.dataset.engine));}
+try{if(localStorage.getItem(SETTINGS_UPGRADE)!=='done'){
+if(!$('cases').value.trim() || $('cases').value.trim()===LEGACY_CASES.trim())$('cases').value=CASES20;
+$('sampleCount').value='20';$('repeatCount').value='1';$('maxCalls').value='200';
+localStorage.setItem(SETTINGS_UPGRADE,'done');}}catch(e){}
+save();updateCaseStatus();}
+for(const id of ids){$(id).addEventListener('input',()=>{save();updateCaseStatus()});$(id).addEventListener('change',()=>{save();updateCaseStatus()});}
+document.querySelectorAll('[data-engine]').forEach(x=>x.addEventListener('change',()=>{save();updateCaseStatus()}));
+$('load20').addEventListener('click',()=>{$('cases').value=CASES20;$('sampleCount').value='20';save();updateCaseStatus();});
+function updateCaseStatus(){const lines=$('cases').value.split(/\r?\n/).map(v=>v.trim()).filter(Boolean);const ko=lines.filter(v=>/^K\s*\|/.test(v)).length;const lo=lines.filter(v=>/^L\s*\|/.test(v)).length;const engineCount=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).length;const c=Math.min(lines.length,Number($('sampleCount').value)||20);$('caseStatus').textContent='입력 '+lines.length+'문장 (한국어 '+ko+', 라오어 '+lo+') · 현재 선택 '+c+'건 × '+engineCount+'엔진 × 정·역 2회 × 반복 '+($('repeatCount').value||1)+'회 = 최대 '+(c*engineCount*2*(Number($('repeatCount').value)||1))+'호출';}
 $('eraseKeys').addEventListener('click',()=>{if(!confirm('이 브라우저에 저장된 모든 번역 API 키를 삭제할까요?'))return;for(const id of secretIds)$(id).value='';laraClient=null;save();});
-function parseCases(s,n){const out=[];for(const raw of s.split(/\r?\n/)){const line=raw.trim();if(!line)continue;const m=line.match(/^([KL])\s*\|\s*(.+)$/);if(!m)throw Error('문장 형식 오류: '+line.slice(0,40));out.push({side:m[1],text:m[2].trim()});if(out.length>=n)break;}if(!out.length)throw Error('테스트 문장이 없습니다.');if(!out.some(c=>c.side==='K')||!out.some(c=>c.side==='L'))throw Error('남편 K와 아내 L 문장이 각각 1건 이상 필요합니다.');return out;}
+function parseCases(s,n){const out=[];for(const raw of s.split(/\r?\n/)){const line=raw.trim();if(!line)continue;const m=line.match(/^([KL])\s*\|\s*(.+)$/);if(!m)throw Error('문장 형식 오류: '+line.slice(0,40));out.push({caseId:out.length+1,side:m[1],text:m[2].trim()});if(out.length>=n)break;}if(!out.length)throw Error('테스트 문장이 없습니다.');if(!out.some(c=>c.side==='K')||!out.some(c=>c.side==='L'))throw Error('남편 K와 아내 L 문장이 각각 1건 이상 필요합니다.');if(n===20&&(out.filter(c=>c.side==='K').length!==10||out.filter(c=>c.side==='L').length!==10))throw Error('20건 검사는 한국어 10건과 라오어 10건이 각각 필요합니다.');return out;}
 function cleanErr(e,s){let msg=String(e&&e.message||e||'알 수 없는 오류');for(const id of secretIds){const k=s[id];if(k&&k.length>5)msg=msg.split(k).join('[비밀키 가림]');}if(/Failed to fetch|NetworkError|Load failed|CORS/i.test(msg))return '브라우저 직접 호출 실패 (CORS 또는 네트워크 정책 가능): '+msg.slice(0,140);return msg.slice(0,260);}
 async function requestJSON(url,opt,s){let res;try{res=await fetch(url,Object.assign({signal:abort.signal,cache:'no-store',referrerPolicy:'no-referrer'},opt));}catch(e){throw Error(cleanErr(e,s));}let json;try{json=await res.json();}catch(e){throw Error('HTTP '+res.status+' · JSON 응답이 아닙니다');}if(!res.ok){let msg=json?.error?.message||json?.message||JSON.stringify(json).slice(0,150);throw Error('HTTP '+res.status+' · '+msg);}return json;}
 function unescapeHtml(v){const t=document.createElement('textarea');t.innerHTML=String(v||'');return t.value;}
@@ -99,17 +127,26 @@ function loadLaraSdk(){return new Promise((resolve,reject)=>{if(window.Lara?.Tra
 async function laraTranslate(text,src,dst,s){if(!laraClient){const sdk=await loadLaraSdk();laraClient=new sdk.Translator(new sdk.Credentials(s.laraId,s.laraSecret));}const r=await laraClient.translate(text,src==='ko'?'ko':'lo',dst==='ko'?'ko':'lo',{style:s.laraStyle,noTrace:true});let v=r?.translation;if(Array.isArray(v))v=v.join(' ');if(typeof v!=='string'||!v.trim())throw Error('Lara 응답 형식 불명');return v;}
 function engineCall(engine,text,src,dst,s){if(engine==='gemini')return geminiTranslate(text,src,dst,s);if(engine==='lara')return laraTranslate(text,src,dst,s);if(engine==='azure')return azureTranslate(text,src,dst,s);return googleTranslate(text,src,dst,s,engine==='tllm');}
 function verifyCredentials(s,eng){const missing=[];if(eng==='gemini'&&!s.geminiKey)missing.push('Gemini API 키');if(eng==='lara'&&(!s.laraId||!s.laraSecret))missing.push('Lara ID/Secret');if(eng==='azure'&&!s.azureKey)missing.push('Azure 키');if((eng==='nmt'||eng==='tllm')&&!s.googleKey)missing.push('Cloud Translation 키');return missing.join(', ');}
-function render(rec){const tr=document.createElement('tr');const fields=[engineNames[rec.engine],rec.side==='K'?'남편 K→L→K':'아내 L→K→L',rec.source,rec.forward||'—',rec.back||'—',rec.forwardMs??'—',rec.backMs??'—',rec.error?'실패: '+rec.error:rec.state];fields.forEach((val,i)=>{const td=document.createElement('td');td.textContent=String(val);if(i>=2&&i<=4)td.className='wide';if(i===7)td.className=rec.error?'err':rec.state==='완료'?'ok':'muted';tr.appendChild(td);});$('results').appendChild(tr);$('resultCount').textContent=String(records.length)+'건';}
+function render(rec){const tr=document.createElement('tr');const fields=[rec.round,rec.caseId,engineNames[rec.engine],rec.side==='K'?'남편 K→L→K':'아내 L→K→L',rec.source,rec.forward||'—',rec.back||'—',rec.forwardMs??'—',rec.backMs??'—',rec.error?'실패: '+rec.error:rec.state];fields.forEach((val,i)=>{const td=document.createElement('td');td.textContent=String(val);if(i>=4&&i<=6)td.className='wide';if(i===9)td.className=rec.error?'err':rec.state==='완료'?'ok':'muted';tr.appendChild(td);});$('results').appendChild(tr);$('resultCount').textContent=String(records.length)+'건';}
 function showProgress(){const v=Math.min(completed,planned);$('prog').max=Math.max(1,planned);$('prog').value=v;$('state').textContent=(active?'검사 중 · ':'종료 · ')+v+'/'+planned+'경로 요청 완료';}
-function markFinish(rec){records.push(rec);render(rec);}
-async function one(engine,c,s){const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko';const rec={engine,side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,error:''};if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}let t=performance.now();try{rec.forward=await engineCall(engine,c.text,src,dst,s);rec.forwardMs=Math.round(performance.now()-t);completed++;showProgress();if(abort.signal.aborted){rec.state='취소';completed++;showProgress();markFinish(rec);return;}t=performance.now();try{rec.back=await engineCall(engine,rec.forward,dst,src,s);rec.backMs=Math.round(performance.now()-t);rec.state='완료';}catch(e){rec.error='역번역: '+cleanErr(e,s);}completed++;showProgress();}catch(e){rec.error='정번역: '+cleanErr(e,s);completed+=2;showProgress();}markFinish(rec);}
+function summarize(){
+const done=records.filter(r=>r.state==='완료');
+const byEngine={};for(const r of records){const e=byEngine[r.engine]||(byEngine[r.engine]={n:0,ok:0,times:[]});e.n++;if(r.state==='완료'){e.ok++;e.times.push((r.forwardMs||0)+(r.backMs||0));}}
+const names=Object.keys(byEngine).map(key=>{const v=byEngine[key],sorted=v.times.sort((a,b)=>a-b);const mid=sorted.length?sorted[Math.floor((sorted.length-1)/2)]:null;const p95=sorted.length?sorted[Math.ceil(sorted.length*.95)-1]:null;const avg=sorted.length?Math.round(sorted.reduce((a,b)=>a+b,0)/sorted.length):null;return engineNames[key]+': '+v.ok+'/'+v.n+' 성공 · 평균 '+(avg??'—')+'ms · 중앙값 '+(mid??'—')+'ms · p95 '+(p95??'—')+'ms';});
+const groups=new Map();for(const r of done){const k=r.engine+'|'+r.side+'|'+r.source;const list=groups.get(k)||[];list.push(r.forward);groups.set(k,list);}
+let comparable=0,variable=0;for(const a of groups.values()){if(a.length>=2){comparable++;if(new Set(a).size>1)variable++;}}
+$('summary').textContent=names.join(' / ')+(comparable?' · 반복 결과 문자열 변화 '+variable+'/'+comparable+'문장 (의미 오역 판정 아님)':' · 반복 비교는 2차 검사 후 표시');
+}
+function markFinish(rec){records.push(rec);render(rec);summarize();}
+async function one(engine,c,s,round){const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko';const rec={round,caseId:c.caseId,engine,side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,error:''};if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}let t=performance.now();try{rec.forward=await engineCall(engine,c.text,src,dst,s);rec.forwardMs=Math.round(performance.now()-t);completed++;showProgress();if(abort.signal.aborted){rec.state='취소';completed++;showProgress();markFinish(rec);return;}t=performance.now();try{rec.back=await engineCall(engine,rec.forward,dst,src,s);rec.backMs=Math.round(performance.now()-t);rec.state='완료';}catch(e){rec.error='역번역: '+cleanErr(e,s);}completed++;showProgress();}catch(e){rec.error='정번역: '+cleanErr(e,s);completed+=2;showProgress();}markFinish(rec);}
 function setButtons(b){active=b;$('run').disabled=b;$('stop').disabled=!b;$('export').disabled=b||!records.length;$('exportTxt').disabled=b||!records.length;}
 $('stop').addEventListener('click',()=>{abort?.abort();$('state').textContent='중지 요청됨 · 진행 중 호출 취소 중';});
-$('run').addEventListener('click',async()=>{if(active)return;const s=settings();let cases;try{cases=parseCases(s.cases,Number(s.sampleCount));if(!s.engines.length)throw Error('선택한 엔진이 없습니다');const skipped=s.engines.filter(engine=>verifyCredentials(s,engine));s.engines=s.engines.filter(engine=>!verifyCredentials(s,engine));if(!s.engines.length)throw Error('검사할 수 있는 엔진이 없습니다. API 키를 등록해 주세요.');$('plan').textContent='실행 엔진: '+s.engines.map(e=>engineNames[e]).join(', ')+(skipped.length?' / 키 없는 엔진 제외: '+skipped.map(e=>engineNames[e]).join(', '):'');planned=cases.length*s.engines.length*2;if(planned>Number(s.maxCalls))throw Error('예상 '+planned+'회가 이번 실행 제한을 넘습니다');const chars=cases.reduce((sum,c)=>sum+c.text.length,0)*s.engines.length*2;if(chars>20000)throw Error('추정 문자 상한 20,000자를 초과합니다');}catch(e){$('state').textContent='시작하지 않음: '+e.message;return;}records=[];completed=0;abort=new AbortController();$('results').replaceChildren();$('resultCount').textContent='0건';setButtons(true);showProgress();try{await Promise.all(s.engines.map(async eng=>{for(const c of cases){if(abort.signal.aborted)break;await one(eng,c,s);}}));}finally{active=false;setButtons(false);$('state').textContent=(abort.signal.aborted?'사용자가 취소함':'진단 완료')+' · '+records.length+'건 저장 가능 · 실제 품질 판정은 사람이 해야 합니다';}});
+$('run').addEventListener('click',async()=>{if(active)return;const s=settings();let cases;const repeat=Math.min(2,Math.max(1,Number(s.repeatCount)||1));try{cases=parseCases(s.cases,Number(s.sampleCount));if(!s.engines.length)throw Error('선택한 엔진이 없습니다');const skipped=s.engines.filter(engine=>verifyCredentials(s,engine));s.engines=s.engines.filter(engine=>!verifyCredentials(s,engine));if(!s.engines.length)throw Error('검사할 수 있는 엔진이 없습니다. API 키를 등록해 주세요.');$('plan').textContent='실행 엔진: '+s.engines.map(e=>engineNames[e]).join(', ')+(skipped.length?' / 키 없는 엔진 제외: '+skipped.map(e=>engineNames[e]).join(', '):'');planned=cases.length*s.engines.length*2*repeat;if(planned>Number(s.maxCalls))throw Error('예상 '+planned+'회가 이번 실행 제한을 넘습니다');const chars=cases.reduce((sum,c)=>sum+c.text.length,0)*s.engines.length*2*repeat;if(chars>60000)throw Error('추정 문자 상한 60,000자를 초과합니다');}catch(e){$('state').textContent='시작하지 않음: '+e.message;return;}completed=0;abort=new AbortController();setButtons(true);showProgress();const firstRound=runCounter+1;
+try{for(let rep=0;rep<repeat;rep++){runCounter++;await Promise.all(s.engines.map(async eng=>{for(const c of cases){if(abort.signal.aborted)break;await one(eng,c,s,firstRound+rep);}}));if(abort.signal.aborted)break;}}finally{active=false;setButtons(false);const runs=[...new Set(records.map(r=>r.round))].sort((a,b)=>a-b);$('state').textContent=(abort.signal.aborted?'사용자가 취소함':'진단 완료')+' · '+runs.join(', ')+'회차 · 누적 '+records.length+'건 저장 가능 · 실제 품질 판정은 사람이 해야 합니다';}});
 function safeExport(obj){const a=document.createElement('a');const blob=new Blob([obj.text],{type:obj.type});const url=URL.createObjectURL(blob);a.href=url;a.download=obj.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-$('export').addEventListener('click',()=>safeExport({text:JSON.stringify({version:'R2',at:new Date().toISOString(),notice:'API keys never exported; RTT is browser observed; no scoring',records},null,2),type:'application/json',name:'ko-lao-engine-compare-'+Date.now()+'.json'}));
-$('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['ENGINE '+engineNames[r.engine],'SIDE '+r.side,'SOURCE '+r.source,'FORWARD '+r.forward,'BACK '+r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'STATUS '+(r.error||r.state),'---'].join('\n')).join('\n'),type:'text/plain;charset=utf-8',name:'ko-lao-engine-compare-'+Date.now()+'.txt'}));
-load();$('plan').textContent='첫 실행 권장: 2건 × 선택 엔진 5개 × 정·역 2회 = 최대 20회. 미연결·미지원·CORS 실패는 명확히 기록합니다.';
+$('export').addEventListener('click',()=>safeExport({text:JSON.stringify({version:'R3',at:new Date().toISOString(),caseSet:'K/L stress 20 or user-supplied; cases numbered; rounds cumulative in current tab',notice:'API keys never exported; RTT is browser observed; no scoring',records},null,2),type:'application/json',name:'ko-lao-engine-compare-'+Date.now()+'.json'}));
+$('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['ROUND '+r.round,'CASE '+r.caseId,'ENGINE '+engineNames[r.engine],'SIDE '+r.side,'SOURCE '+r.source,'FORWARD '+r.forward,'BACK '+r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'STATUS '+(r.error||r.state),'---'].join('\n')).join('\n'),type:'text/plain;charset=utf-8',name:'ko-lao-engine-compare-'+Date.now()+'.txt'}));
+load();$('plan').textContent='권장: 고정 20문장 × 5엔진 × 정·역 2회 = 200호출. 1차 검사 결과를 저장하고 같은 20문장으로 한 번 더 실행하세요.';
 })();
 </script>
 </body>
