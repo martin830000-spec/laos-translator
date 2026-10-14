@@ -1,6 +1,6 @@
 {
   "version": "V3.61.209",
-  "build": "20261014-V3.61.209-TEST-VOICE-UI-R2",
-  "buildId": "20261014-V3.61.209-TEST-VOICE-UI-R2",
-  "notes": "TEST Pages R2 active after 2026-10-15 user-requested rollback of ineffective R3 Google voice IME focus experiment. Keeps Gemini API direct single-pass forward/back, LOW and prompts; R2 truthful network UI, husband Cloud Run-first voice and wife Cloudflare-only voice routing. General custom Relay does not override STT/TTS priority; unsupported-language direct Gemini STT retained. NO R3 keyboard return button or auto-switch. SERVICE and Cloud Run/Cloudflare backends, H2, operational DB unchanged. Device STT/TTS regression still requires real test."
+  "build": "20261015-V3.61.209-TEST-ROUTE-PARITY-R1",
+  "buildId": "20261015-V3.61.209-TEST-ROUTE-PARITY-R1",
+  "notes": "ISOLATED TEST BRANCH ONLY; NOT GitHub Pages main / NOT SERVICE. Restores original Auto / Cloud Run / Cloudflare selection controls for couple voice paths. Auto remains husband Cloud Run first, wife Cloudflare first. Explicit stored manual voice preference honored; no new region/endpoint/backend. R2 direct Gemini text single-pass, P168A R8 G158A prompt unchanged, and R3 Android IME rejected. SERVICE V3.61.209, Cloudflare, Cloud Run, operational DB and H2 untouched; mocked tests not real Laos-device proof."
 }
