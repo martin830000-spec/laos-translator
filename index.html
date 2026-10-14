@@ -484,7 +484,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="ab7a5bdc612456ac28d499b8a66f64e85ef4230ab526164b415838a41e121575">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="8a1902955b5d5d76a62473ae98e5c18a96921ef1511492b4963124f0b1247dac">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -1588,7 +1588,14 @@ function networkRoutePreferred(feature='relay',meta={}){if(feature==='stt'||feat
 function networkRouteRecord(feature,path,ok,reason=''){if(feature==='diagnostic')return;const f=NETWORK_ROUTE_FEATURES.includes(feature)?feature:'relay',p=path==='cloudflare'?'cloudflare':'direct',all=networkRouteStatsRead(),s=all[f]&amp;&amp;typeof all[f]==='object'?all[f]:{};if(ok){s.lastSuccess=p;s.lastSuccessAt=Date.now();s[p+'FailStreak']=0}else{s[p+'FailStreak']=Math.min(9,(Number(s[p+'FailStreak'])||0)+1);s.lastFailure=String(reason||'').slice(0,80);s.lastFailureAt=Date.now()}all[f]=s;networkRouteStatsWrite(all);updateNetworkRouteUi()}
 function networkRouteModeLabel(mode){if(INTEGRATED_MODE==='wife')return mode==='direct'?'ໂດຍກົງກ່ອນ':mode==='cloudflare'?'ທາງອ້ອມກ່ອນ':'ອັດຕະໂນມັດ';return mode==='direct'?'직접 연결 우선':mode==='cloudflare'?'우회 연결 우선':'자동'}
 function networkRoutePathLabel(path){if(INTEGRATED_MODE==='wife')return path==='cloudflare'?'ທາງອ້ອມ':'ໂດຍກົງ';return path==='cloudflare'?'우회':'직접'}
-function updateNetworkRouteUi(){const mode=networkRouteMode(),summary=document.getElementById('networkRouteSummary'),hint=document.getElementById('networkRouteHint'),preferred=networkRoutePreferred('relay');if(summary)summary.textContent=(INTEGRATED_MODE==='wife'?'🌐 ການເຊື່ອມຕໍ່ · ':'🌐 연결 방식 · ')+networkRouteModeLabel(mode);for(const [id,v] of [['networkModeAuto','auto'],['networkModeDirect','direct'],['networkModeCloudflare','cloudflare']]){const b=document.getElementById(id);if(b)b.classList.toggle('active',mode===v)}if(hint){if(INTEGRATED_MODE==='wife')hint.textContent=mode==='auto'?`ອັດຕະໂນມັດ: ${networkRoutePathLabel(preferred)} ກ່ອນ · ປັບຕາມເສັ້ນທາງທີ່ໃຊ້ງານຈິງສຳເລັດ.`:'ຍັງຄົງມີເສັ້ນທາງສຳຮອງເມື່ອເສັ້ນທາງທີ່ເລືອກມີບັນຫາ.';else hint.textContent=mode==='auto'?`자동 선택: ${networkRoutePathLabel(preferred)} 연결 우선 · 최근 실제 성공 경로를 자동 반영합니다.`:'선택한 경로를 먼저 사용하고 장애 시 반대 경로로 자동 우회합니다.'}}
+function updateNetworkRouteUi(){
+  const summary=document.getElementById('networkRouteSummary'),hint=document.getElementById('networkRouteHint'),chooser=document.getElementById('networkModeAuto')?.parentElement;
+  if(chooser){chooser.hidden=true;chooser.style.display='none'}
+  if(summary)summary.textContent=INTEGRATED_MODE==='wife'?'🌐 ຂໍ້ຄວາມ: Gemini ໂດຍກົງ · ສຽງ: Cloudflare':'🌐 텍스트: Gemini 직접 · 음성: Cloud Run';
+  if(hint)hint.textContent=INTEGRATED_MODE==='wife'?
+    'ການແປ ແລະ ການແປກັບ ໃຊ້ Gemini ໂດຍກົງ 1 ຄັ້ງ. STT/TTS ໃຊ້ Cloudflare ກ່ອນ. ການແປຜິດພາດຈະບໍ່ສົ່ງຊ້ຳໄປເຊີບເວີອັດຕະໂນມັດ.':
+    '정번역·역번역: Gemini 직접 1회. STT/TTS: Cloud Run 우선(기존 음성 복구 유지). 텍스트 번역 실패 시 서버로 자동 재호출하지 않습니다.';
+}
 function setNetworkRouteMode(mode){const v=String(mode||'auto').toLowerCase();if(!['auto','direct','cloudflare'].includes(v))return false;safeStorageSet(NETWORK_ROUTE_MODE_KEY,v);updateNetworkRouteUi();return true}
 window.addEventListener('load',()=&gt;setTimeout(updateNetworkRouteUi,0));
 
@@ -5651,7 +5658,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="72fdec24768c77376db5f200bda37c5a518aeb8de53d14e5cffac39fa91e6446">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="30cc6de4efcddff293b8a50d499f6c1250605c61f2f62c1dfb2314cb79cf90de">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -6690,7 +6697,14 @@ function networkRoutePreferred(feature='relay',meta={}){if(feature==='stt'||feat
 function networkRouteRecord(feature,path,ok,reason=''){if(feature==='diagnostic')return;const f=NETWORK_ROUTE_FEATURES.includes(feature)?feature:'relay',p=path==='cloudflare'?'cloudflare':'direct',all=networkRouteStatsRead(),s=all[f]&amp;&amp;typeof all[f]==='object'?all[f]:{};if(ok){s.lastSuccess=p;s.lastSuccessAt=Date.now();s[p+'FailStreak']=0}else{s[p+'FailStreak']=Math.min(9,(Number(s[p+'FailStreak'])||0)+1);s.lastFailure=String(reason||'').slice(0,80);s.lastFailureAt=Date.now()}all[f]=s;networkRouteStatsWrite(all);updateNetworkRouteUi()}
 function networkRouteModeLabel(mode){if(INTEGRATED_MODE==='wife')return mode==='direct'?'ໂດຍກົງກ່ອນ':mode==='cloudflare'?'ທາງອ້ອມກ່ອນ':'ອັດຕະໂນມັດ';return mode==='direct'?'직접 연결 우선':mode==='cloudflare'?'우회 연결 우선':'자동'}
 function networkRoutePathLabel(path){if(INTEGRATED_MODE==='wife')return path==='cloudflare'?'ທາງອ້ອມ':'ໂດຍກົງ';return path==='cloudflare'?'우회':'직접'}
-function updateNetworkRouteUi(){const mode=networkRouteMode(),summary=document.getElementById('networkRouteSummary'),hint=document.getElementById('networkRouteHint'),preferred=networkRoutePreferred('relay');if(summary)summary.textContent=(INTEGRATED_MODE==='wife'?'🌐 ການເຊື່ອມຕໍ່ · ':'🌐 연결 방식 · ')+networkRouteModeLabel(mode);for(const [id,v] of [['networkModeAuto','auto'],['networkModeDirect','direct'],['networkModeCloudflare','cloudflare']]){const b=document.getElementById(id);if(b)b.classList.toggle('active',mode===v)}if(hint){if(INTEGRATED_MODE==='wife')hint.textContent=mode==='auto'?`ອັດຕະໂນມັດ: ${networkRoutePathLabel(preferred)} ກ່ອນ · ປັບຕາມເສັ້ນທາງທີ່ໃຊ້ງານຈິງສຳເລັດ.`:'ຍັງຄົງມີເສັ້ນທາງສຳຮອງເມື່ອເສັ້ນທາງທີ່ເລືອກມີບັນຫາ.';else hint.textContent=mode==='auto'?`자동 선택: ${networkRoutePathLabel(preferred)} 연결 우선 · 최근 실제 성공 경로를 자동 반영합니다.`:'선택한 경로를 먼저 사용하고 장애 시 반대 경로로 자동 우회합니다.'}}
+function updateNetworkRouteUi(){
+  const summary=document.getElementById('networkRouteSummary'),hint=document.getElementById('networkRouteHint'),chooser=document.getElementById('networkModeAuto')?.parentElement;
+  if(chooser){chooser.hidden=true;chooser.style.display='none'}
+  if(summary)summary.textContent=INTEGRATED_MODE==='wife'?'🌐 ຂໍ້ຄວາມ: Gemini ໂດຍກົງ · ສຽງ: Cloudflare':'🌐 텍스트: Gemini 직접 · 음성: Cloud Run';
+  if(hint)hint.textContent=INTEGRATED_MODE==='wife'?
+    'ການແປ ແລະ ການແປກັບ ໃຊ້ Gemini ໂດຍກົງ 1 ຄັ້ງ. STT/TTS ໃຊ້ Cloudflare ກ່ອນ. ການແປຜິດພາດຈະບໍ່ສົ່ງຊ້ຳໄປເຊີບເວີອັດຕະໂນມັດ.':
+    '정번역·역번역: Gemini 직접 1회. STT/TTS: Cloud Run 우선(기존 음성 복구 유지). 텍스트 번역 실패 시 서버로 자동 재호출하지 않습니다.';
+}
 function setNetworkRouteMode(mode){const v=String(mode||'auto').toLowerCase();if(!['auto','direct','cloudflare'].includes(v))return false;safeStorageSet(NETWORK_ROUTE_MODE_KEY,v);updateNetworkRouteUi();return true}
 window.addEventListener('load',()=&gt;setTimeout(updateNetworkRouteUi,0));
 
