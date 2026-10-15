@@ -8,13 +8,14 @@ function cleanConfig(env=process.env){
  const region=env.ADAPTIVE_REGION||'us-central1';
  const allowedOrigin=env.R4_ALLOWED_ORIGIN||'https://martin830000-spec.github.io';
  const token=env.R4_TEST_TOKEN||'';
- const dailyMax=Number(env.R4_DAILY_CALL_LIMIT||24);
+ // 0 explicitly disables the daily call quota; omit env to retain the existing default 24.
+ const dailyMax=env.R4_DAILY_CALL_LIMIT==='0'?0:Number(env.R4_DAILY_CALL_LIMIT||24);
  const minIntervalMs=Number(env.R4_MIN_INTERVAL_MS||1200);
  if(!/^[a-z][a-z0-9-]{3,62}$/.test(project))throw Error('GOOGLE_CLOUD_PROJECT must be set');
  if(!/^[a-z0-9-]+$/.test(region))throw Error('ADAPTIVE_REGION invalid');
  if(!/^https:\/\/[a-z0-9.-]+$/.test(allowedOrigin))throw Error('R4_ALLOWED_ORIGIN must be a single https origin');
  if(token.length<32)throw Error('R4_TEST_TOKEN is missing or shorter than 32 characters');
- if(!Number.isInteger(dailyMax)||dailyMax<1||dailyMax>200)throw Error('R4_DAILY_CALL_LIMIT out of range');
+ if(!Number.isInteger(dailyMax)||dailyMax<0||dailyMax>200)throw Error('R4_DAILY_CALL_LIMIT out of range');
  if(!Number.isInteger(minIntervalMs)||minIntervalMs<1000||minIntervalMs>60000)throw Error('R4_MIN_INTERVAL_MS out of range');
  return {project,region,allowedOrigin,token,dailyMax,minIntervalMs};
 }
@@ -87,7 +88,7 @@ function createHandler({config,translate,now=()=>Date.now()}){
   try{p=validatePayload(await readJson(req));}catch(e){if(!res.writableEnded)reply(res,400,{error:e.message==='BODY_TOO_LARGE'?'BODY_TOO_LARGE':'INVALID_INPUT'},origin);return;}
   const stamp=now(),today=Math.floor(stamp/86400000);
   if(today!==day){day=today;count=0;nextAllowed=0;}
-  if(count>=config.dailyMax){reply(res,429,{error:'LOCAL_DAILY_LIMIT'},origin);return;}
+  if(config.dailyMax>0&&count>=config.dailyMax){reply(res,429,{error:'LOCAL_DAILY_LIMIT'},origin);return;}
   if(stamp<nextAllowed){reply(res,429,{error:'LOCAL_RATE_LIMIT',retryAfterMs:nextAllowed-stamp},origin);return;}
   count++;nextAllowed=stamp+config.minIntervalMs;
   try{
