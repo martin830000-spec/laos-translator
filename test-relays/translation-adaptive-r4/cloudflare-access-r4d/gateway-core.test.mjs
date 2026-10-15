@@ -85,7 +85,7 @@ test('Cloud Run 429 is preserved', async () => {
   });
   const res = await gw.fetch(request(), { ...env0, R4_BUDGET: budget }, user);
   assert.equal(res.status, 429);
-  assert.deepEqual(await res.json(), { error: 'BACKEND_RATE_LIMIT' });
+  assert.deepEqual(await res.json(), { error: 'BACKEND_RATE_LIMIT', reason: 'LOCAL_RATE_LIMIT' });
 });
 
 
@@ -253,4 +253,28 @@ test('R4D API key template button downloads nine fields without any saved creden
  assert.match(template,/GOOGLE_REGION=us-central1/);
  assert.doesNotMatch(template,/AIza[A-Za-z0-9_-]{20,}/);
  assert.doesNotMatch(match[0],/localStorage|settings\(\)|secretIds|geminiKey/);
+});
+
+test('429 diagnosis preserves only safe Cloud Run TEST codes and validated retry interval, without extra calls', async () => {
+  const cases = [
+    { payload: { error: 'LOCAL_RATE_LIMIT', retryAfterMs: 1175 }, expected: { error: 'BACKEND_RATE_LIMIT', reason: 'LOCAL_RATE_LIMIT', retryAfterMs: 1175 } },
+    { payload: { error: 'LOCAL_DAILY_LIMIT' }, expected: { error: 'BACKEND_RATE_LIMIT', reason: 'LOCAL_DAILY_LIMIT' } },
+    { payload: { error: 'TOP_SECRET', token: 'secret', retryAfterMs: 1000 }, expected: { error: 'BACKEND_RATE_LIMIT', reason: 'UNKNOWN_BACKEND_429' } },
+    { payload: { error: 'LOCAL_RATE_LIMIT', retryAfterMs: 999999 }, expected: { error: 'BACKEND_RATE_LIMIT', reason: 'LOCAL_RATE_LIMIT' } }
+  ];
+  for (const item of cases) {
+    let calls = 0;
+    const { budget } = makeBudget();
+    const gateway = createGateway({
+      html: 'R4D',
+      backendFetch: async () => {
+        calls++;
+        return Response.json(item.payload, { status: 429 });
+      }
+    });
+    const response = await gateway.fetch(request(), { ...env0, R4_BUDGET: budget, R4_MAX_DAILY_CALLS: 'UNLIMITED' }, user);
+    assert.equal(response.status, 429);
+    assert.deepEqual(await response.json(), item.expected);
+    assert.equal(calls, 1, 'Never retry silently after rate limit');
+  }
 });
