@@ -1,0 +1,13 @@
+{
+  "name": "r4d-adaptive-access-test",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-15",
+  "workers_dev": true,
+  "rules": [{"type": "Text", "globs": ["**/*.html"], "fallthrough": true}],
+  "vars": {
+    "R4_BACKEND_URL": "https://r4-adaptive-test-qliae2rhva-du.a.run.app",
+    "R4_MAX_DAILY_CALLS": "6"
+  },
+  "durable_objects": {"bindings": [{"name": "R4_BUDGET", "class_name": "R4Budget"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["R4Budget"]}]
+}
