@@ -1,0 +1,18 @@
+# R4D TEST ONLY — Lara native instruction candidate C1.
+# This file contains NO API keys. It is NOT a production Gemini P168A prompt.
+# Four directions: husband forward/back and wife forward/back.
+# Each instruction is one short line, following Lara instructions limits.
+R4D-PROMPT-V1
+NAME=LARA_NATIVE_C1
+
+[LARA_HUSBAND_FORWARD]
+Preserve agent, recipient, negation, uncertainty, and whether actions are planned or completed.
+
+[LARA_HUSBAND_BACK]
+Preserve the Lao message's speakers, negation, commitments, quantities, and time without inventing details.
+
+[LARA_WIFE_FORWARD]
+Distinguish dizziness from headache; preserve Lao kinship roles, negation, uncertainty, and promises.
+
+[LARA_WIFE_BACK]
+Preserve Korean speaker roles, numbers, negation, and requests versus commands when translating into Lao.
