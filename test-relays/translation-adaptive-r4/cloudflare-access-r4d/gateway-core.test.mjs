@@ -1,5 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 import {R4Budget,validateBody,createGateway} from './gateway-core.mjs';
 
 const owner='test-owner@example.invalid';
@@ -83,4 +85,68 @@ test('Cloud Run 429 is preserved', async () => {
   const res = await gw.fetch(request(), { ...env0, R4_BUDGET: budget }, user);
   assert.equal(res.status, 429);
   assert.deepEqual(await res.json(), { error: 'BACKEND_RATE_LIMIT' });
+});
+
+
+// R4D profile TXT is parsed in-browser only; exercise the exact inline parser without network requests.
+function browserProfileParser(){
+ const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+ const begin=html.indexOf('const PROMPT_LARA_KEYS='),end=html.indexOf('const $=id=>document.getElementById(id);',begin);
+ assert.ok(begin>0&&end>begin,'inline prompt parser found');
+ const js=html.slice(begin,end);
+ return runInNewContext('(()=>{'+js+'return {parseR4DPromptProfile,chooseProfileInstructions}})()',{});
+}
+const fourLara=[
+ '[LARA_HUSBAND_FORWARD]\nPreserve the sender and receiver.',
+ '[LARA_HUSBAND_BACK]\nPreserve negation and tense.',
+ '[LARA_WIFE_FORWARD]\nPreserve kinship roles.',
+ '[LARA_WIFE_BACK]\nPreserve uncertain future events.'
+].join('\n');
+const fourGemini=[
+ '[GEMINI_HUSBAND_FORWARD]\nTranslate Korean into Lao only.',
+ '[GEMINI_HUSBAND_BACK]\nTranslate Lao into Korean only.',
+ '[GEMINI_WIFE_FORWARD]\nTranslate Lao into Korean only.',
+ '[GEMINI_WIFE_BACK]\nTranslate Korean into Lao only.'
+].join('\n');
+test('R4D profile TXT parser accepts Lara and routes four independent directions',()=>{
+ const {parseR4DPromptProfile,chooseProfileInstructions}=browserProfileParser();
+ const p=parseR4DPromptProfile('R4D-PROMPT-V1\nNAME=LARA_B1\n'+fourLara);
+ assert.equal(p.id,'LARA_B1');
+ assert.equal(p.gemini,null);
+ assert.equal(chooseProfileInstructions(p,{side:'K',phase:'forward'}).lara[0],'Preserve the sender and receiver.');
+ assert.equal(chooseProfileInstructions(p,{side:'K',phase:'back'}).lara[0],'Preserve negation and tense.');
+ assert.equal(chooseProfileInstructions(p,{side:'L',phase:'forward'}).lara[0],'Preserve kinship roles.');
+ assert.equal(chooseProfileInstructions(p,{side:'L',phase:'back'}).lara[0],'Preserve uncertain future events.');
+});
+test('R4D profile TXT supports standalone Gemini or both engines',()=>{
+ const {parseR4DPromptProfile,chooseProfileInstructions}=browserProfileParser();
+ const g=parseR4DPromptProfile('R4D-PROMPT-V1\nNAME=G1\n'+fourGemini);
+ assert.equal(g.lara,null);
+ assert.equal(chooseProfileInstructions(g,{side:'L',phase:'back'}).gemini,'Translate Korean into Lao only.');
+ const both=parseR4DPromptProfile('R4D-PROMPT-V1\nNAME=BOTH_B1\n'+fourLara+'\n'+fourGemini);
+ assert.ok(both.lara&&both.gemini);
+});
+test('R4D profile TXT rejects missing/duplicate/oversized instructions before paid calls',()=>{
+ const {parseR4DPromptProfile}=browserProfileParser();
+ const prefix='R4D-PROMPT-V1\nNAME=T1\n';
+ for(const invalid of [
+   'INVALID\nNAME=T1\n'+fourLara,
+   prefix+'[LARA_HUSBAND_FORWARD]\nHello',
+   prefix+fourLara+'\n[LARA_HUSBAND_FORWARD]\nDuplicate',
+   prefix+fourLara.replace('Preserve kinship roles.','one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty'),
+   prefix+fourLara+'\n[UNKNOWN]\nFictional',
+   'R4D-PROMPT-V1\n'+fourLara,
+   prefix+'[LARA_HUSBAND_FORWARD]\nHello\n'+'x'.repeat(16000)
+ ])assert.throws(()=>parseR4DPromptProfile(invalid));
+});
+test('R4D profile code preserves P168A readonly baseline and no profile localStorage persistence',()=>{
+ const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+ assert.match(html,/const P168A_GIT_BLOB='b1323967ef529e0c960d6e7ab707ea43659b8b6a'/);
+ assert.match(html,/if\(engine==='gemini_p168a'\)return geminiP168A/);
+ assert.match(html,/if\(engine==='lara'\)return laraTranslate\(text,src,dst,s,false,context\)/);
+ assert.match(html,/s\.profile=promptProfile/);
+ assert.match(html,/PROFILE_SHA256/);
+ assert.match(html,/function save\(\)\{try\{const x=settings\(\);delete x.adaptivePairsJson;/);
+ const js=html.split('<script>')[1].split('</script>')[0];
+ assert.doesNotThrow(()=>new Function(js));
 });
