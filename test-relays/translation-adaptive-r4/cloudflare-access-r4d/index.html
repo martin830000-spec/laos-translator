@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>KO↔LO 다중 엔진 비교 · TEST R4C STAGING</title>
+<title>KO↔LO 다중 엔진 비교 · TEST R4D ACCESS</title>
 <style>
 :root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
 *{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
@@ -40,7 +40,7 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
 <label class="check"><input type="checkbox" data-engine="tllm" checked>Google Translation LLM · 기본</label>
 <label class="check"><input type="checkbox" data-engine="adaptive">Google Translation LLM · Adaptive TEST (Access 인증 중계)</label>
 </div>
-<p class="note">R4B는 기존 엔진 종류 5개에 Lara 튜닝 + Gemini P168A 구성 참조를 더한 7개 비교군입니다. Gemini 중립도 LOW로 설정해 프롬프트 차이를 비교하므로, 기존 2026-10-14 중립(기본 thinking/temperature:0) 실험과 설정이 다릅니다. P168A 필드는 GitHub Pages의 동일 출처 prompt-config.json을 SHA 고정 검증해 로드합니다. 이 경로는 SMART OFF/LOW 구성참조이고 실제 SERVICE의 전체 실행 경로·SMART 조립·Relay와 동등하지 않습니다. Google NMT/TLLM은 기본형, Azure는 대조군입니다.</p>
+<p class="note">R4B는 기존 엔진 종류 5개에 Lara 튜닝 + Gemini P168A 구성 참조를 더한 7개 비교군입니다. Gemini 중립도 LOW로 설정해 프롬프트 차이를 비교하므로, 기존 2026-10-14 중립(기본 thinking/temperature:0) 실험과 설정이 다릅니다. P168A 필드는 인증된 TEST Worker의 동일 출처 prompt-config.json을 SHA 고정 검증해 로드합니다. 이 경로는 SMART OFF/LOW 구성참조이고 실제 SERVICE의 전체 실행 경로·SMART 조립·Relay와 동등하지 않습니다. Google NMT/TLLM은 기본형, Azure는 대조군입니다.</p>
 <p class="warning">Adaptive는 별도 R4 TEST 서버와 Cloudflare Access 인증 중계로 사용합니다. 브라우저에 토큰을 입력하지 않습니다. 인증 관문·일일 중앙 제한이 설정되기 전에는 실행하지 마세요. 검수한 양방향 예문 1~5쌍이 필요하며 예문은 자동 저장하지 않습니다.</p>
 <div class="grid" style="margin-top:10px">
 <div><label for="geminiKey">Gemini API 키 (선택)</label><input id="geminiKey" type="password" autocomplete="off"></div>
