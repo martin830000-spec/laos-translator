@@ -50,7 +50,7 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
 </div>
 <p class="note">R4B는 기존 엔진 종류 5개에 Lara 튜닝 + Gemini P168A 구성 참조를 더한 7개 비교군입니다. Gemini 중립도 LOW로 설정해 프롬프트 차이를 비교하므로, 기존 2026-10-14 중립(기본 thinking/temperature:0) 실험과 설정이 다릅니다. P168A 필드는 인증된 TEST Worker의 동일 출처 prompt-config.json을 SHA 고정 검증해 로드합니다. 이 경로는 SMART OFF/LOW 구성참조이고 실제 SERVICE의 전체 실행 경로·SMART 조립·Relay와 동등하지 않습니다. Google NMT/TLLM은 기본형, Azure는 대조군입니다.</p>
 <p class="warning">Adaptive는 별도 R4 TEST 서버와 Cloudflare Access 인증 중계로 사용합니다. 브라우저에 토큰을 입력하지 않습니다. 기존 일일 제한을 폐지했으며, 인증·실행당 최대 호출 제한·최소 호출 간격은 유지합니다. 검수한 양방향 예문 1~5쌍이 필요하며 예문은 자동 저장하지 않습니다.</p>
-<div class="row" style="margin-top:11px"><button type="button" id="importCredentials">API 키 TXT 불러오기</button><input type="file" id="credentialsFile" accept=".txt,text/plain" hidden><span class="file-message" id="credentialsImportStatus">TXT 파일을 브라우저에서만 읽고, 키 입력칸을 자동으로 채웁니다.</span></div>
+<div class="row" style="margin-top:11px"><button type="button" id="downloadCredentialTemplate">API 키 예문 TXT 다운로드</button><button type="button" id="importCredentials">API 키 TXT 불러오기</button><input type="file" id="credentialsFile" accept=".txt,text/plain" hidden><span class="file-message" id="credentialsImportStatus">TXT 파일을 브라우저에서만 읽고, 키 입력칸을 자동으로 채웁니다.</span></div>
 <div class="row" style="margin-top:11px"><button type="button" id="importPromptProfile">프롬프트 TXT 불러오기</button><input type="file" id="promptProfileFile" accept=".txt,text/plain" hidden><span class="file-message" id="promptProfileStatus">미적용 · Gemini 중립 / Lara 기존 지시문 사용</span></div>
 <p class="note">통합 TXT V2는 Gemini 4경로 프롬프트, Lara 4경로 지시문, Adaptive 양방향 예문을 한 파일에 포함합니다. NMT·기본 Translation LLM·Azure는 프롬프트 미지원 대조군으로 실행합니다. V1도 호환됩니다. TXT는 브라우저에서만 읽고 새로고침하면 해제되며, 검사 기록에는 후보명·SHA-256만 남습니다.</p>
 <p class="note">키 파일 자체는 서버로 전송하지 않습니다. 불러온 키는 기존 설정처럼 이 브라우저의 localStorage에 저장되며, 각 번역 엔진 호출 시 해당 제공자에게 전송됩니다. 실제 키를 적은 TXT 파일은 외부에 공유하지 마세요.</p>
@@ -258,6 +258,23 @@ $('load8').addEventListener('click',()=>{$('cases').value=CASES8;$('sampleCount'
 $('load20').addEventListener('click',()=>{$('cases').value=CASES20;$('sampleCount').value='20';save();updateCaseStatus();});
 function updateCaseStatus(){const lines=$('cases').value.split(/\r?\n/).map(v=>v.trim()).filter(Boolean);const ko=lines.filter(v=>/^K\s*\|/.test(v)).length;const lo=lines.filter(v=>/^L\s*\|/.test(v)).length;const engineCount=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).length;const c=Math.min(lines.length,Number($('sampleCount').value)||20);$('caseStatus').textContent='입력 '+lines.length+'문장 (한국어 '+ko+', 라오어 '+lo+') · 현재 선택 '+c+'건 × '+engineCount+'엔진 × 정·역 2회 × 반복 '+($('repeatCount').value||1)+'회 = 최대 '+(c*engineCount*2*(Number($('repeatCount').value)||1))+'호출';$('selectedEngineStatus').textContent='선택 '+engineCount+'개';}
 $('clearEngineChecks').addEventListener('click',()=>{if(active)return;integratedPreset=false;document.querySelectorAll('[data-engine]').forEach(input=>input.checked=false);save();updateCaseStatus();});
+// The downloaded template is static. It never reads browser-saved credentials.
+const CREDENTIAL_TEMPLATE=[
+ '# R4D TEST API 키 입력 예문 · 실제 키는 포함되어 있지 않습니다.',
+ '# 기존 발급받은 키를 확인해 빈칸에 입력하세요. 키를 새로 발급할 필요는 없습니다.',
+ '# 이름=값 형식 / 따옴표 없이 입력 / 실제 키가 든 파일은 공유하지 마세요.',
+ 'GEMINI_API_KEY=',
+ 'LARA_ACCESS_KEY_ID=',
+ 'LARA_ACCESS_KEY_SECRET=',
+ 'AZURE_TRANSLATOR_KEY=',
+ 'GOOGLE_TRANSLATION_KEY=',
+ 'GEMINI_MODEL=gemini-3.8-flash',
+ 'AZURE_REGION=koreacentral',
+ 'GOOGLE_PROJECT_ID=gen-lang-client-0422436907',
+ 'GOOGLE_REGION=us-central1',
+ ''
+].join('\\n');
+$('downloadCredentialTemplate').addEventListener('click',()=>safeExport({text:CREDENTIAL_TEMPLATE,type:'text/plain;charset=utf-8',name:'R4D_API_KEYS_TEMPLATE.txt'}));
 $('importCredentials').addEventListener('click',()=>{if(active)return;$('credentialsFile').click();});
 $('credentialsFile').addEventListener('change',async event=>{
  const file=event.target.files?.[0];event.target.value='';if(!file)return;
