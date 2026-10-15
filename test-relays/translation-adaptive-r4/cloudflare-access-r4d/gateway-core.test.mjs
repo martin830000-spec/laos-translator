@@ -298,3 +298,22 @@ test('R4D unified C2 candidate parses with all four Gemini/Lara routes and both 
   }
   // C2 TXT validation remains offline; no client or translation API call occurs.
 });
+
+test('R4D regression runs allow 3 and 5 repeat rounds, but preserve explicit safety limits and prompt-isolated statistics', () => {
+ const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+ const extract=id=>html.match(new RegExp('<select id="'+id+'">([\\s\\S]*?)<\\/select>'))?.[1]||'';
+ const repeats=[...extract('repeatCount').matchAll(/<option value="(\d+)"/g)].map(v=>Number(v[1]));
+ assert.deepEqual(repeats,[1,2,3,5]);
+ assert.match(extract('sampleCount'),/<option value="50">/);
+ assert.match(extract('maxCalls'),/<option value="400">/);
+ assert.match(html,/const repeat=\[1,2,3,5\]\.includes\(Number\(s\.repeatCount\)\)/);
+ assert.match(html,/if\(planned>Number\(s\.maxCalls\)\)/);
+ assert.match(html,/if\(chars>60000\)/);
+ assert.match(html,/abort\?\.abort\(\)/);
+ assert.match(html,/const fkey=JSON\.stringify\(\[identity,r\.source\]\),bkey=JSON\.stringify\(\[identity,r\.forward\]\)/);
+ assert.match(html,/r\.profileSha256\|\|r\.profileId/);
+ assert.match(html,/문자열 변화는 오역 재발률이 아닙니다/);
+ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+ assert.ok(script,'Expected the single inline comparator script');
+ assert.doesNotThrow(()=>new Function(script),'Inline R4D JavaScript must parse without making provider requests');
+});
