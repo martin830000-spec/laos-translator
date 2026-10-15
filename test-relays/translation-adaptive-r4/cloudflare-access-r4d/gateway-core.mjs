@@ -55,11 +55,15 @@ export function createGateway({html,promptConfig,promptConfigRaw,backendFetch=fe
      backend=new URL(env.R4_BACKEND_URL||'');
      if(backend.protocol!=='https:'||!/^r4-adaptive-test-[a-z0-9-]+\.(?:a|asia-northeast3)\.run\.app$/.test(backend.hostname)||backend.pathname!=='/'||backend.search||backend.hash)throw Error('BAD_BACKEND_URL');
    }catch{return json(503,{error:'BACKEND_UNCONFIGURED'});}
-   const stub=env.R4_BUDGET.get(env.R4_BUDGET.idFromName('r4d-global-daily-test-budget-v1'));
-   let limit;
-   try{limit=await stub.fetch('https://budget.internal/take',{method:'POST'});}
-   catch{return json(503,{error:'BUDGET_UNAVAILABLE'});}
-   if(!limit.ok)return json(limit.status===429?429:503,{error:limit.status===429?'DAILY_TEST_BUDGET':'BUDGET_UNAVAILABLE'});
+   // Explicit TEST-only opt-out: no daily ceiling. The per-run UI cap,
+   // Cloud Run minimum interval, owner Access auth and request validation remain.
+   if(env.R4_MAX_DAILY_CALLS!=='UNLIMITED'){
+     const stub=env.R4_BUDGET.get(env.R4_BUDGET.idFromName('r4d-global-daily-test-budget-v1'));
+     let limit;
+     try{limit=await stub.fetch('https://budget.internal/take',{method:'POST'});}
+     catch{return json(503,{error:'BUDGET_UNAVAILABLE'});}
+     if(!limit.ok)return json(limit.status===429?429:503,{error:limit.status===429?'DAILY_TEST_BUDGET':'BUDGET_UNAVAILABLE'});
+   }
    try{
      const upstream=await backendFetch(backend.origin+'/api/adaptive-translate',{
        method:'POST',headers:{'content-type':'application/json','x-r4-test-token':env.R4_BACKEND_TOKEN},
