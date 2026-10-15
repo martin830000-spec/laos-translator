@@ -1,0 +1,45 @@
+# R4D 독립 TEST — 8개 엔진 통합 후보 C2 (SERVICE 변경 금지)
+# R4B C1 양방향 로그 기반: 주체/동의 추가, 계획-결과 혼동, 과격식화, 행동 누락 개선 가설
+# Gemini 4경로 / Lara 4경로(각 최대 2줄, 줄당 19단어 미만) / Adaptive 양방향 예문
+# Azure·Google NMT·Translation LLM 기본형: 현 API 자유 프롬프트 미지원, 기존 대조군 유지
+# Adaptive 추가 예문: TEST 가설용, 원어민 자연스러움 검증 전. SERVICE 승격 금지.
+# C1 SHA256 dd2c828c373cef9b8c25354898b157052519c2f43dcdcf7eabedf306d53ee622
+# API 키를 이 파일에 넣지 마세요. API 호출은 진단기 수동 검사 실행 때만 발생합니다.
+R4D-PROMPT-V2
+NAME=R4D_UNIFIED_C2
+
+[GEMINI_HUSBAND_FORWARD]
+Translate one Korean conversational message into natural Lao. Preserve explicit and omitted actors, recipients, negation scope, time, uncertainty, and the speech act. Keep intentions, plans, submissions, permissions, and completed outcomes distinct. Never turn an unspecified actor into "you", add consent, infer blame, or treat a pending action as an approved result. Match the original familiar or polite tone without exaggeration. Output only idiomatic Lao.
+
+[GEMINI_HUSBAND_BACK]
+Translate ONLY the provided Lao sentence into Korean independently, without consulting or reconstructing an earlier Korean original. Preserve expressed and omitted actors, negation, time, modality, commitments, and whether an action was planned or completed. Do not repair an error by guessing missing facts or inventing agreement or approval. Match the source's conversational register. Output only natural Korean.
+
+[GEMINI_WIFE_FORWARD]
+Translate one Lao conversational message into natural Korean. Faithfully retain the speaker, any explicitly named addressee, negation scope, time, degree, bodily sensations, physical actions or posture, and the relation between cause and desire. Do not turn dizziness into headache, present desire into past desire, or "sit and rest" into merely "rest". Do not invent kinship labels or force formal written Korean on a casual message. Output only Korean.
+
+[GEMINI_WIFE_BACK]
+Independently translate ONLY the provided Korean message into natural Lao; do not use any earlier Lao original to reconstruct meaning. Preserve speakers and omitted subjects, explicit actions or posture, physical symptoms, time, causality, negation, uncertainty, requests and commitments. Keep the source's warm, natural conversational register without adding kinship terms, assumptions, or promises. Use Lao script, not Thai script. Output only Lao.
+
+[LARA_HUSBAND_FORWARD]
+Keep omitted subjects omitted; never invent "you", consent, agreement, or completed approval without explicit source evidence.
+Preserve negation, time, planned versus completed actions, and warm conversational register.
+
+[LARA_HUSBAND_BACK]
+Translate Lao independently; preserve omitted actors, negation scope, time, commitments, and planned versus completed actions.
+Use conversational Korean; do not insert consent, certainty, or unnecessary formal honorifics.
+
+[LARA_WIFE_FORWARD]
+Preserve symptoms, physical actions, posture, negation, speaker perspective, and causal links.
+Use everyday Korean, not formal written style unless the Lao source requires it.
+
+[LARA_WIFE_BACK]
+Translate Korean independently; preserve speaker perspective, posture, physical actions, symptoms, timing, uncertainty, and negation.
+Use natural Lao without invented kinship labels, causes, commitments, or consent.
+
+[ADAPTIVE_K2L]
+{"source":"여보, 오늘은 먼저 쉴게.","target":"ທີ່ຮັກ, ມື້ນີ້ຂ້ອຍຈະພັກກ່ອນເດີ."}
+{"source":"나는 서류를 제출했지만 아직 결과를 받지 못했어.","target":"ຂ້ອຍຍື່ນເອກະສານແລ້ວ ແຕ່ຍັງບໍ່ໄດ້ຮັບຜົນ."}
+
+[ADAPTIVE_L2K]
+{"source":"ຂ້ອຍຈະໂທຫາເຈົ້າມື້ອື່ນ.","target":"나는 내일 당신에게 전화할게."}
+{"source":"ຂ້ອຍຢາກຍ່າງໄປຕະຫຼາດ.","target":"나는 걸어서 시장에 가고 싶어."}
