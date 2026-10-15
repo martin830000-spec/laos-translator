@@ -69,7 +69,25 @@ export function createGateway({html,promptConfig,promptConfigRaw,backendFetch=fe
        method:'POST',headers:{'content-type':'application/json','x-r4-test-token':env.R4_BACKEND_TOKEN},
        body:JSON.stringify(payload),signal:AbortSignal.timeout(25000)
      });
-     if(!upstream.ok)return json(upstream.status===429?429:502,{error:upstream.status===429?'BACKEND_RATE_LIMIT':'BACKEND_UNAVAILABLE'});
+     if(!upstream.ok){
+       if(upstream.status===429){
+         // Cloud Run TEST rate details are safe to disclose only via this strict allowlist.
+         // Never relay arbitrary backend error messages, credentials, or provider responses.
+         let reason='UNKNOWN_BACKEND_429',retryAfterMs;
+         try{
+           const detail=await upstream.json();
+           if(detail?.error==='LOCAL_RATE_LIMIT'){
+             reason='LOCAL_RATE_LIMIT';
+             if(Number.isInteger(detail.retryAfterMs)&&detail.retryAfterMs>0&&detail.retryAfterMs<=60000)
+               retryAfterMs=detail.retryAfterMs;
+           }else if(detail?.error==='LOCAL_DAILY_LIMIT'){
+             reason='LOCAL_DAILY_LIMIT';
+           }
+         }catch{}
+         return json(429,{error:'BACKEND_RATE_LIMIT',reason,...(retryAfterMs?{retryAfterMs}:{})});
+       }
+       return json(502,{error:'BACKEND_UNAVAILABLE'});
+     }
      const result=await upstream.json();
      if(typeof result?.translation!=='string'||!result.translation.trim())return json(502,{error:'BACKEND_INVALID'});
      return json(200,{translation:result.translation,source:payload.source,target:payload.target});
