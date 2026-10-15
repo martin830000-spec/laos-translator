@@ -278,3 +278,23 @@ test('429 diagnosis preserves only safe Cloud Run TEST codes and validated retry
     assert.equal(calls, 1, 'Never retry silently after rate limit');
   }
 });
+
+test('R4D unified C2 candidate parses with all four Gemini/Lara routes and both Adaptive directions, SHA locked', () => {
+  const text=readFileSync(new URL('./candidates/R4D_UNIFIED_C2_8_ENGINE.txt',import.meta.url),'utf8');
+  const hash=createHash('sha256').update(text,'utf8').digest('hex');
+  assert.equal(hash,'ceed99e929095fdf637300b2c0b7663d7d889e35edbbc6e2292aa69523e5566c');
+  const p=browserProfileParser().parseR4DUnifiedPromptProfile(text);
+  assert.equal(p.id,'R4D_UNIFIED_C2');
+  assert.equal(p.version,2);
+  assert.equal(Object.keys(p.gemini).length,4);
+  assert.equal(Object.keys(p.lara).length,4);
+  assert.equal(p.adaptive.k2l.length,2);
+  assert.equal(p.adaptive.l2k.length,2);
+  for(const instructions of Object.values(p.lara)){
+    assert.ok(instructions.length>0&&instructions.length<=2);
+    for(const instruction of instructions){
+      assert.ok(instruction.trim().split(/\\s+/).length<=19);
+    }
+  }
+  // C2 TXT validation remains offline; no client or translation API call occurs.
+});
