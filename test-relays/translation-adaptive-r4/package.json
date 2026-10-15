@@ -1,0 +1,15 @@
+{
+  "name": "ko-lao-adaptive-r4-test-relay",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test server.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "google-auth-library": "^10.0.0"
+  }
+}
