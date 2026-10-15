@@ -231,3 +231,26 @@ test('R4D unlimited daily setting is restricted to the isolated TEST Worker',()=
  assert.match(html,/Adaptive 일일 제한 없음/);
  assert.match(html,/if\(planned>Number\(s.maxCalls\)\)/);
 });
+
+
+test('R4D API key template button downloads nine fields without any saved credentials',()=>{
+ const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+ assert.match(html,/id="downloadCredentialTemplate"/);
+ assert.match(html,/\$\('downloadCredentialTemplate'\)\.addEventListener\('click'/);
+ const match=html.match(/const CREDENTIAL_TEMPLATE=\[[\s\S]*?\]\.join\('\\n'\);/);
+ assert.ok(match,'Expected static newline-delimited TXT template');
+ const template=new Function(match[0]+'\nreturn CREDENTIAL_TEMPLATE;')();
+ const lines=template.split('\n').filter(line=>line&& !line.startsWith('#'));
+ assert.deepEqual(lines.map(line=>line.split('=')[0]),[
+  'GEMINI_API_KEY','LARA_ACCESS_KEY_ID','LARA_ACCESS_KEY_SECRET',
+  'AZURE_TRANSLATOR_KEY','GOOGLE_TRANSLATION_KEY','GEMINI_MODEL',
+  'AZURE_REGION','GOOGLE_PROJECT_ID','GOOGLE_REGION'
+ ]);
+ for(const line of lines.slice(0,5))assert.match(line,/^[A-Z_]+=$/);
+ assert.match(template,/GEMINI_MODEL=gemini-3\.8-flash/);
+ assert.match(template,/AZURE_REGION=koreacentral/);
+ assert.match(template,/GOOGLE_PROJECT_ID=gen-lang-client-0422436907/);
+ assert.match(template,/GOOGLE_REGION=us-central1/);
+ assert.doesNotMatch(template,/AIza[A-Za-z0-9_-]{20,}/);
+ assert.doesNotMatch(match[0],/localStorage|settings\(\)|secretIds|geminiKey/);
+});
