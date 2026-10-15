@@ -47,3 +47,19 @@ test('HTTP CORS, auth, one request, rate and daily cap with offline translation'
   assert.equal(providerCalls,3);
  }finally{service.close();}
 });
+
+test('zero daily quota means unlimited daily count, while auth and minimum interval still apply',async()=>{
+ const config=cleanConfig({...validEnv,R4_DAILY_CALL_LIMIT:'0'});assert.equal(config.dailyMax,0);
+ let now=1000000,providerCalls=0;
+ const service=http.createServer(createHandler({config,now:()=>now,translate:async()=>{
+   providerCalls++;return {translations:[{translatedText:'ສະບາຍດີ.'}]};
+ }}));
+ await new Promise(ok=>service.listen(0,'127.0.0.1',ok));
+ const url='http://127.0.0.1:'+service.address().port;
+ const post=token=>fetch(url+'/api/adaptive-translate',{method:'POST',headers:{'Content-Type':'application/json','Origin':config.allowedOrigin,'X-R4-Test-Token':token},body:JSON.stringify(sample)});
+ try{
+  assert.equal((await post('wrong')).status,401);
+  for(let i=0;i<24;i++){assert.equal((await post(config.token)).status,200);now+=1200;}
+  assert.equal(providerCalls,24);
+ }finally{service.close();}
+});
