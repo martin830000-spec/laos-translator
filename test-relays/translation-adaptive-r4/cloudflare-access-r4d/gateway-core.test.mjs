@@ -20,7 +20,7 @@ function makeBudget(){
  const store=new Map();
  const storage={async transaction(task){return task({get:k=>Promise.resolve(store.get(k)),put:(k,v)=>{store.set(k,v);return Promise.resolve()}})}};
  const object=new R4Budget({storage},env0);
- const budget={idFromName:x=>x,get:()=>({fetch:request=>object.fetch(request)})};
+ const budget={idFromName:x=>x,get:()=>({fetch:(input,init)=>object.fetch(new Request(input,init))})};
  return {budget,store};
 }
 test('only Korean and Lao, pairs strictly 1..5',()=>{
