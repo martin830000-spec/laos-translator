@@ -6,7 +6,7 @@
   "rules": [{"type": "Text", "globs": ["**/*.html", "**/prompt-config.json"], "fallthrough": true}],
   "vars": {
     "R4_BACKEND_URL": "https://r4-adaptive-test-qliae2rhva-du.a.run.app",
-    "R4_MAX_DAILY_CALLS": "6"
+    "R4_MAX_DAILY_CALLS": "UNLIMITED"
   },
   "durable_objects": {"bindings": [{"name": "R4_BUDGET", "class_name": "R4Budget"}]},
   "migrations": [{"tag": "v1", "new_sqlite_classes": ["R4Budget"]}]
