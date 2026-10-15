@@ -273,7 +273,7 @@ const CREDENTIAL_TEMPLATE=[
  'GOOGLE_PROJECT_ID=gen-lang-client-0422436907',
  'GOOGLE_REGION=us-central1',
  ''
-].join('\\n');
+].join('\n');
 $('downloadCredentialTemplate').addEventListener('click',()=>safeExport({text:CREDENTIAL_TEMPLATE,type:'text/plain;charset=utf-8',name:'R4D_API_KEYS_TEMPLATE.txt'}));
 $('importCredentials').addEventListener('click',()=>{if(active)return;$('credentialsFile').click();});
 $('credentialsFile').addEventListener('change',async event=>{
