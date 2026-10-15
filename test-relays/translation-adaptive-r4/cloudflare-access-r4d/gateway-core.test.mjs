@@ -181,7 +181,7 @@ test('R4D unified V2 TXT parses Gemini, Lara and adaptive examples together',()=
  assert.throws(()=>parseR4DUnifiedPromptProfile(src.replace(/\[ADAPTIVE_L2K\][\s\S]*$/,'')));
  assert.throws(()=>parseR4DUnifiedPromptProfile(src.replace('R4D-PROMPT-V2','R4D-PROMPT-X')));
 });
-test('R4D unified integrated comparator preserves owner lock, daily cap and no automatic provider run',()=>{
+test('R4D integrated comparator preserves owner lock, per-run cap and no automatic provider run',()=>{
  const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
  const js=html.split('<script>')[1].split('</script>')[0];
  assert.doesNotThrow(()=>new Function(js));
@@ -189,7 +189,8 @@ test('R4D unified integrated comparator preserves owner lock, daily cap and no a
  assert.match(html,/function parseR4DUnifiedPromptProfile/);
  assert.match(html,/s\.profile\?\.adaptive/);
  assert.match(html,/if\(integratedPreset&&\(!s\.profile\?\.gemini/);
- assert.match(html,/R4D Adaptive는 하루 최대 6호출/);
+ assert.doesNotMatch(html,/R4D Adaptive는 하루 최대 6호출/);
+ assert.match(html,/planned>Number\(s.maxCalls\)/);
  assert.match(html,/nextAdaptiveAt=t\+wait\+2500/);
  assert.match(html,/const P168A_GIT_BLOB='b1323967ef529e0c960d6e7ab707ea43659b8b6a'/);
 });
@@ -204,7 +205,29 @@ test('R4D distributed unified C1 file loads as a single eight-engine experiment'
  assert.equal(Object.keys(p.lara).length,4);
  assert.equal(p.adaptive.k2l.length,1);
  assert.equal(p.adaptive.l2k.length,1);
- // K1/L1 × 8 lanes × 2 directions = 32 calls, Adaptive only 4 <= daily 6.
+ // K1/L1 × 8 lanes × 2 directions = 32 calls. Daily cap deliberately absent.
  assert.equal(2*8*2,32);
- assert.ok(2*2<=6);
+ assert.equal(2*2,4);
+});
+
+test('R4D unlimited daily mode never consumes the daily budget; preserves Access and origin enforcement',async()=>{
+ let providerCalls=0;
+ const gateway=createGateway({html:'R4D',backendFetch:async()=>{providerCalls++;return Response.json({translation:'ສະບາຍດີ.'});}});
+ const env={...env0,R4_MAX_DAILY_CALLS:'UNLIMITED',R4_BUDGET:{
+   get(){throw Error('Daily Durable Object must not be consulted in UNLIMITED mode');}
+ }};
+ for(let i=0;i<8;i++)assert.equal((await gateway.fetch(request(),env,user)).status,200);
+ assert.equal(providerCalls,8);
+ const wrong={access:{aud:env.R4_ACCESS_AUD,async getIdentity(){return {email:'outsider@example.invalid'}}}};
+ assert.equal((await gateway.fetch(request(),env,wrong)).status,403);
+ assert.equal((await gateway.fetch(request(body,'https://attacker.example'),env,user)).status,403);
+});
+test('R4D unlimited daily setting is restricted to the isolated TEST Worker',()=>{
+ const config=readFileSync(new URL('./wrangler.jsonc',import.meta.url),'utf8');
+ assert.match(config,/"name": "r4d-adaptive-access-test"/);
+ assert.match(config,/"R4_MAX_DAILY_CALLS": "UNLIMITED"/);
+ assert.match(config,/"R4_BUDGET"/);
+ const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+ assert.match(html,/Adaptive 일일 제한 없음/);
+ assert.match(html,/if\(planned>Number\(s.maxCalls\)\)/);
 });
