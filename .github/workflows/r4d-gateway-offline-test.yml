@@ -1,0 +1,23 @@
+name: R4D Gateway isolated offline test
+on:
+  push:
+    branches:
+      - test/r4d-access-gateway-isolated-20261015
+    paths:
+      - 'test-relays/translation-adaptive-r4/cloudflare-access-r4d/**'
+      - '.github/workflows/r4d-gateway-offline-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node test (mock only, no external API)
+        run: node --test test-relays/translation-adaptive-r4/cloudflare-access-r4d/gateway-core.test.mjs
+      - name: Static no-browser-secret invariant
+        run: |
+          ! grep -Eiq 'adaptiveToken|adaptiveRelayUrl|X-R4-Test-Token' test-relays/translation-adaptive-r4/cloudflare-access-r4d/index.html
+          grep -Fq "url:location.origin,pairs" test-relays/translation-adaptive-r4/cloudflare-access-r4d/index.html
+          ! grep -Eq 'allUsers|allAuthenticatedUsers|no-allow-unauthenticated' test-relays/translation-adaptive-r4/cloudflare-access-r4d/wrangler.jsonc
