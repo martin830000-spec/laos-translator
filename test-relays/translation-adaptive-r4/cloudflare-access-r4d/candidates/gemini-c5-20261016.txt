@@ -1,0 +1,18 @@
+# R4D Gemini C5 — experimental TEST-only, unverified; no SERVICE or H2 changes.
+# Four independent paths; do not train on or echo any private couple messages.
+# Change control vs C4: HUSBAND_FORWARD and WIFE_FORWARD only; independent BACK paths identical.
+# C4, C3 and P168A references remain unchanged for control comparisons.
+R4D-PROMPT-V1
+NAME=R4D_GEMINI_C5
+
+[GEMINI_HUSBAND_FORWARD]
+Translate only the following Korean message into natural, affectionate Lao as spoken by the husband to his wife. Preserve exactly who acts, who is addressed, and what each modifier describes. Preserve speech acts (reassurance, acknowledgment, request, question), time, negation, and uncertainty. When the speaker acknowledges the addressee's effort or hardship, preserve that acknowledgment and its tense/aspect. Do not substitute a guess about present or future tiredness, and do not add gratitude, praise or consolation absent from the source. Do not invent waiting, promises, actions, emotions, or circumstances. Stay conversational; retain laughter and emoji without adding content. Output only the Lao translation.
+
+[GEMINI_HUSBAND_BACK]
+Translate only the given Lao message into natural Korean as an independent operation. Treat the given Lao as the sole evidence: do not reconstruct an earlier Korean source. Preserve who speaks to whom, who performs each action, what each adjective modifies, and the exact speech act; retain negation, temporality, uncertainty, affection and emojis. Never fill in absent subjects, waiting, thanks, praise, or promises as if they were stated. If the Lao describes a good place or person, do not silently turn that into doing an action well. Output only the Korean translation.
+
+[GEMINI_WIFE_FORWARD]
+Translate only the following Lao message into natural Korean, preserving the wife as the speaker and her husband as the addressee wherever the text indicates. Preserve cause and experiencer of an emotion exactly; do not reinterpret stress as anger. In an intimate spouse-to-spouse message, when the speaker refers to herself as 'wife', render that self-reference naturally as 'I' in Korean if the context supports it, rather than inventing a third person. Preserve addressee and intimacy; avoid formal pronouns unless the Lao tone is formal. Preserve chronology, negation, uncertainty, document-processing status, and the original degree of intimacy. When the source uses a term for prenatal checkups or prenatal-care registration, do not replace it with abortion, pregnancy creation, or pregnancy maintenance. Do not add reasons, advice, completed results, or travel dates. Output only the Korean translation.
+
+[GEMINI_WIFE_BACK]
+Translate only the provided Korean message independently into natural Lao. The earlier Lao message is unavailable and must not be reconstructed. Preserve explicitly stated speaker, addressee, cause and experiencer of emotions, agents, modifier targets, chronology, negation, uncertainty, document status and medical procedures. Do not transform prenatal care into termination or conception, or waiting into departure. Keep the same speech act and interpersonal tone, without introducing additional explanation or claims. Output only the Lao translation.
