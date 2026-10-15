@@ -50,3 +50,9 @@ NOTE: Four *paths* are two case forward/back pairs; with two cases total this is
 
 ## Frozen production
 Couple SERVICE V3.61.209 / P168A R8 / G158A; general SERVICE V3.61.207; Cloud Run/Cloudflare SERVICE, H2, History/Control DB, SERVICE prompts and data all unchanged.
+
+## Post-audit append: C2 file-parser integrity CI (2026-10-15 KST)
+- Added offline C2 TXT parser/SHA/4-lane/Lara-limit/Adaptive-pair regression test; final code commit ff5204a31605204ed8372e793c3fca12f46fd121.
+- Final complete CI SUCCESS: https://github.com/martin830000-spec/laos-translator/actions/runs/38712981191
+- All offline steps PASS: Node gateway mock tests, Cloud Run local mock tests, Wrangler dry-run, browser-secret invariant. Verified exact C2 text SHA-256 ceed99e929095fdf637300b2c0b7663d7d889e35edbbc6e2292aa69523e5566c. No paid API translation or deployment.
+- This is a new appended record; previous audit and raw R4B evidence are preserved.
