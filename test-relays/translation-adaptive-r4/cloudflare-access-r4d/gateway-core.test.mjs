@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {runInNewContext} from 'node:vm';
 import {R4Budget,validateBody,createGateway} from './gateway-core.mjs';
 
@@ -149,4 +150,18 @@ test('R4D profile code preserves P168A readonly baseline and no profile localSto
  assert.match(html,/function save\(\)\{try\{const x=settings\(\);delete x.adaptivePairsJson;/);
  const js=html.split('<script>')[1].split('</script>')[0];
  assert.doesNotThrow(()=>new Function(js));
+});
+
+
+test('R4D serves byte-exact locked P168A JSON, without changing the source SHA',async()=>{
+ const raw=readFileSync(new URL('../../../prompt-config.json',import.meta.url),'utf8');
+ const bytes=Buffer.from(raw,'utf8');
+ const hash=createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+ assert.equal(hash,'b1323967ef529e0c960d6e7ab707ea43659b8b6a');
+ assert.notEqual(raw,JSON.stringify(JSON.parse(raw)),'minification would break SHA');
+ const {budget}=makeBudget();
+ const gateway=createGateway({html:'TEST',promptConfigRaw:raw,backendFetch:()=>{throw Error('unexpected provider call')}});
+ const res=await gateway.fetch(new Request(url+'/prompt-config.json',{method:'GET'}),{...env0,R4_BUDGET:budget},user);
+ assert.equal(res.status,200);
+ assert.equal(await res.text(),raw);
 });
