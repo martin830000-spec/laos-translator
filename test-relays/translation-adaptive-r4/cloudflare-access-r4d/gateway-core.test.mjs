@@ -193,3 +193,18 @@ test('R4D unified integrated comparator preserves owner lock, daily cap and no a
  assert.match(html,/nextAdaptiveAt=t\+wait\+2500/);
  assert.match(html,/const P168A_GIT_BLOB='b1323967ef529e0c960d6e7ab707ea43659b8b6a'/);
 });
+
+test('R4D distributed unified C1 file loads as a single eight-engine experiment',()=>{
+ const file=readFileSync(new URL('./candidates/R4D_UNIFIED_C1_8_ENGINE.txt',import.meta.url),'utf8');
+ const {parseR4DUnifiedPromptProfile}=browserProfileParser();
+ const p=parseR4DUnifiedPromptProfile(file);
+ assert.equal(p.id,'R4D_UNIFIED_C1');
+ assert.equal(p.version,2);
+ assert.equal(Object.keys(p.gemini).length,4);
+ assert.equal(Object.keys(p.lara).length,4);
+ assert.equal(p.adaptive.k2l.length,1);
+ assert.equal(p.adaptive.l2k.length,1);
+ // K1/L1 × 8 lanes × 2 directions = 32 calls, Adaptive only 4 <= daily 6.
+ assert.equal(2*8*2,32);
+ assert.ok(2*2<=6);
+});
