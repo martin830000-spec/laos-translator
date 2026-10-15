@@ -72,3 +72,15 @@ test('backend exceptions and HTTP errors are not leaked',async()=>{
  const resp=await gw.fetch(request(),env,user);assert.equal(resp.status,502);
  assert.deepEqual(await resp.json(),{error:'BACKEND_UNAVAILABLE'});
 });
+
+test('Cloud Run 429 is preserved', async () => {
+  const { budget } = makeBudget();
+  const gw = createGateway({
+    html: 'TEST',
+    promptConfig: {},
+    backendFetch: async () => Response.json({ error: 'LOCAL_RATE_LIMIT' }, { status: 429 })
+  });
+  const res = await gw.fetch(request(), { ...env0, R4_BUDGET: budget }, user);
+  assert.equal(res.status, 429);
+  assert.deepEqual(await res.json(), { error: 'BACKEND_RATE_LIMIT' });
+});

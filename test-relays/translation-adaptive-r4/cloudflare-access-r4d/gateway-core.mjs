@@ -65,7 +65,7 @@ export function createGateway({html,promptConfig,backendFetch=fetch}){
        method:'POST',headers:{'content-type':'application/json','x-r4-test-token':env.R4_BACKEND_TOKEN},
        body:JSON.stringify(payload),signal:AbortSignal.timeout(25000)
      });
-     if(!upstream.ok)return json(502,{error:'BACKEND_UNAVAILABLE'});
+     if(!upstream.ok)return json(upstream.status===429?429:502,{error:upstream.status===429?'BACKEND_RATE_LIMIT':'BACKEND_UNAVAILABLE'});
      const result=await upstream.json();
      if(typeof result?.translation!=='string'||!result.translation.trim())return json(502,{error:'BACKEND_INVALID'});
      return json(200,{translation:result.translation,source:payload.source,target:payload.target});
