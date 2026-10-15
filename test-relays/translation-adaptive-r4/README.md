@@ -15,6 +15,8 @@ No service-account JSON keys, client API keys or test tokens belong in GitHub.
 7. Request endpoint is POST /api/adaptive-translate JSON {source:"ko",target:"lo",text:"...",pairs:[{source:"...",target:"..."}]}; returns {translation,source,target}. Browser never sees a Google OAuth token.
 8. Secrets are never logged or returned; logs do not include translation text. Handler never automatically retries provider calls.
 
-Test locally with npm ci (after a lockfile is generated) and npm test; no Google API calls by mock tests.
+Test locally with npm install and npm test; no Google API calls by mock tests. Do not commit credentials, temporary tokens or plaintext private conversations.
+
+The service is NOT reachable until deployed. The R4C browser UI has Adaptive disabled by default; selecting it without a validated server address and real vetted bilingual examples fails closed. Local per-process budgets are a supplementary control, not a global billing guarantee.
 
 Do NOT allow actual paid calls before a human has reviewed/approved the reference sentence pairs in each direction.
