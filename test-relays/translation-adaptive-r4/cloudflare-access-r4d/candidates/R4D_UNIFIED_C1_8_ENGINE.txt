@@ -1,0 +1,44 @@
+# R4D 독립 TEST · 엔진별 통합 프롬프트 후보 C1
+# 이 파일에는 API 키를 적지 마세요. 기존 SERVICE P168A는 변경하지 않습니다.
+# Gemini: 남편/아내 정번역·독립 역번역 각 1개씩, LOW / SMART OFF TEST
+# Lara: 네 경로 각각 20단어 미만의 지시문 최대 2줄
+# Adaptive: 한국어→라오어, 라오어→한국어 각각 검수된 예문 1~5쌍(JSON 한 줄에 한 쌍)
+# Google NMT / 기본 Translation LLM / Azure: 현 API에서 자유 프롬프트 미지원. 같은 검사 문장으로 기본형 비교.
+# Adaptive 예문은 실사용 전 라오어 화자의 자연스러움 재검수가 권장됩니다.
+# 실제 API 호출은 진단기에서 '검사 실행'을 누를 때만 발생하며 각 업체 요금이 발생할 수 있습니다.
+R4D-PROMPT-V2
+NAME=R4D_UNIFIED_C1
+
+[GEMINI_HUSBAND_FORWARD]
+Translate the Korean message into natural Lao. Preserve every actor, recipient, negation, number, emotional tone, and difference between planned and completed actions. Never invent approval, blame, or promises. Output only the Lao translation.
+
+[GEMINI_HUSBAND_BACK]
+Independently translate the Lao message into natural Korean, using only the Lao text. Preserve meaning, negation, roles, quantities, and uncertainty. Do not explain, compare with any earlier text, or output English. Output only the Korean translation.
+
+[GEMINI_WIFE_FORWARD]
+Translate the Lao message into natural, polite Korean. Preserve family relationships, who did what to whom, negation, time, symptoms, quantities, and requests versus commands. Distinguish dizziness from headache. Output only the Korean translation.
+
+[GEMINI_WIFE_BACK]
+Independently translate the Korean message into natural Lao, using only the Korean text. Preserve meaning and speaker perspective; keep Lao script rather than Thai script. Do not add explanations, promises, or assumptions. Output only the Lao translation.
+
+[LARA_HUSBAND_FORWARD]
+Preserve actors, recipients, negation, uncertainty, and planned versus completed actions.
+Keep affectionate tone without inventing approval, blame, or promises.
+
+[LARA_HUSBAND_BACK]
+Preserve the Lao message's speakers, negation, quantities, time, and commitments.
+Translate independently without inferring missing source details.
+
+[LARA_WIFE_FORWARD]
+Distinguish dizziness from headache; preserve which symptom is denied.
+Preserve Lao kinship roles, speakers, recipients, and requests versus commands.
+
+[LARA_WIFE_BACK]
+Preserve Korean speaker roles, numbers, negation, and uncertainty.
+Keep Lao conversational tone without adding unsupported information.
+
+[ADAPTIVE_K2L]
+{"source":"여보, 오늘은 먼저 쉴게.","target":"ທີ່ຮັກ, ມື້ນີ້ຂ້ອຍຈະພັກກ່ອນເດີ."}
+
+[ADAPTIVE_L2K]
+{"source":"ຂ້ອຍຈະໂທຫາເຈົ້າມື້ອື່ນ.","target":"나는 내일 당신에게 전화할게."}
