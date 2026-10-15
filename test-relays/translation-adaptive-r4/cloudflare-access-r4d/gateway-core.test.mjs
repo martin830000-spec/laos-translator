@@ -305,6 +305,7 @@ test('R4D regression runs allow 3 and 5 repeat rounds, but preserve explicit saf
  const repeats=[...extract('repeatCount').matchAll(/<option value="(\d+)"/g)].map(v=>Number(v[1]));
  assert.deepEqual(repeats,[1,2,3,5]);
  assert.match(extract('sampleCount'),/<option value="50">/);
+ assert.match(html,/if\(n===50&&\(out\.length!==50\|\|out\.filter\(c=>c\.side==='K'\)\.length!==25\|\|out\.filter\(c=>c\.side==='L'\)\.length!==25\)\)/);
  assert.match(extract('maxCalls'),/<option value="400">/);
  assert.match(html,/const repeat=\[1,2,3,5\]\.includes\(Number\(s\.repeatCount\)\)/);
  assert.match(html,/if\(planned>Number\(s\.maxCalls\)\)/);
