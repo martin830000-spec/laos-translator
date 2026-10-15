@@ -95,7 +95,7 @@ function browserProfileParser(){
  const begin=html.indexOf('const PROMPT_LARA_KEYS='),end=html.indexOf('const $=id=>document.getElementById(id);',begin);
  assert.ok(begin>0&&end>begin,'inline prompt parser found');
  const js=html.slice(begin,end);
- return runInNewContext('(()=>{'+js+'return {parseR4DPromptProfile,chooseProfileInstructions}})()',{});
+ return runInNewContext('(()=>{'+js+'return {parseR4DPromptProfile,parseR4DUnifiedPromptProfile,chooseProfileInstructions}})()',{});
 }
 const fourLara=[
  '[LARA_HUSBAND_FORWARD]\nPreserve the sender and receiver.',
@@ -164,4 +164,32 @@ test('R4D serves byte-exact locked P168A JSON, without changing the source SHA',
  const res=await gateway.fetch(new Request(url+'/prompt-config.json',{method:'GET'}),{...env0,R4_BUDGET:budget},user);
  assert.equal(res.status,200);
  assert.equal(await res.text(),raw);
+});
+
+test('R4D unified V2 TXT parses Gemini, Lara and adaptive examples together',()=>{
+ const {parseR4DUnifiedPromptProfile}=browserProfileParser();
+ const src='R4D-PROMPT-V2\nNAME=UNIFIED_C1\n'+fourLara+'\n'+fourGemini+'\n[ADAPTIVE_K2L]\n'+
+   JSON.stringify({source:'안녕하세요.',target:'ສະບາຍດີ.'})+'\n[ADAPTIVE_L2K]\n'+
+   JSON.stringify({source:'ຂອບໃຈ.',target:'고마워요.'})+'\n';
+ const p=parseR4DUnifiedPromptProfile(src);
+ assert.equal(p.id,'UNIFIED_C1');assert.equal(p.version,2);
+ assert.equal(p.lara.LARA_HUSBAND_FORWARD[0],'Preserve the sender and receiver.');
+ assert.equal(p.gemini.GEMINI_WIFE_BACK,'Translate Korean into Lao only.');
+ assert.equal(p.adaptive.k2l[0].source,'안녕하세요.');
+ assert.equal(p.adaptive.l2k[0].target,'고마워요.');
+ assert.throws(()=>parseR4DUnifiedPromptProfile(src.replace('[ADAPTIVE_L2K]','[ADAPTIVE_BAD]')));
+ assert.throws(()=>parseR4DUnifiedPromptProfile(src.replace(/\[ADAPTIVE_L2K\][\s\S]*$/,'')));
+ assert.throws(()=>parseR4DUnifiedPromptProfile(src.replace('R4D-PROMPT-V2','R4D-PROMPT-X')));
+});
+test('R4D unified integrated comparator preserves owner lock, daily cap and no automatic provider run',()=>{
+ const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+ const js=html.split('<script>')[1].split('</script>')[0];
+ assert.doesNotThrow(()=>new Function(js));
+ assert.match(html,/id="allEnginePreset"/);
+ assert.match(html,/function parseR4DUnifiedPromptProfile/);
+ assert.match(html,/s\.profile\?\.adaptive/);
+ assert.match(html,/if\(integratedPreset&&\(!s\.profile\?\.gemini/);
+ assert.match(html,/R4D Adaptive는 하루 최대 6호출/);
+ assert.match(html,/nextAdaptiveAt=t\+wait\+2500/);
+ assert.match(html,/const P168A_GIT_BLOB='b1323967ef529e0c960d6e7ab707ea43659b8b6a'/);
 });
