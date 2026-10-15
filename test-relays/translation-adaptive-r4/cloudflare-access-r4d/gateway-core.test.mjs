@@ -293,7 +293,7 @@ test('R4D unified C2 candidate parses with all four Gemini/Lara routes and both 
   for(const instructions of Object.values(p.lara)){
     assert.ok(instructions.length>0&&instructions.length<=2);
     for(const instruction of instructions){
-      assert.ok(instruction.trim().split(/\\s+/).length<=19);
+      assert.ok(instruction.trim().split(/\s+/).length<=19);
     }
   }
   // C2 TXT validation remains offline; no client or translation API call occurs.
