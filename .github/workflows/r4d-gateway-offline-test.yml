@@ -16,6 +16,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Node test (mock only, no external API)
         run: node --test test-relays/translation-adaptive-r4/cloudflare-access-r4d/gateway-core.test.mjs
+      - name: Wrangler offline bundle dry-run (no deployment)
+        working-directory: test-relays/translation-adaptive-r4/cloudflare-access-r4d
+        run: npx --yes wrangler@4 deploy --dry-run --outdir /tmp/r4d-bundle
       - name: Static no-browser-secret invariant
         run: |
           ! grep -Eiq 'adaptiveToken|adaptiveRelayUrl|X-R4-Test-Token' test-relays/translation-adaptive-r4/cloudflare-access-r4d/index.html
