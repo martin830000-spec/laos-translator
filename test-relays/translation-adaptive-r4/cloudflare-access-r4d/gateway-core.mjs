@@ -29,7 +29,7 @@ export class R4Budget {
    return json(accepted?200:429,{ok:accepted,error:accepted?undefined:'DAILY_TEST_BUDGET'});
  }
 }
-export function createGateway({html,promptConfig,backendFetch=fetch}){
+export function createGateway({html,promptConfig,promptConfigRaw,backendFetch=fetch}){
  return {async fetch(req,env,ctx){
    // A worker-level Access policy must apply to ALL Worker URLs, including previews.
    // Cloudflare injects ctx.access ONLY after successful Access authentication.
@@ -40,7 +40,7 @@ export function createGateway({html,promptConfig,backendFetch=fetch}){
    if(!ident?.email||ident.email.trim().toLowerCase()!==env.R4_OWNER_EMAIL.trim().toLowerCase())return json(403,{error:'OWNER_DENIED'});
    const u=new URL(req.url);
    if(req.method==='GET'&&(u.pathname==='/'||u.pathname==='/index.html'))return new Response(html,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','content-security-policy':"frame-ancestors 'none'"}});
-   if(req.method==='GET'&&u.pathname==='/prompt-config.json')return new Response(JSON.stringify(promptConfig),{headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
+   if(req.method==='GET'&&u.pathname==='/prompt-config.json')return new Response(typeof promptConfigRaw==='string'?promptConfigRaw:JSON.stringify(promptConfig),{headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store'}});
    if(req.method!=='POST'||u.pathname!=='/api/adaptive-translate')return json(404,{error:'NOT_FOUND'});
    if(req.headers.get('origin')!==u.origin)return json(403,{error:'ORIGIN_DENIED'});
    if(!/^application\/json(?:\s*;|$)/i.test(req.headers.get('content-type')||''))return json(415,{error:'JSON_REQUIRED'});
