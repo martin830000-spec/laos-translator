@@ -19,7 +19,10 @@ jobs:
       - name: Node test (mock only, no external API)
         run: node --test test-relays/translation-adaptive-r4/cloudflare-access-r4d/gateway-core.test.mjs
       - name: Cloud Run TEST offline tests (no provider calls)
-        run: node --test test-relays/translation-adaptive-r4/server.test.js
+        working-directory: test-relays/translation-adaptive-r4
+        run: |
+          npm install --no-package-lock --ignore-scripts --no-audit --no-fund
+          node --test server.test.js
       - name: Wrangler offline bundle dry-run (no deployment)
         working-directory: test-relays/translation-adaptive-r4/cloudflare-access-r4d
         run: npx --yes wrangler@4 deploy --dry-run --outdir /tmp/r4d-bundle
