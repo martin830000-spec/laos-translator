@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "b5bbffe75ccf62e84ed5e3137dcba3efad8d80852293aaf7de25487e24c3889e",
-  "revision": "H2-SAME-TAB-ADMIN-UX-20261017-R1-TEST",
-  "policy": "TEST only: verified same-tab iframe linked to the existing main runtime, H2 active run guard, foreground admin reauth; original 4-path tests unchanged, classic popup fallback retained. No model/Gemini/relay/DB/SERVICE changes. Real browser authentication tests pending."
+  "sha256": "0b3e4d5280eee2fe91059082888d0c3129eba4d78ad6e76fcd305a570e77441c",
+  "revision": "H2-P160A-SELFTEST-ACTUAL-SHA-20261017-R1-TEST",
+  "policy": "Replace outdated P160A historical assertion string check with real canonical SHA-256 check and actual BASELINE_SHA_INVALID guard validation. No prompt/engine/auth/relay/DB/production code changes. Existing H2 same-tab and fixed JSON preserved."
 }
