@@ -150,7 +150,12 @@ async function sha256Text(text){try{const b=await crypto.subtle.digest('SHA-256'
 function siblingPath(name){return '/'+String(name||'').replace(/^\/+|\/+$/g,'')+'/'}
 function diagnosticEnvironment(){return /\/wife(?:\/|$)/i.test(location.pathname)?'SERVICE':'TEST'}
 function currentGeneralDiagnosticPath(){return diagnosticEnvironment()==='SERVICE'?'/korean-lao-general/':'/korean-lao-general-test/'}
-function openerOk(){return !!(window.opener&&!window.opener.closed)}function main(){return openerOk()?window.opener:null}
+function main(){
+ try{const w=window.opener;if(w&&!w.closed&&w.location.origin===location.origin&&typeof w.getUnifiedDiagnosticCloneDocument==='function')return w}catch(_){}
+ try{const p=window.parent;if(p&&p!==window&&p.location.origin===location.origin&&p.__UNIFIED_H2_EMBED_ACTIVE__===true&&typeof p.getUnifiedDiagnosticCloneDocument==='function')return p}catch(_){}
+ return null
+}
+function openerOk(){return !!main()}
 const localCoupleFrames={husband:null,wife:null},localCoupleGenerations={husband:0,wife:0},localCoupleQueues={husband:Promise.resolve(),wife:Promise.resolve()};
 
 // H2 isolated clone parity: a bootstrap <script> before <!DOCTYPE html> causes
@@ -1089,6 +1094,16 @@ $('promptCompareRun').addEventListener('click',runPromptCompare);
 $('promptCompareStop').addEventListener('click',stopPromptCompare);
 $('promptCompareSave').addEventListener('click',()=>saveTextFile('prompt-ab-'+(promptCompareRun?.runId||Date.now())+'.txt',promptCompareLog||makePromptCompareLog()));
 $('qualityCount').addEventListener('change',updateQualityEstimate);$('qualityRetryFilter')?.addEventListener('change',updateQualityEstimate);$('qualityRun').addEventListener('click',runQuality);$('qualityStop').addEventListener('click',stopQuality);$('qualityCopy').addEventListener('click',async()=>status('qualityStatus',await copyText(qualityLogText||makeQualityLog())?'로그를 클립보드에 복사했습니다.':'로그 복사 실패','ok'));$('qualitySave').addEventListener('click',()=>saveTextFile(`quality-${qualityRun?.runId||Date.now()}.txt`,qualityLogText||makeQualityLog()));$('qualityRestore').addEventListener('click',restoreQuality);$('stressInput').addEventListener('input',stressPersist);$('stressEngine').addEventListener('change',updateStressEstimate);$('stressRepeat').addEventListener('change',updateStressEstimate);$('stressRun').addEventListener('click',runStress);$('stressStop').addEventListener('click',stopStress);$('stressClear').addEventListener('click',stressClearInput);$('stressRerun').addEventListener('click',rerunStressSelected);$('stressCopy').addEventListener('click',async()=>status('stressStatus',await copyText(stressLogText||makeStressLog())?'스트레스 로그를 복사했습니다.':'로그 복사 실패',stressRows.length?'ok':'err'));$('stressSave').addEventListener('click',()=>saveTextFile(`bulk-stress-${stressRun?.runId||Date.now()}.txt`,stressLogText||makeStressLog()));$('stressCases').addEventListener('change',e=>{const x=e.target;if(!x?.matches?.('[data-stress-uid]'))return;const id=String(x.dataset.stressUid||'');if(x.checked)stressSelected.add(id);else stressSelected.delete(id);$('sSelected').textContent=stressSelected.size});$('recordLoad').addEventListener('click',loadRecords);$('recordCopy').addEventListener('click',async()=>status('recordStatus',await copyText(recordText)?'로그를 복사했습니다.':'복사 실패',recordText?'ok':'err'));$('recordSave').addEventListener('click',()=>saveTextFile(`translation-records-${Date.now()}.txt`,recordText));$('perfRun').addEventListener('click',runPerf);$('perfCopy').addEventListener('click',async()=>status('perfStatus',await copyText(perfText)?'로그를 복사했습니다.':'복사 실패',perfText?'ok':'err'));$('perfSave').addEventListener('click',()=>saveTextFile(`performance-${Date.now()}.txt`,perfText));$('deployRun').addEventListener('click',runDeploy);$('deployCopy').addEventListener('click',async()=>status('deployStatus',await copyText(deployText)?'로그를 복사했습니다.':'복사 실패',deployText?'ok':'err'));$('deploySave').addEventListener('click',()=>saveTextFile(`deploy-compare-${Date.now()}.txt`,deployText));$('selfRun').addEventListener('click',selfRun);$('selfCopy').addEventListener('click',async()=>status('selfStatus',await copyText(selfText)?'로그를 복사했습니다.':'복사 실패',selfText?'ok':'err'));$('voiceRunAll').addEventListener('click',()=>runVoiceDiag('mixed'));$('voiceRunCleanup').addEventListener('click',()=>runVoiceDiag('cleanup'));$('voiceRunStt').addEventListener('click',()=>runVoiceDiag('stt'));$('voiceStop').addEventListener('click',()=>{voiceDiagStop=true;$('voiceStage').textContent='중단 중';try{voiceDiagBridge?.__generalCancelSttDiagnostic?.()}catch(_){}status('voiceStatus','현재 음성 진단 요청을 취소하고 중단합니다.','err')});$('voiceCopy').addEventListener('click',async()=>status('voiceStatus',await copyText(voiceDiagLog||vBuildLog('manual'))?'로그를 복사했습니다.':'복사 실패',voiceDiagRows.length?'ok':'err'));$('voiceSave').addEventListener('click',()=>saveTextFile(`voice-stt-${Date.now()}.txt`,voiceDiagLog||vBuildLog('manual')));
+window.__H2_ACTIVE_RUN_LABELS__=function(){
+ const a=[];
+ try{if(promptCompareRun&&!promptCompareRun.endedAt&&$('promptCompareRun').disabled)a.push('프롬프트 A/B')}catch(_){}
+ try{if(qualityRun&&!qualityRun.endedAt&&$('qualityRun').disabled)a.push('품질 검사')}catch(_){}
+ try{if(stressRun&&!stressRun.endedAt&&$('stressRun').disabled)a.push('스트레스 검사')}catch(_){}
+ try{if(typeof pcL1Running!=='undefined'&&pcL1Running)a.push('L1 검사')}catch(_){}
+ try{if(typeof pcFixedBackRunning!=='undefined'&&pcFixedBackRunning)a.push('고정 역번역')}catch(_){}
+ try{if(typeof voiceDiagStarted!=='undefined'&&voiceDiagStarted&&!voiceDiagStop&&!['완료','중단'].includes(String($('voiceStage')?.textContent||'')))a.push('음성 검사')}catch(_){}
+ return a
+};
 window.addEventListener('pagehide',()=>{qualityEnvEvent('pagehide');stopped=true;try{activeController?.abort()}catch(_){}try{resetLocalCoupleState('ALL','PAGEHIDE')}catch(_){}});
 if(!openerOk())status('usageStatus','본앱에서 관리자 도구를 열어야 실제 번역/사용량 브리지를 사용할 수 있습니다.','err');updateQualityEstimate();updatePromptCompareEstimate();stressRestoreInput();renderStressSummary();
 </script></body></html>
