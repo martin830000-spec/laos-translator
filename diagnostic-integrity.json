@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "2f62a8008c1cbe0bf8cbf8bb8f9c64e4a80824e3952074ceab8bbe9062b42aa3",
-  "revision": "H2-L1-FORWARD-8-WIFE-DB-READ_ONLY-20261013-R1",
-  "policy": "H2 diagnostic only: existing general 4-path A/B and WB1 wife independent-back fixed-8 preserved; L1 wife L2K forward-only same-source DB-read-only 8-pair A/B added, SMART OFF on both lanes, 16 paid calls max only on user confirmation, no back generation or DB write. SERVICE unchanged. Integrity hash must match H2 HTML."
+  "sha256": "85f1679ea82402958f67be2b151ff3482e3bce40e8654a2e8d2c364bda38d603",
+  "revision": "H2-BACK-TELEMETRY-EXPORT-20261016-R1-TEST-ONLY",
+  "policy": "H2 diagnostic only: existing general 4-path A/B and WB1 wife independent-back fixed-8 preserved; L1 wife L2K forward-only same-source DB-read-only 8-pair A/B added, SMART OFF on both lanes, 16 paid calls max only on user confirmation, no back generation or DB write. SERVICE unchanged. Integrity hash must match H2 HTML. TEST-branch-only add backUsage ms/status display for recent record and retry exports; exclude two exact known synthetic back telemetry event IDs from real-use performance and recent feature; null stays unmeasured; no service/backend/DB or paid API changes."
 }
