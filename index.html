@@ -323,6 +323,16 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 .auth-corner-version[data-channel="TEST"] small{color:#a15c00}.auth-corner-version[data-channel="SERVICE"] small{color:#137333}
 @media(max-width:480px){.shell-version{min-width:48px!important;max-width:48px!important;min-height:34px!important;padding:3px 3px!important}.shell-version-number{font-size:8px!important}.shell-version-channel{font-size:6.6px!important}.shell-version-tools{gap:3px!important}}
 @media(max-width:350px){.shell-version{min-width:46px!important;max-width:46px!important}.shell-version-number{font-size:7.7px!important}.shell-version-channel{font-size:6.3px!important}}
+
+/* TEST H2 full-screen route: admin-auth z-index 1900 intentionally above 1800 */
+#unifiedH2SameTab{position:fixed;inset:0;z-index:1800;display:flex;flex-direction:column;background:#fff;color:#172033;overflow:hidden}
+#unifiedH2SameTab[hidden]{display:none!important}
+#unifiedH2Bar{min-height:52px;padding:max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) 8px max(10px,env(safe-area-inset-left));display:flex;align-items:center;gap:8px;background:#f5f7fb;border-bottom:1px solid #d8dce4;flex-shrink:0;box-sizing:border-box;font:600 13px/1.3 system-ui,sans-serif}
+#unifiedH2Status{color:#64748b;flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:11px}
+#unifiedH2Bar button{border:1px solid #b9c4d0;border-radius:8px;background:#fff;color:#1e293b;padding:9px 11px;min-height:38px;white-space:nowrap;font:600 12px system-ui,sans-serif;cursor:pointer}
+#unifiedH2Return{background:#1d3557!important;color:white!important}
+#unifiedH2Frame{flex:1;min-height:0;width:100%;border:0;display:block;background:white}
+@media(max-width:540px){#unifiedH2Status{display:none}#unifiedH2Bar button{font-size:11px;padding:8px}#unifiedH2Bar{gap:5px}}
 </style>
 </head>
 <body class="unified-booting">
@@ -426,6 +436,10 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
   </div>
 </div>
 
+<div id="unifiedH2SameTab" hidden role="region" aria-label="H2 TEST 통합 진단기">
+  <div id="unifiedH2Bar"><strong>🧪 H2 · TEST</strong><span id="unifiedH2Status" role="status">연결 준비 중</span><button type="button" onclick="openUnifiedAdminDiagnostic()">기존 새 창</button><button id="unifiedH2Return" type="button" onclick="closeUnifiedAdminDiagnosticSameTab()">← 번역앱</button></div>
+  <iframe id="unifiedH2Frame" title="H2 TEST 통합 진단센터" referrerpolicy="same-origin"></iframe>
+</div>
 <div id="adminAuthOverlay" class="admin-auth-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="adminAuthTitle">
   <div class="admin-auth-card">
     <h2 id="adminAuthTitle">🔐 관리자 인증</h2>
@@ -9640,10 +9654,10 @@ async function submitUnifiedAdminAuth(){
   const action=unifiedAdminAuthAction;
   // Server auth is asynchronous. Pre-open the diagnostic window while this click still has
   // browser user activation, otherwise Safari/Chrome can block window.open after await.
-  const preopened=(action==='diagnostic')?createUnifiedDiagnosticPopup('관리자 인증 확인 중...'):null;
-  if(action==='diagnostic'&&!preopened){if(status)status.textContent='팝업이 차단되었습니다. 이 사이트의 팝업을 허용해주세요.';return}
+  const preopened=(action==='diagnostic'&&INTEGRATED_CHANNEL!=='TEST')?createUnifiedDiagnosticPopup('관리자 인증 확인 중...'):null;
+  if(action==='diagnostic'&&INTEGRATED_CHANNEL!=='TEST'&&!preopened){if(status)status.textContent='팝업이 차단되었습니다. 이 사이트의 팝업을 허용해주세요.';return}
   if(btn)btn.disabled=true;if(status)status.textContent='서버에서 관리자 인증 확인 중...';
-  try{await unifiedAdminLoginRemote(password);if(action==='reauth'){closeUnifiedAdminAuth(true);return}closeUnifiedAdminAuth(true);if(action==='serverSetup')openUnifiedServerSetupPanel('manual');else openUnifiedAdminDiagnostic(preopened)}
+  try{await unifiedAdminLoginRemote(password);if(action==='reauth'){closeUnifiedAdminAuth(true);return}closeUnifiedAdminAuth(true);if(action==='serverSetup')openUnifiedServerSetupPanel('manual');else if(INTEGRATED_CHANNEL==='TEST')openUnifiedAdminDiagnosticSameTab();else openUnifiedAdminDiagnostic(preopened)}
   catch(e){try{if(preopened&&!preopened.closed)preopened.close()}catch(_){}if(preopened===unifiedDiagnosticPopup)unifiedDiagnosticPopup=null;if(status)status.textContent=e?.status===429?`인증 시도가 잠시 제한되었습니다. ${e.retryAfterSec||60}초 뒤 다시 시도하세요.`:'비밀번호가 올바르지 않거나 서버 인증에 실패했습니다.';input.value='';try{input.focus({preventScroll:true})}catch(_){input.focus()}}
   finally{if(btn)btn.disabled=false}
 }
@@ -10703,7 +10717,7 @@ let unifiedDiagnosticPopup=null;
 let unifiedDiagnosticEntryApp='couple';
 function requestUnifiedAdminTools(app='couple'){
   unifiedDiagnosticEntryApp=(app==='general')?'general':'couple';
-  if(getUnifiedAdminSessionToken())openUnifiedAdminDiagnostic();else openUnifiedAdminAuth('diagnostic')
+  if(getUnifiedAdminSessionToken())(INTEGRATED_CHANNEL==='TEST'?openUnifiedAdminDiagnosticSameTab():openUnifiedAdminDiagnostic());else openUnifiedAdminAuth('diagnostic')
 }
 window.requestUnifiedAdminTools=requestUnifiedAdminTools;
 
@@ -10780,6 +10794,73 @@ async function openUnifiedAdminDiagnostic(preopenedPopup=null){
     }catch(renderError){console.error('[DIAGNOSTIC FAILURE VIEW]',renderError)}
   }
 }
+
+/* TEST H2 navigation, using real verified external H2 file and the live app as its bridge. */
+let unifiedH2OpenTask=null,unifiedH2Generation=0,unifiedH2OldOverflow='';
+window.__UNIFIED_H2_EMBED_ACTIVE__=false;
+function unifiedH2Parts(){return {root:document.getElementById('unifiedH2SameTab'),frame:document.getElementById('unifiedH2Frame'),status:document.getElementById('unifiedH2Status')}}
+function unifiedH2Busy(){
+ const {frame}=unifiedH2Parts();
+ if(!frame||frame.dataset.ready!=='1')return [];
+ try{const a=frame.contentWindow.__H2_ACTIVE_RUN_LABELS__?.();return Array.isArray(a)?a:['검사 상태 확인 불가']}catch(_){return ['검사 상태 확인 불가']}
+}
+function unifiedH2ViewUrl(){const u=new URL(location.href);u.searchParams.set('view','diagnostic');return u.pathname+u.search+u.hash}
+function unifiedH2Close(fromHistory=false){
+ const {root}=unifiedH2Parts();if(!root||root.hidden)return true;
+ const runs=unifiedH2Busy(),auth=document.getElementById('adminAuthOverlay');
+ if(runs.length||unifiedAdminAuthAction==='reauth'&&!auth?.classList.contains('hidden')){
+   unifiedAlert('진단기에서 '+(runs.join(', ')||'관리자 재인증')+'이 진행 중입니다. 완료하거나 중단한 뒤 이동해 주세요.');
+   if(fromHistory)try{history.pushState({...history.state,unifiedH2SameTab:true},'',unifiedH2ViewUrl())}catch(_){}
+   return false;
+ }
+ root.hidden=true;window.__UNIFIED_H2_EMBED_ACTIVE__=false;document.body.style.overflow=unifiedH2OldOverflow;
+ ++unifiedH2Generation;
+ if(!fromHistory)try{
+   if(new URL(location.href).searchParams.get('view')==='diagnostic'&&history.state?.unifiedH2SameTab)history.back();
+   else{const u=new URL(location.href);u.searchParams.delete('view');history.replaceState(history.state,'',u.pathname+u.search+u.hash)}
+ }catch(_){}
+ return true;
+}
+function closeUnifiedAdminDiagnosticSameTab(){return unifiedH2Close(false)}
+window.closeUnifiedAdminDiagnosticSameTab=closeUnifiedAdminDiagnosticSameTab;
+async function openUnifiedAdminDiagnosticSameTab(){
+ if(INTEGRATED_CHANNEL!=='TEST')return openUnifiedAdminDiagnostic();
+ if(!getUnifiedAdminSessionToken()){openUnifiedAdminAuth('diagnostic');return}
+ if(unifiedH2OpenTask)return unifiedH2OpenTask;
+ const {root,frame,status}=unifiedH2Parts();
+ if(!root||!frame||!status){unifiedAlert('H2 TEST 전용 화면이 없습니다.');return}
+ const action=async()=>{
+   const generation=++unifiedH2Generation;
+   if(root.hidden)unifiedH2OldOverflow=document.body.style.overflow||'';
+   root.hidden=false;window.__UNIFIED_H2_EMBED_ACTIVE__=true;document.body.style.overflow='hidden';
+   if(new URL(location.href).searchParams.get('view')!=='diagnostic')try{history.pushState({...history.state,unifiedH2SameTab:true},'',unifiedH2ViewUrl())}catch(_){}
+   if(frame.dataset.ready==='1'){status.textContent='연결됨 · 인증은 현재 화면에서 입력';return}
+   status.textContent='H2 SHA-256 검증 중…';
+   try{
+      const source=await loadExternalDiagnosticSource();
+      if(generation!==unifiedH2Generation||root.hidden)return;
+      if(!source||!EXTERNAL_DIAGNOSTIC_SHA256)throw Error('H2_SOURCE_INTEGRITY_MISSING');
+      const u=new URL(EXTERNAL_DIAGNOSTIC_URL,location.href);
+      u.searchParams.set('sha',EXTERNAL_DIAGNOSTIC_SHA256.slice(0,16));u.searchParams.set('ts',String(Date.now()));
+      frame.onload=()=>{
+        if(generation!==unifiedH2Generation||root.hidden)return;
+        try{
+          const w=frame.contentWindow;
+          if(w.location.origin!==location.origin)throw Error('H2_IFRAME_ORIGIN');
+          if(typeof w.main!=='function'||w.main()!==window)throw Error('H2_PARENT_BRIDGE');
+          if(!frame.contentDocument.getElementById('promptCompareRun'))throw Error('H2_AB_CONTROLS');
+          frame.dataset.ready='1';status.textContent='연결됨 · 관리자 재인증은 이 화면 위에 표시됩니다';
+        }catch(e){frame.dataset.ready='';status.textContent='연결 오류: '+String(e?.message||e)}
+      };
+      frame.onerror=()=>{if(generation===unifiedH2Generation)status.textContent='H2 로드 실패 · 기존 새 창으로 열 수 있습니다'};
+      frame.src=u.href;status.textContent='H2 검사화면 연결 중…';
+   }catch(e){if(generation===unifiedH2Generation)status.textContent='H2 준비 실패: '+String(e?.message||e)}
+ };
+ unifiedH2OpenTask=action();
+ try{await unifiedH2OpenTask}finally{unifiedH2OpenTask=null}
+}
+window.openUnifiedAdminDiagnosticSameTab=openUnifiedAdminDiagnosticSameTab;
+window.addEventListener('popstate',()=>{const {root}=unifiedH2Parts();if(root&&!root.hidden&&new URL(location.href).searchParams.get('view')!=='diagnostic')unifiedH2Close(true)});
 window.openUnifiedAdminDiagnostic=openUnifiedAdminDiagnostic;
 window.addEventListener('beforeunload',()=>{try{if(unifiedDiagnosticPopup&&!unifiedDiagnosticPopup.closed)unifiedDiagnosticPopup.close()}catch(_){}});
 
