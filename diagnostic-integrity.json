@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "ee9b6acb1b208b913ff159d96d87da644a4e98d6c61ab284061fe547a4d6de9b",
-  "revision": "H2-FIXED-JSON-20261017-R1-TEST-BRANCH",
-  "policy": "Existing H2 A/B: local JSON fixed cases 2-100 balanced K2L/L2K; same 4-path A/B, timing, cost, SHA and paid consent. No separate diagnostic; no Gemini during development; no SERVICE/server/DB/prompt changes. Result rows persist in existing local H2 browser storage."
+  "sha256": "b5bbffe75ccf62e84ed5e3137dcba3efad8d80852293aaf7de25487e24c3889e",
+  "revision": "H2-SAME-TAB-ADMIN-UX-20261017-R1-TEST",
+  "policy": "TEST only: verified same-tab iframe linked to the existing main runtime, H2 active run guard, foreground admin reauth; original 4-path tests unchanged, classic popup fallback retained. No model/Gemini/relay/DB/SERVICE changes. Real browser authentication tests pending."
 }
