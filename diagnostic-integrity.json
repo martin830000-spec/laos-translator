@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "85f1679ea82402958f67be2b151ff3482e3bce40e8654a2e8d2c364bda38d603",
-  "revision": "H2-BACK-TELEMETRY-EXPORT-20261016-R1-TEST-ONLY",
-  "policy": "H2 diagnostic only: existing general 4-path A/B and WB1 wife independent-back fixed-8 preserved; L1 wife L2K forward-only same-source DB-read-only 8-pair A/B added, SMART OFF on both lanes, 16 paid calls max only on user confirmation, no back generation or DB write. SERVICE unchanged. Integrity hash must match H2 HTML. TEST-branch-only add backUsage ms/status display for recent record and retry exports; exclude two exact known synthetic back telemetry event IDs from real-use performance and recent feature; null stays unmeasured; no service/backend/DB or paid API changes."
+  "sha256": "ee9b6acb1b208b913ff159d96d87da644a4e98d6c61ab284061fe547a4d6de9b",
+  "revision": "H2-FIXED-JSON-20261017-R1-TEST-BRANCH",
+  "policy": "Existing H2 A/B: local JSON fixed cases 2-100 balanced K2L/L2K; same 4-path A/B, timing, cost, SHA and paid consent. No separate diagnostic; no Gemini during development; no SERVICE/server/DB/prompt changes. Result rows persist in existing local H2 browser storage."
 }
