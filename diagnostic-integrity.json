@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "0b3e4d5280eee2fe91059082888d0c3129eba4d78ad6e76fcd305a570e77441c",
-  "revision": "H2-P160A-SELFTEST-ACTUAL-SHA-20261017-R1-TEST",
-  "policy": "Replace outdated P160A historical assertion string check with real canonical SHA-256 check and actual BASELINE_SHA_INVALID guard validation. No prompt/engine/auth/relay/DB/production code changes. Existing H2 same-tab and fixed JSON preserved."
+  "sha256": "ce95d9c73ab4eddf5e06e35617f40363f4506ebbece7a1f7b7cdd14940b46f42",
+  "revision": "H2-PAYLOAD-SHA-PIN-SYNC-20261017-R1-TEST",
+  "policy": "Pin exact TEST male/female translation payload SHA-256 verified against actual embedded payload bytes, not only the metadata. Add free self-check identical to the paid A/B preflight SHA gate. No translation engine, prompt, admin auth, relay, SERVICE or DB changes; no Gemini calls."
 }
