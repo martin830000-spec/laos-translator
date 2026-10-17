@@ -968,7 +968,7 @@ async function pcSimpleGate(){
  return [cfg.base.promptSha256,cfg.candidate.promptSha256,digest,cfg.smartMode].join('|');
 }
 async function pcSimpleDryRun(){
- try{const key=await pcSimpleGate();await pcAbDryRun();pcSimplePreflight=key;
+ try{await pcVerifyTestOpener();const key=await pcSimpleGate();await pcAbDryRun();pcSimplePreflight=key;
  $('pcSimpleCandidateLabel').textContent=JSON.parse($('promptCompareCandidate').value).promptRevision}
  catch(e){pcSimplePreflight='';status('promptCompareStatus','무료 확인 실패 · '+String(e?.message||e)+' · Gemini 0회','err')}
 }
