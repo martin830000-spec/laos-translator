@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "dfc2782de833835cc1163d3ba38dee3c4b62f10cda0993f5590301e488ab039a",
+  "sha256": "63e5500398c12c2500ed57e815a861a42a285b78e830d5d82f0b8887bcac2e40",
   "revision": "H2-SIMPLE-DIRECT-AB-20261017-R1-TEST",
-  "policy": "TEST-only single-page P168A versus built-in C1 or imported JSON candidate with direct K2L/L2K manual case entry; preserve H2 four-path isolated runner, exact hash/preflight and paid-call confirmation, Single Pass and TXT results. Hidden legacy UI retained in DOM for existing event bridges. No SERVICE, Cloudflare, Cloud Run, Control/History DB or Gemini calls changed."
+  "policy": "TEST-only simplified direct P168A versus embedded verified C1/imported B. Keep existing H2 four-path forward/back, preflight SHA gate, consent, Single Pass and result persistence. Do not change SERVICE, servers or DB. New interface not yet browser-verified or deployed."
 }
