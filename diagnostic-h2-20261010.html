@@ -947,7 +947,7 @@ async function pcSimpleSync(){
  pcSimpleLock();if($('promptCompareRun').disabled)throw Error('이미 검사 중입니다.');
  const ko=$('pcDirectK2L').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
  const lo=$('pcDirectL2K').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
- if(!ko.length&&!lo.length){if(!pcFixedSet?.rows?.length)throw Error('남편·아내 문장을 입력하거나 고정문장 JSON을 선택하세요.');
+ if(!ko.length&&!lo.length){if(!pcFixedSet?.rows?.length||String(pcFixedSet.rows[0]?.traceId||'').startsWith('DIRECT:'))throw Error('남편·아내 문장을 입력하거나 고정문장 JSON을 선택하세요.');
   $('pcSamplePreset').value='FIXED_FILE';pcApplySamplePreset();return pcFixedSet.digest;}
  if(ko.length!==lo.length||ko.length>50)throw Error('남편과 아내 문장은 각 1~50개, 같은 개수여야 합니다. 현재 '+ko.length+'/'+lo.length);
  const rows=[],seen=new Set();
