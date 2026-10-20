@@ -5586,7 +5586,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   const panel=document.createElement('div');panel.className='main-keyboard-translate';panel.innerHTML='&lt;button id="mainKeyboardTranslateBtn" class="main-keyboard-translate-btn" type="button" aria-label="번역하기"&gt;➤ 번역하기&lt;/button&gt;';
   bar.appendChild(panel);
   const btn=panel.querySelector('#mainKeyboardTranslateBtn');
-  let baseline=Math.max(0,window.innerHeight||0,window.visualViewport?.height||0),parentBaseline=0,parentVisible=0,lastPointer=0;
+  let baseline=Math.max(0,window.innerHeight||0,window.visualViewport?.height||0),parentBaseline=0,parentVisible=0;
   const focused=()=&gt;document.activeElement===input;
   const visibleHeight=()=&gt;{const own=Number(window.visualViewport?.height)||Number(window.innerHeight)||0;return parentVisible&gt;0?Math.min(own||parentVisible,parentVisible):own};
   function updateBaseline(){if(focused())return;const own=Math.max(Number(window.innerHeight)||0,Number(window.visualViewport?.height)||0);if(own&gt;baseline)baseline=own;if(parentVisible&gt;parentBaseline)parentBaseline=parentVisible}
@@ -5594,8 +5594,8 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   function sync(){updateBaseline();document.body.classList.toggle('mobile-keyboard-open',keyboardOpen())}
   function refocus(){try{input.focus({preventScroll:true})}catch(_){try{input.focus()}catch(__){}}try{input.setSelectionRange(input.value.length,input.value.length)}catch(_){}}
   function commit(){const source=String(input.value||'').trim();if(!source){refocus();setTimeout(sync,40);return}document.body.classList.remove('mobile-keyboard-open');try{input.blur()}catch(_){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(_){}setTimeout(()=&gt;{try{handleTranslateAction()}catch(e){console.error('[KEYBOARD TRANSLATE]',e)}},55)}
-  btn.addEventListener('pointerdown',e=&gt;{lastPointer=Date.now();e.preventDefault();commit()});
-  btn.addEventListener('click',e=&gt;{e.preventDefault();if(Date.now()-lastPointer&lt;500)return;commit()});
+  btn.addEventListener('pointerdown',e=&gt;{e.preventDefault()});
+  btn.addEventListener('click',e=&gt;{e.preventDefault();e.stopPropagation();commit()});
   input.addEventListener('focus',()=&gt;{if(!parentBaseline&amp;&amp;parentVisible)parentBaseline=parentVisible;setTimeout(sync,70);setTimeout(sync,260);setTimeout(sync,520)});
   input.addEventListener('blur',()=&gt;setTimeout(sync,260));
   window.visualViewport?.addEventListener('resize',sync,{passive:true});window.visualViewport?.addEventListener('scroll',sync,{passive:true});window.addEventListener('resize',sync,{passive:true});
@@ -9168,7 +9168,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   const panel=document.createElement('div');panel.className='main-keyboard-translate';panel.innerHTML='&lt;button id="mainKeyboardTranslateBtn" class="main-keyboard-translate-btn" type="button" aria-label="ແປ"&gt;➤ ແປ&lt;/button&gt;';
   bar.appendChild(panel);
   const btn=panel.querySelector('#mainKeyboardTranslateBtn');
-  let baseline=Math.max(0,window.innerHeight||0,window.visualViewport?.height||0),parentBaseline=0,parentVisible=0,lastPointer=0;
+  let baseline=Math.max(0,window.innerHeight||0,window.visualViewport?.height||0),parentBaseline=0,parentVisible=0;
   const focused=()=&gt;document.activeElement===input;
   const visibleHeight=()=&gt;{const own=Number(window.visualViewport?.height)||Number(window.innerHeight)||0;return parentVisible&gt;0?Math.min(own||parentVisible,parentVisible):own};
   function updateBaseline(){if(focused())return;const own=Math.max(Number(window.innerHeight)||0,Number(window.visualViewport?.height)||0);if(own&gt;baseline)baseline=own;if(parentVisible&gt;parentBaseline)parentBaseline=parentVisible}
@@ -9176,8 +9176,8 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   function sync(){updateBaseline();document.body.classList.toggle('mobile-keyboard-open',keyboardOpen())}
   function refocus(){try{input.focus({preventScroll:true})}catch(_){try{input.focus()}catch(__){}}try{input.setSelectionRange(input.value.length,input.value.length)}catch(_){}}
   function commit(){const source=String(input.value||'').trim();if(!source){refocus();setTimeout(sync,40);return}document.body.classList.remove('mobile-keyboard-open');try{input.blur()}catch(_){}try{const a=document.activeElement;if(a&amp;&amp;a!==document.body&amp;&amp;typeof a.blur==='function')a.blur()}catch(_){}setTimeout(()=&gt;{try{handleTranslateAction()}catch(e){console.error('[KEYBOARD TRANSLATE]',e)}},55)}
-  btn.addEventListener('pointerdown',e=&gt;{lastPointer=Date.now();e.preventDefault();commit()});
-  btn.addEventListener('click',e=&gt;{e.preventDefault();if(Date.now()-lastPointer&lt;500)return;commit()});
+  btn.addEventListener('pointerdown',e=&gt;{e.preventDefault()});
+  btn.addEventListener('click',e=&gt;{e.preventDefault();e.stopPropagation();commit()});
   input.addEventListener('focus',()=&gt;{if(!parentBaseline&amp;&amp;parentVisible)parentBaseline=parentVisible;setTimeout(sync,70);setTimeout(sync,260);setTimeout(sync,520)});
   input.addEventListener('blur',()=&gt;setTimeout(sync,260));
   window.visualViewport?.addEventListener('resize',sync,{passive:true});window.visualViewport?.addEventListener('scroll',sync,{passive:true});window.addEventListener('resize',sync,{passive:true});
