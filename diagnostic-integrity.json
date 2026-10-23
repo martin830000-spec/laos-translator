@@ -2,7 +2,8 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "e12df9a6747d14fa17116f77c6ef88a069a352fe435d5862342f3905277272cf",
-  "revision": "H2-ORIGINAL-ADDED-SIMPLE-AB-LINK-20261017-R1",
-  "policy": "Original H2 engine and tabs unchanged; only add navigation link to separate simplified A/B TEST page. Preserve verified TEST H2 embedded payload SHA gates; no SERVICE or DB writes."
+  "sha256": "35ea03d5b7ded9ab275581da74c24d0deefed2eb105f1beeae77aeb6f0d428c3",
+  "revision": "H2-READONLY-RECORD-PERF-COUNT-PARITY-20261023-R1",
+  "policy": "Original H2 engine and tabs unchanged; only add navigation link to separate simplified A/B TEST page. Preserve verified TEST H2 embedded payload SHA gates; no SERVICE or DB writes.",
+  "archive": "50/100/200/500/1000/2000/5000/ALL; fetch read-only; >1000 requires server count or pagination proof; no inferred full census; operation records independently capped at 500; UI preview truncated but TXT contains all collected rows. Translation runtime/DB/Cloudflare/Cloud Run/P168A R8 unchanged."
 }
