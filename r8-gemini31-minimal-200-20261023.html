@@ -412,7 +412,7 @@ $('r8Run').addEventListener('click',async()=>{
   // Pair original messages, rotating which model goes first to reduce order bias.
   for(let n=0;!r8Stopped&&r8Stages<200;n++){
    const dir=n%2===0?'K2L':'L2K',pool=pools[dir],idx=pos[dir]++,c={...pool[idx%pool.length],cycle:Math.floor(idx/pool.length)+1};
-   const order=n%2===0?['A','B']:['B','A'];
+   const order=n%4<2?['A','B']:['B','A'];
    for(const lane of order){
     if(r8Stopped||r8Stages>=200)break;
     r8Message('API 호출 '+r8Stages+'/200 · '+dir+' · '+c.id+' · '+(lane==='A'?'3.8 LOW':'3.1 MINIMAL'));
