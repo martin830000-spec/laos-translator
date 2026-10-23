@@ -35,7 +35,7 @@ main>section.card:nth-of-type(2) #engineChecks,main>section.card:nth-of-type(2) 
 <p class="note">원본 TEST SHA 확인 → 공통 수정프롬프트 SHA 확인 · 정번역/독립 역번역 1회씩 · maxOutputTokens=1024 고정 · 자동 재시도 없음.</p>
 <div class="row"><button id="r8Connect" type="button">① TEST 소스 확인 · 로그인 불필요</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
- <div><label for="r8File">② 기존 R8 비교 결과 JSON (또는 원문 cases JSON)</label><input id="r8File" type="file" accept=".json,application/json"><p class="note" id="r8FileInfo">파일은 브라우저 내부에서만 읽습니다. GitHub와 진단기 서버로 업로드하지 않습니다.</p></div>
+ <div><label for="r8File">② 기존 R8 검사 JSON/TXT 또는 원문 cases JSON</label><input id="r8File" type="file" accept=".json,.txt,application/json,text/plain"><p class="note" id="r8FileInfo">파일은 브라우저 내부에서만 읽습니다. GitHub와 진단기 서버로 업로드하지 않습니다.</p></div>
  <div><label for="r8PairsSelect">이번에 검사할 동일 원문</label><select id="r8PairsSelect"><option value="6" selected>우선 6문장 · 최대 24호출</option><option value="12">12문장 · 최대 48호출</option><option value="50">전체 50문장 · 최대 200호출</option></select><input id="r8Budget" type="text" readonly value="파일을 먼저 선택하세요"><p class="note">3.1 Flash-Lite MINIMAL vs LOW. 동일 수정프롬프트 · 각 문장 정/역번역 포함 · 최대 출력 1,024.</p></div>
 </div>
 <div class="row" style="margin-top:10px">
@@ -273,6 +273,20 @@ $('r8Connect').addEventListener('click',async()=>{
  }catch(e){r8Sources=null;r8Message('① 소스 검증 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8Canon(v){return r8Text(v).trim().replace(/\s+/g,' ')}
+function r8ParseTextCases(raw){
+ const parts=String(raw||'').split(/\r?\n---\s*(?:\r?\n|$)/);
+ const seen=new Set(),cases=[];
+ for(const block of parts){
+  const id=/^CASE ([^\r\n]+)$/m.exec(block)?.[1]?.trim();
+  const dir=/^DIRECTION (K2L|L2K)$/m.exec(block)?.[1];
+  const source=/\[SOURCE\]\s*\r?\n([\s\S]*?)\r?\n\[FORWARD\]/.exec(block)?.[1]?.trim();
+  if(!id||!dir||!source||seen.has(id))continue;
+  seen.add(id);
+  cases.push({id,direction:dir,source,issue:/^ISSUE ([^\r\n]*)$/m.exec(block)?.[1]||'',cohort:/^COHORT ([^\r\n]*)$/m.exec(block)?.[1]||''});
+ }
+ if(cases.length<2)throw Error('R8 텍스트 로그에서 원문을 찾지 못했습니다');
+ return {cases};
+}
 function r8ParseFile(obj){
  const src=Array.isArray(obj)?obj:(Array.isArray(obj?.cases)?obj.cases:(Array.isArray(obj?.rows)?obj.rows.filter(x=>x?.lane==='B'||x?.model==='gemini-3.1-flash-lite'):null));if(!Array.isArray(src)||src.length<2||src.length>200)throw Error('2~200건의 짝수 문장이 필요합니다');
  const seen=new Set(),ids=new Set(),rows=[];let k=0,l=0;
@@ -289,7 +303,7 @@ function r8ParseFile(obj){
 async function r8Fingerprint(rows){const s=JSON.stringify(rows.map(x=>[x.id,x.dir,x.source,x.issue]));const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(h),x=>x.toString(16).padStart(2,'0')).join('')}
 $('r8File').addEventListener('change',async()=>{
  if(r8Busy)return;r8Ready='';$('r8Run').disabled=true;r8Cases=[];r8Digest='';
- try{const f=$('r8File').files?.[0];if(!f)throw Error('검사 파일이 선택되지 않았습니다');if(f.size>550000)throw Error('개인용 파일 550KB 상한 초과');const obj=JSON.parse(await f.text());const rows=r8ParseFile(obj);
+ try{const f=$('r8File').files?.[0];if(!f)throw Error('검사 파일이 선택되지 않았습니다');if(f.size>550000)throw Error('개인용 파일 550KB 상한 초과');const raw=await f.text();let obj;try{obj=JSON.parse(raw)}catch(_){obj=r8ParseTextCases(raw)}const rows=r8ParseFile(obj);
  r8Cases=rows;r8Digest=await r8Fingerprint(rows);r8SourceLabel=f.name;
  const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
  $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
