@@ -22,5 +22,5 @@ jobs:
           test -n "$CHROME"
           timeout 40s "$CHROME" --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-background-networking --no-first-run --virtual-time-budget=1200 --dump-dom "file://$PWD/diagnostic-h2-simple-ab-20261017.html" > /tmp/h2-model200-dom.html 2>/tmp/h2-model200-errors.log
           grep -Fq '3.1 Flash-Lite' /tmp/h2-model200-dom.html
-          grep -Fq '200건 모델 비교' /tmp/h2-model200-dom.html
+          grep -Fq '200건 실사용 모델 비교' /tmp/h2-model200-dom.html
           if grep -Eiq 'Uncaught (ReferenceError|TypeError|SyntaxError)|Uncaught SyntaxError:' /tmp/h2-model200-errors.log; then cat /tmp/h2-model200-errors.log; exit 1; fi
