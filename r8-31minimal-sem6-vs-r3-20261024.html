@@ -419,7 +419,7 @@ function r8Paint(){
  const pairs=new Map();
  for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
  const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
- $('r8Summary').textContent='실제 API 호출 '+r8Stages+'/200 · 같은 원문 A/B 쌍 '+comparable+'건 | '+fmt('A','A · 3.1 MINIMAL')+' | '+fmt('B','B · 3.1 LOW');
+ $('r8Summary').textContent='실제 API 호출 '+r8Stages+'/200 · 같은 원문 A/B 쌍 '+comparable+'건 | '+fmt('A','A · 3.1 MINIMAL')+' | '+fmt('B','B · R3 MINIMAL');
 }
 
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
