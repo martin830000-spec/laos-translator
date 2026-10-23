@@ -1,0 +1,43 @@
+name: Standalone R8 engine comparator offline integrity
+on:
+  push:
+    branches:
+      - 'test/engine-r8-standalone-no-login-20261023-r1'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/engine-r8-standalone-no-login.test.cjs tests/engine-r8-31-38-real200.test.cjs
+      - name: Validate real source integrity using HTML textarea entities
+        run: |
+          python3 - <<'PY'
+          import hashlib, html, re, json
+          text=open('index.html', encoding='utf-8').read()
+          cfg=json.load(open('prompt-config.json',encoding='utf-8'))
+          assert cfg['promptRevision']=='P168A'
+          assert cfg['channel']=='TEST'
+          assert cfg['promptSha256']=='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43'
+          for m in ['husband','wife']:
+              v=re.search(r'<textarea id="payload-'+m+r'"[^>]*data-sha256="([0-9a-f]{64})"[^>]*>(.*?)</textarea>',text,re.S)
+              assert v, 'missing '+m+' textarea'
+              src=html.unescape(v[2])
+              digest=hashlib.sha256(src.encode('utf-8')).hexdigest()
+              print(m, 'length',len(src),'meta sha',v[1],'sha',digest)
+              assert digest==v[1],m+' invalid payload SHA'
+          PY
+      - name: Chrome loads standalone page without paid calls
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || true)"
+          test -n "$CHROME"
+          timeout 40s "$CHROME" --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-background-networking --no-first-run --virtual-time-budget=1300 --dump-dom "file://$PWD/engine-comparison-test-20261014.html" >/tmp/r8-standalone-dom.html 2>/tmp/r8-standalone-log.txt
+          grep -Fq 'TEST 소스 확인 · 로그인 불필요' /tmp/r8-standalone-dom.html
+          grep -Fq '실사용 R8 모델 비교' /tmp/r8-standalone-dom.html
+          if grep -Eiq 'Uncaught (ReferenceError|TypeError|SyntaxError)|Uncaught SyntaxError:' /tmp/r8-standalone-log.txt; then cat /tmp/r8-standalone-log.txt; exit 1; fi
