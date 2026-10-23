@@ -1,0 +1,26 @@
+name: R8 provider HTTP400 diagnosis offline gate
+on:
+  push:
+    branches:
+      - 'test/engine-r8-http400-triage-20261023-r1'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/engine-r8-31-38-real200.test.cjs tests/engine-r8-standalone-no-login.test.cjs tests/engine-r8-http400-diagnosis.test.cjs
+      - name: Chromium smoke without paid network generation
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || true)"
+          test -n "$CHROME"
+          timeout 40s "$CHROME" --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-background-networking --no-first-run --virtual-time-budget=1200 --dump-dom "file://$PWD/engine-comparison-test-20261014.html" >/tmp/engine-http400-dom.html 2>/tmp/engine-http400-errors.log
+          grep -Fq '무료 준비검사' /tmp/engine-http400-dom.html
+          grep -Fq 'HTTP 400' /tmp/engine-http400-dom.html
+          if grep -Eiq 'Uncaught (ReferenceError|TypeError|SyntaxError)|Uncaught SyntaxError:' /tmp/engine-http400-errors.log; then cat /tmp/engine-http400-errors.log; exit 1; fi
