@@ -31,6 +31,15 @@ jobs:
               digest=hashlib.sha256(src.encode('utf-8')).hexdigest()
               print(m, 'length',len(src),'meta sha',v[1],'sha',digest)
               assert digest==v[1],m+' invalid payload SHA'
+              model_count=src.count('gemini-3.8-flash')
+              usage_count=src.count('rec.quality=v?.quality||null;return v')
+              direction='K2L' if m=='husband' else 'L2K'
+              path_hook='__runLivePathDiagnostic'+direction
+              back_hook='__runLiveBackDiagnostic'+direction
+              print(m,'model anchors',model_count,'back usage anchors',usage_count,'forward/back hooks',path_hook in src,back_hook in src)
+              assert model_count>=3,(m,model_count)
+              assert usage_count==1,(m,usage_count)
+              assert path_hook in src and back_hook in src,m+' missing hooks'
           PY
       - name: Chrome loads standalone page without paid calls
         run: |
