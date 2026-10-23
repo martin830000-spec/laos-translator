@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>R8 3.8 LOW vs 3.1 MINIMAL ADDRESS · 독립 TEST</title>
+<style>
+:root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
+*{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
+main{max-width:1190px;margin:0 auto;padding:20px}header{padding:10px 0 18px}h1{font-size:24px;margin:0 0 6px}h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:9px 0}
+.card{background:var(--panel);padding:18px;border:1px solid var(--line);border-radius:13px;margin-bottom:15px}
+p{margin:7px 0}.muted{color:var(--muted)}.note{font-size:12px;color:var(--muted)}.warning{color:#8b450e;background:#fff7e9;border:1px solid #f2d8ad;border-radius:7px;padding:9px 11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-weight:600;margin-bottom:5px}
+input[type=password],input[type=text],input[type=number],select,textarea{width:100%;padding:9px 10px;border:1px solid #b9c5d2;border-radius:7px;font:inherit;background:white;color:var(--ink)}
+input[type=checkbox]{accent-color:var(--blue)}.check{display:inline-flex;align-items:center;gap:5px;margin:4px 12px 4px 0;font-weight:500}
+textarea{min-height:130px;resize:vertical}.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.grow{flex:1}
+button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 14px;border-radius:7px;font-weight:700;cursor:pointer}
+button.primary{background:var(--blue);border-color:var(--blue);color:white}button:disabled{opacity:.45;cursor:not-allowed}
+.small{font-size:12px} .pill{display:inline-block;border:1px solid var(--line);padding:2px 8px;border-radius:40px;font-size:12px;color:var(--muted)}
+.ok{color:var(--good);font-weight:600}.err{color:var(--bad);font-weight:600}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px;min-width:930px}th,td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere}th{background:#f3f6fb;position:sticky;top:0}td.wide{min-width:180px;max-width:270px}
+#state{font-weight:600}progress{width:100%;height:12px}details summary{cursor:pointer;color:var(--blue)}
+@media(max-width:700px){main{padding:12px}.grid{grid-template-columns:1fr}h1{font-size:20px}.card{padding:13px}}
+main>section.card:nth-of-type(n+3){display:none}
+main>section.card:nth-of-type(2) #engineChecks,main>section.card:nth-of-type(2) .grid>div:not(:first-child),main>section.card:nth-of-type(2) #geminiPreset,main>section.card:nth-of-type(2)>p.note{display:none}
+</style>
+</head>
+<body>
+<main>
+<header><h1>3.8 LOW vs 3.1 MINIMAL · 최종 후보 비교</h1><div class="muted">A: 3.8 Flash LOW / 서비스 R8 원본 프롬프트 · B: 3.1 Flash-Lite MINIMAL / SEM6+ADDRESS V1 · 실제 SERVICE는 변경하지 않음</div></header>
+<section class="card" id="r8PairPanel" style="border:2px solid #90add8">
+<h2>★ 다른 모델의 실사용 1:1 검사 — P168A R8 vs 3.1 호칭개선</h2>
+<p>3.8 기존 LOW/R8과 3.1 MINIMAL/SEM6+ADDRESS V1만 비교합니다. KINSHIP과 TIMING 후보는 제외했습니다. <b>12문장 먼저</b>(남편 6·아내 6), 이후 결과가 유망하면 50문장으로 확대해 주세요. 출처 원문 오타와 맥락 모호성은 별도 평가합니다.</p>
+<p class="note">3.8 LOW 경로는 원본 TEST V3.61.209/P168A R8을 그대로 복제하며 모델·추론 설정을 수정하지 않습니다. 3.1 B 경로만 MINIMAL 및 SEM6+ADDRESS V1로 바꿉니다. 출력 1024 상한/자동 재시도 없음. 실제 SERVICE의 서버 응답시간은 재현하지 않습니다.</p>
+<div class="row"><button id="r8Connect" type="button">① TEST 소스 확인 · 로그인 불필요</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
+<div class="grid" style="margin-top:12px">
+ <div><label for="r8File">② 기존 R8 검사 JSON/TXT 또는 원문 cases JSON</label><input id="r8File" type="file" accept=".json,.txt,application/json,text/plain"><p class="note" id="r8FileInfo">파일은 브라우저 내부에서만 읽습니다. GitHub와 진단기 서버로 업로드하지 않습니다.</p></div>
+ <div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="ADDRESS" selected>3.1 MINIMAL + 호칭 개선 V1</option></select><label for="r8PairsSelect">검사 원문 범위</label><select id="r8PairsSelect"><option value="6">핵심 6문장 · 최대 24호출</option><option value="12" selected>핵심 12문장 · 최대 48호출 (권장)</option><option value="50">전체 50문장 · 최대 200호출</option></select><input id="r8Budget" type="text" readonly value="파일을 먼저 선택하세요"><p class="note">남편 K→L→K / 아내 L→K→L 각각 정·독립 역번역 1회. 실제 검사는 동등한 원문 쌍으로 수행합니다.</p></div>
+</div>
+<div class="row" style="margin-top:10px">
+ <button id="r8Preflight" type="button">③ 무료 준비검사 (Gemini 0회)</button>
+  <button id="r8Run" type="button" class="primary" disabled>④ 3.8 LOW vs 3.1 MINIMAL · 품질 비교 시작</button>
+ <button id="r8Stop" type="button" disabled>현재 검사 중단</button>
+ <button id="r8Export" type="button" disabled>결과 JSON 저장</button>
+ <button id="r8ExportTxt" type="button" disabled>결과 TXT 저장</button>
+ <button id="r8Clear" type="button">이 탭의 기존 검사 결과 삭제</button>
+</div>
+<progress id="r8Progress" max="1" value="0"></progress>
+<p id="r8State" class="note">① 공개 TEST 소스 확인 → ② 비공개 파일 → ③ 무료 준비검사 → ④ 유료 비교 순서. TEST 앱 로그인은 필요하지 않습니다.</p>
+<p id="r8Summary" class="note">A/B 같은 원문 기준 비교 · 두 방향 정/역 · 실패율, 속도, 토큰, 비용 별도 집계 (의미평가는 결과 업로드 후).</p>
+<div class="tablewrap"><table><thead><tr><th>번호</th><th>모델</th><th>방향</th><th>원문 / 과거 오역 문제</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰 / 추정비용</th><th>오류</th></tr></thead><tbody id="r8Results"></tbody></table></div>
+<p class="note">이 진단기는 서비스 코드를 배포하거나 API 서버·DB에 쓰기하지 않습니다. 검사 비용은 모델별 입력/출력 토큰 사용량으로 추정하며 실제 청구액과 다를 수 있습니다.</p>
+</section>
+<section class="card">
+<h2>① Gemini API 키 (기존 키 재사용 · 로그인 불필요)</h2>
+<p class="warning">키는 이 브라우저의 localStorage에 자동 저장됩니다. 서버·GitHub·결과 파일에 저장하지 않지만, 같은 웹사이트의 스크립트 또는 PC 접근자가 읽을 수 있습니다. <b>테스트 전용 키만 입력</b>하세요. 시크릿 모드·사이트 데이터 삭제 시 사라집니다. Lara 엔진을 실행하면 외부 jsDelivr SDK가 로드되며, 해당 코드는 입력 키에 접근할 수 있습니다.</p>
+<div class="row" id="engineChecks">
+<label class="check"><input type="checkbox" data-engine="gemini38" checked>Gemini 3.8 Flash (현재 사용 모델 기준)</label>
+<label class="check"><input type="checkbox" data-engine="gemini35lite" checked>Gemini 3.5 Flash-Lite (후보)</label>
+<label class="check"><input type="checkbox" data-engine="gemini31lite" checked>Gemini 3.1 Flash-Lite (후보)</label>
+<label class="check"><input type="checkbox" data-engine="gemini">Gemini 사용자 지정 모델 (아래 모델 ID)</label>
+<label class="check"><input type="checkbox" data-engine="lara">Lara</label>
+<label class="check"><input type="checkbox" data-engine="azure">Azure Translator</label>
+<label class="check"><input type="checkbox" data-engine="nmt">Google NMT</label>
+<label class="check"><input type="checkbox" data-engine="tllm">Google Translation LLM</label>
+</div>
+<div class="grid" style="margin-top:10px">
+<div><label for="geminiKey">Gemini API 키 (선택)</label><input id="geminiKey" type="password" autocomplete="off"></div>
+<div><label for="geminiModel">사용자 지정 Gemini 모델 ID (세 모델 비교에는 적용 안 됨)</label><input id="geminiModel" type="text" value="gemini-3.8-flash"></div>
+<div><label for="laraId">Lara Access Key ID</label><input id="laraId" type="password" autocomplete="off"></div>
+<div><label for="laraSecret">Lara Access Key Secret</label><input id="laraSecret" type="password" autocomplete="off"></div>
+<div><label for="azureKey">Azure KEY 1</label><input id="azureKey" type="password" autocomplete="off"></div>
+<div><label for="azureRegion">Azure region</label><input id="azureRegion" type="text" value="koreacentral"></div>
+<div><label for="googleKey">Cloud Translation 전용 키 (NMT·TLLM 공용)</label><input id="googleKey" type="password" autocomplete="off"></div>
+<div><label for="googleProject">Cloud Translation 프로젝트 ID</label><input id="googleProject" type="text" value="gen-lang-client-0422436907"></div>
+<div><label for="googleRegion">Translation LLM 모델 위치</label><input id="googleRegion" type="text" value="us-central1"></div>
+<div><label for="laraStyle">Lara 스타일</label><select id="laraStyle"><option value="faithful">Faithful — 충실</option><option value="fluid">Fluid — 자연스럽게</option></select></div>
+</div>
+<p class="note">Lara는 공급사의 인증 서명·토큰·SDK 절차를 사용합니다. 브라우저 CORS 또는 SDK 호환성이 검증되지 않은 상태입니다. 직접 호출이 막히면 자동으로 실패를 기록하며 임의의 프록시나 재호출을 하지 않습니다.</p>
+<div class="row"><button type="button" id="geminiPreset" style="border-color:#2b65ac;color:#1b548b">Gemini 3종 비교 선택 (20문장·LOW)</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
+</section>
+<section class="card">
+<h2>② 고정 비교 문장</h2>
+<p class="muted">한 줄에 <b>K|한국어 원문</b> 또는 <b>L|라오어 원문</b>을 입력하세요. 실제 부부 대화가 아닌 가상 예문만 기본 제공해요. K는 남편 정·역, L은 아내 정·역입니다.</p>
+<textarea id="cases" spellcheck="false">K|어제보다 덜 어지럽긴 하지만, 아직 몸이 완전히 나은 건 아니니까 오늘은 쉬려고 해.
+L|ມື້ນີ້ຂ້ອຍບໍ່ໄດ້ເຈັບຫົວ ແຕ່ຍັງມຶນຫົວຢູ່ ເລີຍຢາກພັກກ່ອນ.
+K|서류를 제출했다는 말이지, 승인이 났다는 말은 아니야.
+L|ຂ້ອຍຈະໄປຮັບເອກະສານມື້ອື່ນ ບໍ່ແມ່ນວ່າໄປຮັບມາແລ້ວ.
+K|여보가 화난 건 이해해. 그렇다고 내가 여보 편이 아니라는 건 아니잖아.
+L|ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍພຽງແຕ່ນ້ອຍໃຈທີ່ເຈົ້າບໍ່ບອກຂ້ອຍກ່ອນ.
+K|비가 안 오면 나갈 수도 있지만, 지금 당장 가겠다고 약속한 건 아니야.
+L|ຖ້າອາກາດບໍ່ດີ ຢ່າຝືນອອກໄປ ແຕ່ຖ້າດີຂຶ້ນກໍຄ່ອຍໄປ.
+K|친구가 경찰서에서 다시 오라고 들었다는데, 내가 직접 확인한 건 아니야.
+L|ໝູ່ຂ້ອຍບອກວ່າເອກະສານອາດຈະຖືກສົ່ງກັບ ແຕ່ຍັງບໍ່ມີໃຜຢືນຢັນ.
+K|열 장 중에서 세 장만 수정하면 되고, 나머지 일곱 장은 다시 만들 필요 없어.
+L|ຂ້ອຍຊື້ຢາ 2 ກ່ອງ ແຕ່ກິນໄປແລ້ວພຽງ 1 ເມັດ ບໍ່ແມ່ນ 1 ກ່ອງ.
+K|우리 언니가 여보 동생에게 연락한 거야. 여보 언니한테 연락한 게 아니고.
+L|ເອື້ອຍຂອງຂ້ອຍໂທຫານ້ອງຊາຍເຈົ້າ ບໍ່ແມ່ນນ້ອງຊາຍຂ້ອຍ.
+K|아마 늦어질 것 같다고 했을 뿐인데, 왜 무조건 못 온다고 이해했어?
+L|ອາດຈະມີຄົນມາຊ່ວຍ ແຕ່ຂ້ອຍຍັງບໍ່ແນ່ໃຈ ຈຶ່ງບໍ່ກ້າຮັບປາກ.
+K|오늘 꼭 전화하라는 뜻이 아니라, 시간 날 때 연락 한 번만 해달라는 거야.
+L|ຂ້ອຍຂໍໃຫ້ເຈົ້າຊ່ວຍກວດເອກະສານ ບໍ່ໄດ້ສັ່ງໃຫ້ເຈົ້າໄປຍື່ນເອງ.
+K|조금만 더 기다려 보자고 한 거지, 언제까지나 참으라는 뜻은 아니야.
+L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂົ້າ ບໍ່ໄດ້ບອກວ່າທັກແລ້ວ.</textarea>
+<div class="row"><button type="button" id="load20">기본 스트레스 20문장 불러오기</button><span class="pill">한국어 10 · 라오어 10 · 고정 20문장</span></div>
+<p class="note"><b>품질 비교 주의:</b> 세 Gemini 모델은 동일한 중립 번역 프롬프트, temperature=0, thinkingLevel=LOW 및 정·역 각 1회로 비교합니다. SERVICE P168A R8의 SMART 규칙과 실사용 프롬프트는 재현하지 않으므로 이 검사의 3.8 수치가 SERVICE 자체의 품질·속도 기준선은 아닙니다.</p><p class="note">역번역은 해당 엔진의 정번역 결과만 새 요청으로 다시 번역합니다. 원문과 별도의 '정답'을 주지 않으며, 역번역 일치율만으로 정번역 품질을 평가하지 않습니다.</p>
+<div class="grid">
+<div><label for="sampleCount">검사 문장 수</label><select id="sampleCount"><option value="2">2건 (한국어 1 + 라오어 1) · 기본</option><option value="4">4건</option><option value="8">8건</option><option value="20" selected>20건 · 본검사</option></select></div>
+<div><label for="repeatCount">반복 횟수</label><select id="repeatCount"><option value="1" selected>1회 · 먼저 실행</option><option value="2">2회 연속 · 정밀검사</option></select></div>
+<div><label for="maxCalls">호출 제한 (이번 실행)</label><select id="maxCalls"><option value="20">20회</option><option value="40">40회</option><option value="60">60회</option><option value="100">100회</option><option value="200" selected>200회</option><option value="400">400회 (2회 연속)</option></select></div>
+</div>
+<p class="note"><b>Gemini 3종 검사:</b> 2문장 시험 = 최대 12호출, 20문장 본검사 = 최대 120호출. 순서 교대 방식으로 같은 문장을 3모델에 순차 호출하며, 두 방향의 정번역·독립 역번역을 기록합니다. 1회 결과를 저장한 뒤 필요하면 2회 반복하세요. 새로고침하면 화면 결과가 사라집니다.</p><p class="warning">검사는 엔진별 정번역 1회 + 독립 역번역 최대 1회입니다. <b>실제 API 과금은 각 업체 계정에 발생할 수 있으며 1,000원 지출 한도를 보장하지 않습니다.</b> 자동 재시도·품질 평가 추가 호출은 없습니다.</p>
+<div class="row" style="margin-top:11px"><button class="primary" id="run">전체 엔진 한 번에 검사</button><button id="stop" disabled>검사 중지</button><button id="export" disabled>결과 JSON 저장</button><button id="exportTxt" disabled>결과 TXT 저장</button></div>
+<p id="plan" class="note"></p><p id="caseStatus" class="note"></p><progress id="prog" max="1" value="0"></progress><p id="state">대기 중</p>
+</section>
+<section class="card"><h2>③ 실제 결과 <span class="pill" id="resultCount">0건</span></h2><p id="summary" class="note">검사 후 엔진별 성공 건수와 속도, 반복 출력의 차이가 표시됩니다.</p><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
+<div class="tablewrap"><table><thead><tr><th>회차</th><th>번호</th><th>엔진</th><th>경로</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>상태·원인</th></tr></thead><tbody id="results"></tbody></table></div></section>
+<footer class="note">ENGINE COMPARE TEST R4 · 2026-10-23 · 중국산 엔진 제외 · SERVICE V3.61.209 / P168A R8 미변경 · 검증되지 않은 엔진 응답은 PASS로 표시하지 않습니다.</footer>
+</main>
+<script>
+(function(){
+'use strict';
+const STORE='ko-lao-engine-compare-r1-keys';
+const ids=['geminiKey','geminiModel','laraId','laraSecret','azureKey','azureRegion','googleKey','googleProject','googleRegion','laraStyle','cases','sampleCount','repeatCount','maxCalls'];
+const secretIds=['geminiKey','laraId','laraSecret','azureKey','googleKey'];
+const $=id=>document.getElementById(id);
+let records=[], abort=null, active=false, completed=0, planned=0, laraClient=null, runCounter=0;
+const GEMINI_MODEL_ENGINES=Object.freeze({gemini38:'gemini-3.8-flash',gemini35lite:'gemini-3.5-flash-lite',gemini31lite:'gemini-3.1-flash-lite'});
+const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM'};
+const isGeminiEngine=engine=>engine==='gemini'||Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,engine);
+const actualModelId=(engine,s)=>GEMINI_MODEL_ENGINES[engine]||(engine==='gemini'?s.geminiModel.trim():engine);
+const CASES20="K|어제보다 덜 어지럽긴 하지만, 아직 몸이 완전히 나은 건 아니니까 오늘은 쉬려고 해.\nL|ມື້ນີ້ຂ້ອຍບໍ່ໄດ້ເຈັບຫົວ ແຕ່ຍັງມຶນຫົວຢູ່ ເລີຍຢາກພັກກ່ອນ.\nK|서류를 제출했다는 말이지, 승인이 났다는 말은 아니야.\nL|ຂ້ອຍຈະໄປຮັບເອກະສານມື້ອື່ນ ບໍ່ແມ່ນວ່າໄປຮັບມາແລ້ວ.\nK|여보가 화난 건 이해해. 그렇다고 내가 여보 편이 아니라는 건 아니잖아.\nL|ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍພຽງແຕ່ນ້ອຍໃຈທີ່ເຈົ້າບໍ່ບອກຂ້ອຍກ່ອນ.\nK|비가 안 오면 나갈 수도 있지만, 지금 당장 가겠다고 약속한 건 아니야.\nL|ຖ້າອາກາດບໍ່ດີ ຢ່າຝືນອອກໄປ ແຕ່ຖ້າດີຂຶ້ນກໍຄ່ອຍໄປ.\nK|친구가 경찰서에서 다시 오라고 들었다는데, 내가 직접 확인한 건 아니야.\nL|ໝູ່ຂ້ອຍບອກວ່າເອກະສານອາດຈະຖືກສົ່ງກັບ ແຕ່ຍັງບໍ່ມີໃຜຢືນຢັນ.\nK|열 장 중에서 세 장만 수정하면 되고, 나머지 일곱 장은 다시 만들 필요 없어.\nL|ຂ້ອຍຊື້ຢາ 2 ກ່ອງ ແຕ່ກິນໄປແລ້ວພຽງ 1 ເມັດ ບໍ່ແມ່ນ 1 ກ່ອງ.\nK|우리 언니가 여보 동생에게 연락한 거야. 여보 언니한테 연락한 게 아니고.\nL|ເອື້ອຍຂອງຂ້ອຍໂທຫານ້ອງຊາຍເຈົ້າ ບໍ່ແມ່ນນ້ອງຊາຍຂ້ອຍ.\nK|아마 늦어질 것 같다고 했을 뿐인데, 왜 무조건 못 온다고 이해했어?\nL|ອາດຈະມີຄົນມາຊ່ວຍ ແຕ່ຂ້ອຍຍັງບໍ່ແນ່ໃຈ ຈຶ່ງບໍ່ກ້າຮັບປາກ.\nK|오늘 꼭 전화하라는 뜻이 아니라, 시간 날 때 연락 한 번만 해달라는 거야.\nL|ຂ້ອຍຂໍໃຫ້ເຈົ້າຊ່ວຍກວດເອກະສານ ບໍ່ໄດ້ສັ່ງໃຫ້ເຈົ້າໄປຍື່ນເອງ.\nK|조금만 더 기다려 보자고 한 거지, 언제까지나 참으라는 뜻은 아니야.\nL|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂົ້າ ບໍ່ໄດ້ບອກວ່າທັກແລ້ວ.";
+const LEGACY_CASES="K|오늘은 몸이 조금 나아졌지만 아직 어지러워서 밖에 나가지는 않을게.\nL|ມື້ນີ້ຂ້ອຍດີຂຶ້ນໜ້ອຍໜຶ່ງ ແຕ່ຍັງມຶນຫົວ ເລີຍຈະບໍ່ອອກໄປຂ້າງນອກ.\nK|서류가 반려됐다는 사실을 미리 알려줬다면 다시 준비했을 텐데.\nL|ຖ້າເຈົ້າເມື່ອຍ ກໍພັກຜ່ອນກ່ອນເດີ ບໍ່ຕ້ອງຝືນ.";
+const SETTINGS_UPGRADE='ko-lao-engine-compare-r3-suite-setup';
+const defaults={geminiModel:'gemini-3.8-flash',azureRegion:'koreacentral',googleProject:'gen-lang-client-0422436907',googleRegion:'us-central1',laraStyle:'faithful'};
+function settings(){const o={};for(const id of ids){o[id]=$(id).type==='checkbox'?$(id).checked:$(id).value;}o.engines=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).map(x=>x.dataset.engine);return o;}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(settings()));$('keyStatus').textContent='이 브라우저에 자동 저장됨';}catch(e){$('keyStatus').textContent='저장 실패: 브라우저 저장 제한';}}
+function load(){let o={};try{o=JSON.parse(localStorage.getItem(STORE)||'{}');}catch(e){}for(const id of ids){const x=$(id);if(Object.prototype.hasOwnProperty.call(o,id)){if(x.type==='checkbox')x.checked=!!o[id];else x.value=o[id];}else if(defaults[id])x.value=defaults[id];}if(Array.isArray(o.engines)){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=o.engines.includes(x.dataset.engine));}
+try{if(localStorage.getItem(SETTINGS_UPGRADE)!=='done'){
+if(!$('cases').value.trim() || $('cases').value.trim()===LEGACY_CASES.trim())$('cases').value=CASES20;
+$('sampleCount').value='20';$('repeatCount').value='1';$('maxCalls').value='200';
+localStorage.setItem(SETTINGS_UPGRADE,'done');}}catch(e){}
+save();updateCaseStatus();}
+function selectGemini3Preset(){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,x.dataset.engine));$('sampleCount').value='20';$('repeatCount').value='1';$('maxCalls').value='200';save();updateCaseStatus();$('plan').textContent='Gemini 3종(3.8/3.5 Lite/3.1 Lite), 고정 20문장 × 정·역 = 최대 120 API 호출 · LOW';}
+$('geminiPreset').addEventListener('click',selectGemini3Preset);
+for(const id of ids){$(id).addEventListener('input',()=>{save();updateCaseStatus()});$(id).addEventListener('change',()=>{save();updateCaseStatus()});}
+document.querySelectorAll('[data-engine]').forEach(x=>x.addEventListener('change',()=>{save();updateCaseStatus()}));
+$('load20').addEventListener('click',()=>{$('cases').value=CASES20;$('sampleCount').value='20';save();updateCaseStatus();});
+function updateCaseStatus(){const lines=$('cases').value.split(/\r?\n/).map(v=>v.trim()).filter(Boolean);const ko=lines.filter(v=>/^K\s*\|/.test(v)).length;const lo=lines.filter(v=>/^L\s*\|/.test(v)).length;const engineCount=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).length;const c=Math.min(lines.length,Number($('sampleCount').value)||20);$('caseStatus').textContent='입력 '+lines.length+'문장 (한국어 '+ko+', 라오어 '+lo+') · 현재 선택 '+c+'건 × '+engineCount+'엔진 × 정·역 2회 × 반복 '+($('repeatCount').value||1)+'회 = 최대 '+(c*engineCount*2*(Number($('repeatCount').value)||1))+'호출';}
+$('eraseKeys').addEventListener('click',()=>{if(!confirm('이 브라우저에 저장된 모든 번역 API 키를 삭제할까요?'))return;for(const id of secretIds)$(id).value='';laraClient=null;save();});
+function parseCases(s,n){const out=[];for(const raw of s.split(/\r?\n/)){const line=raw.trim();if(!line)continue;const m=line.match(/^([KL])\s*\|\s*(.+)$/);if(!m)throw Error('문장 형식 오류: '+line.slice(0,40));out.push({caseId:out.length+1,side:m[1],text:m[2].trim()});if(out.length>=n)break;}if(!out.length)throw Error('테스트 문장이 없습니다.');if(!out.some(c=>c.side==='K')||!out.some(c=>c.side==='L'))throw Error('남편 K와 아내 L 문장이 각각 1건 이상 필요합니다.');if(n===20&&(out.filter(c=>c.side==='K').length!==10||out.filter(c=>c.side==='L').length!==10))throw Error('20건 검사는 한국어 10건과 라오어 10건이 각각 필요합니다.');return out;}
+function cleanErr(e,s){let msg=String(e&&e.message||e||'알 수 없는 오류');for(const id of secretIds){const k=s[id];if(k&&k.length>5)msg=msg.split(k).join('[비밀키 가림]');}if(/Failed to fetch|NetworkError|Load failed|CORS/i.test(msg))return '브라우저 직접 호출 실패 (CORS 또는 네트워크 정책 가능): '+msg.slice(0,140);return msg.slice(0,260);}
+async function requestJSON(url,opt,s){let res;try{res=await fetch(url,Object.assign({signal:abort.signal,cache:'no-store',referrerPolicy:'no-referrer'},opt));}catch(e){throw Error(cleanErr(e,s));}let json;try{json=await res.json();}catch(e){throw Error('HTTP '+res.status+' · JSON 응답이 아닙니다');}if(!res.ok){let msg=json?.error?.message||json?.message||JSON.stringify(json).slice(0,150);throw Error('HTTP '+res.status+' · '+msg);}return json;}
+function unescapeHtml(v){const t=document.createElement('textarea');t.innerHTML=String(v||'');return t.value;}
+async function googleTranslate(text,src,dst,s,llm){const url='https://translation.googleapis.com/language/translate/v2?key='+encodeURIComponent(s.googleKey);const body={q:text,source:src,target:dst,format:'text',model:llm?'projects/'+s.googleProject+'/locations/'+s.googleRegion+'/models/general/translation-llm':'nmt'};const obj=await requestJSON(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)},s);const v=obj?.data?.translations?.[0]?.translatedText;if(typeof v!=='string')throw Error('Google 결과 형식 불명');return unescapeHtml(v);}
+async function azureTranslate(text,src,dst,s){const url='https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from='+encodeURIComponent(src)+'&to='+encodeURIComponent(dst);const j=await requestJSON(url,{method:'POST',headers:{'Content-Type':'application/json','Ocp-Apim-Subscription-Key':s.azureKey,'Ocp-Apim-Subscription-Region':s.azureRegion},body:JSON.stringify([{Text:text}])},s);const v=j?.[0]?.translations?.[0]?.text;if(typeof v!=='string')throw Error('Azure 결과 형식 불명');return v;}
+async function geminiTranslate(text,src,dst,s,model){if(!/^[A-Za-z0-9._-]+$/.test(model))throw Error('Gemini 모델 ID 형식 오류');const url='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent';const prompt='Translate exactly one conversational message from '+(src==='ko'?'Korean':'Lao')+' to '+(dst==='ko'?'Korean':'Lao')+'. Preserve the source meaning, negation, speaker roles, politeness, emotion, modality, tense, quantities and uncertainty. Do not add information. Return only the translation. Source: '+text;const j=await requestJSON(url,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':s.geminiKey},body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0,maxOutputTokens:2048,thinkingConfig:{thinkingLevel:'low',includeThoughts:false}}})},s);const parts=j?.candidates?.[0]?.content?.parts||[];const v=parts.map(p=>p.text||'').join('').trim();if(!v)throw Error('Gemini 번역 응답 없음 / thinking 또는 차단 여부 확인');return v;}
+function loadLaraSdk(){return new Promise((resolve,reject)=>{if(window.Lara?.Translator){resolve(window.Lara);return;}const scr=document.createElement('script');scr.src='https://cdn.jsdelivr.net/npm/@translated/lara@1.16.1/lib_browser/lara.min.js';scr.crossOrigin='anonymous';scr.onload=()=>window.Lara?.Translator?resolve(window.Lara):reject(Error('Lara 브라우저 SDK 형식이 예상과 다릅니다'));scr.onerror=()=>reject(Error('Lara SDK 파일 로드 실패 (네트워크 또는 CDN 정책)'));document.head.appendChild(scr);});}
+async function laraTranslate(text,src,dst,s){if(!laraClient){const sdk=await loadLaraSdk();laraClient=new sdk.Translator(new sdk.Credentials(s.laraId,s.laraSecret));}const r=await laraClient.translate(text,src==='ko'?'ko':'lo',dst==='ko'?'ko':'lo',{style:s.laraStyle,noTrace:true});let v=r?.translation;if(Array.isArray(v))v=v.join(' ');if(typeof v!=='string'||!v.trim())throw Error('Lara 응답 형식 불명');return v;}
+function engineCall(engine,text,src,dst,s){if(isGeminiEngine(engine))return geminiTranslate(text,src,dst,s,actualModelId(engine,s));if(engine==='lara')return laraTranslate(text,src,dst,s);if(engine==='azure')return azureTranslate(text,src,dst,s);return googleTranslate(text,src,dst,s,engine==='tllm');}
+function verifyCredentials(s,eng){const missing=[];if(isGeminiEngine(eng)&&!s.geminiKey)missing.push('Gemini API 키');if(eng==='lara'&&(!s.laraId||!s.laraSecret))missing.push('Lara ID/Secret');if(eng==='azure'&&!s.azureKey)missing.push('Azure 키');if((eng==='nmt'||eng==='tllm')&&!s.googleKey)missing.push('Cloud Translation 키');return missing.join(', ');}
+function render(rec){const tr=document.createElement('tr');const fields=[rec.round,rec.caseId,(engineNames[rec.engine]||rec.engine),rec.side==='K'?'남편 K→L→K':'아내 L→K→L',rec.source,rec.forward||'—',rec.back||'—',rec.forwardMs??'—',rec.backMs??'—',rec.error?'실패: '+rec.error:rec.state];fields.forEach((val,i)=>{const td=document.createElement('td');td.textContent=String(val);if(i>=4&&i<=6)td.className='wide';if(i===9)td.className=rec.error?'err':rec.state==='완료'?'ok':'muted';tr.appendChild(td);});$('results').appendChild(tr);$('resultCount').textContent=String(records.length)+'건';}
+function showProgress(){const v=Math.min(completed,planned);$('prog').max=Math.max(1,planned);$('prog').value=v;$('state').textContent=(active?'검사 중 · ':'종료 · ')+v+'/'+planned+'경로 요청 완료';}
+function summarize(){
+const done=records.filter(r=>r.state==='완료');
+const byEngine={};for(const r of records){const e=byEngine[r.engine]||(byEngine[r.engine]={n:0,ok:0,fwd:[],back:[],total:[]});e.n++;if(Number.isFinite(r.forwardMs))e.fwd.push(r.forwardMs);if(Number.isFinite(r.backMs))e.back.push(r.backMs);if(r.state==='완료'){e.ok++;e.total.push(r.forwardMs+r.backMs);}}
+const stat=x=>{if(!x.length)return '—';const z=x.slice().sort((a,b)=>a-b);return '중앙 '+z[Math.floor((z.length-1)/2)]+'ms / p95 '+z[Math.ceil(z.length*.95)-1]+'ms'};
+const names=Object.keys(byEngine).map(key=>{const v=byEngine[key];return (engineNames[key]||key)+': '+v.ok+'/'+v.n+' 성공 · 정번역 '+stat(v.fwd)+' · 역번역 '+stat(v.back)+' · 합산 '+stat(v.total);});
+const groups=new Map();for(const r of done){const k=r.engine+'|'+r.side+'|'+r.source;const list=groups.get(k)||[];list.push(r.forward);groups.set(k,list);}
+let comparable=0,variable=0;for(const a of groups.values()){if(a.length>=2){comparable++;if(new Set(a).size>1)variable++;}}
+$('summary').textContent=names.join(' / ')+(comparable?' · 반복 결과 문자열 변화 '+variable+'/'+comparable+'문장 (의미 오역 판정 아님)':' · 반복 비교는 2차 검사 후 표시');
+}
+function markFinish(rec){records.push(rec);render(rec);summarize();}
+async function one(engine,c,s,round){const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko';const rec={round,caseId:c.caseId,engine,modelId:actualModelId(engine,s),thinkingLevel:isGeminiEngine(engine)?'low':'-',side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,error:''};if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}let t=performance.now();try{rec.forward=await engineCall(engine,c.text,src,dst,s);rec.forwardMs=Math.round(performance.now()-t);completed++;showProgress();if(abort.signal.aborted){rec.state='취소';completed++;showProgress();markFinish(rec);return;}t=performance.now();try{rec.back=await engineCall(engine,rec.forward,dst,src,s);rec.backMs=Math.round(performance.now()-t);rec.state='완료';}catch(e){rec.error='역번역: '+cleanErr(e,s);}completed++;showProgress();}catch(e){rec.error='정번역: '+cleanErr(e,s);completed+=2;showProgress();}markFinish(rec);}
+function setButtons(b){active=b;$('run').disabled=b;$('stop').disabled=!b;$('export').disabled=b||!records.length;$('exportTxt').disabled=b||!records.length;}
+$('stop').addEventListener('click',()=>{abort?.abort();$('state').textContent='중지 요청됨 · 진행 중 호출 취소 중';});
+$('run').addEventListener('click',async()=>{if(active)return;const s=settings();let cases;const repeat=Math.min(2,Math.max(1,Number(s.repeatCount)||1));try{cases=parseCases(s.cases,Number(s.sampleCount));if(!s.engines.length)throw Error('선택한 엔진이 없습니다');const skipped=s.engines.filter(engine=>verifyCredentials(s,engine));s.engines=s.engines.filter(engine=>!verifyCredentials(s,engine));if(!s.engines.length)throw Error('검사할 수 있는 엔진이 없습니다. API 키를 등록해 주세요.');$('plan').textContent='실행 엔진: '+s.engines.map(e=>engineNames[e]).join(', ')+(skipped.length?' / 키 없는 엔진 제외: '+skipped.map(e=>engineNames[e]).join(', '):'');planned=cases.length*s.engines.length*2*repeat;if(planned>Number(s.maxCalls))throw Error('예상 '+planned+'회가 이번 실행 제한을 넘습니다');const chars=cases.reduce((sum,c)=>sum+c.text.length,0)*s.engines.length*2*repeat;if(chars>60000)throw Error('추정 문자 상한 60,000자를 초과합니다');if(s.engines.some(isGeminiEngine)&&!confirm('Gemini 포함 실제 API 호출 최대 '+planned+'회입니다. 요금이 발생할 수 있습니다. 실행할까요?'))return;}catch(e){$('state').textContent='시작하지 않음: '+e.message;return;}completed=0;abort=new AbortController();setButtons(true);showProgress();const firstRound=runCounter+1;
+try{for(let rep=0;rep<repeat;rep++){runCounter++;if(s.engines.every(isGeminiEngine)){for(let ci=0;ci<cases.length;ci++){if(abort.signal.aborted)break;const rotated=s.engines.slice(ci%s.engines.length).concat(s.engines.slice(0,ci%s.engines.length));for(const eng of rotated){if(abort.signal.aborted)break;await one(eng,cases[ci],s,firstRound+rep);}}}else{await Promise.all(s.engines.map(async eng=>{for(const c of cases){if(abort.signal.aborted)break;await one(eng,c,s,firstRound+rep);}}));}if(abort.signal.aborted)break;}}finally{active=false;setButtons(false);const runs=[...new Set(records.map(r=>r.round))].sort((a,b)=>a-b);$('state').textContent=(abort.signal.aborted?'사용자가 취소함':'진단 완료')+' · '+runs.join(', ')+'회차 · 누적 '+records.length+'건 저장 가능 · 실제 품질 판정은 사람이 해야 합니다';}});
+function safeExport(obj){const a=document.createElement('a');const blob=new Blob([obj.text],{type:obj.type});const url=URL.createObjectURL(blob);a.href=url;a.download=obj.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+$('export').addEventListener('click',()=>safeExport({text:JSON.stringify({version:'R4',at:new Date().toISOString(),method:'Gemini shared neutral prompt; temperature=0; thinkingLevel=low; maxOutputTokens=2048; sequential on Gemini-only runs; no automatic retries; K/L independent back',caseSet:'K/L stress 20 or user-supplied; cases numbered; rounds cumulative in current tab',notice:'API keys never exported; RTT is browser observed; no scoring',records},null,2),type:'application/json',name:'ko-lao-engine-compare-'+Date.now()+'.json'}));
+$('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['ROUND '+r.round,'CASE '+r.caseId,'ENGINE '+engineNames[r.engine],'MODEL_ID '+(r.modelId||'-'),'THINKING '+(r.thinkingLevel||'-'),'SIDE '+r.side,'SOURCE '+r.source,'FORWARD '+r.forward,'BACK '+r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'STATUS '+(r.error||r.state),'---'].join('\n')).join('\n'),type:'text/plain;charset=utf-8',name:'ko-lao-engine-compare-'+Date.now()+'.txt'}));
+
+// Isolated R8 model comparison (not the neutral-engine runner above). No paid calls during preflight.
+const R8_SHA='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43';
+const R8_PAYLOAD_SHA=Object.freeze({husband:'a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd',wife:'296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e'});
+const R8_MODELS=Object.freeze({A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'});
+const R8_RATES=Object.freeze({A:{input:.75,output:3.75},B:{input:.25,output:1.50}});
+const R8_ISOLATED=Object.freeze({"ADDRESS":{"label":"호칭·애칭만","revision":"P168A-31MIN-ADDRESS-V1","guards":{"k2l":"SPOUSE VOCATIVE CLARITY: Korean 여보/자기 is a direct affectionate address to the wife, not a proper name. In ordinary spouse dialogue render that vocative as natural Lao ທີ່ຮັກ; do not make up a person's name or transliterate the Korean sound. If it is an explicit subject/recipient, preserve that grammar. Leave other meaning unchanged.","husband":"INDEPENDENT VERIFICATION: A Lao affectionate spouse vocative normally corresponds to Korean 여보/자기, not an unfamiliar proper name. Never repair an actual unfamiliar name without evidence."},"ids":["LIVE-0137","LIVE-0283","DB1000-514","LIVE-0014","DB1000-313","DB1000-436","DB1000-103","LIVE-0881","LIVE-0490","LIVE-0877","LIVE-0813","DB1000-317"]},"KINSHIP":{"label":"친족관계만","revision":"P168A-31MIN-KINSHIP-V1","guards":{"l2k":"KINSHIP FIDELITY: Preserve an explicitly named kinship relationship and do not substitute a different family member. ແມ່ຍ່າ is the husband's mother / 시어머니; where directly addressed, '시어머님' is acceptable when a precise label is needed. ເອື້ອຍ can be an elder sister or a woman's self-address depending on local context; do not force a role that is not established. Do not change who acts or what has occurred.","wife":"INDEPENDENT VERIFICATION: Distinguish explicitly stated Korean 시어머니 from generic 어머니, and translate only what Korean really says. Never restore an unstated in-law identity from knowledge of the original."},"ids":["DB1000-436","LIVE-0261","DB1000-313","DB1000-317","LIVE-0137","LIVE-0490","LIVE-0284","DB1000-116","LIVE-0813","DB1000-514","LIVE-0881","LIVE-0877"]},"TIMING":{"label":"행동 시점만","revision":"P168A-31MIN-TIMING-V1","guards":{"k2l":"EVENT PHASE CHECK: When Korean says 'when going back/returning' (돌아갈 때), keep the departure/returning phase; do not change it to 'after arriving' or completed arrival. Preserve whether an action is intended, in progress, habitual, or done. Do not insert a new completion marker.","l2k":"EVENT PHASE CHECK: Lao ໄປເອົາ indicates going to fetch or having gone to get, without proving successful bringing back. Preserve going-to-fetch distinct from bringing back or promising to bring in future. Keep explicit event completion/ongoing/time markers and do not add new ones."},"ids":["LIVE-0261","LIVE-0122","LIVE-0877","LIVE-0316","DB1000-116","LIVE-0137","LIVE-0978","LIVE-0797","DB1000-514","LIVE-0881","LIVE-0490","DB1000-313"]}});
+function r8Category(){const k='ADDRESS';if(!Object.prototype.hasOwnProperty.call(R8_ISOLATED,k))throw Error('INVALID_R8_CATEGORY');return k}
+function r8NewCandidate(base,key){const d=R8_ISOLATED[key];if(!d)throw Error('UNKNOWN_CATEGORY_'+key);const c=JSON.parse(JSON.stringify(base));for(const [lane,guard] of Object.entries(d.guards)){if(lane==='k2l'||lane==='l2k')c.forward[lane]+=' '+guard;else if(lane==='husband'||lane==='wife')c.back[lane]+=' '+guard;else throw Error('UNKNOWN_GUARD_LANE_'+lane)}
+c.promptRevision=d.revision;c.description='TEST ONLY: isolated '+key+' modification against SEM6 MINIMAL baseline; no cross-category changes';return c}
+function r8LaneCfg(pack,lane){return lane==='A'?pack.baselineCfg:pack.candidateCfg}
+const R8_SOURCE_HINTS=Object.freeze({'LIVE-0283':'배안픈/어떄 오타. 문맥에서 복통 의미를 추정하지만 평가 시 원문오류 별도 표기','LIVE-0261':'ເອື້ອຍ 호칭은 문맥 의존(자기지칭/언니). 화자 역할 확정 보류','LIVE-0813':'라오 문자와 태국 문자가 혼합된 원문','LIVE-0490':'튼튼이는 애칭. 주체·음식 소유자·추정 화행 확인'});
+const R8_GUARD_ID='P168A-31SEM6-R1';
+const R8_GUARDS=Object.freeze({"k2l":"SEM6: Colloquial typo '배안픈' means abdominal PAIN (배 아픈), never hunger/not hungry. '기숙사 돌아갈 때 연락해' means contact while returning, not after arrival. Inferential '-나 보네' means 'seems', not 'look at the child's behavior'. Do not invent an event or over-familiar tone.","l2k":"SEM6: ເຈົ້າຕ້ອງ = YOU/listener must, not I/we should. ໄປເອົາ = went to get, not already brought back. ແມ່ຍ່າ is husband's mother/시어머니, never generic mother. Preserve who caused stress; invent no soothing action.","husband":"SEM6 verification: A Lao inference that something seems true is not an imperative to look at someone's actions. Do not invent arriving when Lao says returning.","wife":"SEM6 verification: Keep explicitly named mother-in-law distinct from generic mother; preserve speaker/listener and went-to-get vs completed-bringing."});
+function r8CandidateConfig(cfg){const c=JSON.parse(JSON.stringify(cfg));c.forward.k2l+=' '+R8_GUARDS.k2l;c.forward.l2k+=' '+R8_GUARDS.l2k;c.back.husband+=' '+R8_GUARDS.husband;c.back.wife+=' '+R8_GUARDS.wife;c.promptRevision=R8_GUARD_ID;c.description='TEST ONLY: identical SEM6 prompt under 3.1 Flash-Lite MINIMAL and LOW; base P168A preserved';return c}
+let r8Sources=null,r8Cases=[],r8Digest='',r8Ready='',r8Busy=false,r8Stopped=false,r8Rows=[],r8Frames={A:{},B:{}},r8Expected=0,r8Stages=0,r8SourceLabel='',r8RunId='';
+const r8Text=(v)=>String(v==null?'':v);
+$('r8Category').addEventListener('change',()=>{if(r8Busy)return;r8Ready='';r8Sources=null;$('r8Run').disabled=true;r8Message('검사 종류 변경됨: '+R8_ISOLATED[r8Category()].label+' · ③ 무료 준비검사를 다시 누르세요')});
+
+function r8Message(s,isError=false){$('r8State').textContent=s;$('r8State').className=isError?'err':'note'}
+
+async function r8Sha(text){const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return Array.from(new Uint8Array(hash),x=>x.toString(16).padStart(2,'0')).join('')}
+async function r8ReadStandaloneSources(){
+ // The public TEST index contains both exact embedded app payloads. No login session is used.
+ const opts={cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'};
+ const urls=['./index.html','./prompt-config.json'];
+ const [page,config]=await Promise.all(urls.map(async path=>{
+  const res=await fetch(new URL(path,location.href),opts);
+  if(!res.ok)throw Error('TEST_SOURCE_HTTP_'+res.status+'_'+path);
+  const body=await res.text();if(!body)throw Error('TEST_SOURCE_EMPTY_'+path);
+  return body;
+ }));
+ if(!page.includes("const INTEGRATED_CHANNEL='TEST'")||!page.includes("const INTEGRATED_VERSION='V3.61.209'"))throw Error('TEST_VERSION_OR_CHANNEL_MISMATCH');
+ const cfg=JSON.parse(config);
+ if(cfg.promptRevision!=='P168A'||cfg.promptSha256!==R8_SHA||cfg.channel!=='TEST')throw Error('R8_PROMPT_CONFIG_SHA_OR_REVISION_MISMATCH');
+ const parsed=new DOMParser().parseFromString(page,'text/html'),codes={};
+ for(const mode of ['husband','wife']){
+  const el=parsed.getElementById('payload-'+mode);
+  if(!el||el.tagName!=='TEXTAREA')throw Error('TEST_PAYLOAD_MISSING_'+mode);
+  if(el.dataset.sha256!==R8_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_MANIFEST_CHANGED_'+mode);
+  const code=el.value||el.textContent||'';
+  if(code.length<100000)throw Error('TEST_PAYLOAD_SHORT_'+mode);
+  if(await r8Sha(code)!==R8_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_CONTENT_SHA_MISMATCH_'+mode);
+  for(const fn of [mode==='husband'?'__runLivePathDiagnosticK2L':'__runLivePathDiagnosticL2K',mode==='husband'?'__runLiveBackDiagnosticK2L':'__runLiveBackDiagnosticL2K'])if(!code.includes(fn))throw Error('R8_LIVE_HOOK_MISSING_'+mode+'_'+fn);
+  codes[mode]=code;
+ }
+ const baselineCfg=JSON.parse(JSON.stringify(cfg));if(baselineCfg.promptSha256!==R8_SHA||baselineCfg.promptRevision!=='P168A')throw Error('3_8_BASELINE_PROMPT_MISMATCH');
+  const candidateCfg=r8NewCandidate(r8CandidateConfig(cfg),'ADDRESS');candidateCfg.promptSha256=await r8Sha(JSON.stringify({revision:candidateCfg.promptRevision,forward:candidateCfg.forward,back:candidateCfg.back,smart:candidateCfg.smart}));
+  if(baselineCfg.promptSha256===candidateCfg.promptSha256)throw Error('ISOLATED_SAME_PROMPT_SHA');
+  const pack={codes,cfg,baselineCfg,candidateCfg,category:'ADDRESS',sha:{...R8_PAYLOAD_SHA},at:Date.now()};
+ // Fail before any billable calls if either model route or independent back-usage hook changed.
+ for(const mode of ['husband','wife'])for(const lane of ['A','B'])r8PrepareSource(r8BootDocument(pack,mode,lane),mode,lane);
+ return pack;
+}
+
+function r8SafeProviderText(raw,key){
+ let d=raw;try{if(typeof raw==='string')d=JSON.parse(raw)}catch(_){}
+ let s=r8Text(d?.error?.message||d?.message||(typeof raw==='string'?raw:'오류 본문 없음'));
+ const k=r8Text(key).trim();if(k)s=s.split(k).join('[API_KEY]');
+ return s.replace(/AIza[A-Za-z0-9_-]{20,}/g,'[API_KEY]').replace(/Bearer\s+[A-Za-z0-9._-]+/gi,'Bearer [REDACTED]').replace(/key=[^\s&"']+/gi,'key=[REDACTED]').replace(/\s+/g,' ').slice(0,300);
+}
+async function r8CheckGeminiModelsNoGeneration(){
+ const key=$('geminiKey').value.trim();if(!key)throw Error('Gemini API 키가 없습니다. 아래의 기존 엔진 설정에 등록하세요');
+ for(const model of new Set(Object.values(R8_MODELS))){
+  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);let r,body;
+  try{r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+model,{method:'GET',headers:{'x-goog-api-key':key,Accept:'application/json'},cache:'no-store',referrerPolicy:'no-referrer',signal:ctrl.signal});body=await r.text()}
+  catch(e){throw Error('모델 조회 '+model+' 실패: '+r8Err(e))}
+  finally{clearTimeout(timer)}
+  if(!r.ok)throw Error(model+' · HTTP '+r.status+' · '+r8SafeProviderText(body,key));
+  let data;try{data=JSON.parse(body)}catch(_){throw Error(model+' · 모델 정보 JSON 오류')}
+  if(data?.name!=='models/'+model)throw Error(model+' · 조회 모델 ID가 다릅니다');
+  if(Array.isArray(data.supportedGenerationMethods)&&!data.supportedGenerationMethods.includes('generateContent'))throw Error(model+' · generateContent 권한 없음');
+ }
+ return true;
+}
+function r8PatchProviderReason(src,mode){
+ const suffix=mode==='wife'?'L2K':'K2L';
+ const original="function __diagReqReason"+suffix+"(e){const q=[...(e?.quality?.reasons||[])];if(q.length)return q.join('|');if(e?.finishReason)return'FINISH_'+e.finishReason;if(Number.isInteger(Number(e?.status)))return'HTTP_'+e.status;return String(e?.message||e?.name||'ERROR')}";
+ if(src.split(original).length!==2)throw Error('R8_PROVIDER_REASON_ANCHOR_'+mode);
+ const updated="function __diagReqReason"+suffix+"(e){const q=[...(e?.quality?.reasons||[])];if(q.length)return q.join('|');if(e?.finishReason)return'FINISH_'+e.finishReason;if(Number.isInteger(Number(e?.status))){let detail='';try{detail=JSON.parse(String(e?.bodyText||''))?.error?.message||''}catch(_){detail=String(e?.bodyText||'')}const key=String(currentApiKey||'');if(key)detail=detail.split(key).join('[API_KEY]');detail=detail.replace(/AIza[A-Za-z0-9_-]{20,}/g,'[API_KEY]').replace(/Bearer\\s+[A-Za-z0-9._-]+/gi,'Bearer [REDACTED]').replace(/key=[^\\s&\"']+/gi,'key=[REDACTED]').replace(/\\s+/g,' ').slice(0,260);return'HTTP_'+e.status+(detail?' '+detail:'')}return String(e?.message||e?.name||'ERROR')}";
+ return src.replace(original,updated);
+}
+function r8RequestFailureDetail(res){
+ const x=Array.isArray(res?.requestTrace)?res.requestTrace:[];
+ const r=x.find(v=>/HTTP[_ ](?:400|401|403)\b/i.test(String(v?.rejectReason||'')))||x.find(v=>/HTTP[_ ]\d{3}/i.test(String(v?.rejectReason||'')));
+ return r?String(r.rejectReason).slice(0,300):'';
+}
+function r8BootDocument(pack,mode,lane){
+ const key=$('geminiKey').value.trim();
+ if(!key)throw Error('이 진단기의 Gemini API 키를 먼저 입력하세요');
+ const safe=v=>JSON.stringify(v).replace(/</g,'\\u003c').replace(/>/g,'\\u003e');
+ const boot='<scr'+'ipt>window.__UNIFIED_DIAGNOSTIC_CLONE__=true;window.__COUPLE_PROMPT_CONFIG__='+safe(r8LaneCfg(pack,lane))+';window.__DIAG_DEFAULT_APP__="couple";window.__UNIFIED_KEYS__='+safe({gemini:key,azure:'SERVER_AUDIO'})+';window.__APP_RELAY__='+safe({})+';<\/scr'+'ipt>';
+ return boot+pack.codes[mode];
+}
+$('r8Connect').addEventListener('click',async()=>{
+ if(r8Busy)return;
+ r8Ready='';$('r8Run').disabled=true;
+ try{r8Message('공개 TEST 앱 소스와 P168A R8 SHA 검증 중 · 로그인 없음 · Gemini 0회');r8Sources=await r8ReadStandaloneSources();
+ $('r8Connected').textContent='SHA 검증 완료 · TEST V3.61.209 / P168A R8 · 로그인 불필요';
+ r8Message('① TEST 소스 확인 성공 · 남편·아내 원본 SHA 일치 · Gemini 0회. 이제 비공개 JSON과 ③ 무료 준비검사를 진행하세요.');
+ }catch(e){r8Sources=null;r8Message('① 소스 검증 실패 · '+r8Err(e)+' · Gemini 0회',true)}
+});
+function r8Canon(v){return r8Text(v).trim().replace(/\s+/g,' ')}
+function r8ParseTextCases(raw){
+ const parts=String(raw||'').split(/\r?\n---\s*(?:\r?\n|$)/);
+ const seen=new Set(),cases=[];
+ for(const block of parts){
+  const id=/^CASE ([^\r\n]+)$/m.exec(block)?.[1]?.trim();
+  const dir=/^DIRECTION (K2L|L2K)$/m.exec(block)?.[1];
+  const source=/\[SOURCE\]\s*\r?\n([\s\S]*?)\r?\n\[FORWARD\]/.exec(block)?.[1]?.trim();
+  if(!id||!dir||!source||seen.has(id))continue;
+  seen.add(id);
+  cases.push({id,direction:dir,source,issue:/^ISSUE ([^\r\n]*)$/m.exec(block)?.[1]||'',cohort:/^COHORT ([^\r\n]*)$/m.exec(block)?.[1]||''});
+ }
+ if(cases.length<2)throw Error('R8 텍스트 로그에서 원문을 찾지 못했습니다');
+ return {cases};
+}
+function r8ParseFile(obj){
+ const src=Array.isArray(obj)?obj:(Array.isArray(obj?.cases)?obj.cases:(Array.isArray(obj?.rows)?obj.rows.filter(x=>x?.lane==='B'||x?.model==='gemini-3.1-flash-lite'):null));if(!Array.isArray(src)||src.length<2||src.length>200)throw Error('2~200건의 짝수 문장이 필요합니다');
+ const seen=new Set(),ids=new Set(),rows=[];let k=0,l=0;
+ for(let i=0;i<src.length;i++){const a=src[i],dir=r8Text(a?.direction||a?.dir).trim().toUpperCase(),text=r8Text(a?.sourceText||a?.source).trim(),id=r8Text(a?.id||a?.caseId||('CASE-'+(i+1))).trim(),issue=r8Text(a?.issue).slice(0,200),cohort=r8Text(a?.cohort).slice(0,100);
+  if(dir!=='K2L'&&dir!=='L2K')throw Error('문장 '+(i+1)+': K2L/L2K 방향 오류');
+  if(text.length<2||text.length>2500||!id||id.length>100)throw Error('문장 '+(i+1)+': 원문/ID 길이 오류');
+  if(dir==='K2L'&&!/[가-힣]/u.test(text)||dir==='L2K'&&!/[\u0e80-\u0eff]/u.test(text))throw Error('문장 '+(i+1)+': 원문 언어 불일치');
+  const key=dir+'|'+r8Canon(text);if(seen.has(key)||ids.has(id))throw Error('문장 '+(i+1)+': 중복 원문/ID');
+  seen.add(key);ids.add(id);rows.push({id,dir,source:text,issue,cohort,baselineLow:a?.lane==='B'?{forward:a.forward||'',back:a.back||'',error:a.error||'',forwardMs:a.forwardMs??null,backMs:a.backMs??null}:null});if(dir==='K2L')k++;else l++;
+ }
+ if(!k||!l)throw Error('남편·아내 원문이 모두 있어야 합니다: '+k+'/'+l);
+ return rows;
+}
+async function r8Fingerprint(rows){const s=JSON.stringify(rows.map(x=>[x.id,x.dir,x.source,x.issue]));const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(h),x=>x.toString(16).padStart(2,'0')).join('')}
+$('r8File').addEventListener('change',async()=>{
+ if(r8Busy)return;r8Ready='';$('r8Run').disabled=true;r8Cases=[];r8Digest='';
+ try{const f=$('r8File').files?.[0];if(!f)throw Error('검사 파일이 선택되지 않았습니다');if(f.size>550000)throw Error('개인용 파일 550KB 상한 초과');const raw=await f.text();let obj;try{obj=JSON.parse(raw)}catch(_){obj=r8ParseTextCases(raw)}const rows=r8ParseFile(obj);
+ r8Cases=rows;r8Digest=await r8Fingerprint(rows);r8SourceLabel=f.name;
+ const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
+ $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
+ $('r8Budget').value='각 원문 최대 4회 (3.8 LOW/3.1 MINIMAL 정·역)';
+ r8Message('A/B 원문 '+rows.length+'건 준비됨 · 3.8 LOW vs 3.1 MINIMAL · ③ 무료 준비검사를 누르세요');
+ }catch(e){$('r8FileInfo').textContent='파일 오류: '+e.message;$('r8Budget').value='파일 오류';r8Message('파일 검사 실패: '+e.message,true)}
+});
+function r8NormalizeClone(src){const s=r8Text(src);if(/^\s*<!doctype\s+html\b/i.test(s))return s;
+ const m=/^(\s*)(<script\b[^>]*>[\s\S]*?<\/script>)(\s*)(<!doctype\s+html\b[^>]*>)/i.exec(s);
+ if(!m)throw Error('R8_DIAGNOSTIC_DOCTYPE_UNEXPECTED');
+ const body=s.slice(m[0].length);if(!/<head(?:\s[^>]*)?>/i.test(body))throw Error('R8_DIAGNOSTIC_HEAD_MISSING');
+ return m[1]+m[4]+body.replace(/<head(?:\s[^>]*)?>/i,v=>v+m[2]);
+}
+function r8PatchBackUsage(src,mode){
+ const anchor='rec.quality=v?.quality||null;return v',count=src.split(anchor).length-1;
+ if(count!==1)throw Error('R8_BACK_TOKEN_ANCHOR_'+mode+'_'+count);
+ return src.replace(anchor,'rec.quality=v?.quality||null;const backUsage=v?.usage;rec.usageMetadata=backUsage&&typeof backUsage==="object"?{promptTokenCount:backUsage.prompt??null,candidatesTokenCount:backUsage.candidate??null,thoughtsTokenCount:backUsage.thoughts??null,totalTokenCount:backUsage.total??null}:null;return v');
+}
+function r8PrepareSource(source,mode,lane){
+ let s=r8Text(source),base='gemini-3.8-flash',found=s.split(base).length-1;
+ if(found<3)throw Error('R8_MODEL_ANCHOR_'+mode+'_'+found);
+ const f=(s.match(/thinkingLevel\s*:\s*(['"])low\1/g)||[]).length,b=(s.match(/backThinkingLevel\s*=\s*(['"])low\1/g)||[]).length;
+ if(!f||!b)throw Error('R8_THINKING_ANCHOR_'+mode);
+ if(lane==='B'){
+  s=s.split(base).join('gemini-3.1-flash-lite');
+  s=s.replace(/thinkingLevel\s*:\s*(['"])low\1/g,'thinkingLevel:"minimal"').replace(/backThinkingLevel\s*=\s*(['"])low\1/g,'backThinkingLevel="minimal"');
+ }
+ const models=s.match(/gemini-3\.(?:8-flash|1-flash-lite)/g)||[];
+ if(!models.length||models.some(x=>x!==R8_MODELS[lane]))throw Error('R8_MODEL_MIXED_'+lane);
+ if(lane==='A'&&s!==source)throw Error('R8_BASELINE_SOURCE_MUST_STAY_ORIGINAL');
+ return r8NormalizeClone(r8PatchProviderReason(r8PatchBackUsage(s,mode),mode));
+}
+
+$('r8Preflight').addEventListener('click',async()=>{
+ if(r8Busy)return;r8Ready='';$('r8Run').disabled=true;
+ try{
+  if(!r8Cases.length||!r8Digest)throw Error('② 비공개 JSON 파일을 먼저 선택하세요');
+  r8Sources=await r8ReadStandaloneSources();
+  await r8CheckGeminiModelsNoGeneration();
+  r8Ready=r8Digest+'|ADDRESS';$('r8Run').disabled=false;
+  $('r8Connected').textContent='검증됨 · TEST V3.61.209 · P168A R8 · 남편/아내 코드 SHA 일치';
+  r8Message('③ 무료 준비검사 PASS · 원문 '+r8Cases.length+'건 · 3.8 P168A '+r8Sources.baselineCfg.promptSha256.slice(0,10)+' / 3.1 ADDRESS '+r8Sources.candidateCfg.promptSha256.slice(0,10)+' · 생성 0회');
+ }catch(e){r8Ready='';$('r8Run').disabled=true;r8Message('무료 준비검사 실패 · '+r8Err(e)+' · Gemini 0회',true)}
+});
+function r8Dispose(){for(const lane of ['A','B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
+async function r8Frame(lane,dir,pack){
+ const mode=dir==='K2L'?'husband':'wife',readyName=dir==='K2L'?'__livePathDiagnosticReadyK2L':'__livePathDiagnosticReadyL2K',old=r8Frames[lane][dir];
+ try{if(old?.isConnected&&old.contentWindow?.[readyName]?.()&&old.contentWindow?.__COUPLE_PROMPT_CONFIG__?.promptSha256===r8LaneCfg(pack,lane).promptSha256)return old}catch(_){}
+ try{old?.remove()}catch(_){}
+ const src=r8PrepareSource(r8BootDocument(pack,mode,lane),mode,lane),frame=document.createElement('iframe');
+ frame.id='r8Diag'+lane+dir;frame.dataset.model=R8_MODELS[lane];frame.dataset.dir=dir;frame.setAttribute('aria-hidden','true');
+ frame.style.cssText='position:fixed;width:1px;height:1px;left:-20000px;top:-20000px;border:0;opacity:0;pointer-events:none';
+ frame.srcdoc=src;document.body.appendChild(frame);r8Frames[lane][dir]=frame;
+ for(let i=0;i<160;i++){if(r8Stopped)throw Error('USER_STOP');try{const child=frame.contentWindow,pc=child?.__COUPLE_PROMPT_CONFIG__;if(pc?.promptRevision===r8LaneCfg(pack,lane).promptRevision&&pc?.promptSha256===r8LaneCfg(pack,lane).promptSha256&&typeof child?.[readyName]==='function'&&child[readyName]())return frame}catch(_){}
+ await new Promise(ok=>setTimeout(ok,60))}
+ throw Error('R8_'+lane+'_'+dir+'_CLONE_NOT_READY');
+}
+function r8Number(v){const n=Number(v);return v!==null&&v!==undefined&&Number.isFinite(n)&&n>=0?n:null}
+function r8Usage(res){
+ const reqs=[...(Array.isArray(res?.requestTrace)?res.requestTrace:[]),...(Array.isArray(res?.records)?res.records:[])];
+ const pick=(obj,k)=>obj&&k in obj?r8Number(obj[k]):null;
+ for(const r of [...reqs,res]){
+  if(!r)continue;const u=r?.usageMetadata||r?.usage||r?.metadata?.usage||r;
+  const prompt=pick(u,'promptTokenCount')??pick(u,'usagePromptTokens')??pick(u,'promptTokens')??pick(u,'prompt');
+  const total=pick(u,'totalTokenCount')??pick(u,'usageTotalTokens')??pick(u,'totalTokens')??pick(u,'total');
+  const candidate=pick(u,'candidatesTokenCount')??pick(u,'usageCandidateTokens')??pick(u,'candidateTokens')??pick(u,'candidate');
+  const thoughts=pick(u,'thoughtsTokenCount')??pick(u,'usageThoughtTokens')??pick(u,'thoughtTokens')??pick(u,'thoughts');
+  if(prompt!==null&&(total!==null||candidate!==null)){const out=total!==null?Math.max(0,total-prompt):(candidate??0)+(thoughts??0);return{prompt,candidate,thoughts,outputAndThoughts:out,reportedTotal:total,breakdownKnown:candidate!==null&&thoughts!==null,source:'provider_usage'}}}
+ return null;
+}
+function r8Estimate(usage,lane){if(!usage)return null;const rate=R8_RATES[lane];return (usage.prompt*rate.input+usage.outputAndThoughts*rate.output)/1e6}
+function r8Err(e){return r8SafeProviderText(r8Text(e?.message||e||'unknown'),$('geminiKey').value).slice(0,300)}
+function r8TraceCount(res){const t=Array.isArray(res?.requestTrace)?res.requestTrace:[];return t.filter(x=>['forward','critical-repair','back'].includes(r8Text(x?.kind))).length||null}
+async function r8ExecuteOne(c,lane,pack){
+ const row={runId:r8RunId,id:c.id,cycle:c.cycle||1,dir:c.dir,cohort:c.cohort,issue:c.issue,source:c.source,baselineLow:c.baselineLow||null,thinkingLevel:lane==='A'?'low':'minimal',maxOutputTokens:1024,sourceReviewHint:R8_SOURCE_HINTS[c.id]||'',category:pack.category,lane,model:R8_MODELS[lane],promptRevision:r8LaneCfg(pack,lane).promptRevision,promptSha256:r8LaneCfg(pack,lane).promptSha256,smart:'ON',forward:'',back:'',forwardMs:null,backMs:null,forwardTokens:null,backTokens:null,forwardUsd:null,backUsd:null,error:'',forwardTraceCount:null,backTraceCount:null};
+ const f=await r8Frame(lane,c.dir,pack),w=f.contentWindow,fn=c.dir==='K2L'?w.__runLivePathDiagnosticK2L:w.__runLivePathDiagnosticL2K,bn=c.dir==='K2L'?w.__runLiveBackDiagnosticK2L:w.__runLiveBackDiagnosticL2K;
+ if(typeof fn!=='function'||typeof bn!=='function')throw Error('R8_LIVE_DIAGNOSTIC_BRIDGE_MISSING');
+ let t=performance.now(),response=null;if(r8Stages>=200||r8Stopped)return null;r8Stages++;r8Paint();try{response=await fn(c.source);row.forwardMs=Math.round(performance.now()-t);row.forwardTraceCount=r8TraceCount(response);row.forwardTokens=r8Usage(response);row.forwardUsd=r8Estimate(row.forwardTokens,lane);row.forward=r8Text(response?.text).trim();if(response?.ok!==true||!row.forward){row.error='FORWARD_'+r8Err(response?.error||'EMPTY')+(r8RequestFailureDetail(response)?' | '+r8RequestFailureDetail(response):'');if(/HTTP[_ ](?:400|401|403|429)\b/i.test(row.error))r8Stopped=true;}}
+ catch(e){row.forwardMs=Math.round(performance.now()-t);row.error='FORWARD_EXCEPTION_'+r8Err(e)}
+ r8Paint();if(!row.error&&!r8Stopped&&r8Stages<200){t=performance.now();r8Stages++;r8Paint();let back=null;try{back=await bn(row.forward);row.backMs=Math.round(performance.now()-t);row.backTraceCount=r8TraceCount(back);row.backTokens=r8Usage(back);row.backUsd=r8Estimate(row.backTokens,lane);row.back=r8Text(back?.text).trim();if(back?.ok!==true||!row.back){row.error='BACK_'+r8Err(back?.error||'EMPTY')+(r8RequestFailureDetail(back)?' | '+r8RequestFailureDetail(back):'');if(/HTTP[_ ](?:400|401|403|429)\b/i.test(row.error))r8Stopped=true;}}
+ catch(e){row.backMs=Math.round(performance.now()-t);row.error='BACK_EXCEPTION_'+r8Err(e)}}r8Rows.push(row);r8SaveSession();r8Paint();return row;
+}
+function r8SaveSession(){try{sessionStorage.setItem('ko-lo-r8-38low-vs-31min-address-results',JSON.stringify({runId:r8RunId,rows:r8Rows,at:Date.now()}))}catch(e){$('r8Summary').textContent='주의: 브라우저 세션 자동보관 실패. 지금 결과 파일을 저장하세요. '+r8Err(e)}}
+function r8LoadSession(){try{const o=JSON.parse(sessionStorage.getItem('ko-lo-r8-38low-vs-31min-address-results')||'null');if(o?.rows&&Array.isArray(o.rows)){r8Rows=o.rows.slice(0,200);r8RunId=o.runId||''}}catch(_){}}
+function r8Median(values){const a=values.filter(x=>typeof x==='number'&&Number.isFinite(x)).sort((x,y)=>x-y);if(!a.length)return null;return a[Math.floor((a.length-1)/2)]}
+function r8Paint(){
+ $('r8Progress').max=r8Expected||200;$('r8Progress').value=Math.min(r8Stages,200);
+ $('r8Run').disabled=r8Busy||!r8Ready;$('r8Stop').disabled=!r8Busy;
+ $('r8Export').disabled=!r8Rows.length;$('r8ExportTxt').disabled=!r8Rows.length;
+ $('r8Results').replaceChildren();
+ for(const r of r8Rows.slice(-24)){
+  const tr=document.createElement('tr');
+  const tokens=v=>v?'입 '+v.prompt+' / 출력 '+(v.candidate??'?')+' / 추론 '+(v.thoughts??'?'):'—';
+  const cost=(r.forwardUsd??0)+(r.backUsd??0);
+  const values=[(r.cycle||1)+'-'+r.id,(r.lane==='A'?'A · 3.8 LOW / P168A R8':'B · 3.1 MINIMAL / ADDRESS V1'),r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',
+   r.source+(r.issue?'\n[위험] '+r.issue:'')+(r.sourceReviewHint?'\n[원문 참고] '+r.sourceReviewHint:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
+   '정 '+tokens(r.forwardTokens)+' · 역 '+tokens(r.backTokens)+' / 추정 $'+cost.toFixed(6),r.error||'완료'];
+  for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}
+  $('r8Results').appendChild(tr);
+ }
+ const fmt=(lane,label)=>{
+  const rows=r8Rows.filter(r=>r.lane===lane),done=rows.filter(r=>!r.error&&r.forward&&r.back);
+  const cost=rows.reduce((x,r)=>x+(r.forwardUsd??0)+(r.backUsd??0),0);
+  return label+' '+done.length+'/'+rows.length+'성공 · K→L '+done.filter(r=>r.dir==='K2L').length+' / L→K '+done.filter(r=>r.dir==='L2K').length+
+  ' · 정번역 중앙 '+(r8Median(done.map(r=>r.forwardMs))??'—')+'ms · 역번역 중앙 '+(r8Median(done.map(r=>r.backMs))??'—')+'ms · MAX_TOKENS '+rows.filter(r=>/MAX_TOKENS/i.test(r.error)).length+
+  ' · 추정 $'+cost.toFixed(5);
+ };
+ const pairs=new Map();
+ for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
+ const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
+ $('r8Summary').textContent='실제 API 호출 '+r8Stages+'/200 · 같은 원문 A/B 쌍 '+comparable+'건 | '+fmt('A','A · 3.8 LOW / P168A R8')+' | '+fmt('B','B · 3.1 MINIMAL / ADDRESS V1');
+}
+
+function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+$('r8Export').addEventListener('click',()=>r8Save('ko-lao-R8-38LOW-vs-31MIN-ADDRESS-'+Date.now()+'.json',JSON.stringify({version:'R8-38LOW-VS-31MIN-ADDRESS-R1',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest||'UNKNOWN',baselinePromptSha256:r8Sources?.baselineCfg?.promptSha256||'UNKNOWN',baselinePromptRevision:'P168A',sourceReviewPolicy:'Separate source typos/ambiguity from forward/back model faults',candidatePromptSha256:r8Sources?.candidateCfg?.promptSha256||'UNKNOWN',candidatePromptRevision:r8Sources?.candidateCfg?.promptRevision||'UNKNOWN',selectedCategory:'ADDRESS_V1',comparedModels:'3.8 LOW R8 vs 3.1 MINIMAL SEM6+ADDRESS',method:'TEST runtime paired same original: A 3.8 Flash LOW/P168A R8 untouched; B 3.1 Flash-Lite MINIMAL/SEM6+ADDRESS V1. Independent back and fixed 1024 max output, no automatic retry. TEST clone not production relay benchmark.',rates:R8_RATES,actualCalls:r8Stages,requestedMaxCalls:r8Expected,disclaimer:'PRIVATE: contains real spouse dialogues. Do not share publicly. No Gemini API keys included.',rows:r8Rows},null,2)));
+$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-R8-38LOW-vs-31MIN-ADDRESS-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'38LOW_P168A_R8':'31MIN_SEM6_ADDRESS_V1'),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'ERROR '+(r.error||'-'),'---'].join('\n')).join('\n')));
+$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R8 비교 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{sessionStorage.removeItem('ko-lo-r8-38low-vs-31min-address-results')}catch(_){}r8Paint();r8Message('R8 비교 결과 삭제됨')});
+$('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨 · 현재 요청 완료 후 추가 유료 호출 없이 정지 · 결과 JSON 저장 가능');});
+$('r8Run').addEventListener('click',async()=>{
+ if(r8Busy)return;let pack=null;
+ try{
+  if(!r8Cases.length||!r8Ready||r8Ready!==(r8Digest+'|ADDRESS'))throw Error('③ 무료 준비검사를 먼저 실행하세요');
+  pack=await r8ReadStandaloneSources();
+  if(r8Rows.length&&!confirm('이 탭에 이전 검사 결과가 있습니다. 저장 후 새로 시작하시겠습니까?'))return;
+  if(!confirm('3.8 Flash LOW/P168A R8과 3.1 Flash-Lite MINIMAL/SEM6+ADDRESS V1의 실제 A/B 검사입니다. 서비스·서버 변경은 없고 각 원문 정/역 최대 4회 유료 호출, 출력 1024토큰 고정입니다. 최대 '+(Math.min(Number($('r8PairsSelect').value)||12,r8Cases.length)*4)+'회 호출을 진행할까요?'))return;
+  r8RunId='R8-38LOW-31MIN-ADDRESS-'+Date.now();r8Stopped=false;r8Busy=true;r8Rows=[];r8Expected=Math.min(Number($('r8PairsSelect').value)||12,r8Cases.length)*4;r8Stages=0;r8Dispose();$('r8Category').disabled=true;$('r8PairsSelect').disabled=true;r8Paint();
+  const priority=['LIVE-0137','LIVE-0283','DB1000-514','LIVE-0014','LIVE-0490','LIVE-0122','DB1000-313','DB1000-436','LIVE-0261','DB1000-317','LIVE-0813','LIVE-0877'];
+  const rank=id=>{const k=priority.indexOf(id);return k>=0?k:999};
+  const selected=[...r8Cases].sort((x,y)=>rank(x.id)-rank(y.id)||x.id.localeCompare(y.id)).slice(0,Math.min(Number($('r8PairsSelect').value)||12,r8Cases.length));
+  for(let n=0;!r8Stopped&&r8Stages<200&&n<selected.length;n++){
+   const c={...selected[n],cycle:1},dir=c.dir;
+   const order=n%4<2?['A','B']:['B','A'];
+   for(const lane of order){
+    if(r8Stopped||r8Stages>=200)break;
+    r8Message('API 호출 '+r8Stages+'/'+(r8Expected||200)+' · '+dir+' · '+c.id+' · '+(lane==='A'?'3.8 LOW / P168A R8':'3.1 MINIMAL / ADDRESS V1'));
+    try{await r8ExecuteOne(c,lane,pack)}
+    catch(e){r8Stopped=true;r8Message('진단기 오류로 안전 중단: '+r8Err(e),true);break}
+   }
+  }
+  if(!r8Stopped)r8Message('검사 완료 · '+r8Stages+'회 API 호출 · A/B 결과 JSON 저장 후 업로드하세요');
+  else if(!/진단기 오류/.test($('r8State').textContent))r8Message('중단됨 · API 호출 '+r8Stages+'/200 · 부분 결과 JSON 저장 가능');
+ }catch(e){r8Message('검사 시작 실패: '+r8Err(e),true)}
+ finally{r8Busy=false;$('r8Category').disabled=false;$('r8PairsSelect').disabled=false;r8Dispose();r8Paint()}
+});
+r8LoadSession();r8Paint();
+
+load();if(new URLSearchParams(location.search).get('preset')==='gemini3')selectGemini3Preset();else $('plan').textContent='선택한 엔진을 동일한 고정 문장으로 정·역 1회씩 비교합니다. Gemini 3종은 상단의 전용 선택 버튼을 누르세요.';
+})();
+</script>
+</body>
+</html>
