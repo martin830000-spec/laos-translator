@@ -41,6 +41,12 @@ test('cursor pages are combined and duplicates excluded',async()=>{
  const x=await o.read('ALL','2000','ALL','all');
  assert.equal(x.rows.length,2000);assert.equal(x.complete,true);assert.equal(o.urls.length,2);assert.match(o.urls[1],/cursor=after-one/);
 });
+test('5000 records response is accepted, but a 1000-record cap is not',async()=>{
+ const ok=setup([{records:makeRecords(5000)}]);
+ const a=await ok.read('ALL','5000','ALL','all');assert.equal(a.complete,true);assert.equal(a.rows.length,5000);
+ const bad=setup([{records:makeRecords(1000)}]);
+ const b=await bad.read('ALL','5000','ALL','all');assert.equal(b.complete,false);assert.equal(b.rows.length,1000);
+});
 test('full census needs explicit server terminal indicator',async()=>{
  const a=setup([{records:makeRecords(150)}]);
  const r=await a.read('ALL','ALL','ALL','all');assert.equal(r.complete,false);
