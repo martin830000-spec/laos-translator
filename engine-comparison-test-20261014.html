@@ -30,8 +30,8 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
 <h2>★ 실사용 R8 모델 비교 · Gemini 3.8 vs 3.1</h2>
 <p><b>이 메뉴가 200건 실사용 비교용입니다.</b> 위의 일반 '전체 엔진 한 번에 검사'는 중립 프롬프트 비교이므로 이번 검사에 사용하지 마세요. 아래 기능은 실제 TEST 앱의 <b>P168A R8 + SMART ON</b> 실행 복제본을 사용하며, 두 모델 사이에서 <b>모델 ID만 변경</b>합니다.</p>
-<p class="note">TEST 번역앱과 연결해야 실사용의 남편·아내 정번역 및 독립 역번역 실행 코드를 재현할 수 있습니다. 같은 웹사이트의 연결 창을 열고 TEST 앱에 로그인하세요. API 키는 TEST 앱에서 불러오며 검사 결과에 포함하지 않습니다. 이 진단기는 앱·SERVICE·서버·DB에 쓰지 않습니다.</p>
-<div class="row"><button id="r8Connect" type="button">① TEST 번역앱 연결 창 열기</button><span id="r8Connected" class="pill">TEST 앱 연결 전</span></div>
+<p class="note"><b>독립 실행:</b> 로그인·팝업·TEST 앱 연결 없이 기존 진단기에 입력한 Gemini API 키를 사용합니다. 검사 시 공개 TEST의 남편·아내 실행 코드와 P168A R8 설정을 동일 출처에서 읽어 SHA-256을 검증하며, 모델 ID만 다르게 적용합니다. 비공개 대화는 파일을 직접 선택할 때만 로컬에서 읽습니다. 앱·SERVICE·DB에는 쓰지 않습니다.</p>
+<div class="row"><button id="r8Connect" type="button">① TEST 소스 확인 · 로그인 불필요</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
  <div><label for="r8File">② 비공개 실사용 검사 파일 (4건 또는 200건)</label><input id="r8File" type="file" accept=".json,application/json"><p class="note" id="r8FileInfo">파일은 브라우저 내부에서만 읽습니다. GitHub와 진단기 서버로 업로드하지 않습니다.</p></div>
  <div><label for="r8Budget">실행 시 최대 Gemini 호출</label><input id="r8Budget" type="text" readonly value="파일을 먼저 선택하세요"><p class="note">문장당 3.8 정·역 2회 + 3.1 정·역 2회. 200건이면 최대 800회이며 실제 API 비용이 발생할 수 있습니다.</p></div>
@@ -45,7 +45,7 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
  <button id="r8Clear" type="button">이 탭의 기존 검사 결과 삭제</button>
 </div>
 <progress id="r8Progress" max="1" value="0"></progress>
-<p id="r8State" class="note">TEST 앱 연결 → 비공개 파일 선택 → 무료 준비검사 → 유료 실행 순서. 실행 중에도 결과를 저장할 수 있습니다.</p>
+<p id="r8State" class="note">① 공개 TEST 소스 확인 → ② 비공개 파일 → ③ 무료 준비검사 → ④ 유료 비교 순서. TEST 앱 로그인은 필요하지 않습니다.</p>
 <p id="r8Summary" class="note">R8 비교 결과는 별도로 집계됩니다. 언어 오류·화자 반전은 자동으로 합격 판정하지 않습니다.</p>
 <div class="tablewrap"><table><thead><tr><th>번호</th><th>모델</th><th>방향</th><th>원문 / 과거 오역 문제</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰 / 추정비용</th><th>오류</th></tr></thead><tbody id="r8Results"></tbody></table></div>
 <p class="note">200건 전체 내역은 JSON/TXT로 보존합니다. 화면은 마지막 20개만 표시합니다. 재검사·프롬프트 패치·자동 재시도는 하지 않습니다. 브라우저가 종료되어도 이 탭의 세션 저장 데이터가 살아 있다면 복원할 수 있으나, 파일로 저장하는 것이 안전합니다.</p>
@@ -181,14 +181,58 @@ $('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['RO
 
 // Isolated R8 model comparison (not the neutral-engine runner above). No paid calls during preflight.
 const R8_SHA='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43';
-const R8_PAYLOAD_SHA=Object.freeze({husband:'3c5112f710d04742dff38d549ec477e04fd517e14901104572dd42781280aec9',wife:'1dfea79204d1e6180b9d19623ea271fd31162299f1a7adb2958de2855c8f4294'});
+const R8_PAYLOAD_SHA=Object.freeze({husband:'a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd',wife:'296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e'});
 const R8_MODELS=Object.freeze({A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'});
 const R8_RATES=Object.freeze({A:{input:.75,output:3.75},B:{input:.25,output:1.50}});
-let r8Host=null,r8Cases=[],r8Digest='',r8Ready='',r8Busy=false,r8Stopped=false,r8Rows=[],r8Frames={A:{},B:{}},r8Expected=0,r8Stages=0,r8SourceLabel='',r8RunId='';
+let r8Sources=null,r8Cases=[],r8Digest='',r8Ready='',r8Busy=false,r8Stopped=false,r8Rows=[],r8Frames={A:{},B:{}},r8Expected=0,r8Stages=0,r8SourceLabel='',r8RunId='';
 const r8Text=(v)=>String(v==null?'':v);
 function r8Message(s,isError=false){$('r8State').textContent=s;$('r8State').className=isError?'err':'note'}
-function r8HostWindow(){const choices=[r8Host,window.opener];for(const w of choices){try{if(w&&!w.closed&&w.location.origin===location.origin&&typeof w.getUnifiedDiagnosticCloneDocument==='function')return w}catch(_){}}return null}
-$('r8Connect').addEventListener('click',()=>{if(r8Busy)return;try{r8Host=window.open(new URL('./',location.href).href,'KO_LO_ENGINE_R8_TEST_LOGIN');if(!r8Host)throw Error('브라우저가 새 창을 차단했습니다');$('r8Connected').textContent='TEST 앱 창을 열었어요. 로그인하고 이 진단기로 돌아오세요';r8Ready='';$('r8Run').disabled=true}catch(e){r8Message('TEST 앱 창 열기 실패: '+e.message,true)}});
+
+async function r8Sha(text){const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return Array.from(new Uint8Array(hash),x=>x.toString(16).padStart(2,'0')).join('')}
+async function r8ReadStandaloneSources(){
+ // The public TEST index contains both exact embedded app payloads. No login session is used.
+ const opts={cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'};
+ const urls=['./index.html','./prompt-config.json'];
+ const [page,config]=await Promise.all(urls.map(async path=>{
+  const res=await fetch(new URL(path,location.href),opts);
+  if(!res.ok)throw Error('TEST_SOURCE_HTTP_'+res.status+'_'+path);
+  const body=await res.text();if(!body)throw Error('TEST_SOURCE_EMPTY_'+path);
+  return body;
+ }));
+ if(!page.includes("const INTEGRATED_CHANNEL='TEST'")||!page.includes("const INTEGRATED_VERSION='V3.61.209'"))throw Error('TEST_VERSION_OR_CHANNEL_MISMATCH');
+ const cfg=JSON.parse(config);
+ if(cfg.promptRevision!=='P168A'||cfg.promptSha256!==R8_SHA||cfg.channel!=='TEST')throw Error('R8_PROMPT_CONFIG_SHA_OR_REVISION_MISMATCH');
+ const parsed=new DOMParser().parseFromString(page,'text/html'),codes={};
+ for(const mode of ['husband','wife']){
+  const el=parsed.getElementById('payload-'+mode);
+  if(!el||el.tagName!=='TEXTAREA')throw Error('TEST_PAYLOAD_MISSING_'+mode);
+  if(el.dataset.sha256!==R8_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_MANIFEST_CHANGED_'+mode);
+  const code=el.value||el.textContent||'';
+  if(code.length<100000)throw Error('TEST_PAYLOAD_SHORT_'+mode);
+  if(await r8Sha(code)!==R8_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_CONTENT_SHA_MISMATCH_'+mode);
+  for(const fn of [mode==='husband'?'__runLivePathDiagnosticK2L':'__runLivePathDiagnosticL2K',mode==='husband'?'__runLiveBackDiagnosticK2L':'__runLiveBackDiagnosticL2K'])if(!code.includes(fn))throw Error('R8_LIVE_HOOK_MISSING_'+mode+'_'+fn);
+  codes[mode]=code;
+ }
+ const pack={codes,cfg,sha:{...R8_PAYLOAD_SHA},at:Date.now()};
+ // Fail before any billable calls if either model route or independent back-usage hook changed.
+ for(const mode of ['husband','wife'])for(const lane of ['A','B'])r8PrepareSource(r8BootDocument(pack,mode),mode,lane);
+ return pack;
+}
+function r8BootDocument(pack,mode){
+ const key=$('geminiKey').value.trim();
+ if(!key)throw Error('이 진단기의 Gemini API 키를 먼저 입력하세요');
+ const safe=v=>JSON.stringify(v).replace(/</g,'\\u003c').replace(/>/g,'\\u003e');
+ const boot='<scr'+'ipt>window.__UNIFIED_DIAGNOSTIC_CLONE__=true;window.__COUPLE_PROMPT_CONFIG__='+safe(pack.cfg)+';window.__DIAG_DEFAULT_APP__="couple";window.__UNIFIED_KEYS__='+safe({gemini:key,azure:'SERVER_AUDIO'})+';window.__APP_RELAY__='+safe({})+';<\/scr'+'ipt>';
+ return boot+pack.codes[mode];
+}
+$('r8Connect').addEventListener('click',async()=>{
+ if(r8Busy)return;
+ r8Ready='';$('r8Run').disabled=true;
+ try{r8Message('공개 TEST 앱 소스와 P168A R8 SHA 검증 중 · 로그인 없음 · Gemini 0회');r8Sources=await r8ReadStandaloneSources();
+ $('r8Connected').textContent='SHA 검증 완료 · TEST V3.61.209 / P168A R8 · 로그인 불필요';
+ r8Message('① TEST 소스 확인 성공 · 남편·아내 원본 SHA 일치 · Gemini 0회. 이제 비공개 JSON과 ③ 무료 준비검사를 진행하세요.');
+ }catch(e){r8Sources=null;r8Message('① 소스 검증 실패 · '+r8Err(e)+' · Gemini 0회',true)}
+});
 function r8Canon(v){return r8Text(v).trim().replace(/\s+/g,' ')}
 function r8ParseFile(obj){
  const src=Array.isArray(obj)?obj:obj?.cases;if(!Array.isArray(src)||src.length<2||src.length>200||src.length%2)throw Error('2~200건의 짝수 문장이 필요합니다');
@@ -233,38 +277,23 @@ function r8PrepareSource(source,mode,lane){
  if(!unique.length||unique.some(v=>v!==R8_MODELS[lane]))throw Error('R8_MODEL_MIXED_'+lane);
  return r8NormalizeClone(r8PatchBackUsage(s,mode));
 }
-function r8VerifyHost(){
- const w=r8HostWindow();if(!w)throw Error('TEST 앱 연결 창이 없습니다. ① TEST 번역앱 연결 → 로그인 후 돌아오세요');
- if(!r8Text(w.document.title).includes('[TEST]'))throw Error('로그인 창이 TEST 앱이 아닙니다');
- if(typeof w.getUnifiedBuildFingerprint!=='function'||typeof w.getUnifiedDiagnosticCloneDocument!=='function')throw Error('TEST 앱 번역 브리지가 아직 준비되지 않았습니다');
- const fp=w.getUnifiedBuildFingerprint();
- if(fp.version!=='V3.61.209'||fp.promptRevision!=='P168A'||fp.promptSha256!==R8_SHA)throw Error('TEST R8 버전·프롬프트 SHA가 일치하지 않습니다');
- for(const mode of ['husband','wife'])if(fp[mode+'PayloadSha256']!==R8_PAYLOAD_SHA[mode])throw Error(mode+' 앱 코드 SHA가 검사 기준과 다릅니다');
- return w;
-}
+
 $('r8Preflight').addEventListener('click',async()=>{
  if(r8Busy)return;r8Ready='';$('r8Run').disabled=true;
  try{
- if(!r8Cases.length||!r8Digest)throw Error('② 비공개 JSON 파일을 먼저 선택하세요');
- const w=r8VerifyHost();
- const sources={};
- for(const mode of ['husband','wife']){
-  const doc=w.getUnifiedDiagnosticCloneDocument(mode);
-  if(doc.promptRevision!=='P168A'||doc.promptSha256!==R8_SHA)throw Error('실제 TEST 프롬프트 불일치: '+mode);
-  sources[mode]=doc.srcdoc;
-  r8PrepareSource(doc.srcdoc,mode,'A');r8PrepareSource(doc.srcdoc,mode,'B');
- }
- r8Ready=r8Digest;
- $('r8Run').disabled=false;$('r8Connected').textContent='연결 확인 · TEST V3.61.209 · P168A R8 · 3.8/3.1 동일 SMART ON';
- r8Message('무료 준비검사 PASS · '+r8Cases.length+'건 · SHA '+r8Digest.slice(0,12)+' · 3.8/3.1 동일 실사용 R8/SMART · Gemini 호출 0회');
- }catch(e){r8Message('무료 준비검사 실패 · '+e.message+' · Gemini 호출 0회',true)}
+  if(!r8Cases.length||!r8Digest)throw Error('② 비공개 JSON 파일을 먼저 선택하세요');
+  r8Sources=await r8ReadStandaloneSources();
+  r8Ready=r8Digest;$('r8Run').disabled=false;
+  $('r8Connected').textContent='검증됨 · TEST V3.61.209 · P168A R8 · 남편/아내 코드 SHA 일치';
+  r8Message('③ 무료 준비검사 PASS · '+r8Cases.length+'건 · SHA '+r8Digest.slice(0,12)+' · 3.8/3.1 동일 R8·SMART · Gemini 0회');
+ }catch(e){r8Ready='';$('r8Run').disabled=true;r8Message('무료 준비검사 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8Dispose(){for(const lane of ['A','B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
-async function r8Frame(lane,dir,host){
+async function r8Frame(lane,dir,pack){
  const mode=dir==='K2L'?'husband':'wife',readyName=dir==='K2L'?'__livePathDiagnosticReadyK2L':'__livePathDiagnosticReadyL2K',old=r8Frames[lane][dir];
  try{if(old?.isConnected&&old.contentWindow?.[readyName]?.()&&old.contentWindow?.__COUPLE_PROMPT_CONFIG__?.promptSha256===R8_SHA)return old}catch(_){}
  try{old?.remove()}catch(_){}
- const doc=host.getUnifiedDiagnosticCloneDocument(mode),src=r8PrepareSource(doc.srcdoc,mode,lane),frame=document.createElement('iframe');
+ const src=r8PrepareSource(r8BootDocument(pack,mode),mode,lane),frame=document.createElement('iframe');
  frame.id='r8Diag'+lane+dir;frame.dataset.model=R8_MODELS[lane];frame.dataset.dir=dir;frame.setAttribute('aria-hidden','true');
  frame.style.cssText='position:fixed;width:1px;height:1px;left:-20000px;top:-20000px;border:0;opacity:0;pointer-events:none';
  frame.srcdoc=src;document.body.appendChild(frame);r8Frames[lane][dir]=frame;
@@ -288,9 +317,9 @@ function r8Usage(res){
 function r8Estimate(usage,lane){if(!usage)return null;const rate=R8_RATES[lane];return (usage.prompt*rate.input+usage.outputAndThoughts*rate.output)/1e6}
 function r8Err(e){let s=r8Text(e?.message||e||'unknown');s=s.replace(/key=[A-Za-z0-9_-]{15,}/gi,'key=[REDACTED]');return s.slice(0,250)}
 function r8TraceCount(res){const t=Array.isArray(res?.requestTrace)?res.requestTrace:[];return t.filter(x=>['forward','critical-repair','back'].includes(r8Text(x?.kind))).length||null}
-async function r8ExecuteOne(c,lane,host){
+async function r8ExecuteOne(c,lane,pack){
  const row={runId:r8RunId,id:c.id,dir:c.dir,cohort:c.cohort,issue:c.issue,source:c.source,lane,model:R8_MODELS[lane],promptRevision:'P168A',promptSha256:R8_SHA,smart:'ON',forward:'',back:'',forwardMs:null,backMs:null,forwardTokens:null,backTokens:null,forwardUsd:null,backUsd:null,error:'',forwardTraceCount:null,backTraceCount:null};
- const f=await r8Frame(lane,c.dir,host),w=f.contentWindow,fn=c.dir==='K2L'?w.__runLivePathDiagnosticK2L:w.__runLivePathDiagnosticL2K,bn=c.dir==='K2L'?w.__runLiveBackDiagnosticK2L:w.__runLiveBackDiagnosticL2K;
+ const f=await r8Frame(lane,c.dir,pack),w=f.contentWindow,fn=c.dir==='K2L'?w.__runLivePathDiagnosticK2L:w.__runLivePathDiagnosticL2K,bn=c.dir==='K2L'?w.__runLiveBackDiagnosticK2L:w.__runLiveBackDiagnosticL2K;
  if(typeof fn!=='function'||typeof bn!=='function')throw Error('R8_LIVE_DIAGNOSTIC_BRIDGE_MISSING');
  let t=performance.now(),response=null;try{response=await fn(c.source);row.forwardMs=Math.round(performance.now()-t);row.forwardTraceCount=r8TraceCount(response);row.forwardTokens=r8Usage(response);row.forwardUsd=r8Estimate(row.forwardTokens,lane);row.forward=r8Text(response?.text).trim();if(response?.ok!==true||!row.forward)row.error='FORWARD_'+r8Err(response?.error||'EMPTY');}
  catch(e){row.forwardMs=Math.round(performance.now()-t);row.error='FORWARD_EXCEPTION_'+r8Err(e)}
@@ -315,11 +344,11 @@ $('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-R8-model-AB-'+Date.
 $('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R8 비교 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';try{sessionStorage.removeItem('ko-lo-r8-engine-pair-results')}catch(_){}r8Paint();r8Message('R8 비교 결과 삭제됨')});
 $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨. 현재 요청 종료 후 다음 호출을 멈춥니다. 부분 결과 저장 가능.');});
 $('r8Run').addEventListener('click',async()=>{
- if(r8Busy)return;let host=null;try{if(!r8Cases.length||!r8Ready||r8Ready!==r8Digest)throw Error('③ 무료 준비검사를 다시 실행하세요');host=r8VerifyHost();if(r8Rows.length&&!confirm('이 탭에 이전 검사 결과가 있습니다. 저장한 뒤 새 실행을 시작하겠습니까?'))return;
+ if(r8Busy)return;let pack=null;try{if(!r8Cases.length||!r8Ready||r8Ready!==r8Digest)throw Error('③ 무료 준비검사를 다시 실행하세요');pack=await r8ReadStandaloneSources();if(r8Rows.length&&!confirm('이 탭에 이전 검사 결과가 있습니다. 저장한 뒤 새 실행을 시작하겠습니까?'))return;
  if(!confirm('실사용 '+r8Cases.length+'건 · A Gemini 3.8/B Gemini 3.1 · 동일 P168A R8/SMART ON 정·역 각 1회, 최대 '+(r8Cases.length*4)+'회 유료 Gemini 호출이 발생합니다. 시작할까요?'))return;
- r8RunId='R8-'+Date.now();r8Stopped=false;r8Busy=true;r8Rows=[];r8Expected=r8Cases.length*4;r8Stages=0;r8Dispose();r8Paint();r8Message('R8 실제 MODEL A/B 검사 시작 · 현재 TEST 번역앱 연결 상태를 유지해 주세요');
+ r8RunId='R8-'+Date.now();r8Stopped=false;r8Busy=true;r8Rows=[];r8Expected=r8Cases.length*4;r8Stages=0;r8Dispose();r8Paint();r8Message('R8 MODEL A/B 독립 검사 시작 · 기존 엔진 진단기의 Gemini 키 사용 · 별도 로그인 없음');
  for(let i=0;i<r8Cases.length;i++){if(r8Stopped)break;const c=r8Cases[i],order=i%2?['B','A']:['A','B'];for(const lane of order){if(r8Stopped)break;r8Message((i+1)+'/'+r8Cases.length+' · '+c.dir+' · '+(lane==='A'?'Gemini 3.8':'Gemini 3.1')+' 실행 중');
- try{await r8ExecuteOne(c,lane,host)}catch(e){r8Stages+=2;r8Rows.push({runId:r8RunId,id:c.id,dir:c.dir,source:c.source,issue:c.issue,cohort:c.cohort,lane,model:R8_MODELS[lane],forward:'',back:'',forwardMs:null,backMs:null,forwardUsd:null,backUsd:null,error:'DIAGNOSTIC_'+r8Err(e)});r8SaveSession();r8Paint()}}}
+ try{await r8ExecuteOne(c,lane,pack)}catch(e){r8Stages+=2;r8Rows.push({runId:r8RunId,id:c.id,dir:c.dir,source:c.source,issue:c.issue,cohort:c.cohort,lane,model:R8_MODELS[lane],forward:'',back:'',forwardMs:null,backMs:null,forwardUsd:null,backUsd:null,error:'DIAGNOSTIC_'+r8Err(e)});r8SaveSession();r8Paint()}}}
  r8Message((r8Stopped?'중단':'완료')+' · '+r8Rows.length+'모델-문장 결과 기록. JSON/TXT 저장 후 여기에 올려주세요');
  }catch(e){r8Message('R8 검사 시작 실패: '+r8Err(e),true)}finally{r8Busy=false;r8Dispose();r8Paint()}
 });
