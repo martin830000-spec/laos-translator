@@ -1,0 +1,27 @@
+name: H2 read-only archive parity offline
+on:
+  push:
+    branches:
+      - 'test/h2-record-perf-count-parity-20261023-r1'
+permissions:
+  contents: read
+jobs:
+  archive-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/*.test.cjs
+      - name: Static Chrome smoke
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || true)"
+          if [ -z "$BROWSER" ]; then echo "NO_CHROME_BROWSER"; exit 1; fi
+          timeout 40s "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-background-networking --no-first-run --virtual-time-budget=2500 --dump-dom "file://$PWD/diagnostic-h2-20261010.html" > /tmp/h2-archive.html 2> /tmp/h2-archive-errors.log
+          grep -Fq '2,000건' /tmp/h2-archive.html
+          grep -Fq '전체 전수' /tmp/h2-archive.html
+          grep -Fq '역번역' /tmp/h2-archive.html
+          if grep -Eiq 'Uncaught (ReferenceError|TypeError|SyntaxError)|Uncaught SyntaxError:' /tmp/h2-archive-errors.log; then cat /tmp/h2-archive-errors.log; exit 1; fi
