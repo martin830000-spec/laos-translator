@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>R8 · Gemini 3.1 MINIMAL · 200회 독립 TEST</title>
+<title>R8 A/B · Gemini 3.8 LOW vs 3.1 MINIMAL · 200회</title>
 <style>
 :root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
 *{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
@@ -28,19 +28,19 @@ main>section.card:nth-of-type(2) #engineChecks,main>section.card:nth-of-type(2) 
 </head>
 <body>
 <main>
-<header><h1>Gemini 3.1 Flash-Lite · MINIMAL 200회 검사</h1><div class="muted">독립 TEST · P168A R8 + SMART ON · 3.8 재호출 없음 · SERVICE, 서버, DB, 기존 진단기 보존</div></header>
+<header><h1>Gemini 3.8 LOW ↔ 3.1 MINIMAL · A/B 200회</h1><div class="muted">독립 TEST · 동일 원문·P168A R8·SMART ON · 두 모델 정번역/독립 역번역 비교 · SERVICE, 서버, DB, 기존 진단기 보존</div></header>
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
-<h2>★ 3.1 MINIMAL 전용 · 최대 200회</h2>
-<p>이전에 저장한 <b>ko-lao-R8-model-AB-*.json</b>을 선택하세요. 기존 3.1 LOW 결과의 원문을 재사용해 남편/아내 양방향으로 순환 검사합니다. <b>3.1 MINIMAL만</b> 최대 200번 호출하고 기존 LOW/3.8은 재호출하지 않습니다.</p>
-<p class="note"><b>독립 실행:</b> 기존 진단기의 Gemini API 키를 사용합니다. 무료 준비검사는 3.1 모델 GET(생성 0회)과 TEST 소스 SHA를 검사합니다. 최대 200회는 정번역·독립 역번역의 실제 요청 수를 합친 상한입니다. 중단 시 현재 호출 완료 후 다음 요청을 하지 않습니다. 400/401/403/429는 자동 중단합니다.</p>
+<h2>★ 3.8 Flash(LOW) vs 3.1 Flash-Lite(MINIMAL)</h2>
+<p>이전에 저장한 <b>ko-lao-R8-model-AB-*.json</b>을 선택하세요. 같은 원문을 <b>A: 3.8 Flash/LOW</b>와 <b>B: 3.1 Flash-Lite/MINIMAL</b>로 번역하고 독립 역번역까지 비교합니다. <b>200회는 두 모델을 합친 총 API 요청 상한</b>이며 정상 완료 시 약 50개 원문을 직접 A/B 비교합니다. 기존 실패 11건을 우선 검사합니다.</p>
+<p class="note"><b>독립 실행:</b> 기존 진단기 Gemini 키를 사용합니다. ③ 무료 준비검사는 두 모델 GET(생성 0회) 및 TEST 코드 SHA를 확인합니다. 모든 원문은 두 모델을 한 쌍으로 검사하며 순서를 교대합니다. 정번역+독립 역번역을 포함해 최대 200 API 호출, 수동 중단 가능. 인증·요청 제한 오류는 자동 중단합니다.</p>
 <div class="row"><button id="r8Connect" type="button">① TEST 소스 확인 · 로그인 불필요</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
  <div><label for="r8File">② 기존 R8 비교 결과 JSON (또는 원문 cases JSON)</label><input id="r8File" type="file" accept=".json,application/json"><p class="note" id="r8FileInfo">파일은 브라우저 내부에서만 읽습니다. GitHub와 진단기 서버로 업로드하지 않습니다.</p></div>
- <div><label for="r8Budget">실행 시 최대 Gemini 호출</label><input id="r8Budget" type="text" readonly value="파일을 먼저 선택하세요"><p class="note">Gemini 3.1 Flash-Lite / MINIMAL · 정번역 성공 시 독립 역번역 · 최대 200회 실제 유료 호출.</p></div>
+ <div><label for="r8Budget">실행 시 최대 Gemini 호출</label><input id="r8Budget" type="text" readonly value="파일을 먼저 선택하세요"><p class="note">동일 원문 A: Gemini 3.8/LOW + B: Gemini 3.1/MINIMAL · 모델당 정·역 최대 2회 · 최대 200회 총합.</p></div>
 </div>
 <div class="row" style="margin-top:10px">
  <button id="r8Preflight" type="button">③ 무료 준비검사 (Gemini 0회)</button>
- <button id="r8Run" type="button" class="primary" disabled>④ MINIMAL 200회 검사 시작</button>
+ <button id="r8Run" type="button" class="primary" disabled>④ 3.8 LOW vs 3.1 MINIMAL 비교 시작</button>
  <button id="r8Stop" type="button" disabled>현재 검사 중단</button>
  <button id="r8Export" type="button" disabled>결과 JSON 저장</button>
  <button id="r8ExportTxt" type="button" disabled>결과 TXT 저장</button>
@@ -48,9 +48,9 @@ main>section.card:nth-of-type(2) #engineChecks,main>section.card:nth-of-type(2) 
 </div>
 <progress id="r8Progress" max="1" value="0"></progress>
 <p id="r8State" class="note">① 공개 TEST 소스 확인 → ② 비공개 파일 → ③ 무료 준비검사 → ④ 유료 비교 순서. TEST 앱 로그인은 필요하지 않습니다.</p>
-<p id="r8Summary" class="note">MINIMAL 결과는 별도로 집계됩니다. 언어 오류·화자 반전은 자동으로 합격 판정하지 않습니다.</p>
+<p id="r8Summary" class="note">A/B 같은 원문 기준 비교 · 두 방향 정/역 · 실패율, 속도, 토큰, 비용 별도 집계 (의미평가는 결과 업로드 후).</p>
 <div class="tablewrap"><table><thead><tr><th>번호</th><th>모델</th><th>방향</th><th>원문 / 과거 오역 문제</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰 / 추정비용</th><th>오류</th></tr></thead><tbody id="r8Results"></tbody></table></div>
-<p class="note">200건 전체 내역은 JSON/TXT로 보존합니다. 화면은 마지막 20개만 표시합니다. 재검사·프롬프트 패치·자동 재시도는 하지 않습니다. 브라우저가 종료되어도 이 탭의 세션 저장 데이터가 살아 있다면 복원할 수 있으나, 파일로 저장하는 것이 안전합니다.</p>
+<p class="note">최대 200회 호출의 전체 내역은 JSON/TXT로 보존합니다. 화면은 마지막 20개만 표시합니다. 재검사·프롬프트 패치·자동 재시도는 하지 않습니다. 브라우저가 종료되어도 이 탭의 세션 저장 데이터가 살아 있다면 복원할 수 있으나, 파일로 저장하는 것이 안전합니다.</p>
 </section>
 <section class="card">
 <h2>① Gemini API 키 (기존 키 재사용 · 로그인 불필요)</h2>
@@ -217,7 +217,7 @@ async function r8ReadStandaloneSources(){
  }
  const pack={codes,cfg,sha:{...R8_PAYLOAD_SHA},at:Date.now()};
  // Fail before any billable calls if either model route or independent back-usage hook changed.
- for(const mode of ['husband','wife'])for(const lane of ['B'])r8PrepareSource(r8BootDocument(pack,mode),mode,lane);
+ for(const mode of ['husband','wife'])for(const lane of ['A','B'])r8PrepareSource(r8BootDocument(pack,mode),mode,lane);
  return pack;
 }
 
@@ -229,7 +229,7 @@ function r8SafeProviderText(raw,key){
 }
 async function r8CheckGeminiModelsNoGeneration(){
  const key=$('geminiKey').value.trim();if(!key)throw Error('Gemini API 키가 없습니다. 아래의 기존 엔진 설정에 등록하세요');
- for(const model of [R8_MODELS.B]){
+ for(const model of Object.values(R8_MODELS)){
   const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);let r,body;
   try{r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+model,{method:'GET',headers:{'x-goog-api-key':key,Accept:'application/json'},cache:'no-store',referrerPolicy:'no-referrer',signal:ctrl.signal});body=await r.text()}
   catch(e){throw Error('모델 조회 '+model+' 실패: '+r8Err(e))}
@@ -289,8 +289,8 @@ $('r8File').addEventListener('change',async()=>{
  r8Cases=rows;r8Digest=await r8Fingerprint(rows);r8SourceLabel=f.name;
  const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
  $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
- $('r8Budget').value='최대 200회 · 3.1 MINIMAL만 (정번역+독립 역번역)';
- r8Message('기존 원문 '+rows.length+'건 확인 · ③ 무료 준비검사를 누르세요');
+ $('r8Budget').value='두 모델 합산 최대 200회 (정번역 + 독립 역번역)';
+ r8Message('A/B 원문 '+rows.length+'건 준비됨 · 두 모델 각각 정번역/역번역 · ③ 무료 준비검사를 누르세요');
  }catch(e){$('r8FileInfo').textContent='파일 오류: '+e.message;$('r8Budget').value='파일 오류';r8Message('파일 검사 실패: '+e.message,true)}
 });
 function r8NormalizeClone(src){const s=r8Text(src);if(/^\s*<!doctype\s+html\b/i.test(s))return s;
@@ -321,10 +321,10 @@ $('r8Preflight').addEventListener('click',async()=>{
   await r8CheckGeminiModelsNoGeneration();
   r8Ready=r8Digest;$('r8Run').disabled=false;
   $('r8Connected').textContent='검증됨 · TEST V3.61.209 · P168A R8 · 남편/아내 코드 SHA 일치';
-  r8Message('③ 무료 준비검사 PASS · '+r8Cases.length+'건 · 3.1 MINIMAL 전용 · R8/SMART 동일 · Gemini 생성 0회');
+  r8Message('③ 무료 준비검사 PASS · '+r8Cases.length+'원문 · 3.8 LOW / 3.1 MINIMAL · 동일 R8/SMART · Gemini 생성 0회');
  }catch(e){r8Ready='';$('r8Run').disabled=true;r8Message('무료 준비검사 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
-function r8Dispose(){for(const lane of ['B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
+function r8Dispose(){for(const lane of ['A','B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
 async function r8Frame(lane,dir,pack){
  const mode=dir==='K2L'?'husband':'wife',readyName=dir==='K2L'?'__livePathDiagnosticReadyK2L':'__livePathDiagnosticReadyL2K',old=r8Frames[lane][dir];
  try{if(old?.isConnected&&old.contentWindow?.[readyName]?.()&&old.contentWindow?.__COUPLE_PROMPT_CONFIG__?.promptSha256===R8_SHA)return old}catch(_){}
@@ -354,7 +354,7 @@ function r8Estimate(usage,lane){if(!usage)return null;const rate=R8_RATES[lane];
 function r8Err(e){return r8SafeProviderText(r8Text(e?.message||e||'unknown'),$('geminiKey').value).slice(0,300)}
 function r8TraceCount(res){const t=Array.isArray(res?.requestTrace)?res.requestTrace:[];return t.filter(x=>['forward','critical-repair','back'].includes(r8Text(x?.kind))).length||null}
 async function r8ExecuteOne(c,lane,pack){
- const row={runId:r8RunId,id:c.id,cycle:c.cycle||1,dir:c.dir,cohort:c.cohort,issue:c.issue,source:c.source,baselineLow:c.baselineLow||null,thinkingLevel:'minimal',maxOutputTokens:1024,lane,model:R8_MODELS[lane],promptRevision:'P168A',promptSha256:R8_SHA,smart:'ON',forward:'',back:'',forwardMs:null,backMs:null,forwardTokens:null,backTokens:null,forwardUsd:null,backUsd:null,error:'',forwardTraceCount:null,backTraceCount:null};
+ const row={runId:r8RunId,id:c.id,cycle:c.cycle||1,dir:c.dir,cohort:c.cohort,issue:c.issue,source:c.source,baselineLow:c.baselineLow||null,thinkingLevel:lane==='A'?'low':'minimal',maxOutputTokens:1024,lane,model:R8_MODELS[lane],promptRevision:'P168A',promptSha256:R8_SHA,smart:'ON',forward:'',back:'',forwardMs:null,backMs:null,forwardTokens:null,backTokens:null,forwardUsd:null,backUsd:null,error:'',forwardTraceCount:null,backTraceCount:null};
  const f=await r8Frame(lane,c.dir,pack),w=f.contentWindow,fn=c.dir==='K2L'?w.__runLivePathDiagnosticK2L:w.__runLivePathDiagnosticL2K,bn=c.dir==='K2L'?w.__runLiveBackDiagnosticK2L:w.__runLiveBackDiagnosticL2K;
  if(typeof fn!=='function'||typeof bn!=='function')throw Error('R8_LIVE_DIAGNOSTIC_BRIDGE_MISSING');
  let t=performance.now(),response=null;if(r8Stages>=200||r8Stopped)return null;r8Stages++;r8Paint();try{response=await fn(c.source);row.forwardMs=Math.round(performance.now()-t);row.forwardTraceCount=r8TraceCount(response);row.forwardTokens=r8Usage(response);row.forwardUsd=r8Estimate(row.forwardTokens,lane);row.forward=r8Text(response?.text).trim();if(response?.ok!==true||!row.forward){row.error='FORWARD_'+r8Err(response?.error||'EMPTY')+(r8RequestFailureDetail(response)?' | '+r8RequestFailureDetail(response):'');if(/HTTP[_ ](?:400|401|403|429)\b/i.test(row.error))r8Stopped=true;}}
@@ -362,43 +362,69 @@ async function r8ExecuteOne(c,lane,pack){
  r8Paint();if(!row.error&&!r8Stopped&&r8Stages<200){t=performance.now();r8Stages++;r8Paint();let back=null;try{back=await bn(row.forward);row.backMs=Math.round(performance.now()-t);row.backTraceCount=r8TraceCount(back);row.backTokens=r8Usage(back);row.backUsd=r8Estimate(row.backTokens,lane);row.back=r8Text(back?.text).trim();if(back?.ok!==true||!row.back){row.error='BACK_'+r8Err(back?.error||'EMPTY')+(r8RequestFailureDetail(back)?' | '+r8RequestFailureDetail(back):'');if(/HTTP[_ ](?:400|401|403|429)\b/i.test(row.error))r8Stopped=true;}}
  catch(e){row.backMs=Math.round(performance.now()-t);row.error='BACK_EXCEPTION_'+r8Err(e)}}r8Rows.push(row);r8SaveSession();r8Paint();return row;
 }
-function r8SaveSession(){try{sessionStorage.setItem('ko-lo-r8-minimal-200-results',JSON.stringify({runId:r8RunId,rows:r8Rows,at:Date.now()}))}catch(e){$('r8Summary').textContent='주의: 브라우저 세션 자동보관 실패. 지금 결과 파일을 저장하세요. '+r8Err(e)}}
-function r8LoadSession(){try{const o=JSON.parse(sessionStorage.getItem('ko-lo-r8-minimal-200-results')||'null');if(o?.rows&&Array.isArray(o.rows)){r8Rows=o.rows.slice(0,220);r8RunId=o.runId||''}}catch(_){}}
+function r8SaveSession(){try{sessionStorage.setItem('ko-lo-r8-38low-vs-31minimal-200-results',JSON.stringify({runId:r8RunId,rows:r8Rows,at:Date.now()}))}catch(e){$('r8Summary').textContent='주의: 브라우저 세션 자동보관 실패. 지금 결과 파일을 저장하세요. '+r8Err(e)}}
+function r8LoadSession(){try{const o=JSON.parse(sessionStorage.getItem('ko-lo-r8-38low-vs-31minimal-200-results')||'null');if(o?.rows&&Array.isArray(o.rows)){r8Rows=o.rows.slice(0,200);r8RunId=o.runId||''}}catch(_){}}
 function r8Median(values){const a=values.filter(x=>typeof x==='number'&&Number.isFinite(x)).sort((x,y)=>x-y);if(!a.length)return null;return a[Math.floor((a.length-1)/2)]}
 function r8Paint(){
- $('r8Progress').max=Math.max(1,r8Expected);$('r8Progress').value=Math.min(r8Stages,r8Expected);
+ $('r8Progress').max=200;$('r8Progress').value=Math.min(r8Stages,200);
  $('r8Run').disabled=r8Busy||!r8Ready;$('r8Stop').disabled=!r8Busy;
  $('r8Export').disabled=!r8Rows.length;$('r8ExportTxt').disabled=!r8Rows.length;
- const trs=r8Rows.slice(-20);$('r8Results').replaceChildren();
- for(const r of trs){const tr=document.createElement('tr');const values=[(r.cycle||1)+'-'+r.id,r.model,r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',r.source+(r.issue?'\n[위험] '+r.issue:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',(r.forwardTokens?'정 '+r.forwardTokens.prompt+'/'+(r.forwardTokens.candidate??'?')+'/'+(r.forwardTokens.thoughts??'?'):'정 —')+' · '+(r.backTokens?'역 '+r.backTokens.prompt+'/'+(r.backTokens.candidate??'?')+'/'+(r.backTokens.thoughts??'?'):'역 —')+' / '+(r.forwardUsd!=null&&r.backUsd!=null?'$'+(r.forwardUsd+r.backUsd).toFixed(6):'비용 미확정'),r.error||'완료'];for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}$('r8Results').appendChild(tr)}
- const ss=['B'].map(lane=>{const x=r8Rows.filter(r=>r.lane===lane),both=x.filter(r=>!r.error&&r.forward&&r.back),cost=x.reduce((sum,r)=>sum+(r.forwardUsd??0)+(r.backUsd??0),0),k=both.filter(r=>r.dir==='K2L'),l=both.filter(r=>r.dir==='L2K');return '3.1 MINIMAL: '+both.length+'/'+x.length+'완료 · K→L '+k.length+' / L→K '+l.length+' · 정번역 중앙 '+(r8Median(both.map(r=>r.forwardMs))??'—')+'ms · 역번역 중앙 '+(r8Median(both.map(r=>r.backMs))??'—')+'ms · 확인된 토큰 기준 비용 $'+cost.toFixed(5)+(x.some(r=>r.forwardUsd==null||r.backUsd==null)?' (일부 비용 미확정)':'')});
- $('r8Summary').textContent=ss.join(' | ')+' · 결과 '+r8Rows.length+'건 / 실제 호출 '+r8Stages+'/200';
+ $('r8Results').replaceChildren();
+ for(const r of r8Rows.slice(-24)){
+  const tr=document.createElement('tr');
+  const tokens=v=>v?'입 '+v.prompt+' / 출력 '+(v.candidate??'?')+' / 추론 '+(v.thoughts??'?'):'—';
+  const cost=(r.forwardUsd??0)+(r.backUsd??0);
+  const values=[(r.cycle||1)+'-'+r.id,(r.lane==='A'?'A · 3.8 LOW':'B · 3.1 MINIMAL'),r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',
+   r.source+(r.issue?'\n[위험] '+r.issue:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
+   '정 '+tokens(r.forwardTokens)+' · 역 '+tokens(r.backTokens)+' / 추정 $'+cost.toFixed(6),r.error||'완료'];
+  for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}
+  $('r8Results').appendChild(tr);
+ }
+ const fmt=(lane,label)=>{
+  const rows=r8Rows.filter(r=>r.lane===lane),done=rows.filter(r=>!r.error&&r.forward&&r.back);
+  const cost=rows.reduce((x,r)=>x+(r.forwardUsd??0)+(r.backUsd??0),0);
+  return label+' '+done.length+'/'+rows.length+'성공 · K→L '+done.filter(r=>r.dir==='K2L').length+' / L→K '+done.filter(r=>r.dir==='L2K').length+
+  ' · 정번역 중앙 '+(r8Median(done.map(r=>r.forwardMs))??'—')+'ms · 역번역 중앙 '+(r8Median(done.map(r=>r.backMs))??'—')+'ms · MAX_TOKENS '+rows.filter(r=>/MAX_TOKENS/i.test(r.error)).length+
+  ' · 추정 $'+cost.toFixed(5);
+ };
+ const pairs=new Map();
+ for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
+ const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
+ $('r8Summary').textContent='실제 API 호출 '+r8Stages+'/200 · 같은 원문 A/B 쌍 '+comparable+'건 | '+fmt('A','A · 3.8 LOW')+' | '+fmt('B','B · 3.1 MINIMAL');
 }
+
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-$('r8Export').addEventListener('click',()=>r8Save('ko-lao-R8-31-MINIMAL-200-'+Date.now()+'.json',JSON.stringify({version:'R8-GEMINI31-MINIMAL-200-R1',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest||'UNKNOWN',method:'Actual TEST V3.61.209/P168A R8/SMART ON cloned runtime; ONLY model 3.1 Flash-Lite MINIMAL; maxOutputTokens=1024; up to 200 attempted Gemini calls including independent back; original LOW baseline retained; manual meaning verification; estimated cost',rates:R8_RATES.B,actualCalls:r8Stages,requestedMaxCalls:200,disclaimer:'PRIVATE: contains real spouse dialogues. Do not share publicly. No Gemini API keys included.',rows:r8Rows},null,2)));
-$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-R8-31-MINIMAL-200-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'ERROR '+(r.error||'-'),'---'].join('\n')).join('\n')));
-$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R8 비교 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';try{sessionStorage.removeItem('ko-lo-r8-minimal-200-results')}catch(_){}r8Paint();r8Message('R8 비교 결과 삭제됨')});
+$('r8Export').addEventListener('click',()=>r8Save('ko-lao-R8-38LOW-vs-31MINIMAL-200-'+Date.now()+'.json',JSON.stringify({version:'R8-38LOW-VS-31MINIMAL-200-R2',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest||'UNKNOWN',method:'Actual TEST V3.61.209/P168A R8/SMART ON cloned runtime; paired same source A:3.8 Flash LOW vs B:3.1 Flash-Lite MINIMAL; maxOutputTokens=1024 both; 200 total API request ceiling including independent back; no automatic retry; manual meaning verification; cost estimated',rates:R8_RATES,actualCalls:r8Stages,requestedMaxCalls:200,disclaimer:'PRIVATE: contains real spouse dialogues. Do not share publicly. No Gemini API keys included.',rows:r8Rows},null,2)));
+$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-R8-38LOW-vs-31MINIMAL-200-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'ERROR '+(r.error||'-'),'---'].join('\n')).join('\n')));
+$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R8 비교 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{sessionStorage.removeItem('ko-lo-r8-38low-vs-31minimal-200-results')}catch(_){}r8Paint();r8Message('R8 비교 결과 삭제됨')});
 $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨 · 현재 요청 완료 후 추가 유료 호출 없이 정지 · 결과 JSON 저장 가능');});
 $('r8Run').addEventListener('click',async()=>{
  if(r8Busy)return;let pack=null;
  try{
-  if(!r8Cases.length||!r8Ready||r8Ready!==r8Digest)throw Error('③ 무료 준비검사를 다시 실행하세요');
+  if(!r8Cases.length||!r8Ready||r8Ready!==r8Digest)throw Error('③ 무료 준비검사를 먼저 실행하세요');
   pack=await r8ReadStandaloneSources();
-  if(r8Rows.length&&!confirm('이전에 저장된 결과가 있습니다. JSON으로 저장한 후 덮어쓰시겠습니까?'))return;
-  if(!confirm('Gemini 3.1 Flash-Lite MINIMAL만 최대 200회 유료 호출합니다. 3.8/LOW는 재호출하지 않습니다. 정번역 성공 시 독립 역번역을 호출하고 오류 사례는 다음 원문으로 진행합니다. 시작할까요?'))return;
-  r8RunId='R8-MINIMAL-'+Date.now();r8Stopped=false;r8Busy=true;r8Rows=[];r8Expected=200;r8Stages=0;r8Dispose();r8Paint();
-  const pools={K2L:r8Cases.filter(x=>x.dir==='K2L'),L2K:r8Cases.filter(x=>x.dir==='L2K')},pos={K2L:0,L2K:0};
+  if(r8Rows.length&&!confirm('이 탭에 이전 검사 결과가 있습니다. 저장 후 새로 시작하시겠습니까?'))return;
+  if(!confirm('A: Gemini 3.8 Flash LOW + B: Gemini 3.1 Flash-Lite MINIMAL을 동일 원문으로 정/역 A/B 비교합니다. 두 모델 합계 최대 200회 유료 API 요청이 발생합니다. 시작할까요?'))return;
+  r8RunId='R8-38LOW-31MINIMAL-'+Date.now();r8Stopped=false;r8Busy=true;r8Rows=[];r8Expected=200;r8Stages=0;r8Dispose();r8Paint();
+  const first=(x,y)=>Number(/MAX_TOKENS/i.test(y.baselineLow?.error||''))-Number(/MAX_TOKENS/i.test(x.baselineLow?.error||''));
+  const pools={K2L:r8Cases.filter(x=>x.dir==='K2L').sort(first),L2K:r8Cases.filter(x=>x.dir==='L2K').sort(first)};
+  const pos={K2L:0,L2K:0};
+  // Pair original messages, rotating which model goes first to reduce order bias.
   for(let n=0;!r8Stopped&&r8Stages<200;n++){
    const dir=n%2===0?'K2L':'L2K',pool=pools[dir],idx=pos[dir]++,c={...pool[idx%pool.length],cycle:Math.floor(idx/pool.length)+1};
-   r8Message('실제 호출 '+r8Stages+'/200 · '+dir+' · '+c.id+' · MINIMAL · 중단 가능');
-   try{await r8ExecuteOne(c,'B',pack)}catch(e){r8Stopped=true;r8Message('진단기 오류로 안전 중단 · '+r8Err(e),true);break}
+   const order=n%2===0?['A','B']:['B','A'];
+   for(const lane of order){
+    if(r8Stopped||r8Stages>=200)break;
+    r8Message('API 호출 '+r8Stages+'/200 · '+dir+' · '+c.id+' · '+(lane==='A'?'3.8 LOW':'3.1 MINIMAL'));
+    try{await r8ExecuteOne(c,lane,pack)}
+    catch(e){r8Stopped=true;r8Message('진단기 오류로 안전 중단: '+r8Err(e),true);break}
+   }
   }
-  if(!r8Stopped)r8Message('완료 · 실제 200회 호출 · JSON/TXT 저장 후 업로드하세요');
-  else if(!/진단기 오류/.test($('r8State').textContent))r8Message('중단됨 · 실제 '+r8Stages+'/200회 호출 · 결과를 저장하세요');
- }catch(e){r8Message('시작 실패: '+r8Err(e),true)}
+  if(!r8Stopped)r8Message('검사 완료 · '+r8Stages+'회 API 호출 · A/B 결과 JSON 저장 후 업로드하세요');
+  else if(!/진단기 오류/.test($('r8State').textContent))r8Message('중단됨 · API 호출 '+r8Stages+'/200 · 부분 결과 JSON 저장 가능');
+ }catch(e){r8Message('검사 시작 실패: '+r8Err(e),true)}
  finally{r8Busy=false;r8Dispose();r8Paint()}
 });
-
 r8LoadSession();r8Paint();
 
 load();if(new URLSearchParams(location.search).get('preset')==='gemini3')selectGemini3Preset();else $('plan').textContent='선택한 엔진을 동일한 고정 문장으로 정·역 1회씩 비교합니다. Gemini 3종은 상단의 전용 선택 버튼을 누르세요.';
