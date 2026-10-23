@@ -12,7 +12,7 @@ test('R8 full fingerprint/payload verification precedes call, model only cloned'
  assert.ok(html.includes('a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd'));
  assert.ok(html.includes('296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e'));
  const a=script.indexOf('function r8NormalizeClone('),b=script.indexOf("$('r8Preflight').addEventListener",a);assert.ok(a>0&&b>a);
- const sandbox={r8Text:v=>String(v==null?'':v)};vm.runInNewContext("const R8_MODELS={A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'};"+script.slice(a,b)+';globalThis.prepare=r8PrepareSource',sandbox);
+ const sandbox={r8Text:v=>String(v==null?'':v),r8PatchProviderReason:v=>v};vm.runInNewContext("const R8_MODELS={A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'};"+script.slice(a,b)+';globalThis.prepare=r8PrepareSource',sandbox);
  const base='<html><head></head><body>gemini-3.8-flash|gemini-3.8-flash|gemini-3.8-flash|rec.quality=v?.quality||null;return v|P168A R8/smart</body></html>';
  assert.ok(sandbox.prepare('<!doctype html>'+base,'husband','A').includes('gemini-3.8-flash'));
  const revised=sandbox.prepare('<!doctype html>'+base,'wife','B');
