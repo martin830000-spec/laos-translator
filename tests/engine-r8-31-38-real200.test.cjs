@@ -9,8 +9,8 @@ test('old neutral engine interface remains and R8 section is a separate implemen
 });
 test('R8 full fingerprint/payload verification precedes call, model only cloned',()=>{
  assert.ok(html.includes("const R8_SHA='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43'"));
- assert.ok(html.includes('3c5112f710d04742dff38d549ec477e04fd517e14901104572dd42781280aec9'));
- assert.ok(html.includes('1dfea79204d1e6180b9d19623ea271fd31162299f1a7adb2958de2855c8f4294'));
+ assert.ok(html.includes('a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd'));
+ assert.ok(html.includes('296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e'));
  const a=script.indexOf('function r8NormalizeClone('),b=script.indexOf('function r8VerifyHost(',a);assert.ok(a>0&&b>a);
  const sandbox={r8Text:v=>String(v==null?'':v)};vm.runInNewContext("const R8_MODELS={A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'};"+script.slice(a,b)+';globalThis.prepare=r8PrepareSource',sandbox);
  const base='<html><head></head><body>gemini-3.8-flash|gemini-3.8-flash|gemini-3.8-flash|rec.quality=v?.quality||null;return v|P168A R8/smart</body></html>';
