@@ -305,16 +305,8 @@ function r8Paint(){
  $('r8Run').disabled=r8Busy||!r8Ready;$('r8Stop').disabled=!r8Busy;
  $('r8Export').disabled=!r8Rows.length;$('r8ExportTxt').disabled=!r8Rows.length;
  const trs=r8Rows.slice(-20);$('r8Results').replaceChildren();
- for(const r of trs){const tr=document.createElement('tr');const values=[r.id,r.model,r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',r.source+(r.issue?'\n[위험] '+r.issue:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',(r.forwardTokens&&r.backTokens?'정 '+r.forwardTokens.prompt+'/'+r.forwardTokens.outputAndThoughts+' · 역 '+r.backTokens.prompt+'/'+r.backTokens.outputAndThoughts:'토큰 미집계')+' / '+(r.forwardUsd!=null&&r.backUsd!=null?'selectGemini3Preset();else $('plan').textContent='선택한 엔진을 동일한 고정 문장으로 정·역 1회씩 비교합니다. Gemini 3종은 상단의 전용 선택 버튼을 누르세요.';
-})();
-</script>
-</body>
-</html>+(r.forwardUsd+r.backUsd).toFixed(6):'비용 미확정'),r.error||'완료'];for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}$('r8Results').appendChild(tr)}
- const ss=['A','B'].map(lane=>{const x=r8Rows.filter(r=>r.lane===lane),both=x.filter(r=>!r.error&&r.forward&&r.back),cost=x.filter(r=>r.forwardUsd!=null&&r.backUsd!=null).reduce((sum,r)=>sum+r.forwardUsd+r.backUsd,0),k=both.filter(r=>r.dir==='K2L'),l=both.filter(r=>r.dir==='L2K');return (lane==='A'?'3.8':'3.1')+': '+both.length+'/'+x.length+'완료 · K→L '+k.length+' / L→K '+l.length+' · 정번역 중앙 '+(r8Median(both.map(r=>r.forwardMs))??'—')+'ms · 역번역 중앙 '+(r8Median(both.map(r=>r.backMs))??'—')+'ms · 확인된 토큰 기준 비용 selectGemini3Preset();else $('plan').textContent='선택한 엔진을 동일한 고정 문장으로 정·역 1회씩 비교합니다. Gemini 3종은 상단의 전용 선택 버튼을 누르세요.';
-})();
-</script>
-</body>
-</html>+cost.toFixed(5)+(x.some(r=>r.forwardUsd==null||r.backUsd==null)?' (일부 비용 미확정)':'')});
+ for(const r of trs){const tr=document.createElement('tr');const values=[r.id,r.model,r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',r.source+(r.issue?'\n[위험] '+r.issue:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',(r.forwardTokens&&r.backTokens?'정 '+r.forwardTokens.prompt+'/'+r.forwardTokens.outputAndThoughts+' · 역 '+r.backTokens.prompt+'/'+r.backTokens.outputAndThoughts:'토큰 미집계')+' / '+(r.forwardUsd!=null&&r.backUsd!=null?'$'+(r.forwardUsd+r.backUsd).toFixed(6):'비용 미확정'),r.error||'완료'];for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}$('r8Results').appendChild(tr)}
+ const ss=['A','B'].map(lane=>{const x=r8Rows.filter(r=>r.lane===lane),both=x.filter(r=>!r.error&&r.forward&&r.back),cost=x.filter(r=>r.forwardUsd!=null&&r.backUsd!=null).reduce((sum,r)=>sum+r.forwardUsd+r.backUsd,0),k=both.filter(r=>r.dir==='K2L'),l=both.filter(r=>r.dir==='L2K');return (lane==='A'?'3.8':'3.1')+': '+both.length+'/'+x.length+'완료 · K→L '+k.length+' / L→K '+l.length+' · 정번역 중앙 '+(r8Median(both.map(r=>r.forwardMs))??'—')+'ms · 역번역 중앙 '+(r8Median(both.map(r=>r.backMs))??'—')+'ms · 확인된 토큰 기준 비용 $'+cost.toFixed(5)+(x.some(r=>r.forwardUsd==null||r.backUsd==null)?' (일부 비용 미확정)':'')});
  $('r8Summary').textContent=ss.join(' | ')+' · 결과 '+r8Rows.length+'건 / 호출 단계 '+r8Stages+'/'+r8Expected;
 }
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
