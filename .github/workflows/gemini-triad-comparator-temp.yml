@@ -1,0 +1,27 @@
+name: Gemini 3.8-3.5-3.1 triad comparator offline check
+on:
+  push:
+    branches:
+      - 'test/gemini-31-35-38-engine-compare-20261023-r1'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/gemini-triad-comparator.test.cjs
+      - name: Headless Chrome comparator load
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || true)"
+          if [ -z "$CHROME" ]; then echo "CHROME_NOT_FOUND"; exit 1; fi
+          timeout 40s "$CHROME" --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-background-networking --no-first-run --virtual-time-budget=2500 --dump-dom "file://$PWD/engine-comparison-test-20261014.html?preset=gemini3" > /tmp/gemini-triad-dom.html 2> /tmp/gemini-triad-browser.log
+          grep -Fq 'Gemini 3.5 Flash-Lite' /tmp/gemini-triad-dom.html
+          grep -Fq 'Gemini 3.1 Flash-Lite' /tmp/gemini-triad-dom.html
+          grep -Fq 'Gemini 3종 비교 선택' /tmp/gemini-triad-dom.html
+          if grep -Eiq 'Uncaught (ReferenceError|TypeError|SyntaxError)|Uncaught SyntaxError:' /tmp/gemini-triad-browser.log; then cat /tmp/gemini-triad-browser.log; exit 1; fi
