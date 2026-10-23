@@ -1,0 +1,27 @@
+name: Engine-only R8 real-use Gemini 3.8 vs 3.1 offline validation
+on:
+  push:
+    branches:
+      - 'test/engine-r8-realdb200-gemini38-vs31-20261023-r1'
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/engine-r8-31-38-real200.test.cjs
+      - name: Chromium cold open smoke
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || true)"
+          test -n "$CHROME"
+          timeout 30s "$CHROME" --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-background-networking --no-first-run --virtual-time-budget=1500 --dump-dom "file://$PWD/engine-comparison-test-20261014.html" >/tmp/r8-engine-dom.html 2>/tmp/r8-engine-log.txt
+          grep -Fq '실사용 R8 모델 비교' /tmp/r8-engine-dom.html
+          grep -Fq '무료 준비검사' /tmp/r8-engine-dom.html
+          grep -Fq '전체 엔진 한 번에 검사' /tmp/r8-engine-dom.html
+          if grep -Eiq 'Uncaught (ReferenceError|TypeError|SyntaxError)|Uncaught SyntaxError:' /tmp/r8-engine-log.txt; then cat /tmp/r8-engine-log.txt; exit 1; fi
