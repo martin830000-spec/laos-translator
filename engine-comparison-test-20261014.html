@@ -192,7 +192,7 @@ $('r8Connect').addEventListener('click',()=>{if(r8Busy)return;try{r8Host=window.
 function r8Canon(v){return r8Text(v).trim().replace(/\s+/g,' ')}
 function r8ParseFile(obj){
  const src=Array.isArray(obj)?obj:obj?.cases;if(!Array.isArray(src)||src.length<2||src.length>200||src.length%2)throw Error('2~200건의 짝수 문장이 필요합니다');
- const seen=new Set(),ids=new Set(),k=0,l=0,rows=[];
+ const seen=new Set(),ids=new Set(),rows=[];let k=0,l=0;
  for(let i=0;i<src.length;i++){const a=src[i],dir=r8Text(a?.direction||a?.dir).trim().toUpperCase(),text=r8Text(a?.sourceText).trim(),id=r8Text(a?.id||a?.caseId||('CASE-'+(i+1))).trim(),issue=r8Text(a?.issue).slice(0,200),cohort=r8Text(a?.cohort).slice(0,100);
   if(dir!=='K2L'&&dir!=='L2K')throw Error('문장 '+(i+1)+': K2L/L2K 방향 오류');
   if(text.length<2||text.length>2500||!id||id.length>100)throw Error('문장 '+(i+1)+': 원문/ID 길이 오류');
