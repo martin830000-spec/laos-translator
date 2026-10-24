@@ -548,6 +548,9 @@ function normMoney(text){
   const n=Number(m[1].replace(',',''))*lu[m[2]];if(Number.isFinite(n))out.push(n)
  }
  if(/(?<!\d)(?<!\d\s)ໝື່ນ\s*ກີບ/u.test(s))out.push(10000);
+ for(const m of s.matchAll(/(ໜຶ່ງ|ຫນຶ່ງ|ສອງ|ສາມ|ສີ່|ຫ້າ|ຫົກ|ເຈັດ|ແປດ|ເກົ້າ)\s*(ພັນ|ໝື່ນ|ແສນ|ລ້ານ)\s*ກີບ/gu)){
+  out.push(numberWords[m[1]]*lu[m[2]])
+ }
  return out.sort((a,b)=>a-b)
 }
 function hasNick(text,lang){
