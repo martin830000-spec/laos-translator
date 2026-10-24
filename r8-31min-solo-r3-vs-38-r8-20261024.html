@@ -36,7 +36,7 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <div class="grid" style="margin-top:12px">
  
 <div><label for="r8File">① 비공개 통합 JSON 한 파일</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">R3_SOLO_TEST_INPUT.json 한 파일만 선택하면 됩니다. 옛 R8/R1 파일은 사용하지 마세요.</p></div>
-<div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="ADDRESS" selected>3.1 MINIMAL / 단독 개선 R3</option></select><label for="r8PairsSelect">범위</label><select id="r8PairsSelect"><option value="50" selected>전체 50문장 (25+25), 최대 200호출</option></select><input id="r8Budget" readonly value="비공개 JSON을 선택하세요"><p class="note">① 비공개 파일 선택 · ② 무료 소스/프롬프트 검증 · ③ 유료 종합 비교</p></div>
+<div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="SOLO_R3" selected>3.1 MINIMAL / 단독 개선 R3</option></select><label for="r8PairsSelect">범위</label><select id="r8PairsSelect"><option value="50" selected>전체 50문장 (25+25), 최대 200호출</option></select><input id="r8Budget" readonly value="비공개 JSON을 선택하세요"><p class="note">① 비공개 파일 선택 · ② 무료 소스/프롬프트 검증 · ③ 유료 종합 비교</p></div>
 <div class="row" style="margin-top:10px">
  
 <button id="r8Preflight" type="button">② 무료 통합 준비검사 (모델 생성 0회)</button>
@@ -382,7 +382,7 @@ $('r8Preflight').addEventListener('click',async()=>{
    await r8CheckGeminiModelsNoGeneration();
   r8Ready=r8Digest+'|SOLO_R3|'+r8PrivateDigest;$('r8Run').disabled=false;
   $('r8Connected').textContent='검증됨 · TEST V3.61.209 · P168A R8 · 남편/아내 코드 SHA 일치';
-  r8Message('③ R3 무료 통합 PASS · R2 동일 원문 '+r8Cases.length+'건 · 동적 사전 없음 · 추가 Gemini 호출 0회');
+  r8Message('② R3 무료 통합 PASS · R2 동일 원문 '+r8Cases.length+'건 · 동적 사전 없음 · 추가 Gemini 호출 0회');
  }catch(e){r8Ready='';$('r8Run').disabled=true;r8Message('무료 준비검사 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8Dispose(){for(const lane of ['A','B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
@@ -457,9 +457,9 @@ function r8Paint(){
  const fmt=(lane,label)=>{
   const rows=r8Rows.filter(r=>r.lane===lane),done=rows.filter(r=>!r.error&&r.forward&&r.back);
   const cost=rows.reduce((x,r)=>x+(r.forwardUsd??0)+(r.backUsd??0),0);
-  return label+' '+done.length+'/'+rows.length+'성공 · K→L '+done.filter(r=>r.dir==='K2L').length+' / L→K '+done.filter(r=>r.dir==='L2K').length+
+  return label+' '+done.length+'/'+rows.length+' API완료 · K→L '+done.filter(r=>r.dir==='K2L').length+' / L→K '+done.filter(r=>r.dir==='L2K').length+
   ' · 정번역 중앙 '+(r8Median(done.map(r=>r.forwardMs))??'—')+'ms · 역번역 중앙 '+(r8Median(done.map(r=>r.backMs))??'—')+'ms · MAX_TOKENS '+rows.filter(r=>/MAX_TOKENS/i.test(r.error)).length+
-  ' · 추정 $'+cost.toFixed(5);
+  ' · 출력품질 위반 '+rows.filter(r=>r.qualityPass===false).length+'건 · 추정 $'+cost.toFixed(5);
  };
  const pairs=new Map();
  for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
