@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>한국어·라오어 의미경고 무료 오프라인 TEST</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data:; object-src 'none'">
+<style>body{font-family:system-ui,"Noto Sans KR",sans-serif;max-width:1080px;margin:0 auto;padding:25px 18px;background:#f6f8fb;color:#202b38}h1{font-size:1.55rem}p{line-height:1.65}.card{background:white;border:1px solid #d9e0e7;padding:20px;border-radius:12px;margin:15px 0}label{display:block;font-weight:600;margin-bottom:9px}input{max-width:100%;font-size:1rem}button{padding:10px 14px;border-radius:8px;border:1px solid #bac3d0;background:white;margin-top:12px}button:disabled{opacity:.5}small{color:#59687a}table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{text-align:left;border-bottom:1px solid #e5e9ee;padding:9px;vertical-align:top}th{background:#f3f5f8}.wrap{overflow:auto}#summary{font-weight:650}code{background:#f4f5f8;padding:2px 4px;border-radius:4px}.note{color:#526478}</style></head><body>
+<h1>한국어↔라오어 의미 경고 — TEST 전용</h1>
+<p>기존 A/B 결과 <strong>TXT 또는 JSON</strong>을 불러오면 정번역·독립 역번역의 <strong>시간, 돈, 태명, 두 자리 숫자↔등수</strong>를 따로 검토합니다. 번역 변경·API 호출·자동 재번역은 없습니다.</p>
+<section class="card"><label for="load">검사 로그 선택 (여러 개 가능)</label><input id="load" type="file" accept=".txt,.json,text/plain,application/json" multiple><p class="note">개인 대화는 브라우저 안에서만 처리하며 외부로 전송하거나 자동 저장하지 않습니다. 금액과 시간은 특정 명확한 표기만 비교합니다.</p><p id="summary">파일 선택 전 · Gemini 호출 0회</p><button id="export" disabled>경고 결과 JSON 저장 (개인 대화 포함)</button></section>
+<section class="card"><h2>검토가 필요한 부분</h2><p id="empty" class="note">경고가 없다는 것은 번역이 정확하다는 뜻이 아닙니다. 주어·화행·감정·조건절은 자동 판정하지 않습니다.</p><div class="wrap"><table><thead><tr><th>문장 ID</th><th>후보</th><th>방향</th><th>단계</th><th>경고 종류</th><th>근거</th></tr></thead><tbody id="findings"></tbody></table></div></section>
+<p><small>주의: 규칙 기반 예비경고로 오탐·미탐 가능. 원문과 번역을 사람이 비교해야 최종 오역을 판정할 수 있습니다. 이전 검사 원본·SERVICE·서버·DB 수정 없음.</small></p>
+<script>function normMoney(text){
+ const m=String(text||'').matchAll(/(\d[\d.,]*)\s*(?:ກີບ|킵|낍|키프|kip|kips|₭)/giu);
+ return [...m].map(x=>{let v=x[1].replace(/[.,]/g,'');return Number(v)}).filter(Number.isFinite).sort((a,b)=>a-b)
+}
+
+function hasNick(text,lang){
+ let s=String(text||'');
+ return lang==='ko'? /튼튼이/u.test(s):/(?:ທຶນທຶນ|ທືນທືນ|ຕຶນຕຶນ|ເຕິ່ນເຕິ່ນ)/u.test(s)
+}
+
+function koTimes(text){
+ let result=[],s=String(text||''),rx=/(\d{1,2})\s*시/g,prev=0,ctx='';
+ for(let m of s.matchAll(rx)){
+  let segment=s.slice(prev,m.index);
+  let matches=[...segment.matchAll(/새벽|오전|오후|저녁|밤|아침/g)];
+  if(matches.length)ctx=matches.at(-1)[0];
+  const n=Number(m[1]);let hour=null;
+  if(n>=1&&n<=12){
+   if(ctx==='오전'||ctx==='아침'||ctx==='새벽')hour=n===12?0:n;
+   if(ctx==='오후'||ctx==='저녁'||ctx==='밤')hour=n===12?12:(n<6&&ctx==='밤'?null:n+12);
+  }
+  if(hour!==null)result.push({h:hour,raw:m[0]});
+  prev=m.index+m[0].length
+ }
+ return result
+}
+
+function laoTimes(text){
+ const s=String(text||''),out=[],rx=/(\d{1,2})\s*(ທຸ່ມ|ໂມງແລງ|ໂມງເຊົ້າ|ໂມງຄ່ຳ)|ຕີ\s*(\d{1,2})/gu;
+ for(const m of s.matchAll(rx)){
+  let h=null;
+  if(m[3]){const n=Number(m[3]);if(n>=1&&n<=5)h=n}
+  else {let n=Number(m[1]);if(m[2]==='ທຸ່ມ'&&n>=1&&n<=5)h=n+18;
+   else if(m[2]==='ໂມງແລງ'&&n>=1&&n<=6)h=n+12;
+   else if(m[2]==='ໂມງເຊົ້າ'&&n>=1&&n<=11)h=n;
+   else if(m[2]==='ໂມງຄ່ຳ'&&n>=6&&n<=11)h=n+12}
+  if(h!==null)out.push({h,raw:m[0]})
+ }
+ return out
+}
+
+function twoDigits(text,lang){return lang==='ko'?/두\s*자리(?:\s*(?:숫자|번호|복권))?|2\s*자리/u.test(String(text||'')):/ເລກສອງ(?:ໂຕ|ຕົວ)/u.test(String(text||''))}
+
+function secondPrize(text,lang){return lang==='ko'?/(?:2\s*등|이등)/u.test(String(text||'')):/ລາງວັນທີ\s*2/u.test(String(text||''))}
+
+function checkEdge(src,dst,from,to,stage){
+ const warnings=[];
+ const warn=(code,detail)=>warnings.push({stage,code,detail});
+ if(hasNick(src,from)&&!hasNick(dst,to))warn('NAME_LOSS','튼튼이 태명 표기가 대상 언어에서 발견되지 않음');
+ const a=normMoney(src),b=normMoney(dst);
+ if(a.length){
+  let remaining=[...b];
+  for(const n of a){const i=remaining.indexOf(n);if(i>=0)remaining.splice(i,1);else warn('MONEY_MISMATCH',n.toLocaleString('en-US')+'킵 금액이 대상 문장에서 확인되지 않음')}
+ }
+ if(twoDigits(src,from)&&secondPrize(dst,to))warn('DIGITS_TO_RANK','두 자리 번호가 2등/등수로 바뀐 가능성');
+ const ta=from==='ko'?koTimes(src):laoTimes(src),tb=to==='ko'?koTimes(dst):laoTimes(dst);
+ if(ta.length&&ta.length===tb.length){
+  for(let i=0;i<ta.length;i++){if(ta[i].h!==tb[i].h)
+   warn('TIME_SHIFT',String(ta[i].h).padStart(2,'0')+':00 → '+String(tb[i].h).padStart(2,'0')+':00 ('+ta[i].raw+' → '+tb[i].raw+')')}
+ }
+ return warnings
+}
+
+function auditRow(r){
+ const dir=r.dir==='K2L'?'K2L':'L2K',lang=dir==='K2L'?['ko','lo','ko']:['lo','ko','lo'];
+ return [...checkEdge(r.source,r.forward,lang[0],lang[1],'FORWARD'),...checkEdge(r.forward,r.back,lang[1],lang[2],'BACK')];
+}
+
+function parseLog(input){
+ const s=String(input||'').replace(/\r\n?/g,'\n'),out=[];
+ for(let chunk of s.split(/^---\s*$/m)){
+  const get=k=>{let m=chunk.match(new RegExp('^'+k+' (.*)$','m'));return m?m[1].trim():''};
+  const m=chunk.match(/\[SOURCE\]\s*\n([\s\S]*?)\n\[FORWARD\]\s*\n([\s\S]*?)\n\[BACK\]\s*\n([\s\S]*?)\nFORWARD_MS /m);
+  if(!m||!get('CASE')||!['K2L','L2K'].includes(get('DIRECTION')))continue;
+  out.push({id:get('CASE'),dir:get('DIRECTION'),lane:get('VARIANT')||get('PROMPT_REVISION')||get('MODEL'),source:m[1].trim(),forward:m[2].trim(),back:m[3].trim(),forwardMs:Number(get('FORWARD_MS'))||null,backMs:Number(get('BACK_MS'))||null});
+ }
+ return out
+}
+
+'use strict';
+const $=id=>document.getElementById(id);
+let rows=[],report=[];
+function cell(tr,v){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}
+function render(){
+ $('findings').replaceChildren();const counts={FORWARD:0,BACK:0},kinds={};
+ for(const x of report){for(const w of x.warnings){counts[w.stage]++;kinds[w.code]=(kinds[w.code]||0)+1;
+  const tr=document.createElement('tr');cell(tr,x.id);cell(tr,x.lane);cell(tr,x.dir==='K2L'?'남편':'아내');cell(tr,w.stage==='FORWARD'?'정번역':'독립 역번역');cell(tr,w.code);cell(tr,w.detail);$('findings').appendChild(tr)}}
+ $('summary').textContent='검사 '+rows.length+'개 번역 결과 · 정번역 경고 '+counts.FORWARD+'개 · 독립 역번역 경고 '+counts.BACK+'개 · 유형 '+JSON.stringify(kinds);
+ $('export').disabled=!rows.length;
+ if(!counts.FORWARD&&!counts.BACK&&rows.length)$('empty').textContent='현재 규칙에서 경고가 없습니다. 의미오역이 없다는 뜻은 아닙니다.';
+ else $('empty').textContent='각 경고는 검토 후보입니다. 모델 답변을 고치거나 재호출하지 않습니다.';
+}
+$('load').addEventListener('change',async()=>{
+ rows=[];report=[];$('summary').textContent='파일 확인 중...';
+ try{const files=[...$('load').files];if(!files.length)return;
+  if(files.some(f=>f.size>6500000))throw Error('파일당 6.5MB 이하만 허용');
+  for(const f of files){
+   const raw=await f.text();let arr=[];
+   if(f.name.toLowerCase().endsWith('.json')){const obj=JSON.parse(raw);const list=Array.isArray(obj)?obj:(obj?.rows||[]);if(!Array.isArray(list))throw Error('JSON rows 형식 오류');arr=list.filter(x=>x.source&&x.forward&&x.back&&x.dir).map(x=>({id:x.id||'?',dir:x.dir,lane:x.promptRevision||x.lane||x.model||'?',source:x.source,forward:x.forward,back:x.back}))}
+   else arr=parseLog(raw);
+   if(!arr.length)throw Error(f.name+'에서 정·역번역 결과를 찾지 못함');
+   for(const r of arr){if(rows.length>=2000)throw Error('전체 2000행 초과');rows.push(r)}
+  }
+  report=rows.map(r=>({...r,warnings:auditRow(r)}));render();
+ }catch(e){rows=[];report=[];$('summary').textContent='검사 실패: '+e.message;render()}
+});
+$('export').addEventListener('click',()=>{
+ const data={version:'TEST_WARNING_ONLY_OFFLINE_R1',createdAt:new Date().toISOString(),rows:report,disclaimer:'Offline heuristic review candidates; not a true semantic correctness score; no changes, no API calls'};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='ko-lao-warning-only-'+Date.now()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
+});
+</script></body></html>
