@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>Gemini 3.1 오역 보강 · R10 vs R10-S1 · TEST</title>
+<title>Gemini 3.1 S1 vs S2 · 16문장 TEST</title>
 <style>
 :root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
 *{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
@@ -35,15 +35,15 @@ main>section.card:nth-of-type(n+2){display:none}
 </head>
 <body>
 <main>
-<header><h1>3.1 오역 보강 비교</h1><div class="muted">R10 ↔ R10-S1 · 동일 모델/설정 · TEST 전용</div></header>
+<header><h1>3.1 오역 보강 S2</h1><div class="muted">R10-S1 ↔ R10-S2 · TEST 전용 · SERVICE 유지</div></header>
 <section class="card" id="r8PairPanel">
-<h2>오역 집중 12문장</h2><p class="lead">남편 6 · 아내 6 · R10 원본과 S1 최소 보강을 동일한 3.1 MINIMAL로 비교</p>
+<h2>중요 오역 + 새 회귀 16문장</h2><p class="lead">남편 8 · 아내 8 · 기존오류 8건 + 미검사 문장 8건 · 같은 3.1 MINIMAL</p>
 <div class="setup-grid"><div><label for="r8File">① 500문장 원본 JSON</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">JSON 파일 하나만 선택</p></div>
 <div id="r8KeySlot"><label for="geminiKey">② Gemini API 키</label><p class="note">테스트 전용 키 · 브라우저 저장</p></div></div>
-<div class="batch-box"><label for="r8BatchSelect">③ 비교 대상</label><select id="r8BatchSelect"><option value="1" selected>R10 vs R10-S1 · 12문장 · 최대 48회</option></select><p id="r8BatchInfo" class="note">모델 및 Thinking 동일. 화자·태명·시제·독립역번역 보강만 비교</p></div>
+<div class="batch-box"><label for="r8BatchSelect">③ 비교 대상</label><select id="r8BatchSelect"><option value="1" selected>S1 ↔ S2 · 16문장 · 최대 64회</option></select><p id="r8BatchInfo" class="note">기존오류 8건 + 미검사 문장 8건 · 3.1 MINIMAL</p></div>
 <div class="action-row"><button id="r8Preflight" type="button">무료 준비 확인</button><button id="r8Run" type="button" class="primary" disabled>검사 시작</button><button id="r8Stop" type="button" disabled>중단</button></div>
 <progress id="r8Progress" max="1" value="0"></progress><p id="r8State" class="note" role="status">JSON 선택 → 무료 준비 확인 → 검사 시작</p>
-<p id="r8Summary" class="note">3.1 R10 기존 후보와 R10-S1 보강 후보를 양방향 정·독립역으로 비교합니다.</p>
+<p id="r8Summary" class="note">S1과 S2를 남편·아내 정번역 및 독립 역번역에서 동등 비교</p>
 <div class="action-row"><button id="r8Export" type="button" disabled>JSON 결과 저장</button><button id="r8ExportTxt" type="button" disabled>TXT 결과 저장</button></div>
 <details><summary>이전 결과 불러오기 · 관리</summary><label for="r8Resume">저장된 결과 JSON</label><input id="r8Resume" type="file" accept=".json,application/json"><button id="r8Clear" type="button">이 기기의 검사 결과 삭제</button></details>
 <details><summary>번역 내용 자세히 보기</summary><div class="tablewrap"><table><thead><tr><th>ID</th><th>모델</th><th>방향</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정 ms</th><th>역 ms</th><th>비용</th><th>오류</th></tr></thead><tbody id="r8Results"></tbody></table></div></details>
@@ -188,8 +188,9 @@ const R8_RATES=Object.freeze({A:{input:.25,output:1.50},B:{input:.25,output:1.50
 const R8_BUNDLE_SHA='bc3f3b3faa434134ebac3e7ba8b9a9ba5b1bf01fc43b0ee18810562147e41414';
 const R8_CAND_REV='P168A-31MIN-SOLO-FOURPATH-R10';
 const S1_REV='P168A-31MIN-R10-S1-SEMANTIC-LOCK';
+const S2_REV='P168A-31MIN-R10-S2-ROLE-COUNT-CONTEXT';
 let r8PrivateBundle=null,r8PrivateDigest='',r8AllHintsReady=false;
-function r8Category(){return '31_R10_VS_S1_12'}
+function r8Category(){return '31_S1_VS_S2_16'}
 function r8LaneCfg(pack,lane){return lane==='A'?pack.candidateBaseCfg:pack.candidateCfg}
 function r8BuildCompactCandidate(base,p){
  if(p?.model!=='gemini-3.1-flash-lite'||p?.thinkingLevel!=='minimal'||p?.maxOutputTokens!==1024||p?.extraCalls!==0)throw Error('PRIVATE_PROMPT_SETTINGS_MISMATCH');
@@ -223,6 +224,23 @@ function r8MakeS1(base){
  c.back.husbandRecovery=c.back.husband;c.back.wifeRecovery=c.back.wife;
  c.promptRevision=S1_REV;
  c.description='TEST-only targeted semantic repair on R10; no SMART or model changes.';
+ return c;
+}
+
+const S2_PATCH=Object.freeze({"K2L":"S2 ROLE/ASPECT GUARD: Preserve exact clause actor, patient and addressee; in connected Korean clauses a dropped subject normally remains the prior speaker unless the source explicitly changes it. A spouse vocative/topic (여보) can mark the PERSON LOVED rather than a new lover; never flip 'I plan to love my wife' into 'my wife plans to love the baby'. Korean '봐서/봤으니까' can mean 'because I saw/have seen'; never replace with 'if I see/보면' without an explicit condition. Never invent eating together, a gift recipient, child gender, sibling gender, marriage already registered, or another action. Preserve the fixed baby name '튼튼이' as ທຶນທຶນ, not a grandchild/relative. Natural affectionate Lao only; do not add coarse ມຶງ or Thai-script particles unless originally spoken.","L2K":"S2 LAO ENTITY AND FACT GUARD: ທຶນທຶນ, ທືນທືນ, ຕຶນຕຶນ as a baby nickname (our baby, prenatal or the baby bringing luck) = '튼튼이', NOT financial capital or small investment; ordinary ທຶນ still means capital in an actual financial context. ຂະເຈົ້າ means THEY, ຂ້ອຍ means I. ເລກສອງໂຕ is a TWO-DIGIT lottery number, NOT SECOND PRIZE/2등. Preserve 10.000 kip invested vs 700.000 kip received exactly and never invent prize rank. ເຂົ້າປຽກ is the named dish '카오삐약'; ໝູກອບ is crispy pork, not necessarily pork skin. For sleep just completed, use context to express past sleep naturally without contradictory '오늘 밤에 이미 잤다'; ຄືນນີ້ may mean this night, so do not blindly force last night. Keep completed vs intended acts and do not invent the person asked for shop location.","K2L_to_K":"S2 INDEPENDENT BACK: Read only the actual Lao output, without knowledge of prior Korean. Do not repair an incorrect future conditional into completed seeing, or an incorrect lover/recipient into the expected one. Reflect every explicitly mentioned name, actor, gender, tense, money value and ordinal-vs-digit distinction accurately. Never add a relative, gender or person absent from the Lao input.","L2K_to_L":"S2 INDEPENDENT BACK: Read only actual Korean output; do not reconstruct earlier Lao. If it says 2등, translate SECOND PRIZE even if source might have said two-digit; if it says 두 자리 수, translate two-digit. If it says 투자금, keep a financial concept rather than reconstructing baby 튼튼이. Preserve completed/pending status, name/gender as written, amounts and person roles; never silently repair a semantic error."});
+function r8MakeS2(base){
+ if(base?.promptRevision!==R8_CAND_REV)throw Error('S2_BASE_NOT_R10');
+ const c=JSON.parse(JSON.stringify(base));
+ for(const [field,key] of [['k2l','K2L'],['l2k','L2K']]){
+  if(typeof c.forward[field]!=='string'||c.forward[field].length<150)throw Error('S2_FORWARD_'+field);
+  c.forward[field]+='\n\n# '+S2_REV+'\n'+S2_PATCH[key];
+ }
+ for(const [field,key] of [['husband','K2L_to_K'],['wife','L2K_to_L']]){
+  if(typeof c.back[field]!=='string'||c.back[field].length<100)throw Error('S2_BACK_'+field);
+  c.back[field]+='\n\n# '+S2_REV+'\n'+S2_PATCH[key];
+ }
+ c.back.husbandRecovery=c.back.husband;c.back.wifeRecovery=c.back.wife;
+ c.promptRevision=S2_REV;c.description='S2 TEST only: targeted semantic safeguards, model/SMART unchanged';
  return c;
 }
 
@@ -271,10 +289,11 @@ async function r8ReadStandaloneSources(){
  const baselineCfg=JSON.parse(JSON.stringify(cfg));if(baselineCfg.promptSha256!==R8_SHA||baselineCfg.promptRevision!=='P168A')throw Error('3_8_BASELINE_PROMPT_MISMATCH');
   if(!r8PrivateBundle||r8PrivateDigest!==R8_BUNDLE_SHA)throw Error('PRIVATE_BUNDLE_MISSING_OR_CHANGED');const candidateCfg=r8BuildCompactCandidate(cfg,r8PrivateBundle.compactPrompt);candidateCfg.promptSha256=await r8Sha(JSON.stringify({revision:candidateCfg.promptRevision,forward:candidateCfg.forward,back:candidateCfg.back,smart:candidateCfg.smart}));
   if(baselineCfg.promptSha256===candidateCfg.promptSha256)throw Error('ISOLATED_SAME_PROMPT_SHA');
-  const candidateBaseCfg=JSON.parse(JSON.stringify(candidateCfg)); const s1Cfg=r8MakeS1(candidateBaseCfg);
- s1Cfg.promptSha256=await r8Sha(JSON.stringify({revision:s1Cfg.promptRevision,forward:s1Cfg.forward,back:s1Cfg.back,smart:s1Cfg.smart}));
- if(s1Cfg.promptSha256===candidateBaseCfg.promptSha256)throw Error('S1_UNCHANGED_SHA');
- const pack={codes,cfg,baselineCfg,candidateCfg:s1Cfg,candidateBaseCfg,category:'31_R10_VS_S1_12',sha:{...R8_PAYLOAD_SHA},at:Date.now()};
+  const originalR10=JSON.parse(JSON.stringify(candidateCfg));
+ const s1Cfg=r8MakeS1(originalR10),s2Cfg=r8MakeS2(originalR10);
+ for(const c of [s1Cfg,s2Cfg])c.promptSha256=await r8Sha(JSON.stringify({revision:c.promptRevision,forward:c.forward,back:c.back,smart:c.smart}));
+ if(s1Cfg.promptSha256===s2Cfg.promptSha256||originalR10.promptSha256===s2Cfg.promptSha256)throw Error('S2_SAME_SHA');
+ const pack={codes,cfg,baselineCfg,candidateCfg:s2Cfg,candidateBaseCfg:s1Cfg,category:'31_S1_VS_S2_16',sha:{...R8_PAYLOAD_SHA},at:Date.now()};
  // Fail before any billable calls if either model route or independent back-usage hook changed.
  for(const mode of ['husband','wife'])for(const lane of ['A','B'])r8PrepareSource(r8BootDocument(pack,mode,lane),mode,lane);
  return pack;
@@ -485,14 +504,14 @@ async function r8ExecuteOne(c,lane,pack){
  r8Paint();if(!row.error&&!r8Stopped&&r8Stages<r8Expected){t=performance.now();r8Stages++;r8Paint();let back=null;try{back=await bn(row.forward);row.backMs=Math.round(performance.now()-t);row.backTraceCount=r8TraceCount(back);row.backTokens=r8Usage(back);row.backUsd=r8Estimate(row.backTokens,lane);row.back=r8Text(back?.text).trim();if(row.back){row.backReview=r8LocalLanguageReview(row.back,c.dir==='K2L'?'KOREAN':'LAO');if(!row.backReview.pass)row.qualityIssues.push('BACK:'+row.backReview.codes.join(','));}if(back?.ok!==true||!row.back){row.error='BACK_'+r8Err(back?.error||'EMPTY')+(r8RequestFailureDetail(back)?' | '+r8RequestFailureDetail(back):'');if(/HTTP[_ ](?:400|401|403|429)\b/i.test(row.error))r8Stopped=true;}}
  catch(e){row.backMs=Math.round(performance.now()-t);row.error='BACK_EXCEPTION_'+r8Err(e)}}row.qualityPass=!row.error&&row.forwardReview?.pass===true&&row.backReview?.pass===true;r7NoReplayQA(row,r8Rows);row.scriptWarningCodes=[...(row.forwardReview?.codes||[]).filter(x=>x==='THAI_SCRIPT'||x==='FOREIGN_SCRIPT').map(x=>'FORWARD:'+x),...(row.backReview?.codes||[]).filter(x=>x==='THAI_SCRIPT'||x==='FOREIGN_SCRIPT').map(x=>'BACK:'+x)];row.nonBlockingWarning=row.scriptWarningCodes.length>0;row.manualRetranslateRecommended=row.nonBlockingWarning;row.autoRetryTriggered=false;r8Rows.push(row);r8SaveSession();r8Paint();return row;
 }
-const R8_LOCAL_KEY='ko-lao-31-r10-s1-focus12-v1';
+const R8_LOCAL_KEY='ko-lao-31-s1-s2-holdout16-v1';
 function r8SaveSession(){
  try{localStorage.setItem(R8_LOCAL_KEY,JSON.stringify({runId:r8RunId,rows:r8Rows,sourceSetSha256:r8Digest,privateBundleSha256:R8_BUNDLE_SHA,updatedAt:Date.now()}))}
  catch(e){r8Stopped=true;r8Message('자동 저장 실패 · 안전 중단. 결과 JSON을 지금 저장하세요: '+r8Err(e),true)}
 }
 function r8LoadSession(){
  try{const o=JSON.parse(localStorage.getItem(R8_LOCAL_KEY)||'null');
-  if(o&&o.privateBundleSha256===R8_BUNDLE_SHA&&Array.isArray(o.rows)&&o.rows.length<=24){r8Rows=o.rows.filter(x=>x.model==='gemini-3.1-flash-lite'&&['A','B'].includes(x.lane));r8RunId=o.runId||'';}
+  if(o&&o.privateBundleSha256===R8_BUNDLE_SHA&&Array.isArray(o.rows)&&o.rows.length<=32){r8Rows=o.rows.filter(x=>x.model==='gemini-3.1-flash-lite'&&['A','B'].includes(x.lane));r8RunId=o.runId||'';}
  }catch(_){}
 }
 function r8Median(values){const a=values.filter(x=>typeof x==='number'&&Number.isFinite(x)).sort((x,y)=>x-y);if(!a.length)return null;return a[Math.floor((a.length-1)/2)]}
