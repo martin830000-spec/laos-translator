@@ -30,8 +30,9 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <header><h1>Gemini 3.1 MINIMAL · R10 정보보존/혼입경고 회귀</h1><div class="muted">3.1 MINIMAL R10만 호출 · 3.8/R2/R3 이전 로그와 비교 · SERVICE/DB 불변</div></header>
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
 <h2>★ 3.1 R10 집중 의미검사 · 기본 10문장 / 최대 20회</h2>
-<p>3.1 Flash-Lite MINIMAL <b>R10 단독</b>입니다. R6의 약 복용 시점·화자·금지·태명 개선은 유지하면서 긴 문장 정보 누락, 시각 모순, 태국어/중국어 혼입을 <b>예시 없이</b> 보완합니다. <b>문자 혼입이 있어도 결과 표시·복사 유지, 경고만 알림</b>. 사용자가 직접 재번역을 선택할 때만 재요청합니다. 기본 남편 5·아내 5의 핵심 의미 사례만 정/역 각 1회(최대 20회 유료 호출). 필요시 50문장 전체 선택 가능(최대 100회). 기존 3.8 재호출 및 자동 재시도 없음.</p>
-<p class='note'>비공개 R8 JSON에는 R2~R6와 동일한 50문장과 네 경로 프롬프트가 있습니다. 예시 복제 방지·이모지 보존 검사는 유지하며 태국어/한자 혼입은 <b>경고만</b> 합니다. 원문·번역문·역번역은 삭제하지 않습니다. API 성공과 의미 정확도는 별개이며 개인 대화·파일·키는 GitHub에 공개하지 않습니다.</p>
+<p style="font-weight:700">제1규칙: 정번역은 상대에게 원래 뜻을 전달해야 하고, 독립 역번역은 <u>실제 정번역에 적힌 뜻</u>을 충실히 보여줘야 합니다. 남편·아내 네 경로를 각각 확인합니다. 원문과 역번역이 비슷하다고 정번역이 정확한 것은 아닙니다.</p>
+<p>3.1 Flash-Lite MINIMAL <b>R10 단독</b>입니다. R9의 기존 개선을 보존하면서 R10에서 남편 정번역의 <b>계약 완료/지급 완료 구분</b>과 아내 독립 역번역의 <b>평서문/질문·시간 표현</b>만 최소 조정했습니다. 출력 품질은 아직 미검증입니다. <b>문자 혼입이 있어도 결과 표시·복사 유지, 경고만 알림</b>. 사용자가 직접 재번역을 선택할 때만 재요청합니다. 기본 남편 5·아내 5의 핵심 의미 사례만 정/역 각 1회(최대 20회 유료 호출). 필요시 50문장 전체 선택 가능(최대 100회). 기존 3.8 재호출 및 자동 재시도 없음.</p>
+<p class='note'>비공개 R10 JSON에는 과거 검사와 동일한 원문 50개 및 남편·아내 정번역·독립 역번역의 네 경로 프롬프트가 있습니다. 예시 복제 방지·이모지 보존 검사는 유지하며 태국어/한자 혼입은 <b>경고만</b> 합니다. 원문·번역문·역번역은 삭제하지 않습니다. API 성공과 의미 정확도는 별개이며 개인 대화·파일·키는 GitHub에 공개하지 않습니다.</p>
 <div class="row"><button id="r8Connect" type="button" style="display:none">TEST 소스 확인</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
  
@@ -40,7 +41,7 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <div class="row" style="margin-top:10px">
  
 <button id="r8Preflight" type="button">② 무료 통합 준비검사 (모델 생성 0회)</button>
-<button id="r8Run" type="button" class="primary" disabled>③ R8 단독 검사 시작</button>
+<button id="r8Run" type="button" class="primary" disabled>③ R10 유료 검사 시작</button>
 <button id="r8Stop" type="button" disabled>검사 중단</button>
  <button id="r8Export" type="button" disabled>결과 JSON 저장</button>
  <button id="r8ExportTxt" type="button" disabled>결과 TXT 저장</button>
@@ -297,7 +298,7 @@ $('r8Connect').addEventListener('click',async()=>{
  r8Ready='';$('r8Run').disabled=true;
  try{r8Message('공개 TEST 앱 소스와 P168A R8 SHA 검증 중 · 로그인 없음 · Gemini 0회');r8Sources=await r8ReadStandaloneSources();
  $('r8Connected').textContent='SHA 검증 완료 · TEST V3.61.209 / P168A R8 · 로그인 불필요';
- r8Message('① TEST 소스 확인 성공 · 남편·아내 원본 SHA 일치 · Gemini 0회. 이제 비공개 JSON과 ③ 무료 준비검사를 진행하세요.');
+ r8Message('① TEST 소스 확인 성공 · 남편·아내 원본 SHA 일치 · Gemini 0회. 이제 비공개 JSON과 ② 무료 준비검사를 진행하세요.');
  }catch(e){r8Sources=null;r8Message('① 소스 검증 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8Canon(v){return r8Text(v).trim().replace(/\s+/g,' ')}
@@ -336,7 +337,7 @@ $('r8File').addEventListener('change',async()=>{
  const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
  $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
  $('r8Budget').value='기본 집중 10문장 × 3.1 R10 단독 × 정/역 = 최대 20호출 (전체 50건도 선택 가능)';
- r8Message('R2/R3/R4/R5 동일 회귀 50문장 + 3.1 R10 프롬프트 로드 완료 · ③ 무료 통합 준비검사를 누르세요');
+ r8Message('R2/R3/R4/R5 동일 회귀 50문장 + 3.1 R10 프롬프트 로드 완료 · ② 무료 통합 준비검사를 누르세요');
  }catch(e){$('r8FileInfo').textContent='파일 오류: '+e.message;$('r8Budget').value='파일 오류';r8Message('파일 검사 실패: '+e.message,true)}
 });
 function r8NormalizeClone(src){const s=r8Text(src);if(/^\s*<!doctype\s+html\b/i.test(s))return s;
@@ -501,7 +502,7 @@ $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요�
 $('r8Run').addEventListener('click',async()=>{
  if(r8Busy)return;let pack=null;
  try{
-  if(!r8Cases.length||!r8Ready||r8Ready!==(r8Digest+'|SOLO_R10|'+r8PrivateDigest)||!r8AllHintsReady)throw Error('③ 무료 준비검사를 먼저 실행하세요');
+  if(!r8Cases.length||!r8Ready||r8Ready!==(r8Digest+'|SOLO_R10|'+r8PrivateDigest)||!r8AllHintsReady)throw Error('② 무료 준비검사를 먼저 실행하세요');
   pack=await r8ReadStandaloneSources();
   if(r8Rows.length&&!confirm('이 탭에 이전 검사 결과가 있습니다. 저장 후 새로 시작하시겠습니까?'))return;
   const scope10=$('r8PairsSelect').value==='10';
