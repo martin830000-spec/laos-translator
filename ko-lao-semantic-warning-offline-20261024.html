@@ -23,7 +23,7 @@
  for(const m of s.matchAll(/(\d+(?:[.,]\d+)?)\s*(ພັນ|ໝື່ນ|ແສນ|ລ້ານ)\s*ກີບ/gu)){
   const n=Number(m[1].replace(',',''))*lu[m[2]];if(Number.isFinite(n))out.push(n)
  }
- if(/(?:^|[\s,])ໝື່ນ\s*ກີບ/u.test(s))out.push(10000);
+ if(/(?<!\d)(?<!\d\s)ໝື່ນ\s*ກີບ/u.test(s))out.push(10000);
  return out.sort((a,b)=>a-b)
 }
 function hasNick(text,lang){
