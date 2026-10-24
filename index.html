@@ -10963,5 +10963,94 @@ syncVisibleViewport();
   window.__setCouplePayloadOverlayV361163=setOpen;
 })();
 </script>
+
+<script id="test-warning-only-four-route-ui-20261024">
+/* TEST ONLY: local, non-blocking Thai/Han warning for BOTH main-app directions.
+   Does not alter translation, copy, retry, prompts, credentials, network or DB.
+   Existing forward warnings stay authoritative; add a fallback only if absent. */
+(function(){
+  'use strict';
+  if(window.__testWarningOnlyFourRoutes20261024)return;
+  const mounted=new WeakSet();
+  const FOREIGN_RUNS=/[\u0E00-\u0E7F]+|[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]+/gu;
+  function scan(text,source){
+    const target=String(text||''),origin=String(source||'');
+    const thai=[],han=[];
+    for(const m of target.matchAll(FOREIGN_RUNS)){
+      const run=m[0];
+      if(origin.includes(run))continue; // quoted source/name retained verbatim: avoid false warning
+      if(/[\u0E00-\u0E7F]/u.test(run))thai.push(run);
+      else han.push(run);
+    }
+    return{thai:thai.length,han:han.length,warning:thai.length+han.length>0};
+  }
+  function banner(doc,anchor,stage){
+    let el=doc.getElementById('testScriptWarningOnly-'+stage);
+    if(el)return el;
+    el=doc.createElement('div');
+    el.id='testScriptWarningOnly-'+stage;
+    el.setAttribute('role','status');el.setAttribute('aria-live','polite');
+    el.style.cssText='display:none;margin:0 0 10px;padding:9px 11px;border:1px solid #e6c66e;border-radius:8px;background:#fff7df;color:#805300;font-size:12px;font-weight:700;line-height:1.5;white-space:normal;overflow-wrap:anywhere';
+    anchor.insertAdjacentElement('afterend',el);
+    return el;
+  }
+  function attach(mode){
+    const frame=document.getElementById(mode==='wife'?'wifeFrame':'husbandFrame');
+    if(!frame)return false;
+    let doc;
+    try{doc=frame.contentDocument}catch(_){return false}
+    if(!doc||!doc.body||mounted.has(doc))return false;
+    const primary=doc.getElementById(mode==='wife'?'koResult':'laoResult');
+    const back=doc.getElementById('backResult');
+    if(!primary||!back)return false;
+    const srcBox=doc.getElementById(mode==='wife'?'loInput':'krInput');
+    const forward=banner(doc,primary,'forward');
+    const backWarn=banner(doc,back,'back');
+    const localeLao=mode==='wife';
+    const refresh=()=>{
+      const original=srcBox?.value||'';
+      const rows=[
+        {node:primary,warning:forward,isBack:false},
+        {node:back,warning:backWarn,isBack:true}
+      ];
+      for(const row of rows){
+        const plain=String(row.node.textContent||'').trim(),found=scan(plain,original);
+        const old=(!row.isBack)?doc.getElementById('forwardScriptWarning'):null;
+        const existingShown=!!(old&&old.classList.contains('show')&&String(old.textContent||'').trim());
+        const show=found.warning&&!(existingShown&&!row.isBack);
+        row.warning.style.display=show?'block':'none';
+        row.warning.textContent=show?(localeLao
+          ? '⚠️ ພົບຕົວອັກສອນໄທ/ຈີນທີ່ອາດປະປົນໃນ'+(row.isBack?'ຜົນແປກັບ':'ຜົນແປ')+' (ໄທ '+found.thai+', ຈີນ '+found.han+'). ຜົນແປຍັງເບິ່ງ ແລະ ຄັດລອກໄດ້. ຫາກບໍ່ຖືກ ກະລຸນາກົດ [ແປໃໝ່] ເອງ.'
+          : '⚠️ '+(row.isBack?'역번역':'정번역')+'에 태국 문자('+found.thai+') 또는 한자('+found.han+') 혼입이 의심됩니다. 결과와 복사는 유지됩니다. 필요하면 [재번역]을 직접 누르세요.'):'';
+      }
+    };
+    const Obs=doc.defaultView?.MutationObserver;
+    if(!Obs)return false;
+    const observer=new Obs(refresh);
+    observer.observe(primary,{childList:true,subtree:true,characterData:true});
+    observer.observe(back,{childList:true,subtree:true,characterData:true});
+    mounted.add(doc);refresh();
+    return true;
+  }
+  for(const mode of ['husband','wife']){
+    const frame=document.getElementById(mode==='wife'?'wifeFrame':'husbandFrame');
+    frame?.addEventListener('load',()=>attach(mode));
+    attach(mode);
+  }
+  window.__testWarningOnlyFourRoutes20261024=Object.freeze({
+    scan,attach,nonBlocking:true,manualRetranslateOnly:true,
+    smoke:()=>{
+      const cases=[
+        scan('ສະບາຍດີนะ','안녕').warning,
+        scan('ມາ突然','한국어').warning,
+        scan('ເປັນຫຍັງ','괜찮아').warning===false,
+        scan('한국어นะ','라오어').warning,
+        scan('ຄຳ突然','突然을 보존해줘').warning===false
+      ];
+      return{ok:cases.every(Boolean),cases,networkCalls:0};
+    }
+  });
+})();
+</script>
 </body>
 </html>
