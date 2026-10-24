@@ -30,13 +30,13 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <header><h1>Gemini 3.1 MINIMAL · R5 단독 회귀 검사</h1><div class="muted">3.1 MINIMAL R5만 호출 · 3.8/R2/R3 이전 로그와 비교 · SERVICE/DB 불변</div></header>
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
 <h2>★ 3.1 R5 단독 회귀 검사 · 3.8 재호출 없이 최대 100회</h2>
-<p>3.1 Flash-Lite MINIMAL <b>단독 R5만 API 호출</b>합니다. 기존 3.8 R8·3.1 R2·R3 결과는 이전 로그에서 재사용합니다. 같은 50문장(남편25·아내25)의 정번역·독립 역번역을 1회씩 실행합니다. <b>최대 100회 유료 호출</b>, 3.8 호출 0회, 자동 재시도 없음. 본 검사는 신규 문장 검증이 아닙니다.</p>
+<p>3.1 Flash-Lite MINIMAL <b>단독 R5만 API 호출</b>합니다. 기존 3.8 R8·3.1 R2·R3·R4 결과는 이전 로그와 사후 비교합니다. 같은 50문장(남편25·아내25)의 정번역·독립 역번역을 1회씩 실행합니다. <b>최대 100회 유료 호출</b>, 3.8 호출 0회, 자동 재시도 없음. 본 검사는 신규 문장 검증이 아닙니다.</p>
 <p class='note'>비공개 R5 JSON에 동일 실사용 50문장과 R5 네 경로 프롬프트가 포함됩니다. 아내앱 정번역·역번역에 중복된 R4 예시를 함께 제거했고, 서로 다른 입력에서 동일한 긴 역번역이 반복되거나 이전 R4 예시가 그대로 나오면 자동으로 품질 경고를 기록합니다. 자동 재호출은 없으며 민감한 개인 대화는 공개 GitHub에 넣지 않습니다.</p>
 <div class="row"><button id="r8Connect" type="button" style="display:none">TEST 소스 확인</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
  
 <div><label for="r8File">① 비공개 통합 JSON 한 파일</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">R5_SOLO_TEST_INPUT.json 한 파일만 선택하면 됩니다. 옛 R8/R1 파일은 사용하지 마세요.</p></div>
-<div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="SOLO_R5" selected>3.1 MINIMAL / 단독 개선 R4</option></select><label for="r8PairsSelect">범위</label><select id="r8PairsSelect"><option value="50" selected>전체 50문장 (남편25+아내25), 최대 100호출</option></select><input id="r8Budget" readonly value="비공개 JSON을 선택하세요"><p class="note">① 비공개 파일 선택 · ② 무료 소스/프롬프트 검증 · ③ 유료 종합 비교</p></div>
+<div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="SOLO_R5" selected>3.1 MINIMAL / 단독 개선 R5</option></select><label for="r8PairsSelect">범위</label><select id="r8PairsSelect"><option value="50" selected>전체 50문장 (남편25+아내25), 최대 100호출</option></select><input id="r8Budget" readonly value="비공개 JSON을 선택하세요"><p class="note">① 비공개 파일 선택 · ② 무료 소스/프롬프트 검증 · ③ 3.1만 유료 검사</p></div>
 <div class="row" style="margin-top:10px">
  
 <button id="r8Preflight" type="button">② 무료 통합 준비검사 (모델 생성 0회)</button>
@@ -490,7 +490,7 @@ function r8Paint(){
  const pairs=new Map();
  for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
  const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
- $('r8Summary').textContent='3.1 R5 API 호출 '+r8Stages+'/100 | '+fmt('B','R4 · 3.1 MINIMAL')+' | 기존 3.8·R2·R3 데이터는 저장된 로그와 비교';
+ $('r8Summary').textContent='3.1 R5 API 호출 '+r8Stages+'/100 | '+fmt('B','R5 · 3.1 MINIMAL')+' | 기존 3.8·R2·R3 데이터는 저장된 로그와 비교';
 }
 
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
