@@ -41,6 +41,9 @@
   const n=Number(m[1].replace(',',''))*lu[m[2]];if(Number.isFinite(n))out.push(n)
  }
  if(/(?<!\d)(?<!\d\s)ໝື່ນ\s*ກີບ/u.test(s))out.push(10000);
+ for(const m of s.matchAll(/(ໜຶ່ງ|ຫນຶ່ງ|ສອງ|ສາມ|ສີ່|ຫ້າ|ຫົກ|ເຈັດ|ແປດ|ເກົ້າ)\s*(ພັນ|ໝື່ນ|ແສນ|ລ້ານ)\s*ກີບ/gu)){
+  out.push(numberWords[m[1]]*lu[m[2]])
+ }
  return out.sort((a,b)=>a-b)
 }
 function hasNick(text,lang){
@@ -144,7 +147,7 @@ $('load').addEventListener('change',async()=>{
    for(const r of arr){if(rows.length>=2000)throw Error('전체 2000행 초과');rows.push(r)}
   }
   report=rows.map(r=>({...r,warnings:auditRow(r)}));render();
- }catch(e){rows=[];report=[];$('summary').textContent='검사 실패: '+e.message;render()}
+ }catch(e){rows=[];report=[];render();$('summary').textContent='검사 실패: '+e.message}
 });
 $('export').addEventListener('click',()=>{
  const data={version:'TEST_WARNING_ONLY_OFFLINE_R1',createdAt:new Date().toISOString(),rows:report,disclaimer:'Offline heuristic review candidates; not a true semantic correctness score; no changes, no API calls'};
