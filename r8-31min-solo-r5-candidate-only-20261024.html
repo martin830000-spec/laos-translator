@@ -31,7 +31,7 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
 <h2>★ 3.1 R5 단독 회귀 검사 · 3.8 재호출 없이 최대 100회</h2>
 <p>3.1 Flash-Lite MINIMAL <b>단독 R5만 API 호출</b>합니다. 기존 3.8 R8·3.1 R2·R3 결과는 이전 로그에서 재사용합니다. 같은 50문장(남편25·아내25)의 정번역·독립 역번역을 1회씩 실행합니다. <b>최대 100회 유료 호출</b>, 3.8 호출 0회, 자동 재시도 없음. 본 검사는 신규 문장 검증이 아닙니다.</p>
-<p class='note'>비공개 R5 JSON에 동일 실사용 50문장과 R5 네 경로 프롬프트가 포함됩니다. 아내앱 역번역 예시를 제거했고, 서로 다른 입력에서 동일한 긴 역번역이 반복되거나 이전 R4 예시가 그대로 나오면 자동으로 품질 경고를 기록합니다. 자동 재호출은 없으며 민감한 개인 대화는 공개 GitHub에 넣지 않습니다.</p>
+<p class='note'>비공개 R5 JSON에 동일 실사용 50문장과 R5 네 경로 프롬프트가 포함됩니다. 아내앱 정번역·역번역에 중복된 R4 예시를 함께 제거했고, 서로 다른 입력에서 동일한 긴 역번역이 반복되거나 이전 R4 예시가 그대로 나오면 자동으로 품질 경고를 기록합니다. 자동 재호출은 없으며 민감한 개인 대화는 공개 GitHub에 넣지 않습니다.</p>
 <div class="row"><button id="r8Connect" type="button" style="display:none">TEST 소스 확인</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
  
@@ -186,7 +186,7 @@ const R8_SHA='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43';
 const R8_PAYLOAD_SHA=Object.freeze({husband:'a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd',wife:'296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e'});
 const R8_MODELS=Object.freeze({A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'});
 const R8_RATES=Object.freeze({A:{input:.75,output:3.75},B:{input:.25,output:1.50}});
-const R8_BUNDLE_SHA='ea257e510a87ba824cde8cea9ee25b831797b5a4adbaa5526868482ab642b7f4';
+const R8_BUNDLE_SHA='900ca46d9c2249612412badf189b30928db88a67bc75a9e7e29d12e8c1752272';
 const R8_CAND_REV='P168A-31MIN-SOLO-FOURPATH-R5';
 let r8PrivateBundle=null,r8PrivateDigest='',r8AllHintsReady=false;
 function r8Category(){return 'SOLO_R5'}
