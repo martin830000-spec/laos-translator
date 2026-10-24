@@ -36,8 +36,8 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <div class="row"><button id="r8Connect" type="button" style="display:none">TEST 소스 확인</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
  
-<div><label for="r8File">① 비공개 통합 JSON 한 파일</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">KO_LAO_3_1_R10_검사입력_비공개50.json 한 파일만 선택하면 됩니다. 다른 후보 JSON은 선택하지 마세요.</p></div>
-<div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="SOLO_R10" selected>3.1 MINIMAL / 단독 개선 R8</option></select><label for="r8PairsSelect">범위</label><select id="r8PairsSelect"><option value="10" selected>집중 10문장 (남편5+아내5), 최대 20호출</option><option value="50">전체 50문장 (남편25+아내25), 최대 100호출</option></select><input id="r8Budget" readonly value="비공개 JSON을 선택하세요"><p class="note">① 비공개 파일 선택 · ② 무료 소스/프롬프트 검증 · ③ 3.1만 유료 검사</p></div>
+<div><label for="r8File">① 비공개 통합 JSON 한 파일</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">KO_LAO_500_AB_검사용_이파일하나.json 한 개만 선택하세요. ZIP·50건 파일은 사용하지 않습니다.</p></div>
+<div><label for="r8Category">비교 후보</label><select id="r8Category" disabled><option value="DUAL_REAL_500" selected>3.8 LOW ↔ 3.1 MINIMAL 동시 비교</option></select><label for="r8PairsSelect">범위</label><select id="r8PairsSelect"><option value="25" selected>다음 25문장 (남편·아내 교차), 모델 2개·최대 100호출</option></select><input id="r8Budget" readonly value="비공개 JSON을 선택하세요"><p class="note">① JSON 한 개 선택 · ② 무료 준비검사 · ③ 두 모델 다음 25건 유료 · ④ 결과 저장</p></div>
 <div class="row" style="margin-top:10px">
  
 <button id="r8Preflight" type="button">② 무료 통합 준비검사 (모델 생성 0회)</button>
@@ -45,13 +45,14 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 <button id="r8Stop" type="button" disabled>검사 중단</button>
  <button id="r8Export" type="button" disabled>결과 JSON 저장</button>
  <button id="r8ExportTxt" type="button" disabled>결과 TXT 저장</button>
+<label style="font-weight:500" for="r8Resume">저장한 JSON을 불러와 이어하기:</label><input id="r8Resume" type="file" accept=".json,application/json" style="max-width:330px">
  <button id="r8Clear" type="button">이 탭의 기존 검사 결과 삭제</button>
 </div>
 <progress id="r8Progress" max="1" value="0"></progress>
-<p id="r8State" class="note">비공개 JSON 선택 → 무료 준비검사 → 한 번의 종합 비교 → 결과 TXT/JSON 저장. TEST API 키 외 로그인 불필요.</p>
-<p id="r8Summary" class="note">3.1 R10 단독 검사 · 이전 R2/R3/3.8 로그 사후 비교 · 새 문장 일반화 증명 아님</p>
+<p id="r8State" class="note">JSON 선택 → ② 무료검사 → ③ 25문장 양모델 비교 → JSON 저장 → 다시 ③ (총 20묶음).</p>
+<p id="r8Summary" class="note">3.8 Flash LOW ↔ 3.1 Flash-Lite MINIMAL · 동일 실사용 500문장 A/B</p>
 <div class="tablewrap"><table><thead><tr><th>번호</th><th>모델</th><th>방향</th><th>원문 / 과거 오역 문제</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰 / 추정비용</th><th>오류</th></tr></thead><tbody id="r8Results"></tbody></table></div>
-<p class="note">동적 용어집 없이 한 종류의 프롬프트 사용. 출력 품질 실패 시 결과는 보존하고 자동 재번역은 하지 않습니다.</p>
+<p class="note">동적 용어집 없이 두 모델의 고정 프롬프트 사용. 출력 품질 실패 시 결과 보존, 자동 재번역하지 않습니다.</p>
 </section>
 <section class="card">
 <h2>① Gemini API 키 (기존 키 재사용 · 로그인 불필요)</h2>
@@ -336,7 +337,7 @@ $('r8File').addEventListener('change',async()=>{
  r8Cases=rows;r8Digest=await r8Fingerprint(rows);r8SourceLabel=f.name;r8PrivateBundle=obj;r8PrivateDigest=R8_BUNDLE_SHA;r8AllHintsReady=false;
  const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
  $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
- $('r8Budget').value='기본 집중 10문장 × 3.1 R10 단독 × 정/역 = 최대 20호출 (전체 50건도 선택 가능)';
+ $('r8Budget').value='25문장 × 2모델 × 정/역 = 묶음당 최대 100회 · 전체 최대 2,000호출';
  r8Message('실사용 500문장 + R10 프롬프트 로드 완료 · ② 무료 통합 준비검사를 누르세요');
  }catch(e){$('r8FileInfo').textContent='파일 오류: '+e.message;$('r8Budget').value='파일 오류';r8Message('파일 검사 실패: '+e.message,true)}
 });
@@ -486,13 +487,30 @@ function r8Paint(){
  const pairs=new Map();
  for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
  const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
- $('r8Summary').textContent='3.1 R10 API 호출 '+r8Stages+'/'+(r8Expected||20)+' | '+fmt('B','R10 · 3.1 MINIMAL')+' | 기존 3.8·R2·R3·R4·R5 데이터는 저장된 로그와 비교';
+ $('r8Summary').textContent='전체 500문장 중 모델별 결과 '+r8Rows.length+'/1000 · 완전 비교 '+comparable+'/500쌍 · 현재 묶음 API '+r8Stages+'/'+(r8Expected||100)+' | '+fmt('A','3.8 Flash LOW')+' | '+fmt('B','3.1 Flash-Lite MINIMAL');
 }
 
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-$('r8Export').addEventListener('click',()=>r8Save('ko-lao-31MIN-SOLO-R10-ONLY-'+Date.now()+'.json',JSON.stringify({version:'31MIN-R10-SOLO-ONLY',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest||'UNKNOWN',baselinePromptSha256:r8Sources?.baselineCfg?.promptSha256||'UNKNOWN',baselinePromptRevision:'P168A',sourceReviewPolicy:'Separate source typos/ambiguity from forward/back model faults',candidatePromptSha256:r8Sources?.candidateCfg?.promptSha256||'UNKNOWN',candidatePromptRevision:r8Sources?.candidateCfg?.promptRevision||'UNKNOWN',selectedCategory:'SOLO_R10',comparedModels:'3.1 MINIMAL R8 ONLY. Archived 3.8 R8 / 3.1 R2/R3/R4/R5/R6 not re-run.',privateBundleSha256:R8_BUNDLE_SHA,method:'3.1 Flash-Lite MINIMAL R8 alone, max 100 model calls. No 3.8 model generation; compare against archived 3.8/R2/R3 logs offline. 50 exposed regression cases, not held-out. 1024 output token cap and no automatic retries.',rates:R8_RATES,actualCalls:r8Stages,requestedMaxCalls:r8Expected,disclaimer:'PRIVATE: contains real spouse dialogues. Do not share publicly. No Gemini API keys included.',rows:r8Rows},null,2)));
-$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31MIN-SOLO-R10-ONLY-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'38LOW_P168A_R8':'31MIN_SOLO_FOURPATH_R10'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
-$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R10 TEST 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{sessionStorage.removeItem('ko-lo-500-dual-38-vs-31-results')}catch(_){}r8Paint();r8Message('R10 TEST 결과 삭제됨')});
+$('r8Export').addEventListener('click',()=>r8Save('ko-lao-500-DUAL-38-31-'+Date.now()+'.json',JSON.stringify({version:'REAL500-DUAL-38LOW-31MIN-R10',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest,privateBundleSha256:R8_BUNDLE_SHA,models:{A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite'},settings:{A:'LOW / P168A R8',B:'MINIMAL / R10'},prompts:{A:r8Sources?.baselineCfg?.promptSha256||null,B:r8Sources?.candidateCfg?.promptSha256||null},semantics:'human check each SOURCE->FORWARD and FORWARD->INDEPENDENT_BACK separately',maxCallsBothModels:2000,totalRows:r8Rows.length,completePairs:(new Set(r8Rows.filter(x=>x.lane==='A').map(x=>x.id))).size,disclaimer:'PRIVATE contains spouse dialogues; do not publish; excludes keys',rows:r8Rows},null,2)));
+$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-500-DUAL-38-31-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'38LOW_P168A_R8':'31MIN_SOLO_FOURPATH_R10'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
+$('r8Resume').addEventListener('change',async()=>{
+ if(r8Busy)return;
+ try{
+  if(!r8Digest||!r8PrivateBundle)throw Error('먼저 ① 500문장 원본 JSON을 선택하세요');
+  const f=$('r8Resume').files?.[0];if(!f)throw Error('이어서 불러올 JSON을 선택하세요');
+  if(f.size>9000000)throw Error('백업 파일 용량이 큽니다');
+  const obj=JSON.parse(await f.text());if(obj?.version!=='REAL500-DUAL-38LOW-31MIN-R10'||obj?.sourceSetSha256!==r8Digest||obj?.privateBundleSha256!==R8_BUNDLE_SHA||!Array.isArray(obj.rows)||obj.rows.length>1000)throw Error('이전 결과와 현재 원본 파일/버전이 다릅니다');
+  const allowed=new Map(r8Cases.map(c=>[c.id,c])),seen=new Set();
+  for(const x of obj.rows){
+   const c=allowed.get(x.id),key=x.id+'|'+x.lane;
+   if(!c||!['A','B'].includes(x.lane)||x.dir!==c.dir||x.source!==c.source||seen.has(key))throw Error('기록 ID·언어·원문 무결성 오류 '+x.id);
+   seen.add(key);
+  }
+  if(!confirm('저장된 결과 '+obj.rows.length+'건을 불러와 현재 세션 결과를 교체할까요?'))return;
+  r8Rows=obj.rows;r8RunId=obj.runId||'';r8Stages=0;r8Expected=100;r8SaveSession();r8Paint();r8Message('백업 결과 '+r8Rows.length+'/1000건 복구 · ② 무료 준비검사를 통과한 뒤 다음 ③ 검사 가능');
+ }catch(e){r8Message('백업 불러오기 실패: '+r8Err(e),true)}
+});
+$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('500건 비교 누적 결과를 모두 지울까요? JSON/TXT를 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{sessionStorage.removeItem('ko-lo-500-dual-38-vs-31-results')}catch(_){}r8Paint();r8Message('500건 비교 누적 결과 삭제됨')});
 $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨 · 현재 요청 완료 후 추가 유료 호출 없이 정지 · 결과 JSON 저장 가능');});
 $('r8Run').addEventListener('click',async()=>{
  if(r8Busy)return;let pack=null;
