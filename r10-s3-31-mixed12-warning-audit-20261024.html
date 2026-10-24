@@ -527,6 +527,18 @@ function normMoney(text){
   const n=Number(m[1].replace(/[.,]/g,''));if(Number.isFinite(n))out.push(n)
  }
  const ku={천:1000,만:10000,십만:100000,백만:1000000};
+ const koDigits={일:1,이:2,삼:3,사:4,오:5,육:6,칠:7,팔:8,구:9};
+ for(const m of s.matchAll(/([일이삼사오육칠팔구십백천]+)만\s*(?:킵|낍|키프|kip|kips)/giu)){
+  let v=0,d=0;
+  for(const ch of m[1]){
+   if(koDigits[ch])d=koDigits[ch];
+   else if(ch==='십'){v+=(d||1)*10;d=0}
+   else if(ch==='백'){v+=(d||1)*100;d=0}
+   else if(ch==='천'){v+=(d||1)*1000;d=0}
+  }
+  v+=d;if(v)out.push(v*10000)
+ }
+
  for(const m of s.matchAll(/(\d+(?:[.,]\d+)?)\s*(백만|십만|만|천)\s*(?:킵|낍|키프|kip|kips)/giu)){
   const n=Number(m[1].replace(',',''))*ku[m[2]];if(Number.isFinite(n))out.push(n)
  }
