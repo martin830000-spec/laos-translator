@@ -514,18 +514,23 @@ function r8LocalLanguageReview(text,target){
 }
 
 function normMoney(text){
- const s=String(text||''),out=[];
- // Digit quantities in either language, e.g. 10.000ກີບ / 10,000킵.
+ let s=String(text||''),out=[];
+ // Compound Lao amounts must be one quantity, not separate millions and hundred-thousands.
+ s=s.replace(/(\d+)\s*ລ້ານ\s*(\d+)\s*ແສນ\s*ກີບ/gu,(_,millions,hundredThousands)=>{
+  out.push(Number(millions)*1000000+Number(hundredThousands)*100000);return ' '
+ });
+ const numberWords={'ໜຶ່ງ':1,'ຫນຶ່ງ':1,'ສອງ':2,'ສາມ':3,'ສີ່':4,'ຫ້າ':5,'ຫົກ':6,'ເຈັດ':7,'ແປດ':8,'ເກົ້າ':9};
+ s=s.replace(/ລ້ານ\s*(ໜຶ່ງ|ຫນຶ່ງ|ສອງ|ສາມ|ສີ່|ຫ້າ|ຫົກ|ເຈັດ|ແປດ|ເກົ້າ)\s*ແສນ\s*ກີບ/gu,(_,word)=>{
+  out.push(1000000+numberWords[word]*100000);return ' '
+ });
  for(const m of s.matchAll(/(\d[\d.,]*)\s*(?:ກີບ|킵|낍|키프|kip|kips|₭)/giu)){
   const n=Number(m[1].replace(/[.,]/g,''));if(Number.isFinite(n))out.push(n)
  }
- // Equivalent written numbers, e.g. 1만 낍 / 70만 킵.
  const ku={천:1000,만:10000,십만:100000,백만:1000000};
  for(const m of s.matchAll(/(\d+(?:[.,]\d+)?)\s*(백만|십만|만|천)\s*(?:킵|낍|키프|kip|kips)/giu)){
   const n=Number(m[1].replace(',',''))*ku[m[2]];if(Number.isFinite(n))out.push(n)
  }
  if(/(?:^|[\s,])만\s*(?:킵|낍|키프|kip)/iu.test(s))out.push(10000);
- // Lao ໝື່ນ=10,000; ແສນ=100,000; ລ້ານ=1,000,000.
  const lu={'ພັນ':1000,'ໝື່ນ':10000,'ແສນ':100000,'ລ້ານ':1000000};
  for(const m of s.matchAll(/(\d+(?:[.,]\d+)?)\s*(ພັນ|ໝື່ນ|ແສນ|ລ້ານ)\s*ກີບ/gu)){
   const n=Number(m[1].replace(',',''))*lu[m[2]];if(Number.isFinite(n))out.push(n)
