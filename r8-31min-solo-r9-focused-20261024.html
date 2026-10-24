@@ -27,10 +27,10 @@ main>section.card:nth-of-type(n+3){display:none}main>section.card:nth-of-type(2)
 </head>
 <body>
 <main>
-<header><h1>Gemini 3.1 MINIMAL · R9 정보보존/혼입경고 회귀</h1><div class="muted">3.1 MINIMAL R8만 호출 · 3.8/R2/R3 이전 로그와 비교 · SERVICE/DB 불변</div></header>
+<header><h1>Gemini 3.1 MINIMAL · R9 정보보존/혼입경고 회귀</h1><div class="muted">3.1 MINIMAL R9만 호출 · 3.8/R2/R3 이전 로그와 비교 · SERVICE/DB 불변</div></header>
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
-<h2>★ 3.1 단독 R9 · 정보 누락·시각·태국어/중국어 혼입 예방, 최대 100회</h2>
-<p>3.1 Flash-Lite MINIMAL <b>R8 단독</b>입니다. R6의 약 복용 시점·화자·금지·태명 개선은 유지하면서 긴 문장 정보 누락, 시각 모순, 태국어/중국어 혼입을 <b>예시 없이</b> 보완합니다. <b>문자 혼입이 있어도 결과 표시·복사 유지, 경고만 알림</b>. 사용자가 직접 재번역을 선택할 때만 재요청합니다. 50문장 남편25·아내25 각 정/역 1회, <b>최대 100회 유료 호출</b>. 기존 3.8 재호출 및 자동 재시도 없음.</p>
+<h2>★ 3.1 R9 집중 의미검사 · 기본 10문장 / 최대 20회</h2>
+<p>3.1 Flash-Lite MINIMAL <b>R9 단독</b>입니다. R6의 약 복용 시점·화자·금지·태명 개선은 유지하면서 긴 문장 정보 누락, 시각 모순, 태국어/중국어 혼입을 <b>예시 없이</b> 보완합니다. <b>문자 혼입이 있어도 결과 표시·복사 유지, 경고만 알림</b>. 사용자가 직접 재번역을 선택할 때만 재요청합니다. 기본 남편 5·아내 5의 핵심 의미 사례만 정/역 각 1회(최대 20회 유료 호출). 필요시 50문장 전체 선택 가능(최대 100회). 기존 3.8 재호출 및 자동 재시도 없음.</p>
 <p class='note'>비공개 R8 JSON에는 R2~R6와 동일한 50문장과 네 경로 프롬프트가 있습니다. 예시 복제 방지·이모지 보존 검사는 유지하며 태국어/한자 혼입은 <b>경고만</b> 합니다. 원문·번역문·역번역은 삭제하지 않습니다. API 성공과 의미 정확도는 별개이며 개인 대화·파일·키는 GitHub에 공개하지 않습니다.</p>
 <div class="row"><button id="r8Connect" type="button" style="display:none">TEST 소스 확인</button><span id="r8Connected" class="pill">무료 소스 확인 전</span></div>
 <div class="grid" style="margin-top:12px">
@@ -382,7 +382,7 @@ $('r8Preflight').addEventListener('click',async()=>{
    await r8CheckGeminiModelsNoGeneration();
   r8Ready=r8Digest+'|SOLO_R9|'+r8PrivateDigest;$('r8Run').disabled=false;
   $('r8Connected').textContent='검증됨 · TEST V3.61.209 · P168A R8 · 남편/아내 코드 SHA 일치';
-  r8Message('② R8 무료 통합 PASS · 기존 회귀 원문 '+r8Cases.length+'건 · 동적 사전 없음 · 추가 Gemini 호출 0회');
+  r8Message('② R9 무료 통합 PASS · 기존 회귀 원문 '+r8Cases.length+'건 · 동적 사전 없음 · 추가 Gemini 호출 0회');
  }catch(e){r8Ready='';$('r8Run').disabled=true;r8Message('무료 준비검사 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8Dispose(){for(const lane of ['A','B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
@@ -466,7 +466,7 @@ function r8SaveSession(){try{sessionStorage.setItem('ko-lo-r9-31min-solo-r9-resu
 function r8LoadSession(){try{const o=JSON.parse(sessionStorage.getItem('ko-lo-r9-31min-solo-r9-results')||'null');if(o?.rows&&Array.isArray(o.rows)){r8Rows=o.rows.slice(0,50);r8RunId=o.runId||''}}catch(_){}}
 function r8Median(values){const a=values.filter(x=>typeof x==='number'&&Number.isFinite(x)).sort((x,y)=>x-y);if(!a.length)return null;return a[Math.floor((a.length-1)/2)]}
 function r8Paint(){
- $('r8Progress').max=r8Expected||100;$('r8Progress').value=Math.min(r8Stages,100);
+ $('r8Progress').max=r8Expected||20;$('r8Progress').value=Math.min(r8Stages,r8Expected||20);
  $('r8Run').disabled=r8Busy||!r8Ready;$('r8Stop').disabled=!r8Busy;
  $('r8Export').disabled=!r8Rows.length;$('r8ExportTxt').disabled=!r8Rows.length;
  $('r8Results').replaceChildren();
@@ -490,13 +490,13 @@ function r8Paint(){
  const pairs=new Map();
  for(const r of r8Rows){const key=r.cycle+'|'+r.id+'|'+r.dir,entry=pairs.get(key)||{};entry[r.lane]=r;pairs.set(key,entry)}
  const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
- $('r8Summary').textContent='3.1 R9 API 호출 '+r8Stages+'/100 | '+fmt('B','R8 · 3.1 MINIMAL')+' | 기존 3.8·R2·R3·R4·R5 데이터는 저장된 로그와 비교';
+ $('r8Summary').textContent='3.1 R9 API 호출 '+r8Stages+'/'+(r8Expected||20)+' | '+fmt('B','R9 · 3.1 MINIMAL')+' | 기존 3.8·R2·R3·R4·R5 데이터는 저장된 로그와 비교';
 }
 
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 $('r8Export').addEventListener('click',()=>r8Save('ko-lao-31MIN-SOLO-R9-ONLY-'+Date.now()+'.json',JSON.stringify({version:'31MIN-R9-SOLO-ONLY',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest||'UNKNOWN',baselinePromptSha256:r8Sources?.baselineCfg?.promptSha256||'UNKNOWN',baselinePromptRevision:'P168A',sourceReviewPolicy:'Separate source typos/ambiguity from forward/back model faults',candidatePromptSha256:r8Sources?.candidateCfg?.promptSha256||'UNKNOWN',candidatePromptRevision:r8Sources?.candidateCfg?.promptRevision||'UNKNOWN',selectedCategory:'SOLO_R9',comparedModels:'3.1 MINIMAL R8 ONLY. Archived 3.8 R8 / 3.1 R2/R3/R4/R5/R6 not re-run.',privateBundleSha256:R8_BUNDLE_SHA,method:'3.1 Flash-Lite MINIMAL R8 alone, max 100 model calls. No 3.8 model generation; compare against archived 3.8/R2/R3 logs offline. 50 exposed regression cases, not held-out. 1024 output token cap and no automatic retries.',rates:R8_RATES,actualCalls:r8Stages,requestedMaxCalls:r8Expected,disclaimer:'PRIVATE: contains real spouse dialogues. Do not share publicly. No Gemini API keys included.',rows:r8Rows},null,2)));
-$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31MIN-SOLO-R9-ONLY-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'38LOW_P168A_R8':'31MIN_SOLO_FOURPATH_R8'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
-$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R8 TEST 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{sessionStorage.removeItem('ko-lo-r9-31min-solo-r9-results')}catch(_){}r8Paint();r8Message('R8 TEST 결과 삭제됨')});
+$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31MIN-SOLO-R9-ONLY-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'38LOW_P168A_R8':'31MIN_SOLO_FOURPATH_R9'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
+$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('이 탭의 R9 TEST 결과를 삭제할까요? JSON/TXT로 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{sessionStorage.removeItem('ko-lo-r9-31min-solo-r9-results')}catch(_){}r8Paint();r8Message('R9 TEST 결과 삭제됨')});
 $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨 · 현재 요청 완료 후 추가 유료 호출 없이 정지 · 결과 JSON 저장 가능');});
 $('r8Run').addEventListener('click',async()=>{
  if(r8Busy)return;let pack=null;
