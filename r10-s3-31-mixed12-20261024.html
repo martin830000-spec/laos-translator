@@ -400,8 +400,8 @@ $('r8File').addEventListener('change',async()=>{
  r8Cases=rows;r8Digest=await r8Fingerprint(rows);r8SourceLabel=f.name;r8UpdateBatchInfo();r8PrivateBundle=obj;r8PrivateDigest=R8_BUNDLE_SHA;r8AllHintsReady=false;
  const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
  $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
- $('r8Budget').value='16문장 × S1/S2 × 정/역 = 최대 64호출';
- r8Message('원본 확인 완료 · 중요오역 8건과 새 회귀문장 8건을 비교합니다.');
+ $('r8Budget').value='12문장 × S2/S3 × 정/역 = 최대 48호출';
+ r8Message('원본 확인 완료 · 이전 오역 4건 + 신규 8건을 비교합니다.');
  }catch(e){$('r8FileInfo').textContent='파일 오류: '+e.message;$('r8Budget').value='파일 오류';r8Message('파일 검사 실패: '+e.message,true)}
 });
 function r8NormalizeClone(src){const s=r8Text(src);if(/^\s*<!doctype\s+html\b/i.test(s))return s;
@@ -441,9 +441,9 @@ $('r8Preflight').addEventListener('click',async()=>{
    for(const dir of ['K2L','L2K'])for(const lane of ['A','B'])r8PrepareSource(r8BootDocument(r8Sources,dir==='K2L'?'husband':'wife',lane),dir==='K2L'?'husband':'wife',lane);
    r8AllHintsReady=true;
    await r8CheckGeminiModelsNoGeneration();
-  r8Ready=r8Digest+'|31_S1_VS_S2_16|'+r8PrivateDigest;$('r8Run').disabled=false;
+  r8Ready=r8Digest+'|31_S2_VS_S3_MIXED12|'+r8PrivateDigest;$('r8Run').disabled=false;
   $('r8Connected').textContent='검증됨 · TEST V3.61.209 · P168A R8 · 남편/아내 코드 SHA 일치';
-  r8Message('무료 준비 PASS · 3.1 MINIMAL 고정 · S1/S2 16문장 준비 완료');
+  r8Message('무료 준비 PASS · 3.1 MINIMAL 고정 · S2/S3 12문장 준비 완료');
  }catch(e){r8Ready='';$('r8Run').disabled=true;r8Message('무료 준비검사 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8Dispose(){for(const lane of ['A','B'])for(const dir of ['K2L','L2K']){const f=r8Frames[lane][dir];try{f?.remove()}catch(_){}delete r8Frames[lane][dir]}}
@@ -535,15 +535,15 @@ function r8LoadSession(){
 }
 function r8Median(values){const a=values.filter(x=>typeof x==='number'&&Number.isFinite(x)).sort((x,y)=>x-y);if(!a.length)return null;return a[Math.floor((a.length-1)/2)]}
 function r8Paint(){
- $('r8Progress').max=r8Expected||64;$('r8Progress').value=Math.min(r8Stages,r8Expected||64);
+ $('r8Progress').max=r8Expected||48;$('r8Progress').value=Math.min(r8Stages,r8Expected||48);
  $('r8Run').disabled=r8Busy||!r8Ready;$('r8Stop').disabled=!r8Busy;
  $('r8Export').disabled=!r8Rows.length;$('r8ExportTxt').disabled=!r8Rows.length;
  $('r8Results').replaceChildren();
- for(const r of r8Rows.slice(-32)){
+ for(const r of r8Rows.slice(-24)){
   const tr=document.createElement('tr');
   const tokens=v=>v?'입 '+v.prompt+' / 출력 '+(v.candidate??'?')+' / 추론 '+(v.thoughts??'?'):'—';
   const cost=(r.forwardUsd??0)+(r.backUsd??0);
-  const values=[(r.cycle||1)+'-'+r.id,(r.lane==='A'?'A · 3.1 MINIMAL / S1':'B · 3.1 MINIMAL / S2')+' · 힌트 '+(r.termHintCount||0),r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',
+  const values=[(r.cycle||1)+'-'+r.id,(r.lane==='A'?'A · 3.1 MINIMAL / S2':'B · 3.1 MINIMAL / S3')+' · 힌트 '+(r.termHintCount||0),r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',
    r.source+(r.issue?'\n[위험] '+r.issue:'')+(r.sourceReviewHint?'\n[원문 참고] '+r.sourceReviewHint:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
    '정 '+tokens(r.forwardTokens)+' · 역 '+tokens(r.backTokens)+' / 추정 $'+cost.toFixed(6),r.error||(r.qualityPass===false?'⚠️ 경고만 표시 · 번역 결과 유지·복사 가능 · 수동 재번역 권장: '+(r.qualityIssues||[]).join(' | '):'완료')];
   for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}
@@ -561,19 +561,19 @@ function r8Paint(){
  const comparable=Array.from(pairs.values()).filter(x=>x.A&&x.B).length;
  const aDone=r8Rows.filter(r=>r.lane==='A'&&!r.error&&r.forward&&r.back),bDone=r8Rows.filter(r=>r.lane==='B'&&!r.error&&r.forward&&r.back);
  const money=rs=>rs.reduce((n,r)=>n+(r.forwardUsd||0)+(r.backUsd||0),0);
- $('r8Summary').textContent='비교 완료 '+comparable+'/16문장 · S1 '+aDone.length+'건 · S2 '+bDone.length+'건 · 비용 $'+money(r8Rows).toFixed(4)+' · 이번 호출 '+r8Stages+'/'+(r8Expected||0);
+ $('r8Summary').textContent='비교 완료 '+comparable+'/12문장 · S2 '+aDone.length+'건 · S3 '+bDone.length+'건 · 비용 $'+money(r8Rows).toFixed(4)+' · 이번 호출 '+r8Stages+'/'+(r8Expected||0);
 }
 
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-$('r8Export').addEventListener('click',()=>r8Save('ko-lao-31-S1-vs-S2-16-'+Date.now()+'.json',JSON.stringify({version:'FOCUS16-31MIN-S1-VS-S2',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest,privateBundleSha256:R8_BUNDLE_SHA,models:{A:'gemini-3.1-flash-lite',B:'gemini-3.1-flash-lite'},settings:{A:'MINIMAL / S1 (previous)',B:'MINIMAL / S2 (targeted fix)'},prompts:{A:r8Sources?.candidateBaseCfg?.promptSha256||null,B:r8Sources?.candidateCfg?.promptSha256||null},semantics:'human check each SOURCE->FORWARD and FORWARD->INDEPENDENT_BACK separately',maxCallsBothModels:64,totalRows:r8Rows.length,completePairs:(new Set(r8Rows.filter(x=>x.lane==='A').map(x=>x.id))).size,disclaimer:'PRIVATE contains spouse dialogues; do not publish; excludes keys',rows:r8Rows},null,2)));
-$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31-S1-vs-S2-16-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'31MIN_R10_S1':'31MIN_R10_S2'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
+$('r8Export').addEventListener('click',()=>r8Save('ko-lao-31-S2-vs-S3-12-'+Date.now()+'.json',JSON.stringify({version:'FOCUS12-31MIN-S2-VS-S3',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest,privateBundleSha256:R8_BUNDLE_SHA,models:{A:'gemini-3.1-flash-lite',B:'gemini-3.1-flash-lite'},settings:{A:'MINIMAL / S2 (previous)',B:'MINIMAL / S3 (compact)'},prompts:{A:r8Sources?.candidateBaseCfg?.promptSha256||null,B:r8Sources?.candidateCfg?.promptSha256||null},semantics:'human check each SOURCE->FORWARD and FORWARD->INDEPENDENT_BACK separately',maxCallsBothModels:48,totalRows:r8Rows.length,completePairs:(new Set(r8Rows.filter(x=>x.lane==='A').map(x=>x.id))).size,disclaimer:'PRIVATE contains spouse dialogues; do not publish; excludes keys',rows:r8Rows},null,2)));
+$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31-S2-vs-S3-12-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'31MIN_R10_S2':'31MIN_R10_S3'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
 $('r8Resume').addEventListener('change',async()=>{
  if(r8Busy)return;
  try{
   if(!r8Digest||!r8PrivateBundle)throw Error('먼저 ① 500문장 원본 JSON을 선택하세요');
   const f=$('r8Resume').files?.[0];if(!f)throw Error('이어서 불러올 JSON을 선택하세요');
   if(f.size>9000000)throw Error('백업 파일 용량이 큽니다');
-  const obj=JSON.parse(await f.text());if(obj?.version!=='FOCUS16-31MIN-S1-VS-S2'||obj?.sourceSetSha256!==r8Digest||obj?.privateBundleSha256!==R8_BUNDLE_SHA||!Array.isArray(obj.rows)||obj.rows.length>32)throw Error('이전 결과와 현재 원본 파일/버전이 다릅니다');
+  const obj=JSON.parse(await f.text());if(obj?.version!=='FOCUS12-31MIN-S2-VS-S3'||obj?.sourceSetSha256!==r8Digest||obj?.privateBundleSha256!==R8_BUNDLE_SHA||!Array.isArray(obj.rows)||obj.rows.length>24)throw Error('이전 결과와 현재 원본 파일/버전이 다릅니다');
   const allowed=new Map(r8Cases.map(c=>[c.id,c])),seen=new Set();
   for(const x of obj.rows){
    const c=allowed.get(x.id),key=x.id+'|'+x.lane;
@@ -581,39 +581,39 @@ $('r8Resume').addEventListener('change',async()=>{
    seen.add(key);
   }
   if(!confirm('저장된 결과 '+obj.rows.length+'건을 불러와 현재 세션 결과를 교체할까요?'))return;
-  r8Rows=obj.rows;r8RunId=obj.runId||'';r8Stages=0;r8Expected=64;r8SaveSession();r8Paint();r8Message('백업 결과 '+r8Rows.length+'/32건 복구 · ② 무료 준비검사를 통과한 뒤 다음 ③ 검사 가능');
+  r8Rows=obj.rows;r8RunId=obj.runId||'';r8Stages=0;r8Expected=48;r8SaveSession();r8Paint();r8Message('백업 결과 '+r8Rows.length+'/24건 복구 · ② 무료 준비검사를 통과한 뒤 다음 ③ 검사 가능');
  }catch(e){r8Message('백업 불러오기 실패: '+r8Err(e),true)}
 });
 $('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('500건 비교 누적 결과를 모두 지울까요? JSON/TXT를 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{localStorage.removeItem(R8_LOCAL_KEY)}catch(_){}r8Paint();r8Message('500건 비교 누적 결과 삭제됨')});
 $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨 · 현재 요청 완료 후 추가 유료 호출 없이 정지 · 결과 JSON 저장 가능');});
-const R8_FOCUS_IDS=["HIST-0052","HIST-0022","HIST-0004","HIST-0204","HIST-0039","HIST-0041","HIST-0051","HIST-0019","HIST-0263","HIST-0283","HIST-0452","HIST-0268","HIST-0255","HIST-0296","HIST-0272","HIST-0290"];
+const R8_FOCUS_IDS=["HIST-0052","HIST-0022","HIST-0068","HIST-0110","HIST-0145","HIST-0230","HIST-0283","HIST-0452","HIST-0325","HIST-0348","HIST-0362","HIST-0472"];
 $('r8Run').addEventListener('click',async()=>{
  if(r8Busy)return;let pack=null;
  try{
-  if(r8Ready!==(r8Digest+'|31_S1_VS_S2_16|'+r8PrivateDigest)||!r8AllHintsReady||r8Cases.length!==500)throw Error('무료 준비 확인부터 실행하세요');
+  if(r8Ready!==(r8Digest+'|31_S2_VS_S3_MIXED12|'+r8PrivateDigest)||!r8AllHintsReady||r8Cases.length!==500)throw Error('무료 준비 확인부터 실행하세요');
   const selected=R8_FOCUS_IDS.map(id=>r8Cases.find(c=>c.id===id));
-  if(selected.length!==16||selected.some(c=>!c)||new Set(selected.map(c=>c.id)).size!==16||selected.filter(c=>c.dir==='K2L').length!==8||selected.filter(c=>c.dir==='L2K').length!==8)throw Error('16개 오역·회귀 문장 ID 검증 실패');
+  if(selected.length!==12||selected.some(c=>!c)||new Set(selected.map(c=>c.id)).size!==12||selected.filter(c=>c.dir==='K2L').length!==6||selected.filter(c=>c.dir==='L2K').length!==6)throw Error('12개 오역·독립문장 ID 검증 실패');
   if(r8Rows.some(r=>r.sourceSetSha256&&r.sourceSetSha256!==r8Digest))throw Error('저장된 결과의 원문 SHA 불일치');
   const done=new Set(r8Rows.map(x=>x.id+'|'+x.lane));
   const todo=selected.filter(c=>!done.has(c.id+'|A')||!done.has(c.id+'|B'));
   const pending=todo.reduce((n,c)=>n+(done.has(c.id+'|A')?0:1)+(done.has(c.id+'|B')?0:1),0);
-  if(!pending){r8Message('16문장 두 프롬프트 완료. 추가 호출 0회. 결과 JSON을 저장하세요.');return}
-  if(!confirm('3.1 Flash-Lite MINIMAL 16문장·S1 vs S2 비교를 실행합니다. 최대 '+pending*2+'회 유료 Gemini 호출. 자동 재호출 없음. 계속할까요?'))return;
+  if(!pending){r8Message('12문장 두 프롬프트 완료. 추가 호출 0회. 결과 JSON을 저장하세요.');return}
+  if(!confirm('3.1 Flash-Lite MINIMAL 12문장·S2 vs 경량 S3 비교를 실행합니다. 최대 '+pending*2+'회 유료 Gemini 호출. 자동 재호출 없음. 계속할까요?'))return;
   pack=await r8ReadStandaloneSources();
-  r8RunId=r8RunId||'31-S1-S2-'+Date.now();r8Stopped=false;r8Busy=true;r8Expected=pending*2;r8Stages=0;r8Dispose();
+  r8RunId=r8RunId||'31-S2-S3-'+Date.now();r8Stopped=false;r8Busy=true;r8Expected=pending*2;r8Stages=0;r8Dispose();
   $('r8Run').disabled=true;$('r8BatchSelect').disabled=true;
   for(const c of todo){
    if(r8Stopped)break;
    for(const lane of ['A','B']){
     if(r8Stopped||done.has(c.id+'|'+lane))continue;
-    r8Message('검사 중 '+r8Stages+'/'+r8Expected+'회 · '+c.id+' · '+(lane==='A'?'S1 기존':'S2 보강'));
+    r8Message('검사 중 '+r8Stages+'/'+r8Expected+'회 · '+c.id+' · '+(lane==='A'?'S2 기준':'S3 경량'));
     try{
      const row=await r8ExecuteOne({...c,cycle:1},lane,pack);
      if(row){row.sourceSetSha256=r8Digest;done.add(c.id+'|'+lane);r8SaveSession();r8UpdateBatchInfo();}
     }catch(e){r8Stopped=true;r8Message('오류로 중단: '+r8Err(e),true);break}
    }
   }
-  if(!r8Stopped)r8Message('S1/S2 보강 비교 완료 · 결과 JSON을 저장해 주세요.');
+  if(!r8Stopped)r8Message('S2/S3 비교 완료 · 결과 JSON을 저장해 주세요.');
   else r8Message('검사 중단 · 현재 결과 JSON으로 이어서 실행 가능');
  }catch(e){r8Message('실행 실패(유료 호출 전 또는 중단): '+r8Err(e),true)}
  finally{r8Busy=false;$('r8BatchSelect').disabled=false;r8Dispose();r8Paint()}
@@ -621,7 +621,7 @@ $('r8Run').addEventListener('click',async()=>{
 function r8UpdateBatchInfo(){
  const done=new Set(r8Rows.map(x=>x.id+'|'+x.lane));
  const remaining=R8_FOCUS_IDS.reduce((n,id)=>n+(done.has(id+'|A')?0:1)+(done.has(id+'|B')?0:1),0);
- $('r8BatchInfo').textContent='남편 8 · 아내 8 · 남은 '+remaining+'개 결과 · 최대 '+remaining*2+'회';
+ $('r8BatchInfo').textContent='남편 6 · 아내 6 · 남은 '+remaining+'개 결과 · 최대 '+remaining*2+'회';
 }
 $('r8BatchSelect').addEventListener('change',r8UpdateBatchInfo);
 
