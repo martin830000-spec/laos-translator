@@ -338,7 +338,7 @@ function r8ParseFile(obj){
   if(text.length<2||text.length>2500||!id||id.length>100)throw Error('문장 '+(i+1)+': 원문/ID 길이 오류');
   if(dir==='K2L'&&!/[가-힣]/u.test(text)||dir==='L2K'&&!/[\u0e80-\u0eff]/u.test(text))throw Error('문장 '+(i+1)+': 원문 언어 불일치');
   const key=dir+'|'+r8Canon(text);if(seen.has(key)||ids.has(id))throw Error('문장 '+(i+1)+': 중복 원문/ID');
-  seen.add(key);ids.add(id);rows.push({id,dir,source:text,issue,cohort,baselineLow:a?.lane==='B'?{forward:a.forward||'',back:a.back||'',error:a.error||'',forwardMs:a.forwardMs??null,backMs:a.backMs??null}:null});if(dir==='K2L')k++;else l++;
+  seen.add(key);ids.add(id);rows.push({id,dir,source:text,issue,cohort,group:r8Text(a?.group||'GENERAL_HOLDOUT'),variantOrder:Array.isArray(a?.variantOrder)?a.variantOrder.slice():null,baselineLow:a?.lane==='B'?{forward:a.forward||'',back:a.back||'',error:a.error||'',forwardMs:a.forwardMs??null,backMs:a.backMs??null}:null});if(dir==='K2L')k++;else l++;
  }
  if(!k||!l)throw Error('남편·아내 원문이 모두 있어야 합니다: '+k+'/'+l);
  return rows;
@@ -346,11 +346,11 @@ function r8ParseFile(obj){
 async function r8Fingerprint(rows){const s=JSON.stringify(rows.map(x=>[x.id,x.dir,x.source,x.issue]));const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(h),x=>x.toString(16).padStart(2,'0')).join('')}
 $('r8File').addEventListener('change',async()=>{
  if(r8Busy)return;r8Ready='';$('r8Run').disabled=true;r8Cases=[];r8Digest='';r8PrivateBundle=null;r8PrivateDigest='';
- try{const f=$('r8File').files?.[0];if(!f)throw Error('검사 파일이 선택되지 않았습니다');if(f.size>250000)throw Error('개인용 파일 700KB 상한 초과');const raw=await f.text();if(await r8Sha(raw)!==R8_BUNDLE_SHA)throw Error('PRIVATE_FILE_SHA_MISMATCH');let obj;try{obj=JSON.parse(raw)}catch(_){throw Error('PRIVATE_JSON_SYNTAX')}r8ValidateBundle(obj);const rows=r8ParseFile(obj);
+ try{const f=$('r8File').files?.[0];if(!f)throw Error('검사 파일이 선택되지 않았습니다');if(f.size>250000)throw Error('개인용 파일 250KB 상한 초과');const raw=await f.text();if(await r8Sha(raw)!==R8_BUNDLE_SHA)throw Error('PRIVATE_FILE_SHA_MISMATCH');let obj;try{obj=JSON.parse(raw)}catch(_){throw Error('PRIVATE_JSON_SYNTAX')}r8ValidateBundle(obj);const rows=r8ParseFile(obj);
  r8Cases=rows;r8Digest=await r8Fingerprint(rows);r8SourceLabel=f.name;r8UpdateBatchInfo();r8PrivateBundle=obj;r8PrivateDigest=R8_BUNDLE_SHA;r8AllHintsReady=false;
  const old=r8Rows.length?' (이전 결과가 보관되어 있습니다. 새 실행 전 결과를 먼저 저장하세요.)':'';
  $('r8FileInfo').textContent=f.name+' · 전체 '+rows.length+'건 · 남편 '+rows.filter(x=>x.dir==='K2L').length+' / 아내 '+rows.filter(x=>x.dir==='L2K').length+' · 과거 사례 '+rows.filter(x=>/HISTORICAL|R8_RISK/i.test(x.cohort)).length+' · SHA '+r8Digest.slice(0,12)+old;
- $('r8Budget').value='오역 14문장 × R10/R11 × 정/역 = 최대 56호출';
+ $('r8Budget').value='1단계 최대 64회, 2단계 최대 24회 · 사용자 직접 실행만';
  r8Message('비공개 28문장 로드 완료 · 무료 준비 확인을 실행하세요.');
  }catch(e){$('r8FileInfo').textContent='파일 오류: '+e.message;$('r8Budget').value='파일 오류';r8Message('파일 검사 실패: '+e.message,true)}
 });
@@ -465,7 +465,7 @@ function r8LocalLanguageReview(text,target){
 
 async function r8ExecuteOne(c,lane,pack){
  if(lane!=='A'&&lane!=='B')throw Error('INVALID_LANE');
- const row={runId:r8RunId,id:c.id,cycle:c.cycle||1,dir:c.dir,cohort:c.cohort,issue:c.issue,source:c.source,baselineLow:c.baselineLow||null,thinkingLevel:'minimal',maxOutputTokens:1024,qualityPass:null,forwardReview:null,backReview:null,qualityIssues:[],sourceReviewHint:R8_SOURCE_HINTS[c.id]||'',category:pack.category,lane,model:R8_MODELS[lane],promptRevision:r8LaneCfg(pack,lane).promptRevision,promptSha256:r8LaneCfg(pack,lane).promptSha256,smart:'ON',forward:'',back:'',forwardMs:null,backMs:null,forwardTokens:null,backTokens:null,forwardUsd:null,backUsd:null,error:'',forwardTraceCount:null,backTraceCount:null};
+ const row={runId:r8RunId,id:c.id,cycle:c.cycle||1,dir:c.dir,cohort:c.cohort,group:c.group,issue:c.issue,source:c.source,baselineLow:c.baselineLow||null,thinkingLevel:'minimal',maxOutputTokens:1024,qualityPass:null,forwardReview:null,backReview:null,qualityIssues:[],sourceReviewHint:R8_SOURCE_HINTS[c.id]||'',category:pack.category,lane,model:R8_MODELS[lane],promptRevision:r8LaneCfg(pack,lane).promptRevision,promptSha256:r8LaneCfg(pack,lane).promptSha256,smart:'ON',forward:'',back:'',forwardMs:null,backMs:null,forwardTokens:null,backTokens:null,forwardUsd:null,backUsd:null,error:'',forwardTraceCount:null,backTraceCount:null};
  const h=lane==='B'?await r8ApplyCaseHint(pack,c):{termHints:'',matchedIds:[],count:0};row.termHintIds=h.matchedIds;row.termHintCount=h.count;row.termHintChars=h.termHints.length;if(lane==='B'){row.promptSha256=pack.candidateCfg.promptSha256;row.promptRevision=pack.candidateCfg.promptRevision;}const f=await r8Frame(lane,c.dir,pack),w=f.contentWindow,fn=c.dir==='K2L'?w.__runLivePathDiagnosticK2L:w.__runLivePathDiagnosticL2K,bn=c.dir==='K2L'?w.__runLiveBackDiagnosticK2L:w.__runLiveBackDiagnosticL2K;
  if(typeof fn!=='function'||typeof bn!=='function')throw Error('R8_LIVE_DIAGNOSTIC_BRIDGE_MISSING');
  let t=performance.now(),response=null;if(r8Stages>=r8Expected||r8Stopped)return null;r8Stages++;r8Paint();try{response=await fn(c.source);row.forwardMs=Math.round(performance.now()-t);row.forwardTraceCount=r8TraceCount(response);row.forwardTokens=r8Usage(response);row.forwardUsd=r8Estimate(row.forwardTokens,lane);row.forward=r8Text(response?.text).trim();if(row.forward){row.forwardReview=r8LocalLanguageReview(row.forward,c.dir==='K2L'?'LAO':'KOREAN');if(!row.forwardReview.pass)row.qualityIssues.push('FORWARD:'+row.forwardReview.codes.join(','));}if(response?.ok!==true||!row.forward){row.error='FORWARD_'+r8Err(response?.error||'EMPTY')+(r8RequestFailureDetail(response)?' | '+r8RequestFailureDetail(response):'');if(/HTTP[_ ](?:400|401|403|429)\b/i.test(row.error))r8Stopped=true;}}
@@ -494,7 +494,7 @@ function r8Paint(){
   const tokens=v=>v?'입 '+v.prompt+' / 출력 '+(v.candidate??'?')+' / 추론 '+(v.thoughts??'?'):'—';
   const cost=(r.forwardUsd??0)+(r.backUsd??0);
   const values=[(r.cycle||1)+'-'+r.id,(r.lane==='A'?'A · 3.1 MINIMAL / R10':'B · 3.1 MINIMAL / R12')+' · 힌트 '+(r.termHintCount||0),r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',
-   r.source+(r.issue?'\n[위험] '+r.issue:'')+(r.sourceReviewHint?'\n[원문 참고] '+r.sourceReviewHint:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
+   r.source+(r.group==='FOCUSED_CHECK'?'\n[주의] 특별검사군 · 일반 품질 비율 합산 금지':'')+(r.issue?'\n[위험] '+r.issue:'')+(r.sourceReviewHint?'\n[원문 참고] '+r.sourceReviewHint:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
    '정 '+tokens(r.forwardTokens)+' · 역 '+tokens(r.backTokens)+' / 추정 $'+cost.toFixed(6),r.error||(r.qualityPass===false?'⚠️ 경고만 표시 · 번역 결과 유지·복사 가능 · 수동 재번역 권장: '+(r.qualityIssues||[]).join(' | '):'완료')];
   for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}
   $('r8Results').appendChild(tr);
@@ -516,7 +516,7 @@ function r8Paint(){
 
 function r8Save(name,text){const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 $('r8Export').addEventListener('click',()=>r8Save('ko-lao-31-R10-vs-R12-HOLDOUT28-'+Date.now()+'.json',JSON.stringify({version:'HOLDOUT28-31MIN-R10-VS-R12',at:new Date().toISOString(),runId:r8RunId,sourceSetSha256:r8Digest,privateBundleSha256:R8_BUNDLE_SHA,models:{A:'gemini-3.1-flash-lite',B:'gemini-3.1-flash-lite'},settings:{A:'MINIMAL / R10 (unchanged)',B:'MINIMAL / R12 (L2K inline)'},prompts:{A:r8Sources?.candidateBaseCfg?.promptSha256||null,B:r8Sources?.candidateCfg?.promptSha256||null},semantics:'human check each SOURCE->FORWARD and FORWARD->INDEPENDENT_BACK separately',maxCallsBothModels:88,totalRows:r8Rows.length,completePairs:(new Set(r8Rows.filter(x=>x.lane==='A').map(x=>x.id))).size,disclaimer:'PRIVATE contains spouse dialogues; do not publish; excludes keys',rows:r8Rows},null,2)));
-$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31-R10-vs-R12-HOLDOUT28-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'31MIN_R10_BASE':'31MIN_R12_L2K_INLINE_R1'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
+$('r8ExportTxt').addEventListener('click',()=>r8Save('ko-lao-31-R10-vs-R12-HOLDOUT28-'+Date.now()+'.txt',r8Rows.map(r=>['CASE '+r.id,'MODEL '+r.model,'DIRECTION '+r.dir,'COHORT '+r.cohort,'GROUP '+(r.group||'GENERAL_HOLDOUT'),'ISSUE '+r.issue,'VARIANT '+(r.lane==='A'?'31MIN_R10_BASE':'31MIN_R12_L2K_INLINE_R1'),'MATCHED_TERM_IDS '+((r.termHintIds||[]).join(',')||'-'),'TERM_HINT_COUNT '+(r.termHintCount||0),'TERM_HINT_CHARS '+(r.termHintChars||0),'SELECTED_CATEGORY '+r.category,'PROMPT_REVISION '+r.promptRevision,'PROMPT_SHA256 '+r.promptSha256,'SOURCE_REVIEW_HINT '+(r.sourceReviewHint||'-'),'[SOURCE]',r.source,'[FORWARD]',r.forward,'[BACK]',r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_TOKENS '+JSON.stringify(r.forwardTokens),'BACK_TOKENS '+JSON.stringify(r.backTokens),'ESTIMATED_USD '+(r.forwardUsd!=null&&r.backUsd!=null?(r.forwardUsd+r.backUsd).toFixed(7):'UNKNOWN'),'FORWARD_TRACE_COUNT '+r.forwardTraceCount,'BACK_TRACE_COUNT '+r.backTraceCount,'API_ERROR '+(r.error||'-'),'QUALITY_PASS '+r.qualityPass,'NON_BLOCKING_SCRIPT_WARNING '+Boolean(r.nonBlockingWarning),'SCRIPT_WARNING_CODES '+((r.scriptWarningCodes||[]).join(',')||'-'),'MANUAL_RETRANSLATE_RECOMMENDED '+Boolean(r.manualRetranslateRecommended),'AUTO_RETRY_TRIGGERED '+Boolean(r.autoRetryTriggered),'FORWARD_QA '+JSON.stringify(r.forwardReview),'BACK_QA '+JSON.stringify(r.backReview),'QUALITY_ISSUES '+(r.qualityIssues||[]).join('|'),'---'].join('\n')).join('\n')));
 $('r8Resume').addEventListener('change',async()=>{
  if(r8Busy)return;
  try{
@@ -534,16 +534,16 @@ $('r8Resume').addEventListener('change',async()=>{
   r8Rows=obj.rows;r8RunId=obj.runId||'';r8Stages=0;r8Expected=88;r8SaveSession();r8Paint();r8Message('백업 결과 '+r8Rows.length+'/28건 복구 · ② 무료 준비검사를 통과한 뒤 다음 ③ 검사 가능');
  }catch(e){r8Message('백업 불러오기 실패: '+r8Err(e),true)}
 });
-$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('500건 비교 누적 결과를 모두 지울까요? JSON/TXT를 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{localStorage.removeItem(R8_LOCAL_KEY)}catch(_){}r8Paint();r8Message('500건 비교 누적 결과 삭제됨')});
+$('r8Clear').addEventListener('click',()=>{if(r8Busy||!confirm('500건 비교 누적 결과를 모두 지울까요? JSON/TXT를 먼저 저장하세요.'))return;r8Rows=[];r8RunId='';r8Stages=0;try{localStorage.removeItem(R8_LOCAL_KEY)}catch(_){}r8Paint();r8Message('R12 TEST 누적 결과 삭제됨')});
 $('r8Stop').addEventListener('click',()=>{r8Stopped=true;r8Message('중단 요청됨 · 현재 요청 완료 후 추가 유료 호출 없이 정지 · 결과 JSON 저장 가능');});
 function r8PhaseCases(){return r8Cases.filter(c=>$('r8BatchSelect').value==='1'?c.dir==='L2K':c.dir==='K2L')}
-function r8Lanes(c){return c.dir==='L2K'?['A','B']:['B']}
+function r8Lanes(c){if(c.dir!=='L2K')return ['B'];const order=c.variantOrder;if(!Array.isArray(order)||order.length!==2||new Set(order).size!==2||!order.includes('R10')||!order.includes('R12'))throw Error('R12_AB_ORDER_MISSING_'+c.id);return order.map(x=>x==='R10'?'A':'B')}
 $('r8Run').addEventListener('click',async()=>{
  if(r8Busy)return;let pack=null;
  try{
   if(r8Ready!==(r8Digest+'|31_R10_VS_R12_HOLDOUT28|'+r8PrivateDigest)||!r8AllHintsReady||r8Cases.length!==28)throw Error('무료 준비 확인부터 실행하세요');
   const selected=r8PhaseCases(),phase=$('r8BatchSelect').value;
-  if(selected.length!==(phase==='1'?16:12)||new Set(selected.map(c=>c.id)).size!==selected.length)throw Error('14개 L2K 문장 ID 무결성 실패');
+  if(selected.length!==(phase==='1'?16:12)||new Set(selected.map(c=>c.id)).size!==selected.length)throw Error('R12 단계별 문장 ID 무결성 실패');
   if(r8Rows.some(r=>r.sourceSetSha256&&r.sourceSetSha256!==r8Digest))throw Error('저장된 결과의 원문 SHA 불일치');
   const done=new Set(r8Rows.map(x=>x.id+'|'+x.lane));
   const todo=selected.filter(c=>r8Lanes(c).some(l=>!done.has(c.id+'|'+l)));
