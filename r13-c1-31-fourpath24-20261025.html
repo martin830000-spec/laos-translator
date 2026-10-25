@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>Gemini 3.1 R12 HOLDOUT28 · L2K 비교 / K2L 유지 · TEST</title>
+<title>3.8 R8 ↔ 3.1 C1 실사용 50문장 비교</title>
 <style>
 :root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
 *{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
@@ -38,10 +38,10 @@ main > section:not(#r8PairPanel){display:none!important}
 <main>
 <header><h1>Gemini 3.8 SERVICE ↔ 3.1 개선 후보</h1><div class="muted">A 고정: 3.8 Flash / P168A R8 / LOW · B 변경: 3.1 Flash-Lite / R13-C1 / MINIMAL · TEST 전용</div></header>
 <section class="card" id="r8PairPanel">
-<h2>3.8 현재 SERVICE 기준선 ↔ 3.1 개선 프롬프트 네 경로 비교</h2><p class="lead"><strong>A: 현재 3.8 Flash / P168A R8 / LOW 프롬프트 고정.</strong> <strong>B: 3.1 Flash-Lite / MINIMAL / 현재 R13-C1 후보.</strong> 앞으로 업데이트하는 쪽은 B만입니다. 남편 한국어→라오어→독립 한국어와 아내 라오어→한국어→독립 라오어를 동일 원문으로 비교합니다. 기존 PC에 있는 500문장 JSON은 최초 한 번만 선택하면 되고 이후 같은 브라우저에서 자동 복원됩니다. 실제 대화·API 키는 공개 GitHub에 저장하지 않습니다. <strong>무료 준비 확인만 진행하고, 유료 검사 시작은 별도 승인 후에만 하세요.</strong></p>
+<h2>3.8 R8 고정 ↔ 3.1 C1 개선 · 실사용 50문장</h2><p class="lead"><strong>A: 현재 3.8 Flash / P168A R8 / LOW 프롬프트 고정.</strong> <strong>B: 3.1 Flash-Lite / MINIMAL / 현재 R13-C1 후보.</strong> 앞으로 업데이트하는 쪽은 B만입니다. 남편 한국어→라오어→독립 한국어와 아내 라오어→한국어→독립 라오어를 동일 원문으로 비교합니다. 기존 PC에 있는 500문장 JSON은 최초 한 번만 선택하면 되고 이후 같은 브라우저에서 자동 복원됩니다. 실제 대화·API 키는 공개 GitHub에 저장하지 않습니다. <strong>무료 준비 확인만 진행하고, 유료 검사 시작은 별도 승인 후에만 하세요.</strong></p>
 <div class="setup-grid"><div><label for="r8File">① 개인 PC의 500문장: 첫 1회 선택 후 자동 불러오기</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">이 PC에 저장된 500문장 확인 중 · 없을 경우 딱 한 번만 원본 JSON 선택</p><button id="r8ForgetPrivate500" type="button">이 PC에 저장된 500문장 삭제</button><p class="note">선택한 개인 대화 500문장은 <strong>이 브라우저의 사이트 저장공간에만 보관</strong>되며 공개 GitHub에는 포함되지 않습니다. 이 저장본은 암호화되지 않았고 같은 사이트에서 접근 가능하므로 공용 PC에는 보관하지 마세요. 브라우저 저장 데이터 삭제·시크릿 모드·다른 PC에서는 다시 선택해야 합니다.</p></div>
 <div id="r8KeySlot"><label for="geminiKey">② Gemini API 키</label><p class="note">테스트 전용 키 · 브라우저 저장</p></div></div>
-<div class="batch-box"><label for="r8BatchSelect">③ 검사 단계</label><select id="r8BatchSelect"><option value="K2L" selected>파일럿 남편 8건 · 최대32회</option><option value="L2K">파일럿 아내 8건 · 최대32회</option><option value="K2L_EXT">확장 남편 4건 · 최대16회</option><option value="L2K_EXT">확장 아내 4건 · 최대16회</option></select><p id="r8BatchInfo" class="note">두 단계 각각 무료 준비·유료 실행 확인 필요</p></div>
+<div class="batch-box"><label for="r8BatchSelect">③ 검사 대상 · A/B 각각 정·독립역</label><select id="r8BatchSelect"><option value="ALL50" selected>전체 50문장 · 남편25 + 아내25</option><option value="K2L25">남편 25문장</option><option value="L2K25">아내 25문장</option><option value="K2L">기존 남편 파일럿 8건</option><option value="L2K">기존 아내 파일럿 8건</option><option value="K2L_EXT">남편 확장 4건</option><option value="L2K_EXT">아내 확장 4건</option></select><p id="r8BatchInfo" class="note">전체 50건은 최대 200회(정·역 포함). 기존 완료 결과는 자동으로 재사용합니다.</p></div>
 <div class="action-row"><button id="r8Preflight" type="button">무료 준비 확인</button><button id="r8Run" type="button" class="primary" disabled>검사 시작</button><button id="r8Stop" type="button" disabled>중단</button></div>
 <progress id="r8Progress" max="1" value="0"></progress><p id="r8State" class="note" role="status">기존 500문장 JSON 선택 → 무료 준비 확인 · A 3.8/R8/LOW 고정, B 3.1/C1/MINIMAL · 유료 승인 필요</p>
 <p id="r8Summary" class="note">동일 원문당 두 모델 각각 정번역 1회 + 실제 정번역만 보는 독립 역번역 1회. 3.1 단독 오류와 3.8 공통 오류를 구분하고 P0/P1/P2, 정·역 시간, 토큰, 비용을 비교합니다. QA PASS는 의미 정확성 보장이 아닙니다.</p>
@@ -206,9 +206,37 @@ let r8PrivateLoadSeq=0;
 const PILOT=Object.freeze({K2L:["HIST-0081","HIST-0111","HIST-0090","HIST-0243","HIST-0120","HIST-0121","HIST-0219","HIST-0238"],L2K:["HIST-0318","HIST-0336","HIST-0490","HIST-0460","HIST-0480","HIST-0397","HIST-0486","HIST-0382"]});
 const EXT=Object.freeze({K2L:["HIST-0199","HIST-0101","HIST-0095","HIST-0235"],L2K:["HIST-0378","HIST-0497","HIST-0485","HIST-0339"]});
 function r8Category(){return '38_P168A_R8_VS_31_R13_C1_FOURPATH24_R1'}
+
+const HOLD50=Object.freeze({
+ K2L:["HIST-0009","HIST-0025","HIST-0041","HIST-0057","HIST-0073","HIST-0091","HIST-0109","HIST-0128","HIST-0144","HIST-0160","HIST-0176","HIST-0192","HIST-0225"],
+ L2K:["HIST-0258","HIST-0273","HIST-0288","HIST-0303","HIST-0319","HIST-0334","HIST-0351","HIST-0365","HIST-0381","HIST-0398","HIST-0413","HIST-0428","HIST-0443"]
+});
+// Fixed cohort 50: husband 25, wife 25, 39 representative and 11 semantic-risk.
+// The existing eight K2L pilot IDs retain the same experiment identity.
+const FULL25=Object.freeze({K2L:[...PILOT.K2L,...EXT.K2L,...HOLD50.K2L],L2K:[...PILOT.L2K,...EXT.L2K,...HOLD50.L2K]});
 function r12Phase(){return $('r8BatchSelect').value}
-function r12Dir(){return r12Phase().startsWith('K2L')?'K2L':'L2K'}
-function r12Ids(){return(r12Phase().endsWith('_EXT')?EXT:PILOT)[r12Dir()]}
+function r12Dir(){return r12Phase()==='ALL50'?'BOTH':r12Phase().startsWith('K2L')?'K2L':'L2K'}
+function r12Plan(){
+ const phase=r12Phase(),make=(dir,ids,group)=>ids.map(id=>({id,dir,group}));
+ const all=dir=>[...make(dir,PILOT[dir],'PILOT'),...make(dir,EXT[dir],'EXTENSION'),...make(dir,HOLD50[dir],'SPACED_HOLDOUT')];
+ if(phase==='ALL50')return [...all('K2L'),...all('L2K')];
+ if(phase==='K2L25')return all('K2L');
+ if(phase==='L2K25')return all('L2K');
+ const dir=r12Dir();return make(dir,phase.endsWith('_EXT')?EXT[dir]:PILOT[dir],phase.endsWith('_EXT')?'EXTENSION':'PILOT');
+}
+function r12Ids(){return r12Plan().map(x=>x.id)}
+function r12Validate50(cases){
+ const ids=[...FULL25.K2L,...FULL25.L2K];
+ if(new Set(ids).size!==50||FULL25.K2L.length!==25||FULL25.L2K.length!==25)throw Error('FIFTY_SELECTION_BALANCE');
+ const m=new Map(cases.map(x=>[x.id,x]));let representative=0,risk=0;
+ for(const dir of ['K2L','L2K'])for(const id of FULL25[dir]){
+  const c=m.get(id);if(!c||c.dir!==dir)throw Error('FIFTY_SELECTION_ID_'+id);
+  if(c.cohort==='SEMANTIC_RISK_100')risk++;else if(c.cohort==='REPRESENTATIVE_400')representative++;else throw Error('FIFTY_SELECTION_COHORT_'+id);
+ }
+ if(representative!==39||risk!==11)throw Error('FIFTY_SELECTION_MIX_'+representative+'_'+risk);
+ if(new Set(r12Plan().map(x=>x.id)).size!==r12Plan().length)throw Error('FIFTY_SELECTION_STAGE_REPEAT');
+ return true;
+}
 function r12Lanes(c){return Number(c.id.slice(-2))%2?['A','B']:['B','A']}
 function r8LaneCfg(pack,lane){return lane==='A'?pack.baselineCfg:pack.candidateCfg}
 function r8BuildCompactCandidate(base,p){
@@ -391,11 +419,11 @@ async function r8AcceptPrivate500(obj,label,mode,stamp){
  r8Ready='';$('r8Run').disabled=true;
  r8Cases=rows;r8Digest=fingerprint;r8SourceLabel=label+' · '+mode;
  r8PrivateBundle=obj;r8PrivateDigest=R8_BUNDLE_SHA;r8AllHintsReady=false;
- r8UpdateBatchInfo();
+ r12Validate50(rows);r8UpdateBatchInfo();
  const old=r8Rows.length?' (이전 검사 결과는 별도 보존됩니다.)':'';
  $('r8FileInfo').textContent=label+' · 500건 (남편 250 / 아내 250) · SHA '+fingerprint.slice(0,12)+old;
- $('r8Budget').value='파일럿 총64회 · 확장 총32회 · 최대96회';
- r8Message(label+' · A=3.8/P168A R8, B=3.1/C1 · 무료 준비 확인을 눌러주세요 · 유료 생성 0회');
+ $('r8Budget').value='실사용 50문장 · 최대200회 (기존 완료분 제외)';
+ r8Message(label+' · 실사용 50건 준비됨 · A=3.8 고정, B=3.1 C1 · 무료 준비 확인을 눌러주세요 · 유료 호출 0회');
  return true;
 }
 function r8KeepPrivate500(obj){
@@ -496,7 +524,8 @@ function r8PrepareSource(source,mode,lane){
 $('r8Preflight').addEventListener('click',async()=>{
  if(r8Busy)return;r8Ready='';$('r8Run').disabled=true;
  try{
-  if(!r8Cases.length||!r8Digest||!r8PrivateBundle||r8PrivateDigest!==R8_BUNDLE_SHA)throw Error('② 전용 비공개 JSON 파일을 먼저 선택하세요');
+  if(!r8Cases.length||!r8Digest||!r8PrivateBundle||r8PrivateDigest!==R8_BUNDLE_SHA)throw Error('저장된 개인 500문장이 없습니다. ①에서 한 번만 선택하세요');
+  r12Validate50(r8Cases);
   r8Sources=await r8ReadStandaloneSources();
   let totalMatches=0,hitCases=0;
    for(const c of r8Cases){const h=await r8ApplyCaseHint(r8Sources,c);if(h.count||h.termHints.length)throw Error('TERM_BUDGET_EXCEEDED_'+c.id)}
