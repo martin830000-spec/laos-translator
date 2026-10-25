@@ -42,6 +42,7 @@ main > section:not(#r8PairPanel){display:none!important}
 <div class="setup-grid"><div><label for="r8File">① 개인 PC의 500문장: 첫 1회 선택 후 자동 불러오기</label><input id="r8File" type="file" accept=".json,application/json"><p id="r8FileInfo" class="note">이 PC에 저장된 500문장 확인 중 · 없을 경우 딱 한 번만 원본 JSON 선택</p><button id="r8ForgetPrivate500" type="button">이 PC에 저장된 500문장 삭제</button><p class="note">선택한 개인 대화 500문장은 <strong>이 브라우저의 사이트 저장공간에만 보관</strong>되며 공개 GitHub에는 포함되지 않습니다. 이 저장본은 암호화되지 않았고 같은 사이트에서 접근 가능하므로 공용 PC에는 보관하지 마세요. 브라우저 저장 데이터 삭제·시크릿 모드·다른 PC에서는 다시 선택해야 합니다.</p></div>
 <div id="r8KeySlot"><label for="geminiKey">② Gemini API 키</label><p class="note">테스트 전용 키 · 브라우저 저장</p></div></div>
 <div class="batch-box"><label for="r8BatchSelect">③ 검사 대상 · A/B 각각 정·독립역</label><select id="r8BatchSelect"><option value="ALL50" selected>전체 50문장 · 남편25 + 아내25</option><option value="K2L25">남편 25문장</option><option value="L2K25">아내 25문장</option><option value="K2L">기존 남편 파일럿 8건</option><option value="L2K">기존 아내 파일럿 8건</option><option value="K2L_EXT">남편 확장 4건</option><option value="L2K_EXT">아내 확장 4건</option></select><p id="r8BatchInfo" class="note">전체 50건은 최대 200회(정·역 포함). 기존 완료 결과는 자동으로 재사용합니다.</p></div>
+<div class="batch-box"><label for="r8PriorLog">④ 기존 3.8 결과 재사용 (완료 0건이면 선택)</label><input id="r8PriorLog" type="file" accept=".txt,text/plain"><p id="r8PriorLogStatus" class="note">기존 50문장 검사 TXT를 선택하면 3.8 P168A R8 완료 결과만 불러옵니다. 3.1 C1 결과는 재사용하지 않으며, 파일은 이 브라우저 밖으로 업로드되지 않습니다. 새 유료 호출 0회.</p></div>
 <div class="action-row"><button id="r8Preflight" type="button">무료 준비 확인</button><button id="r8Run" type="button" class="primary" disabled>검사 시작</button><button id="r8Stop" type="button" disabled>중단</button></div>
 <progress id="r8Progress" max="1" value="0"></progress><p id="r8State" class="note" role="status">기존 500문장 JSON 선택 → 무료 준비 확인 · A 3.8/R8/LOW 고정, B 3.1/C2/MINIMAL · 유료 승인 필요</p>
 <p id="r8Summary" class="note">동일 원문당 두 모델 각각 정번역 1회 + 실제 정번역만 보는 독립 역번역 1회. 3.1 단독 오류와 3.8 공통 오류를 구분하고 P0/P1/P2, 정·역 시간, 토큰, 비용을 비교합니다. QA PASS는 의미 정확성 보장이 아닙니다.</p>
@@ -722,6 +723,47 @@ $('r8Run').addEventListener('click',async()=>{
  r8Message(r8Stopped?'중단 · 현재 결과 저장 가능':'단계 완료 · JSON/TXT 저장 후 사람의 품질평가 필요');
  }catch(e){r8Message('실행 실패 '+r8Err(e),true)}
  finally{r8Busy=false;$('r8BatchSelect').disabled=false;r8Dispose();r8Paint()}
+});
+
+function r8ImportPreviousTxt(txt){
+ if(!r8Cases.length||!r8Digest||r8Busy)throw Error('500문장 자동 불러오기 완료 후 진행하세요');
+ if(txt.length>1200000)throw Error('PREVIOUS_LOG_TOO_LARGE');
+ const blocks=txt.replace(/\r\n/g,'\n').split(/^---\s*$/m);
+ const byId=new Map(r8Cases.map(c=>[c.id,c]));
+ const existing=new Set(r8Rows.map(r=>r.id+'|'+r.lane));
+ const found=[],seen=new Set();
+ const line=(block,name)=>{const m=block.match(new RegExp('(?:^|\\n)'+name+' ([^\\n]*)'));return m?m[1].trim():''};
+ for(const block of blocks){
+  if(!block.trim())continue;
+  if(line(block,'MODEL')!=='gemini-3.8-flash')continue; // C1 B must never become a C2 result.
+  if(line(block,'VARIANT')!=='38LOW_P168A_R8'||line(block,'SELECTED_CATEGORY')!=='38_P168A_R8_VS_31_R13_C1_FOURPATH24_R1')throw Error('OLD_LOG_NOT_FIXED_38_R8');
+  const id=line(block,'CASE'),dir=line(block,'DIRECTION');
+  if(!byId.has(id)||!['K2L','L2K'].includes(dir))throw Error('OLD_LOG_UNKNOWN_CASE_'+id);
+  if(line(block,'PROMPT_REVISION')!=='P168A'||line(block,'PROMPT_SHA256')!==R8_SHA)throw Error('OLD_LOG_PROMPT_SHA_'+id);
+  if(line(block,'API_ERROR')!=='-')throw Error('OLD_LOG_API_ERROR_'+id);
+  const a=block.indexOf('\n[SOURCE]\n'),b=block.indexOf('\n[FORWARD]\n'),c=block.indexOf('\n[BACK]\n'),d=block.indexOf('\nFORWARD_MS ',c);
+  if(a<0||b<a||c<b||d<c)throw Error('OLD_LOG_SECTIONS_'+id);
+  const source=block.slice(a+10,b).trim(),forward=block.slice(b+11,c).trim(),back=block.slice(c+8,d).trim();
+  const src=byId.get(id);
+  if(!forward||!back||src.dir!==dir||src.source!==source)throw Error('OLD_LOG_SOURCE_OR_OUTPUT_'+id);
+  if(seen.has(id))throw Error('OLD_LOG_DUPLICATE_'+id);seen.add(id);
+  if(existing.has(id+'|A'))continue;
+  const tokens=name=>{try{return JSON.parse(line(block,name))}catch(_){return null}};
+  const usageF=tokens('FORWARD_TOKENS'),usageB=tokens('BACK_TOKENS');
+  const ms=name=>{const n=Number(line(block,name));return Number.isFinite(n)&&n>=0?n:null};
+  const row={runId:r8RunId||'PRIOR38-C1-IMPORT',id,cycle:1,dir,cohort:src.cohort,issue:src.issue||'',source,baselineLow:src.baselineLow||null,thinkingLevel:'low',maxOutputTokens:null,qualityPass:line(block,'QUALITY_PASS')==='true',
+   forwardReview:tokens('FORWARD_QA'),backReview:tokens('BACK_QA'),qualityIssues:[],sourceReviewHint:src.sourceReviewHint||'',category:r8Category(),lane:'A',model:'gemini-3.8-flash',promptRevision:'P168A',promptSha256:R8_SHA,smart:'ON',forward,back,forwardMs:ms('FORWARD_MS'),backMs:ms('BACK_MS'),forwardTokens:usageF,backTokens:usageB,forwardUsd:r8Estimate(usageF,'A'),backUsd:r8Estimate(usageB,'A'),error:'',forwardTraceCount:ms('FORWARD_TRACE_COUNT'),backTraceCount:ms('BACK_TRACE_COUNT'),baselineImportedFrom:'C1_VERIFIED_LOCAL_TXT',autoRetryTriggered:false};
+  found.push(row);
+ }
+ if(!seen.size)throw Error('OLD_LOG_NO_38_R8_ROWS');
+ if(found.length){r8Rows.push(...found);r8SaveSession();r8Paint();}
+ r8UpdateBatchInfo();r8Ready='';$('r8Run').disabled=true;
+ return {added:found.length,recognized:seen.size};
+}
+$('r8PriorLog').addEventListener('change',async()=>{
+ const file=$('r8PriorLog').files?.[0];if(!file)return;
+ try{const t=await file.text(),r=r8ImportPreviousTxt(t);$('r8PriorLogStatus').textContent='이전 3.8 기준선 '+r.recognized+'건 확인 · 새로 복원 '+r.added+'건 · 무료 호출 0회 · 무료 준비 확인을 눌러주세요';r8Message('3.8 기존 결과 '+r.added+'건 가져오기 완료 · 무료 준비 확인 필요 · Gemini 0회')}
+ catch(e){$('r8PriorLogStatus').textContent='가져오기 실패: '+r8Err(e);r8Message('기존 로그 검증 실패 · '+r8Err(e)+' · Gemini 0회',true)}
 });
 function r8UpdateBatchInfo(){
  const done=new Set(r8Rows.filter(row=>{
