@@ -651,7 +651,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 </div>
 
 
-<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd">&lt;!DOCTYPE html&gt;
+<textarea id="payload-husband" hidden aria-hidden="true" tabindex="-1" data-kind="husband" data-sha256="0000000000000000000000000000000087c1e0d47cbfdbf722654ab5e6679c2b">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -697,6 +697,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
         .btn-voice-input { width:100%; height:48px; min-height:48px; background:#6f42c1; color:#fff; border:none; border-radius:8px; padding:12px; font-size:15px; font-weight:bold; cursor:pointer; margin:-4px 0 10px; box-sizing:border-box; }
         .btn-voice-input.recording { background:#d93025; }
         .btn-voice-input.processing { background:#1a73e8; cursor:wait; }
+         .memory-album-btn{display:block;width:max-content;max-width:100%;height:auto;min-height:44px;margin:10px 0 12px auto;padding:8px 14px;background:#f8fafc;color:#374151;border:1px solid #ccd6e0;border-radius:10px;font-size:13px;font-weight:800;line-height:1.35;text-align:center;white-space:normal;box-sizing:border-box;cursor:pointer} .memory-album-btn:focus-visible{outline:2px solid #3157d5;outline-offset:2px}
         .voice-input-status { font-size:10.5px; color:#5f6368; line-height:1.45; margin:-2px 0 6px; text-align:right; overflow-wrap:anywhere; }
         .voice-input-status[hidden] { display:none; }
         .input-actions #soundToggleBtn { width:132px; }
@@ -1291,7 +1292,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
             &lt;div id="voiceInputStatus" class="voice-input-status" aria-live="polite" hidden&gt;&lt;/div&gt;
         &lt;/div&gt;
 
-        &lt;button type="button" class="btn-voice-input memory-album-btn" onclick="parent.postMessage({type:'integrated-memory-album',mode:'husband'},'*')"&gt;📷 추억사진첩&lt;/button&gt;
+        &lt;button type="button" class="memory-album-btn" onclick="parent.postMessage({type:'integrated-memory-album',mode:'husband'},'*')"&gt;📷 추억사진첩&lt;/button&gt;
 
         &lt;details id="localHistoryBox" class="history-box"&gt;
             &lt;summary&gt;🕘 최근 번역 · ⭐ 즐겨찾기&lt;/summary&gt;
@@ -5819,7 +5820,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e">&lt;!DOCTYPE html&gt;
+</textarea><textarea id="payload-wife" hidden aria-hidden="true" tabindex="-1" data-kind="wife" data-sha256="00000000000000000000000000000000ce8d913494caacaa108526489f98b161">&lt;!DOCTYPE html&gt;
 &lt;html lang="lo"&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -5865,7 +5866,8 @@ hr{border:0;border-top:1px solid #edf0f2;margin:10px 0}
 .section-title{font-size:12px;font-weight:900;color:#5f6368;min-width:0}
 .actions{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .mini-btn{min-height:44px;border:0;border-radius:7px;padding:7px 9px;font-size:11px;font-weight:800;color:#fff;white-space:nowrap}
-.btn-retry{background:var(--orange);display:none}.btn-sound{background:#34a853}.btn-sound.off{background:#6c757d}.btn-voice-input{width:100%;height:48px;min-height:48px;border:0;border-radius:9px;background:#6f42c1;color:#fff;padding:12px;font-size:16px;font-weight:900;margin:-4px 0 10px}.btn-voice-input.recording{background:#d93025}.btn-voice-input.processing{background:#1a73e8;cursor:wait}.btn-clear{background:#dc3545}.btn-copy{background:#6c757d}.btn-back{background:var(--purple)}
+.btn-retry{background:var(--orange);display:none}.btn-sound{background:#34a853}.btn-sound.off{background:#6c757d}.btn-voice-input{width:100%;height:48px;min-height:48px;border:0;border-radius:9px;background:#6f42c1;color:#fff;padding:12px;font-size:16px;font-weight:900;margin:-4px 0 10px}.btn-voice-input.recording{background:#d93025}.btn-voice-input.processing{background:#1a73e8;cursor:wait}
+ .memory-album-btn{display:block;width:max-content;max-width:100%;height:auto;min-height:44px;margin:10px 0 12px auto;padding:8px 14px;background:#f8fafc;color:#374151;border:1px solid #ccd6e0;border-radius:10px;font-size:13px;font-weight:800;line-height:1.35;text-align:center;white-space:normal;box-sizing:border-box;cursor:pointer} .memory-album-btn:focus-visible{outline:2px solid #3157d5;outline-offset:2px}.btn-clear{background:#dc3545}.btn-copy{background:#6c757d}.btn-back{background:var(--purple)}
 .result-box{background:#f8f9fa;border:1px solid #e1e4e8;border-radius:9px;padding:11px;margin-bottom:9px;min-height:48px;font-size:17px;line-height:1.6;font-weight:800;color:var(--blue);overflow-wrap:anywhere;word-break:normal;white-space:pre-wrap}
 .primary-result-section.result-pending{display:none}
 .quality-line{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:7px 0 10px;min-height:0}
@@ -6405,7 +6407,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
       &lt;div id="voiceInputStatus" class="voice-input-status" aria-live="polite" hidden&gt;&lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;button type="button" class="btn-voice-input memory-album-btn" onclick="parent.postMessage({type:'integrated-memory-album',mode:'wife'},'*')"&gt;📷 ອະລະບໍ້າຄວາມຊົງຈຳ&lt;/button&gt;
+    &lt;button type="button" class="memory-album-btn" onclick="parent.postMessage({type:'integrated-memory-album',mode:'wife'},'*')"&gt;📷 ອະລະບໍ້າຄວາມຊົງຈຳ&lt;/button&gt;
 
     &lt;details id="localHistoryBox" class="history-box"&gt;
       &lt;summary&gt;🕘 ການແປຫຼ້າສຸດ · ⭐ ລາຍການມັກ&lt;/summary&gt;
