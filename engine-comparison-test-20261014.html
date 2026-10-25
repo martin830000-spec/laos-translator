@@ -181,10 +181,10 @@ $('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['RO
 
 // Isolated R8 model comparison (not the neutral-engine runner above). No paid calls during preflight.
 const R8_SHA='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43';
-const R8_PAYLOAD_SHA=Object.freeze({husband:'301f211ca2c60f3b898fec75baf27bdb413c046fc5e1ed234e074e7fdd5330e8',wife:'143d0162328ef2a61149be066d759faa9ee508bbaf4100dcf5bb741c5d2c8e24'});
+const R8_PAYLOAD_SHA=Object.freeze({husband:'bee537cb72b4927dcc4192f687476fe77590d9f78ba664610523b89b69c40df2',wife:'82d2fffb56ce5543945978832480f6e08a78082a6a6fca4cd8116055c20a44a0'});
 // TEST index payload metadata still carries these historical attribute SHA values.
 // Pin actual CURRENT decoded textarea contents independently: TEST root dd6b18dd..., verified GitHub readback 2026-10-26.
-const R8_CURRENT_PAYLOAD_SHA=Object.freeze({husband:'301f211ca2c60f3b898fec75baf27bdb413c046fc5e1ed234e074e7fdd5330e8',wife:'143d0162328ef2a61149be066d759faa9ee508bbaf4100dcf5bb741c5d2c8e24'});
+const R8_CURRENT_PAYLOAD_SHA=Object.freeze({husband:'bee537cb72b4927dcc4192f687476fe77590d9f78ba664610523b89b69c40df2',wife:'82d2fffb56ce5543945978832480f6e08a78082a6a6fca4cd8116055c20a44a0'});
 const R8_MODELS=Object.freeze({A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite',C:'gemini-3.1-flash-lite'});
 const R8_LEVELS=Object.freeze({A:'low',B:'minimal',C:'medium'});
 const R8_LIMITS=Object.freeze({A:1024,B:1024,C:2048});
