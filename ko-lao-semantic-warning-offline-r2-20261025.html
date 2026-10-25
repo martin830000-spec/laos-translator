@@ -51,7 +51,7 @@ function hasNick(text,lang){
  // Common phonetic renderings remain a named baby, not a missing name.
  return lang==='ko'
   ?/(?:튼튼이|튼튼아|툰툰이|툰툰아|뜬뜬이|틘틘이|튄튄이|튠튠이|틴틴이)/u.test(s)
-  :/(?:ທຶນທຶນ|ທືນທືນ|ຕຶນຕຶນ|ທູນທູນ|ຕູນຕູນ|ຕຸ່ນຕຸ່ນ|ເຕິ່ນເຕິ່ນ)/u.test(s)
+  :/(?:ທຶນທຶນ|ທືນທືນ|ຕຶນຕຶນ|ທູນທູນ|ຕູນຕູນ|ຕຸ່ນຕຸ່ນ|ຕຸ້ນຕຸ້ນ|ຕຶ່ນຕຶ່ນ|ເຕິ່ນເຕິ່ນ)/u.test(s)
 }
 function koTimes(text){
  let result=[],s=String(text||''),rx=/(\d{1,2})\s*시/g,prev=0,ctx='';
