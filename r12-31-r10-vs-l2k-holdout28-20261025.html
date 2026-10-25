@@ -494,7 +494,7 @@ function r8Paint(){
   const tokens=v=>v?'입 '+v.prompt+' / 출력 '+(v.candidate??'?')+' / 추론 '+(v.thoughts??'?'):'—';
   const cost=(r.forwardUsd??0)+(r.backUsd??0);
   const values=[(r.cycle||1)+'-'+r.id,(r.lane==='A'?'A · 3.1 MINIMAL / R10':'B · 3.1 MINIMAL / R12')+' · 힌트 '+(r.termHintCount||0),r.dir==='K2L'?'남편 K→L→K':'아내 L→K→L',
-   r.source+(r.group==='FOCUSED_CHECK'?'\n[주의] 특별검사군 · 일반 품질 비율 합산 금지':'')+(r.issue?'\n[위험] '+r.issue:'')+(r.sourceReviewHint?'\n[원문 참고] '+r.sourceReviewHint:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
+   r.source+(r.group==='FOCUSED_DIAGNOSTIC'?'\n[주의] 특별검사군 · 일반 품질 비율 합산 금지':'')+(r.issue?'\n[위험] '+r.issue:'')+(r.sourceReviewHint?'\n[원문 참고] '+r.sourceReviewHint:''),r.forward||'—',r.back||'—',r.forwardMs??'—',r.backMs??'—',
    '정 '+tokens(r.forwardTokens)+' · 역 '+tokens(r.backTokens)+' / 추정 $'+cost.toFixed(6),r.error||(r.qualityPass===false?'⚠️ 경고만 표시 · 번역 결과 유지·복사 가능 · 수동 재번역 권장: '+(r.qualityIssues||[]).join(' | '):'완료')];
   for(const v of values){const td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}
   $('r8Results').appendChild(tr);
