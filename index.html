@@ -400,6 +400,88 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
  window.addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)close();});
 })();
 </script>
+<script id="testABCaptureAndExport">
+(function(){
+ 'use strict';
+ const KEY='ko_lao_test_ab_log_v1',MAX=150;
+ let memory=[];
+ const str=(v,n=3500)=>String(v==null?'':v).slice(0,n);
+ const num=v=>v===null||v===undefined||v===''?null:(Number.isFinite(Number(v))?Number(v):null);
+ function load(){
+  try{const a=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(a))return a.slice(0,MAX);}catch(_){}
+  return memory.slice(0,MAX);
+ }
+ function save(a){memory=a.slice(0,MAX);try{localStorage.setItem(KEY,JSON.stringify(memory));}catch(_){}}
+ function owns(e){return Array.from(document.querySelectorAll('iframe')).some(f=>{try{return f.contentWindow===e.source}catch(_){return false}})}
+ function capture(d){
+  const x=d||{},r=x.runtime||{},b=r.backUsage||{};
+  const v=window.__TEST_MODEL_CHOICE__==='31'?'31':'38';
+  const model=v==='31'?'gemini-3.1-flash-lite':'gemini-3.8-flash';
+  const think=v==='31'?'minimal':'low';
+  const items=Array.isArray(r.requestRecords)?r.requestRecords:[];
+  const o={
+   id:str(x.eventId,128),trace:str(x.traceId,128),parentTrace:str(x.parentTraceId,128),session:str(x.sessionId,128),
+   at:num(x.createdAtMs)||Date.now(),dir:str(x.direction,12),mode:str(x.mode,20),status:str(x.status,24),
+   forwardModel:model,backModel:model,forwardThinking:think,backThinking:think,
+   forwardPrompt:v==='31'?'R13-C1':'P168A R8',backPrompt:v==='31'?'R10 (C1 tested)':'P168A R8',
+   promptConfigSHA:str(window.__TEST_ACTIVE_PROMPT_SHA__,100)||'NOT_CAPTURED',
+   source:str(x.source),forward:str(x.forward),back:str(x.back),
+   userRetry:r.userRetry===true,
+   forwardMs:num(r.totalMs),backMs:num(b.totalMs),backStatus:str(b.status,30)||(x.back?'SUCCESS':'NOT_RECORDED'),
+   requestCount:num(r.requestCount),promptChars:items.map(y=>num(y?.promptChars)).filter(y=>y!==null),
+   requestUsage:items.map(y=>({label:str(y?.label,30),state:str(y?.state,30),elapsedMs:num(y?.elapsedMs),
+    inputTokens:num(y?.usagePromptTokens),outputTokens:num(y?.usageCandidateTokens),
+    thoughtTokens:num(y?.usageThoughtTokens),finishReason:str(y?.finishReason,30)})),
+   backUsage:{inputTokens:num(b.prompt),outputTokens:num(b.candidate),thoughtTokens:num(b.thoughts)},
+   failure:x.failure&&typeof x.failure==='object'?{stage:str(x.failure.stage,50),error:str(x.failure.error,200)}:null
+  };
+  if(!o.id)return;
+  const a=load().filter(y=>y.id!==o.id);a.unshift(o);save(a);
+ }
+ function retry(r,map){
+  if(!r.userRetry)return 'NO';
+  let p=r.parentTrace,count=1;const seen=new Set([r.trace]);
+  while(p&&!seen.has(p)){seen.add(p);const parent=map.get(p);if(!parent)return 'YES / parent missing from this log';count++;p=parent.parentTrace;}
+  return p?'YES / unresolvable parent chain':'YES / linked attempts '+count;
+ }
+ function exportTxt(){
+  const a=load();if(!a.length){alert('이 기기에 저장된 TEST 실번역 기록이 없습니다. 먼저 번역을 진행해 주세요.');return;}
+  a.sort((x,y)=>x.at-y.at);const lookup=new Map(a.filter(x=>x.trace).map(x=>[x.trace,x]));
+  const yes=a.filter(x=>x.userRetry).length;
+  const n31=a.filter(x=>x.forwardModel==='gemini-3.1-flash-lite').length;
+  const lines=[
+   'TEST_TRANSLATION_AB_LOG V1',
+   'generated='+new Date().toISOString(),
+   'source=TEST browser local log, separate from existing History DB export',
+   'records='+a.length+';model31='+n31+';model38='+(a.length-n31)+';explicitUserRetries='+yes,
+   'meaning=User retry YES means explicit user action; duplicate text without retry button is NOT counted as user retry.',
+   'note=Actual prompt SHA, forward/back latency and token usage depend on recorded runtime metadata.',
+   'note=This export makes NO API calls. No automatic retranslations are performed.',
+   ''
+  ];
+  a.forEach((r,i)=>lines.push('['+(i+1)+'] '+new Date(r.at).toISOString()+' '+r.mode+' '+r.dir,
+   'MODEL forward='+r.forwardModel+' /'+r.forwardThinking+'  back='+r.backModel+' /'+r.backThinking,
+   'PROMPT forward='+r.forwardPrompt+'  back='+r.backPrompt+'  configSHA='+r.promptConfigSHA,
+   'TRACE event='+r.id+' trace='+r.trace+' parent='+r.parentTrace+' session='+r.session,
+   'RETRANSLATION '+retry(r,lookup),
+   'TIME forwardMs='+r.forwardMs+' backMs='+r.backMs+' backStatus='+r.backStatus+' requestCount='+r.requestCount,
+   'TOKEN promptChars='+r.promptChars.join(',')+' requestUsage='+JSON.stringify(r.requestUsage)+' backUsage='+JSON.stringify(r.backUsage),
+   '[SOURCE] '+r.source,
+   '[FORWARD] '+r.forward,
+   '[INDEPENDENT_BACK] '+r.back,
+   r.failure?'[FAILURE] '+JSON.stringify(r.failure):'','---'));
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=url;link.download='test-translation-ab-'+new Date().toISOString().slice(0,10)+'.txt';
+  document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+ }
+ window.addEventListener('message',e=>{
+  if(!e.data||!owns(e))return;
+  if(e.data.type==='test-ab-live-telemetry')capture(e.data.record);
+  if(e.data.type==='test-ab-export')exportTxt();
+ });
+})();
+</script>
 <div id="unifiedBootGate" class="unified-boot-gate" role="status" aria-live="polite"><div class="unified-boot-card"><div class="unified-boot-spinner" aria-hidden="true"></div><div id="unifiedBootText" class="unified-boot-text">이전 화면과 설정을 복원하고 있어요…
 ກຳລັງກູ້ຄືນໜ້າຈໍ ແລະ ການຕັ້ງຄ່າເດີມ…</div><div class="unified-boot-sub">업데이트 후 사용하던 화면으로 이어집니다.
 ຫຼັງອັບເດດ ແອັບຈະກັບໄປຫາໜ້າທີ່ກຳລັງໃຊ້.</div></div></div>
@@ -1228,6 +1310,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
             &lt;/div&gt;
         &lt;/details&gt;
 &lt;button id="testEngineChooser" type="button" onclick="parent.postMessage({type:'test-open-engine-modal'},'*')" style="display:block;width:100%;min-height:42px;margin:10px 0 0;padding:11px 14px;background:#edf4ff;border:1px solid #b8cdf0;border-radius:11px;color:#1e40af;font-weight:700;font-size:14px;line-height:1.4;text-align:center;cursor:pointer;box-sizing:border-box"&gt;🧪 번역 엔진 선택 · 3.8 / 3.1 ▼&lt;/button&gt;
+&lt;button id="testABLogExport" type="button" onclick="parent.postMessage({type:'test-ab-export'},'*')" style="display:block;width:100%;min-height:40px;margin:7px 0 0;padding:9px 12px;box-sizing:border-box;text-align:center;border:1px solid #d0d5dd;border-radius:10px;background:#f8fafc;color:#334155;font:600 13px system-ui,sans-serif;line-height:1.35;cursor:pointer"&gt;🧾 TEST 실번역 A/B 로그 저장&lt;/button&gt;
 
     &lt;/div&gt;
 &lt;/div&gt;
@@ -2010,7 +2093,7 @@ function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liv
 function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voicePreparing||voiceRecording||voiceProcessing||appCopyBusy)}
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
-function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean)}
+function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean);try{parent.postMessage({type:'test-ab-live-telemetry',record:{eventId:String(clean.eventId||''),traceId:String(clean.traceId||''),parentTraceId:String(clean.parentTraceId||''),sessionId:String(clean.sessionId||''),direction:String(clean.direction||''),mode:String(clean.mode||''),createdAtMs:Number(clean.clientCreatedAtMs)||Date.now(),status:String(clean.status||''),source:String(clean.sourceText||'').slice(0,3500),forward:String(clean.targetText||'').slice(0,3500),back:String(clean.backText||'').slice(0,3500),failure:clean.failure||null,runtime:clean.runtime||{}}},'*')}catch(_){}}
 async function telemetryPostBatch(records){
   const c=integratedRelayRawConfig(),token=String(c?.token||'');if(!token)throw new Error('TELEMETRY_RELAY_NOT_CONFIGURED');
   const res=await integratedRelayFetch('/telemetry/batch',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({records})},{action:'telemetry',attemptTimeoutMs:4500});
@@ -6341,6 +6424,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
       &lt;/div&gt;
     &lt;/details&gt;
 &lt;button id="testEngineChooser" type="button" onclick="parent.postMessage({type:'test-open-engine-modal'},'*')" style="display:block;width:100%;min-height:42px;margin:10px 0 0;padding:11px 14px;background:#edf4ff;border:1px solid #b8cdf0;border-radius:11px;color:#1e40af;font-weight:700;font-size:14px;line-height:1.4;text-align:center;cursor:pointer;box-sizing:border-box"&gt;🧪 번역 엔진 선택 · 3.8 / 3.1 ▼&lt;/button&gt;
+&lt;button id="testABLogExport" type="button" onclick="parent.postMessage({type:'test-ab-export'},'*')" style="display:block;width:100%;min-height:40px;margin:7px 0 0;padding:9px 12px;box-sizing:border-box;text-align:center;border:1px solid #d0d5dd;border-radius:10px;background:#f8fafc;color:#334155;font:600 13px system-ui,sans-serif;line-height:1.35;cursor:pointer"&gt;🧾 TEST 실번역 A/B 로그 저장&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
@@ -7112,7 +7196,7 @@ function telemetryAttachBackText(targetText,backText,backUsage=null){const e=liv
 function telemetryBusy(){const audioPlaying=!!(currentAudioObj&amp;&amp;!currentAudioObj.paused&amp;&amp;!currentAudioObj.ended);return !!(isTranslating||isBackTranslating||ttsAbortController||audioPlaying||voicePreparing||voiceRecording||voiceProcessing||appCopyBusy)}
 function telemetryScheduleFinalize(delay=500){clearTimeout(liveTelemetryFinalizeTimer);liveTelemetryFinalizeTimer=setTimeout(telemetryTryFinalize,Math.max(20,delay))}
 function telemetryTryFinalize(){const e=liveTelemetryCurrent;if(!e)return;if(telemetryBusy()&amp;&amp;Date.now()&lt;Number(e._finalizeDeadlineMs||0)){telemetryScheduleFinalize(650);return}telemetryFinalizeCurrent('idle')}
-function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean)}
+function telemetryFinalizeCurrent(reason='idle'){const e=liveTelemetryCurrent;if(!e)return;liveTelemetryCurrent=null;clearTimeout(liveTelemetryFinalizeTimer);const clean={...e};delete clean._finalizeDeadlineMs;telemetryQueuePush(clean);try{parent.postMessage({type:'test-ab-live-telemetry',record:{eventId:String(clean.eventId||''),traceId:String(clean.traceId||''),parentTraceId:String(clean.parentTraceId||''),sessionId:String(clean.sessionId||''),direction:String(clean.direction||''),mode:String(clean.mode||''),createdAtMs:Number(clean.clientCreatedAtMs)||Date.now(),status:String(clean.status||''),source:String(clean.sourceText||'').slice(0,3500),forward:String(clean.targetText||'').slice(0,3500),back:String(clean.backText||'').slice(0,3500),failure:clean.failure||null,runtime:clean.runtime||{}}},'*')}catch(_){}}
 async function telemetryPostBatch(records){
   const c=integratedRelayRawConfig(),token=String(c?.token||'');if(!token)throw new Error('TELEMETRY_RELAY_NOT_CONFIGURED');
   const res=await integratedRelayFetch('/telemetry/batch',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({records})},{action:'telemetry',attemptTimeoutMs:4500});
@@ -9625,7 +9709,7 @@ function buildUnifiedEmbeddedBoot(mode,{diagnosticClone=false,defaultAppOverride
   refreshSharedCredentials();
   const resolvedMode=mode||currentMode||'husband',rc=relayConfigForMode(resolvedMode);
   const defaultApp=defaultAppOverride||(unifiedDiagnosticEntryApp==='general'?'general':'couple');
-  const promptBoot=unifiedPromptConfig?unifiedInlineObjectJson(unifiedPromptConfig):'null';
+  const promptBoot=unifiedPromptConfig?unifiedInlineObjectJson(unifiedPromptConfig):'null';window.__TEST_ACTIVE_PROMPT_SHA__=String(unifiedPromptConfig?.promptSha256||'');
   const cloneBoot=diagnosticClone?'window.__UNIFIED_DIAGNOSTIC_CLONE__=true;':'';
   return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="31"?"🧪 번역 엔진 · 3.1 Flash-Lite (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
 }
