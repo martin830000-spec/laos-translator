@@ -256,7 +256,7 @@ function makeC2(base){
  const c=JSON.parse(JSON.stringify(base));
  if(c.forward.k2l.length!==3364||c.forward.l2k.length!==3186)throw Error('C2_BASE_LENGTH');
  c.forward.k2l=C2_PROMPTS.k2l;c.forward.l2k=C2_PROMPTS.l2k;
- if(c.forward.k2l.length!==2030||c.forward.l2k.length!==1955)throw Error('C2_NEW_LENGTH');
+ if(c.forward.k2l.length!==2030||c.forward.l2k.length!==2125)throw Error('C2_NEW_LENGTH');
  if(c.back.husband!==base.back.husband||c.back.wife!==base.back.wife||c.back.husbandRecovery!==base.back.husbandRecovery||c.back.wifeRecovery!==base.back.wifeRecovery||JSON.stringify(c.smart)!==JSON.stringify(base.smart))throw Error('C2_BACK_CHANGED');
  c.promptRevision=C2_REV;return c;
 }
