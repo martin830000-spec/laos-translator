@@ -337,8 +337,10 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 <script id="modelChoiceTestBoot">
 (function(){
   'use strict';
-  var v=new URLSearchParams(location.search).get('model');
-  window.__TEST_MODEL_CHOICE__=(v==='31'||v==='38')?v:'';
+  var v=new URLSearchParams(location.search).get('model'), saved='';
+  try{saved=localStorage.getItem('ko_lao_test_engine_choice_v1')||'';}catch(_){}
+  v=(v==='31'||v==='38')?v:((saved==='31'||saved==='38')?saved:'38');
+  window.__TEST_MODEL_CHOICE__=v;
   window.__TEST_FORWARD_MODEL__=(v==='31')?'gemini-3.1-flash-lite':'gemini-3.8-flash';
   window.__TEST_FORWARD_THINKING__=(v==='31')?'minimal':'low';
   window.__TEST_BACK_MODEL__=(v==='31')?'gemini-3.1-flash-lite':'gemini-3.8-flash';
@@ -347,37 +349,55 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 })();
 </script>
 <style id="modelChoiceTestStyle">
-#testModelSelect{position:fixed;inset:0;z-index:2147483600;background:rgba(19,30,50,.96);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;font-family:system-ui,-apple-system,"Noto Sans Lao",sans-serif;color:#1f2937}
-#testModelSelect[hidden]{display:none!important}
-#testModelSelect .testChoicePanel{background:#fff;border-radius:20px;width:min(100%,480px);padding:24px;box-shadow:0 15px 50px #0005}
-#testModelSelect h1{font-size:23px;margin:0 0 8px;line-height:1.3}
-#testModelSelect p{font-size:14px;line-height:1.55;color:#475569;margin:0 0 16px}
-#testModelSelect a{display:block;color:#15263e!important;text-decoration:none!important;border:2px solid #d5deeb;padding:17px;margin:12px 0;border-radius:14px;background:#f8fafc;line-height:1.48;font-size:16px}
-#testModelSelect a strong{display:block;font-size:18px;margin-bottom:4px}
-#testModelSelect a small{display:block;color:#52657a;font-size:13px}
-#testModelSelect a.recommended{border-color:#2563eb;background:#eff6ff}
-#testModelSelect .testChoiceWarning{color:#475569;font-size:12px;line-height:1.55;margin-top:14px}
-#testModelChip{position:fixed;right:8px;top:6px;z-index:2147483500;background:#172b4d;border:1px solid #edf2f7;color:#fff;box-shadow:0 2px 10px #0002;border-radius:11px;padding:5px 8px;font:12px system-ui,sans-serif;display:flex;gap:8px;align-items:center}
-#testModelChip[hidden]{display:none!important}
-#testModelChip a{color:#fff!important;text-decoration:underline!important;font-weight:600}
+#testEngineModal[hidden]{display:none!important}
+#testEngineModal{position:fixed;inset:0;z-index:2147483600;background:rgba(15,23,42,.46);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;font-family:system-ui,-apple-system,"Noto Sans Lao",sans-serif}
+#testEngineModal .engineCard{width:min(100%,420px);max-height:calc(100dvh - 32px);overflow:auto;background:#fff;color:#1f2937;padding:19px;border-radius:16px;box-shadow:0 18px 50px #0003;box-sizing:border-box}
+#testEngineModal h2{font-size:18px;margin:0 0 10px;line-height:1.4}
+#testEngineModal .engineOption{display:block;width:100%;margin:9px 0;padding:12px 14px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#172554;text-align:left;font:600 15px system-ui;line-height:1.45;cursor:pointer}
+#testEngineModal .engineOption[aria-pressed=true]{border:2px solid #2563eb;background:#eff6ff}
+#testEngineModal .engineOption small{display:block;font-weight:400;font-size:12px;color:#475569}
+#testEngineModal .engineNotice{font-size:12px;line-height:1.6;color:#64748b;margin:10px 0}
+#testEngineModal .engineClose{width:100%;border:0;background:#e2e8f0;border-radius:10px;padding:11px;color:#334155;font:600 14px system-ui;cursor:pointer}
 </style>
 </head>
 <body class="unified-booting">
-<div id="testModelSelect" role="dialog" aria-modal="true" aria-label="TEST 모델 선택">
-<div class="testChoicePanel">
-<h1>🇰🇷 ↔ 🇱🇦 TEST 모델 선택</h1>
-<p>번역을 시작하기 전에 모델을 골라주세요. SERVICE에는 영향을 주지 않습니다.</p>
-<a href="?model=38"><strong>안정성 기준 · 3.8 Flash</strong><small>정번역 3.8 LOW · 독립 역번역 3.8 LOW<br>현재 P168A R8 기준선과 동일한 모델 구성</small></a>
-<a class="recommended" href="?model=31"><strong>빠른 모델 실사용 · 3.1 Flash-Lite</strong><small>정번역 3.1 MINIMAL · 독립 역번역 3.1 MINIMAL<br>3.1 정번역을 3.1이 독립 역번역합니다.</small></a>
-<p class="testChoiceWarning">역번역은 원문을 보지 않고 <b>정번역 결과만</b> 새 요청으로 번역합니다. 역번역이 원문과 비슷해도 정번역이 정확하다는 보장은 없습니다. 이 화면은 3.8은 기존 P168A R8 네 경로, 3.1은 실제 C1 검사에서 사용한 정번역 C1 + 독립 역번역 R10 네 경로를 사용합니다. <b>모델·프롬프트 조합의 실사용 비교</b>이며 3.1의 의미 오역 위험이 있습니다. 자동 재번역은 추가하지 않습니다.</p>
+<div id="testEngineModal" hidden role="dialog" aria-modal="true" aria-labelledby="testEngineModalTitle">
+<div class="engineCard">
+<h2 id="testEngineModalTitle">🧪 TEST 번역 엔진 선택</h2>
+<button type="button" class="engineOption" data-test-engine="38">3.8 Flash · LOW <small>정번역 3.8 / 독립 역번역 3.8 · P168A R8</small></button>
+<button type="button" class="engineOption" data-test-engine="31">3.1 Flash-Lite · MINIMAL <small>정번역 3.1 C1 / 독립 역번역 3.1 R10 (C1 검사 조합)</small></button>
+<p class="engineNotice">선택한 엔진을 정번역과 독립 역번역 모두에 적용합니다. 역번역에는 정번역 결과만 전달하며, 원문 복원·자동 재번역은 하지 않습니다. 변경하면 TEST 앱을 다시 엽니다.</p>
+<button type="button" class="engineClose" data-test-close>취소</button>
 </div></div>
-<div id="testModelChip" hidden><span id="testModelChipText"></span><a href="?">모델 변경</a></div>
-<script id="modelChoiceTestUi">
+<script id="testEngineModalController">
 (function(){
- var v=window.__TEST_MODEL_CHOICE__;
- var gate=document.getElementById('testModelSelect'),chip=document.getElementById('testModelChip');
- gate.hidden=!!v;chip.hidden=!v;
- if(v)document.getElementById('testModelChipText').textContent=(v==='31'?'TEST 정 3.1 MINIMAL':'TEST 정 3.8 LOW')+' · 역 '+(v==='31'?'3.1 MINIMAL':'3.8 LOW');
+ 'use strict';
+ var modal=document.getElementById('testEngineModal');
+ function close(){modal.hidden=true;}
+ function open(){
+  modal.hidden=false;
+  var v=window.__TEST_MODEL_CHOICE__;
+  modal.querySelectorAll('[data-test-engine]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-test-engine')===v));});
+ }
+ window.addEventListener('message',function(e){
+   if(!e.data||e.data.type!=='test-open-engine-modal')return;
+   var belongs=Array.from(document.querySelectorAll('iframe')).some(function(f){try{return f.contentWindow===e.source;}catch(_){return false;}});
+   if(!belongs)return;
+   open();
+ });
+ modal.addEventListener('click',function(e){
+  var b=e.target.closest('[data-test-engine]');
+  if(b){
+    var v=b.getAttribute('data-test-engine');if(v!=='31'&&v!=='38')return;
+    close();
+    try{localStorage.setItem('ko_lao_test_engine_choice_v1',v);}catch(_){}
+    var u=new URL(location.href);u.searchParams.set('model',v);
+    location.assign(u.href);
+    return;
+  }
+  if(e.target===modal||e.target.closest('[data-test-close]'))close();
+ });
+ window.addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)close();});
 })();
 </script>
 <div id="unifiedBootGate" class="unified-boot-gate" role="status" aria-live="polite"><div class="unified-boot-card"><div class="unified-boot-spinner" aria-hidden="true"></div><div id="unifiedBootText" class="unified-boot-text">이전 화면과 설정을 복원하고 있어요…
@@ -1207,6 +1227,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
                 &lt;div id="networkRouteHint" class="history-note"&gt;자동은 별도 연결검사 없이 최근 실제 성공 경로를 기억해서 사용합니다.&lt;/div&gt;
             &lt;/div&gt;
         &lt;/details&gt;
+&lt;button id="testEngineChooser" type="button" onclick="parent.postMessage({type:'test-open-engine-modal'},'*')" style="display:block;width:100%;min-height:42px;margin:10px 0 0;padding:11px 14px;background:#edf4ff;border:1px solid #b8cdf0;border-radius:11px;color:#1e40af;font-weight:700;font-size:14px;line-height:1.4;text-align:center;cursor:pointer;box-sizing:border-box"&gt;🧪 번역 엔진 선택 · 3.8 / 3.1 ▼&lt;/button&gt;
 
     &lt;/div&gt;
 &lt;/div&gt;
@@ -6319,6 +6340,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
         &lt;div id="networkRouteHint" class="history-note"&gt;ໂໝດອັດຕະໂນມັດຈື່ເສັ້ນທາງທີ່ໃຊ້ງານຈິງແລ້ວສຳເລັດ ໂດຍບໍ່ສົ່ງຄຳຂໍທົດສອບເພີ່ມ.&lt;/div&gt;
       &lt;/div&gt;
     &lt;/details&gt;
+&lt;button id="testEngineChooser" type="button" onclick="parent.postMessage({type:'test-open-engine-modal'},'*')" style="display:block;width:100%;min-height:42px;margin:10px 0 0;padding:11px 14px;background:#edf4ff;border:1px solid #b8cdf0;border-radius:11px;color:#1e40af;font-weight:700;font-size:14px;line-height:1.4;text-align:center;cursor:pointer;box-sizing:border-box"&gt;🧪 번역 엔진 선택 · 3.8 / 3.1 ▼&lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
@@ -9605,7 +9627,7 @@ function buildUnifiedEmbeddedBoot(mode,{diagnosticClone=false,defaultAppOverride
   const defaultApp=defaultAppOverride||(unifiedDiagnosticEntryApp==='general'?'general':'couple');
   const promptBoot=unifiedPromptConfig?unifiedInlineObjectJson(unifiedPromptConfig):'null';
   const cloneBoot=diagnosticClone?'window.__UNIFIED_DIAGNOSTIC_CLONE__=true;':'';
-  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
+  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="31"?"🧪 번역 엔진 · 3.1 Flash-Lite (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
 }
 function injectUnifiedKeys(source,mode){
   const boot=buildUnifiedEmbeddedBoot(mode,{diagnosticClone:false});
