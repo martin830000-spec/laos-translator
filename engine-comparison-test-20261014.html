@@ -182,6 +182,9 @@ $('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['RO
 // Isolated R8 model comparison (not the neutral-engine runner above). No paid calls during preflight.
 const R8_SHA='7d28766e1f9938a531fed5870585cb4a3afe735e2c41cc25b511ff7f677ddd43';
 const R8_PAYLOAD_SHA=Object.freeze({husband:'a0e8e644e97d0ddd06bfd9cf8eb27583b69e87f8425a7e166ced1a436ca327bd',wife:'296f131a03e37026e35edb2384995098cf045c61036774ca527e255bda629b1e'});
+// TEST index payload metadata still carries these historical attribute SHA values.
+// Pin actual CURRENT decoded textarea contents independently: TEST root dd6b18dd..., verified GitHub readback 2026-10-26.
+const R8_CURRENT_PAYLOAD_SHA=Object.freeze({husband:'249aecdc695d3c2ffbf23780a84049ec1821711a2ed25ef735a79e308a9f9878',wife:'b68b92f1bacfb8ceea934a1888a8f1c48ace8d7dbcfe05c6d42cb6547a955854'});
 const R8_MODELS=Object.freeze({A:'gemini-3.8-flash',B:'gemini-3.1-flash-lite',C:'gemini-3.1-flash-lite'});
 const R8_LEVELS=Object.freeze({A:'low',B:'minimal',C:'medium'});
 const R8_LIMITS=Object.freeze({A:1024,B:1024,C:2048});
@@ -218,7 +221,7 @@ async function r8ReadStandaloneSources(){
   if(el.dataset.sha256!==R8_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_MANIFEST_CHANGED_'+mode);
   const code=el.value||el.textContent||'';
   if(code.length<100000)throw Error('TEST_PAYLOAD_SHORT_'+mode);
-  if(await r8Sha(code)!==R8_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_CONTENT_SHA_MISMATCH_'+mode);
+  if(await r8Sha(code)!==R8_CURRENT_PAYLOAD_SHA[mode])throw Error('TEST_PAYLOAD_CONTENT_SHA_MISMATCH_'+mode);
   for(const fn of [mode==='husband'?'__runLivePathDiagnosticK2L':'__runLivePathDiagnosticL2K',mode==='husband'?'__runLiveBackDiagnosticK2L':'__runLiveBackDiagnosticL2K'])if(!code.includes(fn))throw Error('R8_LIVE_HOOK_MISSING_'+mode+'_'+fn);
   codes[mode]=code;
  }
