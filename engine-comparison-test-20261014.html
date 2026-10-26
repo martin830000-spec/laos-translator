@@ -45,6 +45,8 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 <details style="margin-top:9px"><summary>이전 Haiku 검사 후보 (R2 보존 · MEDIUM STOP)</summary>
  <div class="row">
   <label class="check"><input type="checkbox" data-engine="claudeHaiku">Haiku LOW/OFF · 기존 R2</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuF1">Haiku LOW R2-F1 · 아내 증상 의미 TEST</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuIB1">Haiku LOW R2-IB1 · 독립 역번역 TEST</label>
   <label class="check"><input type="checkbox" data-engine="claudeHaikuMed" disabled>Haiku MEDIUM/Adaptive · STOP (선택 불가)</label>
  </div>
 </details>
@@ -154,8 +156,8 @@ const secretIds=['claudeKey','geminiKey','laraId','laraSecret','azureKey','googl
 const $=id=>document.getElementById(id);
 let records=[], abort=null, active=false, completed=0, planned=0, laraClient=null, runCounter=0;
 const GEMINI_MODEL_ENGINES=Object.freeze({gemini38:'gemini-3.8-flash',gemini35lite:'gemini-3.5-flash-lite',gemini31lite:'gemini-3.1-flash-lite'});
-const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM',claudeHaiku:'Claude Haiku 5.5 · LOW/OFF',claudeHaikuR3:'Claude Haiku 5.5 · LOW/OFF · R3',claudeHaikuMed:'Claude Haiku 5.5 · MEDIUM/Adaptive',claudeSonnet:'Claude Sonnet 5.5',claudeSonnetS1:'Claude Sonnet 5.5 · LOW · S1',claudeOpus:'Claude Opus 5.5'};
-const CLAUDE_IDS=Object.freeze({claudeHaiku:'claude-haiku-5-5',claudeHaikuR3:'claude-haiku-5-5',claudeHaikuMed:'claude-haiku-5-5',claudeSonnet:'claude-sonnet-5-5',claudeSonnetS1:'claude-sonnet-5-5',claudeOpus:'claude-opus-5-5'});
+const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM',claudeHaiku:'Claude Haiku 5.5 · LOW/OFF',claudeHaikuR3:'Claude Haiku 5.5 · LOW/OFF · R3',claudeHaikuF1:'Claude Haiku 5.5 · LOW/OFF · R2-F1',claudeHaikuIB1:'Claude Haiku 5.5 · LOW/OFF · R2-IB1',claudeHaikuMed:'Claude Haiku 5.5 · MEDIUM/Adaptive',claudeSonnet:'Claude Sonnet 5.5',claudeSonnetS1:'Claude Sonnet 5.5 · LOW · S1',claudeOpus:'Claude Opus 5.5'};
+const CLAUDE_IDS=Object.freeze({claudeHaiku:'claude-haiku-5-5',claudeHaikuR3:'claude-haiku-5-5',claudeHaikuF1:'claude-haiku-5-5',claudeHaikuIB1:'claude-haiku-5-5',claudeHaikuMed:'claude-haiku-5-5',claudeSonnet:'claude-sonnet-5-5',claudeSonnetS1:'claude-sonnet-5-5',claudeOpus:'claude-opus-5-5'});
 const isClaudeEngine=e=>Object.prototype.hasOwnProperty.call(CLAUDE_IDS,e);
 const isGeminiEngine=engine=>engine==='gemini'||Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,engine);
 const actualModelId=(engine,s)=>GEMINI_MODEL_ENGINES[engine]||CLAUDE_IDS[engine]||(engine==='gemini'?s.geminiModel.trim():engine);
@@ -237,7 +239,9 @@ const CLAUDE_HAIKU_ROLE_K="This is the husband's message to his Lao wife. Husban
 const CLAUDE_HAIKU_ROLE_L="This is the wife's message to her Korean husband. Wife = speaker, husband = listener, even on independent reverse. Lao ຂ້ອຍ is the wife, not the husband; Lao ທີ່ຮັກ addresses her husband. Write natural warm Korean 반말 for informal personal speech, maintaining explicit respect if present. Preserve third parties and kinship.";
 const CLAUDE_HAIKU_BACK_R2="Independent reverse translation: You see only the actual preceding translated text, not an earlier original. Translate exactly that visible text, including meaning changes, odd expressions and any extraneous content. Never guess an unseen original, silently repair faults or make the output prettier at the expense of the source.";
 const CLAUDE_HAIKU_FORWARD_R2="Forward translation: Keep the same content, level of affection and speech act. Do not insert explanation or switch the speaker.";
-const promptVersionForEngine=e=>e==='claudeSonnetS1'?'SONNET55_COUPLE_S1':e==='claudeHaikuR3'?'HAIKU_LOW_COUPLE_R3':e==='claudeHaiku'?'HAIKU_LOW_COUPLE_R2':e==='claudeHaikuMed'?'HAIKU_MED_COUPLE_R2':isClaudeEngine(e)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1';
+const CLAUDE_HAIKU_F1_SYMPTOMS="For Lao-to-Korean forward translation only: ປວດຮາກ means nausea/urge to vomit, not stomach pain; ວິນຫົວ means dizziness, not headache. Do not add symptoms not stated in the source.";
+const CLAUDE_HAIKU_IB1_BACK="Independent reverse translation: Translate only the actual immediately preceding translation supplied as the visible source. The original message and its speaker are unavailable. Do not assume which spouse spoke; infer speakers, listeners, actions and recipients only from the visible text. If unclear, preserve that uncertainty. Reflect any errors and extra facts instead of repairing or reconstructing the unseen original. Return only the translation, without notes or corrections.";
+const promptVersionForEngine=e=>e==='claudeSonnetS1'?'SONNET55_COUPLE_S1':e==='claudeHaikuF1'?'HAIKU_LOW_R2_F1':e==='claudeHaikuIB1'?'HAIKU_LOW_R2_IB1':e==='claudeHaikuR3'?'HAIKU_LOW_COUPLE_R3':e==='claudeHaiku'?'HAIKU_LOW_COUPLE_R2':e==='claudeHaikuMed'?'HAIKU_MED_COUPLE_R2':isClaudeEngine(e)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1';
 const CLAUDE_HAIKU_LOW_R3="Translate one Korean–Lao message for a Korean husband and Lao wife. Output exactly one natural translation in the requested language: no preface, reasoning, drafts, notes, self-corrections or alternatives. For Lao, use Lao script and Lao expressions, never Thai. Priority: source meaning > speaker/actor/reference accuracy > tone > fluency. Keep speaker, listener, third parties, who acts on/for whom, who owns/provides/receives, and explicit family relationships. Preserve distinct names, places, nicknames, things, numbers, units and emojis; do not turn an unfamiliar name into a pronoun. Preserve negation, contrast, questions vs statements, request vs purpose/plan, permission, uncertainty vs fact, comparisons and degree, time viewpoint and event order, past/completed vs ongoing/intended, conditions and emotional force. Keep each symptom or condition exactly as stated, including improvement versus worsening; never substitute a different symptom or invent an illness, cause, action, motive or extra detail. Where the source is incomplete or genuinely ambiguous, preserve that instead of guessing. Naturalize wording without adding or changing facts.";
 const CLAUDE_HAIKU_R3_ROLE_K="Husband-to-wife conversation. Husband is original speaker, wife is listener; the Korean first person refers to husband, and direct 여보/자기 addresses wife unless grammar says otherwise. Maintain intimate Lao with source politeness; preserve named third parties and who did what to whom. The role orientation remains the same on independent reverse.";
 const CLAUDE_HAIKU_R3_ROLE_L="Wife-to-husband conversation. Wife is original speaker, husband is listener; Lao ຂ້ອຍ refers to wife and ທີ່ຮັກ may address husband. Use natural affectionate Korean banmal for informal speech, retaining expressly polite speech. Preserve third parties and kinship; the role orientation remains the same on independent reverse.";
@@ -255,6 +259,10 @@ async function claudeTranslate(text,src,dst,s,model,engine,context){
  const isHaikuCandidate=engine==='claudeHaiku'||engine==='claudeHaikuMed'||engine==='claudeHaikuR3';
  const system=engine==='claudeSonnetS1'
    ?'<translation_task>'+CLAUDE_SONNET55_S1_COMMON+'</translation_task>\n<couple_context>'+(context?.side==='K'?CLAUDE_SONNET55_S1_ROLE_K:CLAUDE_SONNET55_S1_ROLE_L)+'</couple_context>\n<translation_stage>'+(stage==='back'?CLAUDE_SONNET55_S1_BACK:CLAUDE_SONNET55_S1_FORWARD)+'</translation_stage>'
+   :engine==='claudeHaikuF1'
+   ?CLAUDE_HAIKU_LOW_R2+' '+(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_BACK_R2:CLAUDE_HAIKU_FORWARD_R2+(context?.side==='L'?' '+CLAUDE_HAIKU_F1_SYMPTOMS:''))
+   :engine==='claudeHaikuIB1'
+   ?CLAUDE_HAIKU_LOW_R2+' '+(stage==='back'?CLAUDE_HAIKU_IB1_BACK:(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+CLAUDE_HAIKU_FORWARD_R2)
    :engine==='claudeHaikuR3'
    ?CLAUDE_HAIKU_LOW_R3+' '+(context?.side==='K'?CLAUDE_HAIKU_R3_ROLE_K:CLAUDE_HAIKU_R3_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_R3_BACK:CLAUDE_HAIKU_R3_FORWARD)
    :isHaikuCandidate
@@ -295,7 +303,7 @@ $('summary').textContent=names.join(' / ')+(comparable?' · 반복 결과 문자
 function markFinish(rec){records.push(rec);render(rec);summarize();}
 async function one(engine,c,s,round){
  const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko',modelId=actualModelId(engine,s);
- const thinkingLevel=isGeminiEngine(engine)?'low':engine==='claudeHaiku'?'low/disabled':engine==='claudeHaikuMed'?'medium/adaptive':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
+ const thinkingLevel=isGeminiEngine(engine)?'low':['claudeHaiku','claudeHaikuF1','claudeHaikuIB1'].includes(engine)?'low/disabled':engine==='claudeHaikuMed'?'medium/adaptive':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
  const rec={round,caseId:c.caseId,engine,modelId,thinkingLevel,promptVersion:promptVersionForEngine(engine),side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,forwardUsage:null,backUsage:null,forwardUsd:null,backUsd:null,error:''};
  if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}
  let t=performance.now();
