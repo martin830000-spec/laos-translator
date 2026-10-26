@@ -28,12 +28,12 @@ button.primary{background:var(--blue);border-color:var(--blue);color:white}butto
 <main>
 <header><h1>한국어 ↔ 라오어 · 다중 엔진 비교</h1><div class="muted">독립 TEST R4 · Gemini 3.8 / 3.5 Flash-Lite / 3.1 Flash-Lite LOW 동시 비교 · SERVICE / H2 변경 없음</div></header>
 <section class="card" id="claudeNeutral10" style="border:2px solid #a5a0d9">
-<h2>★ Claude Haiku 5.5 · 한국어↔라오어 10문장 파일럿</h2>
-<p>기존 비민감 스트레스 문장 10개(K5/L5). 정번역·독립 역번역 각 1회, <b>최대 20회 유료 호출</b>. 오류 발생 시 즉시 중단, 자동 재시도 없음.</p>
-<p class="warning">기존 중립 프롬프트를 이용한 사전 검증입니다. 실사용 P168A R8이나 기존 3.8/3.1의 50문장 결과와 직접 비교할 수 없습니다. Claude API 키를 브라우저에서 직접 전송하므로 TEST용 단기 키만 입력하고 완료 후 비활성화하세요. 다른 브라우저 스크립트·확장프로그램이 키에 접근할 위험은 있습니다. 키는 저장하지 않습니다.</p>
+<h2>★ Claude Haiku 5.5 · C-H1 경량 부부 번역 10문장</h2>
+<p>기존 비민감 스트레스 문장 10개(K5/L5) · Claude 최적화 경량 부부 프롬프트 <b>C-H1</b> 적용. 정번역·독립 역번역 각 1회, <b>최대 20회 유료 호출</b>. 오류 시 중단, 자동 재시도 없음.</p>
+<p class="warning">C-H1은 P168A R8의 핵심 의미·역할·말투·역번역 원칙만 가져온 신규 Claude용 경량 후보입니다. 기존 3.8/3.1 실사용 50건과 동일 프롬프트가 아니므로 직접적인 공정 A/B로 취급하지 않습니다. Claude API 키를 브라우저에서 직접 전송하므로 TEST용 단기 키만 입력하고 완료 후 비활성화하세요. 다른 브라우저 스크립트·확장프로그램이 키에 접근할 위험은 있습니다. 키는 저장하지 않습니다.</p>
 <div class="grid"><div><label for="cKey">Claude 임시 API 키 (채팅에 붙이지 마세요)</label><input id="cKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-..."></div><div>모델: <b>claude-haiku-5-5</b><p>effort LOW / thinking disabled / max_tokens 2048</p><p>짧은 요청 공식 요금: 입력 100만 토큰 $0.10 · 출력 $0.50</p></div></div>
 <div class="row" style="margin:10px 0"><button id="cCheck" type="button">① 무료 준비검사 (API 0회)</button><button id="cGo" type="button" class="primary" disabled>② 유료 검사 (최대 20회)</button><button id="cHalt" type="button">중단</button><button id="cDownload" type="button" disabled>결과 TXT 저장</button></div>
-<p id="cState" class="note">키 입력 → 무료 준비검사 → 확인창 → 유료 검사</p><pre id="cLogs" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto"></pre></section>
+<p id="cState" class="note">C-H1 · 키 입력 → 무료 준비검사 → 확인창 → 유료 검사</p><pre id="cLogs" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto"></pre></section>
 <script>
 window.__CLAUDE_CASES__=[{"id":1,"side":"K","source":"어제보다 덜 어지럽긴 하지만, 아직 몸이 완전히 나은 건 아니니까 오늘은 쉬려고 해."},{"id":2,"side":"L","source":"ມື້ນີ້ຂ້ອຍບໍ່ໄດ້ເຈັບຫົວ ແຕ່ຍັງມຶນຫົວຢູ່ ເລີຍຢາກພັກກ່ອນ."},{"id":3,"side":"K","source":"서류를 제출했다는 말이지, 승인이 났다는 말은 아니야."},{"id":4,"side":"L","source":"ຂ້ອຍຈະໄປຮັບເອກະສານມື້ອື່ນ ບໍ່ແມ່ນວ່າໄປຮັບມາແລ້ວ."},{"id":5,"side":"K","source":"여보가 화난 건 이해해. 그렇다고 내가 여보 편이 아니라는 건 아니잖아."},{"id":6,"side":"L","source":"ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍພຽງແຕ່ນ້ອຍໃຈທີ່ເຈົ້າບໍ່ບອກຂ້ອຍກ່ອນ."},{"id":7,"side":"K","source":"비가 안 오면 나갈 수도 있지만, 지금 당장 가겠다고 약속한 건 아니야."},{"id":8,"side":"L","source":"ຖ້າອາກາດບໍ່ດີ ຢ່າຝືນອອກໄປ ແຕ່ຖ້າດີຂຶ້ນກໍຄ່ອຍໄປ."},{"id":9,"side":"K","source":"친구가 경찰서에서 다시 오라고 들었다는데, 내가 직접 확인한 건 아니야."},{"id":10,"side":"L","source":"ໝູ່ຂ້ອຍບອກວ່າເອກະສານອາດຈະຖືກສົ່ງກັບ ແຕ່ຍັງບໍ່ມີໃຜຢືນຢັນ."}];
 
@@ -43,11 +43,17 @@ let ready=false,running=false,stop=null,rows=[],calls=0;
 const cost=()=>rows.reduce((a,r)=>a+(r.cost||0),0);
 function state(t){el('cState').textContent=t;el('cGo').disabled=!ready||running;el('cCheck').disabled=running;el('cDownload').disabled=running||!rows.length}
 function safe(e){let s=String(e?.message||e);const k=el('cKey').value.trim();return(k?s.replaceAll(k,'[KEY]'):s).slice(0,180)}
-async function api(text,a,b){
+const CLAUDE_CH1_VERSION='C-H1';
+const CLAUDE_CH1_COMMON="You are a Korean–Lao translator for a married couple, not a chatbot. Preserve practical meaning first: who does what to whom, possession and recipient, negation and contrast, condition, time and event state (planned/ongoing/completed), comparison and degree, uncertainty, amounts/units, names, questions and requests, and emotional intensity. Never add explanations, missing facts, causes, actions or subjects. If the source is genuinely ambiguous or incomplete, preserve that instead of guessing. Write one natural translation with the source's warmth and politeness. No variants, labels, commentary or Thai substituted for Lao.";
+const CLAUDE_CH1_ROLES={"K":"Husband speaks to his Lao wife. I/me is husband; direct 여보/자기 refers to wife unless grammar states otherwise. Use natural intimate Lao; use ອ້າຍ for explicit husband self-reference only when needed. Do not add husband/wife labels or slash-separated alternatives. Keep polite or respectful wording where explicitly present.","L":"Lao wife speaks to her Korean husband. ຂ້ອຍ is wife/speaker; direct ເຈົ້າ/ທີ່ຮັກ is husband/listener unless grammar states otherwise. Intimate casual Lao becomes natural warm Korean 반말; clearly respectful speech stays 존댓말. Keep explicitly mentioned other people distinct."};
+const CLAUDE_CH1_BACK="Independent verification back-translation: use ONLY the supplied translated text. Do not reconstruct, fix or imitate an earlier original. Retain any meaning change, odd wording or missing content actually present in the supplied text so a reader can notice it. Translate naturally into the requested target while preserving the same people, polarity, event state, degree/comparison, speech act, uncertainty and register. Output one translation only.";
+async function api(text,a,b,side,stage){
  const key=el('cKey').value.trim();
- const prompt='Translate exactly one conversational message from '+a+' to '+b+'. Preserve the source meaning, negation, speaker roles, politeness, emotion, modality, tense, quantities and uncertainty. Do not add information. Return only the translation. Source: '+text;
+ const system=CLAUDE_CH1_COMMON+' '+CLAUDE_CH1_ROLES[side]+' '+(stage==='back'?CLAUDE_CH1_BACK:'Translate the supplied message.');
+ const escaped=String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+ const content='<source language="'+a+'" target="'+b+'">'+escaped+'</source>';
  calls++;
- const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','content-type':'application/json'},body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:2048,thinking:{type:'disabled'},output_config:{effort:'low'},messages:[{role:'user',content:prompt}]}),signal:stop.signal,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'});
+ const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','content-type':'application/json'},body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:2048,thinking:{type:'disabled'},output_config:{effort:'low'},system,messages:[{role:'user',content}]}),signal:stop.signal,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'});
  const d=await r.json();if(!r.ok)throw Error('HTTP '+r.status+' '+String(d.error?.message||'').replaceAll(key,'[KEY]'));
  if(d.stop_reason!=='end_turn')throw Error('STOP '+d.stop_reason);
  const answer=(d.content||[]).filter(v=>v.type==='text').map(v=>v.text||'').join('').trim();if(!answer)throw Error('EMPTY');
@@ -64,21 +70,21 @@ el('cGo').onclick=async()=>{
   const src=c.side==='K'?'Korean':'Lao',dst=c.side==='K'?'Lao':'Korean';
   const item={...c,forward:'',back:'',forwardMs:null,backMs:null,forwardUsage:null,backUsage:null,cost:0,error:''};
   try{
-   let t=performance.now();const f=await api(c.source,src,dst);item.forward=f.text;item.forwardUsage=f.usage;item.forwardMs=Math.round(performance.now()-t);item.cost+=((f.usage.input_tokens||0)*.1+(f.usage.output_tokens||0)*.5)/1e6;
+   let t=performance.now();const f=await api(c.source,src,dst,c.side,'forward');item.forward=f.text;item.forwardUsage=f.usage;item.forwardMs=Math.round(performance.now()-t);item.cost+=((f.usage.input_tokens||0)*.1+(f.usage.output_tokens||0)*.5)/1e6;
    if(stop.signal.aborted){rows.push(item);break}
-   t=performance.now();const b=await api(f.text,dst,src);item.back=b.text;item.backUsage=b.usage;item.backMs=Math.round(performance.now()-t);item.cost+=((b.usage.input_tokens||0)*.1+(b.usage.output_tokens||0)*.5)/1e6;
+   t=performance.now();const b=await api(f.text,dst,src,c.side,'back');item.back=b.text;item.backUsage=b.usage;item.backMs=Math.round(performance.now()-t);item.cost+=((b.usage.input_tokens||0)*.1+(b.usage.output_tokens||0)*.5)/1e6;
   }catch(e){item.error=safe(e);stop.abort()}
-  rows.push(item);el('cLogs').textContent+='Case '+c.id+': '+(item.error||'정·독립역 완료')+' · '+item.forwardMs+'/'+item.backMs+'ms\n';
+  rows.push(item);el('cLogs').textContent+='['+c.id+' '+c.side+'] '+(item.error||'정·독립역 완료')+' · '+item.forwardMs+'/'+item.backMs+'ms\n원문: '+item.source+'\n정번역: '+(item.forward||'—')+'\n독립 역번역: '+(item.back||'—')+'\n\n';
   state('실제 요청 '+calls+'/20 · 완료 '+rows.filter(r=>r.back).length+'/10 · 추정 $'+cost().toFixed(6));
   if(stop.signal.aborted)break;
  }}finally{running=false;el('cKey').value='';state('종료 · 호출 '+calls+'/20 · 완료 '+rows.filter(r=>r.back).length+'/10 · 추정 $'+cost().toFixed(6)+' · 키 입력 삭제 · TXT 저장 가능')}
 };
 el('cDownload').onclick=()=>{
- const lines=['CLAUDE_HAIKU55_NEUTRAL10','MODEL claude-haiku-5-5','EFFORT low','THINKING disabled','NOT_SERVICE_P168A_R8','CALLS '+calls,'EST_USD '+cost().toFixed(6)];
+ const lines=['CLAUDE_HAIKU55_CH1_10','PROMPT_VERSION C-H1','MODEL claude-haiku-5-5','EFFORT low','THINKING disabled','DERIVED_FROM_P168A_CORE_ONLY','NOT_IDENTICAL_TO_P168A_R8','CALLS '+calls,'EST_USD '+cost().toFixed(6)];
  for(const r of rows)lines.push('CASE '+r.id,'SIDE '+r.side,'SOURCE '+r.source,'FORWARD '+r.forward,'INDEPENDENT_BACK '+r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'FORWARD_USAGE '+JSON.stringify(r.forwardUsage),'BACK_USAGE '+JSON.stringify(r.backUsage),'COST_USD '+r.cost,'ERROR '+r.error,'---');
- const u=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='claude-haiku55-neutral10-'+Date.now()+'.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1200);
+ const u=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='claude-haiku55-CH1-10-'+Date.now()+'.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1200);
 };
-state('Claude 키 입력 → 무료 준비검사 → 최대 20회 유료 실행');
+state('C-H1 · Claude 키 입력 → 무료 준비검사 → 최대 20회 유료 실행');
 })();
 </script>
 <section class="card" id="r8PairPanel" style="border:2px solid #90add8">
