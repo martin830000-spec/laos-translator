@@ -694,7 +694,13 @@ $('r8Run').addEventListener('click',async()=>{
 });
 r8LoadSession();r8Paint();
 
-load();if(new URLSearchParams(location.search).get('preset')==='gemini3')selectGemini3Preset();else $('plan').textContent='이번 비교: '+settings().engines.map(e=>engineNames[e]).join(' ↔ ')+' · 사용자가 검사 시작을 누르면 예상 유료 호출 수를 확인합니다.';
+load();const selectedPreset=new URLSearchParams(location.search).get('preset');
+if(selectedPreset==='gemini3')selectGemini3Preset();
+else if(selectedPreset==='ib1'){
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuIB1'].includes(x.dataset.engine)&&!x.disabled);
+ $('repeatCount').value='1';updateCaseStatus();
+ $('plan').textContent='R2 vs R2-IB1 · 정번역 프롬프트 동일 / 독립 역번역 지시만 다름 · 입력 문장 보존 · 반복 1회 · 유료 API 검사 실행 전 확인';
+}else $('plan').textContent='이번 비교: '+settings().engines.map(e=>engineNames[e]).join(' ↔ ')+' · 사용자가 검사 시작을 누르면 예상 유료 호출 수를 확인합니다.';
 })();
 </script>
 </body>
