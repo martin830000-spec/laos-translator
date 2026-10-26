@@ -35,8 +35,8 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 <p class="note"><b>기준 모델과 Claude 후보</b> · 체크된 모델을 동일 문장으로 검사</p>
 <div class="row">
 <label class="check"><input type="checkbox" data-engine="gemini38" checked>Gemini 3.8 Flash (기준)</label>
-<label class="check"><input type="checkbox" data-engine="claudeHaiku" checked>Claude Haiku 5.5 · LOW/OFF</label>
-<label class="check"><input type="checkbox" data-engine="claudeHaikuMed">Claude Haiku 5.5 · MEDIUM/Adaptive (통제 후보)</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaiku" checked>Claude Haiku 5.5 · LOW/OFF · R2</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuMed">Claude Haiku 5.5 · MEDIUM/Adaptive · R2</label>
 <label class="check"><input type="checkbox" data-engine="claudeSonnet" checked>Claude Sonnet 5.5</label>
 <label class="check"><input type="checkbox" data-engine="claudeOpus">Claude Opus 5.5 · 고비용</label>
 </div>
@@ -70,7 +70,7 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 </div>
 </details>
 <p class="note">Lara는 공급사의 인증 서명·토큰·SDK 절차를 사용합니다. 브라우저 CORS 또는 SDK 호환성이 검증되지 않은 상태입니다. 직접 호출이 막히면 자동으로 실패를 기록하며 임의의 프록시나 재호출을 하지 않습니다.</p>
-<div class="row"><button type="button" id="mainPreset" class="primary">추천 3종 · 3.8 + Haiku + Sonnet</button><button type="button" id="geminiPreset">Gemini 3종만</button><button type="button" id="haikuMediumPreset">Haiku MEDIUM만</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
+<div class="row"><button type="button" id="mainPreset" class="primary">추천 3종 · 3.8 + Haiku + Sonnet</button><button type="button" id="geminiPreset">Gemini 3종만</button><button type="button" id="haikuTwoPreset">Claude Haiku 2종만 · R2 비교</button><button type="button" id="haikuMediumPreset">Haiku MEDIUM만</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
 </section>
 <section class="card">
 <h2>② 입력한 모든 문장 비교</h2>
@@ -96,7 +96,7 @@ L|ຂ້ອຍຂໍໃຫ້ເຈົ້າຊ່ວຍກວດເອກະສ
 K|조금만 더 기다려 보자고 한 거지, 언제까지나 참으라는 뜻은 아니야.
 L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂົ້າ ບໍ່ໄດ້ບອກວ່າທັກແລ້ວ.</textarea>
 <div class="row"><button type="button" id="load20">기본 가상 20문장 복구</button><span class="pill" id="parsedCountLabel">입력 문장 수 자동 계산 · 전량 검사</span></div>
-<p class="note"><b>품질 비교 주의:</b> 같은 원문을 모든 선택 엔진에 전달합니다. <b>Gemini는 기존 중립 지시문, Claude는 부부 역할·말투 보존용 경량 지시문</b>을 사용하므로 이는 모델 단독 성능 비교가 아닌 모델+프롬프트 조합 비교입니다. 정번역 1회·실제 결과 기반 독립 역번역 1회를 실행하며, SERVICE P168A R8과는 다른 TEST입니다.</p><p class="note">역번역은 해당 엔진의 정번역 결과만 새 요청으로 다시 번역합니다. 원문과 별도의 '정답'을 주지 않으며, 역번역 일치율만으로 정번역 품질을 평가하지 않습니다.</p>
+<p class="note"><b>품질 비교 주의:</b> 같은 원문을 모든 선택 엔진에 전달합니다. <b>Gemini는 기존 중립 지시문, Claude는 엔진별 부부 역할·말투 경량 지시문</b>을 사용하므로 모델 단독 성능이 아닌 모델+프롬프트 조합 비교입니다. Haiku LOW와 MEDIUM은 각각 <b>R2 독립 후보</b>이며 Sonnet/Opus는 기존 R1을 보존합니다. 정번역 1회·실제 결과 기반 독립 역번역 1회를 실행하며, SERVICE P168A R8과는 다른 TEST입니다.</p><p class="note">역번역은 해당 엔진의 정번역 결과만 새 요청으로 다시 번역합니다. 원문과 별도의 '정답'을 주지 않으며, 역번역 일치율만으로 정번역 품질을 평가하지 않습니다.</p>
 <div class="grid">
 <div><label for="repeatCount">반복 횟수만 입력 (문장은 모두 검사)</label><input type="number" id="repeatCount" min="1" step="1" value="1" inputmode="numeric"></div>
 </div>
@@ -106,7 +106,7 @@ L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂ
  <label for="resumeFile" style="font-weight:700">이전 결과 TXT/JSON 불러오기 · 완료 항목 건너뛰기</label>
  <input type="file" id="resumeFile" accept=".txt,.json,text/plain,application/json" />
 </div>
-<p id="resumeStatus" class="note">기존에 저장한 결과 파일을 선택하면 완료한 항목은 같은 회차에 다시 호출하지 않습니다. 실패 항목은 실패 기록을 유지하고 자동 재시도하지 않습니다.</p>
+<p id="resumeStatus" class="note">기존에 저장한 결과 파일을 선택하면 같은 버전의 완료 항목을 재호출하지 않습니다. <b>기존 Haiku R1 기록은 새로운 R2와 프롬프트가 달라 이어받을 수 없습니다.</b> 실패는 자동 재시도하지 않습니다.</p>
 <p id="plan" class="note"></p><p id="caseStatus" class="note"></p><progress id="prog" max="1" value="0"></progress><p id="state">대기 중</p>
 </section>
 <section class="card"><h2>④ 공통 비교 결과 <span class="pill" id="resultCount">0건</span></h2><p id="summary" class="note">검사 후 엔진별 성공 건수와 속도, 반복 출력의 차이가 표시됩니다.</p><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
@@ -165,6 +165,10 @@ localStorage.setItem(SETTINGS_UPGRADE,'done');}}catch(e){}
 save();updateCaseStatus();}
 function selectGemini3Preset(){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,x.dataset.engine));save();updateCaseStatus();$('plan').textContent='Gemini 3종 선택 · 입력한 모든 문장을 검사 · 반복 횟수는 현재 입력 그대로';}
 $('geminiPreset').addEventListener('click',selectGemini3Preset);
+$('haikuTwoPreset').addEventListener('click',()=>{
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuMed'].includes(x.dataset.engine));
+ save();updateCaseStatus();$('plan').textContent='Haiku LOW/OFF R2 + MEDIUM/Adaptive R2 두 후보만 · 현재 입력 전량 검사, 반복 횟수 유지. Gemini 3.1을 포함한 나머지 엔진은 모두 해제됨.';
+});
 $('haikuMediumPreset').addEventListener('click',()=>{
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=x.dataset.engine==='claudeHaikuMed');
  save();updateCaseStatus();$('plan').textContent='Haiku 5.5 MEDIUM/Adaptive 선택 · 사용자가 입력한 모든 문장 · Claude 부부 경량 프롬프트 · 현재 반복 횟수 유지.';
@@ -217,10 +221,20 @@ const CLAUDE_COUPLE_COMMON="Translate one message between Korean and Lao for a m
 const CLAUDE_COUPLE_FORWARD_K="Forward route: Korean husband is speaking to his Lao wife. Keep natural affectionate couple speech. The Korean '여보/자기' addresses the wife, never add a husband/wife slash alternative. Do not swap speaker and listener.";
 const CLAUDE_COUPLE_FORWARD_L="Forward route: Lao wife is speaking to her Korean husband. Keep a natural warm Korean casual tone for familiar speech, but maintain explicit politeness when present. Do not swap speaker and listener.";
 const CLAUDE_COUPLE_INDEPENDENT_BACK="Independent reverse translation: translate ONLY the supplied text without access to the earlier original. Never guess, reconstruct or silently repair the source. Preserve unusual or explanatory material if it actually appears in the provided text, so translation errors remain visible.";
+const CLAUDE_HAIKU_LOW_R2="You translate one personal message between Korean and Lao for a married couple. Write exactly one translation in the requested language, without any preface, analysis, alternatives, commentary or correction attempts. When target is Lao, use Lao script and Lao expressions, never Thai script or Thai vocabulary. Keep the speaker, listener, actor and receiver of each action distinct. Preserve names as names even if unfamiliar; do not turn names into pronouns. Preserve each physical symptom precisely rather than substituting a different symptom, and keep any improvement or worsening; preserve negation, time, degree, conditions, intention and emotional tone. Preserve family roles (older/younger sibling, who cared for whom), quantities and emojis. No invented people, actions, advice or facts; keep the couple's familiar tone.";
+const CLAUDE_HAIKU_MED_R2="Your only deliverable is one faithful Korean-Lao message translation for a married couple. The VISIBLE RESPONSE must be only the finished translation in the requested target language, from first to last character. Never write draft fragments, analysis, self-corrections, reasoning, language comparisons, translation notes, English explanation or alternative versions. Lao output must use Lao script and words, not Thai. Before finalizing, preserve factual roles (who says, does, receives, looks after whom), kinship age and speaker/listener, proper names, body symptoms and whether they worsened or improved, negation, time, completion, conditions, quantities, emotions and requests. Do not infer diagnoses, extra events or identities. If source is unclear, retain uncertainty rather than inventing an explanation. Maintain natural intimate couple speech.";
+const CLAUDE_HAIKU_ROLE_K="This is the husband's message to his Lao wife. Husband = speaker, wife = listener, even on independent reverse. Do not switch the speaker to the wife. For affectionate spouse address, prefer natural ທີ່ຮັກ in Lao where appropriate; do not output alternative husband/wife address labels. Preserve explicitly mentioned third parties.";
+const CLAUDE_HAIKU_ROLE_L="This is the wife's message to her Korean husband. Wife = speaker, husband = listener, even on independent reverse. Lao ຂ້ອຍ is the wife, not the husband; Lao ທີ່ຮັກ addresses her husband. Write natural warm Korean 반말 for informal personal speech, maintaining explicit respect if present. Preserve third parties and kinship.";
+const CLAUDE_HAIKU_BACK_R2="Independent reverse translation: You see only the actual preceding translated text, not an earlier original. Translate exactly that visible text, including meaning changes, odd expressions and any extraneous content. Never guess an unseen original, silently repair faults or make the output prettier at the expense of the source.";
+const CLAUDE_HAIKU_FORWARD_R2="Forward translation: Keep the same content, level of affection and speech act. Do not insert explanation or switch the speaker.";
+const promptVersionForEngine=e=>e==='claudeHaiku'?'HAIKU_LOW_COUPLE_R2':e==='claudeHaikuMed'?'HAIKU_MED_COUPLE_R2':isClaudeEngine(e)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1';
 async function claudeTranslate(text,src,dst,s,model,engine,context){
  const setup=engine==='claudeHaikuMed'?{thinking:'adaptive',effort:'medium',input:.1,output:.5}:model==='claude-haiku-5-5'?{thinking:'disabled',effort:'low',input:.1,output:.5}:model==='claude-sonnet-5-5'?{thinking:'between_tools',effort:'low',input:2,output:10}:{thinking:'adaptive',effort:'low',input:4,output:20};
  const stage=context?.stage||'forward';
- const system=CLAUDE_COUPLE_COMMON+' '+(stage==='back'?CLAUDE_COUPLE_INDEPENDENT_BACK:context?.side==='K'?CLAUDE_COUPLE_FORWARD_K:CLAUDE_COUPLE_FORWARD_L);
+ const isHaikuCandidate=engine==='claudeHaiku'||engine==='claudeHaikuMed';
+ const system=isHaikuCandidate
+   ?(engine==='claudeHaiku'?CLAUDE_HAIKU_LOW_R2:CLAUDE_HAIKU_MED_R2)+' '+(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_BACK_R2:CLAUDE_HAIKU_FORWARD_R2)
+   :CLAUDE_COUPLE_COMMON+' '+(stage==='back'?CLAUDE_COUPLE_INDEPENDENT_BACK:context?.side==='K'?CLAUDE_COUPLE_FORWARD_K:CLAUDE_COUPLE_FORWARD_L);
  const source=String(text);
  const body={model,max_tokens:2048,thinking:{type:setup.thinking},output_config:{effort:setup.effort},system,messages:[{role:'user',content:'Translate the following message from '+(src==='ko'?'Korean':'Lao')+' into '+(dst==='ko'?'Korean':'Lao')+'.\n<source>\n'+source+'\n</source>'}]};
  const d=await requestJSON('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':s.claudeKey},credentials:'omit',body:JSON.stringify(body)},s);
@@ -257,7 +271,7 @@ function markFinish(rec){records.push(rec);render(rec);summarize();}
 async function one(engine,c,s,round){
  const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko',modelId=actualModelId(engine,s);
  const thinkingLevel=isGeminiEngine(engine)?'low':engine==='claudeHaiku'?'low/disabled':engine==='claudeHaikuMed'?'medium/adaptive':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
- const rec={round,caseId:c.caseId,engine,modelId,thinkingLevel,promptVersion:isClaudeEngine(engine)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1',side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,forwardUsage:null,backUsage:null,forwardUsd:null,backUsd:null,error:''};
+ const rec={round,caseId:c.caseId,engine,modelId,thinkingLevel,promptVersion:promptVersionForEngine(engine),side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,forwardUsage:null,backUsage:null,forwardUsd:null,backUsd:null,error:''};
  if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}
  let t=performance.now();
  try{
@@ -319,7 +333,7 @@ $('resumeFile').addEventListener('change',async()=>{
    const c=sourceCases[Number(r.caseId)-1];
    if(!c||c.side!==r.side||c.text!==String(r.source).trim())throw Error('파일과 현재 입력의 원문/순서 불일치: '+r.caseId+'번. 65건 원본 파일을 먼저 넣어야 합니다');
    if(!engineNames[r.engine]||actualModelId(r.engine,settings())!==r.modelId)throw Error('모델 ID 불일치: '+r.caseId+'번 / '+r.engine);
-   const version=isClaudeEngine(r.engine)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1';
+   const version=promptVersionForEngine(r.engine);
    if(r.promptVersion!==version)throw Error('프롬프트 버전이 달라 중복 방지가 안전하지 않습니다: '+r.engine);
    if(!Number.isSafeInteger(Number(r.round))||Number(r.round)<1)throw Error('회차 정보 오류');
    const k=recordKey(r);if(observed.has(k))throw Error('같은 회차·문장·모델 중복 기록: '+k);
@@ -386,7 +400,7 @@ $('run').addEventListener('click',async()=>{
  }
 });
 function safeExport(obj){const a=document.createElement('a');const blob=new Blob([obj.text],{type:obj.type});const url=URL.createObjectURL(blob);a.href=url;a.download=obj.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-$('export').addEventListener('click',()=>safeExport({text:JSON.stringify({version:'R4',at:new Date().toISOString(),method:'Gemini neutral NEUTRAL_COMMON_R1 vs Claude CLAUDE_COUPLE_LITE_R1 with independent reverse; not identical prompts; no retries; not SERVICE P168A R8',caseSet:'All user-input K/L lines in given order (duplicates preserved); rounds cumulative in current tab',notice:'API keys never exported; RTT is browser observed; no scoring',records},null,2),type:'application/json',name:'ko-lao-engine-compare-'+Date.now()+'.json'}));
+$('export').addEventListener('click',()=>safeExport({text:JSON.stringify({version:'R4',at:new Date().toISOString(),method:'Gemini neutral NEUTRAL_COMMON_R1; Claude Haiku LOW HAIKU_LOW_COUPLE_R2; Claude Haiku MEDIUM HAIKU_MED_COUPLE_R2; Sonnet/Opus prior R1; all independent reverse from actual forward; distinct prompts; no retries; not SERVICE P168A R8',caseSet:'All user-input K/L lines in given order (duplicates preserved); rounds cumulative in current tab',notice:'API keys never exported; RTT is browser observed; no scoring',records},null,2),type:'application/json',name:'ko-lao-engine-compare-'+Date.now()+'.json'}));
 $('exportTxt').addEventListener('click',()=>safeExport({text:records.map(r=>['ROUND '+r.round,'CASE '+r.caseId,'ENGINE '+engineNames[r.engine],'MODEL_ID '+(r.modelId||'-'),'THINKING '+(r.thinkingLevel||'-'),'SIDE '+r.side,'SOURCE '+r.source,'FORWARD '+r.forward,'BACK '+r.back,'FORWARD_MS '+r.forwardMs,'BACK_MS '+r.backMs,'PROMPT_VERSION '+r.promptVersion,'FORWARD_USAGE '+JSON.stringify(r.forwardUsage),'BACK_USAGE '+JSON.stringify(r.backUsage),'FORWARD_USD_EST '+r.forwardUsd,'BACK_USD_EST '+r.backUsd,'STATUS '+(r.error||r.state),'---'].join('\n')).join('\n'),type:'text/plain;charset=utf-8',name:'ko-lao-engine-compare-'+Date.now()+'.txt'}));
 
 // Isolated R8 model comparison (not the neutral-engine runner above). No paid calls during preflight.
