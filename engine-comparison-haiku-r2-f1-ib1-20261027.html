@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>KO↔LO 다중 번역 엔진 비교 · TEST R3</title>
+<title>KO↔LO Haiku R2 vs F1 · TEST</title>
 <style>
 :root{color-scheme:light;--bg:#f5f7fb;--ink:#152238;--muted:#58687c;--line:#dce3ec;--blue:#225fcf;--panel:#fff;--good:#18764a;--bad:#b93232}
 *{box-sizing:border-box}body{font-family:system-ui,"Noto Sans KR",Arial,sans-serif;color:var(--ink);background:var(--bg);margin:0;font-size:14px;line-height:1.5}
@@ -27,26 +27,26 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 </head>
 <body>
 <main>
-<header><h1>한국어 ↔ 라오어 · 다중 엔진 비교</h1><p class="muted">① 엔진·API 키 → ② 동일 문장 → ③ 검사 → ④ 정·독립 역번역 결과</p><p class="note">Gemini 3.8 + Claude 3종 포함 · TEST 전용 / SERVICE · H2 변경 없음</p></header>
+<header><h1>Haiku LOW R2 ↔ R2-F1 · 실제 의미 비교 TEST</h1><p class="muted">기본 선택: R2 + F1 · 입력 문장 그대로 · 반복 1회 · 검사 시작 버튼을 눌러야 API 호출</p><p class="note">기존 R3·Sonnet·Gemini는 기본 해제 · IB1 역번역 후보는 별도 검사 · SERVICE/H2 변경 없음</p></header>
 <section class="card">
 <h2>① 엔진 선택 및 API 키</h2>
 <p class="note">API 키는 한 번 입력하면 <b>현재 브라우저에 자동 저장</b>되어 다음 방문에 다시 불러옵니다. 테스트 전용 키 사용 권장. 키 관리·삭제는 아래에서 가능합니다.</p>
 <div id="engineChecks">
-<p class="note"><b>기준 모델과 Claude 후보</b> · 체크된 모델을 동일 문장으로 검사</p>
+<p class="note"><b>이번 검사 대상은 R2와 F1만 자동 선택</b> · 기존 저장 문장과 API 키 보존 · 실행 전 예상 유료 호출 수 확인 후 승인</p>
 <div class="row">
-<label class="check"><input type="checkbox" data-engine="gemini38" checked>Gemini 3.8 Flash (기준)</label>
-<label class="check"><input type="checkbox" data-engine="claudeHaikuR3" checked>Claude Haiku 5.5 · LOW/OFF · R3 신규 후보</label>
-<label class="check"><input type="checkbox" data-engine="claudeSonnetS1" checked>Claude Sonnet 5.5 · LOW/between_tools · S1 전용 프롬프트</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaiku" checked>Haiku LOW R2 · 기존 기준</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuF1" checked>Haiku LOW R2-F1 · 새 정번역 후보</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuIB1">Haiku LOW R2-IB1 · 독립 역번역 후보 (별도 검사)</label>
+<label class="check"><input type="checkbox" data-engine="gemini38">Gemini 3.8 Flash (기준)</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuR3">Claude Haiku 5.5 · LOW/OFF · R3 신규 후보</label>
+<label class="check"><input type="checkbox" data-engine="claudeSonnetS1">Claude Sonnet 5.5 · LOW/between_tools · S1 전용 프롬프트</label>
 <label class="check"><input type="checkbox" data-engine="claudeOpus">Claude Opus 5.5 · 고비용</label>
 </div>
 <details style="margin-top:9px"><summary>이전 Claude 프롬프트 후보 (과거 기록 보존)</summary>
  <div class="row"><label class="check"><input type="checkbox" data-engine="claudeSonnet">Sonnet 5.5 · 기존 R1 공통 프롬프트</label></div>
 </details>
-<details style="margin-top:9px"><summary>이전 Haiku 검사 후보 (R2 보존 · MEDIUM STOP)</summary>
+<details style="margin-top:9px"><summary>이전 Haiku MEDIUM 후보 · STOP (기록 보존)</summary>
  <div class="row">
-  <label class="check"><input type="checkbox" data-engine="claudeHaiku">Haiku LOW/OFF · 기존 R2</label>
-<label class="check"><input type="checkbox" data-engine="claudeHaikuF1">Haiku LOW R2-F1 · 아내 증상 의미 TEST</label>
-<label class="check"><input type="checkbox" data-engine="claudeHaikuIB1">Haiku LOW R2-IB1 · 독립 역번역 TEST</label>
   <label class="check"><input type="checkbox" data-engine="claudeHaikuMed" disabled>Haiku MEDIUM/Adaptive · STOP (선택 불가)</label>
  </div>
 </details>
@@ -80,7 +80,7 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 </div>
 </details>
 <p class="note">Lara는 공급사의 인증 서명·토큰·SDK 절차를 사용합니다. 브라우저 CORS 또는 SDK 호환성이 검증되지 않은 상태입니다. 직접 호출이 막히면 자동으로 실패를 기록하며 임의의 프록시나 재호출을 하지 않습니다.</p>
-<div class="row"><button type="button" id="mainPreset" class="primary">추천 3종 · 3.8 + Haiku + Sonnet</button><button type="button" id="geminiPreset">Gemini 3종만</button><button type="button" id="sonnetS1Preset" class="primary">Sonnet 5.5 · S1만 검사</button><button type="button" id="haikuR3Preset">Haiku LOW R3만 검사</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
+<div class="row"><button type="button" id="mainPreset" class="primary">R2 ↔ F1 자동 선택 (기본)</button><button type="button" id="geminiPreset">Gemini 3종만</button><button type="button" id="sonnetS1Preset" class="primary">Sonnet 5.5 · S1만 검사</button><button type="button" id="haikuR3Preset">Haiku LOW R3만 검사</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
 </section>
 <section class="card">
 <h2>② 입력한 모든 문장 비교</h2>
@@ -151,6 +151,8 @@ L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂ
 (function(){
 'use strict';
 const STORE='ko-lao-engine-compare-r1-keys';
+const F1_ENGINE_STORE='ko-lao-haiku-r2-f1-ib1-selected-engines-v1';
+const F1_DEFAULT_ENGINES=Object.freeze(['claudeHaiku','claudeHaikuF1']);
 const ids=['claudeKey','geminiKey','geminiModel','laraId','laraSecret','azureKey','azureRegion','googleKey','googleProject','googleRegion','laraStyle','cases','repeatCount'];
 const secretIds=['claudeKey','geminiKey','laraId','laraSecret','azureKey','googleKey'];
 const $=id=>document.getElementById(id);
@@ -166,8 +168,8 @@ const LEGACY_CASES="K|오늘은 몸이 조금 나아졌지만 아직 어지러�
 const SETTINGS_UPGRADE='ko-lao-engine-compare-r3-suite-setup';
 const defaults={geminiModel:'gemini-3.8-flash',azureRegion:'koreacentral',googleProject:'gen-lang-client-0422436907',googleRegion:'us-central1',laraStyle:'faithful'};
 function settings(){const o={};for(const id of ids){o[id]=$(id).type==='checkbox'?$(id).checked:$(id).value;}o.engines=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).map(x=>x.dataset.engine);return o;}
-function save(){try{localStorage.setItem(STORE,JSON.stringify(settings()));$('keyStatus').textContent='이 브라우저에 자동 저장됨';}catch(e){$('keyStatus').textContent='저장 실패: 브라우저 저장 제한';}}
-function load(){let o={};try{o=JSON.parse(localStorage.getItem(STORE)||'{}');}catch(e){}for(const id of ids){const x=$(id);if(Object.prototype.hasOwnProperty.call(o,id)){if(x.type==='checkbox')x.checked=!!o[id];else x.value=o[id];}else if(defaults[id])x.value=defaults[id];}if(Array.isArray(o.engines)){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=o.engines.includes(x.dataset.engine)&&!x.disabled);}
+function save(){try{const o=settings();let shared={};try{shared=JSON.parse(localStorage.getItem(STORE)||'{}')||{};}catch(e){}for(const id of ids)shared[id]=o[id];localStorage.setItem(STORE,JSON.stringify(shared));localStorage.setItem(F1_ENGINE_STORE,JSON.stringify(o.engines));$('keyStatus').textContent='이 브라우저에 자동 저장됨';}catch(e){$('keyStatus').textContent='저장 실패: 브라우저 저장 제한';}}
+function load(){let o={};try{o=JSON.parse(localStorage.getItem(STORE)||'{}');}catch(e){}for(const id of ids){const x=$(id);if(Object.prototype.hasOwnProperty.call(o,id)){if(x.type==='checkbox')x.checked=!!o[id];else x.value=o[id];}else if(defaults[id])x.value=defaults[id];}let chosen=F1_DEFAULT_ENGINES;try{const stored=JSON.parse(localStorage.getItem(F1_ENGINE_STORE)||'null');if(Array.isArray(stored))chosen=stored;}catch(e){}document.querySelectorAll('[data-engine]').forEach(x=>x.checked=chosen.includes(x.dataset.engine)&&!x.disabled);$('repeatCount').value='1';
 try{if(localStorage.getItem(SETTINGS_UPGRADE)!=='done'){
 if(!$('cases').value.trim() || $('cases').value.trim()===LEGACY_CASES.trim())$('cases').value=CASES20;
 $('repeatCount').value='1';
@@ -186,8 +188,8 @@ $('haikuR3Preset').addEventListener('click',()=>{
  $('plan').textContent='Haiku LOW/OFF R3만 선택됨 · 현재 입력한 문장 전량, 기존 반복 횟수 유지 · 다른 엔진(숨겨진 Gemini 3.1 포함) 모두 해제 · 이전 R2 결과는 별도 보존';
 });
 $('mainPreset').addEventListener('click',()=>{
- document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['gemini38','claudeHaikuR3','claudeSonnetS1'].includes(x.dataset.engine));
- save();updateCaseStatus();$('plan').textContent='Gemini 3.8/Haiku LOW R3/Sonnet S1 선택 · 엔진+프롬프트 조합 비교 · 입력 전량';
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=F1_DEFAULT_ENGINES.includes(x.dataset.engine));
+ $('repeatCount').value='1';save();updateCaseStatus();$('plan').textContent='Haiku LOW R2 vs F1 자동 선택 · 입력 문장 그대로 · 반복 1회 · 검사를 시작하면 유료 호출 확인창 표시';
 });
 for(const id of ids){$(id).addEventListener('input',()=>{save();updateCaseStatus()});$(id).addEventListener('change',()=>{save();updateCaseStatus()});}
 document.querySelectorAll('[data-engine]').forEach(x=>x.addEventListener('change',()=>{save();updateCaseStatus()}));
@@ -692,7 +694,7 @@ $('r8Run').addEventListener('click',async()=>{
 });
 r8LoadSession();r8Paint();
 
-load();if(new URLSearchParams(location.search).get('preset')==='gemini3')selectGemini3Preset();else $('plan').textContent='선택한 엔진을 동일한 고정 문장으로 정·역 1회씩 비교합니다. Gemini 3종은 상단의 전용 선택 버튼을 누르세요.';
+load();if(new URLSearchParams(location.search).get('preset')==='gemini3')selectGemini3Preset();else $('plan').textContent='이번 비교: '+settings().engines.map(e=>engineNames[e]).join(' ↔ ')+' · 사용자가 검사 시작을 누르면 예상 유료 호출 수를 확인합니다.';
 })();
 </script>
 </body>
