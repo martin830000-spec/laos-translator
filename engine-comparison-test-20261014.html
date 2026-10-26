@@ -35,7 +35,8 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 <p class="note"><b>기준 모델과 Claude 후보</b> · 체크된 모델을 동일 문장으로 검사</p>
 <div class="row">
 <label class="check"><input type="checkbox" data-engine="gemini38" checked>Gemini 3.8 Flash (기준)</label>
-<label class="check"><input type="checkbox" data-engine="claudeHaiku" checked>Claude Haiku 5.5</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaiku" checked>Claude Haiku 5.5 · LOW/OFF</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuMed">Claude Haiku 5.5 · MEDIUM/Adaptive (통제 후보)</label>
 <label class="check"><input type="checkbox" data-engine="claudeSonnet" checked>Claude Sonnet 5.5</label>
 <label class="check"><input type="checkbox" data-engine="claudeOpus">Claude Opus 5.5 · 고비용</label>
 </div>
@@ -69,7 +70,7 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 </div>
 </details>
 <p class="note">Lara는 공급사의 인증 서명·토큰·SDK 절차를 사용합니다. 브라우저 CORS 또는 SDK 호환성이 검증되지 않은 상태입니다. 직접 호출이 막히면 자동으로 실패를 기록하며 임의의 프록시나 재호출을 하지 않습니다.</p>
-<div class="row"><button type="button" id="mainPreset" class="primary">추천 3종 · 3.8 + Haiku + Sonnet</button><button type="button" id="geminiPreset">Gemini 3종만</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
+<div class="row"><button type="button" id="mainPreset" class="primary">추천 3종 · 3.8 + Haiku + Sonnet</button><button type="button" id="geminiPreset">Gemini 3종만</button><button type="button" id="haikuMediumPreset">Haiku MEDIUM만 · 10문장 / 최대20호출</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
 </section>
 <section class="card">
 <h2>② 고정 공통 비교 문장</h2>
@@ -142,8 +143,8 @@ const secretIds=['claudeKey','geminiKey','laraId','laraSecret','azureKey','googl
 const $=id=>document.getElementById(id);
 let records=[], abort=null, active=false, completed=0, planned=0, laraClient=null, runCounter=0;
 const GEMINI_MODEL_ENGINES=Object.freeze({gemini38:'gemini-3.8-flash',gemini35lite:'gemini-3.5-flash-lite',gemini31lite:'gemini-3.1-flash-lite'});
-const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM',claudeHaiku:'Claude Haiku 5.5',claudeSonnet:'Claude Sonnet 5.5',claudeOpus:'Claude Opus 5.5'};
-const CLAUDE_IDS=Object.freeze({claudeHaiku:'claude-haiku-5-5',claudeSonnet:'claude-sonnet-5-5',claudeOpus:'claude-opus-5-5'});
+const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM',claudeHaiku:'Claude Haiku 5.5 · LOW/OFF',claudeHaikuMed:'Claude Haiku 5.5 · MEDIUM/Adaptive',claudeSonnet:'Claude Sonnet 5.5',claudeOpus:'Claude Opus 5.5'};
+const CLAUDE_IDS=Object.freeze({claudeHaiku:'claude-haiku-5-5',claudeHaikuMed:'claude-haiku-5-5',claudeSonnet:'claude-sonnet-5-5',claudeOpus:'claude-opus-5-5'});
 const isClaudeEngine=e=>Object.prototype.hasOwnProperty.call(CLAUDE_IDS,e);
 const isGeminiEngine=engine=>engine==='gemini'||Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,engine);
 const actualModelId=(engine,s)=>GEMINI_MODEL_ENGINES[engine]||CLAUDE_IDS[engine]||(engine==='gemini'?s.geminiModel.trim():engine);
@@ -161,6 +162,11 @@ localStorage.setItem(SETTINGS_UPGRADE,'done');}}catch(e){}
 save();updateCaseStatus();}
 function selectGemini3Preset(){document.querySelectorAll('[data-engine]').forEach(x=>x.checked=Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,x.dataset.engine));$('sampleCount').value='20';$('repeatCount').value='1';$('maxCalls').value='200';save();updateCaseStatus();$('plan').textContent='Gemini 3종(3.8/3.5 Lite/3.1 Lite), 고정 20문장 × 정·역 = 최대 120 API 호출 · LOW';}
 $('geminiPreset').addEventListener('click',selectGemini3Preset);
+$('haikuMediumPreset').addEventListener('click',()=>{
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=x.dataset.engine==='claudeHaikuMed');
+ $('sampleCount').value='10';$('repeatCount').value='1';$('maxCalls').value='20';
+ save();updateCaseStatus();$('plan').textContent='Haiku 5.5 MEDIUM/Adaptive · 동일한 10문장 K5/L5, 공통 중립 프롬프트, 정번역+독립역 최대 20회. 기존 LOW/OFF 결과는 재활용. 유료 호출은 아래 실행 버튼을 누른 후 확인창에서 승인.';
+});
 $('mainPreset').addEventListener('click',()=>{
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['gemini38','claudeHaiku','claudeSonnet'].includes(x.dataset.engine));
  $('sampleCount').value='10';$('repeatCount').value='1';$('maxCalls').value='60';save();updateCaseStatus();
@@ -184,9 +190,9 @@ const price=model==='gemini-3.8-flash'?{input:.75,output:3.75}:model==='gemini-3
 const usd=price&&usage.inputTokens!=null&&usage.outputTokens!=null?(usage.inputTokens*price.input+(usage.outputTokens+usage.thinkingTokens)*price.output)/1e6:null;
 return{text:v,usage,usd};}
 
-async function claudeTranslate(text,src,dst,s,model){
- const setup=model==='claude-haiku-5-5'?{thinking:'disabled',input:.1,output:.5}:model==='claude-sonnet-5-5'?{thinking:'between_tools',input:2,output:10}:{thinking:'adaptive',input:4,output:20};
- const body={model,max_tokens:2048,thinking:{type:setup.thinking},output_config:{effort:'low'},messages:[{role:'user',content:neutralPrompt(text,src,dst)}]};
+async function claudeTranslate(text,src,dst,s,model,engine){
+ const setup=engine==='claudeHaikuMed'?{thinking:'adaptive',effort:'medium',input:.1,output:.5}:model==='claude-haiku-5-5'?{thinking:'disabled',effort:'low',input:.1,output:.5}:model==='claude-sonnet-5-5'?{thinking:'between_tools',effort:'low',input:2,output:10}:{thinking:'adaptive',effort:'low',input:4,output:20};
+ const body={model,max_tokens:2048,thinking:{type:setup.thinking},output_config:{effort:setup.effort},messages:[{role:'user',content:neutralPrompt(text,src,dst)}]};
  const d=await requestJSON('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':s.claudeKey},credentials:'omit',body:JSON.stringify(body)},s);
  if(d.stop_reason!=='end_turn')throw Error('Claude stop_reason '+String(d.stop_reason||'unknown'));
  const value=(d.content||[]).filter(p=>p.type==='text').map(p=>p.text||'').join('').trim();
@@ -197,7 +203,7 @@ async function claudeTranslate(text,src,dst,s,model){
 }
 function loadLaraSdk(){return new Promise((resolve,reject)=>{if(window.Lara?.Translator){resolve(window.Lara);return;}const scr=document.createElement('script');scr.src='https://cdn.jsdelivr.net/npm/@translated/lara@1.16.1/lib_browser/lara.min.js';scr.crossOrigin='anonymous';scr.onload=()=>window.Lara?.Translator?resolve(window.Lara):reject(Error('Lara 브라우저 SDK 형식이 예상과 다릅니다'));scr.onerror=()=>reject(Error('Lara SDK 파일 로드 실패 (네트워크 또는 CDN 정책)'));document.head.appendChild(scr);});}
 async function laraTranslate(text,src,dst,s){if(!laraClient){const sdk=await loadLaraSdk();laraClient=new sdk.Translator(new sdk.Credentials(s.laraId,s.laraSecret));}const r=await laraClient.translate(text,src==='ko'?'ko':'lo',dst==='ko'?'ko':'lo',{style:s.laraStyle,noTrace:true});let v=r?.translation;if(Array.isArray(v))v=v.join(' ');if(typeof v!=='string'||!v.trim())throw Error('Lara 응답 형식 불명');return v;}
-async function engineCall(engine,text,src,dst,s){if(isGeminiEngine(engine))return geminiTranslate(text,src,dst,s,actualModelId(engine,s));if(isClaudeEngine(engine))return claudeTranslate(text,src,dst,s,actualModelId(engine,s));const v=engine==='lara'?await laraTranslate(text,src,dst,s):engine==='azure'?await azureTranslate(text,src,dst,s):await googleTranslate(text,src,dst,s,engine==='tllm');return{text:v,usage:null,usd:null};}
+async function engineCall(engine,text,src,dst,s){if(isGeminiEngine(engine))return geminiTranslate(text,src,dst,s,actualModelId(engine,s));if(isClaudeEngine(engine))return claudeTranslate(text,src,dst,s,actualModelId(engine,s),engine);const v=engine==='lara'?await laraTranslate(text,src,dst,s):engine==='azure'?await azureTranslate(text,src,dst,s):await googleTranslate(text,src,dst,s,engine==='tllm');return{text:v,usage:null,usd:null};}
 function verifyCredentials(s,eng){const missing=[];if(isGeminiEngine(eng)&&!s.geminiKey)missing.push('Gemini API 키');if(isClaudeEngine(eng)&&!s.claudeKey)missing.push('Claude API 키');if(eng==='lara'&&(!s.laraId||!s.laraSecret))missing.push('Lara ID/Secret');if(eng==='azure'&&!s.azureKey)missing.push('Azure 키');if((eng==='nmt'||eng==='tllm')&&!s.googleKey)missing.push('Cloud Translation 키');return missing.join(', ');}
 function render(rec){
  const tr=document.createElement('tr');
@@ -220,7 +226,7 @@ $('summary').textContent=names.join(' / ')+(comparable?' · 반복 결과 문자
 function markFinish(rec){records.push(rec);render(rec);summarize();}
 async function one(engine,c,s,round){
  const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko',modelId=actualModelId(engine,s);
- const thinkingLevel=isGeminiEngine(engine)?'low':engine==='claudeHaiku'?'low/disabled':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
+ const thinkingLevel=isGeminiEngine(engine)?'low':engine==='claudeHaiku'?'low/disabled':engine==='claudeHaikuMed'?'medium/adaptive':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
  const rec={round,caseId:c.caseId,engine,modelId,thinkingLevel,promptVersion:'NEUTRAL_COMMON_R1',side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,forwardUsage:null,backUsage:null,forwardUsd:null,backUsd:null,error:''};
  if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}
  let t=performance.now();
