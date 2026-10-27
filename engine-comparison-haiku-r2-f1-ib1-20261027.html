@@ -237,8 +237,8 @@ function updateCaseStatus(){
  const count=lines.length;
  const calls=valid?count*engines*2*rep:NaN;
  const focusPreset=new URLSearchParams(location.search).get('preset');
- if((focusPreset==='lr1'||focusPreset==='md1')&&!t1CorpusLoaded){
-  $('caseStatus').textContent=focusPreset==='lr1'?'LR1: 라오어 L| 8문장 TXT를 먼저 선택해 주세요. 기존 입력('+count+'문장)은 이번 검사에 사용되지 않습니다. 유료 호출 0회.':'MD1: K12/L12 24문장 TXT를 선택해 주세요. 기존 입력('+count+'문장)은 이번 검사에 사용되지 않습니다. 유료 호출 0회.';
+ if((focusPreset==='lr1'||focusPreset==='md1'||focusPreset==='sj1')&&!t1CorpusLoaded){
+  $('caseStatus').textContent=focusPreset==='sj1'?'SJ1: K12/L12 24문장 TXT를 선택해 주세요. 기존 입력('+count+'문장)은 이번 검사에 사용되지 않습니다. 유료 호출 0회.':focusPreset==='lr1'?'LR1: 라오어 L| 8문장 TXT를 먼저 선택해 주세요. 기존 입력('+count+'문장)은 이번 검사에 사용되지 않습니다. 유료 호출 0회.':'MD1: K12/L12 24문장 TXT를 선택해 주세요. 기존 입력('+count+'문장)은 이번 검사에 사용되지 않습니다. 유료 호출 0회.';
  }else{
  $('caseStatus').textContent='입력 전체 '+count+'문장 · K '+ko+' / L '+lo+' · '+engines+'엔진 × 정·역 2회 × '+(valid?rep:'?')+'회 반복 = '+(Number.isSafeInteger(calls)?calls+'회 예상':'반복 횟수를 확인하세요')+(ko===0||lo===0?' · 한쪽 방향만 검사됨':'');
  }
@@ -498,7 +498,7 @@ $('run').addEventListener('click',async()=>{
  try{
   cases=parseCases(opts.cases);rep=Number(opts.repeatCount);
   if(t1Focus){
-   const expected=selectedPreset==='md1'?'claudeHaikuT2|claudeHaikuT2MD1':selectedPreset==='lr1'?'claudeHaikuT2|claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2|claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2|claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2|claudeHaikuT2S1':'claudeHaikuT2|claudeHaikuT2C1';
+   const expected=selectedPreset==='sj1'?'claudeSonnetS1|claudeSonnetSJ1':selectedPreset==='md1'?'claudeHaikuT2|claudeHaikuT2MD1':selectedPreset==='lr1'?'claudeHaikuT2|claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2|claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2|claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2|claudeHaikuT2S1':'claudeHaikuT2|claudeHaikuT2C1';
    if(opts.engines.slice().sort().join('|')!==expected)throw Error('검사 모델이 선택된 T2 비교 후보와 다릅니다. 유료 호출 없이 중단합니다.');
    if(selectedPreset==='lr1'){
     if(cases.length!==8||cases.some(c=>c.side!=='L'))throw Error('LR1 파일은 L| 8문장만 허용합니다.');
@@ -869,8 +869,16 @@ r8LoadSession();r8Paint();
 
 load();const uiParams=new URLSearchParams(location.search);
 const selectedPreset=uiParams.get('preset');
-const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='c1'||selectedPreset==='s1'||selectedPreset==='m1'||selectedPreset==='a1'||selectedPreset==='lr1'||selectedPreset==='md1');
+const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='c1'||selectedPreset==='s1'||selectedPreset==='m1'||selectedPreset==='a1'||selectedPreset==='lr1'||selectedPreset==='md1'||selectedPreset==='sj1');
 document.body.classList.add(t1Focus?'t1-focus':'legacy-mode');
+if(t1Focus&&selectedPreset==='sj1'){
+ const heading=document.querySelector('header .t1Current');
+ heading.querySelector('h1').textContent='Sonnet S1 ↔ SJ1 JSON Schema 비교';
+ heading.querySelector('p.muted').textContent='같은 Sonnet 5.5 / 같은 프롬프트 · 일반 출력 S1 vs 단일 translation 필드 SJ1 · 한국어 12 + 라오어 12';
+ heading.querySelector('p.note').textContent='Claude API 키 → K12/L12 24문장 TXT → 직접 유료 승인 → 결과 TXT 저장';
+ document.querySelector('label[for="t1Import"]').textContent='Sonnet S1 ↔ SJ1 · K12/L12 24문장 TXT 불러오기 (로컬 전용)';
+ $('t1ImportStatus').textContent='24문장 TXT 미선택 · 실행 전 유료 호출 없음';
+}
 if(t1Focus&&selectedPreset==='md1'){
  const heading=document.querySelector('header .t1Current');
  heading.querySelector('h1').textContent='T2 ↔ MD1 Thinking 통제 비교';
@@ -888,7 +896,7 @@ if(t1Focus&&selectedPreset==='lr1'){
  $('t1ImportStatus').textContent='라오어 8문장 TXT 미선택';
  $('caseStatus').textContent='LR1: 라오어 L| 8문장 TXT를 먼저 선택해 주세요. 이전 입력은 사용하지 않습니다. 유료 호출 0회.';
 }
-if(t1Focus){$('run').textContent=selectedPreset==='md1'?'T2 ↔ MD1 24문장 검사 시작':selectedPreset==='lr1'?'T2 ↔ LR1 8문장 검사 시작':selectedPreset==='a1'?'T2 OFF ↔ A1 Adaptive 검사 시작':selectedPreset==='m1'?'T2 ↔ M1 검사 시작':selectedPreset==='s1'?'T2 ↔ S1 검사 시작':'T2 ↔ C1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent=selectedPreset==='lr1'?'라오어 L 8문장 TXT 선택 후 실행 · 최대 32회 유료 호출 · 사용자 확인 후 시작':'24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
+if(t1Focus){$('run').textContent=selectedPreset==='sj1'?'Sonnet S1 ↔ SJ1 24문장 검사 시작':selectedPreset==='md1'?'T2 ↔ MD1 24문장 검사 시작':selectedPreset==='lr1'?'T2 ↔ LR1 8문장 검사 시작':selectedPreset==='a1'?'T2 OFF ↔ A1 Adaptive 검사 시작':selectedPreset==='m1'?'T2 ↔ M1 검사 시작':selectedPreset==='s1'?'T2 ↔ S1 검사 시작':'T2 ↔ C1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent=selectedPreset==='lr1'?'라오어 L 8문장 TXT 선택 후 실행 · 최대 32회 유료 호출 · 사용자 확인 후 시작':'24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
 if(selectedPreset==='gemini3')selectGemini3Preset();
 else if(selectedPreset==='ib1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuIB1'].includes(x.dataset.engine)&&!x.disabled);
@@ -902,6 +910,10 @@ else if(selectedPreset==='ib1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuT2'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='보관된 R2 vs T2 비교 · 과거 검사용';
+ }else if(selectedPreset==='sj1'&&t1Focus){
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeSonnetS1','claudeSonnetSJ1'].includes(x.dataset.engine)&&!x.disabled);
+ $('repeatCount').value='1';updateCaseStatus();
+ $('plan').textContent='Sonnet S1 vs SJ1 · 네 경로, 24문장(K12/L12) · 정번역+독립 역번역 · 최대 96회 Claude 유료 호출. 사용자가 별도 승인 후 시작. JSON 원본 결과 TXT/JSON 보존.';
 }else if(t1Focus){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaikuT2',selectedPreset==='md1'?'claudeHaikuT2MD1':selectedPreset==='lr1'?'claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2S1':'claudeHaikuT2C1'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
