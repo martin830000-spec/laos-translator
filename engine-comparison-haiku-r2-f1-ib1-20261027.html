@@ -63,6 +63,7 @@ body.t1-focus header h1{font-size:23px}
 <label class="check"><input type="checkbox" data-engine="claudeHaikuF1" checked>Haiku LOW R2-F1 · 새 정번역 후보</label>
 <label class="check"><input type="checkbox" data-engine="claudeHaikuT1">Haiku LOW R2-T1 · 과거 HOLD · 전체 경로 힌트</label>
 <label class="check"><input type="checkbox" data-engine="claudeHaikuT2">Haiku LOW R2-T2 · 조건부 아내 정번역 용어 (비교 기준)</label>
+<label class="check"><input type="checkbox" data-engine="claudeHaikuT2MD1">Haiku T2-MD1 · 프롬프트 동일 / Adaptive MEDIUM (신규 TEST)</label>
 <label class="check"><input type="checkbox" data-engine="claudeHaikuT2LR1">Haiku LOW T2-LR1 · 라오어 ລາວ 문맥 분별 (신규 TEST)</label>
 <label class="check"><input type="checkbox" data-engine="claudeHaikuT2A1">Haiku T2-A1 · 기존 T2 동일 프롬프트 / LOW Adaptive Thinking (신규 TEST)</label>
 <label class="check"><input type="checkbox" data-engine="claudeHaikuT2M1">Haiku LOW T2-M1 · 정번역 의미 누락·주체 보존 (신규 TEST)</label>
@@ -191,8 +192,8 @@ const secretIds=['claudeKey','geminiKey','laraId','laraSecret','azureKey','googl
 const $=id=>document.getElementById(id);
 let records=[], abort=null, active=false, completed=0, planned=0, laraClient=null, runCounter=0, authFailed=false;
 const GEMINI_MODEL_ENGINES=Object.freeze({gemini38:'gemini-3.8-flash',gemini35lite:'gemini-3.5-flash-lite',gemini31lite:'gemini-3.1-flash-lite'});
-const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM',claudeHaiku:'Claude Haiku 5.5 · LOW/OFF',claudeHaikuR3:'Claude Haiku 5.5 · LOW/OFF · R3',claudeHaikuF1:'Claude Haiku 5.5 · LOW/OFF · R2-F1',claudeHaikuT1:'Claude Haiku 5.5 · LOW/OFF · R2-T1 · bilingual symptom terms',claudeHaikuT2:'Claude Haiku 5.5 · LOW/OFF · R2-T2 · conditional wife forward glossary',claudeHaikuT2LR1:'Claude Haiku 5.5 · LOW/OFF · T2-LR1 · conditional Lao pronoun hint',claudeHaikuT2A1:'Claude Haiku 5.5 · LOW/Adaptive · T2-A1 · same prompt',claudeHaikuT2M1:'Claude Haiku 5.5 · LOW/OFF · T2-M1 · forward meaning coverage',claudeHaikuT2S1:'Claude Haiku 5.5 · LOW/OFF · T2-S1 · structured instruction blocks',claudeHaikuT2C1:'Claude Haiku 5.5 · LOW/OFF · T2-C1 · compact core prompt',claudeHaikuIB1:'Claude Haiku 5.5 · LOW/OFF · R2-IB1',claudeHaikuMed:'Claude Haiku 5.5 · MEDIUM/Adaptive',claudeSonnet:'Claude Sonnet 5.5',claudeSonnetS1:'Claude Sonnet 5.5 · LOW · S1',claudeOpus:'Claude Opus 5.5'};
-const CLAUDE_IDS=Object.freeze({claudeHaiku:'claude-haiku-5-5',claudeHaikuR3:'claude-haiku-5-5',claudeHaikuF1:'claude-haiku-5-5',claudeHaikuT1:'claude-haiku-5-5',claudeHaikuT2:'claude-haiku-5-5',claudeHaikuT2LR1:'claude-haiku-5-5',claudeHaikuT2A1:'claude-haiku-5-5',claudeHaikuT2M1:'claude-haiku-5-5',claudeHaikuT2S1:'claude-haiku-5-5',claudeHaikuT2C1:'claude-haiku-5-5',claudeHaikuIB1:'claude-haiku-5-5',claudeHaikuMed:'claude-haiku-5-5',claudeSonnet:'claude-sonnet-5-5',claudeSonnetS1:'claude-sonnet-5-5',claudeOpus:'claude-opus-5-5'});
+const engineNames={gemini38:'Gemini 3.8 Flash',gemini35lite:'Gemini 3.5 Flash-Lite',gemini31lite:'Gemini 3.1 Flash-Lite',gemini:'Gemini (사용자 지정)',lara:'Lara',azure:'Azure Translator',nmt:'Google NMT',tllm:'Google Translation LLM',claudeHaiku:'Claude Haiku 5.5 · LOW/OFF',claudeHaikuR3:'Claude Haiku 5.5 · LOW/OFF · R3',claudeHaikuF1:'Claude Haiku 5.5 · LOW/OFF · R2-F1',claudeHaikuT1:'Claude Haiku 5.5 · LOW/OFF · R2-T1 · bilingual symptom terms',claudeHaikuT2:'Claude Haiku 5.5 · LOW/OFF · R2-T2 · conditional wife forward glossary',claudeHaikuT2MD1:'Claude Haiku 5.5 · MEDIUM/Adaptive · T2-MD1 · exact T2 prompts',claudeHaikuT2LR1:'Claude Haiku 5.5 · LOW/OFF · T2-LR1 · conditional Lao pronoun hint',claudeHaikuT2A1:'Claude Haiku 5.5 · LOW/Adaptive · T2-A1 · same prompt',claudeHaikuT2M1:'Claude Haiku 5.5 · LOW/OFF · T2-M1 · forward meaning coverage',claudeHaikuT2S1:'Claude Haiku 5.5 · LOW/OFF · T2-S1 · structured instruction blocks',claudeHaikuT2C1:'Claude Haiku 5.5 · LOW/OFF · T2-C1 · compact core prompt',claudeHaikuIB1:'Claude Haiku 5.5 · LOW/OFF · R2-IB1',claudeHaikuMed:'Claude Haiku 5.5 · MEDIUM/Adaptive',claudeSonnet:'Claude Sonnet 5.5',claudeSonnetS1:'Claude Sonnet 5.5 · LOW · S1',claudeOpus:'Claude Opus 5.5'};
+const CLAUDE_IDS=Object.freeze({claudeHaiku:'claude-haiku-5-5',claudeHaikuR3:'claude-haiku-5-5',claudeHaikuF1:'claude-haiku-5-5',claudeHaikuT1:'claude-haiku-5-5',claudeHaikuT2:'claude-haiku-5-5',claudeHaikuT2MD1:'claude-haiku-5-5',claudeHaikuT2LR1:'claude-haiku-5-5',claudeHaikuT2A1:'claude-haiku-5-5',claudeHaikuT2M1:'claude-haiku-5-5',claudeHaikuT2S1:'claude-haiku-5-5',claudeHaikuT2C1:'claude-haiku-5-5',claudeHaikuIB1:'claude-haiku-5-5',claudeHaikuMed:'claude-haiku-5-5',claudeSonnet:'claude-sonnet-5-5',claudeSonnetS1:'claude-sonnet-5-5',claudeOpus:'claude-opus-5-5'});
 const isClaudeEngine=e=>Object.prototype.hasOwnProperty.call(CLAUDE_IDS,e);
 const isGeminiEngine=engine=>engine==='gemini'||Object.prototype.hasOwnProperty.call(GEMINI_MODEL_ENGINES,engine);
 const actualModelId=(engine,s)=>GEMINI_MODEL_ENGINES[engine]||CLAUDE_IDS[engine]||(engine==='gemini'?s.geminiModel.trim():engine);
@@ -312,7 +313,7 @@ function haikuT2ReferentHint(text,src,dst,context){
  return ' Lao reference note: ລາວ can be the third-person he/she/his/her, or Lao/Laos in nationality/geographical uses. Infer its function and antecedent from this visible source, never automatically treat it as a person named Lao or as the addressee. If the antecedent is unclear, preserve ambiguity.';
 }
 const CLAUDE_HAIKU_IB1_BACK="Independent reverse translation: Translate only the actual immediately preceding translation supplied as the visible source. The original message and its speaker are unavailable. Do not assume which spouse spoke; infer speakers, listeners, actions and recipients only from the visible text. If unclear, preserve that uncertainty. Reflect any errors and extra facts instead of repairing or reconstructing the unseen original. Return only the translation, without notes or corrections.";
-const promptVersionForEngine=e=>e==='claudeSonnetS1'?'SONNET55_COUPLE_S1':e==='claudeHaikuT2LR1'?'HAIKU_LOW_R2_T2_LAO_REFERENT_CONDITIONAL_R1':e==='claudeHaikuT2A1'?'HAIKU_LOW_R2_T2_LFWD_CONDITIONAL_ADAPTIVE_LOW':e==='claudeHaikuT2M1'?'HAIKU_LOW_T2_M1_FORWARD_MEANING_COVERAGE' :e==='claudeHaikuT2S1'?'HAIKU_LOW_T2_S1_XML_BLOCKS' :e==='claudeHaikuT2C1'?'HAIKU_LOW_T2_C1_CORE_COMPACT':e==='claudeHaikuT2'?'HAIKU_LOW_R2_T2_LFWD_CONDITIONAL':e==='claudeHaikuT1'?'HAIKU_LOW_R2_T1':e==='claudeHaikuF1'?'HAIKU_LOW_R2_F1':e==='claudeHaikuIB1'?'HAIKU_LOW_R2_IB1':e==='claudeHaikuR3'?'HAIKU_LOW_COUPLE_R3':e==='claudeHaiku'?'HAIKU_LOW_COUPLE_R2':e==='claudeHaikuMed'?'HAIKU_MED_COUPLE_R2':isClaudeEngine(e)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1';
+const promptVersionForEngine=e=>e==='claudeSonnetS1'?'SONNET55_COUPLE_S1':e==='claudeHaikuT2MD1'?'HAIKU_R2_T2_SAME_PROMPT_ADAPTIVE_MEDIUM':e==='claudeHaikuT2LR1'?'HAIKU_LOW_R2_T2_LAO_REFERENT_CONDITIONAL_R1':e==='claudeHaikuT2A1'?'HAIKU_LOW_R2_T2_LFWD_CONDITIONAL_ADAPTIVE_LOW':e==='claudeHaikuT2M1'?'HAIKU_LOW_T2_M1_FORWARD_MEANING_COVERAGE' :e==='claudeHaikuT2S1'?'HAIKU_LOW_T2_S1_XML_BLOCKS' :e==='claudeHaikuT2C1'?'HAIKU_LOW_T2_C1_CORE_COMPACT':e==='claudeHaikuT2'?'HAIKU_LOW_R2_T2_LFWD_CONDITIONAL':e==='claudeHaikuT1'?'HAIKU_LOW_R2_T1':e==='claudeHaikuF1'?'HAIKU_LOW_R2_F1':e==='claudeHaikuIB1'?'HAIKU_LOW_R2_IB1':e==='claudeHaikuR3'?'HAIKU_LOW_COUPLE_R3':e==='claudeHaiku'?'HAIKU_LOW_COUPLE_R2':e==='claudeHaikuMed'?'HAIKU_MED_COUPLE_R2':isClaudeEngine(e)?CLAUDE_COUPLE_PROMPT_VERSION+'/INDEPENDENT_BACK_R1':'NEUTRAL_COMMON_R1';
 const CLAUDE_HAIKU_LOW_R3="Translate one Korean–Lao message for a Korean husband and Lao wife. Output exactly one natural translation in the requested language: no preface, reasoning, drafts, notes, self-corrections or alternatives. For Lao, use Lao script and Lao expressions, never Thai. Priority: source meaning > speaker/actor/reference accuracy > tone > fluency. Keep speaker, listener, third parties, who acts on/for whom, who owns/provides/receives, and explicit family relationships. Preserve distinct names, places, nicknames, things, numbers, units and emojis; do not turn an unfamiliar name into a pronoun. Preserve negation, contrast, questions vs statements, request vs purpose/plan, permission, uncertainty vs fact, comparisons and degree, time viewpoint and event order, past/completed vs ongoing/intended, conditions and emotional force. Keep each symptom or condition exactly as stated, including improvement versus worsening; never substitute a different symptom or invent an illness, cause, action, motive or extra detail. Where the source is incomplete or genuinely ambiguous, preserve that instead of guessing. Naturalize wording without adding or changing facts.";
 const CLAUDE_HAIKU_R3_ROLE_K="Husband-to-wife conversation. Husband is original speaker, wife is listener; the Korean first person refers to husband, and direct 여보/자기 addresses wife unless grammar says otherwise. Maintain intimate Lao with source politeness; preserve named third parties and who did what to whom. The role orientation remains the same on independent reverse.";
 const CLAUDE_HAIKU_R3_ROLE_L="Wife-to-husband conversation. Wife is original speaker, husband is listener; Lao ຂ້ອຍ refers to wife and ທີ່ຮັກ may address husband. Use natural affectionate Korean banmal for informal speech, retaining expressly polite speech. Preserve third parties and kinship; the role orientation remains the same on independent reverse.";
@@ -325,7 +326,7 @@ const CLAUDE_SONNET55_S1_ROLE_L="L route: Lao wife is speaking to her Korean hus
 const CLAUDE_SONNET55_S1_FORWARD="Forward translation: use exactly the one <source> text in the user turn. Do not rely on implied earlier conversation to resolve missing details. Translate all stated facts and emotions, no extra words outside the translation.";
 const CLAUDE_SONNET55_S1_BACK="Independent reverse translation: the <source> text in this request is ONLY the actual forward result. You do not know the earlier original. Translate this source faithfully even if it contains errors, extra facts, strange wording or mixed-language content. Never reconstruct or silently fix an unseen source; do not judge quality or add commentary.";
 async function claudeTranslate(text,src,dst,s,model,engine,context){
- const setup=engine==='claudeHaikuT2A1'?{thinking:'adaptive',effort:'low',input:.1,output:.5}:engine==='claudeHaikuMed'?{thinking:'adaptive',effort:'medium',input:.1,output:.5}:model==='claude-haiku-5-5'?{thinking:'disabled',effort:'low',input:.1,output:.5}:model==='claude-sonnet-5-5'?{thinking:'between_tools',effort:'low',input:2,output:10}:{thinking:'adaptive',effort:'low',input:4,output:20};
+ const setup=engine==='claudeHaikuT2MD1'?{thinking:'adaptive',effort:'medium',input:.1,output:.5}:engine==='claudeHaikuT2A1'?{thinking:'adaptive',effort:'low',input:.1,output:.5}:engine==='claudeHaikuMed'?{thinking:'adaptive',effort:'medium',input:.1,output:.5}:model==='claude-haiku-5-5'?{thinking:'disabled',effort:'low',input:.1,output:.5}:model==='claude-sonnet-5-5'?{thinking:'between_tools',effort:'low',input:2,output:10}:{thinking:'adaptive',effort:'low',input:4,output:20};
  const stage=context?.stage||'forward';
  const isHaikuCandidate=engine==='claudeHaiku'||engine==='claudeHaikuMed'||engine==='claudeHaikuR3';
  const system=engine==='claudeSonnetS1'
@@ -336,7 +337,7 @@ async function claudeTranslate(text,src,dst,s,model,engine,context){
    ?CLAUDE_HAIKU_LOW_R2+' '+(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_BACK_R2:CLAUDE_HAIKU_T2_M1_FORWARD)+haikuT2Hint(text,src,dst,context)
    :(engine==='claudeHaikuT2S1')
    ?buildHaikuT2S1System(text,src,dst,context)
-   :(engine==='claudeHaikuT2'||engine==='claudeHaikuT2A1'||engine==='claudeHaikuT2C1')
+   :(engine==='claudeHaikuT2'||engine==='claudeHaikuT2MD1'||engine==='claudeHaikuT2A1'||engine==='claudeHaikuT2C1')
    ?(engine==='claudeHaikuT2C1'?CLAUDE_HAIKU_T2_C1_CORE:CLAUDE_HAIKU_LOW_R2)+' '+(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_BACK_R2:CLAUDE_HAIKU_FORWARD_R2)+haikuT2Hint(text,src,dst,context)
    :engine==='claudeHaikuT1'
    ?CLAUDE_HAIKU_LOW_R2+' '+(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_BACK_R2:CLAUDE_HAIKU_FORWARD_R2)+' '+CLAUDE_HAIKU_T1_TERMS
@@ -384,7 +385,7 @@ $('summary').textContent=names.join(' / ')+(comparable?' · 반복 결과 문자
 function markFinish(rec){records.push(rec);render(rec);summarize();}
 async function one(engine,c,s,round){
  const src=c.side==='K'?'ko':'lo',dst=src==='ko'?'lo':'ko',modelId=actualModelId(engine,s);
- const thinkingLevel=isGeminiEngine(engine)?'low':engine==='claudeHaikuT2A1'?'low/adaptive':['claudeHaiku','claudeHaikuF1','claudeHaikuT1','claudeHaikuT2','claudeHaikuT2LR1','claudeHaikuT2M1','claudeHaikuT2S1','claudeHaikuT2C1','claudeHaikuIB1'].includes(engine)?'low/disabled':engine==='claudeHaikuMed'?'medium/adaptive':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
+ const thinkingLevel=isGeminiEngine(engine)?'low':engine==='claudeHaikuT2MD1'?'medium/adaptive':engine==='claudeHaikuT2A1'?'low/adaptive':['claudeHaiku','claudeHaikuF1','claudeHaikuT1','claudeHaikuT2','claudeHaikuT2LR1','claudeHaikuT2M1','claudeHaikuT2S1','claudeHaikuT2C1','claudeHaikuIB1'].includes(engine)?'low/disabled':engine==='claudeHaikuMed'?'medium/adaptive':engine==='claudeSonnet'?'low/between_tools':engine==='claudeOpus'?'low/adaptive':'-';
  const rec={round,caseId:c.caseId,engine,modelId,thinkingLevel,promptVersion:promptVersionForEngine(engine),side:c.side,source:c.text,state:'대기',forward:'',back:'',forwardMs:null,backMs:null,forwardUsage:null,backUsage:null,forwardUsd:null,backUsd:null,error:''};
  if(abort.signal.aborted){rec.state='취소';completed+=2;showProgress();markFinish(rec);return;}
  let t=performance.now();
@@ -487,7 +488,7 @@ $('run').addEventListener('click',async()=>{
  try{
   cases=parseCases(opts.cases);rep=Number(opts.repeatCount);
   if(t1Focus){
-   const expected=selectedPreset==='lr1'?'claudeHaikuT2|claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2|claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2|claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2|claudeHaikuT2S1':'claudeHaikuT2|claudeHaikuT2C1';
+   const expected=selectedPreset==='md1'?'claudeHaikuT2|claudeHaikuT2MD1':selectedPreset==='lr1'?'claudeHaikuT2|claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2|claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2|claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2|claudeHaikuT2S1':'claudeHaikuT2|claudeHaikuT2C1';
    if(opts.engines.slice().sort().join('|')!==expected)throw Error('검사 모델이 선택된 T2 비교 후보와 다릅니다. 유료 호출 없이 중단합니다.');
    if(selectedPreset==='lr1'){
     if(cases.length!==8||cases.some(c=>c.side!=='L'))throw Error('LR1 파일은 L| 8문장만 허용합니다.');
@@ -858,8 +859,16 @@ r8LoadSession();r8Paint();
 
 load();const uiParams=new URLSearchParams(location.search);
 const selectedPreset=uiParams.get('preset');
-const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='c1'||selectedPreset==='s1'||selectedPreset==='m1'||selectedPreset==='a1'||selectedPreset==='lr1');
+const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='c1'||selectedPreset==='s1'||selectedPreset==='m1'||selectedPreset==='a1'||selectedPreset==='lr1'||selectedPreset==='md1');
 document.body.classList.add(t1Focus?'t1-focus':'legacy-mode');
+if(t1Focus&&selectedPreset==='md1'){
+ const heading=document.querySelector('header .t1Current');
+ heading.querySelector('h1').textContent='T2 ↔ MD1 Thinking 통제 비교';
+ heading.querySelector('p.muted').textContent='같은 T2 프롬프트 · LOW/OFF vs MEDIUM/Adaptive · 한국어 12 + 라오어 12 · 1회 검사';
+ heading.querySelector('p.note').textContent='Claude API 키 → K12/L12 24문장 TXT → 사용자 유료 호출 승인 → 결과 TXT 저장';
+ document.querySelector('label[for="t1Import"]').textContent='T2 ↔ MD1 · K12/L12 24문장 TXT 불러오기 (로컬 전용)';
+ $('t1ImportStatus').textContent='24문장 TXT 미선택 · 실제 검사 시작 전 과금 없음';
+}
 if(t1Focus&&selectedPreset==='lr1'){
  const heading=document.querySelector('header .t1Current');
  heading.querySelector('h1').textContent='T2 ↔ LR1 라오어 대명사 비교';
@@ -869,7 +878,7 @@ if(t1Focus&&selectedPreset==='lr1'){
  $('t1ImportStatus').textContent='라오어 8문장 TXT 미선택';
  $('caseStatus').textContent='LR1: 라오어 L| 8문장 TXT를 먼저 선택해 주세요. 이전 입력은 사용하지 않습니다. 유료 호출 0회.';
 }
-if(t1Focus){$('run').textContent=selectedPreset==='lr1'?'T2 ↔ LR1 8문장 검사 시작':selectedPreset==='a1'?'T2 OFF ↔ A1 Adaptive 검사 시작':selectedPreset==='m1'?'T2 ↔ M1 검사 시작':selectedPreset==='s1'?'T2 ↔ S1 검사 시작':'T2 ↔ C1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent=selectedPreset==='lr1'?'라오어 L 8문장 TXT 선택 후 실행 · 최대 32회 유료 호출 · 사용자 확인 후 시작':'24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
+if(t1Focus){$('run').textContent=selectedPreset==='md1'?'T2 ↔ MD1 24문장 검사 시작':selectedPreset==='lr1'?'T2 ↔ LR1 8문장 검사 시작':selectedPreset==='a1'?'T2 OFF ↔ A1 Adaptive 검사 시작':selectedPreset==='m1'?'T2 ↔ M1 검사 시작':selectedPreset==='s1'?'T2 ↔ S1 검사 시작':'T2 ↔ C1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent=selectedPreset==='lr1'?'라오어 L 8문장 TXT 선택 후 실행 · 최대 32회 유료 호출 · 사용자 확인 후 시작':'24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
 if(selectedPreset==='gemini3')selectGemini3Preset();
 else if(selectedPreset==='ib1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuIB1'].includes(x.dataset.engine)&&!x.disabled);
@@ -884,9 +893,9 @@ else if(selectedPreset==='ib1'){
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='보관된 R2 vs T2 비교 · 과거 검사용';
 }else if(t1Focus){
- document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaikuT2',selectedPreset==='lr1'?'claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2S1':'claudeHaikuT2C1'].includes(x.dataset.engine)&&!x.disabled);
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaikuT2',selectedPreset==='md1'?'claudeHaikuT2MD1':selectedPreset==='lr1'?'claudeHaikuT2LR1':selectedPreset==='a1'?'claudeHaikuT2A1':selectedPreset==='m1'?'claudeHaikuT2M1':selectedPreset==='s1'?'claudeHaikuT2S1':'claudeHaikuT2C1'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
- $('plan').textContent=selectedPreset==='lr1'?'기존 T2 vs T2-LR1 · 라오어 L 8문장만 비교, 남편 경로는 미검증 · 정번역+독립 역번역 · 최대 32회 유료 호출, 사용자 직접 승인 후 시작.':selectedPreset==='a1'?'기존 T2 LOW/OFF vs T2-A1 LOW/Adaptive · 프롬프트 완전 동일 · 24문장 K12/L12 · 정번역+독립 역번역 · 최대 96회 유료 호출, 사용자 직접 승인 필요.':selectedPreset==='m1'?'기존 T2 vs 신규 M1(정번역 의미 보존) · K12/L12 24문장 · 정번역+독립 역번역 · 최대 96회 유료 요청. 사용자가 비용 승인 후 실행.':selectedPreset==='s1'?'기존 T2 vs 새로운 S1(XML 구조) · K12/L12 24문장 · 정번역+독립 역번역 · 최대 96회 유료 요청. 직접 과금 확인 후 실행.':'T2 기본 vs C1 단순화 · 24문장 K12/L12 · 정번역+독립 역번역 · 최대 96회 유료 요청. 파일 선택 후 별도 과금 확인 필요.';
+ $('plan').textContent=selectedPreset==='md1'?'기존 T2 LOW/OFF vs T2-MD1 MEDIUM/Adaptive · 프롬프트 동일 · 네 경로 24문장(K12/L12) · 1회 · 최대 96회 유료 Claude 호출, 실행 전 사용자 확인.':selectedPreset==='lr1'?'기존 T2 vs T2-LR1 · 라오어 L 8문장만 비교, 남편 경로는 미검증 · 정번역+독립 역번역 · 최대 32회 유료 호출, 사용자 직접 승인 후 시작.':selectedPreset==='a1'?'기존 T2 LOW/OFF vs T2-A1 LOW/Adaptive · 프롬프트 완전 동일 · 24문장 K12/L12 · 정번역+독립 역번역 · 최대 96회 유료 호출, 사용자 직접 승인 필요.':selectedPreset==='m1'?'기존 T2 vs 신규 M1(정번역 의미 보존) · K12/L12 24문장 · 정번역+독립 역번역 · 최대 96회 유료 요청. 사용자가 비용 승인 후 실행.':selectedPreset==='s1'?'기존 T2 vs 새로운 S1(XML 구조) · K12/L12 24문장 · 정번역+독립 역번역 · 최대 96회 유료 요청. 직접 과금 확인 후 실행.':'T2 기본 vs C1 단순화 · 24문장 K12/L12 · 정번역+독립 역번역 · 최대 96회 유료 요청. 파일 선택 후 별도 과금 확인 필요.';
 }else $('plan').textContent='이번 비교: '+settings().engines.map(e=>engineNames[e]).join(' ↔ ')+' · 사용자가 검사 시작을 누르면 예상 유료 호출 수를 확인합니다.';
 })();
 </script>
