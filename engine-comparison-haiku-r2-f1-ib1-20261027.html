@@ -27,7 +27,7 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 </head>
 <body>
 <main>
-<header><h1>Haiku LOW R2 ↔ R2-F1 · 실제 의미 비교 TEST</h1><p class="muted">기본 선택: R2 + F1 · 입력 문장 그대로 · 반복 1회 · 검사 시작 버튼을 눌러야 API 호출</p><p class="note">기존 R3·Sonnet·Gemini는 기본 해제 · IB1 역번역 후보는 별도 검사 · SERVICE/H2 변경 없음</p></header>
+<header><div class="t1Current"><h1>R2 ↔ T1 번역품질 비교</h1><p class="muted">두 후보 자동 고정 · 한국어 12문장 + 라오어 12문장 · 1회 검사</p><p class="note">Claude API 키 → 24문장 TXT → 검사 시작 → 결과 TXT 저장</p><p class="note"><a href="?view=legacy">과거 검사 및 고급 기능</a> · SERVICE 변경 없음</p></div><div class="legacyOnly"><h1>과거 진단기 · 고급 기능</h1><p class="note"><a href="?preset=t1">현재 R2 ↔ T1 간단 검사로 돌아가기</a> · 이전 기능과 기록 보존</p></div></header>
 <section class="card" id="fixedAuditPanel" style="border:2px solid #225fcf">
 <h2>★ IB1 통제검사: 기존 R2 정번역 고정 · 역번역만 비교</h2>
 <p class="note">65문장 이전 결과 TXT/JSON을 브라우저 내부에서 읽어 R2 정번역 12개(K6/L6)를 고정합니다. 정번역 API 0회 / R2 역번역 12회 + IB1 역번역 12회, 최대 <b>24회 유료 호출</b>. 원문은 API 요청에 포함하지 않습니다. 추가 프롬프트·자동 재시도·자동 채점 없음.</p>
@@ -36,8 +36,8 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 <div class="row"><button id="fixRun" class="primary" disabled>② 고정 정번역 역번역 A/B (최대 24회)</button><button id="fixExport" disabled>③ 결과 JSON 저장</button></div>
 <pre id="fixPreview" style="white-space:pre-wrap;font-size:12px;max-height:400px;overflow:auto"></pre>
 </section>
-<section class="card">
-<h2>① 엔진 선택 및 API 키</h2>
+<section class="card" id="keySection">
+<h2><span class="t1Current">① Claude API 키</span><span class="legacyOnly">① 엔진 선택 및 API 키</span></h2>
 <p class="note">API 키는 한 번 입력하면 <b>현재 브라우저에 자동 저장</b>되어 다음 방문에 다시 불러옵니다. 테스트 전용 키 사용 권장. 키 관리·삭제는 아래에서 가능합니다.</p>
 <div id="engineChecks">
 <p class="note"><b>이번 검사 대상은 R2와 F1만 자동 선택</b> · 기존 저장 문장과 API 키 보존 · 실행 전 예상 유료 호출 수 확인 후 승인</p>
@@ -91,8 +91,8 @@ details[open]>summary{margin-bottom:8px}#engineChecks label.check{padding:5px 7p
 <p class="note">Lara는 공급사의 인증 서명·토큰·SDK 절차를 사용합니다. 브라우저 CORS 또는 SDK 호환성이 검증되지 않은 상태입니다. 직접 호출이 막히면 자동으로 실패를 기록하며 임의의 프록시나 재호출을 하지 않습니다.</p>
 <div class="row"><button type="button" id="mainPreset" class="primary">R2 ↔ F1 자동 선택 (기본)</button><button type="button" id="geminiPreset">Gemini 3종만</button><button type="button" id="sonnetS1Preset" class="primary">Sonnet 5.5 · S1만 검사</button><button type="button" id="haikuR3Preset">Haiku LOW R3만 검사</button><span class="pill" id="keyStatus">설정 불러오는 중</span><button type="button" id="eraseKeys">저장된 키 전부 삭제</button></div>
 </section>
-<section class="card">
-<h2>② 입력한 모든 문장 비교</h2>
+<section class="card" id="caseSection">
+<h2><span class="t1Current">② 검사 문장 파일</span><span class="legacyOnly">② 입력한 모든 문장 비교</span></h2>
 <p class="muted">한 줄에 <b>K|한국어 원문</b> 또는 <b>L|라오어 원문</b>을 입력하세요. <b>입력된 모든 문장을 순서대로 검사</b>하고 한국어·라오어 비율은 제한하지 않습니다. K는 남편 방향, L은 아내 방향입니다. 기존 아래 예시는 가상 문장입니다.</p>
 <textarea id="cases" spellcheck="false">K|어제보다 덜 어지럽긴 하지만, 아직 몸이 완전히 나은 건 아니니까 오늘은 쉬려고 해.
 L|ມື້ນີ້ຂ້ອຍບໍ່ໄດ້ເຈັບຫົວ ແຕ່ຍັງມຶນຫົວຢູ່ ເລີຍຢາກພັກກ່ອນ.
@@ -129,7 +129,7 @@ L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂ
 <p id="resumeStatus" class="note">기존에 저장한 결과 파일을 선택하면 같은 버전의 완료 항목을 재호출하지 않습니다. <b>이전 Haiku R1/R2 결과는 R3와 프롬프트 버전이 달라 새 R3 검사로 이어받을 수 없습니다. 기존 결과 파일 자체는 보존됩니다.</b> 실패는 자동 재시도하지 않습니다.</p>
 <p id="plan" class="note"></p><p id="caseStatus" class="note"></p><progress id="prog" max="1" value="0"></progress><p id="state">대기 중</p>
 </section>
-<section class="card"><h2>④ 공통 비교 결과 <span class="pill" id="resultCount">0건</span></h2><p id="summary" class="note">검사 후 엔진별 성공 건수와 속도, 반복 출력의 차이가 표시됩니다.</p><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
+<section class="card" id="resultSection"><h2><span class="t1Current">④ 결과 확인</span><span class="legacyOnly">④ 공통 비교 결과</span> <span class="pill" id="resultCount">0건</span></h2><p id="summary" class="note">검사 후 엔진별 성공 건수와 속도, 반복 출력의 차이가 표시됩니다.</p><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
 <div class="tablewrap"><table><thead><tr><th>회차</th><th>번호</th><th>엔진</th><th>경로</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰·추정비용</th><th>상태·원인</th></tr></thead><tbody id="results"></tbody></table></div></section>
 <details class="card" id="legacyR8"><summary style="font-weight:800">고급 기능 · 기존 P168A R8 50문장 검사 (기능 보존)</summary><div style="margin-top:12px"><section class="card" id="r8PairPanel" style="border:2px solid #90add8">
 <h2>★ 실사용 50문장 · 3.8 LOW vs 3.1 MINIMAL vs 3.1 MEDIUM</h2>
