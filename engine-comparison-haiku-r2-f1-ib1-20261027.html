@@ -471,8 +471,8 @@ $('t1Import').addEventListener('change',async()=>{
   if(selectedPreset==='lr1'){
    if(entries.length!==8||entries.some(x=>x.side!=='L'))throw Error('LR1은 라오어 L| 8문장 파일만 허용합니다.');
   }else if(entries.length!==24||entries.filter(x=>x.side==='K').length!==12||entries.filter(x=>x.side==='L').length!==12)throw Error('기존 비교는 K12/L12 24문장이어야 합니다.');
-  if(new Set(entries.map(x=>x.side+'|'+x.text)).size!==24)throw Error('중복 문장 있음');
-  if(records.length&&!confirm('현재 화면의 이전 결과 '+records.length+'건을 비우고 새로운 24문장을 검사할까요? 결과가 필요하면 먼저 저장하세요.'))return;
+  if(new Set(entries.map(x=>x.side+'|'+x.text)).size!==entries.length)throw Error('중복 문장 있음');
+  if(records.length&&!confirm('현재 화면의 이전 결과 '+records.length+'건을 비우고 새로운 '+entries.length+'문장을 검사할까요? 결과가 필요하면 먼저 저장하세요.'))return;
   records=[];$('results').textContent='';$('resultCount').textContent='0건';runCounter=0;resumeMode=false; 
   $('cases').value=text.trim();$('repeatCount').value='1';t1CorpusLoaded=true;
   save();updateCaseStatus();
