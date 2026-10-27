@@ -284,7 +284,7 @@ function buildHaikuT2S1System(text,src,dst,context){
   '<couple_context>'+role+'</couple_context>',
   '<translation_stage>'+stage+'</translation_stage>',
   ...(hint?['<terminology>'+hint+'</terminology>']:[])
- ].join('\\n');
+ ].join('\n');
 }
 const CLAUDE_HAIKU_T2_TERMS=Object.freeze([
  ['ແພ້ທ້ອງ','ແພ້ທ້ອງ = pregnancy morning sickness (입덧), not stomach upset'],
