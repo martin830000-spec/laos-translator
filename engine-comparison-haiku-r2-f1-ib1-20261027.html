@@ -234,7 +234,11 @@ function updateCaseStatus(){
  const rep=Number($('repeatCount').value), valid=Number.isSafeInteger(rep)&&rep>=1;
  const count=lines.length;
  const calls=valid?count*engines*2*rep:NaN;
+ if(new URLSearchParams(location.search).get('preset')==='lr1'&&!t1CorpusLoaded){
+  $('caseStatus').textContent='LR1: 라오어 L| 8문장 TXT를 먼저 선택해 주세요. 기존 입력('+count+'문장)은 이번 검사에 사용되지 않습니다. 유료 호출 0회.';
+ }else{
  $('caseStatus').textContent='입력 전체 '+count+'문장 · K '+ko+' / L '+lo+' · '+engines+'엔진 × 정·역 2회 × '+(valid?rep:'?')+'회 반복 = '+(Number.isSafeInteger(calls)?calls+'회 예상':'반복 횟수를 확인하세요')+(ko===0||lo===0?' · 한쪽 방향만 검사됨':'');
+ }
  $('parsedCountLabel').textContent=count+'문장 전부 검사 · K '+ko+' / L '+lo;
  const selected=[...document.querySelectorAll('[data-engine]')].filter(x=>x.checked).map(x=>engineNames[x.dataset.engine]||x.dataset.engine);
  $('selectedEngines').textContent='현재 선택: '+(selected.join(' + ')||'없음')+(selected.includes('Gemini 3.1 Flash-Lite')?' · ⚠ 추가 엔진 3.1 선택됨':'');
@@ -856,6 +860,15 @@ load();const uiParams=new URLSearchParams(location.search);
 const selectedPreset=uiParams.get('preset');
 const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='c1'||selectedPreset==='s1'||selectedPreset==='m1'||selectedPreset==='a1'||selectedPreset==='lr1');
 document.body.classList.add(t1Focus?'t1-focus':'legacy-mode');
+if(t1Focus&&selectedPreset==='lr1'){
+ const heading=document.querySelector('header .t1Current');
+ heading.querySelector('h1').textContent='T2 ↔ LR1 라오어 대명사 비교';
+ heading.querySelector('p.muted').textContent='두 후보 자동 고정 · 아내 라오어 8문장 · 정번역 + 독립 역번역 · 1회 검사';
+ heading.querySelector('p.note').textContent='Claude API 키 → 라오어 8문장 TXT → 직접 실행 승인 → 결과 TXT 저장';
+ document.querySelector('label[for="t1Import"]').textContent='T2 ↔ LR1 · 라오어 8문장 TXT 불러오기 (로컬 전용)';
+ $('t1ImportStatus').textContent='라오어 8문장 TXT 미선택';
+ $('caseStatus').textContent='LR1: 라오어 L| 8문장 TXT를 먼저 선택해 주세요. 이전 입력은 사용하지 않습니다. 유료 호출 0회.';
+}
 if(t1Focus){$('run').textContent=selectedPreset==='lr1'?'T2 ↔ LR1 8문장 검사 시작':selectedPreset==='a1'?'T2 OFF ↔ A1 Adaptive 검사 시작':selectedPreset==='m1'?'T2 ↔ M1 검사 시작':selectedPreset==='s1'?'T2 ↔ S1 검사 시작':'T2 ↔ C1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent=selectedPreset==='lr1'?'라오어 L 8문장 TXT 선택 후 실행 · 최대 32회 유료 호출 · 사용자 확인 후 시작':'24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
 if(selectedPreset==='gemini3')selectGemini3Preset();
 else if(selectedPreset==='ib1'){
