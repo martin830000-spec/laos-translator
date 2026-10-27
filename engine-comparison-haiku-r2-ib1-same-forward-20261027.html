@@ -66,7 +66,7 @@ const CLAUDE_HAIKU_ROLE_L="This is the wife's message to her Korean husband. Wif
 const CLAUDE_HAIKU_BACK_R2="Independent reverse translation: You see only the actual preceding translated text, not an earlier original. Translate exactly that visible text, including meaning changes, odd expressions and any extraneous content. Never guess an unseen original, silently repair faults or make the output prettier at the expense of the source.";
 const CLAUDE_HAIKU_IB1_BACK="Independent reverse translation: Translate only the actual immediately preceding translation supplied as the visible source. The original message and its speaker are unavailable. Do not assume which spouse spoke; infer speakers, listeners, actions and recipients only from the visible text. If unclear, preserve that uncertainty. Reflect any errors and extra facts instead of repairing or reconstructing the unseen original. Return only the translation, without notes or corrections.";
 const CASE_IDS=Object.freeze([1,2,5,9,13,16,21,22,26,32,35,36,37,57,58,59]);
-const FIELDS=Object.freeze(['ROUND','CASE','ENGINE','SIDE','SOURCE','FORWARD','BACK','STATUS']);
+const FIELDS=Object.freeze(['ROUND','CASE','ENGINE','MODEL_ID','THINKING','SIDE','SOURCE','FORWARD','BACK','FORWARD_MS','BACK_MS','PROMPT_VERSION','FORWARD_USAGE','BACK_USAGE','FORWARD_USD_EST','BACK_USD_EST','STATUS']);
 const BASELINE='Claude Haiku 5.5 · LOW/OFF';
 const IB1='Claude Haiku 5.5 · LOW/OFF · R2-IB1';
 const q=id=>document.getElementById(id);
