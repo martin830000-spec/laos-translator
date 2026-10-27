@@ -834,10 +834,14 @@ else if(selectedPreset==='ib1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuT1'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='과거 R2 vs T1 보관 검사 · 현재 후보 아님';
-}else if(t1Focus){
+}else if(selectedPreset==='t2'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuT2'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
- $('plan').textContent='R2 vs T2 · 24문장 K12/L12 · 정번역+독립 역번역 · 최대 96회 유료 요청. 파일을 먼저 선택하고 실행 여부를 확인해 주세요.';
+ $('plan').textContent='보관된 R2 vs T2 비교 · 과거 검사용';
+}else if(t1Focus){
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaikuT2','claudeHaikuT2C1'].includes(x.dataset.engine)&&!x.disabled);
+ $('repeatCount').value='1';updateCaseStatus();
+ $('plan').textContent='T2 기본 vs C1 단순화 · 24문장 K12/L12 · 정번역+독립 역번역 · 최대 96회 유료 요청. 파일 선택 후 별도 과금 확인 필요.';
 }else $('plan').textContent='이번 비교: '+settings().engines.map(e=>engineNames[e]).join(' ↔ ')+' · 사용자가 검사 시작을 누르면 예상 유료 호출 수를 확인합니다.';
 })();
 </script>
