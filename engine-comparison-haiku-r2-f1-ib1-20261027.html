@@ -36,6 +36,7 @@ body.t1-focus #caseSection #run{font-size:16px;padding:13px;flex:1}
 body.t1-focus #caseSection #export{display:none!important}
 body.t1-focus #resultSection .tablewrap{max-height:620px;overflow:auto}
 body.t1-focus #resultSection>p.note{display:none!important}
+body.t1-focus #resultSection #summary,body.t1-focus #caseSection #caseStatus,body.t1-focus #caseSection #plan{display:block!important}
 body.t1-focus header h1{font-size:23px}
 @media(max-width:700px){body.t1-focus header h1{font-size:20px}body.t1-focus #caseSection #run{width:100%;flex:auto}}
 
@@ -146,7 +147,7 @@ L|ຂ້ອຍບອກວ່າຈະທັກຫາຫຼັງກິນເຂ
 <p id="plan" class="note"></p><p id="caseStatus" class="note"></p><progress id="prog" max="1" value="0"></progress><p id="state">대기 중</p>
 </section>
 <section class="card" id="resultSection"><h2><span class="t1Current">④ 결과 확인</span><span class="legacyOnly">④ 공통 비교 결과</span> <span class="pill" id="resultCount">0건</span></h2><p id="summary" class="note">검사 후 엔진별 성공 건수와 속도, 반복 출력의 차이가 표시됩니다.</p><p class="note">경과시간은 브라우저 관측 RTT입니다. 엔진마다 네트워크·요청 방식이 달라 순수 모델 추론속도가 아닙니다. 오류/CORS도 별도 표시합니다. 점수 자동 생성 없음.</p>
-<div class="tablewrap"><table><thead><tr><th>회차</th><th>번호</th><th>엔진</th><th>경로</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰·추정비용</th><th>상태·원인</th></tr></thead><tbody id="results"></tbody></table></div></section>
+<details id="resultDetail"><summary>전체 번역 결과 보기 (표 펼치기)</summary><div class="tablewrap"><table><thead><tr><th>회차</th><th>번호</th><th>엔진</th><th>경로</th><th>원문</th><th>정번역</th><th>독립 역번역</th><th>정번역 ms</th><th>역번역 ms</th><th>토큰·추정비용</th><th>상태·원인</th></tr></thead><tbody id="results"></tbody></table></div></details></section>
 <details class="card" id="legacyR8"><summary style="font-weight:800">고급 기능 · 기존 P168A R8 50문장 검사 (기능 보존)</summary><div style="margin-top:12px"><section class="card" id="r8PairPanel" style="border:2px solid #90add8">
 <h2>★ 실사용 50문장 · 3.8 LOW vs 3.1 MINIMAL vs 3.1 MEDIUM</h2>
 <p><b>기존 진단기의 실사용 50건 전용 메뉴입니다.</b> A는 3.8 LOW/P168A R8, B는 3.1 MINIMAL/같은 P168A R8, C는 3.1 MEDIUM/같은 P168A R8입니다. 정번역과 독립 역번역 네 경로의 프롬프트 및 SMART 규칙은 모두 동일하며 모델·추론수준만 다릅니다. C만 정·역 maxOutputTokens=2048(2배), A/B는 기존 1024를 유지합니다. 아래 일반 중립 엔진 검사는 이번 비교가 아닙니다.</p>
