@@ -820,16 +820,20 @@ r8LoadSession();r8Paint();
 
 load();const uiParams=new URLSearchParams(location.search);
 const selectedPreset=uiParams.get('preset');
-const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='t1');
+const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='t2');
 document.body.classList.add(t1Focus?'t1-focus':'legacy-mode');
-if(t1Focus){$('run').textContent='R2 ↔ T1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent='24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
+if(t1Focus){$('run').textContent='R2 ↔ T2 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent='24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
 if(selectedPreset==='gemini3')selectGemini3Preset();
 else if(selectedPreset==='ib1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuIB1'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='R2 vs R2-IB1 · 정번역 프롬프트 동일 / 독립 역번역 지시만 다름 · 입력 문장 보존 · 반복 1회 · 유료 API 검사 실행 전 확인';
-}else if(t1Focus){
+}else if(selectedPreset==='t1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuT1'].includes(x.dataset.engine)&&!x.disabled);
+ $('repeatCount').value='1';updateCaseStatus();
+ $('plan').textContent='과거 R2 vs T1 보관 검사 · 현재 후보 아님';
+}else if(t1Focus){
+ document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuT2'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='NEW PRIVATE HOLDOUT 24 required · R2 vs T1 · 24 source cases / K12 L12 / 2 models / forward+independent back = up to 96 paid API calls. Choose local 24 TXT before Run.';
 }else $('plan').textContent='이번 비교: '+settings().engines.map(e=>engineNames[e]).join(' ↔ ')+' · 사용자가 검사 시작을 누르면 예상 유료 호출 수를 확인합니다.';
