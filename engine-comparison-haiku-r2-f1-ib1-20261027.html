@@ -431,10 +431,10 @@ $('t1Import').addEventListener('change',async()=>{
 $('run').addEventListener('click',async()=>{
  if(active)return;
  const opts=settings();let cases,rep,firstRound;
- if(new URLSearchParams(location.search).get('preset')==='t1'&&!t1CorpusLoaded){$('state').textContent='R2-T1 통제검사: 새 실사용 24문장 TXT 파일을 먼저 불러와야 합니다. 유료 호출 0회.';return;}
+ if(t1Focus&&!t1CorpusLoaded){$('state').textContent='R2-T1 통제검사: 새 실사용 24문장 TXT 파일을 먼저 불러와야 합니다. 유료 호출 0회.';return;}
  try{
   cases=parseCases(opts.cases);rep=Number(opts.repeatCount);
-  if(new URLSearchParams(location.search).get('preset')==='t1'){
+  if(t1Focus){
    if(opts.engines.slice().sort().join('|')!=='claudeHaiku|claudeHaikuT1')throw Error('검사 모델이 R2 + T1이 아닙니다. 유료 호출 없이 중단합니다.');
    if(cases.length!==24||cases.filter(c=>c.side==='K').length!==12||cases.filter(c=>c.side==='L').length!==12)throw Error('검사 파일은 K12/L12 총 24문장이어야 합니다.');
    if(rep!==1)throw Error('T1 비교는 반복 1회로 고정입니다.');
@@ -801,13 +801,17 @@ $('r8Run').addEventListener('click',async()=>{
 });
 r8LoadSession();r8Paint();
 
-load();const selectedPreset=new URLSearchParams(location.search).get('preset');
+load();const uiParams=new URLSearchParams(location.search);
+const selectedPreset=uiParams.get('preset');
+const t1Focus=uiParams.get('view')!=='legacy'&&(!selectedPreset||selectedPreset==='t1');
+document.body.classList.add(t1Focus?'t1-focus':'legacy-mode');
+if(t1Focus){$('run').textContent='R2 ↔ T1 검사 시작';$('exportTxt').textContent='결과 TXT 저장';$('plan').textContent='24문장 TXT 선택 후 실행 · 최대 96회 유료 호출 · 확인 후 시작';}
 if(selectedPreset==='gemini3')selectGemini3Preset();
 else if(selectedPreset==='ib1'){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuIB1'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='R2 vs R2-IB1 · 정번역 프롬프트 동일 / 독립 역번역 지시만 다름 · 입력 문장 보존 · 반복 1회 · 유료 API 검사 실행 전 확인';
-}else if(selectedPreset==='t1'){
+}else if(t1Focus){
  document.querySelectorAll('[data-engine]').forEach(x=>x.checked=['claudeHaiku','claudeHaikuT1'].includes(x.dataset.engine)&&!x.disabled);
  $('repeatCount').value='1';updateCaseStatus();
  $('plan').textContent='NEW PRIVATE HOLDOUT 24 required · R2 vs T1 · 24 source cases / K12 L12 / 2 models / forward+independent back = up to 96 paid API calls. Choose local 24 TXT before Run.';
