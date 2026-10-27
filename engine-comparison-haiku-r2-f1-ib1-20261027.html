@@ -448,13 +448,13 @@ $('t1Import').addEventListener('change',async()=>{
 $('run').addEventListener('click',async()=>{
  if(active)return;
  const opts=settings();let cases,rep,firstRound;
- if(t1Focus&&!t1CorpusLoaded){$('state').textContent='R2-T1 통제검사: 새 실사용 24문장 TXT 파일을 먼저 불러와야 합니다. 유료 호출 0회.';return;}
+ if(t1Focus&&!t1CorpusLoaded){$('state').textContent='R2-T2 검사: 먼저 24문장 TXT 파일을 선택해 주세요. 아직 유료 호출은 없습니다.';return;}
  try{
   cases=parseCases(opts.cases);rep=Number(opts.repeatCount);
   if(t1Focus){
-   if(opts.engines.slice().sort().join('|')!=='claudeHaiku|claudeHaikuT1')throw Error('검사 모델이 R2 + T1이 아닙니다. 유료 호출 없이 중단합니다.');
+   if(opts.engines.slice().sort().join('|')!=='claudeHaiku|claudeHaikuT2')throw Error('검사 모델이 R2 + T2가 아닙니다. 유료 호출 없이 중단합니다.');
    if(cases.length!==24||cases.filter(c=>c.side==='K').length!==12||cases.filter(c=>c.side==='L').length!==12)throw Error('검사 파일은 K12/L12 총 24문장이어야 합니다.');
-   if(rep!==1)throw Error('T1 비교는 반복 1회로 고정입니다.');
+   if(rep!==1)throw Error('T2 비교는 반복 1회로 고정입니다.');
   }
   if(!Number.isSafeInteger(rep)||rep<1)throw Error('반복 횟수는 1 이상의 정수여야 합니다');
   if(!opts.engines.length)throw Error('선택한 모델이 없습니다');
