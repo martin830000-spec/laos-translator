@@ -418,6 +418,11 @@ $('run').addEventListener('click',async()=>{
  if(new URLSearchParams(location.search).get('preset')==='t1'&&!t1CorpusLoaded){$('state').textContent='R2-T1 통제검사: 새 실사용 24문장 TXT 파일을 먼저 불러와야 합니다. 유료 호출 0회.';return;}
  try{
   cases=parseCases(opts.cases);rep=Number(opts.repeatCount);
+  if(new URLSearchParams(location.search).get('preset')==='t1'){
+   if(opts.engines.slice().sort().join('|')!=='claudeHaiku|claudeHaikuT1')throw Error('검사 모델이 R2 + T1이 아닙니다. 유료 호출 없이 중단합니다.');
+   if(cases.length!==24||cases.filter(c=>c.side==='K').length!==12||cases.filter(c=>c.side==='L').length!==12)throw Error('검사 파일은 K12/L12 총 24문장이어야 합니다.');
+   if(rep!==1)throw Error('T1 비교는 반복 1회로 고정입니다.');
+  }
   if(!Number.isSafeInteger(rep)||rep<1)throw Error('반복 횟수는 1 이상의 정수여야 합니다');
   if(!opts.engines.length)throw Error('선택한 모델이 없습니다');
   const missing=opts.engines.filter(e=>verifyCredentials(opts,e));
