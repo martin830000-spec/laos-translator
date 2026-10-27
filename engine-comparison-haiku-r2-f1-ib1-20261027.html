@@ -318,10 +318,19 @@ async function claudeTranslate(text,src,dst,s,model,engine,context){
    ?(engine==='claudeHaiku'?CLAUDE_HAIKU_LOW_R2:CLAUDE_HAIKU_MED_R2)+' '+(context?.side==='K'?CLAUDE_HAIKU_ROLE_K:CLAUDE_HAIKU_ROLE_L)+' '+(stage==='back'?CLAUDE_HAIKU_BACK_R2:CLAUDE_HAIKU_FORWARD_R2)
    :CLAUDE_COUPLE_COMMON+' '+(stage==='back'?CLAUDE_COUPLE_INDEPENDENT_BACK:context?.side==='K'?CLAUDE_COUPLE_FORWARD_K:CLAUDE_COUPLE_FORWARD_L);
  const source=String(text);
+ const json1=engine==='claudeHaikuT2J1';
  const body={model,max_tokens:2048,thinking:{type:setup.thinking},output_config:{effort:setup.effort},system,messages:[{role:'user',content:'Translate the following message from '+(src==='ko'?'Korean':'Lao')+' into '+(dst==='ko'?'Korean':'Lao')+'.\n<source>\n'+source+'\n</source>'}]};
+ if(json1)body.output_config.format={type:'json_schema',schema:{type:'object',properties:{translation:{type:'string'}},required:['translation'],additionalProperties:false}};
  const d=await requestJSON('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':s.claudeKey},credentials:'omit',body:JSON.stringify(body)},s);
  if(d.stop_reason!=='end_turn')throw Error('Claude stop_reason '+String(d.stop_reason||'unknown'));
- const value=(d.content||[]).filter(p=>p.type==='text').map(p=>p.text||'').join('').trim();
+ const raw=(d.content||[]).filter(p=>p.type==='text').map(p=>p.text||'').join('').trim();
+ let value=raw;
+ if(json1){
+  let parsed;
+  try{parsed=JSON.parse(raw)}catch(e){throw Error('Claude JSON1 응답 파싱 실패 (자동 재호출 없음)')}
+  if(!parsed||typeof parsed.translation!=='string')throw Error('Claude JSON1 translation 문자열 누락');
+  value=parsed.translation.trim();
+ }
  if(!value)throw Error('Claude 텍스트 번역 없음');
  const u=d.usage||{},usage={inputTokens:u.input_tokens??null,outputTokens:u.output_tokens??null,thinkingTokens:u.output_tokens_details?.thinking_tokens??null,cacheRead:u.cache_read_input_tokens??0,cacheWrite:u.cache_creation_input_tokens??0};
  const usd=usage.inputTokens!=null&&usage.outputTokens!=null?(usage.inputTokens*setup.input+usage.outputTokens*setup.output)/1e6:null;
