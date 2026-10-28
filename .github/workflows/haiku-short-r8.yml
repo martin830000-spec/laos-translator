@@ -1,0 +1,43 @@
+name: Haiku R8 short prompt one-shot TEST
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-r8-short-one-shot
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.title == 'HAIKU_R8_SHORT_20261028_ONE_SHOT' &&
+      contains(github.event.issue.body, 'APPROVAL=HAIKU_R8_SHORT_MAX_0P202USD') &&
+      github.event.issue.user.login == 'martin830000-spec' &&
+      github.run_number == 1 &&
+      github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free offline preflight
+        run: |
+          python3 -m py_compile experiments/haiku-short-r8/short-r8.py
+          python3 experiments/haiku-short-r8/short-r8.py --offline
+      - name: Approved one-time Haiku 5.5 short prompt comparison
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_R8_SHORT_MAX_0P202USD
+        run: python3 experiments/haiku-short-r8/short-r8.py
+      - name: Preserve synthetic diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-short-r8-${{ github.run_number }}
+          path: out/haiku-short-r8.json
+          retention-days: 14
+          if-no-files-found: warn
