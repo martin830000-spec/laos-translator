@@ -1,8 +1,12 @@
 name: Haiku 5.5 independent back R4 - bounded test
 
+# User-approved total $5: automatically follows ONE successful R3 campaign.
+# Never on push, PR, or schedule.
 on:
-  issues:
-    types: [labeled]
+  workflow_run:
+    workflows: ["Haiku T2 R3 seven-arm guarded quality exploration"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
@@ -15,9 +19,9 @@ jobs:
   reverse-comparison:
     if: >-
       github.repository == 'martin830000-spec/laos-translator' &&
-      github.event.issue.number == 11 &&
-      github.event.issue.state == 'open' &&
-      github.event.label.name == 'haiku-back-r4-once'
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == 'martin830000-spec/laos-translator' &&
+      github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -26,12 +30,12 @@ jobs:
         run: |
           python3 -m py_compile experiments/haiku-back-r4/back-r4.py
           python3 experiments/haiku-back-r4/back-r4.py --offline
-      - name: Paid, bounded, five-arm reverse comparison (Haiku only)
+      - name: User-approved bounded independent Haiku reverse comparison
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PAID_APPROVAL: HAIKU_BACK_R4_MAX_0P4USD
         run: python3 experiments/haiku-back-r4/back-r4.py
-      - name: Save synthetic-only diagnostic
+      - name: Save only synthetic diagnostic
         if: always()
         uses: actions/upload-artifact@v4
         with:
