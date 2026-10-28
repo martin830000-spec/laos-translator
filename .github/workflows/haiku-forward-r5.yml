@@ -1,0 +1,41 @@
+name: Haiku forward-only R5 pivot and role hypothesis test
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-forward-r5-unique
+  cancel-in-progress: false
+
+jobs:
+  research:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.number == 12 &&
+      github.event.issue.state == 'open' &&
+      github.event.label.name == 'haiku-forward-r5-once'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static no-cost checks
+        run: |
+          python3 -m py_compile experiments/haiku-forward-r5/forward-r5.py
+          python3 experiments/haiku-forward-r5/forward-r5.py --offline
+      - name: User-approved R5 capped Haiku translation campaign
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_FORWARD_R5_MAX_0P5USD
+        run: python3 experiments/haiku-forward-r5/forward-r5.py
+      - name: Preserve only synthetic records on both success and partial failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-forward-r5-${{ github.run_number }}
+          path: out/haiku-forward-r5.json
+          retention-days: 14
+          if-no-files-found: warn
