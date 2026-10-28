@@ -1,58 +1,61 @@
 {
-  "round": 5,
-  "parent": "S18",
+  "round": 6,
+  "parent": "S21",
   "variants": [
     {
-      "id": "S21",
-      "hypothesis": "payment-document semantic class added to S18",
+      "id": "S26",
+      "hypothesis": "replace long mixed-language notes with compact Korean semantic glossary",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
       "schema": "roles",
+      "notes": "라오어 ລາວ는 보통 제3자 대명사이며 이름이라고 명시한 경우만 이름이다. ຮາກ/ອ້ວກ는 구토, ປວດຮາກ/ຢາກຮາກ는 구역감, ແພ້ທ້ອງ는 입덧이다. ໃບບິນ/ໃບເກັບເງິນ/ໃບແຈ້ງໜີ້는 청구서, ໃບຮັບເງິນ/ໃບເສັດ는 영수증이다. 맥락이 이상해도 원문의 단어를 다른 사실로 고치지 않는다."
+    },
+    {
+      "id": "S27",
+      "hypothesis": "one source-facts ledger instead of split roles schema",
+      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
+      "schema": "ledger",
       "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. In Lao billing contexts ໃບບິນ/ໃບເກັບເງິນ/ໃບແຈ້ງໜີ້ request payment (청구서); ໃບຮັບເງິນ/ໃບເສັດ acknowledge payment (영수증). Keep paid versus unpaid state explicit."
     },
     {
-      "id": "S22",
-      "hypothesis": "motion deictic anchor added to S18",
+      "id": "S28",
+      "hypothesis": "translation-only schema after billing disambiguation",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "roles",
-      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. Preserve deictic motion: ມາ is come/오다, ໄປ is go/가다. Do not change direction to sound natural."
+      "schema": "translation",
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. In Lao billing contexts ໃບບິນ/ໃບເກັບເງິນ/ໃບແຈ້ງໜີ້ request payment (청구서); ໃບຮັບເງິນ/ໃບເສັດ acknowledge payment (영수증). Keep paid versus unpaid state explicit."
     },
     {
-      "id": "S23",
-      "hypothesis": "appreciation speech act added to S18",
+      "id": "S29",
+      "hypothesis": "adaptive LOW with room for thinking",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
       "schema": "roles",
-      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. Preserve the communicative act of appreciation, reassurance or concern; acknowledging effort is not reporting that a person is tired or sweaty. Keep affectionate address as an address, not a name or guessed relationship."
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. In Lao billing contexts ໃບບິນ/ໃບເກັບເງິນ/ໃບແຈ້ງໜີ້ request payment (청구서); ໃບຮັບເງິນ/ໃບເສັດ acknowledge payment (영수증). Keep paid versus unpaid state explicit.",
+      "thinking": "adaptive",
+      "max_tokens": 4096
     },
     {
-      "id": "S24",
-      "hypothesis": "concise ambiguity-preserving kinship output",
+      "id": "S30",
+      "hypothesis": "move same terminology instructions to user hierarchy",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
       "schema": "roles",
-      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. Keep explicit age and relationship of kinship; do not list alternatives. For unknown gender, choose a natural gender-neutral expression."
-    },
-    {
-      "id": "S25",
-      "hypothesis": "interaction test payment motion appreciation together",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "roles",
-      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. In Lao billing contexts ໃບບິນ/ໃບເກັບເງິນ/ໃບແຈ້ງໜີ້ request payment (청구서); ໃບຮັບເງິນ/ໃບເສັດ acknowledge payment (영수증). Keep paid versus unpaid state explicit. Preserve deictic motion: ມາ is come/오다, ໄປ is go/가다. Do not change direction to sound natural. Preserve the communicative act of appreciation, reassurance or concern; acknowledging effort is not reporting that a person is tired or sweaty. Keep affectionate address as an address, not a name or guessed relationship."
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction. In Lao billing contexts ໃບບິນ/ໃບເກັບເງິນ/ໃບແຈ້ງໜີ້ request payment (청구서); ໃບຮັບເງິນ/ໃບເສັດ acknowledge payment (영수증). Keep paid versus unpaid state explicit.",
+      "notes_in_user": true
     }
   ],
   "cases": [
     {
-      "id": "K012",
+      "id": "KX01",
       "side": "K",
-      "source": "진료비 500,000낍은 지금 내지 말고 청구서를 먼저 받은 다음에 내자."
+      "source": "영수증을 받았지만 돈은 아직 내지 않았어."
     },
     {
-      "id": "K037",
+      "id": "K004",
       "side": "K",
-      "source": "자기야, 어제 많이 고생했지. 오늘은 푹 쉬어."
+      "source": "동생이 네게 책을 줬어. 내가 준 건 아니야."
     },
     {
-      "id": "L004",
+      "id": "L017",
       "side": "L",
-      "source": "ເອື້ອຍຈະມາມື້ອື່ນ ແຕ່ຂ້ອຍຈະມາວັນສຸກ"
+      "source": "ຂ້ອຍບໍ່ໄດ້ຮາກ ແຕ່ຮູ້ສຶກຢາກຮາກ ແລະ ວິນຫົວນິດໜ່ອຍ"
     },
     {
       "id": "L049",

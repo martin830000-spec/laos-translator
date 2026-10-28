@@ -11,9 +11,10 @@ SCHEMA={'type':'object','properties':{'translation':{'type':'string'}},'required
 def payload(text,side,stage,v):
  src,dst=('Korean','Lao') if (side=='K')==(stage=='first') else ('Lao','Korean')
  instruction=(v.get('back_prompt',v.get('prompt',BASE)) if stage=='back' else v.get('prompt',BASE))+((' '+BACK) if stage=='back' else '')
- if v.get('notes'):instruction+=' '+v['notes']
+ if v.get('notes') and not v.get('notes_in_user'):instruction+=' '+v['notes']
  if v.get('back_notes') and stage=='back':instruction+=' '+v['back_notes']
  q={'model':'claude-haiku-5-5','max_tokens':v.get('max_tokens',2048),'thinking':{'type':v.get('thinking','disabled')},'output_config':{'effort':v.get('effort','low')},'system':instruction,'messages':[{'role':'user','content':f'Translate {src} to {dst}.\n<message>\n{text}\n</message>'}]}
+ if v.get('notes_in_user'):q['messages'][0]['content']='Terminology instructions: '+v.get('notes','')+'\n'+q['messages'][0]['content']
  if v.get('schema'):
   schema=json.loads(json.dumps(SCHEMA))
   if v['schema']=='ledger':
