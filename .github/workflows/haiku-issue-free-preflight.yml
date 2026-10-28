@@ -1,0 +1,36 @@
+name: Haiku assistant issue gate - FREE offline preflight only
+
+# Only a specific TEST issue label can activate this bridge.
+# This workflow NEVER sees ANTHROPIC_API_KEY and cannot choose paid_16_calls.
+on:
+  issues:
+    types:
+      - labeled
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch-free-only:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.number == 7 &&
+      github.event.issue.state == 'open' &&
+      github.event.label.name == 'haiku-free-preflight'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    concurrency:
+      group: haiku-assistant-free-preflight
+      cancel-in-progress: false
+    steps:
+      - name: Dispatch existing Haiku FREE dry_run only (0 model API calls)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            "repos/martin830000-spec/laos-translator/actions/workflows/haiku_t2_ng1_manual_pilot.yml/dispatches" \
+            -f ref=main \
+            -f "inputs[run_mode]=dry_run" \
+            -f "inputs[paid_approval]="
+          echo "FREE dry_run dispatched; no Anthropic calls or API secret used."
