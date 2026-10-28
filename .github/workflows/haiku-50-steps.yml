@@ -1,0 +1,36 @@
+name: Haiku 50-step research round 1 TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+concurrency:
+  group: haiku-50-step-research
+  cancel-in-progress: false
+jobs:
+  research:
+    if: github.event.issue.title == 'HAIKU_50_STEPS_20261029_R1' && github.event.issue.user.login == 'martin830000-spec' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free preflight
+        run: python3 experiments/haiku-50-steps/steps.py --offline
+      - name: One-round persistent lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref: 'refs/tags/haiku-50-steps-20261029-r1-consumed', sha: context.sha});
+      - name: Approved Claude-only revisions 1 to 5
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_50_STEPS_20261029
+          ROUND: '1'
+        run: python3 experiments/haiku-50-steps/steps.py
+      - name: Preserve partial results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-50-steps-r1-${{ github.run_id }}
+          path: out/haiku-steps.*
+          retention-days: 90
