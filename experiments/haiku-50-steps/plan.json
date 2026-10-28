@@ -1,51 +1,13 @@
 {
-  "round": 10,
-  "parent": "S41",
+  "round": 11,
+  "parent": "S47 frozen before reading holdout outputs; no further tuning",
+  "final_validation": true,
+  "max_calls": 88,
   "variants": [
     {
-      "id": "S46",
-      "hypothesis": "one finished wording and conventional Lao orthography",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "roles",
-      "notes": "",
-      "notes_in_user": true,
-      "sense_groups": [
-        {
-          "triggers": [
-            "ລາວ",
-            "라오"
-          ],
-          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
-        },
-        {
-          "triggers": [
-            "동생",
-            "ນ້ອງ"
-          ],
-          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
-        },
-        {
-          "triggers": [
-            "ແພ້ທ້ອງ",
-            "입덧",
-            "ຮາກ",
-            "ອ້ວກ",
-            "메스",
-            "토하",
-            "토할"
-          ],
-          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
-        },
-        {
-          "triggers": [
-            "ໃບ",
-            "영수증",
-            "청구서"
-          ],
-          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
-        }
-      ],
-      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker. Return one finished message. Use conventional Lao spelling and one natural wording, without alternatives or explanation."
+      "id": "ORIGINAL",
+      "hypothesis": "exact prior shared comparator Claude request baseline",
+      "legacy_prompt": "Translate faithfully between Korean and Lao. Preserve speaker, listener, third parties, negation, time, actions and emotion. Return only the translation. Do not invent information or use Thai script. In independent backtranslation, translate only the visible translated text, never reconstruct an unseen original."
     },
     {
       "id": "S47",
@@ -92,164 +54,140 @@
       ],
       "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker.",
       "back_prompt": "주어진 글 자체를 한국어 또는 라오어로 역번역한다. 최초 원문이나 상대의 의도를 복원하지 않는다. 문법상 이름이면 이름, 제3자이면 제3자, 청자이면 청자로 유지한다. 행동의 주체·대상·부정·시점·증상·서류 종류와 모순도 그대로 옮긴다. 번역문 하나만 출력한다."
-    },
-    {
-      "id": "S48",
-      "hypothesis": "verbatim evidence spans replace inferred fact fields",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "evidence",
-      "notes": "",
-      "notes_in_user": true,
-      "sense_groups": [
-        {
-          "triggers": [
-            "ລາວ",
-            "라오"
-          ],
-          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
-        },
-        {
-          "triggers": [
-            "동생",
-            "ນ້ອງ"
-          ],
-          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
-        },
-        {
-          "triggers": [
-            "ແພ້ທ້ອງ",
-            "입덧",
-            "ຮາກ",
-            "ອ້ວກ",
-            "메스",
-            "토하",
-            "토할"
-          ],
-          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
-        },
-        {
-          "triggers": [
-            "ໃບ",
-            "영수증",
-            "청구서"
-          ],
-          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
-        }
-      ],
-      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker."
-    },
-    {
-      "id": "S49",
-      "hypothesis": "dynamic terminology as system instruction rather than user note",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "roles",
-      "notes": "",
-      "notes_in_user": false,
-      "sense_groups": [
-        {
-          "triggers": [
-            "ລາວ",
-            "라오"
-          ],
-          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
-        },
-        {
-          "triggers": [
-            "동생",
-            "ນ້ອງ"
-          ],
-          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
-        },
-        {
-          "triggers": [
-            "ແພ້ທ້ອງ",
-            "입덧",
-            "ຮາກ",
-            "ອ້ວກ",
-            "메스",
-            "토하",
-            "토할"
-          ],
-          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
-        },
-        {
-          "triggers": [
-            "ໃບ",
-            "영수증",
-            "청구서"
-          ],
-          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
-        }
-      ],
-      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker."
-    },
-    {
-      "id": "S50",
-      "hypothesis": "1024 output budget for LOW/OFF structured payload",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "roles",
-      "notes": "",
-      "notes_in_user": true,
-      "sense_groups": [
-        {
-          "triggers": [
-            "ລາວ",
-            "라오"
-          ],
-          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
-        },
-        {
-          "triggers": [
-            "동생",
-            "ນ້ອງ"
-          ],
-          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
-        },
-        {
-          "triggers": [
-            "ແພ້ທ້ອງ",
-            "입덧",
-            "ຮາກ",
-            "ອ້ວກ",
-            "메스",
-            "토하",
-            "토할"
-          ],
-          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
-        },
-        {
-          "triggers": [
-            "ໃບ",
-            "영수증",
-            "청구서"
-          ],
-          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
-        }
-      ],
-      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker.",
-      "max_tokens": 1024
     }
   ],
   "cases": [
     {
-      "id": "K004",
       "side": "K",
-      "source": "동생이 네게 책을 줬어. 내가 준 건 아니야."
+      "source": "그 사람이 우리 집으로 보낸 물건은 네 것이 아니라 내 것이야.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK01"
     },
     {
-      "id": "K054",
       "side": "K",
-      "source": "입덧 때문에 메스껍지만 오늘은 토하지 않았어."
+      "source": "오후 5시 15분에 문을 닫으니까 5시 전에 도착해야 해.",
+      "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+      "id": "HK02"
     },
     {
-      "id": "L002",
-      "side": "L",
-      "source": "ລາວບໍ່ໄດ້ເອົາໂທລະສັບຂອງຂ້ອຍ ເຈົ້າເປັນຄົນເອົາ"
+      "side": "K",
+      "source": "나는 네 말을 의심한 게 아니라 잘못 들은 거야.",
+      "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+      "id": "HK03"
     },
     {
-      "id": "L049",
+      "side": "K",
+      "source": "여보, 나는 화난 게 아니라 조금 서운했어. 네 탓이라고 말한 건 아니야.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK04"
+    },
+    {
+      "side": "K",
+      "source": "오늘 일이 끝나면 바로 집에 갈게. 아직 끝난 건 아니야.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK05"
+    },
+    {
+      "side": "K",
+      "source": "자기야, 오늘도 수고 많았어. 푹 쉬어.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK06"
+    },
+    {
+      "side": "K",
+      "source": "어제 180,000낍을 냈고 나머지 70,000낍은 다음 주에 내야 해.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK07"
+    },
+    {
+      "side": "K",
+      "source": "할머니에게 보낸 건 꽃이고, 동생에게 보낸 건 과자야.",
+      "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+      "id": "HK08"
+    },
+    {
+      "side": "K",
+      "source": "예약은 오전 9시 20분이고 우리는 8시 10분에 출발해. 9시 20분에 출발하는 건 아니야.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK09"
+    },
+    {
+      "side": "K",
+      "source": "약을 먹으라는 말이 아니라 약을 먹었는지 물어본 거야.",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HK10"
+    },
+    {
+      "side": "K",
+      "source": "서류는 내일 보내도 되지만 사진은 오늘 꼭 보내 줘.",
+      "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+      "id": "HK11"
+    },
+    {
       "side": "L",
-      "source": "ເອື້ອຍໃຫ້ໃບບິນຂ້ອຍ ແຕ່ຍັງບໍ່ໄດ້ຈ່າຍເງິນ"
+      "source": "ຂ້ອຍຈະອອກຈາກບ້ານຕອນ 6 ໂມງ ແລະຈະໄປຮອດຕອນ 7 ໂມງ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL01"
+    },
+    {
+      "side": "L",
+      "source": "ລາວບອກຂ້ອຍວ່າຈະມາມື້ອື່ນ ແຕ່ບໍ່ໄດ້ບອກເຈົ້າ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL02"
+    },
+    {
+      "side": "L",
+      "source": "ມື້ນີ້ອາກາດດີ ຂ້ອຍໄປຍ່າງຫຼິ້ນຕອນເຊົ້າ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL03"
+    },
+    {
+      "side": "L",
+      "source": "ນ້ອງສາວຊື້ປຶ້ມ ແຕ່ເອື້ອຍເປັນຄົນຈ່າຍເງິນ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL04"
+    },
+    {
+      "side": "L",
+      "source": "ຂ້ອຍຈ່າຍ 50,000 ກີບແລ້ວ ແຕ່ຍັງບໍ່ໄດ້ຈ່າຍອີກ 20,000 ກີບ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL05"
+    },
+    {
+      "side": "L",
+      "source": "ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ແຕ່ຂ້ອຍນ້ອຍໃຈນິດໜ່ອຍ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL06"
+    },
+    {
+      "side": "L",
+      "source": "ທີ່ຮັກ ຂ້ອຍຈະນອນແລ້ວ ຝັນດີເດີ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL07"
+    },
+    {
+      "side": "L",
+      "source": "ຂ້ອຍບໍ່ໄດ້ປວດຫົວ ແຕ່ຂ້ອຍວິນຫົວ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL08"
+    },
+    {
+      "side": "L",
+      "source": "ຂ້ອຍຖາມວ່າເຈົ້າກິນຢາແລ້ວບໍ່ ບໍ່ໄດ້ບອກໃຫ້ກິນດຽວນີ້",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL09"
+    },
+    {
+      "side": "L",
+      "source": "ຖ້າຝົນຕົກ ຂ້ອຍຈະຢູ່ບ້ານ ແຕ່ຖ້າບໍ່ຕົກຂ້ອຍຈະໄປຕະຫຼາດ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL10"
+    },
+    {
+      "side": "L",
+      "source": "ຂ້ອຍເຫັນຂໍ້ຄວາມແລ້ວ ແຕ່ຍັງບໍ່ໄດ້ຕອບ",
+      "provenance": "experiments/haiku-short-r8/short-r8.py",
+      "id": "HL11"
     }
   ]
 }

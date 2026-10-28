@@ -10,6 +10,8 @@ BACK='This is independent backtranslation. Translate only the visible message su
 SCHEMA={'type':'object','properties':{'translation':{'type':'string'}},'required':['translation'],'additionalProperties':False}
 def payload(text,side,stage,v):
  src,dst=('Korean','Lao') if (side=='K')==(stage=='first') else ('Lao','Korean')
+ if v.get('legacy_prompt'):
+  return {'model':'claude-haiku-5-5','max_tokens':512,'thinking':{'type':'disabled'},'output_config':{'effort':'low'},'messages':[{'role':'user','content':v['legacy_prompt']+f'\nTranslate from {src} to {dst}:\n<source>\n{text}\n</source>'}]}
  instruction=(v.get('back_prompt',v.get('prompt',BASE)) if stage=='back' else v.get('prompt',BASE))+((' '+BACK) if stage=='back' else '')
  if v.get('notes') and not v.get('notes_in_user'):instruction+=' '+v['notes']
  if v.get('back_notes') and stage=='back':instruction+=' '+v['back_notes']
@@ -32,12 +34,12 @@ def payload(text,side,stage,v):
    q['tool_choice']={'type':'tool','name':'emit_translation'}
  return q
 def save():
- report={'status':'REVIEW_REQUIRED_NOT_ACCURACY','round':PLAN['round'],'parent':PLAN['parent'],'max_calls':40,'attempts':calls,'steps':PLAN['variants'],'results':rows}
+ report={'status':'REVIEW_REQUIRED_NOT_ACCURACY','round':PLAN['round'],'parent':PLAN['parent'],'max_calls':PLAN.get('max_calls',40),'attempts':calls,'steps':PLAN['variants'],'results':rows}
  tmp=OUT/'haiku-steps.tmp';tmp.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(OUT/'haiku-steps.json')
  (OUT/'haiku-steps.txt').write_text('\n'.join(json.dumps(x,ensure_ascii=False) for x in rows),encoding='utf-8')
 def post(q,v):
  global calls
- assert calls<40
+ assert calls<PLAN.get('max_calls',40)
  calls+=1;save();start=time.perf_counter()
  try:
   req=urllib.request.Request('https://api.anthropic.com/v1/messages',data=json.dumps(q,ensure_ascii=False).encode(),headers={'x-api-key':os.environ['ANTHROPIC_API_KEY'],'anthropic-version':'2023-06-01','content-type':'application/json'})
@@ -49,15 +51,16 @@ def post(q,v):
  except urllib.error.HTTPError as e:return {'status':'API_ERROR','http_status':e.code,'text':'','ms':round((time.perf_counter()-start)*1000)}
  except Exception as e:return {'status':'ERROR','error_type':type(e).__name__,'text':'','ms':round((time.perf_counter()-start)*1000)}
 def validate():
- assert len(PLAN['variants'])==5 and len(PLAN['cases'])==4
- assert sum(x['side']=='K' for x in PLAN['cases'])==2
- assert len({x['id'] for x in PLAN['variants']})==5
+ final=PLAN.get('final_validation',False)
+ assert (PLAN['round']==11 and len(PLAN['variants'])==2 and len(PLAN['cases'])==22 and PLAN['max_calls']==88) if final else (len(PLAN['variants'])==5 and len(PLAN['cases'])==4 and PLAN.get('max_calls',40)==40)
+ assert sum(x['side']=='K' for x in PLAN['cases'])==(11 if final else 2)
+ assert len({x['id'] for x in PLAN['variants']})==len(PLAN['variants'])
  for v in PLAN['variants']:
   for c in PLAN['cases']:
    q=payload('VISIBLE_ONLY_SENTINEL',c['side'],'back',v)
    assert c['source'] not in json.dumps(q,ensure_ascii=False)
    assert q['model']=='claude-haiku-5-5' and not any(k in q for k in ('temperature','top_p','top_k'))
- print('FREE PASS K2/L2 x5 revisions xFIRST/BACK <=40 calls; no retries; no Gemini')
+ print('FREE PASS',len(PLAN['cases']),'cases',len(PLAN['variants']),'settings; maximum',PLAN.get('max_calls',40),'calls; no retries; no Gemini')
 if __name__=='__main__':
  validate()
  if '--offline' not in sys.argv:
