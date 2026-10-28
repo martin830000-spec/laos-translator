@@ -1,5 +1,7 @@
 name: Gemini vs Haiku four-path comparison TEST
 on:
+  issues:
+    types: [opened]
   workflow_dispatch:
     inputs:
       mode:
@@ -19,6 +21,13 @@ concurrency:
   cancel-in-progress: false
 jobs:
   compare:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issues' &&
+       github.event.issue.title == 'GEMINI_HAIKU_COMPARE_8CALLS_20261029' &&
+       contains(github.event.issue.body, 'APPROVAL=I_APPROVE_8_COMPARE_CALLS') &&
+       github.event.issue.user.login == 'martin830000-spec' &&
+       github.run_attempt == 1)
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,12 +37,12 @@ jobs:
           python3 -m py_compile experiments/gemini-haiku-compare/compare.py
           python3 experiments/gemini-haiku-compare/compare.py --dry-run
       - name: Paid comparison (explicit dispatch approval only)
-        if: ${{ inputs.mode == 'paid_8_calls' && inputs.approval == 'I_APPROVE_8_COMPARE_CALLS' }}
+        if: ${{ (github.event_name == 'issues' && github.event.issue.title == 'GEMINI_HAIKU_COMPARE_8CALLS_20261029') || (inputs.mode == 'paid_8_calls' && inputs.approval == 'I_APPROVE_8_COMPARE_CALLS') }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          PAID_APPROVAL: ${{ inputs.approval }}
-          GEMINI_MODEL: ${{ vars.GEMINI_COMPARE_MODEL }}
+          PAID_APPROVAL: I_APPROVE_8_COMPARE_CALLS
+          GEMINI_MODEL: gemini-3.8-flash
         run: python3 experiments/gemini-haiku-compare/compare.py
       - name: Preserve outputs
         if: always()
