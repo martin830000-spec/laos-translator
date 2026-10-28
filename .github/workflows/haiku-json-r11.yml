@@ -1,0 +1,39 @@
+name: Haiku R11 structured JSON one-shot TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+concurrency:
+  group: haiku-r11-json-one-shot
+  cancel-in-progress: false
+jobs:
+  compare:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.title == 'HAIKU_R11_JSON_20261028_ONE_SHOT' &&
+      contains(github.event.issue.body, 'APPROVAL=HAIKU_R11_JSON_MAX_0P216USD') &&
+      github.event.issue.user.login == 'martin830000-spec' &&
+      github.run_number == 1 &&
+      github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free offline R11 preflight
+        run: |
+          python3 -m py_compile experiments/haiku-json-r11/json-r11.py
+          python3 experiments/haiku-json-r11/json-r11.py --offline
+      - name: Approved single Haiku 5.5 structured JSON comparison
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_R11_JSON_MAX_0P216USD
+        run: python3 experiments/haiku-json-r11/json-r11.py
+      - name: Preserve public synthetic diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-json-r11-${{ github.run_number }}
+          path: out/haiku-json-r11.json
+          retention-days: 14
+          if-no-files-found: warn
