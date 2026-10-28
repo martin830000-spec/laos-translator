@@ -10,7 +10,7 @@ BACK='This is independent backtranslation. Translate only the visible message su
 SCHEMA={'type':'object','properties':{'translation':{'type':'string'}},'required':['translation'],'additionalProperties':False}
 def payload(text,side,stage,v):
  src,dst=('Korean','Lao') if (side=='K')==(stage=='first') else ('Lao','Korean')
- instruction=v.get('prompt',BASE)+((' '+BACK) if stage=='back' else '')
+ instruction=(v.get('back_prompt',v.get('prompt',BASE)) if stage=='back' else v.get('prompt',BASE))+((' '+BACK) if stage=='back' else '')
  if v.get('notes'):instruction+=' '+v['notes']
  if v.get('back_notes') and stage=='back':instruction+=' '+v['back_notes']
  q={'model':'claude-haiku-5-5','max_tokens':v.get('max_tokens',2048),'thinking':{'type':v.get('thinking','disabled')},'output_config':{'effort':v.get('effort','low')},'system':instruction,'messages':[{'role':'user','content':f'Translate {src} to {dst}.\n<message>\n{text}\n</message>'}]}
@@ -18,6 +18,8 @@ def payload(text,side,stage,v):
   schema=json.loads(json.dumps(SCHEMA))
   if v['schema']=='ledger':
    schema['properties']={'source_facts':{'type':'array','items':{'type':'string'},'description':'Brief literal facts grounded only in the supplied text; retain uncertainty.'},**schema['properties']};schema['required']=['source_facts','translation']
+  if v['schema']=='roles':
+   schema['properties']={'source_people':{'type':'array','items':{'type':'string'},'description':'Only people explicitly in the supplied source; retain unspecified identity.'},'source_events':{'type':'array','items':{'type':'string'},'description':'Literal actor-action-object facts with polarity and tense from the visible source.'},**schema['properties']};schema['required']=['source_people','source_events','translation']
   q['output_config']['format']={'type':'json_schema','schema':schema}
  return q
 def save():
