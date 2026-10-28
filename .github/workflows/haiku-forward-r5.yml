@@ -1,37 +1,40 @@
 name: Haiku forward-only R5 pivot and role hypothesis test
 
+# User-approved: follows ONE successful R4 campaign, with hard request and cost caps.
 on:
-  issues:
-    types: [labeled]
+  workflow_run:
+    workflows: ["Haiku 5.5 independent back R4 - bounded test"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
 
 concurrency:
-  group: haiku-forward-r5-unique
+  group: haiku-forward-r5-only
   cancel-in-progress: false
 
 jobs:
   research:
     if: >-
       github.repository == 'martin830000-spec/laos-translator' &&
-      github.event.issue.number == 12 &&
-      github.event.issue.state == 'open' &&
-      github.event.label.name == 'haiku-forward-r5-once'
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == 'martin830000-spec/laos-translator' &&
+      github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-      - name: Static no-cost checks
+      - name: Free static preflight
         run: |
           python3 -m py_compile experiments/haiku-forward-r5/forward-r5.py
           python3 experiments/haiku-forward-r5/forward-r5.py --offline
-      - name: User-approved R5 capped Haiku translation campaign
+      - name: User-approved capped R5 Haiku-only prompt comparison
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PAID_APPROVAL: HAIKU_FORWARD_R5_MAX_0P5USD
         run: python3 experiments/haiku-forward-r5/forward-r5.py
-      - name: Preserve only synthetic records on both success and partial failure
+      - name: Preserve only synthetic diagnostics on success/failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
