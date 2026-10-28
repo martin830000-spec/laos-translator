@@ -1,0 +1,43 @@
+name: Haiku R7 visible-source lexical anchors guarded TEST
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-glossary-r7-one-shot
+  cancel-in-progress: false
+
+jobs:
+  research:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.title == 'HAIKU_R7_GLOSSARY_20261028_ONE_SHOT' &&
+      contains(github.event.issue.body, 'APPROVAL=HAIKU_R7_GLOSSARY_MAX_0P135USD') &&
+      github.event.issue.user.login == 'martin830000-spec' &&
+      github.run_number == 1 &&
+      github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free offline preflight
+        run: |
+          python3 -m py_compile experiments/haiku-glossary-r7/glossary-r7.py
+          python3 experiments/haiku-glossary-r7/glossary-r7.py --offline
+      - name: Approved one-time Haiku 5.5 glossary factorial
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_R7_GLOSSARY_MAX_0P135USD
+        run: python3 experiments/haiku-glossary-r7/glossary-r7.py
+      - name: Preserve only synthetic diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-glossary-r7-${{ github.run_number }}
+          path: out/haiku-glossary-r7.json
+          retention-days: 14
+          if-no-files-found: warn
