@@ -1,0 +1,44 @@
+name: Haiku R6 structured semantic scaffold guarded TEST
+
+# One explicit approved issue event only. No automatic success-chain or retries.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-structured-r6-one-shot
+  cancel-in-progress: false
+
+jobs:
+  quality-research:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.title == 'HAIKU_R6_STRUCTURED_20261028_ONE_SHOT' &&
+      contains(github.event.issue.body, 'APPROVAL=HAIKU_R6_STRUCTURED_MAX_0P09USD') &&
+      github.event.issue.user.login == 'martin830000-spec' &&
+      github.run_number == 1 &&
+      github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free offline preflight
+        run: |
+          python3 -m py_compile experiments/haiku-structured-r6/structured-r6.py
+          python3 experiments/haiku-structured-r6/structured-r6.py --offline
+      - name: Approved one-time Haiku 5.5 structured vs T2 comparison
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_R6_STRUCTURED_MAX_0P09USD
+        run: python3 experiments/haiku-structured-r6/structured-r6.py
+      - name: Preserve synthetic diagnostic even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-structured-r6-${{ github.run_number }}
+          path: out/haiku-structured-r6.json
+          retention-days: 14
+          if-no-files-found: warn
