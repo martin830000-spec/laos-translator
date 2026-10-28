@@ -1,12 +1,103 @@
 {
-  "round": 9,
-  "parent": "S38",
+  "round": 10,
+  "parent": "S41",
   "variants": [
     {
-      "id": "S41",
-      "hypothesis": "source-grounded ownership and name attributes",
+      "id": "S46",
+      "hypothesis": "one finished wording and conventional Lao orthography",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
       "schema": "roles",
+      "notes": "",
+      "notes_in_user": true,
+      "sense_groups": [
+        {
+          "triggers": [
+            "ລາວ",
+            "라오"
+          ],
+          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
+        },
+        {
+          "triggers": [
+            "동생",
+            "ນ້ອງ"
+          ],
+          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
+        },
+        {
+          "triggers": [
+            "ແພ້ທ້ອງ",
+            "입덧",
+            "ຮາກ",
+            "ອ້ວກ",
+            "메스",
+            "토하",
+            "토할"
+          ],
+          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
+        },
+        {
+          "triggers": [
+            "ໃບ",
+            "영수증",
+            "청구서"
+          ],
+          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
+        }
+      ],
+      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker. Return one finished message. Use conventional Lao spelling and one natural wording, without alternatives or explanation."
+    },
+    {
+      "id": "S47",
+      "hypothesis": "Korean dedicated reverse prompt with dynamic senses",
+      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
+      "schema": "roles",
+      "notes": "",
+      "notes_in_user": true,
+      "sense_groups": [
+        {
+          "triggers": [
+            "ລາວ",
+            "라오"
+          ],
+          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
+        },
+        {
+          "triggers": [
+            "동생",
+            "ນ້ອງ"
+          ],
+          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
+        },
+        {
+          "triggers": [
+            "ແພ້ທ້ອງ",
+            "입덧",
+            "ຮາກ",
+            "ອ້ວກ",
+            "메스",
+            "토하",
+            "토할"
+          ],
+          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
+        },
+        {
+          "triggers": [
+            "ໃບ",
+            "영수증",
+            "청구서"
+          ],
+          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
+        }
+      ],
+      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker.",
+      "back_prompt": "주어진 글 자체를 한국어 또는 라오어로 역번역한다. 최초 원문이나 상대의 의도를 복원하지 않는다. 문법상 이름이면 이름, 제3자이면 제3자, 청자이면 청자로 유지한다. 행동의 주체·대상·부정·시점·증상·서류 종류와 모순도 그대로 옮긴다. 번역문 하나만 출력한다."
+    },
+    {
+      "id": "S48",
+      "hypothesis": "verbatim evidence spans replace inferred fact fields",
+      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
+      "schema": "evidence",
       "notes": "",
       "notes_in_user": true,
       "sense_groups": [
@@ -48,12 +139,12 @@
       "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker."
     },
     {
-      "id": "S42",
-      "hypothesis": "dynamic sense groups with single fact ledger",
+      "id": "S49",
+      "hypothesis": "dynamic terminology as system instruction rather than user note",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "ledger",
+      "schema": "roles",
       "notes": "",
-      "notes_in_user": true,
+      "notes_in_user": false,
       "sense_groups": [
         {
           "triggers": [
@@ -89,55 +180,12 @@
           ],
           "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
         }
-      ]
+      ],
+      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker."
     },
     {
-      "id": "S43",
-      "hypothesis": "dynamic sense groups with translation-only schema",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "translation",
-      "notes": "",
-      "notes_in_user": true,
-      "sense_groups": [
-        {
-          "triggers": [
-            "ລາວ",
-            "라오"
-          ],
-          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
-        },
-        {
-          "triggers": [
-            "동생",
-            "ນ້ອງ"
-          ],
-          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
-        },
-        {
-          "triggers": [
-            "ແພ້ທ້ອງ",
-            "입덧",
-            "ຮາກ",
-            "ອ້ວກ",
-            "메스",
-            "토하",
-            "토할"
-          ],
-          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
-        },
-        {
-          "triggers": [
-            "ໃບ",
-            "영수증",
-            "청구서"
-          ],
-          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
-        }
-      ]
-    },
-    {
-      "id": "S44",
-      "hypothesis": "medium disabled effort with dynamic sense groups",
+      "id": "S50",
+      "hypothesis": "1024 output budget for LOW/OFF structured payload",
       "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
       "schema": "roles",
       "notes": "",
@@ -178,74 +226,30 @@
           "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
         }
       ],
-      "effort": "medium"
-    },
-    {
-      "id": "S45",
-      "hypothesis": "dynamic sense groups via strict tool output",
-      "prompt": "원문 메시지를 한국어와 라오어 사이에서 충실하게 번역한다. 화자·청자·제3자·행동자·수신자를 분리하고 부정·시간·수량·증상·감정을 그대로 보존한다. 없는 성별·이름·소유관계는 추측하지 않는다. 자연스러운 번역문 하나만 작성한다.",
-      "schema": "roles",
-      "notes": "",
-      "notes_in_user": true,
-      "sense_groups": [
-        {
-          "triggers": [
-            "ລາວ",
-            "라오"
-          ],
-          "note": "Distinguish a third-person pronoun from an explicitly named person; preserve names only when a name is stated."
-        },
-        {
-          "triggers": [
-            "동생",
-            "ນ້ອງ"
-          ],
-          "note": " Korean 동생 without sex or owner corresponds to neutral ນ້ອງ. Use that neutral form, without possessives, gender alternatives or explanatory labels."
-        },
-        {
-          "triggers": [
-            "ແພ້ທ້ອງ",
-            "입덧",
-            "ຮາກ",
-            "ອ້ວກ",
-            "메스",
-            "토하",
-            "토할"
-          ],
-          "note": "ແພ້ທ້ອງ is pregnancy morning sickness; ປວດຮາກ/ຢາກຮາກ are nausea/urge to vomit, ຮາກ/ອ້ວກ are vomiting; keep event versus feeling and negation."
-        },
-        {
-          "triggers": [
-            "ໃບ",
-            "영수증",
-            "청구서"
-          ],
-          "note": "Keep proof of payment (영수증/ໃບຮັບເງິນ) separate from bill/invoice (청구서/ໃບບິນ). Preserve contradictory source wording rather than repairing it."
-        }
-      ],
-      "tool_output": true
+      "back_notes": "Every ownership relation and name attribute must be present in the visible source. Preserve unspecified ownership as unspecified. Do not infer that a friend or sibling belongs to the speaker.",
+      "max_tokens": 1024
     }
   ],
   "cases": [
     {
-      "id": "K007",
+      "id": "K004",
       "side": "K",
-      "source": "여보, 언니가 당신을 병원에 데려간 건 맞지만 병원비를 낸 사람은 당신이지 언니가 아니야."
+      "source": "동생이 네게 책을 줬어. 내가 준 건 아니야."
     },
     {
-      "id": "K061",
+      "id": "K054",
       "side": "K",
-      "source": "토요일 오전 8시 5분에 출발하고 오후 1시에 도착할 거야."
+      "source": "입덧 때문에 메스껍지만 오늘은 토하지 않았어."
     },
     {
-      "id": "L031",
+      "id": "L002",
       "side": "L",
-      "source": "ເຈົ້າບອກເອື້ອຍ ແຕ່ລາວບໍ່ໄດ້ບອກເອື້ອຍ"
+      "source": "ລາວບໍ່ໄດ້ເອົາໂທລະສັບຂອງຂ້ອຍ ເຈົ້າເປັນຄົນເອົາ"
     },
     {
-      "id": "L014",
+      "id": "L049",
       "side": "L",
-      "source": "ຂ້ອຍຄິດວ່າເຈົ້າໃຈຮ້າຍ ແຕ່ບໍ່ຮູ້ວ່າເຈົ້ານ້ອຍໃຈຢູ່"
+      "source": "ເອື້ອຍໃຫ້ໃບບິນຂ້ອຍ ແຕ່ຍັງບໍ່ໄດ້ຈ່າຍເງິນ"
     }
   ]
 }

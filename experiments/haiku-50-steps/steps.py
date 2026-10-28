@@ -23,6 +23,8 @@ def payload(text,side,stage,v):
    schema['properties']={'source_facts':{'type':'array','items':{'type':'string'},'description':'Brief literal facts grounded only in the supplied text; retain uncertainty.'},**schema['properties']};schema['required']=['source_facts','translation']
   if v['schema']=='roles':
    schema['properties']={'source_people':{'type':'array','items':{'type':'string'},'description':'Only people explicitly in the supplied source; retain unspecified identity.'},'source_events':{'type':'array','items':{'type':'string'},'description':'Literal actor-action-object facts with polarity and tense from the visible source.'},**schema['properties']};schema['required']=['source_people','source_events','translation']
+  if v['schema']=='evidence':
+   schema['properties']={'source_spans':{'type':'array','items':{'type':'string'},'description':'Verbatim short quotations from the supplied source covering people, relation, polarity, symptoms and key facts. Copy original spans exactly; do not infer attributes or translate these quotations.'},**schema['properties']};schema['required']=['source_spans','translation']
   q['output_config']['format']={'type':'json_schema','schema':schema}
   if v.get('tool_output'):
    del q['output_config']['format']
