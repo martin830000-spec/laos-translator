@@ -19,6 +19,8 @@ jobs:
     if: >-
       github.repository == 'martin830000-spec/laos-translator' &&
       github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.run_number == 1 &&
+      github.event.workflow_run.run_attempt == 1 &&
       github.event.workflow_run.head_repository.full_name == 'martin830000-spec/laos-translator' &&
       github.event.workflow_run.head_branch == 'main'
     runs-on: ubuntu-latest
