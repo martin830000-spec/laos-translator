@@ -1,0 +1,45 @@
+name: Gemini vs Haiku four-path comparison TEST
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Offline preflight only, or 8 paid API calls'
+        type: choice
+        options: [dry_run, paid_8_calls]
+        default: dry_run
+        required: true
+      approval:
+        description: 'Paid only: I_APPROVE_8_COMPARE_CALLS'
+        required: false
+        default: ''
+permissions:
+  contents: read
+concurrency:
+  group: gemini-haiku-fourpath-compare
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline validation
+        run: |
+          python3 -m py_compile experiments/gemini-haiku-compare/compare.py
+          python3 experiments/gemini-haiku-compare/compare.py --dry-run
+      - name: Paid comparison (explicit dispatch approval only)
+        if: ${{ inputs.mode == 'paid_8_calls' && inputs.approval == 'I_APPROVE_8_COMPARE_CALLS' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: ${{ inputs.approval }}
+          GEMINI_MODEL: ${{ vars.GEMINI_COMPARE_MODEL }}
+        run: python3 experiments/gemini-haiku-compare/compare.py
+      - name: Preserve outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemini-haiku-compare-${{ github.run_id }}
+          path: out/gemini-haiku-compare.*
+          if-no-files-found: warn
+          retention-days: 14
