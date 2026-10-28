@@ -22,6 +22,10 @@ def payload(text,side,stage,v):
   if v['schema']=='roles':
    schema['properties']={'source_people':{'type':'array','items':{'type':'string'},'description':'Only people explicitly in the supplied source; retain unspecified identity.'},'source_events':{'type':'array','items':{'type':'string'},'description':'Literal actor-action-object facts with polarity and tense from the visible source.'},**schema['properties']};schema['required']=['source_people','source_events','translation']
   q['output_config']['format']={'type':'json_schema','schema':schema}
+  if v.get('tool_output'):
+   del q['output_config']['format']
+   q['tools']=[{'name':'emit_translation','description':'Return the source-grounded translation without executing any external action.','strict':True,'input_schema':schema}]
+   q['tool_choice']={'type':'tool','name':'emit_translation'}
  return q
 def save():
  report={'status':'REVIEW_REQUIRED_NOT_ACCURACY','round':PLAN['round'],'parent':PLAN['parent'],'max_calls':40,'attempts':calls,'steps':PLAN['variants'],'results':rows}
@@ -34,10 +38,10 @@ def post(q,v):
  try:
   req=urllib.request.Request('https://api.anthropic.com/v1/messages',data=json.dumps(q,ensure_ascii=False).encode(),headers={'x-api-key':os.environ['ANTHROPIC_API_KEY'],'anthropic-version':'2023-06-01','content-type':'application/json'})
   with urllib.request.urlopen(req,timeout=90) as f:o=json.loads(f.read())
-  raw=''.join(b.get('text','') for b in o.get('content',[]) if b.get('type')=='text')
+  raw=json.dumps(next(b['input'] for b in o.get('content',[]) if b.get('type')=='tool_use'),ensure_ascii=False) if v.get('tool_output') else ''.join(b.get('text','') for b in o.get('content',[]) if b.get('type')=='text')
   visible=json.loads(raw)['translation'] if v.get('schema') else raw
   u=o.get('usage',{})
-  return {'status':'OK' if o.get('stop_reason')=='end_turn' and visible.strip() else 'INCOMPLETE','text':visible,'raw':raw,'response':o,'ms':round((time.perf_counter()-start)*1000),'estimated_usd':(u.get('input_tokens',0)*.1+u.get('output_tokens',0)*.5)/1e6,'payload_sha256':hashlib.sha256(json.dumps(q,sort_keys=True,ensure_ascii=False).encode()).hexdigest()}
+  return {'status':'OK' if o.get('stop_reason') in (('tool_use',) if v.get('tool_output') else ('end_turn',)) and visible.strip() else 'INCOMPLETE','text':visible,'raw':raw,'response':o,'ms':round((time.perf_counter()-start)*1000),'estimated_usd':(u.get('input_tokens',0)*.1+u.get('output_tokens',0)*.5)/1e6,'payload_sha256':hashlib.sha256(json.dumps(q,sort_keys=True,ensure_ascii=False).encode()).hexdigest()}
  except urllib.error.HTTPError as e:return {'status':'API_ERROR','http_status':e.code,'text':'','ms':round((time.perf_counter()-start)*1000)}
  except Exception as e:return {'status':'ERROR','error_type':type(e).__name__,'text':'','ms':round((time.perf_counter()-start)*1000)}
 def validate():

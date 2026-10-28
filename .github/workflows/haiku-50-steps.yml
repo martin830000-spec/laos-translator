@@ -1,4 +1,4 @@
-name: Haiku 50-step research round 6 TEST
+name: Haiku 50-step research round 7 TEST
 on:
   issues:
     types: [opened]
@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   research:
-    if: github.event.issue.title == 'HAIKU_50_STEPS_20261029_R6' && github.event.issue.user.login == 'martin830000-spec' && github.run_attempt == 1
+    if: github.event.issue.title == 'HAIKU_50_STEPS_20261029_R7' && github.event.issue.user.login == 'martin830000-spec' && github.run_attempt == 1
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -20,17 +20,17 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            await github.rest.git.createRef({...context.repo, ref: 'refs/tags/haiku-50-steps-20261029-r6-consumed', sha: context.sha});
-      - name: Approved Claude-only revisions 26 to 30
+            await github.rest.git.createRef({...context.repo, ref: 'refs/tags/haiku-50-steps-20261029-r7-consumed', sha: context.sha});
+      - name: Approved Claude-only revisions 31 to 35
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PAID_APPROVAL: HAIKU_50_STEPS_20261029
-          ROUND: '6'
+          ROUND: '7'
         run: python3 experiments/haiku-50-steps/steps.py
       - name: Preserve partial results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: haiku-50-steps-r6-${{ github.run_id }}
+          name: haiku-50-steps-r7-${{ github.run_id }}
           path: out/haiku-steps.*
           retention-days: 90
