@@ -1,0 +1,877 @@
+[
+  {
+    "side": "K",
+    "source": "그 사람이 내 여권을 맡아 주었어. 네 여권은 내가 가지고 있어.",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "K001"
+  },
+  {
+    "side": "K",
+    "source": "그 사람이 돈을 보낸 건 어제고 내가 보낸 건 오늘이야.",
+    "category": "time_actor",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "K002"
+  },
+  {
+    "side": "K",
+    "source": "내가 보낸 건 영수증이고 언니가 보낸 건 청구서야.",
+    "category": "billing_actor",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "K003"
+  },
+  {
+    "side": "K",
+    "source": "동생이 네게 책을 줬어. 내가 준 건 아니야.",
+    "category": "agent",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "K004"
+  },
+  {
+    "side": "K",
+    "source": "자기야, 오늘도 고생 많았어. 저녁은 같이 먹자.",
+    "category": "emotion",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "K005"
+  },
+  {
+    "side": "K",
+    "source": "오늘 아침에 창문을 열었어.",
+    "category": "neutral",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "K006"
+  },
+  {
+    "id": "K007",
+    "side": "K",
+    "source": "여보, 언니가 당신을 병원에 데려간 건 맞지만 병원비를 낸 사람은 당신이지 언니가 아니야.",
+    "category": "actor/payment",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K008",
+    "side": "K",
+    "source": "내일 오전 9시 30분에 진료 예약이 있으니까 8시에 집에서 나가자. 9시 30분에 출발하자는 뜻은 아니야.",
+    "category": "time/negation",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K009",
+    "side": "K",
+    "source": "어제보다 덜 어지럽지만 아직 메스꺼운 거지? 정말 토한 건 아니고?",
+    "category": "symptoms/questions",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K010",
+    "side": "K",
+    "source": "내가 화난 게 아니라 서운했던 거야. 네가 나쁜 사람이라는 뜻은 아니야.",
+    "category": "emotion/negation",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K011",
+    "side": "K",
+    "source": "어제 네가 보낸 사진은 봤지만, 언니가 보낸 서류는 오늘에서야 확인했어.",
+    "category": "agent/time",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K012",
+    "side": "K",
+    "source": "진료비 500,000낍은 지금 내지 말고 청구서를 먼저 받은 다음에 내자.",
+    "category": "money/condition",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K013",
+    "side": "K",
+    "source": "네가 약을 먹었다고 말한 게 아니라 의사에게 먼저 물어보겠다고 말한 거지?",
+    "category": "reported speech",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K014",
+    "side": "K",
+    "source": "아내한테 전화한 건 내가 아니라 병원 직원이야. 나는 그때 운전 중이었어.",
+    "category": "third party/agent",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K015",
+    "side": "K",
+    "source": "내일 결과가 나오더라도 아기집이 확인되기 전에는 임신 주수를 단정하지 말자.",
+    "category": "conditional/medical",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K016",
+    "side": "K",
+    "source": "엄마는 이미 사진을 봤지만 동생에게는 아직 보내지 않았어. 동생은 그 사실을 몰라.",
+    "category": "family/negation",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "K017",
+    "side": "K",
+    "source": "자기야, 약을 먹었냐고 물어본 거야. 지금 약을 먹으라는 뜻은 아니야.",
+    "category": "command_vs_question",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K018",
+    "side": "K",
+    "source": "어제 내가 전화를 건 건 언니에게였어. 언니가 나한테 전화를 걸었다는 말이 아니야.",
+    "category": "caller_receiver",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K019",
+    "side": "K",
+    "source": "오전 7시에는 밥을 먹었고 11시에는 메스꺼웠어. 11시에 밥을 먹은 건 아니야.",
+    "category": "two_events_time",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K020",
+    "side": "K",
+    "source": "예약금은 50만 낍을 냈지만 나머지 30만 낍은 아직 안 냈어.",
+    "category": "money_paid_unpaid",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K021",
+    "side": "K",
+    "source": "나는 화난 게 아니야. 당신 말 때문에 마음이 조금 서운했을 뿐이야.",
+    "category": "emotion_nuance",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K022",
+    "side": "K",
+    "source": "여보, 의사가 말한 건 '열흘 뒤에 다시 확인하자'는 거지 임신이 위험하다는 확정은 아니야.",
+    "category": "quote_uncertainty",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K023",
+    "side": "K",
+    "source": "엄마가 우리 사진을 봤지만 언니한테는 아직 보여주지 않았어. 보여준 사람이 엄마는 아니야.",
+    "category": "referents",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "K024",
+    "side": "K",
+    "source": "내가 도착하면 문을 열어줘. 지금 문을 열라는 뜻은 아니야.",
+    "category": "conditional_imperative",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "side": "K",
+    "source": "그 사람은 내 가방을 가져갔지만 네 가방은 가져가지 않았어.",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K025"
+  },
+  {
+    "side": "K",
+    "source": "친구가 네게 전화를 했어. 내가 전화한 건 아니야.",
+    "category": "agent",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K026"
+  },
+  {
+    "side": "K",
+    "source": "언니는 내일 출발하고 나는 모레 출발할 거야.",
+    "category": "time",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K027"
+  },
+  {
+    "side": "K",
+    "source": "자기야, 내가 보낸 사진을 친구에게 보여주지 마.",
+    "category": "recipient",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K028"
+  },
+  {
+    "side": "K",
+    "source": "그분이 네 서류를 보관하고 있어. 내가 가진 건 영수증이야.",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K029"
+  },
+  {
+    "side": "K",
+    "source": "자기야, 저녁 먹고 산책하자.",
+    "category": "neutral",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K030"
+  },
+  {
+    "side": "K",
+    "source": "오늘 책 두 권을 샀어. 아직 읽지는 않았어.",
+    "category": "neutral",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "K031"
+  },
+  {
+    "side": "K",
+    "source": "직원이 내 영수증을 보관하고 있어. 청구서는 친구가 가지고 있어.",
+    "category": "billing_actor",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K032"
+  },
+  {
+    "side": "K",
+    "source": "네 동생이 문을 닫았어. 내가 닫은 건 아니야.",
+    "category": "actor",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K033"
+  },
+  {
+    "side": "K",
+    "source": "그 사람이 보낸 소포는 어제 도착했어. 네가 보낸 소포는 아직 안 왔어.",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K034"
+  },
+  {
+    "side": "K",
+    "source": "언니는 오후 2시에 출발하고 나는 오후 3시 30분에 출발해.",
+    "category": "time",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K035"
+  },
+  {
+    "side": "K",
+    "source": "사진은 네게만 보여줄게. 다른 사람에게는 보여주지 않을 거야.",
+    "category": "recipient",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K036"
+  },
+  {
+    "side": "K",
+    "source": "자기야, 어제 많이 고생했지. 오늘은 푹 쉬어.",
+    "category": "emotion",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K037"
+  },
+  {
+    "side": "K",
+    "source": "오늘 아침에 우유와 빵을 샀어.",
+    "category": "neutral",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "K038"
+  },
+  {
+    "id": "K039",
+    "side": "K",
+    "source": "나는 밥을 다 먹었지만 네가 먹을 약은 아직 사지 못했어.",
+    "category": "negative_action",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K040",
+    "side": "K",
+    "source": "내가 본 건 병원 영수증이 아니라 예약 확인서야.",
+    "category": "document_identification",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K041",
+    "side": "K",
+    "source": "지난주 월요일에 전화한 사람은 병원 간호사가 아니라 언니였어.",
+    "category": "caller_agent",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K042",
+    "side": "K",
+    "source": "9시 15분 전에 오면 좋겠어. 9시 15분에 출발하라는 말은 아니야.",
+    "category": "time_and_request",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K043",
+    "side": "K",
+    "source": "아기가 있다는 사실은 확실하지만 주수는 아직 확인하지 못했다는 말이야?",
+    "category": "medical_uncertainty",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K044",
+    "side": "K",
+    "source": "내가 서운한 건 네가 말을 안 해서지 화난 건 아니야.",
+    "category": "emotion",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K045",
+    "side": "K",
+    "source": "내일 몸이 좋아져도 병원에서 준 약을 임의로 먹지 말자.",
+    "category": "condition_medication",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "K046",
+    "side": "K",
+    "source": "몸이 더 아파지면 연락해 줘. 지금 당장 병원에 가라는 뜻은 아니야.",
+    "category": "conditional_order",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "K047",
+    "side": "K",
+    "source": "나한테 준 건 청구서가 아니라 영수증이야. 돈은 이미 냈어.",
+    "category": "receipt_paid",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "K048",
+    "side": "K",
+    "source": "언니가 전화한 게 아니라 언니한테 병원에서 전화한 거야.",
+    "category": "agent_phone",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "K049",
+    "side": "K",
+    "source": "오후 다섯 시에 출발하고 여섯 시에는 집에 도착할 거야.",
+    "category": "departure_arrival",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "K050",
+    "side": "K",
+    "source": "아직 입덧 때문에 어지럽지만 토한 적은 없어. 속이 메스꺼울 뿐이야.",
+    "category": "symptom_event",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "K051",
+    "side": "K",
+    "source": "나는 지금 화가 난 게 아니라 마음이 상한 거야. 당신을 미워하는 건 아니야.",
+    "category": "hurt_vs_anger",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "side": "K",
+    "source": "이건 진료비 청구서야. 영수증은 결제하고 나서 줄 거야.",
+    "category": "billing",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K052"
+  },
+  {
+    "side": "K",
+    "source": "언니가 보낸 건 영수증이 아니라 청구서였어.",
+    "category": "billing_kinship",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K053"
+  },
+  {
+    "side": "K",
+    "source": "입덧 때문에 메스껍지만 오늘은 토하지 않았어.",
+    "category": "symptoms",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K054"
+  },
+  {
+    "side": "K",
+    "source": "어제 토한 게 아니라 어지럽고 메스꺼웠던 거야.",
+    "category": "negated_symptoms",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K055"
+  },
+  {
+    "side": "K",
+    "source": "그 사람이 아내에게 보낸 건 사진이 아니라 서류야.",
+    "category": "third_person",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K056"
+  },
+  {
+    "side": "K",
+    "source": "여동생이 언니에게 돈을 보냈지만 언니는 아직 받지 못했어.",
+    "category": "kinship_agent",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K057"
+  },
+  {
+    "side": "K",
+    "source": "내일 오후에 비가 오면 우산을 챙겨.",
+    "category": "neutral_conditional",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K058"
+  },
+  {
+    "side": "K",
+    "source": "오늘 사진을 세 장 찍었어. 아직 보내지는 않았어.",
+    "category": "neutral_negation",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "K059"
+  },
+  {
+    "side": "K",
+    "source": "언니가 준 봉투는 내가 열지 않았어. 친구가 열었어.",
+    "category": "agent",
+    "provenance": "experiments/haiku-json-r11/json-r11.py",
+    "id": "K060"
+  },
+  {
+    "side": "K",
+    "source": "토요일 오전 8시 5분에 출발하고 오후 1시에 도착할 거야.",
+    "category": "time",
+    "provenance": "experiments/haiku-json-r11/json-r11.py",
+    "id": "K061"
+  },
+  {
+    "side": "K",
+    "source": "자기야, 오늘 저녁엔 집에서 같이 밥 먹자.",
+    "category": "neutral",
+    "provenance": "experiments/haiku-json-r11/json-r11.py",
+    "id": "K062"
+  },
+  {
+    "side": "K",
+    "source": "친구가 빌려준 우산은 내 것이 아니야. 내 우산은 차에 있어.",
+    "category": "ownership",
+    "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+    "id": "K063"
+  },
+  {
+    "side": "L",
+    "source": "ລາວສົ່ງເງິນໃຫ້ເອື້ອຍ ແຕ່ຂ້ອຍສົ່ງຮູບໃຫ້ເຈົ້າ",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "L001"
+  },
+  {
+    "side": "L",
+    "source": "ລາວບໍ່ໄດ້ເອົາໂທລະສັບຂອງຂ້ອຍ ເຈົ້າເປັນຄົນເອົາ",
+    "category": "listener",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "L002"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍມີໃບຮັບເງິນ ແຕ່ເຈົ້າມີໃບບິນ",
+    "category": "billing",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "L003"
+  },
+  {
+    "side": "L",
+    "source": "ເອື້ອຍຈະມາມື້ອື່ນ ແຕ່ຂ້ອຍຈະມາວັນສຸກ",
+    "category": "time",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "L004"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍແຄ່ເປັນຫ່ວງ",
+    "category": "emotion",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "L005"
+  },
+  {
+    "side": "L",
+    "source": "ມື້ນີ້ຂ້ອຍຊື້ດອກໄມ້ສອງດອກ",
+    "category": "neutral",
+    "provenance": "experiments/haiku-persona-r14/persona-r14.py",
+    "id": "L006"
+  },
+  {
+    "id": "L007",
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ຮາກ ແຕ່ຮູ້ສຶກປວດຮາກ ແລະ ວິນຫົວນິດໜ່ອຍ",
+    "category": "symptom/negated-event",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L008",
+    "side": "L",
+    "source": "ເອື້ອຍຊື້ຢາມາໃຫ້ຂ້ອຍ ແຕ່ຂ້ອຍຍັງບໍ່ໄດ້ກິນ ເພາະຈະຖາມໝໍກ່ອນ",
+    "category": "family/medication",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L009",
+    "side": "L",
+    "source": "ຂ້ອຍຍັງບໍ່ໄດ້ຈ່າຍເງິນ 500,000 ກີບ ເພາະຕ້ອງລໍຖ້າໃບບິນກ່ອນ",
+    "category": "money/bill",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L010",
+    "side": "L",
+    "source": "ລາວໂທຫາຂ້ອຍ ແຕ່ຂ້ອຍບໍ່ໄດ້ຮັບສາຍ ເພາະກຳລັງອາບນ້ຳ",
+    "category": "third party/call",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L011",
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ເຈັບທ້ອງ ແຕ່ອ່ອນເພຍ ແລະ ຢາກນອນພັກ",
+    "category": "symptom/distinction",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L012",
+    "side": "L",
+    "source": "ຂ້ອຍກິນເຂົ້າໄດ້ ແຕ່ພໍໄດ້ກິ່ນອາຫານກໍຮູ້ສຶກປວດຮາກ",
+    "category": "nausea/event",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L013",
+    "side": "L",
+    "source": "ພີ່ສາວພາຂ້ອຍໄປໂຮງໝໍ ແຕ່ຄ່າປິ່ນປົວຂ້ອຍຈ່າຍເອງ",
+    "category": "agent/kinship",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L014",
+    "side": "L",
+    "source": "ຂ້ອຍຄິດວ່າເຈົ້າໃຈຮ້າຍ ແຕ່ບໍ່ຮູ້ວ່າເຈົ້ານ້ອຍໃຈຢູ່",
+    "category": "emotion",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L015",
+    "side": "L",
+    "source": "ມື້ອື່ນຂ້ອຍຈະລໍຖ້າຢູ່ເຮືອນ ຖ້າໝໍໂທມາຈະບອກເຈົ້າ",
+    "category": "future/conditional",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L016",
+    "side": "L",
+    "source": "ເອື້ອຍຂອງຂ້ອຍເຫັນຮູບແລ້ວ ແຕ່ນ້ອງສາວຍັງບໍ່ໄດ້ເຫັນ",
+    "category": "family/completion",
+    "provenance": "experiments/haiku-t2-effort-r1/haiku-effort-r1.py"
+  },
+  {
+    "id": "L017",
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ຮາກ ແຕ່ຮູ້ສຶກຢາກຮາກ ແລະ ວິນຫົວນິດໜ່ອຍ",
+    "category": "negated_event_feeling",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L018",
+    "side": "L",
+    "source": "ເອື້ອຍເປັນຄົນຈ່າຍຄ່າລົດ ແຕ່ຂ້ອຍຈ່າຍຄ່າໝໍເອງ",
+    "category": "two_actors_payment",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L019",
+    "side": "L",
+    "source": "ຂ້ອຍຍັງບໍ່ໄດ້ກິນຢາ ເພາະຂ້ອຍຢາກຖາມໝໍກ່ອນ",
+    "category": "medicine_not_taken",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L020",
+    "side": "L",
+    "source": "ລາວບອກວ່າຈະມາຕອນ 3 ໂມງ ແຕ່ຂ້ອຍບໍ່ຮູ້ວ່າລາວຈະມາແທ້ບໍ່",
+    "category": "quoted_third_party_uncertainty",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L021",
+    "side": "L",
+    "source": "ຂ້ອຍໄດ້ລົມກັບເອື້ອຍແລ້ວ ແຕ່ຍັງບໍ່ໄດ້ບອກນ້ອງສາວ",
+    "category": "relatives_contrast",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L022",
+    "side": "L",
+    "source": "ທ່ານໝໍບອກໃຫ້ລໍອີກ 10 ມື້ ບໍ່ໄດ້ບອກວ່າເປັນອັນຕະລາຍ",
+    "category": "medical_report",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L023",
+    "side": "L",
+    "source": "ຂ້ອຍເສຍໃຈນິດໜ່ອຍ ແຕ່ບໍ່ໄດ້ໃຈຮ້າຍໃສ່ເຈົ້າ",
+    "category": "hurt_vs_angry",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "id": "L024",
+    "side": "L",
+    "source": "ຖ້າຂ້ອຍດີຂຶ້ນມື້ອື່ນ ຂ້ອຍຈະໂທຫາເຈົ້າ ແຕ່ຕອນນີ້ຂ້ອຍຍັງເມື່ອຍ",
+    "category": "if_then",
+    "provenance": "experiments/haiku-r3-seven-arm/haiku-r3.py"
+  },
+  {
+    "side": "L",
+    "source": "ລາວສົ່ງຮູບໃຫ້ເຈົ້າ ແຕ່ຂ້ອຍບໍ່ໄດ້ສົ່ງ",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "L025"
+  },
+  {
+    "side": "L",
+    "source": "ເຈົ້າເອົາປຶ້ມຂອງຂ້ອຍໄປ ແຕ່ລາວບໍ່ໄດ້ເອົາ",
+    "category": "listener",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "L026"
+  },
+  {
+    "side": "L",
+    "source": "ເອື້ອຍຊື້ຂອງໃຫ້ຂ້ອຍ ແຕ່ຂ້ອຍບໍ່ໄດ້ຊື້ໃຫ້ເອື້ອຍ",
+    "category": "agent",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "L027"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍຈະໄປຫາເຈົ້າຕອນ 6 ໂມງແລງ ບໍ່ແມ່ນ 6 ໂມງເຊົ້າ",
+    "category": "time",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "L028"
+  },
+  {
+    "side": "L",
+    "source": "ມື້ນີ້ຂ້ອຍໄດ້ກິນເຂົ້າ ແລະດື່ມນ້ຳ",
+    "category": "neutral",
+    "provenance": "experiments/haiku-actor-r12/actor-r12.py",
+    "id": "L029"
+  },
+  {
+    "side": "L",
+    "source": "ລາວເກັບໃບຮັບເງິນໄວ້ ແຕ່ຂ້ອຍເກັບໃບບິນ",
+    "category": "billing_actor",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "L030"
+  },
+  {
+    "side": "L",
+    "source": "ເຈົ້າບອກເອື້ອຍ ແຕ່ລາວບໍ່ໄດ້ບອກເອື້ອຍ",
+    "category": "listener",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "L031"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ສົ່ງເງິນໃຫ້ເຈົ້າ ແຕ່ຂ້ອຍສົ່ງຮູບໃຫ້ເຈົ້າ",
+    "category": "negation",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "L032"
+  },
+  {
+    "side": "L",
+    "source": "ຖ້າຝົນຢຸດ ຂ້ອຍຈະໄປຮ້ານ ແຕ່ຕອນນີ້ຍັງບໍ່ໄປ",
+    "category": "conditional",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "L033"
+  },
+  {
+    "side": "L",
+    "source": "ມື້ນີ້ຂ້ອຍຟັງເພງແລະອ່ານປຶ້ມ",
+    "category": "neutral",
+    "provenance": "experiments/haiku-low-json-r13/low-json-r13.py",
+    "id": "L034"
+  },
+  {
+    "id": "L035",
+    "side": "L",
+    "source": "ຂ້ອຍຖາມໝໍແລ້ວ ແຕ່ຍັງບໍ່ໄດ້ກິນຢາ",
+    "category": "not_yet_med",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L036",
+    "side": "L",
+    "source": "ຕອນນີ້ຂ້ອຍບໍ່ໄດ້ໃຈຮ້າຍ ຂ້ອຍພຽງແຕ່ເສຍໃຈ",
+    "category": "emotion",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L037",
+    "side": "L",
+    "source": "ເອື້ອຍຊື້ອາຫານໃຫ້ຂ້ອຍ ແຕ່ນ້ອງຊາຍເປັນຄົນຈ່າຍເງິນ",
+    "category": "kinship_payment",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L038",
+    "side": "L",
+    "source": "ຂ້ອຍຢາກໄປຫາເຈົ້າ ແຕ່ຂ້ອຍບໍ່ສາມາດໄປມື້ນີ້",
+    "category": "intention_vs_can",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L039",
+    "side": "L",
+    "source": "ລາວບອກວ່າຈະໂທຄືນ ແຕ່ລາວຍັງບໍ່ໂທມາ",
+    "category": "third_person",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L040",
+    "side": "L",
+    "source": "ຂ້ອຍໄດ້ຮັບໃບບິນແລ້ວ ແຕ່ຍັງບໍ່ໄດ້ຈ່າຍເງິນ",
+    "category": "bill_paid",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L041",
+    "side": "L",
+    "source": "ມື້ອື່ນຂ້ອຍຈະຮອດຕອນ 8 ໂມງ ແຕ່ນັດໝໍ 9 ໂມງເຄິ່ງ",
+    "category": "arrival_vs_appt",
+    "provenance": "experiments/haiku-back-r4/back-r4.py"
+  },
+  {
+    "id": "L042",
+    "side": "L",
+    "source": "ຂ້ອຍຍັງບໍ່ໄດ້ຮາກ ແຕ່ປວດຮາກເລື້ອຍໆ",
+    "category": "real_vomit_vs_feeling",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "L043",
+    "side": "L",
+    "source": "ນ້ອງສາວໃຫ້ເງິນຂ້ອຍ ແຕ່ເອື້ອຍບໍ່ໄດ້ໃຫ້",
+    "category": "kinship_cash",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "L044",
+    "side": "L",
+    "source": "ທ່ານໝໍບອກໃຫ້ກັບມາອີກ 10 ມື້ ບໍ່ໄດ້ບອກວ່າມີບັນຫາ",
+    "category": "quote_medical",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "L045",
+    "side": "L",
+    "source": "ລາວສົ່ງຮູບໃຫ້ຂ້ອຍ ແຕ່ຂ້ອຍຍັງບໍ່ໄດ້ຕອບລາວ",
+    "category": "third_person_reply",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "L046",
+    "side": "L",
+    "source": "ຂ້ອຍມີນັດຕອນ 9 ໂມງເຄິ່ງ ແຕ່ຈະໄປກ່ອນເວລາ",
+    "category": "appointment_earlier",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "id": "L047",
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ໂກດເຈົ້າ ຂ້ອຍພຽງແຕ່ນ້ອຍໃຈ",
+    "category": "sad_not_angry",
+    "provenance": "experiments/haiku-forward-r5/forward-r5.py"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍຈ່າຍເງິນແລ້ວ ແລະ ໄດ້ຮັບໃບຮັບເງິນ ບໍ່ແມ່ນໃບບິນ",
+    "category": "billing",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L048"
+  },
+  {
+    "side": "L",
+    "source": "ເອື້ອຍໃຫ້ໃບບິນຂ້ອຍ ແຕ່ຍັງບໍ່ໄດ້ຈ່າຍເງິນ",
+    "category": "billing_kinship",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L049"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍວິນຫົວ ແລະ ປວດຮາກ ແຕ່ບໍ່ໄດ້ຮາກ",
+    "category": "symptoms",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L050"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍແພ້ທ້ອງ ແຕ່ມື້ນີ້ບໍ່ໄດ້ອ້ວກ",
+    "category": "negated_symptoms",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L051"
+  },
+  {
+    "side": "L",
+    "source": "ລາວໃຫ້ເອກະສານຂ້ອຍ ແຕ່ເຈົ້າບໍ່ໄດ້ໃຫ້",
+    "category": "third_person",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L052"
+  },
+  {
+    "side": "L",
+    "source": "ນ້ອງສາວຖາມເອື້ອຍ ແຕ່ເອື້ອຍບໍ່ໄດ້ຕອບ",
+    "category": "kinship_agent",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L053"
+  },
+  {
+    "side": "L",
+    "source": "ມື້ອື່ນຖ້າຝົນຕົກ ຂ້ອຍຈະຢູ່ບ້ານ",
+    "category": "neutral_conditional",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L054"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍຊື້ໝາກໄມ້ສາມຢ່າງ ແຕ່ຍັງບໍ່ໄດ້ກິນ",
+    "category": "neutral_negation",
+    "provenance": "experiments/haiku-glossary-r7/glossary-r7.py",
+    "id": "L055"
+  },
+  {
+    "side": "L",
+    "source": "ມື້ນີ້ຂ້ອຍລ້າງຈານແລ້ວ ແລະຈະອ່ານປຶ້ມ",
+    "category": "neutral",
+    "provenance": "experiments/haiku-json-r11/json-r11.py",
+    "id": "L056"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ຢືມເງິນຈາກເອື້ອຍ ເອື້ອຍເປັນຄົນຢືມຈາກຂ້ອຍ",
+    "category": "agent",
+    "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+    "id": "L057"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍຈະສົ່ງຮູບໃຫ້ເຈົ້າຕອນແລງ ແຕ່ຕອນນີ້ຍັງບໍ່ໄດ້ສົ່ງ",
+    "category": "time",
+    "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+    "id": "L058"
+  },
+  {
+    "side": "L",
+    "source": "ລາວເອົາກະເປົາຂອງຂ້ອຍໄປ ແຕ່ບໍ່ໄດ້ເອົາກະເປົາຂອງເຈົ້າ",
+    "category": "thirdperson",
+    "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+    "id": "L059"
+  },
+  {
+    "side": "L",
+    "source": "ຄ່າປຶ້ມ 30,000 ກີບ ແລະຄ່າປາກກາ 5,000 ກີບ ຂ້ອຍຈ່າຍເອງ",
+    "category": "money",
+    "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+    "id": "L060"
+  },
+  {
+    "side": "L",
+    "source": "ມື້ນີ້ຂ້ອຍຊັກເສື້ອຜ້າແລ້ວ ແລະຈະພັກຜ່ອນ",
+    "category": "neutral",
+    "provenance": "experiments/haiku-positive-r10/positive-r10.py",
+    "id": "L061"
+  },
+  {
+    "side": "L",
+    "source": "ຂ້ອຍບໍ່ໄດ້ສົ່ງຮູບໃຫ້ເອື້ອຍ ແຕ່ເອື້ອຍສົ່ງຮູບໃຫ້ຂ້ອຍ",
+    "category": "agent",
+    "provenance": "experiments/haiku-short-r8/short-r8.py",
+    "id": "L062"
+  }
+]

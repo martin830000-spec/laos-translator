@@ -1,54 +1,39 @@
-name: Gemini vs Haiku four-path comparison TEST
+name: Gemini Haiku 500 one-shot TEST
 on:
   issues:
     types: [opened]
-  workflow_dispatch:
-    inputs:
-      mode:
-        description: 'Offline preflight only, or 8 paid API calls'
-        type: choice
-        options: [dry_run, paid_8_calls]
-        default: dry_run
-        required: true
-      approval:
-        description: 'Paid only: I_APPROVE_8_COMPARE_CALLS'
-        required: false
-        default: ''
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: gemini-haiku-fourpath-compare
   cancel-in-progress: false
 jobs:
   compare:
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issues' &&
-       github.event.issue.title == 'GEMINI_HAIKU_COMPARE_8CALLS_20261029' &&
-       contains(github.event.issue.body, 'APPROVAL=I_APPROVE_8_COMPARE_CALLS') &&
-       github.event.issue.user.login == 'martin830000-spec' &&
-       github.run_attempt == 1)
+    if: github.event.issue.title == 'COMPARE_500_ONCE_20261029' && github.event.issue.user.login == 'martin830000-spec' && github.run_attempt == 1
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-      - name: Offline validation
+      - name: Free offline validation
         run: |
           python3 -m py_compile experiments/gemini-haiku-compare/compare.py
           python3 experiments/gemini-haiku-compare/compare.py --dry-run
-      - name: Paid comparison (explicit dispatch approval only)
-        if: ${{ (github.event_name == 'issues' && github.event.issue.title == 'GEMINI_HAIKU_COMPARE_8CALLS_20261029') || (inputs.mode == 'paid_8_calls' && inputs.approval == 'I_APPROVE_8_COMPARE_CALLS') }}
+      - name: Durable one-campaign lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref: 'refs/tags/compare-500-once-20261029-consumed', sha: context.sha});
+      - name: Free authenticated metadata validation then approved single campaign
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          PAID_APPROVAL: I_APPROVE_8_COMPARE_CALLS
-          GEMINI_MODEL: gemini-3.8-flash
+          PAID_APPROVAL: COMPARE_500_ONCE_20261029
         run: python3 experiments/gemini-haiku-compare/compare.py
-      - name: Preserve outputs
+      - name: Preserve partial or complete results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: gemini-haiku-compare-${{ github.run_id }}
-          path: out/gemini-haiku-compare.*
+          path: out/gemini-haiku-compare*
+          retention-days: 90
           if-no-files-found: warn
-          retention-days: 14
