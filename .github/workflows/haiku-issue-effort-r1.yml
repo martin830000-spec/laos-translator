@@ -1,0 +1,40 @@
+name: Haiku 5.5 T2 effort R1 - user-approved capped research
+
+# One explicit GitHub Issue #8 label trigger. Never on push, PR, schedule or other issue.
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-5-5-effort-r1-one-time
+  cancel-in-progress: false
+
+jobs:
+  research:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.number == 8 &&
+      github.event.issue.state == 'open' &&
+      github.event.label.name == 'haiku-effort-r1-once'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free static preflight, no Anthropic API calls
+        run: python3 experiments/haiku-t2-effort-r1/haiku-effort-r1.py --offline
+      - name: User-authorized paid Haiku 5.5 effort experiment (max 120 attempts, <=$1 reserved)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_EFFORT_R1_MAX_1USD
+        run: python3 experiments/haiku-t2-effort-r1/haiku-effort-r1.py
+      - name: Publish public-synthetic-only report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-effort-r1-${{ github.run_number }}
+          path: out/haiku-t2-effort-r1.json
+          if-no-files-found: warn
+          retention-days: 14
