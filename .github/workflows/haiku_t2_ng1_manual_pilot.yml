@@ -1,0 +1,202 @@
+name: Haiku T2 vs NG1 - manual Claude API pilot
+
+# TEST ONLY: no push, no cron, no PR, no Pages deployment or SERVICE modifications.
+on:
+  workflow_dispatch:
+    inputs:
+      run_mode:
+        description: "dry_run is free; paid_16_calls costs a few cents at most"
+        type: choice
+        options:
+          - dry_run
+          - paid_16_calls
+        default: dry_run
+        required: true
+      paid_approval:
+        description: "For paid run only, type I_APPROVE_16_CLAUDE_CALLS"
+        type: string
+        required: false
+        default: ""
+permissions:
+  contents: read
+concurrency:
+  group: haiku-ng1-manual-pilot
+  cancel-in-progress: false
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Prepare standalone pilot script (no API requests)
+        shell: bash
+        run: |
+          cat > pilot.py <<'PY'
+          #!/usr/bin/env python3
+          """Haiku 5.5 T2 vs NG1, 4 synthetic cases, offline or explicitly-paid 16-call pilot.
+          Never logs or stores ANTHROPIC_API_KEY. No retries and no additional model requests.
+          """
+          import json
+          import os
+          import re
+          import sys
+          import time
+          import urllib.error
+          import urllib.request
+          from pathlib import Path
+          
+          MODEL = 'claude-haiku-5-5'
+          MAX_OUTPUT_TOKENS = 2048
+          MAX_CALLS = 16
+          USD_LIMIT_ESTIMATED = 0.05
+          PRICE_IN = 0.10 / 1_000_000
+          PRICE_OUT = 0.50 / 1_000_000
+          APPROVAL_TEXT = 'I_APPROVE_16_CLAUDE_CALLS'
+          
+          # Extracted from TEST diagnostic Haiku LOW R2-T2 (same prompt order and punctuation).
+          COMMON = 'You translate one personal message between Korean and Lao for a married couple. Write exactly one translation in the requested language, without any preface, analysis, alternatives, commentary or correction attempts. When target is Lao, use Lao script and Lao expressions, never Thai script or Thai vocabulary. Keep the speaker, listener, actor and receiver of each action distinct. Preserve names as names even if unfamiliar; do not turn names into pronouns. Preserve each physical symptom precisely rather than substituting a different symptom, and keep any improvement or worsening; preserve negation, time, degree, conditions, intention and emotional tone. Preserve family roles (older/younger sibling, who cared for whom), quantities and emojis. No invented people, actions, advice or facts; keep the couple\'s familiar tone.'
+          ROLE_K = 'This is the husband\'s message to his Lao wife. Husband = speaker, wife = listener, even on independent reverse. Do not switch the speaker to the wife. For affectionate spouse address, prefer natural ທີ່ຮັກ in Lao where appropriate; do not output alternative husband/wife address labels. Preserve explicitly mentioned third parties.'
+          ROLE_L = 'This is the wife\'s message to her Korean husband. Wife = speaker, husband = listener, even on independent reverse. Lao ຂ້ອຍ is the wife, not the husband; Lao ທີ່ຮັກ addresses her husband. Write natural warm Korean 반말 for informal personal speech, maintaining explicit respect if present. Preserve third parties and kinship.'
+          BACK = 'Independent reverse translation: You see only the actual preceding translated text, not an earlier original. Translate exactly that visible text, including meaning changes, odd expressions and any extraneous content. Never guess an unseen original, silently repair faults or make the output prettier at the expense of the source.'
+          FORWARD = 'Forward translation: Keep the same content, level of affection and speech act. Do not insert explanation or switch the speaker.'
+          T2_TERMS = (
+              ('ແພ້ທ້ອງ', 'ແພ້ທ້ອງ = pregnancy morning sickness (입덧), not stomach upset'),
+              ('ປວດຮາກ', 'ປວດຮາກ = nausea or urge to vomit, not stomach pain'),
+              ('ວິນຫົວ', 'ວິນຫົວ = dizziness, not headache'),
+          )
+          NEG_ACTIONS = ('ຮາກ', 'ອ້ວກ', 'ກິນ', 'ດື່ມ', 'ຈ່າຍ', 'ຊື້', 'ໄປ', 'ມາ', 'ເຮັດ', 'ສົ່ງ', 'ຮັບ', 'ນອນ', 'ເຫັນ', 'ຮຽນ', 'ຂຽນ', 'ອ່ານ', 'ໂທ', 'ເບິ່ງ', 'ຖາມ', 'ພາ')
+          NG1_CUE = 'Source-grammar cue (not additional message content): Where the visible Lao uses preverbal ບໍ່ໄດ້ with an action, it negates the action\'s realization in context; it does not by itself say the speaker did not want or feel like doing it. Preserve any explicit time, aspect and negation; do not infer an unmentioned motive or inability. Translate the visible source only.'
+          
+          # Synthetic material only. Never commit the user's real conversations to a public repository.
+          CASES = (
+              {'id': 'K1', 'side': 'K', 'source': '여보, 오늘은 좀 쉬고 괜찮아지면 나한테 연락해 줘.'},
+              {'id': 'K2', 'side': 'K', 'source': '언니가 너를 병원에 데려갔지만, 진료비는 네가 냈다는 거지?'},
+              {'id': 'L1', 'side': 'L', 'source': 'ຂ້ອຍບໍ່ໄດ້ຮາກ ແຕ່ຮູ້ສຶກປວດຮາກ ແລະ ວິນຫົວນິດໜ່ອຍ'},
+              {'id': 'L2', 'side': 'L', 'source': 'ຂ້ອຍຍັງບໍ່ໄດ້ກິນຢາ ເພາະຢາກຖາມໝໍກ່ອນ'},
+          )
+          
+          def ng1_matches(source, side, stage):
+              if side != 'L' or stage != 'forward':
+                  return False
+              normalized = source.replace('\u200b', '').replace('\u2060', '')
+              for m in re.finditer(r'ບໍ່\s*ໄດ້\s*', normalized):
+                  after = normalized[m.end():]
+                  if any(after.startswith(action) for action in NEG_ACTIONS):
+                      return True
+              return False
+          
+          def system_prompt(source, side, stage, candidate):
+              role = ROLE_K if side == 'K' else ROLE_L
+              system = COMMON + ' ' + role + ' ' + (BACK if stage == 'back' else FORWARD)
+              if side == 'L' and stage == 'forward':
+                  matches = [hint for term, hint in T2_TERMS if term in source]
+                  if matches:
+                      system += ' Lao word meanings where present: ' + '; '.join(matches) + '.'
+                  if candidate == 'NG1' and ng1_matches(source, side, stage):
+                      system += ' ' + NG1_CUE
+              return system
+          
+          def call_claude(source, side, stage, candidate, key):
+              target_from, target_to = ('Korean', 'Lao') if (side == 'K') == (stage == 'forward') else ('Lao', 'Korean')
+              # Husband: forward Korean->Lao, back Lao->Korean. Wife: forward Lao->Korean, back Korean->Lao.
+              system = system_prompt(source, side, stage, candidate)
+              payload = {
+                  'model': MODEL,
+                  'max_tokens': MAX_OUTPUT_TOKENS,
+                  'thinking': {'type': 'disabled'},
+                  'output_config': {'effort': 'low'},
+                  'system': system,
+                  'messages': [{'role': 'user', 'content': 'Translate the following message from ' + target_from + ' into ' + target_to + '.\n<source>\n' + source + '\n</source>'}],
+              }
+              data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+              req = urllib.request.Request(
+                  'https://api.anthropic.com/v1/messages',
+                  data=data,
+                  method='POST',
+                  headers={'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'x-api-key': key},
+              )
+              begun = time.perf_counter()
+              try:
+                  with urllib.request.urlopen(req, timeout=40) as response:
+                      body = json.load(response)
+              except urllib.error.HTTPError as e:
+                  raise RuntimeError('Anthropic HTTP error: ' + str(e.code)) from None
+              elapsed_ms = round((time.perf_counter() - begun) * 1000)
+              if body.get('stop_reason') != 'end_turn':
+                  raise RuntimeError('Non-success stop_reason: ' + str(body.get('stop_reason')))
+              translation = ''.join(block.get('text', '') for block in body.get('content', []) if block.get('type') == 'text').strip()
+              if not translation:
+                  raise RuntimeError('Empty translation')
+              usage = body.get('usage') or {}
+              i, o = usage.get('input_tokens'), usage.get('output_tokens')
+              if not isinstance(i, int) or not isinstance(o, int):
+                  raise RuntimeError('Token usage unavailable; stop to avoid unbounded billing')
+              cost = round(i * PRICE_IN + o * PRICE_OUT, 9)
+              return {'text': translation, 'ms': elapsed_ms, 'usage': {'input': i, 'output': o}, 'estimated_usd': cost, 'stop_reason': body['stop_reason']}
+          
+          def main():
+              mode = sys.argv[1] if len(sys.argv) > 1 else '--dry-run'
+              out = Path('out')
+              out.mkdir(exist_ok=True)
+              assert len(CASES) * 2 * 2 == MAX_CALLS
+              assert ng1_matches(CASES[2]['source'], 'L', 'forward')
+              assert ng1_matches(CASES[3]['source'], 'L', 'forward')
+              assert not ng1_matches(CASES[0]['source'], 'K', 'forward')
+              assert not ng1_matches(CASES[2]['source'], 'L', 'back')
+              assert system_prompt(CASES[2]['source'], 'L', 'back', 'NG1') == system_prompt(CASES[2]['source'], 'L', 'back', 'T2')
+              if mode == '--dry-run':
+                  report = {'status': 'DRY_RUN_ONLY_NO_CLAUDE_API_CALLS', 'model': MODEL, 'call_limit_if_paid': MAX_CALLS, 'estimated_usd_max_budget': USD_LIMIT_ESTIMATED, 'cases': [{'id': x['id'], 'side': x['side'], 'ng1_triggers': ng1_matches(x['source'], x['side'], 'forward')} for x in CASES]}
+                  (out/'haiku-pilot-dry-run.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+                  print('DRY RUN PASS: 4 synthetic sources / 4 paths via independent back; 0 API requests')
+                  return
+              if mode != '--paid' or os.environ.get('PAID_APPROVAL') != APPROVAL_TEXT:
+                  raise RuntimeError('Paid run requires the exact manual approval phrase')
+              key = os.environ.get('ANTHROPIC_API_KEY', '').strip()
+              if not key:
+                  raise RuntimeError('ANTHROPIC_API_KEY secret is empty or inaccessible')
+              records = []
+              calls = 0
+              spent = 0.0
+              try:
+                  for case in CASES:
+                      side, original = case['side'], case['source']
+                      for candidate in ('T2', 'NG1'):
+                          if calls >= MAX_CALLS or spent >= USD_LIMIT_ESTIMATED:
+                              raise RuntimeError('Call/budget guard reached; no further API calls')
+                          first = call_claude(original, side, 'forward', candidate, key)
+                          calls += 1
+                          spent += first['estimated_usd']
+                          rec = {'case': case['id'], 'side': side, 'candidate': candidate, 'source': original, 'forward': first}
+                          records.append(rec)
+                          if calls >= MAX_CALLS or spent >= USD_LIMIT_ESTIMATED:
+                              raise RuntimeError('Call/budget guard reached before BACK')
+                          # BACK sees only the actual FIRST output; original is not passed.
+                          back = call_claude(first['text'], side, 'back', candidate, key)
+                          calls += 1
+                          spent += back['estimated_usd']
+                          rec['back'] = back
+                          print(case['id'] + '/' + candidate + ': FIRST ' + str(first['ms']) + ' ms / BACK ' + str(back['ms']) + ' ms')
+              finally:
+                  report = {'status': 'RECORDED_WITHOUT_AUTOMATIC_QUALITY_PASS', 'model': MODEL, 'baseline': 'T2', 'candidate': 'NG1', 'called': calls, 'call_limit': MAX_CALLS, 'estimated_spend_usd': round(spent, 8), 'results': records, 'quality_review': 'HUMAN_REVIEW_REQUIRED_ALL_FOUR_PATHS'}
+                  (out/'haiku-t2-ng1-pilot.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+                  print('TOTAL REQUESTS: ' + str(calls) + ' / ' + str(MAX_CALLS) + ' ; estimated USD ' + str(round(spent, 6)))
+          
+          if __name__ == '__main__':
+              main()
+          PY
+          python -m py_compile pilot.py
+      - name: Free offline preflight
+        run: python pilot.py --dry-run
+      - name: Paid pilot (only on explicit paid selection and approval)
+        if: ${{ inputs.run_mode == 'paid_16_calls' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: ${{ inputs.paid_approval }}
+        run: python pilot.py --paid
+      - name: Preserve logs (contains only public synthetic messages; never API key)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-t2-ng1-pilot-${{ github.run_number }}
+          path: out/*.json
+          if-no-files-found: warn
+          retention-days: 7
