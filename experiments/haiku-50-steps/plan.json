@@ -1,44 +1,52 @@
 {
-  "round": 1,
-  "parent": "shared-short-prompt comparison 40772669094; new campaign user-authorized 50 revision steps",
+  "round": 2,
+  "parent": "S05",
   "variants": [
     {
-      "id": "S01",
-      "hypothesis": "concise neutral system baseline without spouse persona",
-      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation."
-    },
-    {
-      "id": "S02",
-      "hypothesis": "translation-only constrained decoding isolates visible correction leakage",
+      "id": "S06",
+      "hypothesis": "S05 lexical instruction with translation-only schema; ablate ledger",
       "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
-      "schema": "translation"
-    },
-    {
-      "id": "S03",
-      "hypothesis": "source-grounded fact ledger before translation within one request",
-      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
-      "schema": "ledger",
-      "notes": "First record literal source facts, then render them. Every translated fact must be licensed by a source span. Ledger is internal structured data, not text to send to the recipient."
-    },
-    {
-      "id": "S04",
-      "hypothesis": "Korean instruction may ground Lao/Korean semantic distinctions better",
-      "prompt": "한국어와 라오어 사이에서 주어진 메시지만 번역한다. 사람과 행동, 대상, 부정, 시간, 수량, 증상, 감정, 화행을 보존한다. 원문에 없는 성별·소유관계·이름·사실은 추가하지 않는다. 불명확한 부분은 불명확하게 유지한다. 번역문만 출력한다.",
-      "schema": "ledger"
-    },
-    {
-      "id": "S05",
-      "hypothesis": "explicit lexical senses without sentence-specific examples",
-      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
-      "schema": "ledger",
+      "schema": "translation",
       "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner."
+    },
+    {
+      "id": "S07",
+      "hypothesis": "S05 lexical instruction without constrained output; ablate schema",
+      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
+      "schema": null,
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner."
+    },
+    {
+      "id": "S08",
+      "hypothesis": "S05 add explicit source subject/object/negation alignment",
+      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
+      "schema": "ledger",
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner. Align each clause with its source actor and receiver. A third person is neither the speaker nor the listener. A generic address is not a personal name. Receipt proves payment; bill requests payment; keep the distinction."
+    },
+    {
+      "id": "S09",
+      "hypothesis": "S05 medium effort with thinking disabled",
+      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
+      "schema": "ledger",
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner.",
+      "effort": "medium"
+    },
+    {
+      "id": "S10",
+      "hypothesis": "S05 medium adaptive thinking",
+      "prompt": "Translate the supplied message faithfully between Korean and Lao. Keep people, actions, objects, negation, time, quantities, symptoms, emotion and speech act unchanged. Do not add gender, ownership, names or facts that are absent. Preserve ambiguity rather than guessing. Return only the requested translation.",
+      "schema": "ledger",
+      "notes": "Disambiguate common Lao senses: ລາວ used as a pronoun refers to a third person, not a personal name. ຮາກ/ອ້ວກ are vomiting; ປວດຮາກ/ຢາກຮາກ express nausea/urge to vomit; ແພ້ທ້ອງ is pregnancy morning sickness. Preserve these senses when present, with negation and event-vs-feeling distinction. Unspecified 동생 has no licensed gender or owner.",
+      "effort": "medium",
+      "thinking": "adaptive",
+      "max_tokens": 4096
     }
   ],
   "cases": [
     {
-      "id": "K004",
+      "id": "K028",
       "side": "K",
-      "source": "동생이 네게 책을 줬어. 내가 준 건 아니야."
+      "source": "자기야, 내가 보낸 사진을 친구에게 보여주지 마."
     },
     {
       "id": "K054",
@@ -51,9 +59,9 @@
       "source": "ລາວບໍ່ໄດ້ເອົາໂທລະສັບຂອງຂ້ອຍ ເຈົ້າເປັນຄົນເອົາ"
     },
     {
-      "id": "L017",
+      "id": "L049",
       "side": "L",
-      "source": "ຂ້ອຍບໍ່ໄດ້ຮາກ ແຕ່ຮູ້ສຶກຢາກຮາກ ແລະ ວິນຫົວນິດໜ່ອຍ"
+      "source": "ເອື້ອຍໃຫ້ໃບບິນຂ້ອຍ ແຕ່ຍັງບໍ່ໄດ້ຈ່າຍເງິນ"
     }
   ]
 }
