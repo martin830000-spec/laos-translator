@@ -1,0 +1,41 @@
+name: Haiku T2 R3 seven-arm guarded quality exploration
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-r3-single-campaign
+  cancel-in-progress: false
+
+jobs:
+  study:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.number == 10 &&
+      github.event.issue.state == 'open' &&
+      github.event.label.name == 'haiku-r3-once'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline grammar and safety checks (zero paid requests)
+        run: |
+          python3 -m py_compile experiments/haiku-r3-seven-arm/haiku-r3.py
+          python3 experiments/haiku-r3-seven-arm/haiku-r3.py --offline
+      - name: Approved finite Haiku-only 504-call seven-arm study
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_R3_7ARMS_1USD
+        run: python3 experiments/haiku-r3-seven-arm/haiku-r3.py
+      - name: Save only synthetic results, even after a failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-r3-seven-arm-${{ github.run_number }}
+          path: out/haiku-r3-seven-arm.json
+          retention-days: 14
+          if-no-files-found: warn
