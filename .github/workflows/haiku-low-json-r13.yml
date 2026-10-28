@@ -1,0 +1,39 @@
+name: Haiku R13 low JSON factorial one-shot TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+concurrency:
+  group: haiku-r13-low-json-one-shot
+  cancel-in-progress: false
+jobs:
+  compare:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.title == 'HAIKU_R13_LOW_JSON_FACTORIAL_20261028_ONE_SHOT' &&
+      contains(github.event.issue.body, 'APPROVAL=HAIKU_R13_LOW_JSON_FACTORIAL_MAX_0P384USD') &&
+      github.event.issue.user.login == 'martin830000-spec' &&
+      github.run_number == 1 &&
+      github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free offline R13 preflight
+        run: |
+          python3 -m py_compile experiments/haiku-low-json-r13/low-json-r13.py
+          python3 experiments/haiku-low-json-r13/low-json-r13.py --offline
+      - name: Approved single Haiku 5.5 low JSON factorial
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_R13_LOW_JSON_FACTORIAL_MAX_0P384USD
+        run: python3 experiments/haiku-low-json-r13/low-json-r13.py
+      - name: Preserve public synthetic diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-low-json-r13-${{ github.run_number }}
+          path: out/haiku-low-json-r13.json
+          retention-days: 14
+          if-no-files-found: warn
