@@ -1,0 +1,42 @@
+name: Haiku 5.5 T2 architecture R2 - gated multi-arm research
+
+# One-time paid experiment on specific user-approved issue event. No cron, no PR, no push.
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: haiku-t2-arch-r2-single
+  cancel-in-progress: false
+
+jobs:
+  research:
+    if: >-
+      github.repository == 'martin830000-spec/laos-translator' &&
+      github.event.issue.number == 9 &&
+      github.event.issue.state == 'open' &&
+      github.event.label.name == 'haiku-arch-r2-once'
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free preflight and syntax check
+        run: |
+          python3 -m py_compile experiments/haiku-architecture-r2/haiku-arch-r2.py
+          python3 experiments/haiku-architecture-r2/haiku-arch-r2.py --offline
+      - name: Explicitly approved 240-call maximum Haiku T2 architecture study
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAID_APPROVAL: HAIKU_ARCH_R2_MAX_2P5USD
+        run: python3 experiments/haiku-architecture-r2/haiku-arch-r2.py
+      - name: Save synthetic nonprivate outputs even on partial failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-architecture-r2-${{ github.run_number }}
+          path: out/haiku-arch-r2.json
+          if-no-files-found: warn
+          retention-days: 14
