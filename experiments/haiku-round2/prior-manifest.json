@@ -1,0 +1,19 @@
+{
+  "source_zip": "https://drive.google.com/file/d/1GWZtbFCVwd4Ak2p8HQNijDvW0XoUV9I8/view",
+  "files": {
+    "claude50-adapter.py": "9db7869c367f668d0bc43271205fd87d06fb96b5fac4c803904e8f24a2b46341",
+    "claude50-candidate.json": "04f17080dedaf513d1d7ae2ec64abc5fe51e0cad25264324609009eef908cfba",
+    "claude50-experiments.json": "92d371baa413367d2b2f4c3497f89f869ffe4310625a16372664969edebe657f",
+    "claude50-report.md": "66b28b0724722378171070e25fb792454af7bc2a3a32b1aea71adc377ecc0a8e",
+    "claude50-runs.json": "7fd3161bf66d88c813d4f46d48dcb162507cb8adf67c5a379cd3cf2260a43f3b",
+    "claude50-steps.csv": "2136ad7c29d2e85b30bff44fb7a15098d96f267dbb1e19a7486534aa0d85ab3d",
+    "claude50-summary.json": "3a6a3b31204382b574280c09934f77a3060621d2a67aecdb1f7090406baa8bae"
+  },
+  "runs": 11,
+  "attempts": 488,
+  "new_paid_calls": 0,
+  "historical_quality_labels": "not automatically inferred",
+  "test_head": "fe85e58e2c18387f3c4b7c3b473593c8c0b91d3e",
+  "wife_head": "e24c5a9298c8f8324ba88e4aea08721010c89886",
+  "general_head": "f7ef97cbdaa79674350811c55a1e8f9c15619961"
+}

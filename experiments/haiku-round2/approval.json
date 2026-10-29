@@ -1,0 +1,12 @@
+{
+  "approved": false,
+  "user_approval_reference": null,
+  "batch": "initial128",
+  "max_calls": 128,
+  "campaign_max_calls": 800,
+  "max_steps": 50,
+  "candidate_sha256": null,
+  "cases_sha256": null,
+  "model_verified": false,
+  "note": "No prior approval token authorizes this campaign. Change only after new explicit user approval."
+}

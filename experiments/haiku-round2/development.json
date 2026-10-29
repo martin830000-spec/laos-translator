@@ -1,0 +1,18 @@
+[
+  {"id":"D2K01","side":"K","source":"여동생이 창문을 닫았고 나는 문을 잠갔어.","focus":"explicit gender; two actors"},
+  {"id":"D2K02","side":"K","source":"동생이 가방을 맡겼지만 누구의 가방인지는 말하지 않았어.","focus":"unspecified gender and owner"},
+  {"id":"D2K03","side":"K","source":"네 남동생에게 부탁한 사람은 내가 아니라 선생님이야.","focus":"explicit owner; negated actor"},
+  {"id":"D2K04","side":"K","source":"내일 오후 네 시에 만나기로 했어. 오늘 만난 건 아니야.","focus":"planned versus completed; negation"},
+  {"id":"D2K05","side":"K","source":"기침은 나지만 열은 없어. 약을 달라고 한 건 아니야.","focus":"symptoms; request negation"},
+  {"id":"D2K06","side":"K","source":"민수라는 친구가 여기로 올 거야. 내가 그쪽으로 가는 게 아니야.","focus":"name; motion; actor"},
+  {"id":"D2K07","side":"K","source":"청구서는 받았지만 아직 돈을 내지 않았어. 영수증은 없어.","focus":"document and payment state"},
+  {"id":"D2K08","side":"K","source":"정말 애썼어. 내가 화가 나서 하는 말은 아니야.","focus":"appreciation; emotion"},
+  {"id":"D2L01","side":"L","source":"ນ້ອງສາວປິດປ່ອງຢ້ຽມ ແຕ່ຂ້ອຍປິດປະຕູ","focus":"explicit female sibling; actors"},
+  {"id":"D2L02","side":"L","source":"ນ້ອງຝາກກະເປົາໄວ້ ແຕ່ບໍ່ໄດ້ບອກວ່າເປັນຂອງໃຜ","focus":"unspecified gender and owner"},
+  {"id":"D2L03","side":"L","source":"ນ້ອງຊາຍຂອງເຈົ້າເປັນຄົນຊື້ ແຕ່ລາວບໍ່ໄດ້ຈ່າຍເງິນ","focus":"explicit male owner; payment"},
+  {"id":"D2L04","side":"L","source":"ຂ້ອຍຈະອອກມື້ອື່ນ ບໍ່ແມ່ນມື້ນີ້","focus":"future time and negation"},
+  {"id":"D2L05","side":"L","source":"ຂ້ອຍແພ້ທ້ອງ ແຕ່ບໍ່ວິນຫົວ ແລະຍັງບໍ່ໄດ້ອ້ວກ","focus":"symptoms; no invented dizziness"},
+  {"id":"D2L06","side":"L","source":"ຄົນຊື່ວ່າ ລາວ ຈະມາທີ່ນີ້ ແຕ່ຂ້ອຍຈະຢູ່ບ້ານ","focus":"explicit name; motion"},
+  {"id":"D2L07","side":"L","source":"ຂ້ອຍເກັບໃບຮັບເງິນໄວ້ ແຕ່ໃບບິນຢູ່ກັບເຈົ້າ","focus":"receipt versus bill; holders"},
+  {"id":"D2L08","side":"L","source":"ຂ້ອຍບໍ່ໄດ້ໂກດ ແຕ່ເປັນຫ່ວງເຈົ້າ","focus":"concern versus anger"}
+]

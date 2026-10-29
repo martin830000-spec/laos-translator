@@ -1,0 +1,21 @@
+{
+  "status": "PENDING_RESULTS",
+  "blind_arm": null,
+  "case": null,
+  "path": null,
+  "visible_input": null,
+  "translation": null,
+  "input_span": null,
+  "output_span": null,
+  "severity": "UNREVIEWED",
+  "category": null,
+  "explanation": null,
+  "first_error_stage": "UNKNOWN",
+  "inherited_first_error": null,
+  "new_back_error": null,
+  "regression_vs_control": "UNREVIEWED",
+  "confidence": "UNREVIEWED",
+  "reviewer": null,
+  "native_lao_review": false,
+  "rule": "Assess each adjacent input/output pair. P2 acceptable. Missing and uncertain labels cannot become PASS."
+}
