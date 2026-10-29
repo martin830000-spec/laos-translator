@@ -1,0 +1,36 @@
+name: Haiku round2 approved initial128 TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+concurrency:
+  group: haiku-round2-initial128-once
+  cancel-in-progress: false
+jobs:
+  initial128:
+    if: github.event.issue.title == 'HAIKU_ROUND2_INITIAL128_APPROVED_20261029' && github.event.issue.user.login == 'martin830000-spec' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free guards
+        run: python3 -m unittest discover -s experiments/haiku-round2 -p 'test_*.py' -v
+      - name: Persistent one-shot consumption lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref: 'refs/tags/haiku-round2-initial128-20261029-consumed', sha: context.sha});
+      - name: Verify model and run only approved initial128
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ROUND2_APPROVAL: HAIKU_ROUND2_INITIAL128_APPROVED_20261029
+        run: python3 experiments/haiku-round2/execute_initial128.py
+      - name: Preserve all partial or complete original evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: haiku-round2-initial128-${{ github.run_id }}
+          path: experiments/haiku-round2/paid-output/
+          retention-days: 90
+
