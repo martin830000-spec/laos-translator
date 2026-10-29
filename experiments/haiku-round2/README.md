@@ -1,4 +1,13 @@
-# Haiku round 2 — free preparation; paid approval pending
+# Haiku round 2 — initial128 completed; candidates rejected
+
+Current status 2026-10-29: user approved the first128 only. All128 completed, no retries.
+Both new candidates introduced new P0 and were rejected. Further paid calls STOP/HOLD;
+SERVICE promotion HOLD. See [RESULTS_INITIAL128.md](RESULTS_INITIAL128.md) and the
+original evidence/review links there. Holdout24 and new old22 regression were not run
+because neither candidate passed development. Committed approval remains disabled.
+The approved one-shot workflow has a consumed permanent tag; do not rerun it.
+
+The following is the preserved free-preparation design and historical status, before approval.
 
 2026-10-29 KST. No new model calls. SERVICE promotion HOLD.
 
@@ -106,3 +115,4 @@ Cloud Run/SERVICE/old backups untouched. Runtime deployment and device E2E not t
 Drive fixed manifest/handoff are historical STALE_POINTER references; CURRENT_DEVELOPMENT_DIRECTION
 and dated 2026-10-29 handoff are authoritative, with the latest user request overriding old
 speed/cost selection rules. Production source HEAD checked, not a deployment health claim.
+

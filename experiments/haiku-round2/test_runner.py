@@ -37,7 +37,7 @@ class Guards(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaises(ValueError):r.Campaign(d).run(C,V[:1],bad,simulation=True)
             self.assertEqual(len(count),1)
-            log=(Path(d)/'events.jsonl').read_text()
+            log=(Path(d)/'events.jsonl').read_text(encoding='utf-8')
             self.assertIn('max_tokens',log);self.assertIn('STOP_TECHNICAL_ERROR',log)
     def test_quality_ignores_speed_cost_and_blocks_any_path_regression(self):
         x={p:dict(complete=True,uncertain=False,new_p0=0,p0_delta=0,p1_delta=0) for p in r.PATHS}

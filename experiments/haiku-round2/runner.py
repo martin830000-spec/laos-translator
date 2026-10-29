@@ -1,6 +1,6 @@
 """TEST research controller. Default offline. No retries, repair calls or AI judge.
 
-Paid transport is deliberately absent until explicit user approval is recorded.
+Paid transport is gated on explicit scoped approval; committed approval stays off.
 The injected transport boundary supports free, hostile-condition verification.
 """
 import csv, hashlib, importlib.util, json, os, time, urllib.request, urllib.error

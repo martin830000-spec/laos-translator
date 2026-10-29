@@ -1,0 +1,102 @@
+{
+  "status": "STOP_INITIAL_BRANCHES_REJECTED",
+  "selected_candidate": null,
+  "new_paid_attempts": 128,
+  "prior_reused_attempts": 488,
+  "combined_evidence_responses": 616,
+  "authorized_remaining": 0,
+  "retries": 0,
+  "reason": "Both R2A and R2B introduce new P0 on D2K02 relative to both old controls. R2A also introduces P0 on D2L02 BACK; R2B adds P1 alternatives there. Improvements do not offset path regressions.",
+  "candidate_results": {
+    "R2A": "REJECT_NEW_P0",
+    "R2B": "REJECT_NEW_P0"
+  },
+  "holdout24": "NOT_RUN; candidates rejected in development; preserve frozen set",
+  "old22_regression": "Prior outputs reused for analysis; new candidate rerun NOT_RUN because candidates rejected",
+  "service": "HOLD",
+  "adjudication": "All128 inspected, provisional unblinded labels; native Lao independent review absent; REVIEW entries block certification. No complete accuracy or statistical superiority claim.",
+  "rubric": "P0 for definite identity/actor/recipient/explicit gender/ownership/name changes; P1 alternatives, additions and ambiguity; P2 minor form. Earlier report counted some gender loss P1: counts not directly comparable.",
+  "counts_provisional_by_worst_adjacent_severity": {
+    "S38": {
+      "K_first": {
+        "P0": 2,
+        "NO_ERROR_OBSERVED": 2,
+        "REVIEW": 4
+      },
+      "K_back": {
+        "NO_ERROR_OBSERVED": 8
+      },
+      "L_first": {
+        "P0": 2,
+        "NO_ERROR_OBSERVED": 5,
+        "P1": 1
+      },
+      "L_back": {
+        "NO_ERROR_OBSERVED": 6,
+        "P0": 1,
+        "REVIEW": 1
+      }
+    },
+    "S47": {
+      "K_first": {
+        "P0": 2,
+        "NO_ERROR_OBSERVED": 1,
+        "REVIEW": 5
+      },
+      "K_back": {
+        "NO_ERROR_OBSERVED": 7,
+        "P1": 1
+      },
+      "L_first": {
+        "P0": 2,
+        "NO_ERROR_OBSERVED": 5,
+        "P1": 1
+      },
+      "L_back": {
+        "NO_ERROR_OBSERVED": 7,
+        "REVIEW": 1
+      }
+    },
+    "R2A": {
+      "K_first": {
+        "NO_ERROR_OBSERVED": 1,
+        "P0": 2,
+        "REVIEW": 5
+      },
+      "K_back": {
+        "NO_ERROR_OBSERVED": 6,
+        "REVIEW": 1,
+        "P2": 1
+      },
+      "L_first": {
+        "NO_ERROR_OBSERVED": 5,
+        "P1": 1,
+        "P0": 1,
+        "P2": 1
+      },
+      "L_back": {
+        "NO_ERROR_OBSERVED": 7,
+        "P0": 1
+      }
+    },
+    "R2B": {
+      "K_first": {
+        "NO_ERROR_OBSERVED": 2,
+        "P0": 2,
+        "REVIEW": 4
+      },
+      "K_back": {
+        "NO_ERROR_OBSERVED": 8
+      },
+      "L_first": {
+        "NO_ERROR_OBSERVED": 7,
+        "P2": 1
+      },
+      "L_back": {
+        "NO_ERROR_OBSERVED": 7,
+        "P1": 1
+      }
+    }
+  },
+  "next_work": "Review explicit-versus-unspecified kinship contrast and ambiguity with Lao language reviewer before defining another generic hypothesis. No candidate edits or further paid calls in this batch."
+}
