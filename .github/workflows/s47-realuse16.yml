@@ -16,7 +16,6 @@ jobs:
     timeout-minutes: 35
     env:
       PYTHONDONTWRITEBYTECODE: '1'
-      S47_STATE: ${{ runner.temp }}/s47-private16
     steps:
       - uses: actions/checkout@v4
       - name: Install pinned encryption dependency
@@ -24,7 +23,7 @@ jobs:
       - name: Offline guards; no model credentials
         run: python3 -m unittest discover -s experiments/s47-realuse16 -p 'test_*.py' -v
       - name: Prepare ephemeral encrypted input channel
-        run: python3 experiments/s47-realuse16/run.py prepare --state "$S47_STATE"
+        run: python3 experiments/s47-realuse16/run.py prepare --state "$RUNNER_TEMP/s47-private16"
       - name: Publish public handshake only
         uses: actions/upload-artifact@v4
         with:
@@ -36,7 +35,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: python3 experiments/s47-realuse16/run.py execute --state "$S47_STATE"
+        run: python3 experiments/s47-realuse16/run.py execute --state "$RUNNER_TEMP/s47-private16"
       - name: Preserve encrypted partial or complete result only
         if: always()
         uses: actions/upload-artifact@v4
