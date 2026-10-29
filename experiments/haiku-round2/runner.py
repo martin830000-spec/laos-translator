@@ -106,7 +106,7 @@ def paid_main():
     check(approval.get('approved') is True and approval.get('user_approval_reference'), 'PAID_APPROVAL_REQUIRED')
     check(approval.get('batch')=='initial128','only initial reviewed plan is implemented')
     check(approval.get('max_calls')==128,'approval must bind initial128')
-    check(approval.get('candidate_sha256')==hashlib.sha256((ROOT/'candidates.json').read_bytes()).hexdigest(),'candidate approval mismatch')
+    check(approval.get('candidate_sha256')==digest(json.loads((ROOT/'candidates.json').read_text(encoding='utf-8'))),'candidate approval mismatch')
     check(approval.get('model_verified') is True,'verify model metadata before paid run')
     cases=json.loads((ROOT/'development.json').read_text(encoding='utf-8'))
     variants=json.loads((ROOT/'candidates.json').read_text(encoding='utf-8'))
@@ -122,3 +122,4 @@ if __name__=='__main__':
     cases=json.loads((ROOT/'development.json').read_text(encoding='utf-8'))
     validate(cases,variants)
     print(f'OFFLINE PASS: {len(cases)} sources, {len(variants)} arms, {2*len(cases)*len(variants)} proposed calls; actual paid calls 0')
+

@@ -36,9 +36,10 @@ def prepare(prior):
     b=json.loads(json.dumps(a)); b['id']='R2B';b['schema']='translation'
     b['hypothesis']='Same scoped instruction as R2A, but translation-only JSON: test whether generated fact fields introduce unsupported commitments. Prior S43 failure remains a regression risk, not evidence this works.'
     dump(ROOT/'candidates.json',[variants['S38'],variants['S47'],a,b])
-    dump(ROOT/'candidate-freeze.json',{'sha256':sha((ROOT/'candidates.json').read_bytes()),'status':'FROZEN_BEFORE_NEW_HOLDOUT','quality':'UNTESTED'})
+    dump(ROOT/'candidate-freeze.json',{'sha256':sha(json.dumps([variants['S38'],variants['S47'],a,b],ensure_ascii=False,sort_keys=True).encode()),'hash_format':'sorted JSON UTF-8; line-ending independent','status':'FROZEN_BEFORE_NEW_HOLDOUT','quality':'UNTESTED'})
     old={r['source'] for run in data for r in run['results']}
     dump(ROOT/'prior-sources.json',sorted(old))
     dump(ROOT/'regression22.json',[{'id':r['id'],'side':r['side'],'source':r['source']} for r in data[-1]['results'] if r['step']=='S47'])
     print('488 historical responses indexed; 4 frozen arms; paid calls 0')
 if __name__=='__main__': prepare(Path(sys.argv[1]))
+

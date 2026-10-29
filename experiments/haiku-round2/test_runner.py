@@ -7,6 +7,10 @@ C=[{'id':'K','side':'K','source':'SECRET_ORIGINAL_K'},{'id':'L','side':'L','sour
 def fake(q):
     return {'stop_reason':'end_turn','content':[{'type':'text','text':json.dumps({'translation':'VISIBLE_FIRST_ONLY'})}]}
 class Guards(unittest.TestCase):
+    def test_committed_live_entrypoint_blocks(self):
+        from unittest.mock import patch
+        with patch.object(r,'live_transport',side_effect=AssertionError('network called')):
+            with self.assertRaisesRegex(ValueError,'PAID_APPROVAL_REQUIRED'):r.paid_main()
     def test_approval_blocks_before_any_transport_or_lock(self):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaisesRegex(ValueError,'PAID_APPROVAL_REQUIRED'):
@@ -48,7 +52,7 @@ class Guards(unittest.TestCase):
     def test_frozen_configuration_and_data_separation(self):
         import hashlib
         freeze=json.loads((ROOT/'candidate-freeze.json').read_text())
-        self.assertEqual(hashlib.sha256((ROOT/'candidates.json').read_bytes()).hexdigest(),freeze['sha256'])
+        self.assertEqual(r.digest(V),freeze['sha256'])
         old=set(json.loads((ROOT/'prior-sources.json').read_text(encoding='utf-8')))
         dev=json.loads((ROOT/'development.json').read_text(encoding='utf-8'))
         hold=json.loads((ROOT/'holdout24.json').read_text(encoding='utf-8'))
@@ -62,3 +66,4 @@ class Guards(unittest.TestCase):
             self.assertIn('retain explicitly stated gender',q['system'])
             self.assertNotIn('Use that neutral form, without possessives',q['system'])
 if __name__=='__main__':unittest.main()
+

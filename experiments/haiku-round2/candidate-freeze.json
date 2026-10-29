@@ -1,5 +1,7 @@
 {
-  "sha256": "963060c0b1cede400f7473ca3ad7dcec2ad6f55a593540fc99eb1bd8d48af171",
+  "sha256": "4d9754ae2d3bfbba5a3c377bdf7b19399512d8cd7c0411842303cd201b5718f7",
+  "hash_format": "sorted JSON UTF-8; line-ending independent",
   "status": "FROZEN_BEFORE_NEW_HOLDOUT",
   "quality": "UNTESTED"
 }
+
