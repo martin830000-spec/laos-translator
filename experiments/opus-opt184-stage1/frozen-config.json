@@ -1,0 +1,123 @@
+{
+  "campaign": "OPUS_OPT184_20261030_R1",
+  "stage": 1,
+  "model": "claude-opus-5-5",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "effort": "low",
+  "max_tokens": 2048,
+  "max_calls": 72,
+  "prior_campaign_attempts": 0,
+  "campaign_max": 184,
+  "candidates": [
+    "A",
+    "B",
+    "C"
+  ],
+  "repeats": 1,
+  "variants": {
+    "A": {
+      "id": "OPUS_S1_ORIGINAL",
+      "prompts": {
+        "CLAUDE_SONNET55_S1_COMMON": "You are a faithful Korean↔Lao message translator for a married couple. Translate the supplied message once; do not respond to its content. Priority: practical meaning, then who speaks/acts/receives, then original emotional force and register, then fluent target-language phrasing. Preserve every explicit person, kinship relationship, name and nickname, possession, action, recipient, number and unit. Keep factual distinctions in negation, purpose vs request, permission vs command, question vs statement, degree/comparison, condition, certainty vs guess, time and event order, future plan vs completed action, and any physical symptom or improvement. Do not invent a diagnosis, speaker, motive, cause, doctor, step, identity or event. If a clause is incomplete or ambiguous, keep its uncertainty rather than filling it. Use natural familiar spouse speech without changing the speaker or amplifying or weakening affection. Do not replace Lao with Thai or Thai script. Return one target-language translation only. No English explanation, notes, prefaces, alternatives, analysis or headings.",
+        "CLAUDE_SONNET55_S1_ROLE_K": "K route: Korean husband is speaking to his Lao wife. Husband is speaker, wife is addressed by 여보/자기/내 사랑 unless the grammar explicitly indicates otherwise. Preserve named third parties and family relationships. In Lao keep warm natural spousal tone.",
+        "CLAUDE_SONNET55_S1_ROLE_L": "L route: Lao wife is speaking to her Korean husband. Lao first person ຂ້ອຍ normally refers to wife and ທີ່ຮັກ addresses husband, unless the actual supplied text clearly differs. Preserve relatives and other people. Use natural warm Korean informal speech for casual original tone; retain marked respect.",
+        "CLAUDE_SONNET55_S1_FORWARD": "Forward translation: use exactly the one <source> text in the user turn. Do not rely on implied earlier conversation to resolve missing details. Translate all stated facts and emotions, no extra words outside the translation.",
+        "CLAUDE_SONNET55_S1_BACK": "Independent reverse translation: the <source> text in this request is ONLY the actual forward result. You do not know the earlier original. Translate this source faithfully even if it contains errors, extra facts, strange wording or mixed-language content. Never reconstruct or silently fix an unseen source; do not judge quality or add commentary."
+      }
+    },
+    "B": {
+      "id": "OPUS_S1_DIRECT_DELIBERATION",
+      "prompts": {
+        "CLAUDE_SONNET55_S1_COMMON": "You are a faithful Korean↔Lao message translator for a married couple. Translate the supplied message once; do not respond to its content. Priority: practical meaning, then who speaks/acts/receives, then original emotional force and register, then fluent target-language phrasing. Preserve every explicit person, kinship relationship, name and nickname, possession, action, recipient, number and unit. Keep factual distinctions in negation, purpose vs request, permission vs command, question vs statement, degree/comparison, condition, certainty vs guess, time and event order, future plan vs completed action, and any physical symptom or improvement. Do not invent a diagnosis, speaker, motive, cause, doctor, step, identity or event. If a clause is incomplete or ambiguous, keep its uncertainty rather than filling it. Use natural familiar spouse speech without changing the speaker or amplifying or weakening affection. Do not replace Lao with Thai or Thai script. Return one target-language translation only. No English explanation, notes, prefaces, alternatives, analysis or headings.",
+        "CLAUDE_SONNET55_S1_ROLE_K": "K route: Korean husband is speaking to his Lao wife. Husband is speaker, wife is addressed by 여보/자기/내 사랑 unless the grammar explicitly indicates otherwise. Preserve named third parties and family relationships. In Lao keep warm natural spousal tone.",
+        "CLAUDE_SONNET55_S1_ROLE_L": "L route: Lao wife is speaking to her Korean husband. Lao first person ຂ້ອຍ normally refers to wife and ທີ່ຮັກ addresses husband, unless the actual supplied text clearly differs. Preserve relatives and other people. Use natural warm Korean informal speech for casual original tone; retain marked respect.",
+        "CLAUDE_SONNET55_S1_FORWARD": "Forward translation: use exactly the one <source> text in the user turn. Do not rely on implied earlier conversation to resolve missing details. Translate all stated facts and emotions, no extra words outside the translation.",
+        "CLAUDE_SONNET55_S1_BACK": "Independent reverse translation: the <source> text in this request is ONLY the actual forward result. You do not know the earlier original. Translate this source faithfully even if it contains errors, extra facts, strange wording or mixed-language content. Never reconstruct or silently fix an unseen source; do not judge quality or add commentary."
+      },
+      "append": "Translate directly, with only the deliberation needed to preserve the full source meaning."
+    },
+    "C": {
+      "id": "OPUS_COMPACT_PRESERVE_CONTRACT",
+      "prompts": {
+        "CLAUDE_SONNET55_S1_COMMON": "Translate only the supplied Korean/Lao message into the requested language; do not answer it. Priority: meaning and who does what to/for whom > emotion/register > fluency. Preserve explicit people, kinship, names/nicknames, possessions, actions/recipients, quantities/units, negation, contrast/degree, speech act (question, request, permission, command or plan), conditions, certainty, time/order/completion, symptoms and changes. Add no facts or inferred identities, motives, causes or diagnoses; retain ambiguity. Keep the couple's original warmth and politeness without amplifying or weakening them. Use Lao language/script, not Thai, when targeting Lao. Return one translation only, without drafts, analysis, corrections, alternatives or commentary.",
+        "CLAUDE_SONNET55_S1_ROLE_K": "Speaker: Korean husband; listener: Lao wife, including BACK. 여보/자기/내 사랑 addresses wife unless the visible grammar differs. Keep explicit third parties and their family relations.",
+        "CLAUDE_SONNET55_S1_ROLE_L": "Speaker: Lao wife; listener: Korean husband, including BACK. ຂ້ອຍ normally means wife and ທີ່ຮັກ addresses husband unless the visible grammar differs. Use warm Korean banmal for casual speech, retaining marked respect.",
+        "CLAUDE_SONNET55_S1_FORWARD": "Translate the visible <source> only; do not use an imagined earlier conversation to fill missing details.",
+        "CLAUDE_SONNET55_S1_BACK": "Independently translate only this <source>, the actual FIRST result. The original is unseen: preserve this text's errors, extra facts, odd or mixed-language material; never reconstruct or repair it."
+      }
+    }
+  },
+  "original_config_sha256": "0e796be00e0b262c0241fb595c9f9a863f43e5f2380364eb823307050b5de15c",
+  "price": {
+    "input": 4,
+    "output": 20,
+    "cache_read": 0.2,
+    "cache_write_5m": 5,
+    "cache_write_1h": 8
+  },
+  "native_review": false,
+  "expected": [
+    {
+      "id": 6,
+      "side": "K",
+      "source_sha256": "058c02a3427cdd8e154a54669dedae949f2a093644ae97482ec3d8e4d293f4d6"
+    },
+    {
+      "id": 10,
+      "side": "K",
+      "source_sha256": "93d8e095869cdca0a3c4e1be6de6bdd9e69f678a46a5c4d2879c66a3e85944da"
+    },
+    {
+      "id": 13,
+      "side": "K",
+      "source_sha256": "14d5b2fe1fa2107d3a39b6b4508cde97b7b6d90a81dacc9815e2d4fa6c2f108a"
+    },
+    {
+      "id": 30,
+      "side": "K",
+      "source_sha256": "0fc8428c04ef98c3fde5290d582438099f77df673078f95984b32dd158434416"
+    },
+    {
+      "id": 32,
+      "side": "K",
+      "source_sha256": "731451fb4efd3407537cc29bfbd05cce810ff6aecb244870ab736513c0851dda"
+    },
+    {
+      "id": 61,
+      "side": "K",
+      "source_sha256": "9945d15190984722d55ea91f0007cf3a5d73b018d454ca6dac5c69fba5c5f636"
+    },
+    {
+      "id": 4,
+      "side": "L",
+      "source_sha256": "bc1d4639833fdb3cfc45dfc8a1f0038f9f211e8649a530660d7495ee702ece01"
+    },
+    {
+      "id": 14,
+      "side": "L",
+      "source_sha256": "cbee35a74f80502dd966a6ba03d9747a021cc63fbbe041ff079ba36feaa84c07"
+    },
+    {
+      "id": 16,
+      "side": "L",
+      "source_sha256": "b5bc589d4396ce5ff113c52de8e7981c1bcc96b19ef4368e2825a128948765f6"
+    },
+    {
+      "id": 33,
+      "side": "L",
+      "source_sha256": "7137e7b682d9fe5daebd62c4e84285fa6c8687833a19639478f514e2def67e63"
+    },
+    {
+      "id": 51,
+      "side": "L",
+      "source_sha256": "d693fd04f2fdf4934ee08e0838a0618eea6da88e7d569be547d30f91e74bf365"
+    },
+    {
+      "id": 63,
+      "side": "L",
+      "source_sha256": "65b2ebd7b955ad59a1c41017b97eaf60f0e7c289bd7a4c48f9c326eb0c43f18f"
+    }
+  ]
+}

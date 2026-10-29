@@ -1,0 +1,357 @@
+"""Approved Opus optimization stage 1 private bounded controller. No monetary gate or retries.
+
+Only public keys/nonces and authenticated ciphertext leave the local client or
+runner. Only the frozen candidate prompts and API settings are used. No plaintext input,
+response, exception body or API key is printed or uploaded.
+"""
+import argparse
+import base64
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import secrets
+import sys
+import time
+import urllib.error
+import urllib.request
+
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import padding, rsa
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parent
+REPO = 'martin830000-spec/laos-translator'
+OWNER = 'martin830000-spec'
+TITLE = 'OPUS55_OPT184_STAGE1_20261030_R1'
+PROTOCOL = 'opus55-opt184-stage1-v1'
+TAG = 'opus55-opt184-stage1-20261030-consumed'
+MODEL = 'claude-opus-5-5'
+MAX_CALLS = 72
+EXPECTED = {6: ('K', '058c02a3427cdd8e154a54669dedae949f2a093644ae97482ec3d8e4d293f4d6'), 10: ('K', '93d8e095869cdca0a3c4e1be6de6bdd9e69f678a46a5c4d2879c66a3e85944da'), 13: ('K', '14d5b2fe1fa2107d3a39b6b4508cde97b7b6d90a81dacc9815e2d4fa6c2f108a'), 30: ('K', '0fc8428c04ef98c3fde5290d582438099f77df673078f95984b32dd158434416'), 32: ('K', '731451fb4efd3407537cc29bfbd05cce810ff6aecb244870ab736513c0851dda'), 61: ('K', '9945d15190984722d55ea91f0007cf3a5d73b018d454ca6dac5c69fba5c5f636'), 4: ('L', 'bc1d4639833fdb3cfc45dfc8a1f0038f9f211e8649a530660d7495ee702ece01'), 14: ('L', 'cbee35a74f80502dd966a6ba03d9747a021cc63fbbe041ff079ba36feaa84c07'), 16: ('L', 'b5bc589d4396ce5ff113c52de8e7981c1bcc96b19ef4368e2825a128948765f6'), 33: ('L', '7137e7b682d9fe5daebd62c4e84285fa6c8687833a19639478f514e2def67e63'), 51: ('L', 'd693fd04f2fdf4934ee08e0838a0618eea6da88e7d569be547d30f91e74bf365'), 63: ('L', '65b2ebd7b955ad59a1c41017b97eaf60f0e7c289bd7a4c48f9c326eb0c43f18f')}
+CONFIG_SHA = '3e6dac6f420e4db5ba27b0b219de7d2d3709a689c79caa208e8eefa7b4415f30'
+
+
+def canonical(value):
+    return json.dumps(value, ensure_ascii=False, sort_keys=True).encode('utf-8')
+
+
+def digest(value):
+    return hashlib.sha256(canonical(value)).hexdigest()
+
+
+def check(condition):
+    if not condition:
+        raise ValueError('Validation failed')
+
+
+def read(path):
+    return json.loads(Path(path).read_text(encoding='utf-8'))
+
+
+def write(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = json.dumps(value, ensure_ascii=False, indent=2).encode('utf-8')
+    temporary = path.with_suffix(path.suffix + '.tmp')
+    temporary.write_bytes(data)
+    os.chmod(temporary, 0o600)
+    temporary.replace(path)
+
+
+def keypair(path):
+    path = Path(path)
+    with path.open('xb') as f:
+        private = rsa.generate_private_key(public_exponent=65537, key_size=3072)
+        f.write(private.private_bytes(serialization.Encoding.PEM,
+            serialization.PrivateFormat.PKCS8, serialization.NoEncryption()))
+    os.chmod(path, 0o600)
+    return private.public_key().public_bytes(serialization.Encoding.PEM,
+        serialization.PublicFormat.SubjectPublicKeyInfo).decode('ascii')
+
+
+def public_key(pem):
+    key = serialization.load_pem_public_key(pem.encode('ascii'))
+    check(isinstance(key, rsa.RSAPublicKey) and key.key_size >= 3072)
+    return key
+
+
+def seal(value, pem, aad):
+    key = AESGCM.generate_key(bit_length=256)
+    nonce = secrets.token_bytes(12)
+    wrapped = public_key(pem).encrypt(key, padding.OAEP(
+        mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+    ciphertext = AESGCM(key).encrypt(nonce, canonical(value), canonical(aad))
+    return dict(protocol=PROTOCOL, aad=aad, wrapped_key=base64.b64encode(wrapped).decode(),
+        iv=base64.b64encode(nonce).decode(), ciphertext=base64.b64encode(ciphertext).decode())
+
+
+def unseal(envelope, private_path, aad):
+    check(envelope['protocol'] == PROTOCOL and envelope['aad'] == aad)
+    private = serialization.load_pem_private_key(Path(private_path).read_bytes(), password=None)
+    key = private.decrypt(base64.b64decode(envelope['wrapped_key'], validate=True),
+        padding.OAEP(mgf=padding.MGF1(hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+    data = AESGCM(key).decrypt(base64.b64decode(envelope['iv'], validate=True),
+        base64.b64decode(envelope['ciphertext'], validate=True), canonical(aad))
+    return json.loads(data)
+
+
+def aad_for(h, purpose):
+    return dict(protocol=PROTOCOL, nonce=h['nonce'], run_id=str(h['run_id']),
+        issue_number=int(h['issue_number']), purpose=purpose)
+
+
+class Builder:
+    def __init__(self, config):
+        self.config = config
+    def build_request(self, text, side, stage, variant):
+        check(side in ('K','L') and stage in ('first','back'))
+        c = self.config
+        check(variant in c['candidates'])
+        v = c['variants'][variant]
+        p = v['prompts']
+        src,dst = ('Korean','Lao') if (side=='K') == (stage=='first') else ('Lao','Korean')
+        system = '<translation_task>'+p['CLAUDE_SONNET55_S1_COMMON']+'</translation_task>\n<couple_context>'+p['CLAUDE_SONNET55_S1_ROLE_'+side]+'</couple_context>\n<translation_stage>'+p['CLAUDE_SONNET55_S1_BACK' if stage=='back' else 'CLAUDE_SONNET55_S1_FORWARD']+'</translation_stage>'
+        if v.get('append'): system += '\n'+v['append']
+        return dict(model=MODEL,max_tokens=2048,thinking={'type':'adaptive'},output_config={'effort':'low'},system=system,messages=[dict(role='user',content='Translate the following message from '+src+' into '+dst+'.\n<source>\n'+text+'\n</source>')])
+    def extract_translation(self,response):
+        check(response.get('stop_reason')=='end_turn')
+        value=''.join(x.get('text','') for x in response.get('content',[]) if x.get('type')=='text').strip()
+        check(bool(value))
+        return value
+
+def load_adapter():
+    c = read(ROOT/'frozen-config.json')
+    check(digest(c)==CONFIG_SHA and c['model']==MODEL)
+    check(c['stage']==1 and c['max_calls']==MAX_CALLS and c['prior_campaign_attempts']+MAX_CALLS<=184)
+    check(c['thinking']=={'type':'adaptive'} and c['effort']=='low' and c['max_tokens']==2048)
+    check(len(EXPECTED)*len(c['candidates'])*c['repeats']*2==MAX_CALLS)
+    return Builder(c)
+
+
+def validate_cases(cases):
+    check(len(cases) == 12 and [int(c['id']) for c in cases] == list(EXPECTED))
+    for c in cases:
+        side, sha = EXPECTED[int(c['id'])]
+        check(c['side'] == side and hashlib.sha256(c['source'].encode()).hexdigest() == sha)
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise ValueError('Redirect forbidden')
+
+
+def request_json(url, headers, data=None, timeout=60):
+    req = urllib.request.Request(url, headers=headers,
+        data=None if data is None else json.dumps(data, ensure_ascii=False).encode())
+    with urllib.request.build_opener(NoRedirect).open(req, timeout=timeout) as response:
+        return json.loads(response.read())
+
+
+def github(path, data=None):
+    check(path.startswith('/repos/' + REPO + '/'))
+    return request_json('https://api.github.com' + path,
+        {'Authorization': 'Bearer ' + os.environ['GITHUB_TOKEN'],
+         'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json',
+         'X-GitHub-Api-Version': '2022-11-28'}, data)
+
+
+def initial_issue(event):
+    check(os.environ['GITHUB_REPOSITORY'] == REPO and os.environ['GITHUB_RUN_ATTEMPT'] == '1')
+    issue = event['issue']
+    check(issue['title'] == TITLE and issue['user']['login'] == OWNER)
+    init = json.loads(issue['body'])
+    check(init['protocol'] == PROTOCOL and init['phase'] == 'init')
+    check(len(init['nonce']) == 64 and all(c in '0123456789abcdef' for c in init['nonce']))
+    public_key(init['result_public_key'])
+    return issue, init
+
+
+def prepare(state):
+    check(not state.exists())
+    load_adapter()
+    issue, init = initial_issue(read(os.environ['GITHUB_EVENT_PATH']))
+    state.mkdir(mode=0o700, parents=True)
+    pem = keypair(state/'input-private.pem')
+    h = dict(protocol=PROTOCOL, nonce=init['nonce'], run_id=os.environ['GITHUB_RUN_ID'],
+        issue_number=issue['number'], commit=os.environ['GITHUB_SHA'], input_public_key=pem,
+        result_key_sha256=hashlib.sha256(init['result_public_key'].encode()).hexdigest())
+    write(state/'init.json', init)
+    write(state/'handshake.json', h)
+    print('Public handshake prepared; model calls 0', flush=True)
+
+
+def cost(usage):
+    i=int(usage.get('input_tokens',0)); o=int(usage.get('output_tokens',0))
+    cr=int(usage.get('cache_read_input_tokens',0)); ci=int(usage.get('cache_creation_input_tokens',0))
+    cw=usage.get('cache_creation',{})
+    hour=int(cw.get('ephemeral_1h_input_tokens',0))
+    return round((i*4 + o*20 + cr*.20 + (ci-hour)*5 + hour*8)/1000000,9)
+
+
+class Controller:
+    def __init__(self, cases, persist):
+        validate_cases(cases)
+        self.adapter = load_adapter()
+        self.persist = persist
+        self.data = dict(status='RUNNING', model=MODEL, candidate='OPUS_OPT184_STAGE'+str(self.adapter.config['stage']), config_sha256=CONFIG_SHA, campaign_prior_attempts=self.adapter.config['prior_campaign_attempts'], cases=cases, attempts=0, responses=0, first_attempts=0,
+            back_attempts=0, retries=0, records=[], estimated_usd=0.0, money_limit=None,
+            actual_invoice='UNKNOWN', native_lao_review=False)
+
+    def call(self, case, repeat, stage, visible, transport, variant):
+        d = self.data
+        field = 'first_attempts' if stage == 'first' else 'back_attempts'
+        check(d['attempts'] < MAX_CALLS and d[field] < MAX_CALLS//2)
+        check(variant in self.adapter.config['candidates'] and repeat in range(1,self.adapter.config['repeats']+1))
+        q = self.adapter.build_request(visible, case['side'], stage, variant)
+        check(q['model'] == MODEL and q['max_tokens'] == 2048)
+        d['attempts'] += 1
+        d[field] += 1
+        record = dict(attempt=d['attempts'], record_id=case['id'], repeat=repeat,
+            path=case['side']+'_'+stage, variant=variant, prompt_version=self.adapter.config['variants'][variant]['id'], input=visible, payload=q,
+            payload_sha256=digest(q), status='SENT_OR_UNKNOWN', usage=None)
+        d['records'].append(record)
+        self.persist(d)  # encrypted pre-send journal; uncertain attempts are never replayed
+        started = time.perf_counter()
+        try:
+            raw = transport(q)
+            record['response'] = raw
+            d['responses'] += 1
+            record['usage'] = raw.get('usage', {})
+            record['estimated_usd'] = cost(record['usage'])
+            d['estimated_usd'] += record['estimated_usd']
+            text = self.adapter.extract_translation(raw)
+            record['translation'] = text
+            record['output_chars'] = len(text)
+            record['status'] = 'SUCCESS'
+            return text
+        except Exception as e:
+            record['error_type'] = type(e).__name__
+            record['status'] = 'STOP_TECHNICAL_OR_UNKNOWN'
+            d['status'] = 'HOLD_TECHNICAL_OR_UNKNOWN'
+            raise
+        finally:
+            record['ms'] = round((time.perf_counter()-started)*1000)
+            self.persist(d)
+
+    def run(self, transport):
+        try:
+            for index,case in enumerate(self.data['cases']):
+                for repeat in range(1,self.adapter.config['repeats']+1):
+                    arms=self.adapter.config['candidates']
+                    offset=(index+repeat-1)%len(arms)
+                    for variant in arms[offset:]+arms[:offset]:
+                        first=self.call(case,repeat,'first',case['source'],transport,variant)
+                        self.call(case,repeat,'back',first,transport,variant)
+            self.data['status'] = 'HOLD_FOUR_PATH_SEMANTIC_REVIEW'
+        finally:
+            self.persist(self.data)
+
+
+def live(q):
+    try:
+        return request_json('https://api.anthropic.com/v1/messages',
+            {'x-api-key': os.environ['ANTHROPIC_API_KEY'], 'anthropic-version': '2023-06-01',
+             'Content-Type': 'application/json'}, q, timeout=90)
+    except urllib.error.HTTPError as e:
+        return dict(stop_reason='http_error', http_status=e.code,
+            error_body=e.read(65536).decode('utf-8', errors='replace'))
+
+
+def execute(state):
+    h, init = read(state/'handshake.json'), read(state/'init.json')
+    check(str(h['run_id']) == os.environ['GITHUB_RUN_ID'])
+    check(os.environ['GITHUB_RUN_ATTEMPT'] == '1' and os.environ['GITHUB_SHA'] == h['commit'])
+    adapter = load_adapter()
+    del adapter
+    until = time.monotonic() + 900
+    cases = None
+    while time.monotonic() < until:
+        issue = github('/repos/'+REPO+'/issues/'+str(h['issue_number']))
+        check(issue['user']['login'] == OWNER and issue['title'] == TITLE and issue['state'] == 'open')
+        body = json.loads(issue['body'])
+        check(body['nonce'] == init['nonce'] and body['result_public_key'] == init['result_public_key'])
+        if body['phase'] == 'sealed':
+            cases = unseal(body['envelope'], state/'input-private.pem', aad_for(h, 'input'))['cases']
+            validate_cases(cases)
+            break
+        check(body['phase'] == 'init')
+        time.sleep(10)  # control-channel polling, never a model retry
+    check(cases is not None)
+    persist = lambda d: write(state/'sealed-result.json', seal(d, init['result_public_key'], aad_for(h, 'result')))
+    try:
+        check(bool(os.environ.get('ANTHROPIC_API_KEY')))
+        metadata = request_json('https://api.anthropic.com/v1/models/'+MODEL,
+            {'x-api-key': os.environ['ANTHROPIC_API_KEY'], 'anthropic-version': '2023-06-01'}, timeout=30)
+        check(metadata['id'] == MODEL)
+        # Independent persistent lock, never touch old128. Existing tag -> fail closed.
+        github('/repos/'+REPO+'/git/refs', {'ref':'refs/tags/'+TAG,'sha':h['commit']})
+        with (state/'started.lock').open('x') as f:
+            f.write(str(h['run_id']))
+        controller = Controller(cases, persist)
+        controller.data['model_metadata'] = metadata
+        controller.data['github'] = {k:h[k] for k in ['run_id','issue_number','commit']}
+        try:
+            controller.run(live)
+        finally:
+            print('OpusOpt status='+controller.data['status']+' attempts='+str(controller.data['attempts'])+
+                ' responses='+str(controller.data['responses'])+' estimated_usd='+str(round(controller.data['estimated_usd'],9)), flush=True)
+    except Exception as e:
+        if not (state/'sealed-result.json').exists():
+            persist(dict(status='HOLD_PREFLIGHT', attempts=0, responses=0, error_type=type(e).__name__))
+        raise
+
+
+def client_init(state):
+    check(not state.exists())
+    state.mkdir(mode=0o700, parents=True)
+    pem = keypair(state/'result-private.pem')
+    write(state/'init.json', dict(protocol=PROTOCOL, phase='init', nonce=secrets.token_hex(32), result_public_key=pem))
+    print('Local private result recipient prepared; no model calls')
+
+
+def client_seal(args):
+    state = args.state
+    init, h = read(state/'init.json'), read(args.handshake)
+    check(h['nonce'] == init['nonce'] and str(h['run_id']) == args.run_id and h['issue_number'] == args.issue_number)
+    check(h['result_key_sha256'] == hashlib.sha256(init['result_public_key'].encode()).hexdigest())
+    check(h['commit'] == args.commit)
+    cases = read(args.records)
+    validate_cases(cases)
+    body = dict(init, phase='sealed', envelope=seal({'cases':cases}, h['input_public_key'], aad_for(h, 'input')))
+    write(state/'handshake.json', h)
+    write(state/'sealed-issue-body.json', body)
+    print('Encrypted approved twelve-source envelope prepared; no model calls')
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument('mode', choices=['prepare','execute','client-init','client-seal','client-decrypt'])
+    p.add_argument('--state', required=True, type=Path)
+    p.add_argument('--handshake', type=Path)
+    p.add_argument('--records', type=Path)
+    p.add_argument('--sealed', type=Path)
+    p.add_argument('--run-id')
+    p.add_argument('--issue-number', type=int)
+    p.add_argument('--commit')
+    args = p.parse_args()
+    if args.mode == 'prepare': prepare(args.state)
+    elif args.mode == 'execute': execute(args.state)
+    elif args.mode == 'client-init': client_init(args.state)
+    elif args.mode == 'client-seal': client_seal(args)
+    else:
+        h = read(args.state/'handshake.json')
+        result = unseal(read(args.sealed), args.state/'result-private.pem', aad_for(h,'result'))
+        write(args.state/'decrypted-result.json', result)
+        print('Private result decrypted locally; no model calls')
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception as exc:
+        # Exceptions may originate from private payloads or API bodies; never print their text.
+        print('OpusOpt HOLD error_type='+type(exc).__name__, flush=True)
+        sys.exit(2)

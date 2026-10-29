@@ -1,0 +1,46 @@
+name: Opus optimize184 stage1 approved72
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+  actions: read
+concurrency:
+  group: opus-opt184-stage1-20261030-once
+  cancel-in-progress: false
+jobs:
+  approved72:
+    if: github.event.issue.title == 'OPUS55_OPT184_STAGE1_20261030_R1' && github.event.issue.user.login == 'martin830000-spec' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned encryption dependency
+        run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Offline guards; no model credentials
+        run: python3 -m unittest discover -s experiments/opus-opt184-stage1 -p 'test_*.py' -v
+      - name: Prepare ephemeral encrypted input channel
+        run: python3 experiments/opus-opt184-stage1/run.py prepare --state "$RUNNER_TEMP/opus-opt184-stage1-private"
+      - name: Publish public handshake only
+        uses: actions/upload-artifact@v4
+        with:
+          name: opus-public-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/opus-opt184-stage1-private/handshake.json
+          retention-days: 1
+      - name: Execute only approved Opus S1; never log private data
+        timeout-minutes: 27
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/opus-opt184-stage1/run.py execute --state "$RUNNER_TEMP/opus-opt184-stage1-private"
+      - name: Preserve encrypted partial or complete result only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: opus-encrypted-result-${{ github.run_id }}
+          path: ${{ runner.temp }}/opus-opt184-stage1-private/sealed-result.json
+          if-no-files-found: warn
+          retention-days: 7
