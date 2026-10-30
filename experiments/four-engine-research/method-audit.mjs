@@ -21,7 +21,8 @@ export function build(mode,text,src,dst,side,stage){
  if(mode==='htmlOnly')return{...q,q:'<p>'+text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')+'</p>',format:'html'};
  if(mode==='auto')delete q.source;
  if(mode==='array')q.q=[text];
- if(!['plain','auto','nmt','htmlOnly','pivot','array'].includes(mode))throw Error('MODE');return q;
+ if(mode==='punctuation')q.q=text.replace(/^(ທີ່ຮັກ|여보|자기야)\s+/u,'$1, ');
+ if(!['plain','auto','nmt','htmlOnly','pivot','array','punctuation'].includes(mode))throw Error('MODE');return q;
 }
 export function extract(mode,raw,q){
  if(['legacy','neutral','compact','segmented','korean'].includes(mode)){
