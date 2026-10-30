@@ -1,5 +1,7 @@
 name: Lara Free32 isolated TEST
 on:
+  issues:
+    types: [opened]
   workflow_dispatch:
     inputs:
       free_plan_confirmed:
@@ -18,7 +20,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   test:
-    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && inputs.free_plan_confirmed
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && ((github.event_name == 'workflow_dispatch' && inputs.free_plan_confirmed) || (github.event_name == 'issues' && github.event.issue.title == 'LARA_FREE32_ONCE_20261030_R1' && github.event.issue.user.login == 'martin830000-spec' && fromJSON(github.event.issue.body).free_plan_confirmed == true))
     runs-on: ubuntu-latest
     timeout-minutes: 40
     permissions:
@@ -41,7 +43,7 @@ jobs:
         env:
           LARA_ACCESS_KEY_ID: ${{ secrets.LARA_ACCESS_KEY_ID }}
           LARA_ACCESS_KEY_SECRET: ${{ secrets.LARA_ACCESS_KEY_SECRET }}
-          RESULT_PUBLIC_KEY_BASE64: ${{ inputs.result_public_key_base64 }}
+          RESULT_PUBLIC_KEY_BASE64: ${{ github.event_name == 'issues' && fromJSON(github.event.issue.body).result_public_key_base64 || inputs.result_public_key_base64 }}
           LARA_FREE_CONFIRMED: 'true'
           LARA_LOCK_CONSUMED: lara-free32-20261030-r1
         run: node experiments/four-engine-research/lara-run.mjs execute
