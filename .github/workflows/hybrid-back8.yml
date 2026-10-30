@@ -1,0 +1,40 @@
+name: Approved Haiku fixed FIRST Gemini BACK8 TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: hybrid-back8-20261031-once
+  cancel-in-progress: false
+jobs:
+  back8:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_HYBRID_BACK8_20261031_APPROVED' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Prepare reused private input channel no model credentials
+        run: python3 experiments/hybrid-back8/run.py prepare "$RUNNER_TEMP/hybrid-back8"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hybrid-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/hybrid-back8/handshake.json
+          retention-days: 1
+      - name: Approved fixed eight Gemini reverse calls no retries
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/hybrid-back8/run.py execute "$RUNNER_TEMP/hybrid-back8"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: hybrid-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/hybrid-back8/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
+
