@@ -1,0 +1,55 @@
+name: Lara Free32 isolated TEST
+on:
+  workflow_dispatch:
+    inputs:
+      free_plan_confirmed:
+        description: User confirmed Free plan and no paid overage
+        type: boolean
+        required: true
+        default: false
+      result_public_key_base64:
+        description: Local RSA3072 result PUBLIC key in base64, never private key
+        type: string
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: lara-free32-20261030-r1
+  cancel-in-progress: false
+jobs:
+  test:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && inputs.free_plan_confirmed
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Offline guards without credentials
+        run: |
+          node --test experiments/four-engine-research/audit.test.mjs experiments/four-engine-research/lara.test.mjs
+          node experiments/four-engine-research/lara-run.mjs preflight
+      - name: Consume permanent campaign lock before authentication or translation
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref: 'refs/tags/lara-free32-20261030-r1-consumed', sha: context.sha});
+      - name: One authentication and maximum32 translations, no retries
+        env:
+          LARA_ACCESS_KEY_ID: ${{ secrets.LARA_ACCESS_KEY_ID }}
+          LARA_ACCESS_KEY_SECRET: ${{ secrets.LARA_ACCESS_KEY_SECRET }}
+          RESULT_PUBLIC_KEY_BASE64: ${{ inputs.result_public_key_base64 }}
+          LARA_FREE_CONFIRMED: 'true'
+          LARA_LOCK_CONSUMED: lara-free32-20261030-r1
+        run: node experiments/four-engine-research/lara-run.mjs execute
+      - name: Preserve only encrypted complete or partial evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lara-free32-encrypted-${{ github.run_id }}
+          path: out/lara-free32/sealed.json
+          if-no-files-found: warn
+          retention-days: 7

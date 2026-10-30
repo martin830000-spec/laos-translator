@@ -1,0 +1,10 @@
+[
+  {"id":"LFK1","side":"K","category":"kinship_actor_negation","source":"내 여동생은 금요일에 도착하고, 네 형은 토요일에 도착해. 내가 두 사람을 데리러 가는 건 아니야."},
+  {"id":"LFK2","side":"K","category":"kinship_quantity_condition","source":"언니가 귤 세 개를 남겨 두었어. 동생이 아직 안 먹었으면 두 개만 건네줘."},
+  {"id":"LFK3","side":"K","category":"neutral_plan_negation","source":"내일 비가 오면 시장에 가지 말고 집에서 기다려 줘. 아직 표는 사지 않았어."},
+  {"id":"LFK4","side":"K","category":"neutral_quantity_time","source":"파란 컵 두 개는 선반 위에 있고, 흰 컵 하나는 식탁 아래에 있어. 저녁 먹은 뒤에 같이 정리하자."},
+  {"id":"LFL1","side":"L","category":"kinship_actor_negation","source":"ເອື້ອຍຂອງຂ້ອຍຈະມາວັນພຸດ ແຕ່ນ້ອງຊາຍຂອງເຈົ້າຈະມາວັນພະຫັດ. ຂ້ອຍບໍ່ໄດ້ໄປຮັບພວກເຂົາ."},
+  {"id":"LFL2","side":"L","category":"kinship_quantity_condition","source":"ນ້ອງສາວຂອງຂ້ອຍເກັບໝາກມ່ວງໄວ້ສີ່ໜ່ວຍ. ຖ້າອ້າຍຍັງບໍ່ໄດ້ກິນ ໃຫ້ລາວພຽງສອງໜ່ວຍ."},
+  {"id":"LFL3","side":"L","category":"neutral_plan_negation","source":"ຖ້າມື້ອື່ນຝົນຕົກ ຢ່າໄປສວນ ໃຫ້ລໍຖ້າຢູ່ເຮືອນ. ຂ້ອຍຍັງບໍ່ໄດ້ຊື້ປີ້."},
+  {"id":"LFL4","side":"L","category":"neutral_quantity_time","source":"ຈອກສີຂຽວສອງໃບຢູ່ເທິງໂຕະ ແລະຈອກສີຂາວໜຶ່ງໃບຢູ່ໃຕ້ຕັ່ງ. ຫຼັງກິນເຂົ້າແລ້ວ ພວກເຮົາຄ່ອຍຈັດໃຫ້ຮຽບຮ້ອຍ."}
+]
