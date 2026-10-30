@@ -88,8 +88,8 @@ export async function authenticate(env, transport=post) {
   return token;
 }
 
-export async function campaign(list, transport, persist) {
-  const state={campaign:CAMPAIGN,status:'RUNNING',attempts:0,responses:0,retries:0,
+export async function campaign(list, transport, persist, options={}) {
+  const state={campaign:options.id??CAMPAIGN,status:'RUNNING',attempts:0,responses:0,retries:0,
     input_codepoints:0,instruction_codepoints:0,output_codepoints:0,provider_billed_characters:null,
     billing_note:'Observed text/instruction/output lengths are not a billing guarantee or remaining balance.',
     records:[],pairs:[],native_lao_review:false,semantic:'UNREVIEWED'};
@@ -102,7 +102,7 @@ export async function campaign(list, transport, persist) {
       for(const stage of ['first','back']) {
         const text=stage==='first'?c.source:pair.first;
         if(state.attempts>=32) throw Error('CALL_CAP');
-        const q=payload(text,stage==='first'?src:dst,stage==='first'?dst:src,arm);
+        const q=(options.payload??payload)(text,stage==='first'?src:dst,stage==='first'?dst:src,arm,c.side,stage);
         const record={id:c.id,side:c.side,arm,stage,input:text,payload:q,
           attempt:++state.attempts,status:'SENT_OR_UNKNOWN',input_codepoints:chars(text),
           instruction_codepoints:chars((q.instructions??[]).join(''))};
