@@ -117,7 +117,7 @@ export async function campaign(list, transport, persist, options={}) {
           state.responses++;state.output_codepoints+=chars(parsed.translation);
           pair[stage]=parsed.translation;
           if(stage==='back') pair.backInput=text;
-        } catch(e) {record.status='HOLD';record.http_status=e.status??null;throw Error('TRANSPORT_OR_RESPONSE_HOLD');}
+        } catch(e) {record.status='HOLD';record.http_status=e.status??null;if(e.response)record.raw=e.response;throw Error('TRANSPORT_OR_RESPONSE_HOLD');}
         finally {record.ms=performance.now()-started;persist(state);}
       }
     }

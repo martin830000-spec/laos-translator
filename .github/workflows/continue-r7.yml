@@ -1,0 +1,116 @@
+name: Four engine independent R7 studies
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+concurrency:
+  group: continue-r7-${{ github.event.issue.title }}
+  cancel-in-progress: false
+jobs:
+  gemini:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && github.event.issue.title == 'CONTINUE_R7_20261030' && github.event.issue.user.login == 'martin830000-spec' && fromJSON(github.event.issue.body).engine == 'gemini'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Offline guards no credentials
+        run: |
+          node --test experiments/four-engine-research/audit.test.mjs experiments/four-engine-research/lara.test.mjs experiments/four-engine-research/lara-style2.test.mjs experiments/four-engine-research/gemini-format.test.mjs experiments/four-engine-research/continue-r7.test.mjs
+          node experiments/four-engine-research/continue-r7.mjs preflight gemini
+      - name: Permanent engine-specific one-shot lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref:'refs/tags/continue-r7-gemini-20261030-consumed', sha:context.sha});
+      - name: Bounded direct call no retries
+        env:
+          RESEARCH_ENGINE: gemini
+          RESEARCH_LOCK: continue-r7-gemini-20261030
+          RESULT_PUBLIC_KEY_BASE64: ${{ fromJSON(github.event.issue.body).result_public_key_base64 }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node experiments/four-engine-research/continue-r7.mjs execute
+      - name: Encrypted evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r7-gemini-encrypted-${{ github.run_id }}
+          path: out/r7-gemini/sealed.json
+          if-no-files-found: warn
+          retention-days: 7
+  lara:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && github.event.issue.title == 'CONTINUE_R7_20261030' && github.event.issue.user.login == 'martin830000-spec' && fromJSON(github.event.issue.body).engine == 'lara'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Offline guards no credentials
+        run: |
+          node --test experiments/four-engine-research/audit.test.mjs experiments/four-engine-research/lara.test.mjs experiments/four-engine-research/lara-style2.test.mjs experiments/four-engine-research/gemini-format.test.mjs experiments/four-engine-research/continue-r7.test.mjs
+          node experiments/four-engine-research/continue-r7.mjs preflight lara
+      - name: Permanent engine-specific one-shot lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref:'refs/tags/continue-r7-lara-20261030-consumed', sha:context.sha});
+      - name: Bounded direct call no retries
+        env:
+          RESEARCH_ENGINE: lara
+          RESEARCH_LOCK: continue-r7-lara-20261030
+          RESULT_PUBLIC_KEY_BASE64: ${{ fromJSON(github.event.issue.body).result_public_key_base64 }}
+          LARA_ACCESS_KEY_ID: ${{ secrets.LARA_ACCESS_KEY_ID }}
+          LARA_ACCESS_KEY_SECRET: ${{ secrets.LARA_ACCESS_KEY_SECRET }}
+        run: node experiments/four-engine-research/continue-r7.mjs execute
+      - name: Encrypted evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r7-lara-encrypted-${{ github.run_id }}
+          path: out/r7-lara/sealed.json
+          if-no-files-found: warn
+          retention-days: 7
+  google:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && github.event.issue.title == 'CONTINUE_R7_20261030' && github.event.issue.user.login == 'martin830000-spec' && fromJSON(github.event.issue.body).engine == 'google'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Offline guards no credentials
+        run: |
+          node --test experiments/four-engine-research/audit.test.mjs experiments/four-engine-research/lara.test.mjs experiments/four-engine-research/lara-style2.test.mjs experiments/four-engine-research/gemini-format.test.mjs experiments/four-engine-research/continue-r7.test.mjs
+          node experiments/four-engine-research/continue-r7.mjs preflight google
+      - name: Permanent engine-specific one-shot lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref:'refs/tags/continue-r7-google-20261030-consumed', sha:context.sha});
+      - name: Bounded direct call no retries
+        env:
+          RESEARCH_ENGINE: google
+          RESEARCH_LOCK: continue-r7-google-20261030
+          RESULT_PUBLIC_KEY_BASE64: ${{ fromJSON(github.event.issue.body).result_public_key_base64 }}
+          GOOGLE_TRANSLATE_API_KEY: ${{ secrets.GOOGLE_TRANSLATE_API_KEY }}
+        run: node experiments/four-engine-research/continue-r7.mjs execute
+      - name: Encrypted evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r7-google-encrypted-${{ github.run_id }}
+          path: out/r7-google/sealed.json
+          if-no-files-found: warn
+          retention-days: 7
