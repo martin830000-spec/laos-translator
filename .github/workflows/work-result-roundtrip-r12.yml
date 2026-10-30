@@ -1,0 +1,58 @@
+name: Work result recovery zero API TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+concurrency:
+  group: work-recovery-${{ github.event.issue.number }}
+  cancel-in-progress: false
+jobs:
+  recovery:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_RESULT_RECOVERY_R12_ZERO_API' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 92e25ea4fd35374188cba84d0a20bc3e7481f3a8
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Permanent zero API campaign lock
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        with:
+          script: |
+            const p=JSON.parse(context.payload.issue.body);
+            if(Object.keys(p).sort().join(',')!=='public_key_base64'||typeof p.public_key_base64!=='string'||p.public_key_base64.length>4096)throw Error('INPUT_HOLD');
+            await github.rest.git.createRef({...context.repo,ref:'refs/tags/WORK_RESULT_RECOVERY_R12_ZERO_API-consumed',sha:context.sha});
+      - name: Synthetic encryption only no API credentials
+        env:
+          PUBLIC_KEY_BASE64: ${{ fromJSON(github.event.issue.body).public_key_base64 }}
+        run: |
+          node --input-type=module <<'NODE'
+          import {seal,sha} from './experiments/four-engine-research/lara-run.mjs';
+          import {createPublicKey,randomBytes} from 'node:crypto';
+          import {mkdirSync,writeFileSync} from 'node:fs';
+          const pem=Buffer.from(process.env.PUBLIC_KEY_BASE64,'base64').toString();
+          const key=createPublicKey(pem);
+          if(key.asymmetricKeyType!=='rsa'||key.asymmetricKeyDetails.modulusLength<3072)throw Error('KEY_HOLD');
+          const value={campaign:'WORK_RESULT_RECOVERY_R12_ZERO_API',run_id:process.env.GITHUB_RUN_ID,translation_api_calls:0,synthetic:true,nonce:randomBytes(32).toString('hex'),paths:['husband-first','husband-back','wife-first','wife-back']};
+          mkdirSync('out',{recursive:true});
+          writeFileSync('out/sealed.json',JSON.stringify(seal(value,pem)));
+          writeFileSync('out/receipt.json',JSON.stringify({campaign:value.campaign,run_id:value.run_id,translation_api_calls:0,plaintext_sha256:sha(JSON.stringify(value)),recipient_sha256:sha(key.export({type:'spki',format:'der'}))}));
+          console.log('Synthetic recovery evidence encrypted; translation API calls: 0');
+          NODE
+      - name: Encrypted evidence and nonsensitive receipt only
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: work-recovery-r12-${{ github.run_id }}
+          path: |
+            out/sealed.json
+            out/receipt.json
+          retention-days: 7
+          if-no-files-found: error
+
