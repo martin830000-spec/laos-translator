@@ -1,0 +1,44 @@
+name: Gemini31 bounded format contract TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: read
+concurrency:
+  group: gemini31-format32-20261030-r1
+  cancel-in-progress: false
+jobs:
+  test:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.run_attempt == 1 && github.event.issue.title == 'GEMINI31_FORMAT32_20261030_R1' && github.event.issue.user.login == 'martin830000-spec'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Offline guards without credentials
+        run: |
+          node --test experiments/four-engine-research/audit.test.mjs experiments/four-engine-research/gemini-format.test.mjs
+          node experiments/four-engine-research/gemini-format.mjs preflight
+      - name: Permanent single campaign lock
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({...context.repo, ref:'refs/tags/gemini31-format32-20261030-r1-consumed', sha:context.sha});
+      - name: Maximum32 explicit paid scope, no retry or fallback
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PAID_SCOPE: gemini31-format32-20261030-r1
+          RESULT_PUBLIC_KEY_BASE64: ${{ fromJSON(github.event.issue.body).result_public_key_base64 }}
+        run: node experiments/four-engine-research/gemini-format.mjs execute
+      - name: Encrypted evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemini-format32-encrypted-${{ github.run_id }}
+          path: out/gemini-format/sealed.json
+          if-no-files-found: warn
+          retention-days: 7
