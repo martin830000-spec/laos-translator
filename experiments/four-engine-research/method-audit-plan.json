@@ -182,5 +182,97 @@
       }
     },
     "hypothesis": "Official auto-detection vs explicit source code on identical actual text; inspect detected languages rather than assuming source tags are correct."
+  },
+  "g8": {
+    "engine": "gemini",
+    "cap": 24,
+    "prior": {
+      "calls": 208,
+      "usd": 0.05122
+    },
+    "cases": [
+      {
+        "id": "R7K3",
+        "side": "K",
+        "cohort": "new_permission",
+        "source": "당신은 창문을 열어도 돼. 하지만 나는 아직 문을 열지 않았어. 아버지가 열겠다고 말한 건 창문이야."
+      },
+      {
+        "id": "R9K4",
+        "side": "K",
+        "cohort": "new_condition_quantity",
+        "source": "상자가 두 개 도착하면 직원이 하나만 열 거야. 나는 당신이 확인할 때까지 나머지 하나는 열지 않을게."
+      },
+      {
+        "id": "R9L2",
+        "side": "L",
+        "cohort": "new_schedule",
+        "source": "ທີ່ຮັກ ໝູ່ຈະໄປໂຮງໝໍມື້ຮື. ຂ້ອຍຈະໄປຮ້ານຂາຍຢາມື້ອື່ນ. ບໍ່ໄດ້ໝາຍຄວາມວ່າພວກເຮົາໄປບ່ອນດຽວກັນໃນມື້ດຽວກັນ."
+      },
+      {
+        "id": "R9L4",
+        "side": "L",
+        "cohort": "new_condition_quantity",
+        "source": "ຖ້າກ່ອງມາຮອດສອງກ່ອງ ພະນັກງານຈະເປີດພຽງກ່ອງດຽວ. ຂ້ອຍຈະບໍ່ເປີດອີກກ່ອງໜຶ່ງຈົນກວ່າເຈົ້າຈະກວດເບິ່ງ."
+      }
+    ],
+    "case_sha": "5e0fd2b171746a9659ba016cf34d5c7e34ba293329891b97fd33c07ec7b1edbd",
+    "policies": {
+      "A": {
+        "first": "compact",
+        "back": "compact"
+      },
+      "B": {
+        "first": "segmented",
+        "back": "segmented"
+      }
+    },
+    "hypothesis": "Compact source contract vs segment-id aligned translations, full visible message context in one call. Different from facts-first output and not per-sentence API calls."
+  },
+  "t5": {
+    "engine": "google",
+    "cap": 24,
+    "prior": {
+      "calls": 112,
+      "usd": 0.45791999999999994
+    },
+    "cases": [
+      {
+        "id": "R7K3",
+        "side": "K",
+        "cohort": "new_permission",
+        "source": "당신은 창문을 열어도 돼. 하지만 나는 아직 문을 열지 않았어. 아버지가 열겠다고 말한 건 창문이야."
+      },
+      {
+        "id": "R9K4",
+        "side": "K",
+        "cohort": "new_condition_quantity",
+        "source": "상자가 두 개 도착하면 직원이 하나만 열 거야. 나는 당신이 확인할 때까지 나머지 하나는 열지 않을게."
+      },
+      {
+        "id": "R9L2",
+        "side": "L",
+        "cohort": "new_schedule",
+        "source": "ທີ່ຮັກ ໝູ່ຈະໄປໂຮງໝໍມື້ຮື. ຂ້ອຍຈະໄປຮ້ານຂາຍຢາມື້ອື່ນ. ບໍ່ໄດ້ໝາຍຄວາມວ່າພວກເຮົາໄປບ່ອນດຽວກັນໃນມື້ດຽວກັນ."
+      },
+      {
+        "id": "R9L4",
+        "side": "L",
+        "cohort": "new_condition_quantity",
+        "source": "ຖ້າກ່ອງມາຮອດສອງກ່ອງ ພະນັກງານຈະເປີດພຽງກ່ອງດຽວ. ຂ້ອຍຈະບໍ່ເປີດອີກກ່ອງໜຶ່ງຈົນກວ່າເຈົ້າຈະກວດເບິ່ງ."
+      }
+    ],
+    "case_sha": "5e0fd2b171746a9659ba016cf34d5c7e34ba293329891b97fd33c07ec7b1edbd",
+    "policies": {
+      "A": {
+        "first": "plain",
+        "back": "plain"
+      },
+      "B": {
+        "first": "array",
+        "back": "array"
+      }
+    },
+    "hypothesis": "Client-construction diagnostic: official Basic TLLM q array example vs accepted q string, same source/content/target/model."
   }
 }

@@ -20,7 +20,8 @@ export function build(mode,text,src,dst,side,stage){
  if(mode==='htmlRole')return oldGoogle('google',text,src,dst,'A',side,stage);
  if(mode==='htmlOnly')return{...q,q:'<p>'+text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')+'</p>',format:'html'};
  if(mode==='auto')delete q.source;
- if(!['plain','auto','nmt','htmlOnly','pivot'].includes(mode))throw Error('MODE');return q;
+ if(mode==='array')q.q=[text];
+ if(!['plain','auto','nmt','htmlOnly','pivot','array'].includes(mode))throw Error('MODE');return q;
 }
 export function extract(mode,raw,q){
  if(['legacy','neutral','compact','segmented','korean'].includes(mode)){
@@ -49,7 +50,7 @@ async function main(){const name=process.argv[3]??process.env.RESEARCH_PHASE,p=p
   const q=build(mode,text,src,dst,meta.side,meta.stage);const r={...meta,mode,input:text,payload:q,attempt:++state.attempts,status:'SENT_OR_UNKNOWN'};state.records.push(r);persist();const start=performance.now();
   try{const response=await wire(p.engine==='gemini'?'generativelanguage.googleapis.com':'translation.googleapis.com',p.engine==='gemini'?'/v1beta/models/gemini-3.1-flash-lite:generateContent':'/language/translate/v2',{'x-goog-api-key':e[p.engine==='gemini'?'GEMINI_API_KEY':'GOOGLE_TRANSLATE_API_KEY']},q);r.provider=JSON.parse(response.body);
    if(p.engine==='gemini'){const u=r.provider.usageMetadata;if(!Number.isFinite(u?.promptTokenCount)||!Number.isFinite(u?.totalTokenCount))throw Error('USAGE');r.estimated_usd=(u.promptTokenCount*.25+(u.totalTokenCount-u.promptTokenCount)*1.5)/1e6;}
-   else r.estimated_usd=([...q.q].length+[...(r.provider?.data?.translations?.[0]?.translatedText??'')].length)*(mode==='nmt'?20:10)/1e6;
+   else r.estimated_usd=((Array.isArray(q.q)?q.q.reduce((n,t)=>n+[...t].length,0):[...q.q].length)+[...(r.provider?.data?.translations?.[0]?.translatedText??'')].length)*(mode==='nmt'?20:10)/1e6;
    state.incremental_estimated_usd+=r.estimated_usd;r.output=extract(mode,r.provider,q);if(!r.output.trim())throw Error('EMPTY');r.status='RESPONSE';state.responses++;return r.output;
   }catch(err){r.status='HOLD';r.http_status=err.status??null;if(err.response)r.failed_response=err.response;throw err;}finally{r.ms=performance.now()-start;persist();}
  };
