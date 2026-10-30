@@ -5,7 +5,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: continue-r7-${{ github.event.issue.title }}
+  group: continue-r7-${{ github.event.issue.number }}
   cancel-in-progress: false
 jobs:
   gemini:
@@ -114,3 +114,4 @@ jobs:
           path: out/r7-google/sealed.json
           if-no-files-found: warn
           retention-days: 7
+
