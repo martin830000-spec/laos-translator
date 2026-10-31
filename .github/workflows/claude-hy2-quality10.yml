@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-          ref: 9854787a00cdfedc979a5e8b511894d0c93988c2
+          ref: 27d6bc85514c4d0a13c152a700a74bc29a63bfdb
       - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
       - name: Exact approval and frozen candidate check before credentials
         run: python3 -c "import runpy; d=runpy.run_path('experiments/claude-hy2-quality10/actions_bridge.py'); d['approval_guard']()"
