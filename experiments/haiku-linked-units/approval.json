@@ -1,7 +1,6 @@
 {
-  "authorized": false,
+  "authorized": true,
   "plan_id": "LA1_REAL16_AB40_20261031",
   "maximum_new_attempts": 40,
-  "manifest_sha256": null,
-  "note": "Proposal only. Current user authorized implementation and offline checks, zero new paid calls."
+  "manifest_sha256": "164a277f047803d319e7c7600d3c81d35ad5e5672a0e054b8d3ef7eca006528c"
 }

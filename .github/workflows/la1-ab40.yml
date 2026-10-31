@@ -1,0 +1,46 @@
+# Explicit user approval: frozen LA1 A/B40, maximum 40 new generations.
+name: Approved LA1 real16 AB40 encrypted TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: la1-real16-ab40-20261031-once-v1
+  cancel-in-progress: false
+jobs:
+  approved40:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_LA1_REAL16_AB40_20261031_APPROVED_V1' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Check exact future scope and approval before model credentials
+        run: python3 -c "import runpy; d=runpy.run_path('experiments/haiku-linked-units/actions_bridge.py'); d['approval_guard']()"
+      - name: New candidate offline tests
+        run: python3 -m unittest discover -s experiments/haiku-linked-units -p 'test_*.py' -v
+      - name: Prepare private channel
+        run: python3 experiments/haiku-linked-units/actions_bridge.py prepare "$RUNNER_TEMP/la1-ab40"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: la1-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/la1-ab40/handshake.json
+          retention-days: 1
+      - name: Only explicitly approved new calls
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/haiku-linked-units/actions_bridge.py execute "$RUNNER_TEMP/la1-ab40"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: la1-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/la1-ab40/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn

@@ -102,6 +102,7 @@ class AdapterSafety(unittest.TestCase):
 class CampaignSafety(unittest.TestCase):
     def test_prepared_actions_bridge_denies_before_state_keys_or_http(self):
         bridge=load('la1_bridge_test','actions_bridge.py');called=[]
+        bridge.b.read=lambda path:{'authorized':False}
         bridge.b.request_json=lambda *args,**kwargs:called.append(args)
         with self.assertRaises(PermissionError):bridge.execute(Path('MISSING_STATE_MUST_NOT_BE_READ'))
         self.assertEqual(called,[])
