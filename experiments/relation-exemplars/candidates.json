@@ -1,0 +1,8 @@
+{
+  "H_RE1": {"base":"frozen Haiku LA1","change":"four direction-matched synthetic parallel examples in system only","hypothesis":"learn action/recipient and clause relation contrasts in context without outputting facts then rewriting","model":"claude-haiku-5-5","thinking":"disabled","effort":"low","max_tokens":2048,"output":"unchanged LA1 units","live_calls":0,"quality":"UNVERIFIED"},
+  "S_EX1": {"base":"frozen Sonnet S1","change":"four direction-matched synthetic parallel examples in system only","hypothesis":"demonstrate one complete natural target text while contrasting dates/polarity and unspecified actors; semantic and draft outcomes evaluated separately","model":"claude-sonnet-5-5","thinking":"between_tools","effort":"low","max_tokens":2048,"output":"unchanged raw text","live_calls":0,"quality":"UNVERIFIED"},
+  "examples_are_training_context_not_reference_answers":true,
+  "lao_native_validated":false,
+  "automatic_repair":false,
+  "live_execution_authorized":false
+}

@@ -1,0 +1,24 @@
+{
+  "origin": "New synthetic parallel examples; no private message or protected-case content",
+  "lao_native_validated": false,
+  "H": [
+    {"ko":"내일은 비가 오면 집에 있을 거야.","lo":"ມື້ອື່ນຈະຢູ່ເຮືອນຖ້າຝົນຕົກ","pair":"condition_vs_cause","group":"L"},
+    {"ko":"내일은 비가 와서 집에 있을 거야.","lo":"ມື້ອື່ນຈະຢູ່ເຮືອນເພາະຝົນຕົກ","pair":"condition_vs_cause","group":"L"},
+    {"ko":"내가 친구에게 사진을 보냈어.","lo":"ຂ້ອຍສົ່ງຮູບໃຫ້ໝູ່","pair":"actor_recipient","group":"L"},
+    {"ko":"친구가 나에게 사진을 보냈어.","lo":"ໝູ່ສົ່ງຮູບໃຫ້ຂ້ອຍ","pair":"actor_recipient","group":"L"},
+    {"ko":"언니가 동생에게 책을 줬어.","lo":"ເອື້ອຍເອົາປຶ້ມໃຫ້ນ້ອງ.","pair":"kinship_direction","group":"K"},
+    {"ko":"동생이 언니에게 책을 줬어.","lo":"ນ້ອງເອົາປຶ້ມໃຫ້ເອື້ອຍ.","pair":"kinship_direction","group":"K"},
+    {"ko":"점심을 먹고 나서 문을 열 거야.","lo":"ກິນເຂົ້າທ່ຽງແລ້ວຈຶ່ງຈະເປີດປະຕູ.","pair":"plan_vs_completed","group":"K"},
+    {"ko":"점심을 먹고 나서 문을 열었어.","lo":"ກິນເຂົ້າທ່ຽງແລ້ວຈຶ່ງເປີດປະຕູແລ້ວ.","pair":"plan_vs_completed","group":"K"}
+  ],
+  "S": [
+    {"ko":"내일 아침에 창문을 열게.","lo":"ມື້ອື່ນຕອນເຊົ້າຈະເປີດປ່ອງຢ້ຽມ.","pair":"relative_time","group":"L"},
+    {"ko":"어제 아침에 창문을 열었어.","lo":"ມື້ວານນີ້ຕອນເຊົ້າເປີດປ່ອງຢ້ຽມແລ້ວ.","pair":"relative_time","group":"L"},
+    {"ko":"응, 기다릴게.","lo":"ໄດ້ ຂ້ອຍຈະລໍຖ້າ.","pair":"affirmative_negative","group":"L"},
+    {"ko":"안 돼, 기다릴 수 없어.","lo":"ບໍ່ໄດ້ ຂ້ອຍລໍຖ້າບໍ່ໄດ້.","pair":"affirmative_negative","group":"L"},
+    {"ko":"문 앞에서 기다리고 있어.","lo":"ກຳລັງລໍຖ້າຢູ່ໜ້າປະຕູ.","pair":"underspecified_actor","group":"K"},
+    {"ko":"동생이 문 앞에서 기다리고 있어.","lo":"ນ້ອງກຳລັງລໍຖ້າຢູ່ໜ້າປະຕູ.","pair":"underspecified_actor","group":"K"},
+    {"ko":"비가 오면 우산을 가져갈게.","lo":"ຖ້າຝົນຕົກຈະເອົາຄັນຮົ່ມໄປ.","pair":"conditional_factual","group":"K"},
+    {"ko":"비가 와서 우산을 가져왔어.","lo":"ເອົາຄັນຮົ່ມມາເພາະຝົນຕົກ.","pair":"conditional_factual","group":"K"}
+  ]
+}
