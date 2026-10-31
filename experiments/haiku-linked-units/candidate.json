@@ -1,0 +1,19 @@
+{
+  "id": "LA1",
+  "status": "IMPLEMENTATION_ONLY_MODEL_QUALITY_UNTESTED",
+  "baseline_commit": "ceb147510854f47fcdfa0772d75f979c69ea32a5",
+  "baseline_adapter_sha256": "e85a3ff89f83aca7638f86b7b518aa1b1a5c6d060bc10ac9b436686138e15310",
+  "baseline_candidate_canonical_sha256": "2805fdae658f7dee0c8744aa9a618c8045d61f58f652e7813d789a73e3f27330",
+  "intervention": "Replace free paraphrased people/events plus independent global translation with ordered adjacent verbatim-source/target units. The visible message is the exact concatenation of model-authored target fragments.",
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "thinking": "disabled",
+  "max_tokens": 2048,
+  "source_alignment": "advisory exact reconstruction; never repair, hide or replace readable target text when source quotes mismatch",
+  "schema_contains_private_source": false,
+  "unicode_decoding_patterns": false,
+  "semantic_guarantee": false,
+  "provider_schema_acceptance_verified": false,
+  "new_paid_calls_authorized": 0,
+  "retries": 0
+}

@@ -1,0 +1,23 @@
+{
+  "candidate": "LA1",
+  "new_tests_passed": 15,
+  "new_tests_failed": 0,
+  "initial_suite": "13/13 PASS before adding cost accounting test",
+  "final_suite": "15/15 PASS after cost accounting and prepared-bridge denial tests; actual runner output captured in delivery evidence",
+  "private_original_sources_static_payload_checks": 16,
+  "request_delta_bytes": 945,
+  "new_generation_calls": 0,
+  "new_authentication_probes": 0,
+  "new_token_count_calls": 0,
+  "live_workflow_created": false,
+  "prepared_actions_bridge_and_unregistered_template": true,
+  "semantic_quality_improved": "NOT_TESTED",
+  "schema_provider_acceptance": "NOT_TESTED",
+  "negative_controls": "Wrong amounts, negation, added symptom cause and meta explanations can satisfy alignment; targets are not rewritten.",
+  "design_review_fixes": [
+    "Exact text-mode input reading preserves CRLF instead of universal-newline normalization.",
+    "Consumed attempt and journal are persisted before the supplied transport callback.",
+    "Source reconstruction mismatch is advisory, preserving all rendered target characters.",
+    "Usage missing is unknown cost, not a fabricated zero."
+  ]
+}
