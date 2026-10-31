@@ -1,0 +1,14 @@
+{
+  "id": "OPUS_OB1_BACK_ROLE_ABLATION_R1",
+  "model": "claude-opus-5-5",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "effort": "low",
+  "max_tokens": 2048,
+  "baseline": "OPUS S1/A",
+  "only_change": "delete couple_context block only in BACK",
+  "FIRST_unchanged": true,
+  "live_authorized": false,
+  "new_model_calls": 0
+}

@@ -1,0 +1,13 @@
+{
+  "id": "SONNET_SA1_ADAPTIVE_LOW_R1",
+  "model": "claude-sonnet-5-5",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "effort": "low",
+  "max_tokens": 2048,
+  "baseline": "SONNET55_COUPLE_S1",
+  "only_change": "thinking.type between_tools -> adaptive",
+  "live_authorized": false,
+  "new_model_calls": 0
+}
