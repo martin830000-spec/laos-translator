@@ -1,0 +1,13 @@
+{
+  "id": "OPUS_C_STREAM_DISPLAY_OFFLINE_20261031",
+  "base": "frozen Opus OPT C in real20/120",
+  "only_request_change": "stream:true",
+  "model": "claude-opus-5-5",
+  "thinking": "adaptive",
+  "effort": "low",
+  "max_tokens": 2048,
+  "actual_generation_calls": 0,
+  "authorized": false,
+  "meaning_quality": "UNCHANGED_PROMPT_NOT_NEWLY_VERIFIED",
+  "live_display_latency": "UNMEASURED"
+}
