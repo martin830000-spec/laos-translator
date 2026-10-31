@@ -8,7 +8,7 @@ import time
 ROOT=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('real120_adapters',ROOT/'adapters.py');a=importlib.util.module_from_spec(spec);spec.loader.exec_module(a)
 PLAN='CLAUDE_REAL20_120_20261031'
-MANIFEST='b75bbe1fe9fc67d477c5fcec75fa18a57323f4e4ca54a4b02a411a2df94dc75d'
+MANIFEST='dcef8db2c5cc69422544bc9ee06b54f82f55d2b67096ded98b5ded38c6f2db95'
 class SafetyStop(Exception):pass
 
 def authorize(approval):
