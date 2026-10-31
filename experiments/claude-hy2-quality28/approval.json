@@ -1,0 +1,8 @@
+{
+  "authorized": true,
+  "plan_id": "CLAUDE_HY2_QUALITY_STAGE2_NORMAL8_28_20261101",
+  "maximum_new_attempts": 28,
+  "manifest_sha256": "c33bb07455c0ac9c99c551c771d4d10c3e7b580483a85b251dbaa85b3e26f8cb",
+  "source_plan_sha256": "db678c8370d2e5bc04fa9ad699a347645567651f9e5f362de912064ae61a7465",
+  "stage1_gate_sha256": "b84b451af51c3b9d77b5efdad28a78fd71bb3166723cfc2dd83004291a2f29a4"
+}
