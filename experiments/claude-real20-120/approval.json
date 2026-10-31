@@ -1,0 +1,6 @@
+{
+  "authorized": true,
+  "plan_id": "CLAUDE_REAL20_120_20261031",
+  "maximum_new_attempts": 120,
+  "manifest_sha256": "b75bbe1fe9fc67d477c5fcec75fa18a57323f4e4ca54a4b02a411a2df94dc75d"
+}

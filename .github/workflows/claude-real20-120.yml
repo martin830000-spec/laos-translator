@@ -1,0 +1,45 @@
+name: Approved Claude real20 120 encrypted TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: claude-real20-120-20261031-once-v1
+  cancel-in-progress: false
+jobs:
+  approved120:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_CLAUDE_REAL20_120_20261031_APPROVED_V1' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Exact approval and frozen candidate check before credentials
+        run: python3 -c "import runpy; d=runpy.run_path('experiments/claude-real20-120/actions_bridge.py'); d['approval_guard']()"
+      - name: New bounded campaign safety tests
+        run: python3 -m unittest discover -s experiments/claude-real20-120 -p 'test_*.py' -v
+      - name: Prepare private channel
+        run: python3 experiments/claude-real20-120/actions_bridge.py prepare "$RUNNER_TEMP/claude-real20-120"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: claude120-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/claude-real20-120/handshake.json
+          retention-days: 1
+      - name: Only approved Claude120 calls
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/claude-real20-120/actions_bridge.py execute "$RUNNER_TEMP/claude-real20-120"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: claude120-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/claude-real20-120/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
