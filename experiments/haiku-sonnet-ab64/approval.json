@@ -1,0 +1,7 @@
+{
+  "authorized": true,
+  "plan_id": "HAIKU_RE1_SONNET_EX1_AB64_20261031",
+  "maximum_new_attempts": 64,
+  "manifest_sha256": "313aac72d31687ffbe1600700d9ec267ffaf0907d39e8a95c8f5578c8e370b4d",
+  "source_plan_sha256": "40ca0dd1c0465c93cd6fbfbebc410e31e544388034f078272522cc7f5cab6dce"
+}
