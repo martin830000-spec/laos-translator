@@ -1,0 +1,6 @@
+{
+  "authorized": true,
+  "plan_id": "SONNET_SA1_REAL8_NEW24_PROPOSED_20261031",
+  "maximum_new_attempts": 24,
+  "manifest_sha256": "a50d5e145205855da078dc25729990332b39caa954019e77f6537b2db36f4d49"
+}
