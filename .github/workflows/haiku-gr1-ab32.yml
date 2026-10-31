@@ -1,0 +1,49 @@
+name: Approved Haiku LA1 GR1 counterexample8 AB32 encrypted TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: haiku-gr1-ab32-20261101-once-v1
+  cancel-in-progress: false
+jobs:
+  approved32:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_HAIKU_LA1_GR1_AB32_20261101_APPROVED_V1' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: d5a74abd5837d5685f8a28be62635e136285eb0a
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Exact approval and frozen candidate check before credentials
+        run: python3 -c "import runpy; d=runpy.run_path('experiments/haiku-gr1-ab32/actions_bridge.py'); d['approval_guard']()"
+      - name: New bounded campaign safety tests
+        run: python3 -m unittest discover -s experiments/haiku-gr1-ab32 -p 'test_*.py' -v
+      - name: Frozen GR1 contracts
+        run: python3 -m unittest discover -s experiments/haiku-gr1 -p 'test_*.py' -v
+      - name: Prepare private channel
+        run: python3 experiments/haiku-gr1-ab32/actions_bridge.py prepare "$RUNNER_TEMP/haiku-gr1-ab32"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: haiku-gr1-ab32-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/haiku-gr1-ab32/handshake.json
+          retention-days: 1
+      - name: Only approved Haiku LA1 GR1 up to32 calls
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/haiku-gr1-ab32/actions_bridge.py execute "$RUNNER_TEMP/haiku-gr1-ab32"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: haiku-gr1-ab32-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/haiku-gr1-ab32/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
+
