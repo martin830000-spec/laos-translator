@@ -1,0 +1,14 @@
+{
+ "id":"HAIKU_LB1_SOURCE_LEXICAL_BOUNDARIES_20261101",
+ "base":"frozen LA1",
+ "model":"claude-haiku-5-5",
+ "thinking":"disabled","effort":"low","max_tokens":2048,
+ "change":"optional source-only Lao dictionary-tokenizer boundary view appended to user data; original unchanged",
+ "Korean_input_change":false,
+ "output_contract":"unchanged LA1 units/target concatenation",
+ "translated_examples_or_glosses":false,
+ "new_generation_calls":0,
+ "quality":"UNVERIFIED",
+ "risk":"boundary errors, input token/latency growth, source-copy reading auxiliary view incorrectly; cannot guarantee senses, conditions or dates",
+ "live_authorized":false
+}
