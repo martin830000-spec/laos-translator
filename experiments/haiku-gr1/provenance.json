@@ -1,0 +1,17 @@
+{
+  "id":"GR1_GRAMMATICAL_OPTIONS_20261101",
+  "source":"N. J. Enfield, A Grammar of Lao (2007)",
+  "author_page":"https://nickenfield.org/books/a-grammar-of-lao/",
+  "author_copy_url":"https://nickenfield.org/files/sites/9/Enfield_Lao_Grammar_published_AUTHOR_OFFPRINT.pdf",
+  "sections":[{"section":"20.3","printed_pages":"460-461","pdf_zero_based_pages":[484,485],"use":"conditional order and lexical ambiguity"},{"section":"21.1.3","printed_page":474,"pdf_zero_based_page":498,"use":"adverbial construction option"}],
+  "full_book_redistributed":false,
+  "example_translations_injected":false,
+  "book_specifically_validates_app92_or_app67":false,
+  "source_specific_answer_selected":false,
+  "native_lao_candidate_validated":false,
+  "new_model_calls":0,
+  "model":"claude-haiku-5-5",
+  "thinking":"disabled","effort":"low","max_tokens":2048,
+  "base":"frozen LA1, no LB1 or LB1C hints",
+  "status":"IMPLEMENTED_OFFLINE_ONLY_MEANING_UNVERIFIED"
+}
