@@ -4,7 +4,7 @@ import copy,hashlib,json,importlib.util,time
 ROOT=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('hy2q_frozen',ROOT.parent/'claude-real20-120/adapters.py');a=importlib.util.module_from_spec(s);s.loader.exec_module(a)
 PLAN='CLAUDE_HY2_QUALITY_STAGE1_BACK10_20261101'
-SOURCE_PLAN_SHA='c67e37f9845feb7b9ae5d583c2399f8255c64304bc8222f6f1a2adb085f79ce5'
+SOURCE_PLAN_SHA='18ad1bb3619298cac144899302bbe6c1843a3f8c8608a21884ef29c9ff2cbfcb'
 MANIFEST='69b56a02fa5dedb6fc3c12a1fe89235561a6f340dd6036932c50aa6450a52905'
 class SafetyStop(Exception):pass
 def digest(x):return a.core.digest(x)
