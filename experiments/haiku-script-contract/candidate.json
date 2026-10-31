@@ -1,0 +1,18 @@
+{
+  "id": "SC1",
+  "status": "IMPLEMENTED_OFFLINE_ONLY_MODEL_EFFECT_UNVERIFIED",
+  "baseline_commit": "da958896baa586b009174922f4afbc309fdeafa1",
+  "baseline_adapter_sha256": "e85a3ff89f83aca7638f86b7b518aa1b1a5c6d060bc10ac9b436686138e15310",
+  "baseline_candidate_canonical_sha256": "2805fdae658f7dee0c8744aa9a618c8045d61f58f652e7813d789a73e3f27330",
+  "change": "Add one static pattern to the existing translation string schema, allowing source script in quoted literals; preserve all S47 instructions, facts, model settings and inputs.",
+  "translation_patterns": {
+    "Korean": "^([^຀-໿]|\"[^\"]*\"|“[^”]*”|‘[^’]*’|「[^」]*」|『[^』]*』)*$",
+    "Lao": "^([^ᄀ-ᇿ㄰-㆏ꥠ-꥿가-힯ힰ-퟿ﾠ-ￜ]|\"[^\"]*\"|“[^”]*”|‘[^’]*’|「[^」]*」|『[^』]*』)*$"
+  },
+  "semantic_guarantee": false,
+  "provider_schema_acceptance_verified": false,
+  "new_generation_calls_authorized": 0,
+  "retries": 0,
+  "new_workflow": false,
+  "policy": "Thai/Chinese detections remain warnings only. Never rewrite or hide a returned translation. No facts or original source in BACK."
+}
