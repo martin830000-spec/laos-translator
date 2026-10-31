@@ -1,0 +1,7 @@
+{
+  "authorized": true,
+  "plan_id": "HAIKU_LA1_LB1_AB32_20261101",
+  "maximum_new_attempts": 32,
+  "manifest_sha256": "e0bcc435dcad8db6169315a0d629e63a148886fa3dc9396096677b0b8dac3c57",
+  "source_plan_sha256": "d0e34a7c0a43d5a70280500bd7eb1ed4d5b9413606bc2842fb6e427add7715c6"
+}
