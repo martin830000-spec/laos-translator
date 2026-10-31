@@ -1,0 +1,7 @@
+{
+  "authorized": true,
+  "plan_id": "CLAUDE_HY2B_BACK20_20261101",
+  "maximum_new_attempts": 20,
+  "manifest_sha256": "0b4f1c89cceff45ccb93fa57f85d5dedb6415b3fd9258da86c423a1bac8c5f98",
+  "source_plan_sha256": "67e8d6407cd7a0939e881af218bc20b8c563bcaa55c36ebf839c1712b3b810a3"
+}
