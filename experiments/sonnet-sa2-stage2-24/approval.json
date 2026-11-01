@@ -1,0 +1,7 @@
+{
+  "authorized": true,
+  "plan_id": "SONNET_SA2_STAGE2_NORMAL6_AB24_20261101",
+  "maximum_new_attempts": 24,
+  "manifest_sha256": "c3eeca56ad41d506fae3792abd89c0cdbf4a58df6569b5a1183e504d87d28517",
+  "source_plan_sha256": "598975ffd6a484176739c8aec72a7459b79495c9c072942890f3c4f524a91ffe"
+}
