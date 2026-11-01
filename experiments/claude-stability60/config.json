@@ -1,0 +1,10 @@
+{
+  "phase": "A",
+  "plan_id": "CLAUDE_STABILITY60_A_20261101",
+  "cap": 18,
+  "manifest_sha256": "6125de29e71096ad56ddf18259c806f226dfd3206ffb9c5a4905efd7e9159e9d",
+  "issue_number": 97,
+  "title": "WORK_CLAUDE_STABILITY60_A_20261101_APPROVED_V1",
+  "tag": "claude-stability60-a-20261101-consumed-v1",
+  "required_tags": []
+}

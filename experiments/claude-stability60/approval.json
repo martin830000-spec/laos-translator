@@ -1,0 +1,10 @@
+{
+  "authorized": true,
+  "campaign_id": "CLAUDE_STABILITY60_20261101",
+  "plan_id": "CLAUDE_STABILITY60_A_20261101",
+  "maximum_new_attempts": 18,
+  "whole_task_maximum": 60,
+  "cross_maximum": 36,
+  "Haiku_maximum": 24,
+  "manifest_sha256": "6125de29e71096ad56ddf18259c806f226dfd3206ffb9c5a4905efd7e9159e9d"
+}
