@@ -1,0 +1,12 @@
+{
+  "phase": "H1",
+  "plan_id": "HAIKU_CP1_AB32_H1_20261101",
+  "cap": 16,
+  "manifest_sha256": "2975176cdbcc4ca73cf87ce421edced238624b5b983ac56a5537538a18955fb7",
+  "issue_number": 96,
+  "title": "WORK_HAIKU_CP1_H1_20261101_APPROVED_V1",
+  "tag": "haiku-cp1-h1-20261101-consumed-v1",
+  "required_tags": [
+    "claude-cross-back56-b-20261101-consumed-v1"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "HAIKU_CP1_WHOLE_SOURCE_COMPETING_READINGS",
+  "model": "claude-haiku-5-5",
+  "thinking": {
+    "type": "disabled"
+  },
+  "effort": "low",
+  "max_tokens": 2048,
+  "mechanism": "Source-language one/two competing whole-message readings, select by whole-message fit, then target generated once. No target alternatives or correction.",
+  "changed": "LA1 output planning contract and schema replaced; baseline system before LA1 contract, current source/user message, settings unchanged",
+  "difference_from_S47": "Explicit rival initial interpretations and selection, rather than one committed facts/people/events list. Still self-generated reasoning; may share errors.",
+  "difference_from_LA1_LA2": "Whole-message target after parse selection, no sequential source/target chunks or boundary partition.",
+  "difference_from_LB1_GR1_RE1": "No external word boundaries, lexical hints, grammar alternatives or examples supplied.",
+  "risk": [
+    "both readings may be wrong",
+    "one-reading output may not activate competition",
+    "extra generated reasoning may add facts or weaken naturalness",
+    "more output tokens/latency or max_tokens failures"
+  ],
+  "claims": "novel relative to inspected mechanisms; not a proven remedy or general historical novelty guarantee"
+}

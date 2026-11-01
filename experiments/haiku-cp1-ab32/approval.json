@@ -1,0 +1,8 @@
+{
+  "authorized": true,
+  "plan_id": "HAIKU_CP1_AB32_H1_20261101",
+  "maximum_new_attempts": 16,
+  "whole_task_maximum": 56,
+  "maximum_Haiku_attempts": 32,
+  "manifest_sha256": "2975176cdbcc4ca73cf87ce421edced238624b5b983ac56a5537538a18955fb7"
+}
