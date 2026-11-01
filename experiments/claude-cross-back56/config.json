@@ -8,5 +8,6 @@
   "tag": "claude-cross-back56-b-20261101-consumed-v1",
   "required_tags": [
     "claude-cross-back56-a-20261101-consumed-v1"
-  ]
+  ],
+  "dispatch_revision": 1
 }
