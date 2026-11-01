@@ -1,0 +1,7 @@
+{
+  "authorized": true,
+  "plan_id": "SONNET_KI1_STAGE2_NEW6_24_20261101",
+  "maximum_new_attempts": 24,
+  "manifest_sha256": "46e8423e6b0c4edea438d5206342a601449396f3ed081bcdcfe642bb32b289e4",
+  "source_plan_sha256": "22185a72382612df31fbd1628c34628a5a7bdc321eecd6338a3e3757c4ade1ea"
+}

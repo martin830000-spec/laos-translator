@@ -1,0 +1,22 @@
+{
+  "id": "SONNET55_KI1_KOREAN_TASK_INSTRUCTIONS",
+  "hypothesis": "KI1 fully Korean equivalent task/control instructions, full role content retained; source and frozen settings unchanged. May reduce English code-switch/draft generation and improve direct Korean lexical selection. Semantic benefit uncertain; Lao naturalness risk explicitly tested.",
+  "baseline": "frozen S1",
+  "model": "claude-sonnet-5-5",
+  "thinking": {
+    "type": "between_tools"
+  },
+  "effort": "low",
+  "max_tokens": 2048,
+  "changed": [
+    "system COMMON/ROLE/FORWARD/BACK English to Korean semantic equivalents",
+    "user task prefix English to Korean; tags and source bytes unchanged"
+  ],
+  "no_new_examples_alias_gloss_grammar_hints_or_rules": true,
+  "expected_side_effects": [
+    "may reduce English draft leakage",
+    "may fail to improve Lao lexical interpretation",
+    "Korean instructions may harm natural Lao output"
+  ],
+  "paid_calls_per_pair": 2
+}
