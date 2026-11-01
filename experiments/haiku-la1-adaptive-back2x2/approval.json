@@ -1,0 +1,10 @@
+{
+  "authorized": true,
+  "campaign_id": "HAIKU_LA1_ADAPTIVE_BACK2X2_20261101",
+  "plan_id": "HAIKU_LA1_ADAPTIVE_BACK2X2_P1_20261101",
+  "maximum_new_attempts": 36,
+  "whole_task_maximum": 72,
+  "Haiku_maximum": 72,
+  "other_models_maximum": 0,
+  "manifest_sha256": "7482678cf5cef959bf0ba605e35cf74b89e60d1b43dffc8604675cd41869b0a4"
+}
