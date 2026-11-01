@@ -1,13 +1,14 @@
 {
-  "phase": "B1",
-  "plan_id": "CLAUDE_EFFORT56_B1_20261101",
+  "phase": "B2",
+  "plan_id": "CLAUDE_EFFORT56_B2_20261101",
   "cap": 12,
-  "manifest_sha256": "de8385f4819907d3d5fad2d1aeac4dbc6b27a80adfcdb27d3b91c6775d2464f2",
-  "issue_number": 102,
-  "title": "WORK_CLAUDE_EFFORT56_B1_20261101_APPROVED_V1",
-  "tag": "claude-effort56-b1-20261101-consumed-v1",
+  "manifest_sha256": "e62c443ef663a0a7801ac2ef572cedefc4836969ebf31ec16c4827c8c40faca2",
+  "issue_number": 103,
+  "title": "WORK_CLAUDE_EFFORT56_B2_20261101_APPROVED_V1",
+  "tag": "claude-effort56-b2-20261101-consumed-v1",
   "required_tags": [
     "claude-effort56-a1-20261101-consumed-v1",
-    "claude-effort56-a2-20261101-consumed-v1"
+    "claude-effort56-a2-20261101-consumed-v1",
+    "claude-effort56-b1-20261101-consumed-v1"
   ]
 }
