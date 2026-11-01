@@ -1,0 +1,10 @@
+{
+  "phase": "P1",
+  "plan_id": "G38_CLAUDE_DIRECTION32_P1_20261101",
+  "cap": 64,
+  "manifest_sha256": "7a335bb77e0513b4b5ffc5906e1150a9fba35f8e0f2df79b22390c528b4c55d4",
+  "issue_number": 104,
+  "title": "WORK_G38_CLAUDE_DIRECTION32_P1_20261101_APPROVED_V1",
+  "tag": "g38-claude-direction32-p1-20261101-consumed-v1",
+  "required_tags": []
+}
