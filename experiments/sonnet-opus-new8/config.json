@@ -6,5 +6,6 @@
   "new_maximum_phase": 16,
   "stage1_gate": "PROCEED_STAGE2",
   "stage1_run_id": 41267933591,
-  "stage1_actual_attempts": 16
+  "stage1_actual_attempts": 16,
+  "trigger_nonce": "NEW_STAGE2_PUSH_V1_NO_EXISTING_RUN"
 }
