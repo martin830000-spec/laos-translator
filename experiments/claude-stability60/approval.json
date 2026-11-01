@@ -1,10 +1,10 @@
 {
   "authorized": true,
   "campaign_id": "CLAUDE_STABILITY60_20261101",
-  "plan_id": "CLAUDE_STABILITY60_B_20261101",
-  "maximum_new_attempts": 18,
+  "plan_id": "CLAUDE_STABILITY60_H1_20261101",
+  "maximum_new_attempts": 16,
   "whole_task_maximum": 60,
   "cross_maximum": 36,
   "Haiku_maximum": 24,
-  "manifest_sha256": "7f0df947e8da8338dddc681112e7e4e10736e50762ab097b7d19f1c65950afe4"
+  "manifest_sha256": "48bc20a670042c061a2be8257aa44e33d5d9a7d50d34229d4693066782c3cfff"
 }

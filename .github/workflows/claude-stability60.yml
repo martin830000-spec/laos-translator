@@ -23,6 +23,8 @@ jobs:
       - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
       - name: Frozen same-FIRST two-BACK dependency and replay checks
         run: python3 -m unittest discover -s experiments/claude-stability60 -p 'test_*.py' -v
+      - name: Exact-input reread contract checks
+        run: python3 -m unittest discover -s experiments/haiku-rr1 -p 'test_*.py' -v
       - name: Prepare new private channel
         env:
           GITHUB_TOKEN: ${{ github.token }}

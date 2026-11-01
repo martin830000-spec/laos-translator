@@ -1,0 +1,25 @@
+{
+  "id": "HAIKU_RR1_EXACT_INPUT_REREAD",
+  "hypothesis": "A second identical input occurrence is encoded with access to the complete first occurrence before decoding. It may strengthen full-sentence condition/time/event attachments without model-generated interpretations.",
+  "observed_errors": [
+    "phone-chat vs physical play",
+    "condition attachment",
+    "comparison direction",
+    "invented event/time"
+  ],
+  "mechanism": "Duplicate the complete frozen LA1 user request with LF LF, in the SAME single user message. Add only fixed two-views-one-message clarification. Keep source bytes, frozen base instructions including existing sense groups, schema, units extraction, disabled/low/2048 unchanged.",
+  "difference": "S47/SC1 generate facts/evidence; LA1/LA2 segment output; LB1/GR1/RE1 inject boundaries/hints/examples; CP1 generates and selects readings. RR1 instead changes encoder input incidence deterministically, adds no lexical senses, generated plan, candidate interpretations, target draft or extra API.",
+  "expected": "Whole-message attachment and comparisons, particularly later cues contextualizing earlier words. Benefit uncertain; not new Lao lexical knowledge.",
+  "risks": [
+    "same wrong reading reinforced",
+    "duplicate event/translation",
+    "no improvement on lexical knowledge gap",
+    "input tokens and prefill latency increase",
+    "longer input may worsen attention"
+  ],
+  "primary_source": "https://arxiv.org/html/2512.14982v1",
+  "evidence_limits": "Primary paper benchmarks older Claude3 Haiku/3.7 Sonnet and nontranslation tasks, NOT Haiku5.5 Korean/Lao evidence; source mechanism motivates experiment only. We repeat user request, not entire system, so not exact paper replication.",
+  "prior_search_scope": "Inspected S01-S50, SC1, LA1/LA2, LB1/GR1/RE1, H1/H2, CP1 and available research code: no deterministic double full-input mechanism found. Missing historical code not guaranteed.",
+  "additional_calls": 0,
+  "semantic_guarantee": false
+}
