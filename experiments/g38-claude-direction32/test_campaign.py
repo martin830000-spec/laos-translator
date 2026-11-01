@@ -21,7 +21,7 @@ class Contract(unittest.TestCase):
    for stage in ['first','back']:self.assertEqual(c.build('test',side,stage,e),c.a.build('test',side,stage,e))
  def test_failed_first_skips_back_and_replay(self):
   cases=[dict(id=str(i)+side,side=side,index=i,source='test',source_sha256=hashlib.sha256(b'test').hexdigest(),development_allowed=True) for side in ['K','L'] for i in range(8)]
-  m=dict(id=c.CONFIG['plan_id'],phase=c.CONFIG['phase'],cap=64,whole_task_maximum=128,prior_attempts=dict(G=0,S=0,O=0),cases=cases,schedule=c.schedule(cases),frozen_file_sha256={})
+  m=dict(id=c.CONFIG['plan_id'],phase='P1',cap=64,whole_task_maximum=128,prior_attempts=dict(G=0,S=0,O=0),cases=cases,schedule=c.schedule(cases),frozen_file_sha256={})
   approval=dict(authorized=True,campaign_id='G38_CLAUDE_DIRECTION32_20261101',plan_id=m['id'],maximum_new_attempts=64,whole_task_maximum=128,G_maximum=64,S_maximum=32,O_maximum=32,manifest_sha256=c.digest(m));calls=[]
   with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as t,patch.dict(c.CONFIG,{'phase':'P1','manifest_sha256':c.digest(m)}):
    def transport(q):calls.append(q);return {'_transport':{'http_status':500}}
