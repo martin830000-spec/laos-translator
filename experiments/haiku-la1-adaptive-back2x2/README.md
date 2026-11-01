@@ -1,0 +1,15 @@
+# Haiku LA1 Adaptive FIRST/BACK 2x2 — execution checkpoint
+
+2026-11-01 KST. User authorized at most72 NEW Haiku attempts, phase36 plus conditional36. Other model calls0, retries0, judge0. This commit performs FREE MOCK CONTRACT TESTS ONLY, contains no private originals and supplies no API secret to CI.
+
+Implementation: existing LA1 units source/target schema and exact target concatenation unchanged. A=disabled/low/2048; B=adaptive/medium/2048. Each original has A and B FIRSTs; each actual FIRST is sent to A and B BACKs. Both orders alternate by source index in each direction; Lao begins opposite Korean. Since both thinking and effort change, this is a bundled-settings effect, not one-parameter causality.
+
+Checked existing R9 run40677088133, R11 run40678080799, R13 run40682907181 completed/success/attempt1. Their T2/single-translation JSON FIRST factorials use a fixed LOW/OFF BACK. No duplicate LA1 SAME-FIRST2x2 was found in inspected branch/issues/reports/source. RR1/CP1 repeat/interpretation methods and HY2 model combinations are different and are not re-run.
+
+BLOCKER: the Work execution environment became unavailable during local file preparation before any branch/paid execution. Shell confirms No usable execution environment is available; Node/private crypto client is unavailable. NEW PAID ATTEMPTS=0. No live issue, consumed tag, private transmission or API run has been started for this plan. Existing result keys or approvals are not reused. No quality/latency/cost outcome is claimed.
+
+Proposed DEVELOPMENT selection, not yet durable full source/SHA manifest: K19 diagnostic plus349/441 normal for phase1; L92 diagnostic plus434/455 normal. Conditional phase2 K159/398/464 and L209/360/412 normal. Split/protected metadata was checked before selected diagnostic source access. 10 normal sources inherit prior eligible inventory and exclude recent32 exact/normalized sources. Recheck and persist full private ID/SHA/duplicate evidence before paid execution. Do not publish originals or any result text.
+
+Resume after execution environment reconnects: inspect this branch and contract run; recover local haiku-la1-adaptive-back2x2-20261101 files (local write completion was not confirmed when environment disconnected); verify the frozen files against remote main65f2d2c4b963eb605f1b66ccafe3cdd4e19306fa. Persist12 allowed private cases and exact SHA. Reuse authenticated encrypted input/result bridge with fresh result key, one-use plan/tag/issue, bounded phase36, before each send persist attempt. Inspect every actual phase1 output and only run remaining36 if meaningful improvement without serious regression. Preserve raw sanitized HTTP request/response, usage, hidden thinking, exact rendered FIRST and each BACK SHA. Do not change frozen LA1, SERVICE, main, policies or prior backups.
+
+Required final files and private Drive parent191H11Dl-0HgEvIwDYIbfDUON7L6eTwCH remain pending: HAIKU_LA1_ADAPTIVE_BACK2X2_FINAL_REPORT_20261101.md, PRIVATE_EVIDENCE ZIP, METRICS JSON, CHAT_HANDOFF TXT, storage verification. No upload/hash verification completion is claimed. This public checkpoint contains technical metadata only.

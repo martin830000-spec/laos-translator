@@ -1,0 +1,10 @@
+{
+  "phase": "P1",
+  "plan_id": "HAIKU_LA1_ADAPTIVE_BACK2X2_P1_20261101",
+  "cap": 36,
+  "manifest_sha256": "UNFROZEN_ENVIRONMENT_UNAVAILABLE",
+  "status": "USER_APPROVED_MANIFEST_UNFROZEN_ENVIRONMENT_UNAVAILABLE",
+  "issue_number": null,
+  "title": "WORK_HAIKU_LA1_ADAPTIVE_BACK2X2_P1_20261101_APPROVED_V1",
+  "tag": "haiku-la1-adaptive-back2x2-p1-20261101-consumed-v1"
+}

@@ -1,0 +1,28 @@
+name: Haiku LA1 adaptive2x2 FREE contract only
+on:
+  push:
+    branches: [research/haiku-la1-adaptive-back2x2-20261101]
+    paths: ['experiments/haiku-la1-adaptive-back2x2/**', '.github/workflows/haiku-la1-adaptive-back2x2-contract.yml']
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Only mocked requests - no API credentials and no private data
+        run: python3 -m unittest discover -s experiments/haiku-la1-adaptive-back2x2 -p 'test_*.py' -v
+      - name: Frozen baseline SHA256 audit
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          r=Path('experiments')
+          paths=['haiku-linked-units/adapter.py','haiku-linked-units/candidate.json','haiku-50-steps/adapter.py','haiku-50-steps/claude50-candidate.json']
+          print(json.dumps({p:hashlib.sha256((r/p).read_bytes()).hexdigest() for p in paths}))
+          PY
