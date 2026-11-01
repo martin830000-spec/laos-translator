@@ -1,7 +1,7 @@
 {
   "authorized": true,
-  "plan_id": "CLAUDE_DIRECTION40_B_20261101_V1",
-  "maximum_new_attempts": 12,
+  "plan_id": "CLAUDE_DIRECTION40_J_20261101_V1",
+  "maximum_new_attempts": 16,
   "whole_task_maximum": 40,
-  "manifest_sha256": "5c94d6ffdacca8b3b917457254db0b9bb63193d87688312e7c1d4b317fe282cc"
+  "manifest_sha256": "9456f7c8b657dc4095c87c0a909c744c56bf58464c990103dd068c2767f126a2"
 }

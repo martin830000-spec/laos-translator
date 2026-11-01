@@ -1,13 +1,13 @@
 {
-  "phase": "B",
-  "plan_id": "CLAUDE_DIRECTION40_B_20261101_V1",
-  "cap": 12,
-  "manifest_sha256": "5c94d6ffdacca8b3b917457254db0b9bb63193d87688312e7c1d4b317fe282cc",
-  "issue_number": 92,
-  "title": "WORK_CLAUDE_DIRECTION40_B_20261101_APPROVED_V1",
-  "tag": "claude-direction40-b-20261101-consumed-v1",
+  "phase": "J",
+  "plan_id": "CLAUDE_DIRECTION40_J_20261101_V1",
+  "cap": 16,
+  "manifest_sha256": "9456f7c8b657dc4095c87c0a909c744c56bf58464c990103dd068c2767f126a2",
+  "issue_number": 93,
+  "title": "WORK_CLAUDE_DIRECTION40_J_20261101_APPROVED_V1",
+  "tag": "claude-direction40-j-20261101-consumed-v1",
   "required_tags": [
-    "claude-direction40-a-20261101-consumed-v1"
-  ],
-  "trigger_id": "B_PRIVATE_FIRST_EXECUTION_V2"
+    "claude-direction40-a-20261101-consumed-v1",
+    "claude-direction40-b-20261101-consumed-v1"
+  ]
 }
