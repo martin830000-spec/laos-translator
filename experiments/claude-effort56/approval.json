@@ -1,10 +1,10 @@
 {
   "authorized": true,
   "campaign_id": "CLAUDE_EFFORT56_20261101",
-  "plan_id": "CLAUDE_EFFORT56_A2_20261101",
-  "maximum_new_attempts": 16,
+  "plan_id": "CLAUDE_EFFORT56_B1_20261101",
+  "maximum_new_attempts": 12,
   "whole_task_maximum": 56,
   "Opus_maximum": 32,
   "Sonnet_maximum": 24,
-  "manifest_sha256": "4a4f4bc2a7f7bd343dd2e731891435c39d427ce70b92dd882d77d45ef6661702"
+  "manifest_sha256": "de8385f4819907d3d5fad2d1aeac4dbc6b27a80adfcdb27d3b91c6775d2464f2"
 }

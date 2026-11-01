@@ -27,7 +27,7 @@ def validate(m):
  assert digest(m)==CONFIG['manifest_sha256'] and m['id']==CONFIG['plan_id'] and m['phase']==CONFIG['phase']
  ph=m['phase'];cap={'A1':16,'A2':16,'B1':12,'B2':12}[ph]
  assert m['whole_task_maximum']==56 and m['Opus_maximum']==32 and m['Sonnet_maximum']==24 and m['cap']==CONFIG['cap']==cap
- assert m['prior_Opus_attempts']>=0 and m['prior_Sonnet_attempts']>=0
+ assert 0<=m['prior_Opus_attempts']<=32 and 0<=m['prior_Sonnet_attempts']<=24
  assert m['prior_Opus_attempts']+m['prior_Sonnet_attempts']+cap<=56
  assert (m['prior_Opus_attempts']+cap<=32) if ph.startswith('A') else (m['prior_Sonnet_attempts']+cap<=24)
  assert len(m['cases'])==4 and len({c['id'] for c in m['cases']})==4
