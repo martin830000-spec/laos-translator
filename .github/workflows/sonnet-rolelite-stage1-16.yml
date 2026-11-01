@@ -1,0 +1,49 @@
+name: Approved Sonnet S1 ROLE LITE existing8 max16 encrypted TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: sonnet-rolelite-stage1-16-20261101-once-v1
+  cancel-in-progress: false
+jobs:
+  approved32:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_SONNET_ROLE_LITE_STAGE1_16_20261101_APPROVED_V1' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ba63246bf771e79a598a2fd8fd921ed88fdd1fbe
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Exact approval and frozen candidate check before credentials
+        run: python3 -c "import runpy; d=runpy.run_path('experiments/sonnet-rolelite-stage1-16/actions_bridge.py'); d['approval_guard']()"
+      - name: New bounded campaign safety tests
+        run: python3 -m unittest discover -s experiments/sonnet-rolelite-stage1-16 -p 'test_*.py' -v
+      - name: FIRST role-only and exact BACK tests
+        run: python3 -m unittest discover -s experiments/sonnet-s1-role-lite -p 'test_*.py' -v
+      - name: Prepare private channel
+        run: python3 experiments/sonnet-rolelite-stage1-16/actions_bridge.py prepare "$RUNNER_TEMP/sonnet-rolelite-stage1-16"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sonnet-rolelite-stage1-16-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/sonnet-rolelite-stage1-16/handshake.json
+          retention-days: 1
+      - name: Only approved ROLE LITE stage1 up to16 calls
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/sonnet-rolelite-stage1-16/actions_bridge.py execute "$RUNNER_TEMP/sonnet-rolelite-stage1-16"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sonnet-rolelite-stage1-16-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/sonnet-rolelite-stage1-16/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
+
