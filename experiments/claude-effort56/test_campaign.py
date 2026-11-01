@@ -32,6 +32,18 @@ class Contract(unittest.TestCase):
     j=Path(d)/'once';out=c.run_approved(m,approval,fail,j)
     self.assertEqual(len(calls),8 if ph[0]=='A' else 4);self.assertEqual(out['retries'],0)
     with self.assertRaises(FileExistsError):c.run_approved(m,approval,fail,j)
+   counter=[]
+   def success(q):
+    counter.append(q)
+    return dict(type='message',id='fixture-'+str(len(counter)),model=q['model'],stop_reason='end_turn',content=[dict(type='thinking',thinking='hidden fixture'),dict(type='text',text='  visible '+str(len(counter))+'  ')],usage=dict(input_tokens=1,output_tokens=1))
+   with tempfile.TemporaryDirectory(dir=E) as d:
+    out=c.run_approved(m,approval,success,Path(d)/'once');slots={x['slot']:x for x in out['slots']}
+    self.assertEqual(out['attempts'],cap)
+    for x in out['slots']:
+     if x['stage']=='back':self.assertEqual(x['input'],slots[x['depends_on']]['translation']);self.assertNotIn('hidden fixture',x['input'])
+    if ph[0]=='B':
+     for case in cases:
+      backs=[x for x in out['slots'] if x['id']==case['id'] and x['stage']=='back'];self.assertEqual(backs[0]['input'].encode(),backs[1]['input'].encode())
    bad=dict(approval,whole_task_maximum=57)
    with self.assertRaises(PermissionError):c.authorize(bad)
    bad=copy.deepcopy(m);bad['prior_Opus_attempts']=33;c.CONFIG['manifest_sha256']=c.digest(bad)
