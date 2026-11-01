@@ -1,0 +1,7 @@
+{
+  "phase": 1,
+  "manifest_canonical_sha256": "b76cb07d51caa962a41f8c4c912bb9c4e1df3ebfe29f136ed60bcefd501d55c1",
+  "issue_number": 87,
+  "authorized_maximum_whole_task": 32,
+  "new_maximum_phase": 16
+}

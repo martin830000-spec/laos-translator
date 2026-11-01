@@ -1,0 +1,46 @@
+name: New daily Sonnet S1 versus Opus C bounded private 16
+on:
+  push:
+    branches: [research/sonnet-opus-new8-20261101]
+    paths: ['experiments/sonnet-opus-new8/config.json']
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: sonnet-opus-new8-once-per-phase-20261101
+  cancel-in-progress: false
+jobs:
+  approved:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Offline common streaming contract both frozen models
+        run: python3 experiments/sonnet-opus-new8/runner.py selftest ignored
+      - name: Prepare private input channel
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/sonnet-opus-new8/runner.py prepare "$RUNNER_TEMP/new8"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: new8-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/new8/handshake.json
+          retention-days: 1
+      - name: Frozen phase only no retries max16
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/sonnet-opus-new8/runner.py execute "$RUNNER_TEMP/new8"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: new8-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/new8/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
