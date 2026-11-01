@@ -1,0 +1,6 @@
+{
+  "authorized": true,
+  "plan_id": "CLAUDE_DAILY12_STAGE1_72_20261101",
+  "maximum_new_attempts": 72,
+  "manifest_sha256": "f835a0e8830cef312056ffc5d9c4a9f0a493b068e3600d0d5bb46a6b919eb91b"
+}
