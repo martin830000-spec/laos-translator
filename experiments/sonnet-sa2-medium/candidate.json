@@ -1,0 +1,12 @@
+{
+  "id": "SONNET_SA2_ADAPTIVE_MEDIUM_OFFLINE_20261031",
+  "model": "claude-sonnet-5-5",
+  "thinking": {"type": "adaptive"},
+  "effort": "medium",
+  "max_tokens": 2048,
+  "baseline": "frozen SA1 c61cacca26de2eee15fc1bab6807e119afc5d494",
+  "only_change": "output_config.effort low -> medium",
+  "authorized": false,
+  "actual_generation_calls": 0,
+  "quality": "UNVERIFIED"
+}
