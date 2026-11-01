@@ -1,11 +1,11 @@
 {
   "authorized": true,
   "campaign_id": "CLAUDE_HO_SO_OO49_20261102",
-  "plan_id": "CLAUDE_HO_SO_OO49_P1_20261102",
-  "maximum_new_attempts": 25,
+  "plan_id": "CLAUDE_HO_SO_OO49_P2_20261102",
+  "maximum_new_attempts": 24,
   "whole_task_maximum": 49,
   "H_maximum": 8,
   "S_maximum": 8,
   "O_maximum": 33,
-  "manifest_sha256": "a7c8b6215e2d3d98b3e9cf65a497701c977f0f38d8726b278fa3d1211379e514"
+  "manifest_sha256": "ec8a3f927ae4e7fb93f26988905731b1bfc80509cc3c0ab3cb06fbab673f1982"
 }
