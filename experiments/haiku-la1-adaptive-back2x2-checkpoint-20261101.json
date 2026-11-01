@@ -1,0 +1,102 @@
+{
+  "status": "BLOCKED_EXECUTION_ENVIRONMENT_UNAVAILABLE_NOT_QUALITY_FAILURE",
+  "date_kst": "2026-11-01",
+  "user_approved_maximum": 72,
+  "phase1_maximum": 36,
+  "phase2_maximum": 36,
+  "phase2_requires_actual_phase1_quality_gate": true,
+  "actual_new_paid_attempts": 0,
+  "new_Haiku_attempts": 0,
+  "new_other_model_attempts": 0,
+  "retries": 0,
+  "judge_calls": 0,
+  "implementation_commit": "7a7764edc3a00f973765c178b1f543b194c98810",
+  "branch": "research/haiku-la1-adaptive-back2x2-20261101",
+  "free_CI": {
+    "run_id": 41303080169,
+    "job_id": 124837881562,
+    "conclusion": "success",
+    "tests_passed": 6,
+    "contains_private_originals": false,
+    "API_credentials_supplied": false
+  },
+  "frozen_file_sha256": {
+    "haiku-linked-units/adapter.py": "4a47e35d63b140cbe0d353b83bef126ae00156bc1028a6d6f5c47277cec22a72",
+    "haiku-linked-units/candidate.json": "7949dadfc0d75de1a790c6608c87c6e96974c15fd1ee387bd3896d27fbca610e",
+    "haiku-50-steps/adapter.py": "e85a3ff89f83aca7638f86b7b518aa1b1a5c6d060bc10ac9b436686138e15310",
+    "haiku-50-steps/claude50-candidate.json": "f8a68765a546e69e83dbe5da08947af1b4ae5181e7b8441b5a9aa92e88620b33"
+  },
+  "new_files_remote_readback": [
+    {
+      "path": "experiments/haiku-la1-adaptive-back2x2/campaign.py",
+      "exact_content_equal": true,
+      "git_blob_sha": "c76d4d8c9eb662ce2e3884db0c2095849a4d5a39"
+    },
+    {
+      "path": "experiments/haiku-la1-adaptive-back2x2/config.json",
+      "exact_content_equal": true,
+      "git_blob_sha": "0b5e0ca208133609cbe9da3fc9b19c1df2370544"
+    },
+    {
+      "path": ".github/workflows/haiku-la1-adaptive-back2x2-contract.yml",
+      "exact_content_equal": true,
+      "git_blob_sha": "3099a8bdf1229f1ae4bbf11202cce00ab1342b83"
+    },
+    {
+      "path": "experiments/haiku-la1-adaptive-back2x2/test_campaign.py",
+      "exact_content_equal": true,
+      "git_blob_sha": "2971cf819a1ada45241f4b38842f68a58cb51711"
+    },
+    {
+      "path": "experiments/haiku-la1-adaptive-back2x2/README.md",
+      "exact_content_equal": true,
+      "git_blob_sha": "9558657d5e42d2017af40e445fd7283be0567f03"
+    }
+  ],
+  "protected_originals_newly_read_or_sent": 0,
+  "main_heads": {
+    "TEST": "65f2d2c4b963eb605f1b66ccafe3cdd4e19306fa",
+    "wife": "e24c5a9298c8f8324ba88e4aea08721010c89886",
+    "general": "f7ef97cbdaa79674350811c55a1e8f9c15619961"
+  },
+  "SERVICE_changes": 0,
+  "active_policy_changes": 0,
+  "previous_backups_modified": 0,
+  "local_initial_apply_patch_completion": "UNCONFIRMED: environment disconnected while write was pending; inspect on reconnect",
+  "private_manifest_status": "12 IDs proposed, metadata checked, full private source/SHA manifest persistence not yet verified",
+  "proposed_phase1": {
+    "K": [
+      19,
+      349,
+      441
+    ],
+    "L": [
+      92,
+      434,
+      455
+    ]
+  },
+  "proposed_conditional_phase2": {
+    "K": [
+      159,
+      398,
+      464
+    ],
+    "L": [
+      209,
+      360,
+      412
+    ]
+  },
+  "blocking_error": "No usable execution environment is available. Wait for an environment to become available before using this tool.",
+  "remaining_work": [
+    "Reconnect execution environment; no repeated paid approval is needed within this exact scope.",
+    "Recheck other Work/Actions consumption before actual paid execution.",
+    "Recover private DEVELOPMENT originals selectively after split/hash metadata; persist full12 private manifest and duplicate audit.",
+    "Prepare fresh authenticated encrypted input/result channel; create live phase36 authorization material only after manifest frozen.",
+    "Run actual phase1 and read every raw output; decide conditional phase2 by real meaning improvement/regression.",
+    "Save four requested result files and verification JSON privately to LIVE_STATE; redownload and verify SHA256/bytes/ZIP CRC/parents/owner-only."
+  ],
+  "Google_Drive_final_deliverables_saved": false,
+  "actual_quality_latency_cost_results": "NOT_MEASURED"
+}
