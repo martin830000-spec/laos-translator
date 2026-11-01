@@ -1,4 +1,4 @@
-name: Approved effort56 phased18-18-16-8 no retry
+name: Approved effort56 phased16-16-12-12 no retry
 on:
   push:
     branches: [research/claude-effort56-20261101]
