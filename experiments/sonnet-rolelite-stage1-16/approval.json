@@ -1,0 +1,7 @@
+{
+  "authorized": true,
+  "plan_id": "SONNET_ROLE_LITE_STAGE1_EXISTING8_16_20261101",
+  "maximum_new_attempts": 16,
+  "manifest_sha256": "ab323d8bb93752687fd933d0f8d4ccccaf1c225a21174912170161b9b1ddf2e5",
+  "source_plan_sha256": "304faa2a44872c0443d7744d329522939d60af7d9a75d93d4d096f1b259465cb"
+}

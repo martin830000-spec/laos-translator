@@ -1,0 +1,18 @@
+{
+  "id": "SONNET55_S1_ROLE_LITE",
+  "model": "claude-sonnet-5-5",
+  "thinking": {
+    "type": "between_tools"
+  },
+  "effort": "low",
+  "max_tokens": 2048,
+  "only_change": "FIRST couple_context text; exact BACK retained",
+  "FIRST_role_text": {
+    "K": "The speaker is a Korean husband messaging his Lao wife.",
+    "L": "The speaker is a Lao wife messaging her Korean husband."
+  },
+  "baseline_file_sha256": {
+    "claude-rd-core/core.py": "b255d18d774e18db9fef170ce7c6eb8c02885b0b134ad3d1aedad86ee8e80a1c",
+    "claude-rd-core/s1-prompts.json": "cb8e2f57cc4a69d9f84d536004262e9f3a7c591c54b5163d42cf6ad7fe76999a"
+  }
+}
