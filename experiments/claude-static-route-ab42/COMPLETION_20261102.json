@@ -1,0 +1,30 @@
+{
+  "campaign_id": "CLAUDE_STATIC_ROUTE_AB42_20261102",
+  "status": "COMPLETED",
+  "approved_maximum": 42,
+  "actual_attempts": 42,
+  "phase_attempts": [
+    21,
+    21
+  ],
+  "engine_attempts": {
+    "H": 6,
+    "S": 18,
+    "O": 18
+  },
+  "FIRST": 18,
+  "BACK": 24,
+  "complete_outputs": 42,
+  "MAX_TOKENS": 0,
+  "retries": 0,
+  "Gemini": 0,
+  "AI_judge": 0,
+  "SERVICE_changes": 0,
+  "contract_tests": 8,
+  "private_data_in_public_code": false,
+  "decision": "Husband B scope quality PASS; complete route adoption HOLD; no model-wide permanent stop",
+  "runs": [
+    41356341414,
+    41356724781
+  ]
+}
