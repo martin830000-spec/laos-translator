@@ -1,0 +1,50 @@
+{
+  "status": "COMPLETED_PHASE1_AND_CONDITIONAL_PHASE2_STOPPED",
+  "date_kst": "2026-11-01",
+  "approved_maximum": 72,
+  "actual_Haiku_attempts": 36,
+  "FIRST": 12,
+  "BACK": 24,
+  "complete_JSON_outputs": 34,
+  "MAX_TOKENS": 2,
+  "unused_conditional_phase2": 36,
+  "phase2_manifest_channel_issue_API": 0,
+  "other_model_calls": 0,
+  "retries": 0,
+  "AI_judge": 0,
+  "model_probes": 0,
+  "unique_response_ids": 36,
+  "same_FIRST_back_input_SHA_pairs_verified": 12,
+  "source_reconstruction_mismatch_warnings": 1,
+  "warning_does_not_hide_output": true,
+  "important_semantic_improvement_observed": false,
+  "decision": {
+    "A_A": "PRESERVE_BASELINE",
+    "A_B": "STOP_FREEZE_CURRENT_INTEGRATION",
+    "B_A": "STOP_FREEZE_CURRENT_INTEGRATION",
+    "B_B": "STOP_FREEZE_CURRENT_INTEGRATION",
+    "Haiku_model_permanent_rejection": false
+  },
+  "execution": {
+    "commit": "d4cb48755efa8f977ef83b0204f808bffb972919",
+    "run": 41310662264,
+    "job": 124860152649,
+    "issue": 106,
+    "issue_state": "closed",
+    "consumed_tag": "haiku-la1-adaptive-back2x2-p1-20261101-consumed-v1"
+  },
+  "private_deliverables": {
+    "new_files": 5,
+    "LIVE_STATE_owner_only": true,
+    "all_redownload_bytes_equal": true,
+    "SHA256_and_sizes_verified": true,
+    "ZIP_CRC": true,
+    "ZIP_entries": 45,
+    "ZIP_internal_manifest_files_verified": 44,
+    "no_originals_or_outputs_in_this_public_checkpoint": true
+  },
+  "SERVICE_changes": 0,
+  "active_policy_changes": 0,
+  "main_heads_unchanged": true,
+  "prior_zero_call_environment_blocker_checkpoint_preserved": "03d6465d57e42c3ebdc8a61d08407fd7bea6f5aa"
+}
