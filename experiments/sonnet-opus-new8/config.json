@@ -1,7 +1,10 @@
 {
-  "phase": 1,
-  "manifest_canonical_sha256": "b76cb07d51caa962a41f8c4c912bb9c4e1df3ebfe29f136ed60bcefd501d55c1",
-  "issue_number": 87,
+  "phase": 2,
+  "manifest_canonical_sha256": "2c971e1ba514ac69784356409c533a0b8beddb8f670b19b1f3632c3f93903f02",
+  "issue_number": 88,
   "authorized_maximum_whole_task": 32,
-  "new_maximum_phase": 16
+  "new_maximum_phase": 16,
+  "stage1_gate": "PROCEED_STAGE2",
+  "stage1_run_id": 41267933591,
+  "stage1_actual_attempts": 16
 }
