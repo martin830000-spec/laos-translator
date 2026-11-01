@@ -1,0 +1,10 @@
+{
+  "phase": "P1",
+  "plan_id": "CLAUDE_STATIC_ROUTE_AB42_P1_20261102",
+  "cap": 21,
+  "manifest_sha256": "a6e913e6081e4a264ec750769be537cabb928abc9e1e42ba47ada67d15c3a0a2",
+  "issue_number": 107,
+  "title": "WORK_CLAUDE_STATIC_ROUTE_AB42_P1_20261102_APPROVED_V1",
+  "tag": "claude-static-route-ab42-p1-20261102-consumed-v1",
+  "required_tags": []
+}

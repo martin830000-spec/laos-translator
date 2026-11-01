@@ -1,0 +1,11 @@
+{
+  "authorized": true,
+  "campaign_id": "CLAUDE_STATIC_ROUTE_AB42_20261102",
+  "plan_id": "CLAUDE_STATIC_ROUTE_AB42_P1_20261102",
+  "maximum_new_attempts": 21,
+  "whole_task_maximum": 42,
+  "H_maximum": 6,
+  "S_maximum": 18,
+  "O_maximum": 18,
+  "manifest_sha256": "a6e913e6081e4a264ec750769be537cabb928abc9e1e42ba47ada67d15c3a0a2"
+}
