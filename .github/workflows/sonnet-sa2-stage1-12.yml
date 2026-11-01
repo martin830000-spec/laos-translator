@@ -1,0 +1,49 @@
+name: Approved Sonnet SA2 stage1 existing6 max12 encrypted TEST
+on:
+  issues:
+    types: [opened]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: sonnet-sa2-stage1-12-20261101-once-v1
+  cancel-in-progress: false
+jobs:
+  approved32:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.actor == 'martin830000-spec' && github.event.issue.user.login == 'martin830000-spec' && github.event.issue.title == 'WORK_SONNET_SA2_STAGE1_12_20261101_APPROVED_V1' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: cda6dc5f3e6ec67e0cebc30aa9e692b2ce09c394
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Exact approval and frozen candidate check before credentials
+        run: python3 -c "import runpy; d=runpy.run_path('experiments/sonnet-sa2-stage1-12/actions_bridge.py'); d['approval_guard']()"
+      - name: New bounded campaign safety tests
+        run: python3 -m unittest discover -s experiments/sonnet-sa2-stage1-12 -p 'test_*.py' -v
+      - name: Original SA2 frozen adapter tests
+        run: python3 -m unittest discover -s experiments/sonnet-sa2-medium -p 'test_*.py' -v
+      - name: Prepare private channel
+        run: python3 experiments/sonnet-sa2-stage1-12/actions_bridge.py prepare "$RUNNER_TEMP/sonnet-sa2-stage1-12"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sonnet-sa2-stage1-12-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/sonnet-sa2-stage1-12/handshake.json
+          retention-days: 1
+      - name: Only approved SA2 stage1 up to12 calls
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/sonnet-sa2-stage1-12/actions_bridge.py execute "$RUNNER_TEMP/sonnet-sa2-stage1-12"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sonnet-sa2-stage1-12-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/sonnet-sa2-stage1-12/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
+
