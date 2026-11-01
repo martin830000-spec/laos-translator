@@ -1,0 +1,65 @@
+{
+  "campaign_id": "CLAUDE_HO_SO_OO49_20261102",
+  "completed": true,
+  "new_paid_attempts": 49,
+  "model_attempts": {
+    "H": 8,
+    "S": 8,
+    "O": 33
+  },
+  "phases": [
+    {
+      "phase": "P1",
+      "attempts": 25,
+      "run_id": 41359223093,
+      "commit": "acd1f3d7596597230e0c506eb5ae1bfc9bc851d6"
+    },
+    {
+      "phase": "P2",
+      "attempts": 24,
+      "run_id": 41359499389,
+      "commit": "aca274fa89d35a7d4c3c433e05afd1654ad599c0"
+    }
+  ],
+  "new_Gemini_calls": 0,
+  "retries": 0,
+  "SERVICE_changes": 0,
+  "do_not_rerun": true,
+  "storage": [
+    {
+      "name": "CLAUDE_HO_SO_OO49_FINAL_REPORT_20261102.md",
+      "id": "1gAgNp4L_TVgxfGbxUcGh6GmxwA2ZwUKm",
+      "url": "https://drive.google.com/file/d/1gAgNp4L_TVgxfGbxUcGh6GmxwA2ZwUKm/view?usp=drivesdk"
+    },
+    {
+      "name": "CLAUDE_HO_SO_OO49_PRIVATE_EVIDENCE_20261102.zip",
+      "id": "1kCozN3x_GmRuiPrdK0ELgrYKgSJa2sRT",
+      "url": "https://drive.google.com/file/d/1kCozN3x_GmRuiPrdK0ELgrYKgSJa2sRT/view?usp=drivesdk"
+    },
+    {
+      "name": "CLAUDE_HO_SO_OO49_METRICS_20261102.json",
+      "id": "1hM97DYOYQTnomt3vZihOkiVVaFtNUDiq",
+      "url": "https://drive.google.com/file/d/1hM97DYOYQTnomt3vZihOkiVVaFtNUDiq/view?usp=drivesdk"
+    },
+    {
+      "name": "CLAUDE_HO_SO_OO49_CHAT_HANDOFF_20261102.txt",
+      "id": "1I7lbwrK0ELRHa9N7GGax9JbiflmFikm-",
+      "url": "https://drive.google.com/file/d/1I7lbwrK0ELRHa9N7GGax9JbiflmFikm-/view?usp=drivesdk"
+    },
+    {
+      "name": "CLAUDE_HO_SO_OO49_STORAGE_VERIFICATION_20261102.json",
+      "id": "10yVUiO6ueKrZAASAvDoeOmRwjDyqtpJm",
+      "url": "https://drive.google.com/file/d/10yVUiO6ueKrZAASAvDoeOmRwjDyqtpJm/view?usp=drivesdk"
+    }
+  ],
+  "storage_self_verification": {
+    "verification_file_id": "10yVUiO6ueKrZAASAvDoeOmRwjDyqtpJm",
+    "bytes": 5792,
+    "sha256": "e2d6b6f72d95a104525df58bc7eff6a781bf7fbefacd2ea251271a0af67ff3f1",
+    "redownload_exact": true,
+    "owner_only": true,
+    "correct_parent": true,
+    "all_five_files_verified": true
+  },
+  "decision": "H->O HOLD; S->O scoped practical candidate PASS with recorded P1 risk / adoption HOLD; O->O adoption HOLD. No model permanently discarded. No automatic new paid experiment."
+}
