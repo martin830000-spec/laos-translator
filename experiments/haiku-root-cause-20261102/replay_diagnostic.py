@@ -42,6 +42,7 @@ def validate_relations(relations,source):
  """Human annotations only: validate exact source grounding; never generate a parse.
  Offsets are Unicode codepoint indices, not UTF-8 byte offsets.
  """
+ if not isinstance(relations,list) or not relations:raise ValueError('NONEMPTY_ANNOTATIONS_REQUIRED')
  for rel in relations:
   if not rel.get('annotator') or rel.get('status') not in ('PROVISIONAL','VERIFIED_NATIVE'):raise ValueError('ANNOTATION_PROVENANCE_REQUIRED')
   for span in rel.get('evidence',[]):

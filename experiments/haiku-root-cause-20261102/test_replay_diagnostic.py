@@ -3,6 +3,8 @@ from replay_diagnostic import inspect,validate_relations
 def raw(units,stop='end_turn',thinking=False):
  return {'stop_reason':stop,'content':([{'type':'thinking','thinking':'private plan'}] if thinking else [])+[{'type':'text','text':json.dumps({'units':units})}]}
 class Contract(unittest.TestCase):
+ def test_empty_annotations_cannot_certify_native_truth(self):
+  with self.assertRaises(ValueError):validate_relations([],'source')
  def test_join_is_exact_no_added_spaces(self):
   r=inspect(raw([{'source':'one','target':'A'},{'source':'two','target':'B'}]),'onetwo','AB');self.assertTrue(r['recorded_display_exact']);self.assertEqual(r['display'],'AB')
  def test_mismatch_warns_and_preserves(self):
