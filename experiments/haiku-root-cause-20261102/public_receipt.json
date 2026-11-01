@@ -1,0 +1,11 @@
+{
+  "new_API_calls": 0,
+  "replayed_requests": 122,
+  "payload_rebuild_exact": 122,
+  "BACK_edges_exact": 67,
+  "contract_tests": 10,
+  "candidate_implemented": false,
+  "semantic_improvement_proven": false,
+  "private_sources_published": false,
+  "source_hash_mismatch_quarantined": true
+}
