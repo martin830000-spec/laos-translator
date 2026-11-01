@@ -1,10 +1,12 @@
 {
-  "phase": "A",
-  "plan_id": "CLAUDE_STABILITY60_A_20261101",
+  "phase": "B",
+  "plan_id": "CLAUDE_STABILITY60_B_20261101",
   "cap": 18,
-  "manifest_sha256": "6125de29e71096ad56ddf18259c806f226dfd3206ffb9c5a4905efd7e9159e9d",
-  "issue_number": 97,
-  "title": "WORK_CLAUDE_STABILITY60_A_20261101_APPROVED_V1",
-  "tag": "claude-stability60-a-20261101-consumed-v1",
-  "required_tags": []
+  "manifest_sha256": "7f0df947e8da8338dddc681112e7e4e10736e50762ab097b7d19f1c65950afe4",
+  "issue_number": 98,
+  "title": "WORK_CLAUDE_STABILITY60_B_20261101_APPROVED_V1",
+  "tag": "claude-stability60-b-20261101-consumed-v1",
+  "required_tags": [
+    "claude-stability60-a-20261101-consumed-v1"
+  ]
 }
