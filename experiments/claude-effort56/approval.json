@@ -1,0 +1,10 @@
+{
+  "authorized": true,
+  "campaign_id": "CLAUDE_EFFORT56_20261101",
+  "plan_id": "CLAUDE_EFFORT56_A1_20261101",
+  "maximum_new_attempts": 16,
+  "whole_task_maximum": 56,
+  "Opus_maximum": 32,
+  "Sonnet_maximum": 24,
+  "manifest_sha256": "e0bad1f0719826f247ee3ba3a1771118af27a3418d43afa95bfabd837f7d6635"
+}

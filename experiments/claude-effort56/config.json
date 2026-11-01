@@ -1,0 +1,10 @@
+{
+  "phase": "A1",
+  "plan_id": "CLAUDE_EFFORT56_A1_20261101",
+  "cap": 16,
+  "manifest_sha256": "e0bad1f0719826f247ee3ba3a1771118af27a3418d43afa95bfabd837f7d6635",
+  "issue_number": 100,
+  "title": "WORK_CLAUDE_EFFORT56_A1_20261101_APPROVED_V1",
+  "tag": "claude-effort56-a1-20261101-consumed-v1",
+  "required_tags": []
+}
