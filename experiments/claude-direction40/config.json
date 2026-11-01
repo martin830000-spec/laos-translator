@@ -1,0 +1,10 @@
+{
+  "phase": "A",
+  "plan_id": "CLAUDE_DIRECTION40_A_20261101_V1",
+  "cap": 12,
+  "manifest_sha256": "077d51a4558fe10bc8cdf74c1a4aa238814733c937be8b0a07fa8b67b4a1e57e",
+  "issue_number": 91,
+  "title": "WORK_CLAUDE_DIRECTION40_A_20261101_APPROVED_V1",
+  "tag": "claude-direction40-a-20261101-consumed-v1",
+  "required_tags": []
+}
