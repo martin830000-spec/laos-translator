@@ -1,7 +1,7 @@
 {
   "authorized": true,
-  "plan_id": "CLAUDE_CROSS_BACK56_A_20261101",
+  "plan_id": "CLAUDE_CROSS_BACK56_B_20261101",
   "maximum_new_attempts": 12,
   "whole_task_maximum": 56,
-  "manifest_sha256": "ab1d04c2729cc98a47afe6af652c47d470a2cc4eea6efeab338d7dcd23f71a11"
+  "manifest_sha256": "597a7d0363057ee2ee73e2237156a421eb16563d7330c64c083adc9ba197bef1"
 }

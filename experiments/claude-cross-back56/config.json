@@ -1,10 +1,12 @@
 {
-  "phase": "A",
-  "plan_id": "CLAUDE_CROSS_BACK56_A_20261101",
+  "phase": "B",
+  "plan_id": "CLAUDE_CROSS_BACK56_B_20261101",
   "cap": 12,
-  "manifest_sha256": "ab1d04c2729cc98a47afe6af652c47d470a2cc4eea6efeab338d7dcd23f71a11",
-  "issue_number": 94,
-  "title": "WORK_CLAUDE_CROSS_BACK56_A_20261101_APPROVED_V1",
-  "tag": "claude-cross-back56-a-20261101-consumed-v1",
-  "required_tags": []
+  "manifest_sha256": "597a7d0363057ee2ee73e2237156a421eb16563d7330c64c083adc9ba197bef1",
+  "issue_number": 95,
+  "title": "WORK_CLAUDE_CROSS_BACK56_B_20261101_APPROVED_V1",
+  "tag": "claude-cross-back56-b-20261101-consumed-v1",
+  "required_tags": [
+    "claude-cross-back56-a-20261101-consumed-v1"
+  ]
 }
