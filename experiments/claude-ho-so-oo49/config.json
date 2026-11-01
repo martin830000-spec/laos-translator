@@ -1,0 +1,10 @@
+{
+  "phase": "P1",
+  "plan_id": "CLAUDE_HO_SO_OO49_P1_20261102",
+  "cap": 25,
+  "manifest_sha256": "a7c8b6215e2d3d98b3e9cf65a497701c977f0f38d8726b278fa3d1211379e514",
+  "issue_number": 109,
+  "title": "WORK_CLAUDE_HO_SO_OO49_P1_20261102_APPROVED_V1",
+  "tag": "claude-ho-so-oo49-p1-20261102-consumed-v1",
+  "required_tags": []
+}
