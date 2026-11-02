@@ -17,7 +17,7 @@ def engine(variant,stage):
 def build(text,side,stage,variant):
  e=engine(variant,stage);q=js(dict(mode='build',text=text,side=side,stage=stage));q['payload']['generationConfig']['thinkingConfig']['thinkingLevel']=LEVELS[e]
  if variant=='35J':
-  lao=(side=='K')==(stage=='first');description='???????????' if lao else '�ѱ��� ������'
+  lao=(side=='K')==(stage=='first');description='ຄຳແປພາສາລາວ' if lao else '한국어 번역문'
   q['payload']['generationConfig'].update(responseMimeType='application/json',responseSchema={'type':'OBJECT','properties':{'translation':{'type':'STRING','description':description}},'required':['translation'],'propertyOrdering':['translation']})
   q['payload']['system_instruction']['parts'][0]['text']+=' The API response uses the requested JSON schema; the translation value contains the one target-language message required above, without explanations or alternative drafts.'
  if variant=='38P' and stage=='first':q['payload']['service_tier']='priority'

@@ -7,7 +7,7 @@ MODELS=b.MODELS;digest=b.digest;usage_cost=b.usage_cost
 def engine(variant,stage):return variant[:2]
 COMMON='Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives.'
 SPAN=' Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings.'
-LAO='??????????????????????? ??? ????????. ?????????????????????. ???????????? ???????? ?????? ??????????? ???? ?????????? ???????? ????? ??? ????????????????. ?????????????? ??????????????.'
+LAO='ແປເປັນພາສາລາວທີ່ທຳມະຊາດ ແລະ ອ່ານງ່າຍ. ຂຽນຄຳລາວດ້ວຍອັກສອນລາວ. ຮັກສາຄວາມໝາຍ ຜູ້ເວົ້າ ຜູ້ຟັງ ບຸກຄົນທີສາມ ເວລາ ການປະຕິເສດ ເງື່ອນໄຂ ຈຳນວນ ແລະ ນ້ຳສຽງຂອງຂໍ້ຄວາມ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ຕ້ອງອະທິບາຍ.'
 def build(text,side,stage,variant):
  e=engine(variant,stage);q=b.build(text,side,stage,e)
  if len(variant)==2:return q
@@ -19,7 +19,7 @@ def build(text,side,stage,variant):
  prompt=f'Translate into natural {target}.'+role+' '+COMMON+independent
  if e=='31':prompt+=SPAN
  if e=='35':
-  prompt=(LAO+'\n' if lao else '�ڿ������� �ѱ��� ������ �ϳ��� ����ϼ���.\n')+prompt
+  prompt=(LAO+'\n' if lao else '자연스러운 한국어 번역문 하나만 출력하세요.\n')+prompt
   prompt+=' Use standard target-language spelling for ordinary words; retain proper names, numerals and emoji as needed.'
  if e=='38':
   prompt+=' Preserve supplied words rather than supplying an inferred cause, actor or symptom. Natural paraphrases and readable clause splitting are welcome when the practical meaning is unchanged.'
