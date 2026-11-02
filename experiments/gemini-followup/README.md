@@ -1,59 +1,51 @@
-# Gemini REAL400 followup — offline TEST
+# Gemini followup272 — completed TEST research
 
-New paid authorization: **0**. New actual Gemini generation attempts: **0**.
-Parent: 10960f1f5dd4a0749b2f792019fde3b1a57ef711. SERVICE is untouched.
+Exactly **272 new generation attempts** were authorized and consumed. Remaining: **0**.
+SERVICE / app / databases / deployment were not changed.
 
-Run free contracts:
-```
-python -m unittest discover -s experiments/gemini-followup -p "test_*.py" -v
-```
-Python 3.11+, Node.js required. No credentials, dependencies or private data are needed.
-The existing sibling gemini-real400 adapter and its baseline dependencies are frozen;
-they do not make API requests when building or parsing.
+Execution:
+P1 96; P2 32 + recovered-FIRST BACK16; P3 32; medium16; adaptive BACK16; FINAL64.
+HTTP200 responses271, timeout1. Original runner display successes255 and failures17
+include16 plaintext-parser failures. Those16 valid raw FIRST responses were recovered
+offline; only their previously unattempted BACKs were generated. No FIRST regeneration,
+automatic retry, retranslation, extra AI judge or cross-provider call occurred.
+Original failure records are retained. All FINAL64 completed normally.
 
-Candidates:
-- 38SVC reproduces the exact previous SERVICE payload (1024 cap).
-- 38FA/FB/FC/FD use the same 2048 cap, low thinking, message envelope and common instructions.
-  Context off/on × plaintext/links+states JSON. FD exactly reproduces old 38D.
-  FA is a matched laboratory baseline, not the exact SERVICE payload.
-- 31D preserved; 31L removes FIRST metadata; 31LL additionally removes BACK anchors
-  while retaining semantic and symptom rules. FIRST/BACK factors compared separately.
-- 35M changes old 35T high to supported medium only; 35ML removes FIRST metadata
-  while retaining medium and 4096 cap. No new quality/latency claim.
-- Fixed-FIRST BACK candidates 31C versus 38P consume identical actual displayed text.
-  No original, context, source scaffold, grades or history are accepted by build_back.
+P1 isolated static context versus visible JSON under matched settings, with an additional
+exact SERVICE control. Context-only wife FIRST retained the observed correction signal
+at lower overhead in this small development set. Both context and structure helped
+the ambiguous development case; neither is proved a universal sole cause.
 
-Private inputs and full context live outside Git. Plans/exposure logs/old raw results are
-backed up privately in Drive LIVE_STATE. Tests contain synthetic placeholders only.
-The new code does not silently delete foreign text or correct a failed FIRST.
+Final frozen direction recipes:
+- Husband: 31L FIRST + standard3.8 BACK.
+- Wife: 38FB FIRST + 31C BACK.
 
-Recommended future ceiling: **272 attempts**, not currently authorized:
-P1=96 (8 real messages ×5 configurations ×2 plus4 synthetic contrasts ×4 FIRST),
-P2=48 (8 new husband messages ×3 ×2),
-P3=32 (16 frozen prior FIRSTs ×2 BACK),
-P4=32 (8 real messages ×2 medium configurations ×2),
-FINAL=64 (16 sealed cluster-independent messages ×2 recipes ×2).
-Phase order/reallocation may change only within a subsequently approved whole cap.
-Failed attempts consume the cap. No auto retries, retranslation or AI judge.
+Final selected husband FIRST7P2/1P0, BACK8P2.
+Final selected wife FIRST8P2, BACK7P2/1REVIEW.
+The husband time regression prevents promoting the full recipe to SERVICE.
+Wife FIRST remains promising; the wife BACK readability REVIEW needs confirmation.
+Natural paraphrases and harmless name variants are accepted as P2.
 
-Prepared P1-P4 plans are recommended_only=true. execute.py defaults to offline.
-After explicit user authorization, activate only the reviewed next phase, set its
-recommended_only=false, hash the exact plan with campaign.digest, and record that hash,
-the phase ceiling, actual prior attempts and whole approved ceiling in a NEW approval.
-Use a fresh persistent journal; retain all prior journals/results; never reuse a phase.
-Provide GEMINI_API_KEY only to approved execution, an RSA3072+ recipient PUBLIC key,
-and exclusive encrypted output/journal paths. cryptography is required only for execution.
-No paid workflow is installed or triggered by this branch. An authorized worker with
-API network access is needed; this session has not tested credentials or paid transport.
-Do not use the original REAL400 approval or count any prior remainder.
+Final API-runner FIRST-ready medians, n8 per direction:
+Husband selected1.069s / SERVICE2.387s.
+Wife selected1.817s / SERVICE2.039s.
+API-completed pair estimates per1000: selected0.929906/1.277344 USD (K/L),
+SERVICE1.773469/1.837406 USD. Quality is separate from transport success;
+these estimates do not guarantee1000 accepted translations or mobile paint times.
 
-FINAL text binding is blocked until P1-P4 reviews and candidate freeze. verify_freeze
-checks every supplied code/review file and winner hash before bind_final reads messages.
-A later code/candidate change invalidates the freeze. Freeze the entire implementation
-and exact selected direction-specific FIRST/BACK recipes, not just selected files.
-Do not modify candidates after opening FINAL or describe reused data as new FINAL.
+The new31TB typed-current-FIRST BACK improved several earlier object/reference omissions
+but retained a reference-scope problem and regional-food REVIEW, so it remains HOLD.
+Medium35M was more stable than its plain35ML ablation in a reduced4-source study;
+35ML's faster FIRST had important meaning/language issues. No whole model is
+permanently rejected on these samples.
 
-metrics.py reports API/ready/wall times separately. Cost estimates use the frozen
-previous rate table; current pricing/billing must be checked before paid execution.
-Missing usage stays unknown. P2 means acceptable semantic equivalence; no paid model
-quality is established by these structural tests.
+Execution FINAL commit: e9ecb7ec3c7f9c6d5c881aab12c2d11af3f95558
+FINAL run: https://github.com/martin830000-spec/laos-translator/actions/runs/41521944960
+Latest affected-code CI: https://github.com/martin830000-spec/laos-translator/actions/runs/41520328764
+40 contracts passed. Private raw requests, responses, prompts, exposure history,
+reviews, execution ledger and backups are preserved in owner-only Drive LIVE_STATE.
+
+The current approval is locked at0. The paid workflow listens only to its phase config;
+consumed per-phase tags and run_attempt1 checks prevent replay. A future campaign
+requires a separate explicit user approval and new campaign/phase locks.
+No further paid calls are authorized by this completed campaign.

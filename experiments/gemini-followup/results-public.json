@@ -1,0 +1,68 @@
+{
+  "campaign_id": "GEMINI_FOLLOWUP272_20261103",
+  "approved": 272,
+  "actual_attempts": 272,
+  "unused_approved": 0,
+  "http200": 271,
+  "timeout": 1,
+  "original_runner_success": 255,
+  "original_runner_failure": 17,
+  "offline_recovered_FIRSTs": 16,
+  "first_regenerations": 0,
+  "automatic_retries": 0,
+  "extra_AI_judge_calls": 0,
+  "all_generations_provider": "Gemini",
+  "model_attempts": {
+    "3.1": 88,
+    "3.5": 16,
+    "3.8": 168
+  },
+  "known_estimated_usd": 0.227125,
+  "cost_unknown_calls": 1,
+  "actual_billing_verified": false,
+  "FINAL": {
+    "attempts": 64,
+    "normal": 64,
+    "independent_clusters": 16,
+    "K_sources": 8,
+    "L_sources": 8,
+    "selected": {
+      "K": {
+        "first": "31L",
+        "back": "38P",
+        "FIRST": {
+          "P0": 1,
+          "P1": 0,
+          "P2": 7,
+          "REVIEW": 0
+        },
+        "BACK": {
+          "P0": 0,
+          "P1": 0,
+          "P2": 8,
+          "REVIEW": 0
+        }
+      },
+      "L": {
+        "first": "38FB",
+        "back": "31C",
+        "FIRST": {
+          "P0": 0,
+          "P1": 0,
+          "P2": 8,
+          "REVIEW": 0
+        },
+        "BACK": {
+          "P0": 0,
+          "P1": 0,
+          "P2": 7,
+          "REVIEW": 1
+        }
+      }
+    },
+    "decision": "WHOLE_RECIPE_HOLD_NO_DEPLOYMENT"
+  },
+  "SERVICE_changes": 0,
+  "final_execution_commit": "e9ecb7ec3c7f9c6d5c881aab12c2d11af3f95558",
+  "private_evidence": "Saved in owner-only Drive LIVE_STATE; no raw conversation in Git"
+}
