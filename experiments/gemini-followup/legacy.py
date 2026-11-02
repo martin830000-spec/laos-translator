@@ -8,3 +8,4 @@ MODELS=m.MODELS;digest=m.digest;usage_cost=m.usage_cost
 build=m.build;inspect=m.inspect
 
 inspect_plain=m.b.inspect
+unique=m.b.unique

@@ -3,7 +3,7 @@ on:
   push:
     branches: ["research/gemini-real400-followup-20261103"]
     paths:
-      - "experiments/gemini-followup/**"
+      - "experiments/gemini-followup/*.py"
       - ".github/workflows/gemini-followup-offline.yml"
 permissions:
   contents: read

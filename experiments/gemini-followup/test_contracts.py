@@ -152,6 +152,19 @@ class PlainProfiles(unittest.TestCase):
      out=a.inspect(response('VALID_PLAIN_TRANSLATION'),'SOURCE',side,stage,profile)
      self.assertEqual(out['status'],'SUCCESS');self.assertEqual(out['translation'],'VALID_PLAIN_TRANSLATION')
 
+
+class TypedBack(unittest.TestCase):
+ def test_independent_payload_and_settings(self):
+  q=a.build_back('ACTUAL_FIRST_ONLY','K','31TB');self.assertEqual(q['payload']['contents'][0]['parts'][0]['text'],'ACTUAL_FIRST_ONLY')
+  self.assertEqual(q['payload']['generationConfig']['maxOutputTokens'],2048);self.assertNotIn('household_context',str(q));self.assertNotIn('TunTun',str(q))
+ def test_only_display_translation(self):
+  raw=response(json.dumps({'references':[{'fragment':'LABEL','kind':'person_name'}],'translation':'VISIBLE'}))
+  x=a.inspect(raw,'LABEL','K','back','31TB');self.assertEqual(x['translation'],'VISIBLE');self.assertTrue(x['refs_verbatim'])
+ def test_bad_ref_type_fails(self):
+  raw=response(json.dumps({'references':[{'fragment':'LABEL','kind':'invention'}],'translation':'VISIBLE'}))
+  self.assertEqual(a.inspect(raw,'LABEL','K','back','31TB')['status'],'FAILED')
+
 if __name__=='__main__':unittest.main()
+
 
 
