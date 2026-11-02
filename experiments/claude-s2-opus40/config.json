@@ -1,10 +1,12 @@
 {
-  "phase": "P1",
-  "plan_id": "CLAUDE_S2_OPUS40_P1_20261102",
-  "cap": 8,
-  "manifest_sha256": "716b6d5f1e90ad14ac0cef049c6d975229c8f26feab465a00791df22b1b1ad4a",
-  "issue_number": 113,
-  "title": "WORK_CLAUDE_S2_OPUS40_P1_20261102_APPROVED_V1",
-  "tag": "claude-s2-opus40-p1-20261102-consumed-v1",
-  "required_tags": []
+  "phase": "P2",
+  "plan_id": "CLAUDE_S2_OPUS40_P2_20261102",
+  "cap": 16,
+  "manifest_sha256": "4423f2ef927286b87d6bdfb61a35666ec015edd97fcb4842d7e1980ec19ca693",
+  "issue_number": 114,
+  "title": "WORK_CLAUDE_S2_OPUS40_P2_20261102_APPROVED_V1",
+  "tag": "claude-s2-opus40-p2-20261102-consumed-v1",
+  "required_tags": [
+    "claude-s2-opus40-p1-20261102-consumed-v1"
+  ]
 }
