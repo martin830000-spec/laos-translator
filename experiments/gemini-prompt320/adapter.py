@@ -36,6 +36,19 @@ def build(text,side,stage,variant):
  if variant=='31U':
   prompt+=(' Produce JSON units in source order. Each unit has source: an exact contiguous phrase from the current supplied message, and target: its natural '+target+' translation. Cover the whole message once, with no duplication or gaps; keep names and meaningful phrases together. A short message may use one unit. Joining target strings in order must produce the one finished translation. Do not produce an analysis, checklist, paraphrase of the source, alternatives or corrections. The source fields contain only the current supplied message, never an unseen original.')
   q['payload']['generationConfig'].update(responseMimeType='application/json',responseSchema={'type':'OBJECT','properties':{'units':{'type':'ARRAY','items':{'type':'OBJECT','properties':{'source':{'type':'STRING'},'target':{'type':'STRING'}},'required':['source','target'],'propertyOrdering':['source','target']}}},'required':['units'],'propertyOrdering':['units']})
+ if variant=='38G':
+  # Restore selected proven P168A components removed by the compact ablation.
+  # No sample-specific vocabulary or reference translation is added.
+  conf=json.loads((ROOT/'prompt-config.json').read_text(encoding='utf-8'))
+  old=conf['forward']['k2l' if side=='K' else 'l2k'] if stage=='first' else conf['back']['husband' if side=='K' else 'wife']
+  import re
+  labels=['SEMANTIC-BREADTH/IDENTITY LOCK','INCOMPLETE INPUT','STATE-BREADTH LOCK'] if stage=='first' else ['STATE-BREADTH']
+  restored=[]
+  for label in labels:
+   match=re.search(re.escape(label)+r':.*?(?= [A-Z][A-Z/-]*(?: [A-Z/-]+)*:|$)',old)
+   if match:restored.append(match.group(0))
+  prompt+=' '+' '.join(restored)
+  prompt+=' If an expression is misspelled or unfamiliar, use the closest supported source reading, not a plausible follow-up message or an instruction to the listener. Retain an uncertain name by sound; do not identify a different familiar species, product, action or person from a phonetic resemblance.'
  q['payload']['system_instruction']['parts'][0]['text']=prompt
  q['smart_ids']=[];q['prompt_variant']=variant
  return q
