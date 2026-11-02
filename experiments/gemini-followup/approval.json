@@ -1,10 +1,10 @@
 {
   "authorized": true,
   "campaign_id": "GEMINI_FOLLOWUP272_20261103",
-  "maximum_new_attempts": 96,
+  "maximum_new_attempts": 48,
   "whole_campaign_limit": 272,
-  "prior_new_attempts": 0,
-  "plan_sha256": "6cecaac1b9b3c31d9962c908a94ed7d812e8a26a24bfe9e56eba2c923365acf4",
+  "prior_new_attempts": 96,
+  "plan_sha256": "43383b377d0d0532c0ecf6fcd3e00fe12e8caf315474ba47b8183b167f4822e7",
   "user_approved_new_limit": 272,
   "approval_source": "Explicit user instruction 2026-11-03 Gemini followup new272; normal single-pass, no retry"
 }
