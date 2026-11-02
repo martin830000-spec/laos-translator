@@ -54,7 +54,7 @@ def inspect(raw,text,side,stage,profile):
  else:v='38'if profile.startswith('38')else'31'if profile.startswith('31')else'35E'
  if (profile=='31LL'and stage=='back')or (stage=='first'and profile in ('31L','31LL','35ML')):v=profile[:2]
  try:
-  o=old.inspect(raw,text,side,stage,v)
+  o=old.inspect_plain(raw,text,side,stage,profile[:2]) if ((stage=='first'and profile in ('31L','31LL','35ML'))or(stage=='back'and profile=='31LL')) else old.inspect(raw,text,side,stage,v)
   schema=(stage=='first'and profile in ('38FC','38FD','31D','35M'))
   if schema and o.get('status')=='SUCCESS':
    obj=o['scaffold'];assert set(obj)=={'links','states','translation'}

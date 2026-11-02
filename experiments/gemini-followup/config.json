@@ -1,13 +1,14 @@
 {
-  "title": "GEMINI_FOLLOWUP272_P2_20261103",
-  "tag": "gemini-followup272-20261103-p2-consumed",
-  "issue_number": 131,
-  "plan_sha256": "43383b377d0d0532c0ecf6fcd3e00fe12e8caf315474ba47b8183b167f4822e7",
-  "stage": "P2",
-  "phase_cap": 48,
+  "title": "GEMINI_FOLLOWUP272_P2B_20261103",
+  "tag": "gemini-followup272-20261103-p2b-consumed",
+  "issue_number": 132,
+  "plan_sha256": "f6b11e8e520f8cfa2dbc9e5f83fb8653901aa96718d1f650d1aa0149a2f38690",
+  "stage": "P2B",
+  "phase_cap": 16,
   "campaign_cap": 272,
-  "prior_actual_attempts": 96,
+  "prior_actual_attempts": 128,
   "required_tags": [
-    "gemini-followup272-20261103-p1-consumed"
+    "gemini-followup272-20261103-p1-consumed",
+    "gemini-followup272-20261103-p2-consumed"
   ]
 }

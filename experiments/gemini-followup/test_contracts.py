@@ -143,5 +143,15 @@ class CostMetrics(unittest.TestCase):
   r=dict(attempts=2,slots=[dict(slot=1,stage='first',profile='X',side='K',attempted=True,status='SUCCESS',sent_at_utc='2026-11-03T00:00:00+00:00',api_ms=1,ready_ms=2),dict(slot=2,stage='back',depends_on=1,profile='X',side='K',attempted=True,status='SUCCESS',sent_at_utc='2026-11-03T00:00:01+00:00',api_ms=1,ready_ms=2)])
   v=metrics.summarize(r)['metrics']['X/K'];self.assertIsNone(v['translation_cost_per_1000_successful_pairs_usd']);self.assertEqual(v['roundtrip_wall']['max_ms'],1002)
 
+
+class PlainProfiles(unittest.TestCase):
+ def test_every_plain_first_and_back_profile_accepts_stop_text(self):
+  for side in ['K','L']:
+   for profile,stage in [('31L','first'),('31LL','first'),('31LL','back'),('35ML','first')]:
+    with self.subTest(side=side,profile=profile,stage=stage):
+     out=a.inspect(response('VALID_PLAIN_TRANSLATION'),'SOURCE',side,stage,profile)
+     self.assertEqual(out['status'],'SUCCESS');self.assertEqual(out['translation'],'VALID_PLAIN_TRANSLATION')
+
 if __name__=='__main__':unittest.main()
+
 

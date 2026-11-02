@@ -6,3 +6,5 @@ s=importlib.util.spec_from_file_location('inherited_real400',ROOT/'adapter.py')
 m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 MODELS=m.MODELS;digest=m.digest;usage_cost=m.usage_cost
 build=m.build;inspect=m.inspect
+
+inspect_plain=m.b.inspect
