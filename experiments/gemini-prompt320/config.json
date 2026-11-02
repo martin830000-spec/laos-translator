@@ -1,20 +1,19 @@
 {
-  "plan_id": "GEMINI_PROMPT320_P1",
-  "phase": "P1",
+  "plan_id": "GEMINI_PROMPT320_P2",
+  "phase": "P2",
   "cap": 96,
-  "phase_budget": 96,
+  "phase_budget": 128,
   "variants": [
     "31",
-    "31N",
+    "31U",
     "35",
-    "35N",
+    "35R",
     "38",
     "38N"
   ],
-  "manifest_sha256": "6ff22673b97fbd3a03a5ff06b4a37ea528f376f0b5500fe38c301567749f424e",
-  "title": "WORK_GEMINI_PROMPT320_P1_20261102",
-  "tag": "gemini-prompt320-p1-20261102-consumed-v1",
-  "issue_number": 122,
-  "prior": 0,
-  "execution_revision": 2
+  "manifest_sha256": "e78a30259767bb1e4240a775578255ebf8b966a010b1e21f131b1eb6576021eb",
+  "title": "WORK_GEMINI_PROMPT320_P2_20261102",
+  "tag": "gemini-prompt320-p2-20261102-consumed-v1",
+  "issue_number": 123,
+  "prior": 96
 }

@@ -10,6 +10,11 @@ class GuardTests(unittest.TestCase):
      self.assertEqual(a['payload']['contents'],b['payload']['contents']);self.assertEqual(a['payload']['generationConfig'],b['payload']['generationConfig'])
      self.assertEqual(len(b['payload']['contents']),1)
  def test_missing_usage(self):self.assertIsNone(c.a.usage_cost({},c.a.MODELS['31'])['estimated_usd'])
+ def test_units_are_single_request_and_visible_contamination_kept(self):
+  import json
+  q=c.build('FREE','K','first','31U');self.assertEqual(len(q['payload']['contents']),1)
+  raw={'candidates':[{'finishReason':'STOP','content':{'parts':[{'text':json.dumps({'units':[{'source':'FREE','target':'Thai English'}]})}]}}]}
+  v=c.inspect(raw,'FREE','K','first','31U');self.assertEqual(v['translation'],'Thai English');self.assertTrue(v['source_coverage_exact'])
  def test_failure_and_replay(self):
   old=copy.deepcopy(c.CONFIG)
   try:

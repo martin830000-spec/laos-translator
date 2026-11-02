@@ -26,7 +26,24 @@ def build(text,side,stage,variant):
  if variant.endswith('R'):
   # Revision: lexical analysis in source language is silent, never a generated second pass.
   prompt+=' Read idiomatic source phrases as a whole before choosing target words. Distinguish an actual action from wanting/feeling like doing it; keep a quoted or reported proposition attached to its stated speaker. Do not translate familiar-looking fragments as a different object or place.'
+ if variant=='35R':
+  if lao:
+   prompt=LAO+' ຂໍ້ຄວາມນີ້ແມ່ນຄຳເວົ້າລະຫວ່າງຜົວເມຍ. ຢ່າປ່ຽນຜູ້ເຮັດ ຫຼື ຜູ້ຮັບການກະທຳ. ຢ່າເພີ່ມສິ່ງຂອງ ເຫດການ ຫຼື ອາການທີ່ບໍ່ມີໃນຂໍ້ຄວາມ. ຮັກສາຊື່ຄົນ ສະຖານທີ່ ແລະ ສິ່ງຂອງ. ແຍກການກະທຳທີ່ແລ້ວ ທີ່ກຳລັງເຮັດ ແລະ ທີ່ຈະເຮັດ. ຖ້າບໍ່ຊັດເຈນ ຢ່າເດົາເພີ່ມ. ຮັກສາຄຳຖາມ ຄວາມປາຖະໜາ ແລະ ຄວາມຮູ້ສຶກ. ຂຽນພຽງຄຳແປເປັນພາສາລາວ.'
+   if stage=='back':prompt+=' ໃຊ້ພຽງຂໍ້ຄວາມເກົາຫຼີທີ່ໃຫ້ມາເປັນຫຼັກຖານ. ຢ່າເດົາຫຼືແກ້ໄຂຕາມຕົ້ນສະບັບທີ່ບໍ່ໄດ້ເຫັນ.'
+  else:
+   prompt='주어진 라오어 메시지만 자연스럽고 읽기 쉬운 한국어로 번역하세요. 부부 사이의 대화입니다. 명시된 화자·청자·제삼자, 행동의 주체와 대상, 부정·조건·시점·예정과 완료·확실성·수치·단위·이름·증상·감정을 그대로 전달하세요. 없는 물건이나 사건·증상을 덧붙이지 마세요. 모호한 부분은 모호하게 남기고 문법만 자연스럽게 정리하세요. 친근한 말은 자연스러운 반말로, 공손한 말은 자연스러운 존댓말로 옮기세요. 해설·대안·라벨 없이 완성된 한국어 번역문 하나만 출력하세요.'
+   if stage=='back':prompt+=' 주어진 번역문만 근거로 삼으세요. 보이지 않는 최초 원문을 추측하거나 복원·수정하지 마세요.'
+ if variant=='31U':
+  prompt+=(' Produce JSON units in source order. Each unit has source: an exact contiguous phrase from the current supplied message, and target: its natural '+target+' translation. Cover the whole message once, with no duplication or gaps; keep names and meaningful phrases together. A short message may use one unit. Joining target strings in order must produce the one finished translation. Do not produce an analysis, checklist, paraphrase of the source, alternatives or corrections. The source fields contain only the current supplied message, never an unseen original.')
+  q['payload']['generationConfig'].update(responseMimeType='application/json',responseSchema={'type':'OBJECT','properties':{'units':{'type':'ARRAY','items':{'type':'OBJECT','properties':{'source':{'type':'STRING'},'target':{'type':'STRING'}},'required':['source','target'],'propertyOrdering':['source','target']}}},'required':['units'],'propertyOrdering':['units']})
  q['payload']['system_instruction']['parts'][0]['text']=prompt
  q['smart_ids']=[];q['prompt_variant']=variant
  return q
-def inspect(raw,text,side,stage,variant):return b.inspect(raw,text,side,stage,engine(variant,stage))
+def inspect(raw,text,side,stage,variant):
+ if variant!='31U':return b.inspect(raw,text,side,stage,engine(variant,stage))
+ c=raw.get('candidates',[{}])[0];visible=''.join(x.get('text','') for x in c.get('content',{}).get('parts',[]) if x.get('thought') is not True)
+ if c.get('finishReason')!='STOP':return dict(status='FAILED',stop_reason=c.get('finishReason'),raw_text=visible,translation=None)
+ obj=json.loads(visible,object_pairs_hook=b.unique);assert set(obj)=={'units'} and type(obj['units']) is list and obj['units']
+ for u in obj['units']:assert set(u)=={'source','target'} and all(type(v)is str and v.strip() for v in u.values())
+ value=copy.deepcopy(raw);value['candidates'][0]['content']['parts']=[{'text':' '.join(u['target'] for u in obj['units'])}];out=b.inspect(value,text,side,stage,'31');out.update(raw_text=visible,units=obj['units'],source_coverage_exact=''.join(u['source'] for u in obj['units'])==text)
+ return out
