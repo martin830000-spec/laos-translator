@@ -1,11 +1,11 @@
 {
   "authorized": true,
   "campaign_id": "CLAUDE_S2_OPUS40_20261102",
-  "plan_id": "CLAUDE_S2_OPUS40_P2_20261102",
+  "plan_id": "CLAUDE_S2_OPUS40_P3_20261102",
   "maximum_new_attempts": 16,
   "whole_task_maximum": 40,
   "H_maximum": 0,
   "S_maximum": 16,
   "O_maximum": 24,
-  "manifest_sha256": "4423f2ef927286b87d6bdfb61a35666ec015edd97fcb4842d7e1980ec19ca693"
+  "manifest_sha256": "796c75fb0ce1759b05da3d21dc19023ac38774cc317963e59162a816e0969c7e"
 }
