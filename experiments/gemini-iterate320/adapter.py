@@ -8,10 +8,14 @@ CLOCK=' Preserve the meaning, unit and scope of every number. Read an hour toget
 SCOPE=' Use household_context only to disambiguate explicitly mentioned references. A similar sound alone does not establish an alias. Local grammar, money units and ordinary noun predicates override nickname expectations. Do not add a baby, pregnancy, diagnosis, relationship or event that the current message does not express.'
 BIND=' Copy short reference spans from the CURRENT message only. Bind each span to its expressed predicate with relation actor, target, address, label or modifier. Keep a title plus a name as one reference when the grammar establishes one. Cover expressed names, food labels and specific action manners. Address terms do not become extra participants in the described event. Preserve the number and scope of referents. If a label is unfamiliar, retain it by sound instead of guessing a familiar replacement. These bindings are evidence from the supplied text, not extra facts. Then translate the WHOLE current message.'
 UNCERTAIN=' Preserve expressed uncertainty, causal direction and referent count. If this supplied message contains contradictory alternatives, show that same inconsistency; never repair an unseen original or silently choose a preferred time. Do not change empathy into new advice or broaden a named referent into extra people.'
+DIGITAL=' For an explicitly specified clock time with a daypart, express that same time once using unambiguous 24-hour HH:MM notation. Do not also add a local or Thai-style counted evening hour. Preserve the scope of before, after and not yet. This applies to clock times only; retain the meaning and units of dates, durations, money and other quantities.'
+SUBJECT=' When the source states an event without identifying its subject, keep a natural subjectless target clause. Do not add first-person ownership, attendance, intention or a family role to fill that gap. A vocative identifies the addressee, not the actor of every clause.'
 def append(q,text):
  q=copy.deepcopy(q);q['payload']['system_instruction']['parts'][0]['text']+=text;return q
 def build_first(text,side,profile,context=None,turns=None):
  if turns is not None:raise ValueError('history not authorized')
+ if profile in ('31T4','31T5'):
+  q=append(base.build_first(text,side,'31L',context),DIGITAL+(SUBJECT if profile=='31T5'else''));q['prompt_variant']=profile;return q
  if profile in ('31T1','31T2','31T3'):
   q=base.build_first(text,side,'31D'if profile=='31T3'else'31L',context)
   if profile!='31T2':q=append(q,CLOCK)
@@ -42,7 +46,7 @@ def build_back(first_text,side,profile):
 def inspect(raw,text,side,stage,profile):
  special=(stage=='first'and profile=='31T2')or(stage=='back'and profile=='31RB')
  if not special:
-  mapped={'31T1':'31L','31T3':'31D','38CS':'38FB','38CA':'38FB','38CB':'38P'}.get(profile,profile)
+  mapped={'31T1':'31L','31T3':'31D','31T4':'31L','31T5':'31L','38CS':'38FB','38CA':'38FB','38CB':'38P'}.get(profile,profile)
   return base.inspect(raw,text,side,stage,mapped)
  try:
   cand=raw.get('candidates',[{}])[0]

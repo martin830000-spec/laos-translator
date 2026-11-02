@@ -1,14 +1,14 @@
 {
-  "title": "GEMINI_ITERATE320_20261103_P1",
-  "tag": "gemini-iterate320-20261103-p1-consumed",
-  "issue_number": 138,
-  "plan_sha256": "55dbb3752ab657c976666fa32dd70ae9c3e1309514eef35427efd85468c30642",
-  "stage": "P1",
+  "title": "GEMINI_ITERATE320_20261103_P2",
+  "tag": "gemini-iterate320-20261103-p2-consumed",
+  "issue_number": 139,
+  "plan_sha256": "a99eb0f4ba7cea93f425e312e52ca2201fcf6359998d638684424aace92f29f7",
+  "stage": "P2",
   "phase_cap": 48,
   "campaign_cap": 320,
-  "prior_actual_attempts": 2,
+  "prior_actual_attempts": 50,
   "required_tags": [
-    "gemini-iterate320-20261103-connect-consumed"
-  ],
-  "activation_note": "P1 activation event, same unconsumed tag and same input hash"
+    "gemini-iterate320-20261103-connect-consumed",
+    "gemini-iterate320-20261103-p1-consumed"
+  ]
 }

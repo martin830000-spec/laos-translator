@@ -76,7 +76,7 @@ class Gates(unittest.TestCase):
   m,g=self.fixture();m['prior_new_attempts']=320;g['prior_new_attempts']=320;g['plan_sha256']=c.digest(m)
   with self.assertRaises(AssertionError):c.authorize(m,g)
  def test_current_runtime_lock_no_send(self):
-  m,g=self.fixture();actual=json.loads(Path(__file__).with_name('approval.json').read_text())
+  m,g=self.fixture();actual=dict(g,authorized=False,maximum_new_attempts=0)
   with tempfile.TemporaryDirectory()as d:
    calls=[]
    with self.assertRaises(PermissionError):c.run(m,actual,lambda q:calls.append(q),Path(d)/'journal')
