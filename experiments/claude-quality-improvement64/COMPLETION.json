@@ -1,0 +1,95 @@
+{
+  "campaign": "CLAUDE_QUALITY_IMPROVEMENT64_20261102",
+  "complete": true,
+  "do_not_rerun": true,
+  "actual_new_paid_attempts": 64,
+  "unused": 0,
+  "models": {
+    "Haiku": 32,
+    "Sonnet": 32,
+    "Opus": 0,
+    "Gemini": 0
+  },
+  "phase_caps_and_actual": [
+    32,
+    32
+  ],
+  "FIRST": 32,
+  "BACK": 32,
+  "technical_success": 64,
+  "retries": 0,
+  "new_AI_judge": 0,
+  "SERVICE_changes": 0,
+  "runs": [
+    {
+      "id": 41382043086,
+      "commit": "5b255827ac73ab035d8c9dc2edb81d42c30e8a7b"
+    },
+    {
+      "id": 41382682330,
+      "commit": "b3915a3d82d02c6f9ff7fdf0710585172d517bec"
+    }
+  ],
+  "decisions": {
+    "Sonnet_S2_FORMAT": "Scoped output-pollution improvement PASS; complete route HOLD due BACK date P0 and recipient REVIEW.",
+    "Haiku_V1": "Observed improvement on161 and466; phone92 P0 and495 REVIEW remain; adoption HOLD/freeze current candidate. No model permanent STOP."
+  },
+  "storage": [
+    {
+      "id": "1WHO6bcuk39bAuyv0WgCzllu8NAGj0EbG",
+      "name": "CLAUDE_QUALITY_IMPROVEMENT64_FINAL_REPORT_20261102.md",
+      "url": "https://drive.google.com/file/d/1WHO6bcuk39bAuyv0WgCzllu8NAGj0EbG/view?usp=drivesdk",
+      "bytes": 79983,
+      "sha256": "7e672da044151d1e9eacc6a9b04812255097201599db481c38576bce12ba292a",
+      "owner_only": true,
+      "redownload_exact": true
+    },
+    {
+      "id": "1QUK--tKsGVYFRf2JaUvtA2HbUH1UlGWk",
+      "name": "CLAUDE_QUALITY_IMPROVEMENT64_PRIVATE_EVIDENCE_20261102.zip",
+      "url": "https://drive.google.com/file/d/1QUK--tKsGVYFRf2JaUvtA2HbUH1UlGWk/view?usp=drivesdk",
+      "bytes": 4607521,
+      "sha256": "27df1322ed54dcc3fd773bfcb940f7cc608c65bf71bf9f9cd887150183df6b69",
+      "owner_only": true,
+      "redownload_exact": true
+    },
+    {
+      "id": "1MWHtKPhA1_iEDuoFG2bn-w4aMMRCSPkq",
+      "name": "CLAUDE_QUALITY_IMPROVEMENT64_METRICS_20261102.json",
+      "url": "https://drive.google.com/file/d/1MWHtKPhA1_iEDuoFG2bn-w4aMMRCSPkq/view?usp=drivesdk",
+      "bytes": 23130,
+      "sha256": "14065ef34e93f90f1286aa88c76d48577d650ca4cc5deb9704bf107ef5093416",
+      "owner_only": true,
+      "redownload_exact": true
+    },
+    {
+      "id": "1ECGURZCXezFgmbU3lflSLUkP9wQb0lIW",
+      "name": "CLAUDE_QUALITY_IMPROVEMENT64_CHAT_HANDOFF_20261102.txt",
+      "url": "https://drive.google.com/file/d/1ECGURZCXezFgmbU3lflSLUkP9wQb0lIW/view?usp=drivesdk",
+      "bytes": 1646,
+      "sha256": "73e50b9e0589f63d45226d645a3e4a670bd86f7664732dfb0a6d1782edda1259",
+      "owner_only": true,
+      "redownload_exact": true
+    },
+    {
+      "id": "1MgTpnonJGlvloW4YqesXwVAwI9KoFUXf",
+      "url": "https://drive.google.com/file/d/1MgTpnonJGlvloW4YqesXwVAwI9KoFUXf/view?usp=drivesdk",
+      "bytes": 37705,
+      "sha256": "798b98d21fae17175a00906856652960f4a6acd5992144953c4c9a5ac2f1f7c8",
+      "redownload_byte_exact": true,
+      "owner_only": true,
+      "LIVE_STATE_parent_exact": true,
+      "code_and_prompt_diffs_fully_read": true,
+      "all_five_results_verified": true
+    }
+  ],
+  "archive_validation": {
+    "ZIP_CRC": true,
+    "internal_files": 89,
+    "replayed_requests": 64,
+    "FIRST_only_BACK_edges": 32,
+    "image_SHA": 8
+  },
+  "additional_paid_calls_or_schedule": 0,
+  "main_unchanged": "65f2d2c4b963eb605f1b66ccafe3cdd4e19306fa"
+}
