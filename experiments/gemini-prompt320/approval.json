@@ -1,9 +1,9 @@
 {
   "authorized": true,
   "campaign_id": "GEMINI_PROMPT320_20261102",
-  "plan_id": "GEMINI_PROMPT320_P2",
+  "plan_id": "GEMINI_PROMPT320_P3",
   "maximum_new_attempts": 96,
-  "phase_budget": 128,
+  "phase_budget": 96,
   "whole_task_maximum": 320,
-  "manifest_sha256": "e78a30259767bb1e4240a775578255ebf8b966a010b1e21f131b1eb6576021eb"
+  "manifest_sha256": "7267a574350d1d975384e4975227b4a9ea9096a62d42d2de65df3821f45cdd9c"
 }
