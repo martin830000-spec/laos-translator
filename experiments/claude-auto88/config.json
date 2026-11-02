@@ -1,0 +1,11 @@
+{
+  "phase": "P1",
+  "plan_id": "CLAUDE_AUTO88_P1_20261102",
+  "cap": 14,
+  "phase_authorized_max": 24,
+  "manifest_sha256": "331d9cbf053a90b323a9f86fba4ee7448cf68308a4b0de797bc40ae7601f3783",
+  "issue_number": 116,
+  "title": "WORK_CLAUDE_AUTO88_P1_20261102_APPROVED_V1",
+  "tag": "claude-auto88-p1-20261102-consumed-v1",
+  "required_tags": []
+}

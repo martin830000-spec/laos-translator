@@ -1,0 +1,11 @@
+{
+  "authorized": true,
+  "campaign_id": "CLAUDE_AUTO88_20261102",
+  "plan_id": "CLAUDE_AUTO88_P1_20261102",
+  "maximum_new_attempts": 14,
+  "phase_authorized_max": 24,
+  "whole_task_maximum": 88,
+  "S_maximum": 56,
+  "O_maximum": 32,
+  "manifest_sha256": "331d9cbf053a90b323a9f86fba4ee7448cf68308a4b0de797bc40ae7601f3783"
+}
