@@ -1,18 +1,22 @@
 {
-  "plan_id": "GEMINI_REAL400_P1",
-  "phase": "P1",
-  "cap": 80,
-  "phase_budget": 80,
+  "plan_id": "GEMINI_REAL400_P2",
+  "phase": "P2",
+  "cap": 120,
+  "phase_budget": 120,
   "variants": [
     "38",
     "31U",
-    "31I",
+    "31C",
     "35E",
-    "38F"
+    "35Q",
+    "38S"
   ],
-  "manifest_sha256": "c5f852c984a9d879b711668095eb942a3f79d76400b23950d7561dba6fb69631",
-  "title": "WORK_GEMINI_REAL400_P1_20261102",
-  "tag": "gemini-real400-p1-20261102-consumed-v1",
-  "issue_number": 126,
-  "prior": 0
+  "manifest_sha256": "b8522e8c8ebf7430b2e75bc13f3d1fafc27af58027146de14c81b0b02471266d",
+  "title": "WORK_GEMINI_REAL400_P2_20261102",
+  "tag": "gemini-real400-p2-20261102-consumed-v1",
+  "issue_number": 127,
+  "prior": 80,
+  "required_tags": [
+    "gemini-real400-p1-20261102-consumed-v1"
+  ]
 }

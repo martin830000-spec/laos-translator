@@ -10,6 +10,17 @@ def structured(q,props):
  return q
 def build(text,side,stage,v):
  if v in ('38','31U','35R'):return p.build(text,side,stage,v)
+ if v=='35Q':
+  q=build(text,side,stage,'35E');q['payload']['generationConfig']['thinkingConfig']['thinkingLevel']='low';q['prompt_variant']=v
+  return q
+ if v=='31C':
+  q=build(text,side,stage,'31I')
+  q['payload']['system_instruction']['parts'][0]['text']+=' Preserve causal links: waking because of pain is different from noticing pain after waking. Resolve relative time against the expressed event state: a completed night of sleep followed by morning waking refers to the most recent night, not an upcoming night. Names and family address terms remain names or address terms when the predicate refers to a person. A completed report must not become a request to relay a message. Symptom terminology: Korean 배가 아프다 / 배 아픈 것은 corresponds to Lao ເຈັບທ້ອງ (abdominal pain), not ທ້ອງເສຍ (diarrhea); only explicit 설사 supports diarrhea. Nausea is ປວດຮາກ or ພະອືດພະອົມ, not merely fullness. Use this terminology only when that symptom is actually present in the supplied message.'
+  q['prompt_variant']=v;return q
+ if v=='38S':
+  q=b.build(text,side,stage,'38');target='Lao' if (side=='K')==(stage=='first') else 'Korean'
+  q['payload']['system_instruction']['parts'][0]['text']+=' In this single response emit repairs, then translation. repairs is a short list of ONLY evident misspelled fragments with source and reading in the supplied language; use an empty list when no evident repair is needed. Never repair an unfamiliar name into a common noun, infer absent facts or rewrite whole clauses. Translate the whole supplied message into '+target+', preserving event state and causes; the list is not a summary or extra user message. Only translation is displayed.'
+  structured(q,{'repairs':{'type':'ARRAY','items':{'type':'OBJECT','properties':{'source':{'type':'STRING'},'reading':{'type':'STRING'}},'required':['source','reading'],'propertyOrdering':['source','reading']}},'translation':{'type':'STRING'}});q['prompt_variant']=v;return q
  q=b.build(text,side,stage,engine(v,stage));lao=(side=='K')==(stage=='first');target='Lao' if lao else 'Korean'
  base=q['payload']['system_instruction']['parts'][0]['text']
  independent=' Use ONLY the supplied message, never an unseen original or an inferred conversation.' if stage=='back' else ''
@@ -31,13 +42,14 @@ def build(text,side,stage,v):
  return q
 def inspect(raw,text,side,stage,v):
  if v in ('38','31U','35R'):return p.inspect(raw,text,side,stage,v)
- if v=='35E':return b.inspect(raw,text,side,stage,'35')
+ if v in ('35E','35Q'):return b.inspect(raw,text,side,stage,'35')
  c=raw.get('candidates',[{}])[0];visible=''.join(x.get('text','') for x in c.get('content',{}).get('parts',[]) if x.get('thought') is not True)
  if c.get('finishReason')!='STOP':return dict(status='FAILED',raw_text=visible,translation=None,stop_reason=c.get('finishReason'))
- obj=json.loads(visible,object_pairs_hook=b.unique);expected={'anchors','translation'} if v=='31I' else {'reading','translation'}
+ obj=json.loads(visible,object_pairs_hook=b.unique);expected={'anchors','translation'} if v in ('31I','31C') else {'repairs','translation'} if v=='38S' else {'reading','translation'}
  assert set(obj)==expected and type(obj['translation'])is str and obj['translation'].strip()
- if v=='31I':assert type(obj['anchors'])is list and all(type(x)is str for x in obj['anchors'])
+ if v in ('31I','31C'):assert type(obj['anchors'])is list and all(type(x)is str for x in obj['anchors'])
+ elif v=='38S':assert type(obj['repairs'])is list
  else:assert type(obj['reading'])is str
  value=copy.deepcopy(raw);value['candidates'][0]['content']['parts']=[{'text':obj['translation']}];out=b.inspect(value,text,side,stage,engine(v,stage));out.update(raw_text=visible,scaffold=obj)
- if v=='31I':out['anchor_verbatim']=all(x in text for x in obj['anchors'])
+ if v in ('31I','31C'):out['anchor_verbatim']=all(x in text for x in obj['anchors'])
  return out
