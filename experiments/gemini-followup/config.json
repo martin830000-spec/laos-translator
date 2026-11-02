@@ -1,17 +1,18 @@
 {
-  "title": "GEMINI_FOLLOWUP272_P4B_20261103",
-  "tag": "gemini-followup272-20261103-p4b-consumed",
-  "issue_number": 135,
-  "plan_sha256": "81f0a25a1b22fb7be94ad0d32eec3860cf3c8ab59338acbe8143e693b14d53c1",
-  "stage": "P4B",
-  "phase_cap": 16,
+  "title": "GEMINI_FOLLOWUP272_FINAL_20261103",
+  "tag": "gemini-followup272-20261103-final-consumed",
+  "issue_number": 136,
+  "plan_sha256": "e3c5205da5b16bc30ab8a3cfcc3a08949a64d85587d9f0fc4f64bfb388d3e393",
+  "stage": "FINAL",
+  "phase_cap": 64,
   "campaign_cap": 272,
-  "prior_actual_attempts": 192,
+  "prior_actual_attempts": 208,
   "required_tags": [
     "gemini-followup272-20261103-p1-consumed",
     "gemini-followup272-20261103-p2-consumed",
     "gemini-followup272-20261103-p2b-consumed",
     "gemini-followup272-20261103-p3-consumed",
-    "gemini-followup272-20261103-p4-consumed"
+    "gemini-followup272-20261103-p4-consumed",
+    "gemini-followup272-20261103-p4b-consumed"
   ]
 }
