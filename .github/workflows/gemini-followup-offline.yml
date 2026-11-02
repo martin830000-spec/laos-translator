@@ -1,0 +1,19 @@
+name: Gemini followup offline contracts
+on:
+  push:
+    branches: ["research/gemini-real400-followup-20261103"]
+    paths:
+      - "experiments/gemini-followup/**"
+      - ".github/workflows/gemini-followup-offline.yml"
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Synthetic contracts only
+        run: python3 -m unittest discover -s experiments/gemini-followup -p "test_*.py" -v
