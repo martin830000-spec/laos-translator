@@ -9,5 +9,6 @@
   "prior_actual_attempts": 2,
   "required_tags": [
     "gemini-iterate320-20261103-connect-consumed"
-  ]
+  ],
+  "activation_note": "P1 activation event, same unconsumed tag and same input hash"
 }
