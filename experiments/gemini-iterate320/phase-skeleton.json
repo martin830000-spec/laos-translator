@@ -1,0 +1,47 @@
+{
+  "campaign_id": "GEMINI_ITERATE320_20261103",
+  "approved_maximum": 320,
+  "actual_attempts": 0,
+  "source_data_bound": false,
+  "FINAL_source_opened": false,
+  "phases": [
+    {
+      "stage": "P1",
+      "purpose": "FIRST time-cause andinitial candidates",
+      "ceiling": 48,
+      "status": "DATA_AND_SECURE_ENVIRONMENT_NOT_BOUND"
+    },
+    {
+      "stage": "P2",
+      "purpose": "revised husband candidates andnormal regression",
+      "ceiling": 48,
+      "status": "DATA_AND_SECURE_ENVIRONMENT_NOT_BOUND"
+    },
+    {
+      "stage": "P3",
+      "purpose": "wife context and broad fidelity",
+      "ceiling": 64,
+      "status": "DATA_AND_SECURE_ENVIRONMENT_NOT_BOUND"
+    },
+    {
+      "stage": "P4",
+      "purpose": "sameFIRST independent BACK",
+      "ceiling": 32,
+      "status": "DATA_AND_SECURE_ENVIRONMENT_NOT_BOUND"
+    },
+    {
+      "stage": "P5",
+      "purpose": "adaptive improvement reserve",
+      "ceiling": 32,
+      "status": "DATA_AND_SECURE_ENVIRONMENT_NOT_BOUND"
+    },
+    {
+      "stage": "FINAL",
+      "purpose": "24 unseen clusters K12L12 prioritized",
+      "ceiling": 96,
+      "status": "DATA_AND_SECURE_ENVIRONMENT_NOT_BOUND"
+    }
+  ],
+  "final_24_unexposed_clusters_verified": false,
+  "no_reuse_prior_FINAL": true
+}

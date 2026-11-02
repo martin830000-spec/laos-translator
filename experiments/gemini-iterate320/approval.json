@@ -1,0 +1,12 @@
+{
+  "authorized": false,
+  "user_approval_confirmed": true,
+  "user_approved_new_limit": 320,
+  "whole_campaign_limit": 320,
+  "maximum_new_attempts": 0,
+  "prior_new_attempts": 0,
+  "actual_consumed": 0,
+  "unused_approved": 320,
+  "execution_enabled": false,
+  "reason": "User explicitly approved new320. Secure local execution environment unavailable; activation locked pending environment recovery, not pending user approval."
+}

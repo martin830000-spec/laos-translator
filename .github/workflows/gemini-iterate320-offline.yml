@@ -1,0 +1,18 @@
+name: Iterate320 free candidate contracts
+on:
+  push:
+    branches: [research/gemini-iterate320-20261103]
+    paths: ['experiments/gemini-iterate320/**', '.github/workflows/gemini-iterate320-offline.yml']
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Synthetic only no generation credentials
+        run: python3 -m unittest discover -s experiments/gemini-iterate320 -p 'test_*.py' -v
