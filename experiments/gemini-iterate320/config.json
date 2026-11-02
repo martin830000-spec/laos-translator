@@ -11,5 +11,7 @@
     "gemini-iterate320-20261103-connect-consumed",
     "gemini-iterate320-20261103-p1-consumed",
     "gemini-iterate320-20261103-p2-consumed"
-  ]
+  ],
+  "activation_note": "Contents API trigger; same unconsumed phase tag and bound request hash",
+  "activation_generation": 1
 }
