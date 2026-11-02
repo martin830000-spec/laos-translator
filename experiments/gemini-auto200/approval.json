@@ -1,9 +1,9 @@
 {
   "authorized": true,
   "campaign_id": "GEMINI_AUTONOMOUS200_20261102",
-  "plan_id": "GEMINI_AUTONOMOUS200_P2A_20261102",
-  "maximum_new_attempts": 40,
+  "plan_id": "GEMINI_AUTONOMOUS200_P2B_20261102",
+  "maximum_new_attempts": 16,
   "phase_budget": 72,
   "whole_task_maximum": 200,
-  "manifest_sha256": "b95192d8eea57d739d5d22e99860b279bc7a137fb8bd2a089a467ea0ea2b631a"
+  "manifest_sha256": "02f64c94715d3912ab187604f21201a88a3dc6a3c1e10b0a6bbcf0664b974fed"
 }

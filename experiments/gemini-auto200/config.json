@@ -1,30 +1,20 @@
 {
-  "phase": "P2A",
-  "plan_id": "GEMINI_AUTONOMOUS200_P2A_20261102",
-  "cap": 40,
+  "phase": "P2B",
+  "plan_id": "GEMINI_AUTONOMOUS200_P2B_20261102",
+  "cap": 16,
   "phase_budget": 72,
   "variants": [
-    "35",
-    "35J",
     "38P",
     "38"
   ],
-  "groups": [
-    [
-      "35",
-      "35J"
-    ],
-    [
-      "38P",
-      "38"
-    ]
-  ],
-  "probe_priority_once": true,
-  "manifest_sha256": "b95192d8eea57d739d5d22e99860b279bc7a137fb8bd2a089a467ea0ea2b631a",
-  "issue_number": 119,
-  "title": "WORK_GEMINI_AUTONOMOUS200_P2A_20261102_APPROVED_V1",
-  "tag": "gemini-auto200-p2a-20261102-consumed-v1",
+  "groups": null,
+  "probe_priority_once": false,
+  "manifest_sha256": "02f64c94715d3912ab187604f21201a88a3dc6a3c1e10b0a6bbcf0664b974fed",
+  "issue_number": 120,
+  "title": "WORK_GEMINI_AUTONOMOUS200_P2B_20261102_APPROVED_V1",
+  "tag": "gemini-auto200-p2b-20261102-consumed-v1",
   "required_tags": [
-    "gemini-auto200-p1-20261102-consumed-v1"
+    "gemini-auto200-p1-20261102-consumed-v1",
+    "gemini-auto200-p2a-20261102-consumed-v1"
   ]
 }
