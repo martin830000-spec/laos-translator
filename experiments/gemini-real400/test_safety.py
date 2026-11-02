@@ -2,6 +2,14 @@ import unittest,copy,tempfile
 from pathlib import Path
 import campaign as c
 class Safety(unittest.TestCase):
+ def test_household_and_source_metadata_first_only(self):
+  for v in ('31D','38D','35T'):
+   first=c.build('TEST_CURRENT_MESSAGE','K','first',v)
+   self.assertIn('household_context',str(first['payload']['contents']))
+   back=c.build('TEST_ACTUAL_FIRST_ONLY','K','back',v)
+   self.assertNotIn('household_context',str(back))
+   self.assertNotIn('TunTun',str(back))
+   self.assertEqual(back['payload']['contents'][-1]['parts'][0]['text'],'TEST_ACTUAL_FIRST_ONLY')
  def test_back_payload_independence(self):
   for v in c.CONFIG['variants']:
    q=c.build('TEST_ACTUAL_FIRST_ONLY','L','back',v)

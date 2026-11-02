@@ -10,6 +10,22 @@ def structured(q,props):
  return q
 def build(text,side,stage,v):
  if v in ('38','31U','35R'):return p.build(text,side,stage,v)
+ if v in ('38D','31D','35T'):
+  # Household alias context is FIRST-only. BACK never receives the original,
+  # source-side scaffold, alias context, reference translation or review.
+  if stage=='back':
+   q=build(text,side,stage,'31C' if v=='31D' else '38' if v=='38D' else '35E')
+   if v=='35T':q['payload']['generationConfig'].update(maxOutputTokens=4096,thinkingConfig={'thinkingLevel':'high','includeThoughts':False})
+   q['prompt_variant']=v;return q
+  q=b.build(text,side,stage,engine(v,stage));target='Lao'if side=='K'else'Korean'
+  static={'context':'Private spouse chat. A repeated TunTun-like expression is used as their baby nickname. This is static household context from development records, not a per-message answer. If local grammar instead denotes capital or funds preserve that ordinary meaning. Do not expand a name into a medical diagnosis or future event.','aliases':['튼튼이','ທຶນທຶນ','ທຶນທຶນນ້ອຍ','ທືນທືນນ້ອຍ'],'name_rendering':'Retain as a name by sound; exact spelling is unnecessary.'}
+  q['payload']['contents']=[{'role':'user','parts':[{'text':json.dumps({'household_context':static,'message':text},ensure_ascii=False)}]}]
+  base=q['payload']['system_instruction']['parts'][0]['text'] if v=='38D' else 'Translate only message into natural '+target+'. '+p.COMMON
+  base+=' household_context is static disambiguating context, never additional message content. Spouse vocatives such as 여보/자기 and ທີ່ຮັກ are address terms, not personal names. Before translation, emit links: pair each expressed condition with its governed outcome by copying source fragments, including postposed conditions; use [] when absent. Emit states: copy the event expression and classify its expressed state as completed, ongoing, future, conditional or unspecified. The metadata must come only from message, never invent a missing actor. Translate the whole message after these fields, keeping the same relations. Only translation is displayed.'
+  q['payload']['system_instruction']['parts'][0]['text']=base
+  structured(q,{'links':{'type':'ARRAY','items':{'type':'OBJECT','properties':{'condition':{'type':'STRING'},'outcome':{'type':'STRING'}},'required':['condition','outcome'],'propertyOrdering':['condition','outcome']}},'states':{'type':'ARRAY','items':{'type':'OBJECT','properties':{'event':{'type':'STRING'},'state':{'type':'STRING','enum':['completed','ongoing','future','conditional','unspecified']}},'required':['event','state'],'propertyOrdering':['event','state']}},'translation':{'type':'STRING'}})
+  if v=='35T':q['payload']['generationConfig'].update(maxOutputTokens=4096,thinkingConfig={'thinkingLevel':'high','includeThoughts':False})
+  q['prompt_variant']=v;return q
  if v=='35Q':
   q=build(text,side,stage,'35E');q['payload']['generationConfig']['thinkingConfig']['thinkingLevel']='low';q['prompt_variant']=v
   return q
@@ -42,13 +58,15 @@ def build(text,side,stage,v):
  return q
 def inspect(raw,text,side,stage,v):
  if v in ('38','31U','35R'):return p.inspect(raw,text,side,stage,v)
+ if v in ('38D','31D','35T') and stage=='back':return inspect(raw,text,side,stage,'31C' if v=='31D' else '38' if v=='38D' else '35E')
  if v in ('35E','35Q'):return b.inspect(raw,text,side,stage,'35')
  c=raw.get('candidates',[{}])[0];visible=''.join(x.get('text','') for x in c.get('content',{}).get('parts',[]) if x.get('thought') is not True)
  if c.get('finishReason')!='STOP':return dict(status='FAILED',raw_text=visible,translation=None,stop_reason=c.get('finishReason'))
- obj=json.loads(visible,object_pairs_hook=b.unique);expected={'anchors','translation'} if v in ('31I','31C') else {'repairs','translation'} if v=='38S' else {'reading','translation'}
+ obj=json.loads(visible,object_pairs_hook=b.unique);expected={'links','states','translation'} if v in ('38D','31D','35T') else {'anchors','translation'} if v in ('31I','31C') else {'repairs','translation'} if v=='38S' else {'reading','translation'}
  assert set(obj)==expected and type(obj['translation'])is str and obj['translation'].strip()
  if v in ('31I','31C'):assert type(obj['anchors'])is list and all(type(x)is str for x in obj['anchors'])
  elif v=='38S':assert type(obj['repairs'])is list
+ elif v in ('38D','31D','35T'):assert type(obj['links'])is list and type(obj['states'])is list
  else:assert type(obj['reading'])is str
  value=copy.deepcopy(raw);value['candidates'][0]['content']['parts']=[{'text':obj['translation']}];out=b.inspect(value,text,side,stage,engine(v,stage));out.update(raw_text=visible,scaffold=obj)
  if v in ('31I','31C'):out['anchor_verbatim']=all(x in text for x in obj['anchors'])

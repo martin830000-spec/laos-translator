@@ -1,9 +1,9 @@
 {
   "authorized": true,
   "campaign_id": "GEMINI_REAL400_20261102",
-  "plan_id": "GEMINI_REAL400_P2",
+  "plan_id": "GEMINI_REAL400_P3",
   "maximum_new_attempts": 120,
   "phase_budget": 120,
   "whole_task_maximum": 400,
-  "manifest_sha256": "b8522e8c8ebf7430b2e75bc13f3d1fafc27af58027146de14c81b0b02471266d"
+  "manifest_sha256": "053d49064baa1258a2bfbc4561b85b2697f44291ef8e32ef0da751b36bf6298c"
 }
