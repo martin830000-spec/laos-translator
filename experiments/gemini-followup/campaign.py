@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,hashlib,copy,time,datetime,urllib.request,urllib.error,os
 import adapter as a
-ID='GEMINI_FOLLOWUP_20261103'
+ID='GEMINI_FOLLOWUP272_20261103'
 def require(ok):
  if not ok:raise AssertionError('CONTRACT_REJECTED')
 def digest(x):return hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
@@ -48,7 +48,7 @@ def run(plan,approval,send,journal,persist=lambda r:None):
   persist(copy.deepcopy(result));start=time.perf_counter()
   try:
    response=send(q);raw=response['raw'];wire=response['wire'];x.update(response=raw,wire=wire,http_status=wire['http_status'],api_ms=wire['api_ms'],usage=raw.get('usageMetadata'),response_id=raw.get('responseId'))
-   if wire['http_status']in (401,403):raise PermissionError('AUTH_BLOCKED')
+   if wire['http_status']in (401,403,404,429):raise PermissionError('AUTH_MODEL_OR_QUOTA_BLOCKED')
    if wire['http_status']!=200:raise ValueError('HTTP_FAILURE')
    if raw.get('modelVersion')and not raw['modelVersion'].startswith(q['model']):raise PermissionError('MODEL_ID_CHANGED')
    x.update(a.inspect(raw,text,x['side'],x['stage'],x['profile']),**a.usage_cost(raw,q['model'],wire))

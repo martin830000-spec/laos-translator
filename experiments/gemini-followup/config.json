@@ -1,0 +1,11 @@
+{
+  "title": "GEMINI_FOLLOWUP272_P1_20261103",
+  "tag": "gemini-followup272-20261103-p1-consumed",
+  "issue_number": 130,
+  "plan_sha256": "6cecaac1b9b3c31d9962c908a94ed7d812e8a26a24bfe9e56eba2c923365acf4",
+  "stage": "P1",
+  "phase_cap": 96,
+  "campaign_cap": 272,
+  "prior_actual_attempts": 0,
+  "required_tags": []
+}
