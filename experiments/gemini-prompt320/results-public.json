@@ -1,0 +1,42 @@
+{
+  "campaign": "GEMINI_PROMPT320_20261102",
+  "attempts": 319,
+  "maximum": 320,
+  "unused": 1,
+  "technical_success": 318,
+  "http_503": 1,
+  "dependency_skipped": 1,
+  "retries": 0,
+  "service_changed": false,
+  "decision": "No whole-engine promotion. Preserve directional K31U/L38 TEST recipe as post-selection HOLD.",
+  "known_usage_estimate_usd": 0.14241325,
+  "unknown_usage_requests": 1,
+  "invoice_confirmed": false,
+  "final_execution_commit": "010055d71782923b488aa535ab915911c57f8ecd",
+  "runs": [
+    {
+      "id": 41438520407,
+      "commit": "01ce097eb6414e6b36dd866fa81dab27ef137677",
+      "conclusion": "success",
+      "run_attempt": 1
+    },
+    {
+      "id": 41439301398,
+      "commit": "cc53a622509a9ade0c91640b051b60a23d9a529c",
+      "conclusion": "success",
+      "run_attempt": 1
+    },
+    {
+      "id": 41440063892,
+      "commit": "e4b1a4070ffbc544caccf442d8fdb609c1d17969",
+      "conclusion": "success",
+      "run_attempt": 1
+    },
+    {
+      "id": 41441026725,
+      "commit": "010055d71782923b488aa535ab915911c57f8ecd",
+      "conclusion": "success",
+      "run_attempt": 1
+    }
+  ]
+}

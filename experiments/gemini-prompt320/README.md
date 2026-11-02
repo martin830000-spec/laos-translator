@@ -43,3 +43,14 @@ replay. The committed consumed config is not a standing grant for another paid r
 Only encrypted private payloads and public-key handshakes pass through GitHub issues
 and artifacts. Private decryption keys and API keys are never included in evidence.
 API timings do not measure mobile screen paint. Usage estimates are not invoices.
+
+
+## Completed research
+
+319/320 generation attempts, 318 technical completions, one HTTP503 and one skipped dependent BACK. No provider retry. The remaining one request is unused. No SERVICE or main changes.
+
+31U implements native JSON source/target units in a single generation and joins targets in order. Source coverage is diagnostic, not a quality certificate. 35R uses only the target language for its system instruction. 38G restores selected inherited P168A ambiguity/identity components. These changes have mixed semantic results and no global promotion.
+
+`directional_recipe.py` is a post-selection TEST configuration: K uses31U for FIRST/BACK and L uses the unchanged38 control. Its four payload routes match the actually tested components; it has not received a new post-selection live batch or app integration. Preserve it as HOLD, not as a SERVICE switch.
+
+Private case evidence, detailed outputs, prompt texts/hashes, all failures and usage estimates are retained in owner-only Drive reports. Public summary includes no personal messages.
