@@ -1,12 +1,11 @@
 {
-  "title": "GEMINI_ITERATE320_20261103",
-  "campaign_id": "GEMINI_ITERATE320_20261103",
-  "issue_number": 0,
-  "phase": "NOT_ACTIVATED_ENVIRONMENT_UNAVAILABLE",
-  "phase_cap": 0,
+  "title": "GEMINI_ITERATE320_20261103_CONNECT",
+  "tag": "gemini-iterate320-20261103-connect-consumed",
+  "issue_number": 137,
+  "plan_sha256": "b962a09686537d7add3c880e8ec81d09886437d8b4db9f8a190bcb9796c989a5",
+  "stage": "CONNECT",
+  "phase_cap": 2,
   "campaign_cap": 320,
   "prior_actual_attempts": 0,
-  "plan_sha256": null,
-  "tag": "gemini-iterate320-20261103-not-activated",
   "required_tags": []
 }

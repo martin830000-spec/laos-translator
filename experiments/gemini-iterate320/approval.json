@@ -1,12 +1,10 @@
 {
-  "authorized": false,
-  "user_approval_confirmed": true,
-  "user_approved_new_limit": 320,
+  "authorized": true,
+  "campaign_id": "GEMINI_ITERATE320_20261103",
+  "maximum_new_attempts": 2,
   "whole_campaign_limit": 320,
-  "maximum_new_attempts": 0,
   "prior_new_attempts": 0,
-  "actual_consumed": 0,
-  "unused_approved": 320,
-  "execution_enabled": false,
-  "reason": "User explicitly approved new320. Secure local execution environment unavailable; activation locked pending environment recovery, not pending user approval."
+  "plan_sha256": "b962a09686537d7add3c880e8ec81d09886437d8b4db9f8a190bcb9796c989a5",
+  "user_approved_new_limit": 320,
+  "approval_source": "Existing GEMINI_ITERATE320_20261103 approval resumed, not new budget"
 }
