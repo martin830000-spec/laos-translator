@@ -13,6 +13,8 @@ def schedule(cases):
   for v in vs:
    n=len(out)+1
    for st,dep in [('first',None),('back',n)]:out.append(dict(slot=len(out)+1,id=case['id'],side=case['side'],index=case['index'],variant=v,engine=a.engine(v,st),stage=st,depends_on=dep))
+ for task in CONFIG.get('extra_back_tasks',[]):
+  out.append(dict(slot=len(out)+1,id=task['id'],side=task['side'],index=-1,variant=task['variant'],engine=a.engine(task['variant'],'back'),stage='back',depends_on=None,external_key=task['key']))
  return out
 build=a.build;inspect=a.inspect
 def validate(m):
@@ -22,6 +24,11 @@ def validate(m):
  assert len({x['id'] for x in m['cases']})==len(m['cases']) and sum(x['side']=='K' for x in m['cases'])==sum(x['side']=='L' for x in m['cases'])
  for name,h in m['frozen_file_sha256'].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h
  for x in m['cases']:assert x['development_allowed'] is True and hashlib.sha256(x['source'].encode()).hexdigest()==x['source_sha256']
+ for task in CONFIG.get('extra_back_tasks',[]):
+  f=m['external_first'][task['key']]
+  assert f['status']=='SUCCESS' and f['response_id'] and f['side']==task['side']
+  assert hashlib.sha256(f['translation'].encode()).hexdigest()==f['translation_sha256']
+  assert set(f)=={'status','response_id','side','translation','translation_sha256','origin_phase','origin_slot','origin_run'}
  return {x['id']:x for x in m['cases']}
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs):raise ValueError('Redirect forbidden')
@@ -39,8 +46,8 @@ def run_approved(m,approval,transport,journal_path,persist=lambda d:None,metadat
  d=dict(plan_id=m['id'],phase=m['phase'],attempts=0,prior_attempts=m['prior_attempts'],retries=0,slots=[],status='RUNNING');by={};persist(copy.deepcopy(d))
  for planned in m['schedule']:
   x=dict(planned,attempted=False);d['slots'].append(x);by[x['slot']]=x
-  if x['stage']=='back' and by[x['depends_on']]['status']!='SUCCESS':x.update(status='SKIPPED_DEPENDENCY');persist(copy.deepcopy(d));continue
-  text=cases[x['id']]['source'] if x['stage']=='first' else by[x['depends_on']]['translation'];q=build(text,x['side'],x['stage'],x['variant'])
+  if x['stage']=='back' and not x.get('external_key') and by[x['depends_on']]['status']!='SUCCESS':x.update(status='SKIPPED_DEPENDENCY');persist(copy.deepcopy(d));continue
+  text=m['external_first'][x['external_key']]['translation'] if x.get('external_key') else cases[x['id']]['source'] if x['stage']=='first' else by[x['depends_on']]['translation'];q=build(text,x['side'],x['stage'],x['variant'])
   assert d['attempts']<m['cap'] and m['prior_attempts']+d['attempts']<400
   d['attempts']+=1;x.update(attempt=d['attempts'],attempted=True,status='SENT_OR_UNKNOWN',input=text,input_sha256=hashlib.sha256(text.encode()).hexdigest(),payload=q,payload_sha256=digest(q),sent_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
   with Path(journal_path).open('a') as f:f.write(json.dumps(dict(attempt=d['attempts'],slot=x['slot'],payload_sha256=x['payload_sha256']))+'\n')

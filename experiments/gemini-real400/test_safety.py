@@ -21,7 +21,7 @@ class Safety(unittest.TestCase):
   a['maximum_new_attempts']+=1
   with self.assertRaises(AssertionError):c.authorize(a)
  def test_first_then_back_dependency(self):
-  s=c.schedule([dict(id='synthetic',side='K',index=0)])
+  s=[x for x in c.schedule([dict(id='synthetic',side='K',index=0)]) if not x.get('external_key')]
   for i in range(0,len(s),2):self.assertEqual(s[i+1]['depends_on'],s[i]['slot'])
  def test_skip_failed_first_without_retry(self):
   import json

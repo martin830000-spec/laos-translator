@@ -1,23 +1,30 @@
 {
-  "plan_id": "GEMINI_REAL400_P3",
-  "phase": "P3",
-  "cap": 120,
-  "phase_budget": 120,
+  "plan_id": "GEMINI_REAL400_P4",
+  "phase": "P4",
+  "cap": 81,
+  "phase_budget": 81,
   "variants": [
     "38",
     "38D",
-    "31C",
     "31D",
-    "35E",
     "35T"
   ],
-  "manifest_sha256": "053d49064baa1258a2bfbc4561b85b2697f44291ef8e32ef0da751b36bf6298c",
-  "title": "WORK_GEMINI_REAL400_P3_20261102",
-  "tag": "gemini-real400-p3-20261102-consumed-v1",
-  "issue_number": 128,
-  "prior": 200,
+  "manifest_sha256": "597fb06358a4486aa02d11c4faf4dcd81914d95b3a592c18e0556b025676d587",
+  "title": "WORK_GEMINI_REAL400_P4_20261102",
+  "tag": "gemini-real400-p4-20261102-consumed-v1",
+  "issue_number": 129,
+  "prior": 319,
   "required_tags": [
     "gemini-real400-p1-20261102-consumed-v1",
-    "gemini-real400-p2-20261102-consumed-v1"
+    "gemini-real400-p2-20261102-consumed-v1",
+    "gemini-real400-p3-20261102-consumed-v1"
+  ],
+  "extra_back_tasks": [
+    {
+      "key": "P3_SLOT79",
+      "id": "cross:P3_SLOT79",
+      "side": "L",
+      "variant": "38"
+    }
   ]
 }
