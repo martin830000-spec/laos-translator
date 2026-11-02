@@ -1,0 +1,22 @@
+{
+  "status": "RECOMMENDED_TEST_ONLY",
+  "enabled_for_service": false,
+  "post_selection_recipe": true,
+  "fresh_whole_recipe_e2e_tested": false,
+  "K": {
+    "model_first": "gemini-3.1-flash-lite",
+    "model_back": "gemini-3.1-flash-lite",
+    "profile": "31D",
+    "back_prompt_base": "31C"
+  },
+  "L": {
+    "model_first": "gemini-3.8-flash",
+    "model_back": "gemini-3.8-flash",
+    "profile": "38D",
+    "back_prompt_base": "38/P168A"
+  },
+  "normal_calls_per_pair": 2,
+  "retry": 0,
+  "hidden_judge": 0,
+  "note": "Components tested on P3 and independent P4. No SERVICE changes; user decides promotion."
+}
