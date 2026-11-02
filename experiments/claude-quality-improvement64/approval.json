@@ -1,11 +1,11 @@
 {
   "authorized": true,
   "campaign_id": "CLAUDE_QUALITY_IMPROVEMENT64_20261102",
-  "plan_id": "CLAUDE_QUALITY_IMPROVEMENT64_P1_20261102",
+  "plan_id": "CLAUDE_QUALITY_IMPROVEMENT64_P2_20261102",
   "maximum_new_attempts": 32,
   "whole_task_maximum": 64,
   "H_maximum": 32,
   "S_maximum": 32,
   "O_maximum": 0,
-  "manifest_sha256": "3ceb9f8fff208b9e368e5a1f81ef11b23c8437159c156295a5b703fad4939d45"
+  "manifest_sha256": "8f0cdd1b92a6ea64ff6f996a272834b2531e484a8aa77783c566ab9869ef3b32"
 }

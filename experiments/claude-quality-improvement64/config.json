@@ -1,10 +1,12 @@
 {
-  "phase": "P1",
-  "plan_id": "CLAUDE_QUALITY_IMPROVEMENT64_P1_20261102",
+  "phase": "P2",
+  "plan_id": "CLAUDE_QUALITY_IMPROVEMENT64_P2_20261102",
   "cap": 32,
-  "manifest_sha256": "3ceb9f8fff208b9e368e5a1f81ef11b23c8437159c156295a5b703fad4939d45",
-  "issue_number": 111,
-  "title": "WORK_CLAUDE_QUALITY_IMPROVEMENT64_P1_20261102_APPROVED_V1",
-  "tag": "claude-quality-improvement64-p1-20261102-consumed-v1",
-  "required_tags": []
+  "manifest_sha256": "8f0cdd1b92a6ea64ff6f996a272834b2531e484a8aa77783c566ab9869ef3b32",
+  "issue_number": 112,
+  "title": "WORK_CLAUDE_QUALITY_IMPROVEMENT64_P2_20261102_APPROVED_V1",
+  "tag": "claude-quality-improvement64-p2-20261102-consumed-v1",
+  "required_tags": [
+    "claude-quality-improvement64-p1-20261102-consumed-v1"
+  ]
 }
