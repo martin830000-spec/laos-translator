@@ -9,10 +9,15 @@ def authorize(x):
 def schedule(cases):
  out=[]
  for case in cases:
+  if case.get('kind')=='STORED_FIRST':
+   out.append(dict(slot=len(out)+1,id=case['id'],side=case['side'],index=case['index'],variant='X31_38',engine='38',stage='back',depends_on=None));continue
   variants=list(CONFIG['variants']);shift=case['index']%len(variants);variants=variants[shift:]+variants[:shift]
+  if CONFIG.get('groups'):
+   groups=copy.deepcopy(CONFIG['groups']);groups=groups if case['index']%2==0 else groups[::-1];variants=[]
+   for group in groups:variants+=group if '38P' in group or case['index']%2==0 else group[::-1]
   for variant in variants:
    n=len(out)+1
-   for stage,dep in [('first',None),('back',n)]:out.append(dict(slot=len(out)+1,id=case['id'],side=case['side'],index=case['index'],variant=variant,engine=variant,stage=stage,depends_on=dep))
+   for stage,dep in [('first',None),('back',n)]:out.append(dict(slot=len(out)+1,id=case['id'],side=case['side'],index=case['index'],variant=variant,engine=a.engine(variant,stage),stage=stage,depends_on=dep))
  return out
 build=a.build;inspect=a.inspect
 def validate(m):
@@ -22,7 +27,7 @@ def validate(m):
  assert m['stage_prior_attempts']+m['cap']<=CONFIG['phase_budget'] and sum(m['prior_attempts'].values())+m['cap']<=200
  assert len({x['id'] for x in m['cases']})==len(m['cases']) and sum(x['side']=='K' for x in m['cases'])==sum(x['side']=='L' for x in m['cases'])
  for name,h in m['frozen_file_sha256'].items():assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==h
- for x in m['cases']:assert set(x)=={'id','side','index','source','source_sha256','development_allowed'} and x['development_allowed'] is True and hashlib.sha256(x['source'].encode()).hexdigest()==x['source_sha256']
+ for x in m['cases']:assert set(x) in ({'id','side','index','source','source_sha256','development_allowed'},{'id','side','index','source','source_sha256','development_allowed','kind'}) and x['development_allowed'] is True and hashlib.sha256(x['source'].encode()).hexdigest()==x['source_sha256']
  return {x['id']:x for x in m['cases']}
 class NoRedirect(urllib.request.HTTPRedirectHandler):
  def redirect_request(self,*args,**kwargs):raise ValueError('Redirect forbidden')
@@ -47,18 +52,23 @@ def live(q):return request('POST','https://generativelanguage.googleapis.com/v1b
 def run_approved(m,approval,transport,journal_path,persist=lambda d:None,metadata=None):
  authorize(approval);cases=validate(m)
  with Path(journal_path).open('x') as f:f.write('0\n')
- d=dict(plan_id=m['id'],phase=m['phase'],attempts=0,prior_attempts=m['prior_attempts'],engine_attempts={k:0 for k in a.MODELS},retries=0,metadata=metadata or {},slots=[],status='RUNNING');by={};persist(copy.deepcopy(d))
+ d=dict(plan_id=m['id'],phase=m['phase'],attempts=0,prior_attempts=m['prior_attempts'],engine_attempts={k:0 for k in a.MODELS},retries=0,metadata=metadata or {},slots=[],status='RUNNING',priority_scope_disabled=False);by={};persist(copy.deepcopy(d))
  for planned in m['schedule']:
   x=dict(planned,attempted=False);d['slots'].append(x);by[x['slot']]=x
-  if x['stage']=='back' and by[x['depends_on']]['status']!='SUCCESS':x.update(status='SKIPPED_DEPENDENCY');persist(copy.deepcopy(d));continue
+  if x['stage']=='back' and x['depends_on'] is not None and by[x['depends_on']]['status']!='SUCCESS':x.update(status='SKIPPED_DEPENDENCY');persist(copy.deepcopy(d));continue
+  if d['priority_scope_disabled'] and CONFIG.get('probe_priority_once') and cases[x['id']].get('kind')!='STORED_FIRST' and x['variant'] in ('38P','38'):x.update(status='SKIPPED_PRIORITY_CAPABILITY_SCOPE');persist(copy.deepcopy(d));continue
   if metadata and x['engine'] in metadata and metadata[x['engine']]['wire']['http_status']!=200:x.update(status='SKIPPED_MODEL_UNAVAILABLE');persist(copy.deepcopy(d));continue
-  text=cases[x['id']]['source'] if x['stage']=='first' else by[x['depends_on']]['translation'];prep=time.perf_counter();q=build(text,x['side'],x['stage'],x['variant']);prep_ms=(time.perf_counter()-prep)*1000
+  text=cases[x['id']]['source'] if x['stage']=='first' or x['depends_on'] is None else by[x['depends_on']]['translation'];prep=time.perf_counter();q=build(text,x['side'],x['stage'],x['variant']);prep_ms=(time.perf_counter()-prep)*1000
   assert d['attempts']<m['cap'] and m['stage_prior_attempts']+d['attempts']<CONFIG['phase_budget'] and sum(m['prior_attempts'].values())+d['attempts']<200
   d['attempts']+=1;d['engine_attempts'][x['engine']]+=1;x.update(attempt=d['attempts'],attempted=True,status='SENT_OR_UNKNOWN',input=text,input_sha256=hashlib.sha256(text.encode()).hexdigest(),payload=q,payload_sha256=digest(q),prepare_ms=prep_ms,sent_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
   with Path(journal_path).open('a') as f:f.write(json.dumps(dict(attempt=d['attempts'],slot=x['slot'],engine=x['engine'],payload_sha256=x['payload_sha256']))+'\n')
   persist(copy.deepcopy(d));start=time.perf_counter();raw={};wire={}
   try:
    result=transport(q);raw=result['raw'];wire=result['wire'];x.update(response=raw,wire=wire,http_status=wire.get('http_status'),response_id=raw.get('responseId'),model_version=raw.get('modelVersion'),usage=raw.get('usageMetadata'),**a.usage_cost(raw,q['model'],wire))
+   if x['variant']=='38P' and x['stage']=='first' and CONFIG.get('probe_priority_once'):
+    msg=json.dumps(raw.get('error',{})).lower()
+    if x['http_status'] in (400,403,404) and ('priority' in msg or 'tier' in msg):d['priority_scope_disabled']=True;x.update(status='FAILED_CAPABILITY',error_type='PRIORITY_NOT_AVAILABLE');continue
+    if x['http_status']==200 and wire.get('response_headers',{}).get('x-gemini-service-tier')!='priority':d['priority_scope_disabled']=True;x['priority_not_confirmed']=True
    if x['http_status'] in (401,403):raise PermissionError('GLOBAL_AUTH_STOP')
    if x['http_status']!=200:raise ValueError('HTTP_FAILURE')
    if raw.get('modelVersion') and not raw['modelVersion'].startswith(q['model']):raise PermissionError('MODEL_ID_STOP')

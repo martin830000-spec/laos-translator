@@ -42,4 +42,11 @@ class Contracts(unittest.TestCase):
   self.assertIsNone(c.a.usage_cost({},c.a.MODELS['31'])['estimated_usd']);self.assertIsNone(c.a.usage_cost(dict(usageMetadata=dict(promptTokenCount=3)),c.a.MODELS['31'])['estimated_usd'])
  def test_thinking_counted_once_from_total(self):
   a=c.a.usage_cost(dict(usageMetadata=dict(promptTokenCount=1,candidatesTokenCount=1,totalTokenCount=3)),c.a.MODELS['31']);b=c.a.usage_cost(dict(usageMetadata=dict(promptTokenCount=1,candidatesTokenCount=1,thoughtsTokenCount=1,totalTokenCount=3)),c.a.MODELS['31']);self.assertEqual(a['derived_thinking_tokens'],1);self.assertEqual(a['estimated_usd'],b['estimated_usd']);self.assertEqual(a['estimated_usd'],.00000325)
+ def test_native_json_preserves_content_without_cleanup(self):
+  text='  English draft ສະບາຍ  ';raw=dict(candidates=[dict(finishReason='STOP',content=dict(parts=[dict(text=json.dumps({'translation':text}))]))]);x=c.inspect(raw,'source','K','first','35J');self.assertEqual(x['raw_translation_field'],text);self.assertIn('English draft',x['translation']);raw['candidates'][0]['finishReason']='MAX_TOKENS';self.assertEqual(c.inspect(raw,'source','K','first','35J')['status'],'FAILED')
+ def test_priority_unavailable_one_attempt_no_retry(self):
+  m,ap=self.fixture();m['phase']='P2A';m['cases']=[m['cases'][0],m['cases'][4]];c.CONFIG.update(phase='P2A',variants=['38P','38'],groups=[['38P','38']],probe_priority_once=True,cap=8,phase_budget=72);m['schedule']=c.schedule(m['cases']);m['cap']=8;c.CONFIG['manifest_sha256']=c.digest(m);ap.update(maximum_new_attempts=8,phase_budget=72,manifest_sha256=c.digest(m));calls=[]
+  def send(q):calls.append(q);return dict(raw={'error':{'message':'Priority tier unavailable'}},wire=dict(http_status=403,api_ms=1))
+  with tempfile.TemporaryDirectory(dir=R) as t:d=c.run_approved(m,ap,send,Path(t)/'journal')
+  self.assertEqual(len(calls),1);self.assertEqual(d['attempts'],1);self.assertEqual(d['slots'][0]['status'],'FAILED_CAPABILITY');self.assertTrue(d['priority_scope_disabled'])
 if __name__=='__main__':unittest.main()
