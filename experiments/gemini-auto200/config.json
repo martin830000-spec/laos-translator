@@ -1,0 +1,16 @@
+{
+  "phase": "P1",
+  "plan_id": "GEMINI_AUTONOMOUS200_P1_20261102",
+  "cap": 48,
+  "phase_budget": 48,
+  "variants": [
+    "31",
+    "35",
+    "38"
+  ],
+  "manifest_sha256": "e80579a7cc70299194111de511bc6b5d557a3519635abd8d81968c7f79141eee",
+  "issue_number": 118,
+  "title": "WORK_GEMINI_AUTONOMOUS200_P1_20261102_APPROVED_V1",
+  "tag": "gemini-auto200-p1-20261102-consumed-v1",
+  "required_tags": []
+}

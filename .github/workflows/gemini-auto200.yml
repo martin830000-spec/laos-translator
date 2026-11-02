@@ -1,0 +1,46 @@
+name: Approved Gemini autonomous200 phased48-72-80 no retry
+on:
+  push:
+    branches: [research/gemini-auto200-20261102]
+    paths: ['experiments/gemini-auto200/config.json']
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: gemini-auto200-20261102-once
+  cancel-in-progress: false
+jobs:
+  bounded:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Frozen same-FIRST two-BACK dependency and replay checks
+        run: python3 -m unittest discover -s experiments/gemini-auto200 -p 'test_*.py' -v
+      - name: Prepare new private channel
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/gemini-auto200/actions_bridge.py prepare "$RUNNER_TEMP/gemini200"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: gemini200-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/gemini200/handshake.json
+          retention-days: 1
+      - name: Approved quality phase only no retry
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/gemini-auto200/actions_bridge.py execute "$RUNNER_TEMP/gemini200"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: gemini200-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/gemini200/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
