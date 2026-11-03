@@ -1,0 +1,55 @@
+{
+  "campaign_id": "GEMINI_NUANCE256_20261103",
+  "whole_limit": 256,
+  "api_attempts_observed": 0,
+  "failures_observed": 0,
+  "source_data_bound": false,
+  "final_unexposed_verified": false,
+  "api_calls_enabled": false,
+  "stages": [
+    {
+      "name": "P1",
+      "cap": 32,
+      "design": "K actual 8 cases by 31T5/31T6, each FIRST + independent BACK; short/medium/long mixed"
+    },
+    {
+      "name": "P2",
+      "cap": 32,
+      "design": "K new 8 actual cases, winning prior candidate vs generalized revision, each FIRST + independent BACK"
+    },
+    {
+      "name": "P3",
+      "cap": 32,
+      "design": "L actual 8 cases by 38SVC/38CF (or validated improvement), each FIRST+independent BACK"
+    },
+    {
+      "name": "P4",
+      "cap": 32,
+      "design": "16 fixed actual FIRST displays K8/L8, 38P/38CB independent BACK, no original source"
+    },
+    {
+      "name": "P5",
+      "cap": 32,
+      "design": "Iterative error-guided regression; part reserved for after FINAL-A changes"
+    },
+    {
+      "name": "FINAL-A",
+      "cap": 48,
+      "design": "12 new clusters K6/L6, service vs candidate FIRST and own independent BACK"
+    },
+    {
+      "name": "FINAL-B",
+      "cap": 48,
+      "design": "12 separately sealed clusters K6/L6, fresh freeze after A; FINAL-B only definitive if A caused revisions"
+    }
+  ],
+  "explicitly_excluded": [
+    "ITERATE320 prior 320",
+    "REAL400",
+    "FOLLOWUP272",
+    "original-text injection to BACK",
+    "paid judge",
+    "automatic retries",
+    "SERVICE modifications"
+  ]
+}
