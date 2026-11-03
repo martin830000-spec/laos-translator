@@ -4,10 +4,10 @@
   "whole_campaign_limit": 300,
   "authorized": true,
   "execution_enabled": true,
-  "actual_consumed": 160,
-  "maximum_new_attempts": 32,
-  "unused_approved": 140,
-  "plan_sha256": "14aec84ac70747de4124709fade378996fb962938865617f09e0e80b69975cba",
+  "actual_consumed": 192,
+  "maximum_new_attempts": 16,
+  "unused_approved": 108,
+  "plan_sha256": "0fcf4c266defbfe65ccb56b4efe09136f40e92de2cf00c29c6c0041934f63714",
   "approval_source": "User explicit 2026-11-04 new independent maximum300 Gemini attempts + full instruction SHA256 835951560507918cdde500ad168e28e6a33b64a1e259f482ce397f39764e3f97",
   "prior_approvals_reused": 0
 }
