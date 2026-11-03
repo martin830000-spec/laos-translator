@@ -1,1 +1,1 @@
-{"phase":"BACK_COMPARE","prior_actual_attempts":128,"max_phase_attempts":32,"same_displayed_first":true,"multiple_BACK_research_only":true}
+{"phase":"REGRESSION","prior_actual_attempts":160,"max_phase_attempts":32,"new_structure_control":true,"synthetic_regressions_explicit":true}

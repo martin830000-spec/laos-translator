@@ -1,14 +1,15 @@
 {
-  "title": "GEMINI_FULL_AUTONOMOUS300_20261104_BACK_COMPARE_PRIVATE_PHASE",
-  "stage": "BACK_COMPARE",
+  "title": "GEMINI_FULL_AUTONOMOUS300_20261104_REGRESSION_PRIVATE_PHASE",
+  "stage": "REGRESSION",
   "phase_cap": 48,
-  "prior_actual_attempts": 128,
-  "issue_number": 165,
-  "plan_sha256": "e4f505c01bcbc938bd77420fdaa707b4c37e629bf75a1a557aa1eafd0e636b7d",
-  "source_manifest_sha256": "85ba5b5eb9295947214b5bb3b4f266aa6040a307c87cdccd331d5b760788dace",
-  "tag": "gemini-full-autonomous300-20261104-back_compare-consumed",
+  "prior_actual_attempts": 160,
+  "issue_number": 166,
+  "plan_sha256": "14aec84ac70747de4124709fade378996fb962938865617f09e0e80b69975cba",
+  "source_manifest_sha256": "ef55031d292a59e3c5177eb44bc8959809b59ec95fb4118f8a20c13cd002d2ba",
+  "tag": "gemini-full-autonomous300-20261104-regression-consumed",
   "required_tags": [
     "gemini-full-autonomous300-20261104-discovery-consumed",
-    "gemini-full-autonomous300-20261104-refinement-consumed"
+    "gemini-full-autonomous300-20261104-refinement-consumed",
+    "gemini-full-autonomous300-20261104-back_compare-consumed"
   ]
 }
