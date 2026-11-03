@@ -1,1 +1,15 @@
-{"campaign_id":"GEMINI_SEMANTIC_AUTONOMOUS40_20261103","user_approved_limit":40,"whole_campaign_limit":40,"authorized":false,"execution_enabled":false,"maximum_new_attempts":0,"actual_consumed":0,"unused_approved":40,"plan_sha256":null,"approval_source":"User attached WORK_GEMINI_SEMANTIC_AUTONOMOUS40_20261103.txt, explicit new Gemini generation attempt limit40; no other provider/judge/retry","legacy_320_remaining":0,"legacy_256_remaining":0,"legacy_128_remaining":0}
+{
+  "campaign_id": "GEMINI_SEMANTIC_AUTONOMOUS40_20261103",
+  "user_approved_limit": 40,
+  "whole_campaign_limit": 40,
+  "authorized": true,
+  "execution_enabled": true,
+  "maximum_new_attempts": 12,
+  "actual_consumed": 0,
+  "unused_approved": 40,
+  "plan_sha256": "a690cacdf8817f71a9adba8a309c49e618af9de76e5dd456fe9e63abc700625f",
+  "approval_source": "User attached WORK_GEMINI_SEMANTIC_AUTONOMOUS40_20261103.txt, explicit new Gemini generation attempt limit40; no other provider/judge/retry",
+  "legacy_320_remaining": 0,
+  "legacy_256_remaining": 0,
+  "legacy_128_remaining": 0
+}

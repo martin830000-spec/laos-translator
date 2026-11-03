@@ -1,1 +1,11 @@
-{"title":"GEMINI_SEMANTIC_AUTONOMOUS40_20261103_LOCKED_PREPARATION","stage":"LOCKED","phase_cap":0,"prior_actual_attempts":0,"issue_number":0,"plan_sha256":null,"source_manifest_sha256":null,"required_tags":[],"tag":null}
+{
+  "title": "GEMINI_SEMANTIC_AUTONOMOUS40_20261103_DISCOVERY_PRIVATE_PHASE",
+  "stage": "DISCOVERY",
+  "phase_cap": 12,
+  "prior_actual_attempts": 0,
+  "issue_number": 158,
+  "plan_sha256": "a690cacdf8817f71a9adba8a309c49e618af9de76e5dd456fe9e63abc700625f",
+  "source_manifest_sha256": "d385533a05a16e82f6111a28f4611ae1467a3aa97cf2a141fb4b600168e0d314",
+  "tag": "gemini-semantic-autonomous40-20261103-discovery-consumed",
+  "required_tags": []
+}
