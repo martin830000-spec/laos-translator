@@ -1,12 +1,12 @@
 {
- "title":"GEMINI_NEXTGEN_REAL128_20261103_LOCKED",
- "stage":"LOCKED",
- "phase_cap":0,
- "prior_actual_attempts":0,
- "issue_number":0,
- "plan_sha256":null,
- "source_manifest_sha256":null,
- "tag":"gemini-nextgen-real128-20261103-not-started",
- "required_tags":[],
- "approval_locked":true
+  "title": "GEMINI_NEXTGEN_REAL128_20261103_DISCOVERY_A",
+  "stage": "DISCOVERY_A",
+  "phase_cap": 48,
+  "prior_actual_attempts": 0,
+  "issue_number": 155,
+  "plan_sha256": "a7a0327b5f00cbeea018268823673d71ed846f3b61f14444ab06d5c1ccecd793",
+  "source_manifest_sha256": "734368c7e52550a3aac91a10e88461c87f6e8f1fae43c251e79d99be56b44508",
+  "tag": "gemini-nextgen-real128-20261103-discoverya-consumed",
+  "required_tags": [],
+  "approval_locked": false
 }
