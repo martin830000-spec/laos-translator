@@ -26,7 +26,7 @@ def validate(plan):
  seen={}
  for t in plan['tasks']:
   require(type(t['slot'])is int and t['slot']not in seen and t['side']in('K','L'))
-  if t['stage']=='first':require(type(t['input'])is str and t['input'].strip() and t['profile']in('SERVICE_FIRST','K_EVENT_31_V1'))
+  if t['stage']=='first':require(type(t['input'])is str and t['input'].strip() and t['profile']in('SERVICE_FIRST','K_EVENT_31_V1','K_EVENT_31_V2'))
   else:
    require(t['stage']=='back' and t['profile']in('SERVICE_BACK',))
    require(set(t).isdisjoint({'input','original','source','context','answer','grade','history'}))
