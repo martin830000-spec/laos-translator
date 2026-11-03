@@ -1,5 +1,11 @@
 {
-  "stage": "LOCKED",
+  "title": "GEMINI_K31_ACTOR_RESEARCH16_20261104_DISCOVERY_PRIVATE_PHASE",
+  "stage": "DISCOVERY",
+  "phase_cap": 8,
   "prior_actual_attempts": 0,
-  "phase_cap": 0
+  "issue_number": 161,
+  "plan_sha256": "c0502269b8f365696ddd57e116ae714317d6ddf5f9dc45464f886afa2a263c1f",
+  "source_manifest_sha256": "20c2be23576bea60a3cd7d0c65e47fb477f8242d550a1e9b5b1c02c91ca617e2",
+  "tag": "gemini-k31-actor16-20261104-discovery-consumed",
+  "required_tags": []
 }

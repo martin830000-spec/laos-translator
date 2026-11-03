@@ -1,10 +1,12 @@
 {
   "campaign_id": "GEMINI_K31_ACTOR_RESEARCH16_20261104",
-  "authorized": false,
-  "execution_enabled": false,
+  "authorized": true,
+  "execution_enabled": true,
   "user_approved_limit": 16,
   "whole_campaign_limit": 16,
   "actual_consumed": 0,
-  "maximum_new_attempts": 0,
-  "status": "FREE_IMPLEMENTATION_BEFORE_ACTIVATION"
+  "maximum_new_attempts": 8,
+  "plan_sha256": "c0502269b8f365696ddd57e116ae714317d6ddf5f9dc45464f886afa2a263c1f",
+  "approval_source": "User 2026-11-04 KST Work instruction explicit new16 attempts; failures count; no retries/judge",
+  "legacy_remaining": 0
 }

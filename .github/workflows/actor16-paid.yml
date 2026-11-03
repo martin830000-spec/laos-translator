@@ -1,0 +1,44 @@
+name: Approved Gemini actor16 encrypted single phase
+on:
+  push:
+    branches: [research/gemini-k31-actor16-20261104]
+    paths: ['experiments/actor16/activation.json']
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: gemini-k31-actor16-20261104
+  cancel-in-progress: false
+jobs:
+  bounded:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Public one-time handshake
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/actor16/bridge.py prepare "$RUNNER_TEMP/actor16"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: actor16-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/actor16/handshake.json
+          retention-days: 1
+      - name: Approved bounded encrypted phase
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/actor16/bridge.py execute "$RUNNER_TEMP/actor16"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: actor16-result-${{ github.run_id }}
+          path: ${{ runner.temp }}/actor16/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn
