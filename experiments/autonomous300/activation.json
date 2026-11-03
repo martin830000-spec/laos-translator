@@ -1,1 +1,1 @@
-{"phase":"REGRESSION","prior_actual_attempts":160,"max_phase_attempts":32,"new_structure_control":true,"synthetic_regressions_explicit":true}
+{"phase":"REFINEMENT2","prior_actual_attempts":192,"maximum_phase_attempts":16,"whole_limit":300,"control":"L prompt-only causal temporal relation"}
