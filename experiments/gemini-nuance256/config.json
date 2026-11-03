@@ -1,12 +1,12 @@
 {
-  "title": "GEMINI_NUANCE256_20261103_FINALB",
+  "title": "GEMINI_NUANCE256_20261103_LOCKED",
   "tag": "gemini-nuance256-20261103-finalb-consumed",
   "issue_number": 154,
   "plan_sha256": "3af9601b658474511be7f30022905660c0b9eff82c68768bb07ca32611c51cc2",
-  "stage": "FINALB",
-  "phase_cap": 48,
+  "stage": "LOCKED",
+  "phase_cap": 0,
   "campaign_cap": 256,
-  "prior_actual_attempts": 208,
+  "prior_actual_attempts": 256,
   "required_tags": [
     "gemini-nuance256-20261103-p1a-consumed",
     "gemini-nuance256-20261103-p1b-consumed",
@@ -17,6 +17,7 @@
     "gemini-nuance256-20261103-finala-consumed",
     "gemini-nuance256-20261103-p5b-consumed"
   ],
-  "data_bound": true,
-  "private_plan_ready": true
+  "data_bound": false,
+  "private_plan_ready": false,
+  "closure_reason": "ALL_256_APPROVED_ATTEMPTS_CONSUMED_FINALB_COMPLETE"
 }
