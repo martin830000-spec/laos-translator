@@ -1,0 +1,16 @@
+name: Fourpath next FREE contracts
+on:
+  push:
+    branches: [research/gemini-fourpath-next-20261104]
+    paths: ['experiments/fourpath-next/**', '.github/workflows/fourpath-next-free.yml']
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: node --test experiments/fourpath-next/contracts.test.cjs
+      - run: python3 -m unittest discover -s experiments/fourpath-next -p 'test_*.py' -v
