@@ -1,0 +1,14 @@
+{
+  "authorized": false,
+  "campaign_id": "GEMINI_NUANCE256_20261103",
+  "maximum_new_attempts": 0,
+  "whole_campaign_limit": 256,
+  "prior_new_attempts": 0,
+  "conditional_campaign_ceiling": 256,
+  "actual_consumed": 0,
+  "unused_ceiling": 256,
+  "execution_enabled": false,
+  "plan_sha256": null,
+  "approval_source": "User-supplied WORK_GEMINI_NUANCE_READABILITY_256_20261103.txt; file states new calls only upon direct Work submission",
+  "closure_reason": "SAFETY_LOCK_PENDING_WORK_DIRECT_SUBMISSION_AND_SECURE_PRIVATE_PLAN"
+}
