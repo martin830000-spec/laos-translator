@@ -1,0 +1,16 @@
+{
+  "campaign_id": "GEMINI_FULL_AUTONOMOUS300_20261104",
+  "authorized": false,
+  "execution_enabled": false,
+  "max_new": 0,
+  "approved": 300,
+  "actual_consumed": 296,
+  "success": 295,
+  "failed": 1,
+  "unused": 4,
+  "automatic_retry": 0,
+  "paid_judge": 0,
+  "service_changed": false,
+  "decision": "TEST_ONLY; risk routing not proven semantic cure; no operational adoption",
+  "closed_at_utc": "2026-11-03T22:38:15.219548+00:00"
+}

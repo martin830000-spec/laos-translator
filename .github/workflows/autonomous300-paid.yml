@@ -2,7 +2,7 @@ name: Approved Gemini autonomous300 encrypted single phase
 on:
   push:
     branches: [research/gemini-autonomous300-20261104]
-    paths: ['experiments/autonomous300/activation.json']
+    paths: ['NEVER_TRIGGER_AFTER_APPROVED300_RESEARCH_CLOSED']
 permissions:
   contents: write
   issues: read
