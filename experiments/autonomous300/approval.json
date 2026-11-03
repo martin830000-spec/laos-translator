@@ -2,13 +2,12 @@
   "campaign_id": "GEMINI_FULL_AUTONOMOUS300_20261104",
   "user_approved_limit": 300,
   "whole_campaign_limit": 300,
-  "authorized": false,
-  "execution_enabled": false,
+  "authorized": true,
+  "execution_enabled": true,
   "actual_consumed": 232,
-  "maximum_new_attempts": 0,
+  "maximum_new_attempts": 64,
   "unused_approved": 68,
-  "plan_sha256": "bb6d3b9785be940c80f08c018cc32a9f1eb62c47bf060b704d335b85ea1598b0",
+  "plan_sha256": "68d0588dc415869d5df8fb20be1017a14a97d81bf16be30e732b946044d1e447",
   "approval_source": "User explicit 2026-11-04 new independent maximum300 Gemini attempts + full instruction SHA256 835951560507918cdde500ad168e28e6a33b64a1e259f482ce397f39764e3f97",
-  "prior_approvals_reused": 0,
-  "status": "FROZEN_BEFORE_FINAL_SELECTION"
+  "prior_approvals_reused": 0
 }

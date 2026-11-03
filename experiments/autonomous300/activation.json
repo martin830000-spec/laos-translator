@@ -1,1 +1,1 @@
-{"phase":"ROUTING","prior_actual_attempts":208,"maximum_phase_attempts":24,"whole_limit":300,"precall_TEST_only":true,"no_additional_judge_or_retry":true}
+{"phase":"FINAL","prior_actual_attempts":232,"max_phase_attempts":64,"whole_approved_limit":300,"candidate_frozen_before_source_selection":true,"current_development_unused_K8_L8":true}

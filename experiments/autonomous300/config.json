@@ -1,17 +1,18 @@
 {
-  "title": "GEMINI_FULL_AUTONOMOUS300_20261104_ROUTING_PRIVATE_PHASE",
-  "stage": "LOCKED",
-  "phase_cap": 0,
+  "title": "GEMINI_FULL_AUTONOMOUS300_20261104_FINAL_PRIVATE_PHASE",
+  "stage": "FINAL",
+  "phase_cap": 80,
   "prior_actual_attempts": 232,
-  "issue_number": 168,
-  "plan_sha256": "bb6d3b9785be940c80f08c018cc32a9f1eb62c47bf060b704d335b85ea1598b0",
-  "source_manifest_sha256": "6d8327c59fd1023afe6804296e7827137b2d4a4e45995038910f9ba7b2b2fbb7",
-  "tag": "gemini-full-autonomous300-20261104-routing-consumed",
+  "issue_number": 169,
+  "plan_sha256": "68d0588dc415869d5df8fb20be1017a14a97d81bf16be30e732b946044d1e447",
+  "source_manifest_sha256": "5bd639eaab24f5fd63e62157e49b81d2c0072bf0b7cabbef54d2b641aa0f5788",
+  "tag": "gemini-full-autonomous300-20261104-final-consumed",
   "required_tags": [
     "gemini-full-autonomous300-20261104-discovery-consumed",
     "gemini-full-autonomous300-20261104-refinement-consumed",
     "gemini-full-autonomous300-20261104-back_compare-consumed",
     "gemini-full-autonomous300-20261104-regression-consumed",
-    "gemini-full-autonomous300-20261104-refinement2-consumed"
+    "gemini-full-autonomous300-20261104-refinement2-consumed",
+    "gemini-full-autonomous300-20261104-routing-consumed"
   ]
 }
