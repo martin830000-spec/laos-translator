@@ -1,8 +1,8 @@
 {
   "title": "GEMINI_SEMANTIC_AUTONOMOUS40_20261103_FINAL_PRIVATE_PHASE",
-  "stage": "FINAL",
-  "phase_cap": 16,
-  "prior_actual_attempts": 24,
+  "stage": "LOCKED",
+  "phase_cap": 0,
+  "prior_actual_attempts": 40,
   "issue_number": 160,
   "plan_sha256": "1dfa9d171f5633cb3adacbe4dea0999918cabb5eb2924404def69b22762c6f01",
   "source_manifest_sha256": "0abcbbad794311c760134274f0e6a36f5701f71199b634b70bb932939904098d",
@@ -10,5 +10,6 @@
   "required_tags": [
     "gemini-semantic-autonomous40-20261103-discovery-consumed",
     "gemini-semantic-autonomous40-20261103-refinement-consumed"
-  ]
+  ],
+  "closure_reason": "ALL40_ACTUAL_ATTEMPTS_AUTHENTICATED_NO_REPLAY"
 }

@@ -2,7 +2,7 @@ name: Approved Gemini semantic40 encrypted single phase
 on:
   push:
     branches: [research/gemini-semantic-first-back-20261103]
-    paths: ['experiments/semantic40/activation.json']
+    paths: ['experiments/semantic40/NEVER_TRIGGER_AFTER_APPROVED40_CONSUMED']
 permissions:
   contents: write
   issues: read

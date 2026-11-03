@@ -1,0 +1,27 @@
+{
+  "campaign_id": "GEMINI_SEMANTIC_AUTONOMOUS40_20261103",
+  "actual": 40,
+  "success": 40,
+  "failed": 0,
+  "unused": 0,
+  "automatic_retries": 0,
+  "judge_calls": 0,
+  "service_changes": 0,
+  "first": 18,
+  "back": 22,
+  "unique_response_ids": 40,
+  "estimated_usd": 0.026502,
+  "invoice_verified": false,
+  "decision": "HOLD_SERVICE_UNCHANGED",
+  "reason_categories": [
+    "K_initial_JSON_wrapper",
+    "K_final_added_participant",
+    "BACK_latency_benefit_not_replicated",
+    "L_first_latency_not_consistently_better"
+  ],
+  "runs": {
+    "DISCOVERY": 41648973107,
+    "REFINEMENT": 41649813856,
+    "FINAL": 41650540260
+  }
+}

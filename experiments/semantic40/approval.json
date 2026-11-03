@@ -2,14 +2,15 @@
   "campaign_id": "GEMINI_SEMANTIC_AUTONOMOUS40_20261103",
   "user_approved_limit": 40,
   "whole_campaign_limit": 40,
-  "authorized": true,
-  "execution_enabled": true,
-  "maximum_new_attempts": 16,
-  "actual_consumed": 24,
-  "unused_approved": 16,
+  "authorized": false,
+  "execution_enabled": false,
+  "maximum_new_attempts": 0,
+  "actual_consumed": 40,
+  "unused_approved": 0,
   "plan_sha256": "1dfa9d171f5633cb3adacbe4dea0999918cabb5eb2924404def69b22762c6f01",
   "approval_source": "User attached WORK_GEMINI_SEMANTIC_AUTONOMOUS40_20261103.txt, explicit new Gemini generation attempt limit40; no other provider/judge/retry",
   "legacy_320_remaining": 0,
   "legacy_256_remaining": 0,
-  "legacy_128_remaining": 0
+  "legacy_128_remaining": 0,
+  "status": "LOCKED_COMPLETED40"
 }
