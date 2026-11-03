@@ -1,10 +1,10 @@
 {
   "authorized": true,
   "campaign_id": "GEMINI_NUANCE256_20261103",
-  "maximum_new_attempts": 32,
+  "maximum_new_attempts": 16,
   "whole_campaign_limit": 256,
-  "prior_new_attempts": 96,
-  "plan_sha256": "1ee10974f0755c6733d0a11b4d3c1db4931e34ecc4d5b2a3f37992032e976522",
+  "prior_new_attempts": 128,
+  "plan_sha256": "0c8d536da2d76a60699d7c28ce6e30073b332226f45888a4fed4cca8a404d94f",
   "user_approved_new_limit": 256,
-  "approval_source": "Existing NUANCE256 approval; first 96 attempts verified"
+  "approval_source": "Existing NUANCE256 approval, prior 128 paid calls verified"
 }
