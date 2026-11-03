@@ -1,0 +1,12 @@
+{
+  "campaign_id": "GEMINI_NEXTGEN_RESEARCH_20261103",
+  "authorized": false,
+  "execution_enabled": false,
+  "maximum_new_attempts": 0,
+  "prior_actual_attempts": 0,
+  "proposed_total_attempts_not_approved": 128,
+  "prior_iterate320_remaining": 0,
+  "prior_nuance256_remaining": 0,
+  "service_deployment_allowed": false,
+  "approval_source": "No new paid approval in uploaded NEXT_GEN directive"
+}
