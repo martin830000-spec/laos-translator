@@ -1,13 +1,1 @@
-{
-  "title": "GEMINI_SEMANTIC_AUTONOMOUS40_20261103_REFINEMENT_PRIVATE_PHASE",
-  "stage": "REFINEMENT",
-  "phase_cap": 12,
-  "prior_actual_attempts": 12,
-  "issue_number": 159,
-  "plan_sha256": "d2a551b6697ec86c44f5c2425159746ae673311f3809780b75ba61940f3181a8",
-  "source_manifest_sha256": "b88edccb1536edf4305c8e0e1ce8dc3a4fbb02e0de44a90611590e903abd7088",
-  "tag": "gemini-semantic-autonomous40-20261103-refinement-consumed",
-  "required_tags": [
-    "gemini-semantic-autonomous40-20261103-discovery-consumed"
-  ]
-}
+{"stage": "LOCKED", "phase_cap": 0, "prior_actual_attempts": 24, "title": "FROZEN_REVIEW_AFTER24"}
