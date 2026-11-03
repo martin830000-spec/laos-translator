@@ -1,0 +1,28 @@
+{
+  "campaign_id": "GEMINI_NEXTGEN_REAL128_20261103",
+  "artifact_type": "FROZEN_FINAL_PROFILE_BEFORE_HOLDOUT",
+  "completed_development_attempts": 80,
+  "A_attempts": 48,
+  "B_attempts": 32,
+  "final_attempts_before_freeze": 0,
+  "final_case_count": 12,
+  "candidate_by_side": {
+    "K": "K_BOUND_31",
+    "L": "L_FEWSHOT_38"
+  },
+  "back_profile": "NX_BACK_38_FREEZE_V1",
+  "service_profile": "38SVC",
+  "same_vendor_only": "Google Gemini",
+  "MODEL_K": "gemini-3.1-flash-lite",
+  "MODEL_L": "gemini-3.8-flash",
+  "MODEL_BACK": "gemini-3.8-flash",
+  "native_lao_verified": false,
+  "quality_decision": "HOLD_PENDING_INDEPENDENT_FINAL",
+  "frozen_code_git_blob_sha": {
+    "engine": "b318934009da21b41735d0efbb0d4ae2e2dfb816",
+    "candidate_builder": "a338cfc4278bb71f26b6bb62b41a23221bd68ff7",
+    "service_adapter": "1d459fdf6c4c3015af3ef646d4a395bf90532f65",
+    "campaign": "99a00ee9a81b257980e296ec2bc740e6d2defcbe"
+  },
+  "no_private_source_published": true
+}
