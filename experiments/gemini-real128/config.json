@@ -1,0 +1,12 @@
+{
+ "title":"GEMINI_NEXTGEN_REAL128_20261103_LOCKED",
+ "stage":"LOCKED",
+ "phase_cap":0,
+ "prior_actual_attempts":0,
+ "issue_number":0,
+ "plan_sha256":null,
+ "source_manifest_sha256":null,
+ "tag":"gemini-nextgen-real128-20261103-not-started",
+ "required_tags":[],
+ "approval_locked":true
+}
