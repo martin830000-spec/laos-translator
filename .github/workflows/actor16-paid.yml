@@ -2,7 +2,7 @@ name: Approved Gemini actor16 encrypted single phase
 on:
   push:
     branches: [research/gemini-k31-actor16-20261104]
-    paths: ['experiments/actor16/activation.json']
+    paths: ['experiments/k31-actor16/activation.json']
 permissions:
   contents: write
   issues: read
@@ -24,7 +24,7 @@ jobs:
       - name: Public one-time handshake
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python3 experiments/actor16/bridge.py prepare "$RUNNER_TEMP/actor16"
+        run: python3 experiments/k31-actor16/bridge.py prepare "$RUNNER_TEMP/actor16"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: actor16-handshake-${{ github.run_id }}
@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/actor16/bridge.py execute "$RUNNER_TEMP/actor16"
+        run: python3 experiments/k31-actor16/bridge.py execute "$RUNNER_TEMP/actor16"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
