@@ -52,12 +52,15 @@ class Contract(unittest.TestCase):
         self.assertEqual(q5["payload"]["contents"],q6["payload"]["contents"])
         self.assertIn("syllable-by-syllable",q6["payload"]["system_instruction"]["parts"][0]["text"])
         self.assertNotEqual(q5["payload"]["system_instruction"],q6["payload"]["system_instruction"])
-    def test_wife_comparison_is_identical_input_and_generation(self):
-        b=a.build_first("SYNTHETIC", "L","38SVC",CONTEXT)
+    def test_38CF_preserves_38CA_request_except_prompt(self):
+        base=a.build_first("SYNTHETIC", "L","38CA",CONTEXT)
         q=a.build_first("SYNTHETIC", "L","38CF",CONTEXT)
-        self.assertEqual(b["payload"]["generationConfig"],q["payload"]["generationConfig"])
-        self.assertEqual(b["payload"]["contents"][-1]["parts"][0]["text"],"SYNTHETIC")
-        self.assertEqual(q["payload"]["contents"][-1]["parts"][0]["text"],"SYNTHETIC")
+        svc=a.build_first("SYNTHETIC", "L","38SVC",CONTEXT)
+        self.assertEqual(base["payload"]["generationConfig"],q["payload"]["generationConfig"])
+        self.assertEqual(base["payload"]["contents"],q["payload"]["contents"])
+        self.assertNotEqual(base["payload"]["system_instruction"],q["payload"]["system_instruction"])
+        # SERVICE has a distinct cap; do not mislabel differing generation settings as identical.
+        self.assertNotEqual(svc["payload"]["generationConfig"],q["payload"]["generationConfig"])
     def test_back_profile_independent_and_no_context(self):
         for side in ["K","L"]:
             for profile in ["38P","38CB"]:
