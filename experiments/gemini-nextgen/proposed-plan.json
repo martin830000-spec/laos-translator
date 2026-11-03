@@ -1,0 +1,16 @@
+{
+  "campaign_id": "GEMINI_NEXTGEN_RESEARCH_20261103",
+  "status": "PROPOSED_ONLY_LOCKED_NO_GENERATION",
+  "approved_new_attempts": 0,
+  "new_paid_calls_executed": 0,
+  "proposed_attempts": 128,
+  "phase_contract": "Each original compared with two FIRST arms and each arm's own independent displayed-FIRST BACK. ONE call per leg, no retry or hidden judge.",
+  "phases": [
+    {"name":"DISCOVERY_A", "source_cases_per_side":6, "K":6, "L":6, "source_types":"actual private spouse conversations", "length_balance_each_side":{"short":2,"medium":2,"long":2}, "arms":"SERVICE_FIRST + frozen BACK versus NX_BOUND_FIRST + same frozen BACK", "maximum_attempts":48},
+    {"name":"REFINEMENT_B", "source_cases_per_side":4, "K":4, "L":4, "length_balance_each_side":{"short":1,"medium":1,"long":2}, "arms":"NX_BOUND_FIRST+BACK versus NX_FEWSHOT_FIRST+BACK; validate bilingual exemplars before paid use", "maximum_attempts":32},
+    {"name":"INDEPENDENT_FINAL", "source_cases_per_side":6, "K":6, "L":6, "length_balance_each_side":{"short":2,"medium":2,"long":2}, "arms":"SERVICE_FIRST+BACK versus frozen winner_FIRST+BACK; no further tuning on FINAL", "maximum_attempts":48}
+  ],
+  "privacy": "External private 2000-source corpus selected only in owner-private runtime; public GitHub stores no originals. Deduplicate by canonical hash plus family/cluster and prior exposure manifest.",
+  "stop_on": ["Approval ledger mismatch or private key exposure", "Any attempted call beyond separately approved limit", "Two distinct P0 FIRST failures in a direction without comparable baseline failure: HOLD that profile pending human review", "Dependency FIRST failure: skip only its corresponding BACK, count attempted FIRST"],
+  "forbidden": ["new API requests before explicit user approval", "automatic retry", "automatic retranslation", "paid AI judge", "reuse of NUANCE256/ITERATE320 approvals", "service deployment", "mix Claude with Gemini in same path"]
+}
