@@ -3,8 +3,8 @@
   "campaign_id": "GEMINI_NUANCE256_20261103",
   "maximum_new_attempts": 32,
   "whole_campaign_limit": 256,
-  "prior_new_attempts": 64,
-  "plan_sha256": "c8b0e5bf9de5fe6c720bfeec55c8a0d94fd844b8a307fc5bb7626be2258168a8",
+  "prior_new_attempts": 96,
+  "plan_sha256": "1ee10974f0755c6733d0a11b4d3c1db4931e34ecc4d5b2a3f37992032e976522",
   "user_approved_new_limit": 256,
-  "approval_source": "Existing 256 Nuance campaign; P1 32 and P2 32 confirmed actual success"
+  "approval_source": "Existing NUANCE256 approval; first 96 attempts verified"
 }
