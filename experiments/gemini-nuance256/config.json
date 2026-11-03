@@ -1,13 +1,13 @@
 {
-  "title": "GEMINI_NUANCE256_20261103_LOCKED",
-  "tag": "gemini-nuance256-20261103-not-activated",
-  "issue_number": 0,
-  "plan_sha256": null,
-  "stage": "LOCKED",
-  "phase_cap": 0,
+  "title": "GEMINI_NUANCE256_20261103_P1A",
+  "tag": "gemini-nuance256-20261103-p1a-consumed",
+  "issue_number": 146,
+  "plan_sha256": "09ffdcaa20a221700363664007d571b3acc253225b2908fa812e4c5467c79048",
+  "stage": "P1A",
+  "phase_cap": 4,
   "campaign_cap": 256,
   "prior_actual_attempts": 0,
   "required_tags": [],
-  "data_bound": false,
-  "private_plan_ready": false
+  "data_bound": true,
+  "private_plan_ready": true
 }
