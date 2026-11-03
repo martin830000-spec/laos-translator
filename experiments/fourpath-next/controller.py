@@ -25,6 +25,10 @@ def run(plan,approval,build,inspect,send,journal,persist):
  n=approval.get('approved_new');prior=approval.get('actual_attempts')
  if type(n)is not int or type(prior)is not int or n<=0 or prior<0 or prior+len(plan['tasks'])>n:raise ValueError('NO_NEW_APPROVAL_OR_BUDGET')
  if approval.get('authorized')is not True or approval.get('execution_enabled')is not True or approval.get('plan_sha256')!=digest(plan):raise ValueError('LOCKED_OR_UNBOUND')
+ if plan.get('phase')=='FINAL':
+  freeze=plan.get('final_freeze',{});code=hashlib.sha256((Path(__file__).parent/'contracts.cjs').read_bytes()).hexdigest()
+  cases={t['case_id']:hashlib.sha256(t['input'].encode()).hexdigest()for t in plan['tasks']if t['path'].endswith('F')}
+  if freeze.get('state')!='FROZEN_BEFORE_OPEN'or freeze.get('contracts_sha256')!=code or freeze.get('case_hash_manifest')!=cases or not freeze.get('rubric_sha256'):raise ValueError('FINAL_FREEZE_REQUIRED')
  # Exclusive journal also makes a repeated invocation of a consumed plan fail closed.
  with Path(journal).open('x',encoding='utf8')as f:f.write(digest(plan)+'\n');f.flush();os.fsync(f.fileno())
  result={'campaign_id':ID,'attempts':0,'prior':prior,'slots':[],'automatic_retries':0,'judge_calls':0};by={}

@@ -37,6 +37,10 @@ class Contracts(unittest.TestCase):
   for k in ['original','source','input','hash','context','grade','history']:
    p=copy.deepcopy(self.p);p['tasks'][1][k]='LEAK'
    with self.assertRaises(ValueError):c.validate(p)
+ def test_final_requires_bound_candidate_and_case_freeze(self):
+  self.p['phase']='FINAL';self.a['plan_sha256']=c.digest(self.p)
+  with self.assertRaises(ValueError):self.runp()
+  self.assertFalse(self.j.exists());self.assertEqual(self.calls,[])
  def test_close_counts_unused_without_reauthorization(self):
   a=c.close(self.a,1);self.assertEqual(a['unused'],1);self.assertEqual(a['maximum_new_attempts'],0);self.assertFalse(a['authorized'])
  def test_session_reuses_connection_no_header_or_key_in_wire(self):
