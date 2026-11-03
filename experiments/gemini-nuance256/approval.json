@@ -1,14 +1,10 @@
 {
-  "authorized": false,
+  "authorized": true,
   "campaign_id": "GEMINI_NUANCE256_20261103",
-  "maximum_new_attempts": 0,
+  "maximum_new_attempts": 4,
   "whole_campaign_limit": 256,
   "prior_new_attempts": 0,
-  "conditional_campaign_ceiling": 256,
-  "actual_consumed": 0,
-  "unused_ceiling": 256,
-  "execution_enabled": false,
-  "plan_sha256": null,
-  "approval_source": "User-supplied WORK_GEMINI_NUANCE_READABILITY_256_20261103.txt; file states new calls only upon direct Work submission",
-  "closure_reason": "SAFETY_LOCK_PENDING_WORK_DIRECT_SUBMISSION_AND_SECURE_PRIVATE_PLAN"
+  "plan_sha256": "09ffdcaa20a221700363664007d571b3acc253225b2908fa812e4c5467c79048",
+  "user_approved_new_limit": 256,
+  "approval_source": "User confirmed original Gemini NUANCE256 256 total approved attempts plus explicit resume, not additional approval"
 }
