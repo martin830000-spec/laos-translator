@@ -1,12 +1,12 @@
 {
-  "title": "GEMINI_ITERATE320_20261103_P5B",
-  "tag": "gemini-iterate320-20261103-p5b-consumed",
-  "issue_number": 144,
-  "plan_sha256": "decf395e2e4f1aa429b321705a234822794bb12128c9890eef05a81707e87dfc",
-  "stage": "P5B",
-  "phase_cap": 14,
+  "title": "GEMINI_ITERATE320_20261103_FINALB",
+  "tag": "gemini-iterate320-20261103-finalb-consumed",
+  "issue_number": 145,
+  "plan_sha256": "3fa86e57d8c5369a2fe52c99ce736a6eb0a2937dbb89e9413134c517eda880c5",
+  "stage": "FINALB",
+  "phase_cap": 48,
   "campaign_cap": 320,
-  "prior_actual_attempts": 258,
+  "prior_actual_attempts": 272,
   "required_tags": [
     "gemini-iterate320-20261103-connect-consumed",
     "gemini-iterate320-20261103-p1-consumed",
@@ -14,6 +14,7 @@
     "gemini-iterate320-20261103-p3-consumed",
     "gemini-iterate320-20261103-p4-consumed",
     "gemini-iterate320-20261103-p5a-consumed",
-    "gemini-iterate320-20261103-finala-consumed"
+    "gemini-iterate320-20261103-finala-consumed",
+    "gemini-iterate320-20261103-p5b-consumed"
   ]
 }
