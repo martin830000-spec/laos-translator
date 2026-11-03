@@ -1,0 +1,245 @@
+{
+  "campaign_id": "GEMINI_ITERATE320_20261103",
+  "approved": 320,
+  "actual_attempts": 320,
+  "success": 320,
+  "failed": 0,
+  "unused": 0,
+  "automatic_retries": 0,
+  "hidden_judge_calls": 0,
+  "actual_known_estimated_usd": 0.2090195,
+  "invoice_verified": false,
+  "final": [
+    {
+      "phases": [
+        "FINALA",
+        "FINALB"
+      ],
+      "side": "K",
+      "arm": "SERVICE",
+      "profiles": [
+        "38SVC+38P"
+      ],
+      "pairs": 12,
+      "first_quality": {
+        "P2": 12
+      },
+      "back_quality": {
+        "P2": 11,
+        "P0": 1
+      },
+      "first_api_ms": {
+        "n": 12,
+        "mean": 2165.8158227499944,
+        "median": 2104.3302864999873,
+        "p95": 3613.4302309999953,
+        "maximum": 3613.4302309999953
+      },
+      "first_ready_ms": {
+        "n": 12,
+        "mean": 2191.112187249999,
+        "median": 2129.767428500003,
+        "p95": 3643.487028999999,
+        "maximum": 3643.487028999999
+      },
+      "back_api_ms": {
+        "n": 12,
+        "mean": 1779.0823301666662,
+        "median": 1652.532964499997,
+        "p95": 3674.708649999985,
+        "maximum": 3674.708649999985
+      },
+      "back_ready_ms": {
+        "n": 12,
+        "mean": 1803.9895495833325,
+        "median": 1681.4760675000002,
+        "p95": 3702.207178999998,
+        "maximum": 3702.207178999998
+      },
+      "roundtrip_ms": {
+        "n": 12,
+        "mean": 4034.871132916666,
+        "median": 3813.858050499999,
+        "p95": 5903.272178999998,
+        "maximum": 5903.272178999998
+      },
+      "first_ready_over2500": 3,
+      "success_pair_estimated_usd_per1000": 1.69875
+    },
+    {
+      "phases": [
+        "FINALA",
+        "FINALB"
+      ],
+      "side": "K",
+      "arm": "NEW",
+      "profiles": [
+        "31T5+38CB"
+      ],
+      "pairs": 12,
+      "first_quality": {
+        "P2": 10,
+        "P0": 2
+      },
+      "back_quality": {
+        "P2": 12
+      },
+      "first_api_ms": {
+        "n": 12,
+        "mean": 942.7046195833336,
+        "median": 867.5877740000004,
+        "p95": 1343.863787999993,
+        "maximum": 1343.863787999993
+      },
+      "first_ready_ms": {
+        "n": 12,
+        "mean": 967.6066032499975,
+        "median": 891.1850490000148,
+        "p95": 1364.4532600000048,
+        "maximum": 1364.4532600000048
+      },
+      "back_api_ms": {
+        "n": 12,
+        "mean": 1705.625114666669,
+        "median": 1627.3019645000063,
+        "p95": 2357.525449000008,
+        "maximum": 2357.525449000008
+      },
+      "back_ready_ms": {
+        "n": 12,
+        "mean": 1730.9601295833304,
+        "median": 1649.2747359999953,
+        "p95": 2388.3361319999776,
+        "maximum": 2388.3361319999776
+      },
+      "roundtrip_ms": {
+        "n": 12,
+        "mean": 2739.9487129166637,
+        "median": 2653.258220500008,
+        "p95": 3670.5911319999777,
+        "maximum": 3670.5911319999777
+      },
+      "first_ready_over2500": 0,
+      "success_pair_estimated_usd_per1000": 0.8484791666666667
+    },
+    {
+      "phases": [
+        "FINALA",
+        "FINALB"
+      ],
+      "side": "L",
+      "arm": "SERVICE",
+      "profiles": [
+        "38SVC+38P"
+      ],
+      "pairs": 12,
+      "first_quality": {
+        "P2": 11,
+        "REVIEW": 1
+      },
+      "back_quality": {
+        "P2": 12
+      },
+      "first_api_ms": {
+        "n": 12,
+        "mean": 1802.2896859999946,
+        "median": 1720.249798999987,
+        "p95": 2460.46783700001,
+        "maximum": 2460.46783700001
+      },
+      "first_ready_ms": {
+        "n": 12,
+        "mean": 1827.2602806666641,
+        "median": 1741.0794944999993,
+        "p95": 2488.9869920000083,
+        "maximum": 2488.9869920000083
+      },
+      "back_api_ms": {
+        "n": 12,
+        "mean": 2351.6835707499977,
+        "median": 1838.6449165000017,
+        "p95": 5287.9874340000015,
+        "maximum": 5287.9874340000015
+      },
+      "back_ready_ms": {
+        "n": 12,
+        "mean": 2376.9823165000025,
+        "median": 1863.3549359999934,
+        "p95": 5308.4764120000045,
+        "maximum": 5308.4764120000045
+      },
+      "roundtrip_ms": {
+        "n": 12,
+        "mean": 4246.223983166669,
+        "median": 3845.930512499994,
+        "p95": 7018.464412000005,
+        "maximum": 7018.464412000005
+      },
+      "first_ready_over2500": 0,
+      "success_pair_estimated_usd_per1000": 1.4418125000000002
+    },
+    {
+      "phases": [
+        "FINALA",
+        "FINALB"
+      ],
+      "side": "L",
+      "arm": "NEW",
+      "profiles": [
+        "38CF+38CB"
+      ],
+      "pairs": 12,
+      "first_quality": {
+        "P2": 11,
+        "REVIEW": 1
+      },
+      "back_quality": {
+        "P2": 11,
+        "REVIEW": 1
+      },
+      "first_api_ms": {
+        "n": 12,
+        "mean": 1952.2015541666658,
+        "median": 1981.1819530000037,
+        "p95": 3136.087478999997,
+        "maximum": 3136.087478999997
+      },
+      "first_ready_ms": {
+        "n": 12,
+        "mean": 1977.6226586666633,
+        "median": 2012.0366894999934,
+        "p95": 3167.0322760000145,
+        "maximum": 3167.0322760000145
+      },
+      "back_api_ms": {
+        "n": 12,
+        "mean": 2073.1118995833335,
+        "median": 2094.8344135000098,
+        "p95": 3116.2892129999873,
+        "maximum": 3116.2892129999873
+      },
+      "back_ready_ms": {
+        "n": 12,
+        "mean": 2098.0444745833397,
+        "median": 2119.8927025000103,
+        "p95": 3137.104291000014,
+        "maximum": 3137.104291000014
+      },
+      "roundtrip_ms": {
+        "n": 12,
+        "mean": 4116.173891250006,
+        "median": 4021.5233640000024,
+        "p95": 5325.02166300002,
+        "maximum": 5325.02166300002
+      },
+      "first_ready_over2500": 1,
+      "success_pair_estimated_usd_per1000": 1.60075
+    }
+  ],
+  "decisions": {
+    "K": "HOLD_FIRST_REGRESSIONS",
+    "L": "TEST_PASS_WITH_REVIEW_SERVICE_SWITCH_HOLD",
+    "31T6": "FREE_CONTRACT_ONLY_API0"
+  },
+  "production_changed": false
+}
