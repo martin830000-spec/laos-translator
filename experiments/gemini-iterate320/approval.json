@@ -1,10 +1,10 @@
 {
   "authorized": true,
   "campaign_id": "GEMINI_ITERATE320_20261103",
-  "maximum_new_attempts": 48,
+  "maximum_new_attempts": 14,
   "whole_campaign_limit": 320,
-  "prior_new_attempts": 210,
-  "plan_sha256": "995c98fb79af6650c62fa91b8faaa31f9be23e551c5482c064b7ff6c3125be48",
+  "prior_new_attempts": 258,
+  "plan_sha256": "decf395e2e4f1aa429b321705a234822794bb12128c9890eef05a81707e87dfc",
   "user_approved_new_limit": 320,
   "approval_source": "Existing GEMINI_ITERATE320_20261103 approval resumed, not new budget"
 }
