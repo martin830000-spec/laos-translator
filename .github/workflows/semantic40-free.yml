@@ -14,4 +14,5 @@ jobs:
         with:
           persist-credentials: false
       - run: node --test experiments/gemini-semantic/contracts.test.cjs
+      - run: node --test experiments/semantic40/variants.test.cjs
       - run: cd experiments/semantic40 && python3 -m unittest -v test_campaign
