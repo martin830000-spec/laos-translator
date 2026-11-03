@@ -1,0 +1,17 @@
+name: Semantic40 zero-generation contracts
+on:
+  push:
+    branches: [research/gemini-semantic-first-back-20261103]
+    paths: ['experiments/semantic40/**', '.github/workflows/semantic40-free.yml']
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: node --test experiments/gemini-semantic/contracts.test.cjs
+      - run: cd experiments/semantic40 && python3 -m unittest -v test_campaign
