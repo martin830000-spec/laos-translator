@@ -1,1 +1,1 @@
-{"phase":"DISCOVERY","maximum_phase_attempts":80,"whole_approved_limit":300,"prior_actual_attempts":0,"automatic_retries":0}
+{"phase":"REFINEMENT","prior_actual_attempts":80,"maximum_phase_attempts":48,"approved_limit":300,"source_split":"ordinary couple log clusters"}
