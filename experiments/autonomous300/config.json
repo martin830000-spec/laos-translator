@@ -1,0 +1,11 @@
+{
+  "title": "GEMINI_FULL_AUTONOMOUS300_20261104_DISCOVERY_PRIVATE_PHASE",
+  "stage": "DISCOVERY",
+  "phase_cap": 80,
+  "prior_actual_attempts": 0,
+  "issue_number": 163,
+  "plan_sha256": "0427b0c721e1bce2cf915b495d8098a30544ec1a5b56dc04724b0f2f39f161a5",
+  "source_manifest_sha256": "9a76cac13c345999a76d03833402da4d58ea5e7884bd3897526511d700af9409",
+  "tag": "gemini-full-autonomous300-20261104-discovery-consumed",
+  "required_tags": []
+}

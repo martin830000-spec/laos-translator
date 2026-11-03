@@ -1,0 +1,13 @@
+{
+  "campaign_id": "GEMINI_FULL_AUTONOMOUS300_20261104",
+  "user_approved_limit": 300,
+  "whole_campaign_limit": 300,
+  "authorized": true,
+  "execution_enabled": true,
+  "actual_consumed": 0,
+  "maximum_new_attempts": 80,
+  "unused_approved": 300,
+  "plan_sha256": "0427b0c721e1bce2cf915b495d8098a30544ec1a5b56dc04724b0f2f39f161a5",
+  "approval_source": "User explicit 2026-11-04 new independent maximum300 Gemini attempts + full instruction SHA256 835951560507918cdde500ad168e28e6a33b64a1e259f482ce397f39764e3f97",
+  "prior_approvals_reused": 0
+}

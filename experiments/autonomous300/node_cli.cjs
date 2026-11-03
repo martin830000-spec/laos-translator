@@ -1,0 +1,1 @@
+'use strict';const fs=require('node:fs'),c=require('../gemini-semantic/contracts.cjs'),v=require('./variants.cjs');const d=JSON.parse(fs.readFileSync(0,'utf8'));process.stdout.write(JSON.stringify(d.mode==='inspect'?c.inspect(d.raw):v.build(d.profile,d.text,d.side)));
