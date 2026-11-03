@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 import adapter as a
 import campaign as c
+import sampling
 ROOT = Path(__file__).resolve().parent
 CONTEXT = {"aliases": ["SYNTHETIC_ALIAS_CANARY"], "context": "SYNTHETIC_ONLY"}
 
@@ -84,6 +85,23 @@ class Contract(unittest.TestCase):
         self.assertIn("important_problem",f["readability"])
         self.assertIn("native_review",f["tone_nuance"])
         self.assertIn("confirmed_native",f["reviewer_kind"])
+    def test_private_length_distribution_and_split(self):
+        rows=[
+            {"side":side,"length_band":band,"source_type":"actual_spouse",
+             "text":side+":"+band+":"+str(i),"cluster_id":str(i),"protected":False}
+            for i,(side,band) in enumerate([("K","short"),("K","medium"),("K","long"),("L","short"),("L","medium"),("L","long")])]
+        out=sampling.audit_records(rows,final_a=(0,3),final_b=(2,5))
+        self.assertEqual(out["per_direction"]["K"]["bands"],{"short":1,"medium":1,"long":1})
+        self.assertEqual(out["per_direction"]["L"]["bands"],{"short":1,"medium":1,"long":1})
+        self.assertFalse(out["raw_source_text_emitted"])
+        self.assertTrue(out["per_direction"]["L"]["native_sentence_count_not_automatically_verified"])
+        with self.assertRaises(ValueError):
+            sampling.audit_records(rows,final_a=(0,),final_b=(0,))
+        with self.assertRaises(ValueError):
+            sampling.audit_records(rows,final_a=(0,),prior_exposures=(sampling.digest(rows[0]["text"]),))
+        rows[5]["cluster_id"]=rows[0]["cluster_id"]
+        with self.assertRaises(ValueError):
+            sampling.audit_records(rows,final_a=(0,),final_b=(5,))
     def test_no_automatic_retry_in_runner(self):
         s=(ROOT/"campaign.py").read_text(encoding="utf-8")
         self.assertIn("automatic_retries=0",s)
