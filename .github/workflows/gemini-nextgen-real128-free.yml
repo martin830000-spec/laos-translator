@@ -1,0 +1,16 @@
+name: Gemini NEXTGEN REAL128 offline contract only
+on:
+  push:
+    branches: [research/gemini-nextgen-real128-20261103]
+    paths: ['experiments/gemini-real128/engine.py','experiments/gemini-real128/campaign.py','experiments/gemini-real128/actions_bridge.py','experiments/gemini-real128/test_contracts.py','.github/workflows/gemini-nextgen-real128-free.yml']
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: python3 -m unittest discover -s experiments/gemini-real128 -p 'test_contracts.py' -v
