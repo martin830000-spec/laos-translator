@@ -2,7 +2,7 @@ name: Approved Gemini NEXTGEN REAL128 private phase - no retries
 on:
   push:
     branches: [research/gemini-nextgen-real128-20261103]
-    paths: ['experiments/gemini-real128/config.json']
+    paths: ['experiments/gemini-real128/NEVER_TRIGGER_WITHOUT_NEW_CAMPAIGN_AND_APPROVAL']
 permissions:
   contents: write
   issues: read
