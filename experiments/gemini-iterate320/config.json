@@ -1,17 +1,16 @@
 {
-  "title": "GEMINI_ITERATE320_20261103_P3",
-  "tag": "gemini-iterate320-20261103-p3-consumed",
-  "issue_number": 140,
-  "plan_sha256": "b6859a752dd176a229c418602dacecddca60753c8ef8138db88d4708537047bd",
-  "stage": "P3",
-  "phase_cap": 64,
+  "title": "GEMINI_ITERATE320_20261103_P4",
+  "tag": "gemini-iterate320-20261103-p4-consumed",
+  "issue_number": 141,
+  "plan_sha256": "902ca1ba7b8f3672676a9ee518e3c1628d78841fa21d6297ebca66897f62317c",
+  "stage": "P4",
+  "phase_cap": 32,
   "campaign_cap": 320,
-  "prior_actual_attempts": 98,
+  "prior_actual_attempts": 162,
   "required_tags": [
     "gemini-iterate320-20261103-connect-consumed",
     "gemini-iterate320-20261103-p1-consumed",
-    "gemini-iterate320-20261103-p2-consumed"
-  ],
-  "activation_note": "Contents API trigger; same unconsumed phase tag and bound request hash",
-  "activation_generation": 1
+    "gemini-iterate320-20261103-p2-consumed",
+    "gemini-iterate320-20261103-p3-consumed"
+  ]
 }
