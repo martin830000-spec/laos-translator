@@ -1,0 +1,13 @@
+{
+  "campaign_id": "GEMINI_SEMANTIC_FIRST_BACK_20261103",
+  "authorized": false,
+  "execution_enabled": false,
+  "user_approved_limit": 0,
+  "maximum_new_attempts": 0,
+  "actual_consumed": 0,
+  "unused_approved": 0,
+  "proposed_limit": 128,
+  "status": "PROPOSAL_ONLY_LOCKED",
+  "automatic_retries": 0,
+  "judge_calls": 0
+}

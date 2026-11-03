@@ -1,0 +1,1127 @@
+{
+  "status": "PROPOSAL_ONLY_NOT_AUTHORIZED",
+  "total": 128,
+  "first": 60,
+  "back": 68,
+  "phases": {
+    "DISCOVERY_A": {
+      "campaign_id": "GEMINI_SEMANTIC_FIRST_BACK_20261103",
+      "phase": "DISCOVERY_A",
+      "proposed_only": true,
+      "data_bound": false,
+      "cap": 40,
+      "tasks": [
+        {
+          "slot": 1,
+          "case_id": "RESERVED_DISCOVERY_A_0",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 2,
+          "case_id": "RESERVED_DISCOVERY_A_0",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 1
+        },
+        {
+          "slot": 3,
+          "case_id": "RESERVED_DISCOVERY_A_0",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 4,
+          "case_id": "RESERVED_DISCOVERY_A_0",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 3
+        },
+        {
+          "slot": 5,
+          "case_id": "RESERVED_DISCOVERY_A_1",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 6,
+          "case_id": "RESERVED_DISCOVERY_A_1",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 5
+        },
+        {
+          "slot": 7,
+          "case_id": "RESERVED_DISCOVERY_A_1",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 8,
+          "case_id": "RESERVED_DISCOVERY_A_1",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 7
+        },
+        {
+          "slot": 9,
+          "case_id": "RESERVED_DISCOVERY_A_2",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 10,
+          "case_id": "RESERVED_DISCOVERY_A_2",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 9
+        },
+        {
+          "slot": 11,
+          "case_id": "RESERVED_DISCOVERY_A_2",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 12,
+          "case_id": "RESERVED_DISCOVERY_A_2",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 11
+        },
+        {
+          "slot": 13,
+          "case_id": "RESERVED_DISCOVERY_A_3",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 14,
+          "case_id": "RESERVED_DISCOVERY_A_3",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 13
+        },
+        {
+          "slot": 15,
+          "case_id": "RESERVED_DISCOVERY_A_3",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 16,
+          "case_id": "RESERVED_DISCOVERY_A_3",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 15
+        },
+        {
+          "slot": 17,
+          "case_id": "RESERVED_DISCOVERY_A_4",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 18,
+          "case_id": "RESERVED_DISCOVERY_A_4",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 17
+        },
+        {
+          "slot": 19,
+          "case_id": "RESERVED_DISCOVERY_A_4",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 20,
+          "case_id": "RESERVED_DISCOVERY_A_4",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 19
+        },
+        {
+          "slot": 21,
+          "case_id": "RESERVED_DISCOVERY_A_5",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 22,
+          "case_id": "RESERVED_DISCOVERY_A_5",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 21
+        },
+        {
+          "slot": 23,
+          "case_id": "RESERVED_DISCOVERY_A_5",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 24,
+          "case_id": "RESERVED_DISCOVERY_A_5",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 23
+        },
+        {
+          "slot": 25,
+          "case_id": "RESERVED_DISCOVERY_A_6",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 26,
+          "case_id": "RESERVED_DISCOVERY_A_6",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 25
+        },
+        {
+          "slot": 27,
+          "case_id": "RESERVED_DISCOVERY_A_6",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 28,
+          "case_id": "RESERVED_DISCOVERY_A_6",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 27
+        },
+        {
+          "slot": 29,
+          "case_id": "RESERVED_DISCOVERY_A_7",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 30,
+          "case_id": "RESERVED_DISCOVERY_A_7",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 29
+        },
+        {
+          "slot": 31,
+          "case_id": "RESERVED_DISCOVERY_A_7",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 32,
+          "case_id": "RESERVED_DISCOVERY_A_7",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 31
+        },
+        {
+          "slot": 33,
+          "case_id": "RESERVED_DISCOVERY_A_8",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 34,
+          "case_id": "RESERVED_DISCOVERY_A_8",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 33
+        },
+        {
+          "slot": 35,
+          "case_id": "RESERVED_DISCOVERY_A_8",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 36,
+          "case_id": "RESERVED_DISCOVERY_A_8",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 35
+        },
+        {
+          "slot": 37,
+          "case_id": "RESERVED_DISCOVERY_A_9",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 38,
+          "case_id": "RESERVED_DISCOVERY_A_9",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 37
+        },
+        {
+          "slot": 39,
+          "case_id": "RESERVED_DISCOVERY_A_9",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 40,
+          "case_id": "RESERVED_DISCOVERY_A_9",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 39
+        }
+      ]
+    },
+    "BACK_REFINEMENT_B": {
+      "campaign_id": "GEMINI_SEMANTIC_FIRST_BACK_20261103",
+      "phase": "BACK_REFINEMENT_B",
+      "proposed_only": true,
+      "data_bound": false,
+      "cap": 24,
+      "tasks": [
+        {
+          "slot": 1,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_0",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 2,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_0",
+          "side": "K",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 1
+        },
+        {
+          "slot": 3,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_0",
+          "side": "K",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 1
+        },
+        {
+          "slot": 4,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_1",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 5,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_1",
+          "side": "K",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 4
+        },
+        {
+          "slot": 6,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_1",
+          "side": "K",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 4
+        },
+        {
+          "slot": 7,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_2",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 8,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_2",
+          "side": "K",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 7
+        },
+        {
+          "slot": 9,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_2",
+          "side": "K",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 7
+        },
+        {
+          "slot": 10,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_3",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 11,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_3",
+          "side": "K",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 10
+        },
+        {
+          "slot": 12,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_3",
+          "side": "K",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 10
+        },
+        {
+          "slot": 13,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_4",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 14,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_4",
+          "side": "L",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 13
+        },
+        {
+          "slot": 15,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_4",
+          "side": "L",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 13
+        },
+        {
+          "slot": 16,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_5",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 17,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_5",
+          "side": "L",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 16
+        },
+        {
+          "slot": 18,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_5",
+          "side": "L",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 16
+        },
+        {
+          "slot": 19,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_6",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 20,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_6",
+          "side": "L",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 19
+        },
+        {
+          "slot": 21,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_6",
+          "side": "L",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 19
+        },
+        {
+          "slot": 22,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_7",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 23,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_7",
+          "side": "L",
+          "arm": "BACK_SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 22
+        },
+        {
+          "slot": 24,
+          "case_id": "RESERVED_BACK_REFINEMENT_B_7",
+          "side": "L",
+          "arm": "BACK_COMPACT",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 22
+        }
+      ]
+    },
+    "FROZEN_INDEPENDENT_FINAL": {
+      "campaign_id": "GEMINI_SEMANTIC_FIRST_BACK_20261103",
+      "phase": "FROZEN_INDEPENDENT_FINAL",
+      "proposed_only": true,
+      "data_bound": false,
+      "cap": 64,
+      "tasks": [
+        {
+          "slot": 1,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_0",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 2,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_0",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 1
+        },
+        {
+          "slot": 3,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_0",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 4,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_0",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 3
+        },
+        {
+          "slot": 5,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_1",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 6,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_1",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 5
+        },
+        {
+          "slot": 7,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_1",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 8,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_1",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 7
+        },
+        {
+          "slot": 9,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_2",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 10,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_2",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 9
+        },
+        {
+          "slot": 11,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_2",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 12,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_2",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 11
+        },
+        {
+          "slot": 13,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_3",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 14,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_3",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 13
+        },
+        {
+          "slot": 15,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_3",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 16,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_3",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 15
+        },
+        {
+          "slot": 17,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_4",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 18,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_4",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 17
+        },
+        {
+          "slot": 19,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_4",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 20,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_4",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 19
+        },
+        {
+          "slot": 21,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_5",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 22,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_5",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 21
+        },
+        {
+          "slot": 23,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_5",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 24,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_5",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 23
+        },
+        {
+          "slot": 25,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_6",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 26,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_6",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 25
+        },
+        {
+          "slot": 27,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_6",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 28,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_6",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 27
+        },
+        {
+          "slot": 29,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_7",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 30,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_7",
+          "side": "K",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 29
+        },
+        {
+          "slot": 31,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_7",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "K_NEUTRAL_31"
+        },
+        {
+          "slot": 32,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_7",
+          "side": "K",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 31
+        },
+        {
+          "slot": 33,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_8",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 34,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_8",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 33
+        },
+        {
+          "slot": 35,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_8",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 36,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_8",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 35
+        },
+        {
+          "slot": 37,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_9",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 38,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_9",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 37
+        },
+        {
+          "slot": 39,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_9",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 40,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_9",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 39
+        },
+        {
+          "slot": 41,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_10",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 42,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_10",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 41
+        },
+        {
+          "slot": 43,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_10",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 44,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_10",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 43
+        },
+        {
+          "slot": 45,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_11",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 46,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_11",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 45
+        },
+        {
+          "slot": 47,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_11",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 48,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_11",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 47
+        },
+        {
+          "slot": 49,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_12",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 50,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_12",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 49
+        },
+        {
+          "slot": 51,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_12",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 52,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_12",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 51
+        },
+        {
+          "slot": 53,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_13",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 54,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_13",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 53
+        },
+        {
+          "slot": 55,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_13",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 56,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_13",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 55
+        },
+        {
+          "slot": 57,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_14",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 58,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_14",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 57
+        },
+        {
+          "slot": 59,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_14",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 60,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_14",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 59
+        },
+        {
+          "slot": 61,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_15",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "first",
+          "profile": "SERVICE_FIRST"
+        },
+        {
+          "slot": 62,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_15",
+          "side": "L",
+          "arm": "SERVICE",
+          "stage": "back",
+          "profile": "SERVICE_BACK",
+          "depends_on": 61
+        },
+        {
+          "slot": 63,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_15",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "first",
+          "profile": "L_STANCE_38"
+        },
+        {
+          "slot": 64,
+          "case_id": "RESERVED_FROZEN_INDEPENDENT_FINAL_15",
+          "side": "L",
+          "arm": "NEW",
+          "stage": "back",
+          "profile": "COMPACT_BACK",
+          "depends_on": 63
+        }
+      ]
+    }
+  }
+}

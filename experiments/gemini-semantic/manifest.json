@@ -1,0 +1,55 @@
+{
+  "id": "GEMINI_SEMANTIC_FIRST_BACK_20261103",
+  "version": "semantic-v1",
+  "files": {
+    "approval.json": {
+      "bytes": 324,
+      "sha256": "04900ad88f7f7855d2176c00bfcf4a3992ce331e2b29436da0462835220660fe"
+    },
+    "contracts.cjs": {
+      "bytes": 5427,
+      "sha256": "612cb26af066dc6a32c78213acbc9c27f68a3fa00251507d9d2b304129d8d114"
+    },
+    "contracts.test.cjs": {
+      "bytes": 7807,
+      "sha256": "f38eafe97d1a0e9ccf8ed5e46b8455cbcf35626bb5d62b866b51736b5000ff90"
+    },
+    "frozen-service/prompt-config.json": {
+      "bytes": 20990,
+      "sha256": "c07846fd5e98ce04177810f901257b12567ba997e950d5c03caf5e109165da0b"
+    },
+    "frozen-service/service-contract.cjs": {
+      "bytes": 8300,
+      "sha256": "60a1d910976cc1d2855265a3b5ded492ceab3871e697db6d0436c4489de81972"
+    },
+    "plan.cjs": {
+      "bytes": 3540,
+      "sha256": "2c1dfe410a85ed6554b6e1657b31c65ff3de60b2a2411cbcc1719f24bc67c687"
+    },
+    "prompt-snapshot.json": {
+      "bytes": 4736,
+      "sha256": "241924ac4ad3241e12e0f66b46b4919010a093bcd87161e02036ca79aa22f432"
+    },
+    "proposed-plan.json": {
+      "bytes": 29675,
+      "sha256": "328a4f7a738a0c5788c1c06db953f36824fd8aa817f18af4ec9a2a0615e4e3b4"
+    },
+    "README.md": {
+      "bytes": 2006,
+      "sha256": "8ad73a5a7d177a6f4ff292f5d75fba2adbdcd134a0c019807a772c8ccc689182"
+    }
+  },
+  "approval": {
+    "campaign_id": "GEMINI_SEMANTIC_FIRST_BACK_20261103",
+    "authorized": false,
+    "execution_enabled": false,
+    "user_approved_limit": 0,
+    "maximum_new_attempts": 0,
+    "actual_consumed": 0,
+    "unused_approved": 0,
+    "proposed_limit": 128,
+    "status": "PROPOSAL_ONLY_LOCKED",
+    "automatic_retries": 0,
+    "judge_calls": 0
+  }
+}
