@@ -3,7 +3,7 @@ from pathlib import Path
 import json,hashlib,subprocess,time,datetime,copy,os
 ID='GEMINI_FULL_AUTONOMOUS300_20261104'
 ROOT=Path(__file__).resolve().parent
-CAPS={'DISCOVERY':80,'REFINEMENT':64,'BACK_COMPARE':48,'REGRESSION':48,'FINAL':80,'REFINEMENT2':16}
+CAPS={'DISCOVERY':80,'REFINEMENT':64,'BACK_COMPARE':48,'REGRESSION':48,'FINAL':80,'REFINEMENT2':16,'ROUTING':24}
 def require(ok):
  if not ok:raise ValueError('CONTRACT_REJECTED')
 def digest(x):return hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
@@ -26,7 +26,7 @@ def validate(plan):
  seen={}
  for t in plan['tasks']:
   require(type(t['slot'])is int and t['slot']not in seen and t['side']in('K','L'))
-  if t['stage']=='first':require(type(t['input'])is str and t['input'].strip() and t['profile']in('SERVICE_FIRST','BASE31_MIN','BASE31_LOW','SCOPE31_MIN','SCOPE31_LOW','SCOPE35_MIN','SCOPE35_LOW','SCOPE38_LOW','REL31_LOW','REL35_MIN','KO31_MIN','PARTS31_MIN','CAUSAL31_MIN'))
+  if t['stage']=='first':require(type(t['input'])is str and t['input'].strip() and t['profile']in('SERVICE_FIRST','BASE31_MIN','BASE31_LOW','SCOPE31_MIN','SCOPE31_LOW','SCOPE35_MIN','SCOPE35_LOW','SCOPE38_LOW','REL31_LOW','REL35_MIN','KO31_MIN','PARTS31_MIN','CAUSAL31_MIN','RISK_FIRST'))
   else:
    require(t['stage']=='back' and t['profile']in('SERVICE_BACK','BACK31_MIN','BACK31_LOW','BACK35_MIN','BACK38_LOW'))
    require(set(t).isdisjoint({'input','original','source','context','answer','grade','history'}))
