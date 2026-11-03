@@ -11,13 +11,14 @@ UNCERTAIN=' Preserve expressed uncertainty, causal direction and referent count.
 DIGITAL=' For an explicitly specified clock time with a daypart, express that same time once using unambiguous 24-hour HH:MM notation. Do not also add a local or Thai-style counted evening hour. Preserve the scope of before, after and not yet. This applies to clock times only; retain the meaning and units of dates, durations, money and other quantities.'
 SUBJECT=' When the source states an event without identifying its subject, keep a natural subjectless target clause. Do not add first-person ownership, attendance, intention or a family role to fill that gap. A vocative identifies the addressee, not the actor of every clause.'
 COMPARISON=' Keep a comparison of a feeling or sensation as a comparison. Saying that something feels as if an event happened does not assert that the event happened or caused it. Preserve the comparison and its uncertainty without adding a real event or a guessed cause. Resolve a clear typo conservatively, retaining any uncertainty that affects this distinction.'
+EVENT_RELATIONS=' Preserve the event graph expressed by the CURRENT source, rather than filling it in from a plausible story: a realized event in a causal clause remains a fact even if its emotional consequence is anticipated; a factual cause (-아서/-어서/-기 때문에) is not a hypothetical condition (-면/if). In motion and waiting clauses track each person\'s location, origin, destination and whether return was actually asserted: coming to a place is not returning from it and arrival is not departure. Do not turn figurative arrival, announcement or expectation into an already-completed birth or other irreversible event. Keep the exact actor, tense, cause and destination for each clause while rewriting naturally and warmly in Lao. Never add a gloss or explanation.'
 LEXEME_REFERENCE=' Recover normal lexical word units from obvious syllable-by-syllable spacing or STT segmentation before choosing a meaning; do not translate only a familiar suffix of a segmented word. Keep every expressed named referent attached to its own clause. A completed event explaining an emotion must remain its cause; do not replace it with a future condition or substitute a nearby address term for its actor or object.'
 def append(q,text):
  q=copy.deepcopy(q);q['payload']['system_instruction']['parts'][0]['text']+=text;return q
 def build_first(text,side,profile,context=None,turns=None):
  if turns is not None:raise ValueError('history not authorized')
- if profile in ('31T4','31T5','31T6'):
-  q=append(base.build_first(text,side,'31L',context),DIGITAL+(SUBJECT if profile in ('31T5','31T6')else'')+(LEXEME_REFERENCE if profile=='31T6'else''));q['prompt_variant']=profile;return q
+ if profile in ('31T4','31T5','31T6','31T7'):
+  q=append(base.build_first(text,side,'31L',context),DIGITAL+(SUBJECT if profile in ('31T5','31T6','31T7')else'')+(LEXEME_REFERENCE if profile=='31T6'else'')+(EVENT_RELATIONS if profile=='31T7'else''));q['prompt_variant']=profile;return q
  if profile=='38CF':
   q=append(build_first(text,side,'38CA',context),COMPARISON);q['prompt_variant']=profile;return q
  if profile in ('31T1','31T2','31T3'):
@@ -50,7 +51,7 @@ def build_back(first_text,side,profile):
 def inspect(raw,text,side,stage,profile):
  special=(stage=='first'and profile=='31T2')or(stage=='back'and profile=='31RB')
  if not special:
-  mapped={'31T1':'31L','31T3':'31D','31T4':'31L','31T5':'31L','31T6':'31L','38CS':'38FB','38CA':'38FB','38CF':'38FB','38CB':'38P'}.get(profile,profile)
+  mapped={'31T1':'31L','31T3':'31D','31T4':'31L','31T5':'31L','31T6':'31L','31T7':'31L','38CS':'38FB','38CA':'38FB','38CF':'38FB','38CB':'38P'}.get(profile,profile)
   return base.inspect(raw,text,side,stage,mapped)
  try:
   cand=raw.get('candidates',[{}])[0]
