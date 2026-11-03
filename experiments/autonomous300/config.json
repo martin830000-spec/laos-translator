@@ -1,8 +1,8 @@
 {
   "title": "GEMINI_FULL_AUTONOMOUS300_20261104_ROUTING_PRIVATE_PHASE",
-  "stage": "ROUTING",
-  "phase_cap": 24,
-  "prior_actual_attempts": 208,
+  "stage": "LOCKED",
+  "phase_cap": 0,
+  "prior_actual_attempts": 232,
   "issue_number": 168,
   "plan_sha256": "bb6d3b9785be940c80f08c018cc32a9f1eb62c47bf060b704d335b85ea1598b0",
   "source_manifest_sha256": "6d8327c59fd1023afe6804296e7827137b2d4a4e45995038910f9ba7b2b2fbb7",

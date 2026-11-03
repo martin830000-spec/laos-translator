@@ -1,0 +1,31 @@
+{
+  "campaign_id": "GEMINI_FULL_AUTONOMOUS300_20261104",
+  "frozen_at_utc": "2026-11-03T22:31:37.982011+00:00",
+  "final_sources_selected": false,
+  "final_recipe": {
+    "K": {
+      "first": "RISK_FIRST",
+      "back": "BACK31_MIN"
+    },
+    "L": {
+      "first": "RISK_FIRST",
+      "back": "SERVICE_BACK"
+    }
+  },
+  "policy": "Deterministic TEST-only pre-call dispatch: original >110codepoints or >=3 sentence units or broad important-domain/numeric signals => exactSERVICE FIRST; otherwise exactBASE31 minimal. Not semantic risk guarantee.",
+  "variants_canonical_LF_sha256": "8802528dbbc1fef41a8de455c7410570610bfa3026526a522e100444aa8a6e1c",
+  "output": "Unchanged STOP visible text, warn only; no repair/retry",
+  "selection_reason": "Global31/low/35/KO/parts/causal fixes not established. Retain actualSERVICE for coarse risk/complexity,31 for lower-risk short inputs, K compact31 BACK positive signal, L actualSERVICE BACK preserved.",
+  "known_unresolved": [
+    "K joint participant/imagined past may recur even SERVICE",
+    "Lao self/other role ambiguity in independent BACK",
+    "Heuristic misses risks and routes some ordinary messages slower",
+    "Native Lao unverified; no model superiority or safe-risk-classifier claim"
+  ],
+  "evaluation_frozen": {
+    "P0": "Important practical event/actor/state reversal",
+    "P1": "Meaningful communication issue",
+    "P2": "Acceptable natural paraphrase/address/ellipsis",
+    "REVIEW": "Native/context uncertain; not forced PASS or failure"
+  }
+}
