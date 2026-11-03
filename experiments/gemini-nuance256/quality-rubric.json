@@ -1,0 +1,63 @@
+{
+  "schema": "gemini-nuance256-quality-v1",
+  "fields": {
+    "source_type": [
+      "actual_spouse",
+      "learning_notice",
+      "synthetic_stress"
+    ],
+    "direction": [
+      "K",
+      "L"
+    ],
+    "length_band": [
+      "short",
+      "medium",
+      "long",
+      "unsecured"
+    ],
+    "meaning_grade": [
+      "P0",
+      "P1",
+      "P2",
+      "REVIEW"
+    ],
+    "tone_nuance": [
+      "good",
+      "important_damage",
+      "native_review"
+    ],
+    "readability": [
+      "good",
+      "important_problem",
+      "native_review"
+    ],
+    "reviewer_kind": [
+      "Work_non_native",
+      "confirmed_native"
+    ],
+    "evidence_required": [
+      "source_sha256",
+      "display_first_sha256",
+      "back_input_sha256",
+      "reason",
+      "model",
+      "profile",
+      "generation_settings",
+      "api_ms",
+      "display_ready_ms",
+      "usage",
+      "estimated_usd",
+      "failure"
+    ]
+  },
+  "rules": [
+    "P2 includes innocuous paraphrase",
+    "tone difference alone is not P0",
+    "BACK only receives actual displayed FIRST and no source/context/grades",
+    "no native-language PASS claims without verified native reviewer",
+    "SHORT/MEDIUM/LONG must be evaluated per language based on distribution",
+    "source clusters, development reuse, and FINAL exposures tracked privately",
+    "private conversation contents never committed to public GitHub"
+  ]
+}
