@@ -1,0 +1,13 @@
+{
+  "title": "GEMINI_NUANCE256_20261103_LOCKED",
+  "tag": "gemini-nuance256-20261103-not-activated",
+  "issue_number": 0,
+  "plan_sha256": null,
+  "stage": "LOCKED",
+  "phase_cap": 0,
+  "campaign_cap": 256,
+  "prior_actual_attempts": 0,
+  "required_tags": [],
+  "data_bound": false,
+  "private_plan_ready": false
+}
