@@ -1,9 +1,11 @@
-# GEMINI_NEXTGEN_REAL128_20261103 — protected real API research
+# GEMINI_NEXTGEN_REAL128_20261103 — INCOMPLETE, LOCKED PREPARATION
 
-Only user-approved new Gemini 128 attempts; old ITERATE320/NUANCE256 are exhausted, never reused.
+The user supplied separate authorization for up to 128 NEW Gemini API attempts, split 48 / 32 / 48. This branch does NOT contain a runnable paid workflow or the complete runtime. **Paid API attempts executed: 0.**
 
-Phase caps: DISCOVERY_A 48, REFINEMENT_B 32, INDEPENDENT_FINAL 48. Private plans and outputs are authenticated RSA3072/AES256-GCM through unique owner-origin GitHub Issue; runner artifact contains ciphertext only. Source messages are never committed or printed. `GEMINI_API_KEY` is injected only at the single paid step. No automatic retry or judge. P0/P1/P2 judgments are manual, post-phase.
+The initial GitHub preparation included metadata and partial offline code, but two required executable files could not be published because the connected GitHub write tool blocked those requests. Do not activate, run, dispatch, rerun, or reuse this partial branch.
 
-Approval starts as `authorized=false` and remains so until signed off and sealed private inputs prepared. Only `config.json` push triggers paid workflow. Each phase's consumed Git tag is created before any API call, and prior phase tags are required. A pre-send encrypted checkpoint records every attempt; restart/re-run is prohibited. A failed FIRST skips only its dependent BACK. All unused planned calls remain unused, never reallocated.
+`approval.json`: authorized=false, execution_enabled=false, maximum_new_attempts=0, actual_consumed=0. `config.json`: stage=LOCKED, phase_cap=0. Previous ITERATE320 and NUANCE256 approvals remain consumed and locked.
 
-Use `engine.build_first`, `engine.build_back` frozen contracts, with a single common 3.8 BACK profile for both arms. SERVICE's P168A baseline is inherited from already validated `gemini-followup/adapter.py`. The GitHub source tree must not contain real messages, results, Secret, private key, raw plan, or any cached data.
+Existing NEXTGEN free research branch `research/gemini-nextgen-20261103` is unchanged. Existing SERVICE and repository main branches are unchanged.
+
+A separate owner-private Drive audit describes local synthetic preflight 22/22, 32 private source clusters preselected (including 12 untouched FINAL holdouts), remaining blocker and no live translation quality evidence. The 128 new attempts are still **unused**, not transferred to any other experiment.
