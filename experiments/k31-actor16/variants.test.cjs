@@ -1,0 +1,6 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),v=require('./variants.cjs'),c=require('../gemini-semantic/contracts.cjs');
+test('UTF8 quotes newlines and conditional source unchanged',()=>{let s='가정문 "9시"\n우리 둘이? 아니면 나만? ລາວ';assert.equal(v.build(s).payload.contents[0].parts[0].text,s);assert.equal(JSON.parse(JSON.stringify(v.build(s))).payload.contents[0].parts[0].text,s)});
+test('minimal fixed model one candidate no tools or auxiliary calls',()=>{let q=v.build('합성');assert.equal(q.model,'gemini-3.1-flash-lite');assert.deepEqual(q.payload.generationConfig,{maxOutputTokens:2048,thinkingConfig:{thinkingLevel:'minimal',includeThoughts:false}});assert.equal(q.payload.tools,undefined)});
+test('warnings preserve displayed output',()=>{let text='ລາວ ไทย 中文 web';let x=c.inspect({candidates:[{finishReason:'STOP',content:{parts:[{text}]}}]});assert.equal(x.translation,text);assert.equal(x.warnings.length,3);assert.equal(x.retry_count,0)});
+test('all four SERVICE paths and FIRST-only BACK',()=>{for(let side of ['K','L'])for(let stage of ['first','back']){let q=c.service('SYNTHETIC_VISIBLE',side,stage);assert.equal(q.model,'gemini-3.8-flash');assert.equal(q.payload.contents[0].parts[0].text,'SYNTHETIC_VISIBLE')}});
