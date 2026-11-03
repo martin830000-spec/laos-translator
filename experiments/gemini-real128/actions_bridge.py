@@ -18,6 +18,22 @@ def approval_guard():
  c.require(approval['actual_consumed']==CONFIG['prior_actual_attempts'])
  return approval
 
+def audited_transport(api_key):
+    """Reuse the existing, completed NUANCE256 transport without new HTTP client code.
+
+    This imports only the prior audited sender. No network request occurs here;
+    the callback is invoked by the new approval-bounded campaign only.
+    """
+    audited_dir = ROOT.parent / 'gemini-nuance256'
+    previous_path = list(sys.path)
+    try:
+        sys.path.insert(0, str(audited_dir))
+        old = load('verified_gemini_sender', audited_dir / 'campaign.py')
+    finally:
+        sys.path[:] = previous_path
+    return old.transport(api_key)
+
+
 def pack(d):return {'zlib_plan_b64':base64.b64encode(zlib.compress(b.canonical(d),9)).decode()}
 def unpack(d):
  b.check(set(d)=={'zlib_plan_b64'})
@@ -60,7 +76,7 @@ def execute(state):
   # One-time atomic tag before first send; no rerun may recreate the tag.
   b.github('/repos/'+b.REPO+'/git/refs',{'ref':'refs/tags/'+b.TAG,'sha':h['commit']})
   b.check(bool(os.environ.get('GEMINI_API_KEY')))
-  data=c.run(plan,approval,CONFIG,c.transport(os.environ['GEMINI_API_KEY']),state/'once.journal',persist)
+  data=c.run(plan,approval,CONFIG,audited_transport(os.environ['GEMINI_API_KEY']),state/'once.journal',persist)
   print(json.dumps({k:data[k] for k in ('campaign_id','phase','status','attempts','automatic_retries')}),flush=True)
  except Exception as exc:
   if not (state/'sealed-result.json').exists():persist({'status':'PREFLIGHT_STOP','attempts':0,'error_type':type(exc).__name__})
