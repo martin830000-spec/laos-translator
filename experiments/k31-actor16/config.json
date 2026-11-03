@@ -1,13 +1,14 @@
 {
   "title": "GEMINI_K31_ACTOR_RESEARCH16_20261104_FINAL_PRIVATE_PHASE",
-  "stage": "FINAL",
-  "phase_cap": 8,
-  "prior_actual_attempts": 8,
+  "stage": "LOCKED",
+  "phase_cap": 0,
+  "prior_actual_attempts": 16,
   "issue_number": 162,
   "plan_sha256": "c34b836ac5ebc2b1dfc44ad0efbb591be2c3d39c39c57f30c9143b92ebe31ca3",
   "source_manifest_sha256": "726bef75ce26669b7dac6dab754ef7c12e8e2ba2cae0a5ddef6f25521e2c80d7",
   "tag": "gemini-k31-actor16-20261104-final-consumed",
   "required_tags": [
     "gemini-k31-actor16-20261104-discovery-consumed"
-  ]
+  ],
+  "closure_reason": "ALL16_ACTUAL_SUCCESS_NO_REPLAY"
 }

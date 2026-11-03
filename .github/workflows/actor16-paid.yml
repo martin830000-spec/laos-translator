@@ -2,7 +2,7 @@ name: Approved Gemini actor16 encrypted single phase
 on:
   push:
     branches: [research/gemini-k31-actor16-20261104]
-    paths: ['experiments/k31-actor16/activation.json']
+    paths: ['experiments/k31-actor16/NEVER_TRIGGER_AFTER_APPROVED16_CONSUMED']
 permissions:
   contents: write
   issues: read

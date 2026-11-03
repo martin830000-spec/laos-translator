@@ -1,0 +1,17 @@
+{
+  "campaign_id": "GEMINI_K31_ACTOR_RESEARCH16_20261104",
+  "actual_attempts": 16,
+  "success": 16,
+  "failure": 0,
+  "unused": 0,
+  "automatic_retries": 0,
+  "paid_judges": 0,
+  "new_FIRST_calls": 4,
+  "SERVICE_FIRST_calls": 4,
+  "SERVICE_BACK_calls": 8,
+  "status": "TEST_RETAINED_PRODUCTION_NOT_ADOPTED",
+  "synthetic_originals": 4,
+  "final_sources": 2,
+  "source_privacy": "No plaintext sources/results in GitHub",
+  "reason": "Fast FIRST and pairs; meal-scope narrowing and solo/in-person weakening remain provisional P1"
+}
