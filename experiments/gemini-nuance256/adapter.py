@@ -14,15 +14,17 @@ COMPARISON=' Keep a comparison of a feeling or sensation as a comparison. Saying
 EVENT_RELATIONS=' Preserve the event graph expressed by the CURRENT source, rather than filling it in from a plausible story: a realized event in a causal clause remains a fact even if its emotional consequence is anticipated; a factual cause (-아서/-어서/-기 때문에) is not a hypothetical condition (-면/if). In motion and waiting clauses track each person\'s location, origin, destination and whether return was actually asserted: coming to a place is not returning from it and arrival is not departure. Do not turn figurative arrival, announcement or expectation into an already-completed birth or other irreversible event. Keep the exact actor, tense, cause and destination for each clause while rewriting naturally and warmly in Lao. Never add a gloss or explanation.'
 SPEAKER_SCOPE=' Preserve the grammatical subject of each main action and utterance. A possessor in a noun phrase is not automatically the actor who asked, sent, moved or reported. In nested requests and reported speech track exactly who asked whom to ask whom, who could not be reached, and whose phone or documents are discussed. Resolve omitted subjects only from explicit local grammar, not the closest named person. Keep uncertainty, questions and the exact strength of a symptom. Do not add implied agents or change present pain into already recovered pain.'
 SYMPTOM_EVENT=' Preserve whether the current source actually asserts vomiting, merely feeling nauseated or wanting to vomit, retching, or just a comparison. These are not interchangeable completed events. Likewise keep symptom occurrence versus anticipated possibility, severity and time references unchanged. Translate naturally without diagnosis or medical advice, and preserve the rest of the message instead of focusing on symptoms.'
+DISCOURSE_ACCURACY=' Keep the exact predicate and speech act of each question or statement: do not replace a question about one event or state with a related earlier or later event. Preserve the head activity and purpose inside compound nouns and notices instead of broadening to a generic trip, action or object. Maintain kinship relations without guessing unspecified gender, and do not output slash-separated gender alternatives or translator notes. Respect nested request attribution, time, and realized versus hypothetical events. Retain counterfactual regret rather than weakening it to a present wish. Translate naturally without editorializing.'
+CHAT_REGISTER=' Preserve the interpersonal register signaled by the CURRENT message: informal affectionate chat should read as natural casual Korean, not stiff formal polite speech, while formal or institutional messages remain formal. Keep affectionate vocatives only when expressed; do not insert extra participants, advice, emotions or relationship facts. Preserve the original sequence and concise spoken rhythm, without compromising tense, symptom severity or factual content.'
 LEXEME_REFERENCE=' Recover normal lexical word units from obvious syllable-by-syllable spacing or STT segmentation before choosing a meaning; do not translate only a familiar suffix of a segmented word. Keep every expressed named referent attached to its own clause. A completed event explaining an emotion must remain its cause; do not replace it with a future condition or substitute a nearby address term for its actor or object.'
 def append(q,text):
  q=copy.deepcopy(q);q['payload']['system_instruction']['parts'][0]['text']+=text;return q
 def build_first(text,side,profile,context=None,turns=None):
  if turns is not None:raise ValueError('history not authorized')
- if profile in ('31T4','31T5','31T6','31T7','31T8'):
-  q=append(base.build_first(text,side,'31L',context),DIGITAL+(SUBJECT if profile in ('31T5','31T6','31T7','31T8')else'')+(LEXEME_REFERENCE if profile=='31T6'else'')+(EVENT_RELATIONS if profile in ('31T7','31T8')else'')+(SPEAKER_SCOPE if profile=='31T8'else''));q['prompt_variant']=profile;return q
- if profile in ('38CF','38CG'):
-  q=append(build_first(text,side,'38CA',context),COMPARISON+(SYMPTOM_EVENT if profile=='38CG' else ''));q['prompt_variant']=profile;return q
+ if profile in ('31T4','31T5','31T6','31T7','31T8','31T9'):
+  q=append(base.build_first(text,side,'31L',context),DIGITAL+(SUBJECT if profile in ('31T5','31T6','31T7','31T8','31T9')else'')+(LEXEME_REFERENCE if profile=='31T6'else'')+(EVENT_RELATIONS if profile in ('31T7','31T8','31T9')else'')+(SPEAKER_SCOPE if profile=='31T8'else'')+(DISCOURSE_ACCURACY if profile=='31T9'else''));q['prompt_variant']=profile;return q
+ if profile in ('38CF','38CG','38CH'):
+  q=append(build_first(text,side,'38CA',context),COMPARISON+(SYMPTOM_EVENT if profile in ('38CG','38CH') else '')+(CHAT_REGISTER if profile=='38CH' else ''));q['prompt_variant']=profile;return q
  if profile in ('31T1','31T2','31T3'):
   q=base.build_first(text,side,'31D'if profile=='31T3'else'31L',context)
   if profile!='31T2':q=append(q,CLOCK)
@@ -53,7 +55,7 @@ def build_back(first_text,side,profile):
 def inspect(raw,text,side,stage,profile):
  special=(stage=='first'and profile=='31T2')or(stage=='back'and profile=='31RB')
  if not special:
-  mapped={'31T1':'31L','31T3':'31D','31T4':'31L','31T5':'31L','31T6':'31L','31T7':'31L','31T8':'31L','38CG':'38FB','38CS':'38FB','38CA':'38FB','38CF':'38FB','38CB':'38P'}.get(profile,profile)
+  mapped={'31T1':'31L','31T3':'31D','31T4':'31L','31T5':'31L','31T6':'31L','31T7':'31L','31T8':'31L','31T9':'31L','38CG':'38FB','38CH':'38FB','38CS':'38FB','38CA':'38FB','38CF':'38FB','38CB':'38P'}.get(profile,profile)
   return base.inspect(raw,text,side,stage,mapped)
  try:
   cand=raw.get('candidates',[{}])[0]
