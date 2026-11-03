@@ -1,12 +1,14 @@
 {
-  "title": "GEMINI_NEXTGEN_REAL128_20261103_DISCOVERY_A",
-  "stage": "DISCOVERY_A",
-  "phase_cap": 48,
-  "prior_actual_attempts": 0,
-  "issue_number": 155,
-  "plan_sha256": "a7a0327b5f00cbeea018268823673d71ed846f3b61f14444ab06d5c1ccecd793",
+  "title": "GEMINI_NEXTGEN_REAL128_20261103_REFINEMENT_B",
+  "stage": "REFINEMENT_B",
+  "phase_cap": 32,
+  "prior_actual_attempts": 48,
+  "issue_number": 156,
+  "plan_sha256": "7fdb2b356680e2a97a3323a2b7597de8356fc37952cc5fa6fd27b57e585c95d4",
   "source_manifest_sha256": "734368c7e52550a3aac91a10e88461c87f6e8f1fae43c251e79d99be56b44508",
-  "tag": "gemini-nextgen-real128-20261103-discoverya-consumed",
-  "required_tags": [],
+  "tag": "gemini-nextgen-real128-20261103-refinementb-consumed",
+  "required_tags": [
+    "gemini-nextgen-real128-20261103-discoverya-consumed"
+  ],
   "approval_locked": false
 }
