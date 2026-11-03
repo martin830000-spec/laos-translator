@@ -1,12 +1,12 @@
 {
-  "title": "GEMINI_NUANCE256_20261103_P5B",
-  "tag": "gemini-nuance256-20261103-p5b-consumed",
-  "issue_number": 153,
-  "plan_sha256": "761185eb13a813c7c85016f53ec7b30e1cd48636a28e1fc57664f71228da1b33",
-  "stage": "P5B",
-  "phase_cap": 16,
+  "title": "GEMINI_NUANCE256_20261103_FINALB",
+  "tag": "gemini-nuance256-20261103-finalb-consumed",
+  "issue_number": 154,
+  "plan_sha256": "3af9601b658474511be7f30022905660c0b9eff82c68768bb07ca32611c51cc2",
+  "stage": "FINALB",
+  "phase_cap": 48,
   "campaign_cap": 256,
-  "prior_actual_attempts": 192,
+  "prior_actual_attempts": 208,
   "required_tags": [
     "gemini-nuance256-20261103-p1a-consumed",
     "gemini-nuance256-20261103-p1b-consumed",
@@ -14,7 +14,8 @@
     "gemini-nuance256-20261103-p3-consumed",
     "gemini-nuance256-20261103-p4-consumed",
     "gemini-nuance256-20261103-p5a-consumed",
-    "gemini-nuance256-20261103-finala-consumed"
+    "gemini-nuance256-20261103-finala-consumed",
+    "gemini-nuance256-20261103-p5b-consumed"
   ],
   "data_bound": true,
   "private_plan_ready": true
