@@ -1,1 +1,1 @@
-{"phase":"REFINEMENT2","prior_actual_attempts":192,"maximum_phase_attempts":16,"whole_limit":300,"control":"L prompt-only causal temporal relation"}
+{"phase":"ROUTING","prior_actual_attempts":208,"maximum_phase_attempts":24,"whole_limit":300,"precall_TEST_only":true,"no_additional_judge_or_retry":true}
