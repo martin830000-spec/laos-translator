@@ -11,9 +11,9 @@ New research from `GEMINI_NUANCE256_20261103` locked result, on an **independent
 
 ## Source & safety
 
-- `candidates.py` is request building and output extraction **only**, no API networking or secrets. Usage `build_first(profile, original, private_context)` once and `build_independent_back(actual_displayed_first, first_side)` once. **Do not call BACK when FIRST failed.** No hidden repair, retry or AI judge.
+- `candidates.py` is request building and output extraction **only**, no API networking or secrets. Usage `build_first(profile, original, private_context)` once and `build_independent_back(actual_displayed_first, first_side)` once. The pure helper `as_rest_request_parts()` separates the external `model` route from the standard `generateContent` JSON request body; still **not tested against live Gemini endpoint**. **Do not call BACK when FIRST failed.** No hidden repair, retry or AI judge.
 - `extract_display_once(response)` accepts one `STOP` candidate and one visible text part; it preserves translation wording except outer whitespace. Thai and Han script create **warning-only** notices. Non-STOP, including MAX_TOKENS, fails that call without auto-retry.
-- `test_contracts.py`: 16 **synthetic offline tests**, no key/HTTP, quality untested.
+- `test_contracts.py`: 18 **synthetic offline tests**, no key/HTTP, quality untested.
 - `dry_run.py`: synthetic-only payload byte-size print, **not** estimated token count, speed or quality.
 - `approval.json`: `authorized=false`, `execution_enabled=false`, `maximum_new_attempts=0`; original ITERATE320 and NUANCE256 approvals are consumed and cannot be transferred.
 - `proposed-plan.json`: a **proposed**, not approved 128-call research plan with development / frozen independent FINAL split.
