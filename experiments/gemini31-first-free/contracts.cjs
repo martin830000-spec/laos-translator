@@ -59,4 +59,6 @@ function buildBack(path,displayedFIRST){
  const old=require('../gemini-assets/contracts.cjs');return old.build(path,'M31',path==='KB'?'ALIGNED_NEUTRAL':'LEGACY31U',displayedFIRST);
 }
 function inspectBack(raw,path,displayedFIRST){if(arguments.length!==3)throw TypeError('BACK_BOUNDARY');return require('../gemini-assets/contracts.cjs').inspect(raw,path,displayedFIRST,path==='KB'?'ALIGNED_NEUTRAL':'LEGACY31U');}
-module.exports={V,DIR,hash,baseline,legacySegments,spans,buildFirst,inspectFirst,buildBack,inspectBack,warnings};
+function buildControl(path,currentText){if(arguments.length!==2||!['KF','KB','LF','LB'].includes(path))throw TypeError('CONTROL_TEXT_ONLY');text(currentText);const t=require('./frozen-service-control.json').templates.find(x=>x.path===path);const q=clone(t.request);q.payload.contents=[{role:'user',parts:[{text:currentText}]}];return q;}
+function inspectControl(raw,path){const raw_text=rawText(raw),stop=raw.candidates?.[0]?.finishReason;if(stop!=='STOP'||!raw_text.trim())return{status:'FAILED',reason:stop||'NO_OUTPUT',displayed:null,retries:0};return{status:'SUCCESS',displayed:raw_text.trim(),raw_text,warnings:warnings(raw_text,path==='KB'||path==='LF'?'LF':'KF'),quality_verified:false,retries:0};}
+module.exports={V,DIR,hash,baseline,legacySegments,spans,buildFirst,inspectFirst,buildBack,inspectBack,buildControl,inspectControl,warnings};
