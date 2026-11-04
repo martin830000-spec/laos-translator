@@ -1,0 +1,16 @@
+{
+  "source_main_commit": "7b490f9440fa9aecf2ebbf43d7af5fb162d38ab2",
+  "source_contract_git_blob_sha": "bed12916255dfcb6e8f7a1d3b5f7232b8f17f7a7",
+  "source_runner_git_blob_sha": "6847744cdd840700def6ad362c29920d9b052d9b",
+  "source_runner_sha256": "574fa360d616be806eb03099f5ad6c6a3d5bee9e8e971f8033a969d763c6b2d5",
+  "read_source": "libfile_6fefafbcefdc8191adc8fc39d24d085a",
+  "actual600_FIRST_variant": "UNKNOWN_FROM_TXT",
+  "UI_default": "LEGACY31U",
+  "UI_alternative": "ALIGNED",
+  "actual600_request_response_raw_available": false,
+  "per_call_usage_available": false,
+  "baseline_label": "Explicit restored31U reference, not asserted proven actual600 selection",
+  "new_candidates_quality": "UNVERIFIED",
+  "new_API_approval": 0,
+  "new_API_attempts": 0
+}

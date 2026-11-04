@@ -1,0 +1,17 @@
+name: FIRST31 free contracts only no generation
+on:
+  push:
+    branches: [research/gemini31-first-free-20261105]
+    paths: ['experiments/gemini31-first-free/**', '.github/workflows/gemini31-first-free.yml']
+permissions:
+  contents: read
+jobs:
+  free:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Static and synthetic contracts zero API
+        run: node --test experiments/gemini31-first-free/contracts.test.cjs

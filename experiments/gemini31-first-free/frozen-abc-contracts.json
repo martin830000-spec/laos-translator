@@ -1,0 +1,282 @@
+{
+  "schema": "test-only-gemini31-abc-20261105",
+  "note": "Research M31 test prompts from frozen assets; no SERVICE prompt, no personal text, no API keys. FIRST variants are HOLD, not validated winners. Imported A/B are prior stored results.",
+  "contracts": {
+    "KF_LEGACY31U": {
+      "path": "KF",
+      "variant": "LEGACY31U",
+      "model": "gemini-3.1-flash-lite",
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Translate into natural Lao. The message is from a husband to their wife; explicit grammatical people override this setting. In direct address spouse terms refer to the listener. Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives. Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings. Produce JSON units in source order. Each unit has source: an exact contiguous phrase from the current supplied message, and target: its natural Lao translation. Cover the whole message once, with no duplication or gaps; keep names and meaningful phrases together. A short message may use one unit. Joining target strings in order must produce the one finished translation. Do not produce an analysis, checklist, paraphrase of the source, alternatives or corrections. The source fields contain only the current supplied message, never an unseen original."
+          }
+        ]
+      },
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        },
+        "responseMimeType": "application/json",
+        "responseSchema": {
+          "type": "OBJECT",
+          "properties": {
+            "units": {
+              "type": "ARRAY",
+              "items": {
+                "type": "OBJECT",
+                "properties": {
+                  "source": {
+                    "type": "STRING"
+                  },
+                  "target": {
+                    "type": "STRING"
+                  }
+                },
+                "required": [
+                  "source",
+                  "target"
+                ],
+                "propertyOrdering": [
+                  "source",
+                  "target"
+                ]
+              }
+            }
+          },
+          "required": [
+            "units"
+          ],
+          "propertyOrdering": [
+            "units"
+          ]
+        }
+      },
+      "format": "units"
+    },
+    "KF_ALIGNED": {
+      "path": "KF",
+      "variant": "ALIGNED",
+      "model": "gemini-3.1-flash-lite",
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Translate into natural Lao. The message is from a husband to their wife; explicit grammatical people override this setting. In direct address spouse terms refer to the listener. Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives. Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings. The input segments, read in order, are one message. Translate each segment into the corresponding item of the translations array. Use neighboring segments to interpret references and keep phrases natural. Joining target strings in source order is the finished translation. Do not echo source strings or produce analysis."
+          }
+        ]
+      },
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        },
+        "responseMimeType": "application/json",
+        "responseJsonSchema": {
+          "type": "object",
+          "properties": {
+            "translations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "translations"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "format": "translations"
+    },
+    "KB_ALIGNED_NEUTRAL": {
+      "path": "KB",
+      "variant": "ALIGNED_NEUTRAL",
+      "model": "gemini-3.1-flash-lite",
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Translate into natural Korean. Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives. Only the supplied translation is evidence. This is an independent back-translation: never reconstruct or repair an unseen original. Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings. The input segments, read in order, are one message. Translate each segment into the corresponding item of the translations array. Use neighboring segments to interpret references and keep phrases natural. Joining target strings in source order is the finished translation. Do not echo source strings or produce analysis."
+          }
+        ]
+      },
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        },
+        "responseMimeType": "application/json",
+        "responseJsonSchema": {
+          "type": "object",
+          "properties": {
+            "translations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "translations"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "format": "translations"
+    },
+    "LF_LEGACY31U": {
+      "path": "LF",
+      "variant": "LEGACY31U",
+      "model": "gemini-3.1-flash-lite",
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Translate into natural Korean. The message is from a wife to their husband; explicit grammatical people override this setting. In direct address spouse terms refer to the listener. Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives. Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings. Produce JSON units in source order. Each unit has source: an exact contiguous phrase from the current supplied message, and target: its natural Korean translation. Cover the whole message once, with no duplication or gaps; keep names and meaningful phrases together. A short message may use one unit. Joining target strings in order must produce the one finished translation. Do not produce an analysis, checklist, paraphrase of the source, alternatives or corrections. The source fields contain only the current supplied message, never an unseen original."
+          }
+        ]
+      },
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        },
+        "responseMimeType": "application/json",
+        "responseSchema": {
+          "type": "OBJECT",
+          "properties": {
+            "units": {
+              "type": "ARRAY",
+              "items": {
+                "type": "OBJECT",
+                "properties": {
+                  "source": {
+                    "type": "STRING"
+                  },
+                  "target": {
+                    "type": "STRING"
+                  }
+                },
+                "required": [
+                  "source",
+                  "target"
+                ],
+                "propertyOrdering": [
+                  "source",
+                  "target"
+                ]
+              }
+            }
+          },
+          "required": [
+            "units"
+          ],
+          "propertyOrdering": [
+            "units"
+          ]
+        }
+      },
+      "format": "units"
+    },
+    "LF_ALIGNED": {
+      "path": "LF",
+      "variant": "ALIGNED",
+      "model": "gemini-3.1-flash-lite",
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Translate into natural Korean. The message is from a wife to their husband; explicit grammatical people override this setting. In direct address spouse terms refer to the listener. Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives. Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings. The input segments, read in order, are one message. Translate each segment into the corresponding item of the translations array. Use neighboring segments to interpret references and keep phrases natural. Joining target strings in source order is the finished translation. Do not echo source strings or produce analysis."
+          }
+        ]
+      },
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        },
+        "responseMimeType": "application/json",
+        "responseJsonSchema": {
+          "type": "object",
+          "properties": {
+            "translations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "translations"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "format": "translations"
+    },
+    "LB_LEGACY31U": {
+      "path": "LB",
+      "variant": "LEGACY31U",
+      "model": "gemini-3.1-flash-lite",
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "Translate into natural Lao. The message is from a wife to their husband; explicit grammatical people override this setting. In direct address spouse terms refer to the listener. Translate the supplied message faithfully. Keep the same people and references, actions and objects, negation, condition, time and event state, certainty, amounts and units, names, symptoms, and emotional force. Use natural conversational grammar and preserve clear typos by intended meaning. Leave genuinely unspecified details unspecified. Keep questions, permission and plans distinct from statements, commands and completed events. Keep identity-bearing terms by name or sound when unsure. Return one finished translation only, without commentary, labels or alternatives. Only the supplied translation is evidence. This is an independent back-translation: never reconstruct or repair an unseen original. Follow each source clause in order: identify its expressed predicate and participants, translate that clause, then connect the translated clauses naturally. Each target action, concrete object and event must have evidence in that source clause. Keep a missing subject implicit rather than complete a plausible story. Keep broad states broad and distinct symptoms distinct. Preserve incomplete endings. Produce JSON units in source order. Each unit has source: an exact contiguous phrase from the current supplied message, and target: its natural Lao translation. Cover the whole message once, with no duplication or gaps; keep names and meaningful phrases together. A short message may use one unit. Joining target strings in order must produce the one finished translation. Do not produce an analysis, checklist, paraphrase of the source, alternatives or corrections. The source fields contain only the current supplied message, never an unseen original."
+          }
+        ]
+      },
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        },
+        "responseMimeType": "application/json",
+        "responseSchema": {
+          "type": "OBJECT",
+          "properties": {
+            "units": {
+              "type": "ARRAY",
+              "items": {
+                "type": "OBJECT",
+                "properties": {
+                  "source": {
+                    "type": "STRING"
+                  },
+                  "target": {
+                    "type": "STRING"
+                  }
+                },
+                "required": [
+                  "source",
+                  "target"
+                ],
+                "propertyOrdering": [
+                  "source",
+                  "target"
+                ]
+              }
+            }
+          },
+          "required": [
+            "units"
+          ],
+          "propertyOrdering": [
+            "units"
+          ]
+        }
+      },
+      "format": "units"
+    }
+  }
+}
