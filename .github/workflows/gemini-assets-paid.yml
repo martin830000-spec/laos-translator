@@ -1,0 +1,44 @@
+name: Scope approved GEMINI ASSETS encrypted phase
+on:
+  push:
+    branches: [research/gemini-accumulated-assets-20261104]
+    paths: ['experiments/gemini-assets/paid-activation.json']
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: gemini-gemini-assets-20261104
+  cancel-in-progress: false
+jobs:
+  bounded:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Public one-time handshake
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/gemini-assets/paid_bridge.py prepare "$RUNNER_TEMP/gemini-assets"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: gemini-assets-handshake-${{ github.run_id }}
+          path: ${{ runner.temp }}/gemini-assets/handshake.json
+          retention-days: 1
+      - name: Approved encrypted bounded research
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/gemini-assets/paid_bridge.py execute "$RUNNER_TEMP/gemini-assets"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: gemini-assets-result-${{ github.run_id }}
+          path: ${{ runner.temp }}/gemini-assets/sealed-result.json
+          retention-days: 7
+          if-no-files-found: warn

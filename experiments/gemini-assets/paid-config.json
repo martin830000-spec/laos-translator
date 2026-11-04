@@ -1,0 +1,10 @@
+{
+  "phase": "DISCOVERY",
+  "prior_actual": 0,
+  "planned_task_count": 72,
+  "issue_number": 180,
+  "title": "GEMINI_ACCUMULATED_ASSETS_OPEN_20261104_DISCOVERY",
+  "plan_sha256": "343b671a1d2e6ae3d9511e06e2f78bf65129bee122bf778183437f24c90173d2",
+  "tag": "gemini-assets-20261104-discovery-consumed",
+  "required_tags": []
+}
