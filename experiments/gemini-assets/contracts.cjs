@@ -12,9 +12,10 @@ function segments(input){
 function build(p,m,v,input){
  if(arguments.length!==4||!PATHS[p]||!MODEL[m]||typeof input!=='string'||!input.trim())throw TypeError('BOUNDARY');
  if(v==='LEGACY31U'){if(m!=='M31')throw TypeError('FROZEN31U_MODEL');return legacy({mode:'build',path:p,text:input});}
- if(v!=='ALIGNED')return old.build(p,m,v,input);
+ if(!['ALIGNED','ALIGNED_NEUTRAL'].includes(v))return old.build(p,m,v,input);
  const q=old.build(p,m,'DIRECT',input),ss=segments(input),[src,dst]=PATHS[p];
  q.payload.systemInstruction.parts[0].text=require('./legacy31u-prompts.json')[p].instruction+` The input segments, read in order, are one message. Translate each segment into the corresponding item of the translations array. Use neighboring segments to interpret references and keep phrases natural. Joining target strings in source order is the finished translation. Do not echo source strings or produce analysis.`;
+ if(v==='ALIGNED_NEUTRAL')q.payload.systemInstruction.parts[0].text=q.payload.systemInstruction.parts[0].text.replace(/ The message is from a (husband|wife) to their (wife|husband); explicit grammatical people override this setting\. In direct address spouse terms refer to the listener\./,'');
  q.payload.generationConfig.maxOutputTokens=require('./legacy31u-prompts.json')[p].generationConfig.maxOutputTokens;
  q.payload.contents[0].parts[0].text=JSON.stringify({segments:ss.map((text,id)=>({id,text}))});
  Object.assign(q.payload.generationConfig,{responseMimeType:'application/json',responseJsonSchema:{type:'object',properties:{translations:{type:'array',items:{type:'string'},minItems:ss.length,maxItems:ss.length}},required:['translations'],additionalProperties:false}});
@@ -26,7 +27,7 @@ function inspect(raw,p,input,v){
   if(a.status!=='SUCCESS')return {status:'FAILED',displayed:null,partial:a.raw_text,reason:a.stop_reason,retry_count:0,legacy_inspection:a};
   const r=old.inspect({candidates:[{finishReason:'STOP',content:{parts:[{text:a.translation}]}}]},p,input);return {...r,legacy_inspection:a};
  }
- if(v!=='ALIGNED')return old.inspect(raw,p,input);
+ if(!['ALIGNED','ALIGNED_NEUTRAL'].includes(v))return old.inspect(raw,p,input);
  const r=old.inspect(raw,p,input);if(r.status!=='SUCCESS')return r;
  let o;try{o=JSON.parse(r.displayed);}catch{return {...r,status:'FAILED',displayed:null,partial:r.displayed,reason:'INVALID_JSON'};}
  const ss=segments(input);

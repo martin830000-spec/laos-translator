@@ -1,5 +1,5 @@
 {
-  "phase": "DISCOVERY",
-  "plan_sha256": "343b671a1d2e6ae3d9511e06e2f78bf65129bee122bf778183437f24c90173d2",
-  "prior_actual": 0
+  "phase": "REFINE",
+  "plan_sha256": "f3fccb49d0f7d845ab657b2d37555795d67f4f2f2d1765d8c5d18f65a8816367",
+  "prior_actual": 72
 }
