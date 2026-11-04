@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gemini A/B/C 전조합 신규 600회 진단기 — TEST</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;background:#f4f6fa;color:#213147}*{box-sizing:border-box}body{margin:0}main{max-width:1320px;margin:auto;padding:22px 15px 65px}
+h1{font-size:26px;margin:0 0 7px}h2{font-size:17px;margin:0 0 14px}h3{font-size:14px;margin:0 0 10px}
+p{line-height:1.6}.sub{color:#63748b;font-size:13px;margin:0 0 18px}.card{background:#fff;border:1px solid #dfe7f2;border-radius:14px;padding:20px;margin:14px 0;box-shadow:0 3px 14px #1e385008}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cell{border:1px solid #dde6f2;background:#fcfdff;padding:13px;border-radius:10px;min-width:0}
+label{font-size:13px;color:#364c64;font-weight:650}input,select,button{font:inherit}input[type="file"],input[type="password"],input[type="number"],select{display:block;width:100%;padding:10px 11px;margin-top:7px;border:1px solid #c7d2e1;border-radius:9px;background:white}
+button{border:1px solid #bfcde0;background:white;border-radius:9px;padding:10px 13px;color:#284360;font-weight:700;cursor:pointer}button.primary{color:white;background:#2459a9;border-color:#2459a9}button:disabled{opacity:.46;cursor:not-allowed}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row>button{flex:0 0 auto}.status{font-size:12px;color:#596c84}
+.note{font-size:13px;line-height:1.65;color:#415c78;padding:12px 13px;margin-top:12px;background:#eef4fc;border-radius:9px}.warn{background:#fff4e8;color:#8b5d22}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.stat{border:1px solid #e1e8f1;border-radius:9px;padding:10px}.stat strong{font-size:20px;display:block;margin-top:5px}
+.badge{display:inline-block;background:#eaf1fb;color:#315e9e;border-radius:20px;padding:4px 8px;font-size:11px;font-weight:700}.hold{color:#8d610a;background:#fff3d9}
+article{padding:16px 0;border-top:1px solid #dfe5ee}article:first-child{border-top:0}.original{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f6fb;border-radius:9px;padding:12px;font-size:13px;margin:10px 0}
+.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.result{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6;min-height:46px}.label{font-size:11px;color:#62768c;font-weight:700;margin:10px 0 5px}
+.muted{font-size:12px;color:#63768c}.err{font-size:12px;color:#a22f38;overflow-wrap:anywhere}progress{display:block;width:100%;height:14px;margin:12px 0}
+.toolbar{display:flex;align-items:end;gap:10px;flex-wrap:wrap}.toolbar label{min-width:128px}footer{color:#77879a;font-size:12px;line-height:1.6}
+@media(max-width:850px){.grid,.grid.two,.columns{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:14px 9px}.card{padding:14px}h1{font-size:20px}}
+</style></head><body><main>
+<h1>Gemini A/B/C <b>전조합 신규 검사</b> <span class="badge">TEST</span></h1>
+<p class="sub">실번역 원문 100건 → A/B/C 정번역 각 100회 + 독립 역번역 각 100회 = <b>신규 API 600회</b> · 기존 저장 번역은 비교 결과로 사용하지 않음</p>
+<section class="card"><h2>1. 동일 원문으로 새로 검사하는 3개 조합</h2><div class="grid">
+<div class="cell"><h3>A · 3.8 FIRST + 3.8 BACK</h3><p>둘 다 새로 생성</p><span class="muted">원문 100건 × 2 = 200회</span></div>
+<div class="cell"><h3>B · 3.8 FIRST + 3.1 BACK</h3><p>3.8 FIRST도 A와 별도로 신규 생성</p><span class="muted">원문 100건 × 2 = 200회</span></div>
+<div class="cell"><h3>C · 3.1 FIRST + 3.1 BACK <span class="badge hold">FIRST HOLD</span></h3><p>둘 다 새로 생성</p><span class="muted">원문 100건 × 2 = 200회</span></div>
+</div><p class="note">A/B 모두 FIRST를 새로 생성하므로 두 출력이 달라질 수도 있습니다. 그러면 역번역 품질 차이의 원인을 FIRST/BACK으로 구분해서 평가하세요. 3.8은 2026-11-04 SERVICE_EXACT 연구 스냅샷을 사용하며, 현재 운영 배포와 완전 동일하다는 뜻은 아닙니다. SERVICE는 수정하지 않습니다.</p></section>
+<section class="card"><h2>2. 비공개 파일 준비</h2>
+<div class="grid two">
+<div><label for="sourceFile">① 동일 실번역 원문 100건 JSON</label><input type="file" id="sourceFile" accept=".json,.txt"><p class="muted">기존 REAL100_PAIRS_PRIVATE JSON 사용. 파일에서는 원문과 언어 방향만 신규 검사에 사용합니다.</p></div>
+<div><label for="baselineFile">② 3.8 SERVICE_EXACT 비공개 연구 계약 JSON</label><input type="file" id="baselineFile" accept=".json"><p class="muted">GEMINI_ASSETS_EXACT_CONTRACTS_FINAL_20261104.json · Google Drive에서 직접 받아 브라우저에만 불러오기</p></div>
+</div>
+<div class="grid two" style="margin-top:10px">
+<div><label for="resumeFile">③ 이전에 저장한 신규 비교 결과 JSON 이어 불러오기 (선택)</label><input type="file" id="resumeFile" accept=".json"></div>
+<div><label for="firstVariant">C의 3.1 정번역 실험 프롬프트</label><select id="firstVariant"><option value="LEGACY31U" selected>LEGACY31U · HOLD</option><option value="ALIGNED">ALIGNED · HOLD</option></select></div>
+</div><p id="fileStatus" class="note">아직 파일을 불러오지 않았습니다. 대화 원문과 운영 프롬프트는 브라우저 내부에서만 읽고 GitHub에 업로드하지 않습니다.</p></section>
+<section class="card"><h2>3. 유료 검사 실행</h2>
+<div class="grid two">
+<div><label for="apiKey">Gemini 테스트용 API 키 (현재 탭에만 유지)</label><input id="apiKey" type="password" autocomplete="off" placeholder="개인 키를 공개 채팅에 올리지 마세요"></div>
+<div><label for="callCap">이번 실행의 최대 신규 API 시도 횟수</label><input id="callCap" type="number" min="1" max="600" value="12"></div>
+</div>
+<div class="row" style="margin-top:14px">
+<button id="run" class="primary" disabled>A/B/C 모두 신규 실행</button><button id="stop" disabled>중지</button><button id="exportJson">진행 결과 JSON 저장</button><button id="exportTxt">결과 TXT 저장</button><span id="contractStatus" class="status">연구 프롬프트 확인 중</span>
+</div>
+<progress id="progress" value="0" max="1"></progress><div id="runStatus" class="status">버튼을 직접 눌러야만 유료 API가 실행됩니다.</div>
+<p class="note warn">정상 문장당 정확히 6회(A FIRST→A BACK, B FIRST→B BACK, C FIRST→C BACK)를 순서대로 호출합니다. BACK에는 해당 조합에서 실제 출력된 FIRST만 전달합니다. 실패도 시도 횟수에 포함하며 자동 재시도, 숨은 품질 판정 호출은 없습니다. 브라우저 새로고침 시 미저장 결과가 없어지므로 12~40회씩 나눠 JSON으로 저장하세요. 네트워크 또는 CORS/API 권한 문제는 실패로 기록됩니다. 실행은 사용자가 승인한 실제 호출 한도 안에서만 수행하세요.</p></section>
+<section class="card"><h2>4. 신규 검사 결과</h2>
+<div class="stats"><div class="stat"><small>원문</small><strong id="count">0</strong></div><div class="stat"><small>A 완료</small><strong id="aCount">0</strong></div><div class="stat"><small>B 완료</small><strong id="bCount">0</strong></div><div class="stat"><small>C 완료</small><strong id="cCount">0</strong></div><div class="stat"><small>전체 API 시도</small><strong id="attemptCount">0</strong></div></div>
+<p id="metrics" class="note">신규 출력만 집계합니다.</p>
+<div class="toolbar">
+<label>방향<select id="filter"><option value="ALL">전체</option><option value="K">남편 K→L</option><option value="L">아내 L→K</option><option value="PENDING">6단계 미완료</option></select></label>
+<label>페이지 크기<select id="pageSize"><option value="10" selected>10건</option><option value="20">20건</option><option value="50">50건</option><option value="100">100건</option></select></label>
+<button id="prev">이전</button><span id="pageLabel" class="muted"></span><button id="next">다음</button>
+</div><div id="results"></div></section>
+<footer>한국어↔라오어 번역앱 TEST 연구용 페이지. 운영 번역앱, SERVICE 프롬프트, 데이터베이스를 변경하지 않습니다. 원어민 검증·품질 점수는 자동 생성하지 않습니다. 개인정보가 포함된 JSON은 개인적으로 보관하세요.</footer>
+</main><script src="./gemini-abc-fresh600-20261105.js"></script></body></html>
