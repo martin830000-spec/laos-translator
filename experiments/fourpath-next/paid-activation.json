@@ -1,5 +1,5 @@
 {
-  "phase": "A",
-  "plan_sha256": "2dc42efb6f093ca1959fb828148701f2e8c788f8a16350c12bf55bc8eecab3f9",
-  "prior_actual": 0
+  "phase": "B",
+  "plan_sha256": "88172ecf9ce79bd5bdcc03574dd14afee3213238bc051560cf1154c93fe07b78",
+  "prior_actual": 48
 }
