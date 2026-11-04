@@ -2,7 +2,7 @@ name: BACK100 bounded encrypted stored FIRST research
 on:
   push:
     branches: [research/gemini31-back-real100-20261104]
-    paths: ['experiments/gemini31-back-real100/paid-activation.json']
+    paths: ['__NEVER_TRIGGER_BACK100_LOCKED__']
 permissions:
   contents: write
   issues: read

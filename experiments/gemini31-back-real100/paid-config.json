@@ -1,11 +1,11 @@
 {
-  "phase": "REST80",
-  "prior_actual": 20,
+  "phase": "CLOSED",
+  "prior_actual": 100,
   "issue_number": 185,
-  "title": "GEMINI31_BACK_REAL100 REST80 encrypted research input",
-  "plan_sha256": "791b47360fdaaa850ae4ecb2b2eef65fdb7ed6dd4e7d0a38c12f5eaa31581f39",
-  "tag": "gemini31-back-real100-20261104-rest80-consumed",
+  "title": "CLOSED",
+  "plan_sha256": null,
   "required_tags": [
-    "gemini31-back-real100-20261104-pilot20-consumed"
+    "gemini31-back-real100-20261104-pilot20-consumed",
+    "gemini31-back-real100-20261104-rest80-consumed"
   ]
 }
