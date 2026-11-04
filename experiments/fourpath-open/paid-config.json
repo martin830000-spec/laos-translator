@@ -1,12 +1,13 @@
 {
-  "phase": "REFINE",
-  "prior_actual": 44,
-  "planned_task_count": 68,
-  "issue_number": 176,
-  "title": "GEMINI_FOURPATH_OPEN_20261104_REFINE",
-  "plan_sha256": "835d712c38cc38d2f7249756cdb267caa0ce55c52238aa11dc62318e1bb19876",
-  "tag": "gemini-fourpath-open-20261104-refine-consumed",
+  "phase": "VALIDATE",
+  "prior_actual": 109,
+  "planned_task_count": 78,
+  "issue_number": 177,
+  "title": "GEMINI_FOURPATH_OPEN_20261104_VALIDATE",
+  "plan_sha256": "72bf994bb5e08351cfb9db970ed8cfc6cd523eec0e3a79a0d644c96ea47ac326",
+  "tag": "gemini-fourpath-open-20261104-validate-consumed",
   "required_tags": [
-    "gemini-fourpath-open-20261104-discovery-consumed"
+    "gemini-fourpath-open-20261104-discovery-consumed",
+    "gemini-fourpath-open-20261104-refine-consumed"
   ]
 }

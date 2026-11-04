@@ -1,5 +1,5 @@
 {
-  "phase": "REFINE",
-  "plan_sha256": "835d712c38cc38d2f7249756cdb267caa0ce55c52238aa11dc62318e1bb19876",
-  "prior_actual": 44
+  "phase": "VALIDATE",
+  "plan_sha256": "72bf994bb5e08351cfb9db970ed8cfc6cd523eec0e3a79a0d644c96ea47ac326",
+  "prior_actual": 109
 }
