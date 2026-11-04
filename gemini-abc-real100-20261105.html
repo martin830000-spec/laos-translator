@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gemini 실사용 A/B/C 비교 — TEST</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;color:#1d2837;background:#f3f5f9}
+*{box-sizing:border-box}body{margin:0}main{max-width:1240px;margin:auto;padding:24px 16px 80px}
+h1{font-size:26px;letter-spacing:-.7px;margin:0 0 6px}h2{font-size:17px;margin:0 0 14px}p{line-height:1.58}
+small,.muted{color:#657388}.subtitle{margin:0 0 20px;color:#5d6a7f}
+.card{background:white;border:1px solid #dfe5ee;border-radius:15px;padding:20px;margin-bottom:15px;box-shadow:0 4px 14px #17284007}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{padding:12px;border:1px solid #e5eaf1;border-radius:12px}.stat strong{display:block;font-size:24px;margin-top:6px}
+label{font-size:13px;font-weight:650;color:#3e5068}input,select,button{font:inherit}
+input[type=file],input[type=password],input[type=number],select{display:block;width:100%;background:white;border:1px solid #cbd4e2;border-radius:9px;padding:10px;margin-top:6px}
+button{border:1px solid #bcc8da;background:white;color:#253b57;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer}button:hover{background:#eaf0fa}
+button.primary{background:#2257a9;color:white;border-color:#2257a9}button.primary:hover{background:#154791}button:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row>*{min-width:0}
+.note{background:#f1f6fe;padding:12px 14px;border-radius:9px;color:#3c5472;font-size:13px;line-height:1.6;margin-top:12px}
+.warn{background:#fff4e5;color:#845b25}.err{color:#b3333e}
+.tag{display:inline-block;font-size:11px;font-weight:750;white-space:nowrap;border-radius:12px;padding:4px 8px;background:#edf3fb;color:#356092}
+.tag.tentative{background:#fff2dc;color:#8c5e13}
+.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.colbox{border:1px solid #dce4ef;border-radius:11px;padding:12px;background:#fcfdff}
+.colbox h3{font-size:14px;margin:0 0 9px}.textblock{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.65}
+.mini{font-size:12px;color:#66758b;margin-top:7px}
+.item{border:1px solid #e0e7f0;border-radius:12px;padding:15px;margin:11px 0}
+.itemhead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:11px}
+.original{background:#f6f8fc;border-radius:9px;padding:10px 12px;line-height:1.7;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;margin-bottom:12px}
+.toolbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.toolbar>label{min-width:130px}
+progress{display:block;width:100%;height:13px;margin:10px 0}
+footer{font-size:12px;color:#69788a;line-height:1.6}
+@media(max-width:800px){.grid,.columns,.two{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}main{padding:13px 10px}.card{padding:15px}h1{font-size:21px}}
+</style></head><body><main>
+<header><h1>Gemini 실사용 A/B/C 비교 <span class="tag">TEST 전용</span></h1>
+<p class="subtitle">SERVICE 3.8 기준선 ↔ 3.1 BACK ↔ 3.1 정번역/역번역 · 실제 한국어↔라오어 대화 비교</p></header>
+<section class="card"><h2>1. 비교 대상</h2>
+<div class="grid">
+<div class="colbox"><h3>A · 기존 SERVICE</h3><div>3.8 FIRST → 3.8 BACK</div><div class="mini">기존 실번역 결과 재사용 · 0회</div></div>
+<div class="colbox"><h3>B · 3.1 BACK</h3><div>3.8 FIRST → 3.1 BACK</div><div class="mini">기존 REAL100 결과 재사용 · 0회</div></div>
+<div class="colbox"><h3>C · 3.1 전체 <span class="tag tentative">FIRST HOLD</span></h3><div>3.1 FIRST → 3.1 BACK</div><div class="mini">직접 실행 선택 시에만 유료 API 호출</div></div>
+</div><p class="note">A·B는 저장된 역사적 결과이며 같은 FIRST 기준의 독립 역번역을 비교합니다. C는 최신 3.1 BACK 후보와 기존 3.1 FIRST 연구 후보를 연결하는 별도 실험입니다. 3.1 FIRST 후보는 아직 실사용 합격이 아닙니다. 품질 점수를 자동 생성하지 않습니다.</p></section>
+<section class="card"><h2>2. 비공개 실번역 로그 불러오기</h2>
+<div class="grid two">
+<div><label for="inputFile">① 실번역 로그 JSON · REAL100_PAIRS 또는 SERVICE 2000 복구 JSON</label><input type="file" id="inputFile" accept=".json,.txt,application/json,text/plain"></div>
+<div><label for="mergeFile">② 선택 · 3.1 BACK REAL100_PAIRS JSON 병합</label><input type="file" id="mergeFile" accept=".json,application/json"></div>
+</div><div class="row" style="margin-top:10px"><button id="clear" type="button">화면의 입력·결과 초기화</button><span id="importStatus" class="mini">파일 미선택. 대화 원문은 브라우저 내부에서만 읽습니다.</span></div>
+<p class="note">권장: Google Drive의 <b>GEMINI31_BACK_REAL100_PAIRS_PRIVATE_20261104.json</b>을 ①에 불러오면 A/B 100건이 바로 표시됩니다. SERVICE 2000건을 불러오면 양방향 최대 50건씩 선택하며, B는 FIRST가 정확히 같은 경우에만 별도 병합합니다. 이 화면은 대화 내용을 GitHub나 자체 서버에 업로드하지 않습니다.</p></section>
+<section class="card"><h2>3. C · 신규 3.1 FIRST + 독립 3.1 BACK</h2>
+<div class="grid">
+<div><label for="firstVariant">3.1 FIRST 실험 프롬프트</label><select id="firstVariant"><option value="LEGACY31U" selected>LEGACY31U · 방향별 (HOLD)</option><option value="ALIGNED">ALIGNED · 문장 분절 (HOLD)</option></select></div>
+<div><label for="apiKey">Gemini API 키 · 현재 화면에만 입력</label><input type="password" id="apiKey" autocomplete="off" placeholder="브라우저 저장 없음 · 테스트용 키"></div>
+<div><label for="callCap">이번 실행의 신규 API 시도 상한</label><input type="number" id="callCap" min="1" max="200" value="20"></div>
+</div><div class="row" style="margin-top:14px"><button id="run" class="primary" disabled>선택한 C 검사 실행</button><button id="stop" disabled>실행 중단</button><span id="apiStatus" class="mini">연구 프롬프트 계약 확인 중</span></div>
+<progress id="progress" max="1" value="0"></progress><div id="runStatus" class="mini">전체 100건을 신규 실행하면 FIRST 100회 + BACK 100회로 최대 200회입니다. 자동 호출되지 않습니다.</div>
+<p class="note warn"><b>API 과금:</b> 파일 불러오기와 A/B 비교는 무료입니다. C는 사용자가 직접 버튼을 누르고 확인해야 호출합니다. BACK 요청에는 실제 C FIRST만 전달하고 원문·기존 A/B 결과는 전달하지 않습니다. 자동 재시도·숨은 유료 검사·자동 채점 없음. 실패도 시도 횟수에 포함합니다. API 직접 호출이 CORS/인증 때문에 차단되면 실패 기록을 보여주며 우회 프록시를 사용하지 않습니다.</p></section>
+<section class="card"><h2>4. 비교 결과</h2>
+<div class="stats"><div class="stat"><small>대상</small><strong id="count">0건</strong></div><div class="stat"><small>A 준비</small><strong id="aCount">0</strong></div><div class="stat"><small>B 준비</small><strong id="bCount">0</strong></div><div class="stat"><small>C 완료</small><strong id="cCount">0</strong></div></div>
+<div id="metrics" class="note">파일을 선택하면 결과가 표시됩니다.</div>
+<div class="toolbar" style="margin-top:14px">
+<label>결과 필터<select id="filter"><option value="ALL">전체</option><option value="K">남편 K→L→K</option><option value="L">아내 L→K→L</option><option value="PENDING">C 미완료</option></select></label>
+<label>한 페이지<select id="pageSize"><option value="10" selected>10건</option><option value="20">20건</option><option value="50">50건</option><option value="100">100건</option></select></label>
+<button id="prev">이전</button><span id="pageLabel" class="mini">0건</span><button id="next">다음</button><button id="exportJson">JSON 저장</button><button id="exportTxt">TXT 저장</button>
+</div><div id="results"></div></section>
+<footer>TEST 전용 화면 · SERVICE 및 기존 진단기 파일 수정 없음 · 개인 대화/키 비공개 유지 · 원어민 미검증 자료의 자동 합격 판정 없음.</footer>
+</main><script src="./gemini-abc-real100-20261105.js"></script></body></html>
