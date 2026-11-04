@@ -64,4 +64,13 @@ class Contracts(unittest.TestCase):
   b=Bad();s=Session(lambda:b)
   with self.assertRaises(OSError):s.send(self.builder('KF','M31','CONTROL','x'),{})
   self.assertEqual(b.calls,1);self.assertIsNone(s.conn)
+ def test_frozen_first_seed_generates_only_BACK(self):
+  import hashlib
+  seed=dict(slot=1,case_id='synthetic',path='KF',displayed_seed='PRIOR_VISIBLE',seed_response_id='prior_response',seed_sha256=hashlib.sha256(b'PRIOR_VISIBLE').hexdigest());self.p.update(phase='C_BACK',tasks=[seed,dict(slot=2,case_id='synthetic',path='KB',model='M31',variant='QUOTE',depends_on=1)]);self.a['plan_sha256']=c.digest(self.p);r=self.runp();self.assertEqual(r['attempts'],1);self.assertEqual(len(self.calls),1);self.assertEqual(self.calls[0]['payload']['contents'][0]['parts'][0]['text'],'PRIOR_VISIBLE');self.assertFalse(r['slots'][0]['attempted'])
+ def test_seed_cannot_leak_original_or_be_used_in_FINAL(self):
+  import hashlib
+  seed=dict(slot=1,case_id='synthetic',path='KF',displayed_seed='x',seed_response_id='id',seed_sha256=hashlib.sha256(b'x').hexdigest(),original='LEAK')
+  with self.assertRaises(ValueError):c.validate(dict(phase='C_BACK',tasks=[seed]))
+  seed.pop('original')
+  with self.assertRaises(ValueError):c.validate(dict(phase='FINAL',tasks=[seed]))
 if __name__=='__main__':unittest.main()

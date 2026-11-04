@@ -27,8 +27,9 @@ function build(p,model,variant,input){
   if(model!=='M38')throw new TypeError('NO_SILENT_SERVICE_MODEL_SWAP');
   return {model:MODEL.M38.id,payload:JSON.parse(JSON.stringify(service().build(input,side,stage)))};
  }
- if(!MODEL[model]||!['CONTROL','CONTRAST'].includes(variant))throw new TypeError('MODEL_VARIANT');
+ if(!MODEL[model]||!['CONTROL','CONTRAST','QUOTE'].includes(variant))throw new TypeError('MODEL_VARIANT');
  let instruction=BASE.replace('SOURCE',src).replace('TARGET',dst);
+ if(variant==='QUOTE')instruction=`Translate the ${src} utterance into ${dst} as a complete quotation, not a reply. Keep the speaker's assertions, questions and feelings in their own perspective, in idiomatic connected sentences. Preserve what is already true versus what is being considered or awaited. Use the words' specificity and local context for references and unfamiliar expressions. Return only the translated utterance.`;
  if(variant==='CONTRAST'){
   const pairs=src==='Korean'?KO_LO:KO_LO.map(([a,b])=>[b,a]);
   instruction+='\nContrastive illustrations of completed versus intended action and genuine versus rhetorical questions. Read their communicative function, not their nouns or setting. They are examples, not facts about the current message.\n'+pairs.map(([source,target])=>JSON.stringify({source,target})).join('\n');

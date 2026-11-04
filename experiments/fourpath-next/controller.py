@@ -9,6 +9,10 @@ def validate(plan):
  seen={}
  for t in plan['tasks']:
   if not isinstance(t.get('slot'),int)or t['slot']in seen or t.get('path')not in ['KF','KB','LF','LB']:raise ValueError('TASK')
+  if 'displayed_seed'in t:
+   if plan.get('phase')!='C_BACK'or not t['path'].endswith('F')or set(t)!={'slot','case_id','path','displayed_seed','seed_response_id','seed_sha256'}:raise ValueError('SEED_BOUNDARY')
+   if not t['displayed_seed'].strip()or hashlib.sha256(t['displayed_seed'].encode()).hexdigest()!=t['seed_sha256']or not t['seed_response_id']:raise ValueError('SEED_HASH')
+   seen[t['slot']]=t;continue
   allowed={'slot','case_id','path','model','variant','input'}if t['path'].endswith('F')else{'slot','case_id','path','model','variant','depends_on'}
   if set(t)!=allowed:raise ValueError('NO_HIDDEN_CONTEXT')
   if t['path'].endswith('F'):
@@ -34,6 +38,8 @@ def run(plan,approval,build,inspect,send,journal,persist):
  result={'campaign_id':ID,'attempts':0,'prior':prior,'slots':[],'automatic_retries':0,'judge_calls':0};by={}
  for t in plan['tasks']:
   x=copy.deepcopy(t);by[t['slot']]=x;result['slots'].append(x)
+  if 'displayed_seed'in t:
+   x.update(status='SUCCESS',attempted=False,displayed=t['displayed_seed'],is_prior_displayed_FIRST=True);persist(copy.deepcopy(result));continue
   if t['path'].endswith('B'):
    dep=by[t['depends_on']]
    if dep.get('status')!='SUCCESS':x.update(status='SKIPPED_DEPENDENCY',attempted=False);persist(copy.deepcopy(result));continue
