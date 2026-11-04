@@ -29,9 +29,32 @@ var l=arr.filter(function(x){return x.dir==='L'}).slice(0,50);
 return k.concat(l).sort(function(a,b){return a.id.localeCompare(b.id)});
 }
 function setRows(input){rows=limitRows(input);ids={};rows.forEach(function(r){ids[r.id]=r});page=0;spending=0;lockedMode=rows.find(function(r){return r.cMode})?.cMode||'';refresh()}
+
+function parseTextLog(text){
+var lines=String(text||'').replace(/\r/g,'').split('\n'),records=[],cur={},active='';
+function flush(){if(cur.source&&cur.first){records.push({source:cur.source,first:cur.first,back:cur.back||'',side:cur.side||''})}cur={};active=''}
+lines.forEach(function(line){
+ var v=line.match(/^\s*(원문|번역|역번역|경로|방향)\s*[:：]\s*(.*)$/);
+ if(v){
+  var f=v[1],val=v[2].trim();
+  if(f==='원문'&&cur.source)flush();
+  if(f==='원문'){cur.source=val;active='source'}
+  else if(f==='번역'){cur.first=val;active='first'}
+  else if(f==='역번역'){cur.back=val;active='back'}
+  else{cur.side=/라오어|라오스어|L→K|L-K|L2K/i.test(val)?'L':/한국어|K→L|K-L|K2L/i.test(val)?'K':'';active=''}
+ }else if(active&&line.trim()&&!/^\s*(?:처리시간|상태|재번역|모델|시간|버전|원본|기록|session|attempt|prompt|토큰|사용량|비용|[-=]{3,})\s*[:：]/i.test(line)){
+  cur[active]=(cur[active]||'')+'\n'+line.trim()
+ }else{active=''}
+});
+flush();
+if(!records.length)throw Error('TXT에서 원문/번역/역번역 기록을 찾지 못했습니다. 원본 REAL100 JSON 사용을 권장합니다.');
+records=records.map(function(x,i){x.id='txt:'+String(i+1).padStart(4,'0');x.side=x.side||(/[\u0e80-\u0eff]/.test(x.source)?'L':'K');return x});
+return cloneRows(records);
+}
+
 async function importFile(ev){
 if(running)return;
-try{var file=ev.target.files[0];if(!file)return;var list=cloneRows(JSON.parse(await file.text()));setRows(list);
+try{var file=ev.target.files[0];if(!file)return;var text=await file.text(),list;if(/\.json$/i.test(file.name)){list=cloneRows(JSON.parse(text))}else{try{list=cloneRows(JSON.parse(text))}catch(_){list=parseTextLog(text)}}setRows(list);
 $('importStatus').textContent='불러오기 성공: '+list.length+'건 중 '+rows.length+'건 · K '+rows.filter(function(x){return x.dir==='K'}).length+' / L '+rows.filter(function(x){return x.dir==='L'}).length+' · API 0회';}
 catch(e){$('importStatus').textContent='파일 해석 실패: '+e.message}
 ev.target.value='';
