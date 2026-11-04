@@ -1,0 +1,72 @@
+{
+  "state": "FROZEN_BEFORE_OPEN",
+  "created_utc": "2026-11-04T04:33:07.073762+00:00",
+  "contracts_sha256": "426d46c8f396287864bfb9c375efbf540148606aefd755677bf1afb3adb095af",
+  "dependency_sha256": {
+    "experiments/gemini-semantic/contracts.cjs": "612cb26af066dc6a32c78213acbc9c27f68a3fa00251507d9d2b304129d8d114",
+    "experiments/k31-actor16/variants.cjs": "ffb0113e12f7a28c6c21f740f622fe2f9177e72fd91041e391cf6981756061db",
+    "experiments/fourpath-next/contracts.test.cjs": "bf56662f4b5c888a10e7326456a650a60e7e35be025d5ebf14486c96561b892c",
+    "experiments/fourpath-next/contracts.cjs": "ff9e25a509db6b3140538c57a04204eb20bd1499ac748601b6ff2455f598efb8",
+    "experiments/fourpath-next/worker.cjs": "1730f9671281e7b963654b348626372b079137d2110a76904f79229d8c68da87",
+    "experiments/autonomous300/variants.cjs": "8802528dbbc1fef41a8de455c7410570610bfa3026526a522e100444aa8a6e1c",
+    "experiments/semantic40/variants.cjs": "01fb914811ad50a33790365f3a7c18d1915be2bcfb399096c08b4d26bf98542f",
+    "experiments/fourpath-open/contracts.test.cjs": "b7a116d889c5ebcc745ef7114380f48a4383c9636c5f2f91318cf1983d9a1e9e",
+    "experiments/fourpath-open/contracts.cjs": "426d46c8f396287864bfb9c375efbf540148606aefd755677bf1afb3adb095af",
+    "experiments/fourpath-open/worker.cjs": "7e0e175ab4af3fa2b09f2010c0f124e33342b07a43c6284545bed4718f62841c",
+    "experiments/gemini-semantic/frozen-service/service-contract.cjs": "6a0d2b589805151eda262343ec797eddac874b942deb148b078267542ee3cedb",
+    "experiments/gemini-semantic/frozen-service/prompt-config.json": "182aa1ef1136ef75cfa4ea57eca26b16a0177d0679f0059b7749b90fe798973f"
+  },
+  "rubric_sha256": "20ed00e752e3a928403a79b89a9f07257b210fb3c5e0a7737bc25a5bc6c909fe",
+  "metadata_sha256": "18a33da987a5cfcf91bd44332d757e53669ac9a26416c157730f3623bdffe823",
+  "recipes": {
+    "SERVICE": {
+      "KF": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "KB": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "LF": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "LB": [
+        "M38",
+        "SERVICE_EXACT"
+      ]
+    },
+    "NEW": {
+      "KF": [
+        "M38",
+        "SOURCE_CORE"
+      ],
+      "KB": [
+        "M38",
+        "DIRECT"
+      ],
+      "LF": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "LB": [
+        "M38",
+        "DIRECT"
+      ]
+    }
+  },
+  "model_settings": {
+    "M38": {
+      "id": "gemini-3.8-flash",
+      "thinking": "low",
+      "maxOutputTokens": 1024
+    }
+  },
+  "selection": "K12/L12; each4short4medium4long, metadata-only selection before candidate freeze; original historicalSERVICE exposure",
+  "evaluation": "Same evaluator partially masked models/arm/time; blind grades frozen before mapping. No tuning after final open.",
+  "authorization_mode": "unbounded-within-scope",
+  "approved_numeric_limit": null,
+  "planned_FINAL_attempts": 96,
+  "case_hash_manifest_sha256": "d8bf0eef39c6ba35842b9b74460692560753f16fca3cd6cfe364ed9a4d963eb9"
+}
