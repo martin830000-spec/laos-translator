@@ -1,0 +1,58 @@
+{
+  "campaign_id": "GEMINI31_BACK_REAL100_20261104",
+  "actual100": 100,
+  "success100": 100,
+  "failed0": 0,
+  "unused0": 0,
+  "locked": true,
+  "first0": 0,
+  "new38back0": 0,
+  "judge0": 0,
+  "retries0": 0,
+  "grades": {
+    "KB": {
+      "new": {
+        "P0": 0,
+        "P1": 2,
+        "P2": 46,
+        "REVIEW": 2
+      },
+      "old": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 50,
+        "REVIEW": 0
+      },
+      "API_median_ms": 1052.6417860000001,
+      "ready_median_ms": 1077.4947550000002
+    },
+    "LB": {
+      "new": {
+        "P0": 0,
+        "P1": 1,
+        "P2": 39,
+        "REVIEW": 10
+      },
+      "old": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 48,
+        "REVIEW": 2
+      },
+      "API_median_ms": 1206.946191,
+      "ready_median_ms": 1339.2692255000002
+    }
+  },
+  "estimated_usd": 0.02573725,
+  "invoice_verified": false,
+  "decisions": {
+    "KB": "HOLD_FOR_DIRECT_REPLACEMENT",
+    "LB": "HOLD_PENDING_NATIVE_AND_SPEECH_ACT_REVIEW",
+    "SERVICE": "UNCHANGED",
+    "TEST_app_code": "UNCHANGED",
+    "reason": "Speed/observed cost are promising, but KB two case-level meaningful regressions vs existingBACK and LB one confirmation/question regression plus recurring unresolved address/naturalness issues prevent establishing sufficient two-direction replacement quality. REVIEW is not failure; no zero-error threshold used. Preserve frozen candidates and examine specific evidence before any separate TEST integration."
+  },
+  "private_evidence_destination": "Owner-only Google Drive LIVE_STATE, all raw requests/responses and100 judgments",
+  "native_Lao_review": false,
+  "old_model_raw_wire_verified": false
+}
