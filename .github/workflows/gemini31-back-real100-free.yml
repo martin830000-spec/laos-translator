@@ -1,0 +1,17 @@
+name: BACK100 free frozen contract checks
+on:
+  push:
+    branches: [research/gemini31-back-real100-20261104]
+    paths: ['experiments/gemini31-back-real100/**', '.github/workflows/gemini31-back-real100-free.yml']
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - run: python3 experiments/gemini31-back-real100/free_checks.py

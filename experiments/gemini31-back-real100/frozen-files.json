@@ -1,0 +1,13 @@
+{
+  "experiments/gemini-assets/contracts.cjs": "5dca81b12eef6ec0cd92e4d01f2626e5cf063f3d09bc162c88a26bb81825a4bc",
+  "experiments/gemini-assets/worker.cjs": "a175cabcebd70ead2d068e7eb2815948918842bf4599225b2893a419ee983eea",
+  "experiments/gemini-assets/legacy.py": "9987282931595778157ad28ea6640ed6dafddd2a737eac3d2412c8f05a0c8420",
+  "experiments/gemini-assets/legacy-prompt320/adapter.py": "bc5835fc2fbd22ccaef332ac325e63575106a9706a224ef84d3b8271b152d065",
+  "experiments/gemini-assets/legacy-prompt320/baseline.py": "e2c0aa974cc9a6715df083b530e08301439fe0f0634c5a703e59d308a28740a6",
+  "experiments/gemini-assets/legacy-prompt320/service-contract.cjs": "4f0776b9831a0c2cebefac7a67872c094e3fd58a40aec9e59105bfd1470618d6",
+  "experiments/gemini-assets/legacy-prompt320/prompt-config.json": "182aa1ef1136ef75cfa4ea57eca26b16a0177d0679f0059b7749b90fe798973f",
+  "experiments/gemini-assets/paid_bridge.py": "4880f632b0d56f8d287143e09b564bc6ab2505bc0478bd9400b74859fdea5b75",
+  "experiments/gemini-assets/transport.py": "4b1471657d91f6b24bd8bb096ae71b6c2bbdbaa94685c618d4171dc15a2fba8c",
+  "experiments/gemini-assets/preflight.py": "df3199f81eba7e70aef4656e56ccfd2eaddc552f66e99a169e39a91825704dd0",
+  "experiments/s47-realuse16/run.py": "5fbc6d467c44f88ddbc7bdc24856603cfb454c2f67f8895009f6dad6608399d1"
+}
