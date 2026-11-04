@@ -1,13 +1,14 @@
 {
-  "phase": "BACK_PROBE",
-  "prior_actual": 152,
-  "planned_task_count": 40,
-  "issue_number": 182,
-  "title": "GEMINI_ACCUMULATED_ASSETS_OPEN_20261104_BACK_PROBE",
-  "plan_sha256": "0ebb79acdcf2b2b6fb4dfbff4d1cb0af4186b8a06f03aed2e5ed8b82c9e709dc",
-  "tag": "gemini-assets-20261104-back_probe-consumed",
+  "phase": "FINAL",
+  "prior_actual": 184,
+  "planned_task_count": 72,
+  "issue_number": 183,
+  "title": "GEMINI_ACCUMULATED_ASSETS_OPEN_20261104_FINAL",
+  "plan_sha256": "c8ad72e34dc4714a3eea3bd932fb3a28aac6bb8b4c2018f61393b3fc7e0138c0",
+  "tag": "gemini-assets-20261104-final-consumed",
   "required_tags": [
     "gemini-assets-20261104-discovery-consumed",
-    "gemini-assets-20261104-refine-consumed"
+    "gemini-assets-20261104-refine-consumed",
+    "gemini-assets-20261104-back_probe-consumed"
   ]
 }
