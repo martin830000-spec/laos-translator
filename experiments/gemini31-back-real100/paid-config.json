@@ -1,9 +1,11 @@
 {
-  "phase": "PILOT20",
-  "prior_actual": 0,
-  "issue_number": 184,
-  "title": "GEMINI31_BACK_REAL100 PILOT20 encrypted research input",
-  "plan_sha256": "0ae8c783d85385a9888f494e116793142f1722e24dd252933b87ae2b592e3c2b",
-  "tag": "gemini31-back-real100-20261104-pilot20-consumed",
-  "required_tags": []
+  "phase": "REST80",
+  "prior_actual": 20,
+  "issue_number": 185,
+  "title": "GEMINI31_BACK_REAL100 REST80 encrypted research input",
+  "plan_sha256": "791b47360fdaaa850ae4ecb2b2eef65fdb7ed6dd4e7d0a38c12f5eaa31581f39",
+  "tag": "gemini31-back-real100-20261104-rest80-consumed",
+  "required_tags": [
+    "gemini31-back-real100-20261104-pilot20-consumed"
+  ]
 }

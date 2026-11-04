@@ -1,6 +1,7 @@
 {
   "campaign_id": "GEMINI31_BACK_REAL100_20261104",
-  "phase": "PILOT20",
-  "planned20": true,
-  "generated_before": 0
+  "phase": "REST80",
+  "planned80": true,
+  "actual_before": 20,
+  "pilot_wire_audit": "20/20 PASS"
 }
