@@ -1,7 +1,7 @@
 """Future research controller. Zero authorized calls now. No built-in credentials/sender.
 Reserve + fsync before one send; never retry or repair. BACK depends on displayed FIRST.
 """
-import json,hashlib,time,copy,os
+import json,hashlib,time,copy,os,datetime
 from pathlib import Path
 ID='GEMINI_FOURPATH_NEXT_20261104'
 def digest(x):return hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
@@ -39,10 +39,10 @@ def run(plan,approval,build,inspect,send,journal,persist):
    if dep.get('status')!='SUCCESS':x.update(status='SKIPPED_DEPENDENCY',attempted=False);persist(copy.deepcopy(result));continue
    s=dep['displayed']
   else:s=t['input']
-  q=build(t['path'],t['model'],t['variant'],s)
+  prepare_start=time.perf_counter_ns();q=build(t['path'],t['model'],t['variant'],s);build_end=time.perf_counter_ns()
   if q['model']not in ['gemini-3.1-flash-lite','gemini-3.5-flash-lite','gemini-3.8-flash']:raise ValueError('GEMINI_ONLY')
   if prior+result['attempts']>=n:raise ValueError('BUDGET')
-  result['attempts']+=1;x.update(attempted=True,input=s,input_sha256=hashlib.sha256(s.encode()).hexdigest(),request=q,request_sha256=digest(q),global_attempt=prior+result['attempts'],status='SENT_OR_UNKNOWN')
+  result['attempts']+=1;x.update(attempted=True,input=s,input_sha256=hashlib.sha256(s.encode()).hexdigest(),request=q,request_sha256=digest(q),global_attempt=prior+result['attempts'],status='SENT_OR_UNKNOWN',build_ms=(build_end-prepare_start)/1e6,prepare_begin_ns=prepare_start,sent_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
   with Path(journal).open('a',encoding='utf8')as f:f.write(json.dumps({'attempt':x['global_attempt'],'request_sha256':x['request_sha256']})+'\n');f.flush();os.fsync(f.fileno())
   persist(copy.deepcopy(result));start=time.perf_counter_ns()
   try:
@@ -51,7 +51,8 @@ def run(plan,approval,build,inspect,send,journal,persist):
    if packet['raw'].get('modelVersion')and not packet['raw']['modelVersion'].startswith(q['model']):raise ValueError('MODEL_CHANGED')
    x.update(inspect(packet['raw']))
   except Exception as e:x.update(status='FAILED',failure_kind=type(e).__name__,usage=None,estimated_usd=None,displayed=None)
-  finally:x['request_to_display_ready_ms']=(time.perf_counter_ns()-start)/1e6;persist(copy.deepcopy(result))
+  finally:
+   end=time.perf_counter_ns();x['request_to_display_ready_ms']=(end-start)/1e6;x['first_or_back_ready_ms']=(end-prepare_start)/1e6;x['display_ready_ns']=end;persist(copy.deepcopy(result))
  return result
 def close(approval,actual):
  if type(actual)is not int or actual<0 or actual>approval['approved_new']:raise ValueError('ACTUAL')

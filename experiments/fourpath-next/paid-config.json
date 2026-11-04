@@ -1,0 +1,10 @@
+{
+  "phase": "A",
+  "prior_actual": 0,
+  "phase_cap": 48,
+  "issue_number": 170,
+  "title": "GEMINI_FOURPATH_NEXT_20261104_A_PAID192",
+  "plan_sha256": "2dc42efb6f093ca1959fb828148701f2e8c788f8a16350c12bf55bc8eecab3f9",
+  "tag": "gemini-fourpath-next-20261104-a-consumed",
+  "required_tags": []
+}
