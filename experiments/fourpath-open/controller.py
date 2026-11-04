@@ -10,7 +10,7 @@ def validate(plan):
  for t in plan['tasks']:
   if not isinstance(t.get('slot'),int)or t['slot']in seen or t.get('path')not in ['KF','KB','LF','LB']:raise ValueError('TASK')
   if 'displayed_seed'in t:
-   if plan.get('phase')not in ['BACK_PROBE','LATENCY']or not t['path'].endswith('F')or set(t)!={'slot','case_id','path','displayed_seed','seed_response_id','seed_sha256'}:raise ValueError('SEED_BOUNDARY')
+   if plan.get('phase')not in ['BACK_PROBE','LATENCY','REFINE']or not t['path'].endswith('F')or set(t)!={'slot','case_id','path','displayed_seed','seed_response_id','seed_sha256'}:raise ValueError('SEED_BOUNDARY')
    if not t['displayed_seed'].strip()or hashlib.sha256(t['displayed_seed'].encode()).hexdigest()!=t['seed_sha256']or not t['seed_response_id']:raise ValueError('SEED_HASH')
    seen[t['slot']]=t;continue
   allowed={'slot','case_id','path','model','variant','input'}if t['path'].endswith('F')else{'slot','case_id','path','model','variant','depends_on'}

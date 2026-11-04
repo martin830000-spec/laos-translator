@@ -1,10 +1,12 @@
 {
-  "phase": "DISCOVERY",
-  "prior_actual": 0,
-  "planned_task_count": 44,
-  "issue_number": 175,
-  "title": "GEMINI_FOURPATH_OPEN_20261104_DISCOVERY",
-  "plan_sha256": "eafc1682132c461d1f41abcb252169c3251df12883fadbe18c0ee2bb25c23c6b",
-  "tag": "gemini-fourpath-open-20261104-discovery-consumed",
-  "required_tags": []
+  "phase": "REFINE",
+  "prior_actual": 44,
+  "planned_task_count": 68,
+  "issue_number": 176,
+  "title": "GEMINI_FOURPATH_OPEN_20261104_REFINE",
+  "plan_sha256": "835d712c38cc38d2f7249756cdb267caa0ce55c52238aa11dc62318e1bb19876",
+  "tag": "gemini-fourpath-open-20261104-refine-consumed",
+  "required_tags": [
+    "gemini-fourpath-open-20261104-discovery-consumed"
+  ]
 }

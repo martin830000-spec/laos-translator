@@ -45,6 +45,7 @@ def execute(state):
   dd=copy.deepcopy(d)
   for x in dd.get('slots',[]):
    if x.get('raw'):x.update(price(x['raw'],x['request']['model']))
+  dd['sender_journal_utf8']=(state/'once.journal').read_text()if(state/'once.journal').exists()else None
   dd.update(phase=f['phase'],model_metadata=metadata,execution={k:h[k]for k in ['run_id','issue_number','commit']},approval_mode='unbounded-within-scope',approval_numeric_limit=None,metadata_GET_generation_calls=0)
   b.write(state/'sealed-result.json',b.seal(dd,init['result_public_key'],b.aad_for(h,'result')))
  try:
