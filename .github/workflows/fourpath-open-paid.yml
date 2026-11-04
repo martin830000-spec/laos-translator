@@ -2,7 +2,7 @@ name: Scope approved FOURPATH OPEN encrypted phase
 on:
   push:
     branches: [research/gemini-fourpath-open-20261104]
-    paths: ['experiments/fourpath-open/paid-activation.json']
+    paths: ['__NEVER_TRIGGER_FOURPATH_OPEN_SESSION_CLOSED__']
 permissions:
   contents: write
   issues: read

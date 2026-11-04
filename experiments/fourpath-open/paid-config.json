@@ -1,7 +1,7 @@
 {
-  "phase": "FINAL",
-  "prior_actual": 229,
-  "planned_task_count": 96,
+  "phase": "COMPLETE",
+  "prior_actual": 325,
+  "planned_task_count": 0,
   "issue_number": 178,
   "title": "GEMINI_FOURPATH_OPEN_20261104_FINAL",
   "plan_sha256": "20b80b912929a0d8105c365c5c26f9a82b2c64284ee2182eaca990c7e4959cd5",
@@ -11,5 +11,6 @@
     "gemini-fourpath-open-20261104-refine-consumed",
     "gemini-fourpath-open-20261104-validate-consumed",
     "gemini-fourpath-open-20261104-core-consumed"
-  ]
+  ],
+  "state": "SESSION_COMPLETE_NO_PENDING_SENDS"
 }

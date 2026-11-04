@@ -62,4 +62,4 @@ def run(plan,approval,build,inspect,send,journal,persist):
  return result
 def close(approval,actual):
  if type(actual)is not int or actual<0:raise ValueError('ACTUAL')
- return dict(approval,actual_attempts=actual,authorized=False,execution_enabled=False,planned_task_count=0,state='SESSION_CLOSED',remaining_numeric_limit=None)
+ return dict(approval,actual_attempts=actual,execution_enabled=False,planned_task_count=0,state='SESSION_COMPLETE_NO_PENDING_SENDS',remaining_numeric_limit=None)

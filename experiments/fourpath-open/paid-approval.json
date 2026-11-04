@@ -2,12 +2,15 @@
   "campaign_id": "GEMINI_FOURPATH_OPEN_20261104",
   "authorization_mode": "unbounded-within-scope",
   "approved_limit": null,
-  "actual_attempts": 229,
+  "actual_attempts": 325,
   "authorized": true,
-  "execution_enabled": true,
-  "planned_task_count": 96,
+  "execution_enabled": false,
+  "planned_task_count": 0,
   "plan_sha256": "20b80b912929a0d8105c365c5c26f9a82b2c64284ee2182eaca990c7e4959cd5",
   "user_instruction_sha256": "ecf47e8786ab20ef72fc4d3c6213e26367a0aac294eae56c23fd29ef39b22199",
   "approval_source": "Explicit latest user paid-open authorization20261104, no numeric campaign limit; no old approvals reused",
-  "old_approvals_reused": 0
+  "old_approvals_reused": 0,
+  "state": "SESSION_COMPLETE_NO_PENDING_SENDS",
+  "remaining_numeric_limit": null,
+  "closure_reason": "Independent FINAL complete; quality/latency tradeoffs documented; no pending sends. Scope consent retained; no numerical approval exhaustion."
 }

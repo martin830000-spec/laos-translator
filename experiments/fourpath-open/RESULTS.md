@@ -1,0 +1,11 @@
+# FOURPATH OPEN research, 2026-11-04
+
+Scope-authorized research with no numerical campaign cap; existing approvals untouched. Completed 325 attempts, 325 response successes, 0 failures, 0 automatic retries, 0 judges. Five adaptive stages:44/65/72/48/96. Estimated API usage USD0.1810325; invoice unverified. No production changes.
+
+Compared Gemini3.1/3.5 Flash-Lite minimal/low and3.8 Flash low. Lower-cost models retained meaningful state/reference/mixed-language regressions under the tested contracts. Final frozen research recipe uses3.8 SOURCE_CORE for Korean FIRST, actual SERVICE for Lao FIRST,3.8 DIRECT for both independent BACK paths. Candidate/rubric frozen before24 FINAL sources opened; partially masked judgments frozen before arm/time mapping. All BACK inputs are actual displayed FIRST only. No final tuning.
+
+FINAL n12 per direction/arm: KF SERVICE P2=12 vs new12; KB SERVICE P2=11/P1=1 vs new P2=11/REVIEW=1; LF SERVICE P2=11/REVIEW=1 vs same-contract repeat P2=12; LB SERVICE and new P2=11/REVIEW=1. No native Lao review. Same-contract LF differences are stochastic observations, not evidence of a new LF engine. P2 is provisional practical adequacy, not perfect translation.
+
+K FIRST readiness median2.626s SERVICE vs2.797s new; BACK API median2.691 vs2.199s; fullpair median5.830 vs4.756s, mean5.674 vs8.045s, max9.290 vs37.115s. New KB included34.102s API latency, on reused connection, negligible send time, no reported thinking tokens. Cause unresolved; no retry used to erase it. L FIRST1.974 vs1.957s (identical request contract), BACK1.933 vs1.800s, pair4.194 vs3.978s; pair means4.808 vs4.500s. API runner measurements, not mobile paint.
+
+Decision: retain direction-specific TEST candidate; do not adopt across SERVICE. Median/cost signals do not offset unresolved latency tails and limited quality evidence. Next useful work is native contextual review of ambiguity/name/state errors and provider-phase tail diagnosis; avoid repeated failed-prompt tuning. The unbounded scope consent remains recorded; this completed session has execution disabled, no pending plan and paid workflow trigger disabled. This is not approval exhaustion. All original/private evidence is owner-only Drive material; no private utterances in this repository.
