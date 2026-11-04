@@ -1,0 +1,16 @@
+name: FOURPATH OPEN contract checks
+on:
+  push:
+    branches: [research/gemini-fourpath-open-20261104]
+    paths: ['experiments/fourpath-open/**', '.github/workflows/fourpath-open-*.yml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: node --test experiments/fourpath-open/contracts.test.cjs
+      - run: python3 -m unittest discover -s experiments/fourpath-open -p 'test_*.py' -v

@@ -1,0 +1,2 @@
+'use strict';const readline=require('node:readline'),c=require('./contracts.cjs');
+readline.createInterface({input:process.stdin}).on('line',line=>{try{const q=JSON.parse(line);const r=q.mode==='build'?c.build(q.path,q.model,q.variant,q.text):c.inspect(q.raw,q.path,q.text);process.stdout.write(JSON.stringify({ok:true,value:r})+'\n');}catch(e){process.stdout.write(JSON.stringify({ok:false,type:e.name})+'\n');}});

@@ -1,0 +1,5 @@
+const test=require('node:test'),a=require('node:assert/strict'),c=require('./contracts.cjs');
+test('all paths and thinking preserve exact UTF8 data',()=>{for(const p of Object.keys(c.PATHS))for(const m of Object.keys(c.MODEL)){const s='나만 14:30에?\n"조건" ອີ່ມ';const q=c.build(p,m,'DIRECT',s);a.equal(q.payload.contents[0].parts[0].text,s);a.equal(q.payload.generationConfig.thinkingConfig.thinkingLevel,c.MODEL[m].thinking);}});
+test('framing segment is the sole payload difference',()=>{const x=c.build('KF','M31','QUOTE','자료'),y=c.build('KF','M31','DIRECT','자료');x.payload.systemInstruction=y.payload.systemInstruction;a.deepEqual(x,y);});
+test('warnings never replace valid untranslated or mixed display',()=>{for(const s of ['그리고 사랑해 여보','ທີ່ຮັກ ไทย 中文 web']){const raw={candidates:[{finishReason:'STOP',content:{parts:[{text:s}]}}]};const r=c.inspect(raw,'KF',s);a.equal(r.status,'SUCCESS');a.equal(r.displayed,s);a.ok(r.warnings.length);}});
+test('MAX_TOKENS never triggers a resend',()=>{const r=c.inspect({candidates:[{finishReason:'MAX_TOKENS',content:{parts:[{text:'partial'}]}}]},'KB','x');a.equal(r.status,'FAILED');a.equal(r.retry_count,0);});
