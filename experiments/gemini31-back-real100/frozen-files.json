@@ -9,5 +9,8 @@
   "experiments/gemini-assets/paid_bridge.py": "4880f632b0d56f8d287143e09b564bc6ab2505bc0478bd9400b74859fdea5b75",
   "experiments/gemini-assets/transport.py": "4b1471657d91f6b24bd8bb096ae71b6c2bbdbaa94685c618d4171dc15a2fba8c",
   "experiments/gemini-assets/preflight.py": "df3199f81eba7e70aef4656e56ccfd2eaddc552f66e99a169e39a91825704dd0",
-  "experiments/s47-realuse16/run.py": "5fbc6d467c44f88ddbc7bdc24856603cfb454c2f67f8895009f6dad6608399d1"
+  "experiments/s47-realuse16/run.py": "5fbc6d467c44f88ddbc7bdc24856603cfb454c2f67f8895009f6dad6608399d1",
+  "experiments/gemini-assets/legacy31u-prompts.json": "14dac18474f86e886f5aa36cef92da3db70097ca90a5b3ed9308d59831f3a638",
+  "experiments/fourpath-open/contracts.cjs": "426d46c8f396287864bfb9c375efbf540148606aefd755677bf1afb3adb095af",
+  "experiments/fourpath-next/contracts.cjs": "ff9e25a509db6b3140538c57a04204eb20bd1499ac748601b6ff2455f598efb8"
 }

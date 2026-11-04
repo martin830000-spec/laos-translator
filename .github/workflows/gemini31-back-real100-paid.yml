@@ -21,6 +21,8 @@ jobs:
         with:
           persist-credentials: false
       - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
+      - name: Free frozen contracts before any generation
+        run: python3 experiments/gemini31-back-real100/free_checks.py
       - name: Public one time handshake
         env:
           GITHUB_TOKEN: ${{ github.token }}

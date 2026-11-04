@@ -5,8 +5,8 @@
     "KB": 50,
     "LB": 50
   },
-  "authorized": false,
-  "execution_enabled": false,
+  "authorized": true,
+  "execution_enabled": true,
   "actual_attempts": 0,
   "actual_by_path": {
     "KB": 0,
@@ -18,5 +18,7 @@
   "new_service_back_calls": 0,
   "judge_calls": 0,
   "authorization_source": "Latest explicit user instruction in this chat: maximum100 attempts, K50/L50. Prior approvals not reused.",
-  "state": "PREPARED_NOT_ACTIVATED"
+  "state": "PILOT20_APPROVED",
+  "plan_sha256": "0ae8c783d85385a9888f494e116793142f1722e24dd252933b87ae2b592e3c2b",
+  "planned_task_count": 20
 }
