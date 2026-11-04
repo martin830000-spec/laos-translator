@@ -1,13 +1,16 @@
 {
   "campaign_id": "GEMINI_FOURPATH_NEXT_20261104",
-  "state": "APPROVED_PHASE_FINAL",
+  "state": "LOCKED_COMPLETED_PAID192",
   "approved_new": 192,
-  "actual_attempts": 120,
-  "authorized": true,
-  "execution_enabled": true,
-  "maximum_new_attempts": 72,
+  "actual_attempts": 192,
+  "authorized": false,
+  "execution_enabled": false,
+  "maximum_new_attempts": 0,
   "plan_sha256": "18ef5049574e3039d25d79ab3b305eb0c147a928ce8955122da161cdb1abd02c",
   "user_instruction_sha256": "4a5f6d745a8142ab237cf65f0feb3f354643b36f87cc31e42040acc2958de19f",
   "approval_source": "Explicit user new192 20261104; no previous approval reused",
-  "old_approvals_reused": 0
+  "old_approvals_reused": 0,
+  "unused": 0,
+  "success": 192,
+  "failed": 0
 }

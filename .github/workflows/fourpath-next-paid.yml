@@ -2,7 +2,7 @@ name: Approved FOURPATH192 encrypted phase
 on:
   push:
     branches: [research/gemini-fourpath-next-20261104]
-    paths: ['experiments/fourpath-next/paid-activation.json']
+    paths: ['__NEVER_TRIGGER_FOURPATH192_LOCKED__']
 permissions:
   contents: write
   issues: read

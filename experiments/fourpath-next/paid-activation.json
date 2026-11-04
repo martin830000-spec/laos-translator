@@ -1,5 +1,6 @@
 {
-  "phase": "FINAL",
-  "plan_sha256": "18ef5049574e3039d25d79ab3b305eb0c147a928ce8955122da161cdb1abd02c",
-  "prior_actual": 120
+  "state": "LOCKED",
+  "actual": 192,
+  "unused": 0,
+  "execution_enabled": false
 }

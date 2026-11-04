@@ -1,7 +1,7 @@
 {
   "phase": "FINAL",
-  "prior_actual": 120,
-  "phase_cap": 72,
+  "prior_actual": 192,
+  "phase_cap": 0,
   "issue_number": 174,
   "title": "GEMINI_FOURPATH_NEXT_20261104_FINAL_PAID192",
   "plan_sha256": "18ef5049574e3039d25d79ab3b305eb0c147a928ce8955122da161cdb1abd02c",
@@ -11,5 +11,6 @@
     "gemini-fourpath-next-20261104-b-consumed",
     "gemini-fourpath-next-20261104-c_back-consumed",
     "gemini-fourpath-next-20261104-c_first-consumed"
-  ]
+  ],
+  "state": "LOCKED"
 }
