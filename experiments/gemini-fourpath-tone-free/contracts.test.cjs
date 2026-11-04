@@ -1,0 +1,18 @@
+'use strict';
+const test=require('node:test'),a=require('node:assert/strict'),c=require('./contracts.cjs');
+const raw=(text,stop='STOP')=>({candidates:[{finishReason:stop,content:{parts:[{text}]}}]});
+const input='자기야 "안 가"\r\n8시 30분이면 갈까? ❤️';
+test('new campaign zero approval and no transport',()=>{a.equal(c.APPROVAL.max_new,0);a.equal(c.APPROVAL.authorized,false);a.throws(()=>c.run(),/UNAPPROVED/);});
+test('MINOR accepted independently',()=>{a.equal(c.assess({meaning:'P2',tone:'MINOR',naturalness:'MINOR'}).acceptable,true);});
+test('uncertainty is not a known issue',()=>{const x=c.assess({meaning:'REVIEW',tone:'PASS',naturalness:'REVIEW'});a.equal(x.known_important_issue,false);a.equal(x.uncertain,true);});
+test('important tone loss remains issue despite P2 semantic grade',()=>a.equal(c.assess({meaning:'P2',tone:'ISSUE',naturalness:'PASS'}).known_important_issue,true));
+test('invalid axes rejected',()=>a.throws(()=>c.assess({meaning:'PASS',tone:'P2',naturalness:'PASS'})));
+test('neutral ablation changes exactly one fixed role sentence',()=>{const old=c.buildBack('LB','FROZEN',input),q=c.buildBack('LB','LEGACY31U_ROLE_NEUTRAL',input);const p=q.payload.system_instruction.parts[0];p.text=p.text.replace('Translate into natural Lao.','Translate into natural Lao.'+c.REMOVED);a.deepEqual(q.payload,old.payload);a.equal(q.model,old.model);});
+test('FIRST bytes CRLF quote preserved',()=>{const q=c.buildBack('LB','LEGACY31U_ROLE_NEUTRAL',input);a.equal(q.payload.contents[0].parts[0].text,input);a.equal(q.payload.generationConfig.thinkingConfig.thinkingLevel,'minimal');a.equal(q.payload.generationConfig.maxOutputTokens,1024);});
+test('BACK extra context is rejected',()=>{a.throws(()=>c.buildBack('LB','FROZEN',input,{original:'SECRET'}));a.throws(()=>c.buildBack('LF','FROZEN',input));a.throws(()=>c.buildBack('KB','LEGACY31U_ROLE_NEUTRAL',input));});
+test('independent parser keeps actual FIRST error not corrected',()=>{const f='내가 아닌 네가 가';const q=c.buildBack('LB','FROZEN',f);a.equal(q.payload.contents[0].parts[0].text,f);a.equal(JSON.stringify(q).includes('SECRET'),false);});
+test('Lao mixed script is warning only and target remains',()=>{const target='ທີ່ຮັກ Thai 中';const x=c.inspectBack(raw(JSON.stringify({units:[{source:input,target}]})),'LB','LEGACY31U_ROLE_NEUTRAL',input);a.equal(x.status,'SUCCESS');a.equal(x.displayed,target);a.ok(x.warnings.length);});
+test('MAX_TOKENS no displayed replacement',()=>{const x=c.inspectBack(raw('{}','MAX_TOKENS'),'LB','FROZEN',input);a.equal(x.status,'FAILED');a.equal(x.displayed,null);});
+test('whole FIRST SPAN contract both directions',()=>{for(const p of ['KF','LF']){const q=c.buildFirst(p,'SPAN_FOCUS31',input);a.equal(JSON.parse(q.payload.contents[0].parts[0].text).current_message,input);a.equal(q.model,'gemini-3.1-flash-lite');}});
+test('four SERVICE controls remain pinned',()=>{for(const p of ['KF','LF','KB','LB']){const q=c.buildControl(p,input);a.equal(q.payload.contents[0].parts[0].text,input);a.equal(q.model,'gemini-3.8-flash');}});
+test('K BACK frozen unchanged',()=>{const q=c.buildBack('KB','FROZEN','ບໍ່ໄປ');a.equal(q.model,'gemini-3.1-flash-lite');a.ok(q.payload.generationConfig.responseJsonSchema);});

@@ -1,0 +1,17 @@
+name: Four-path tone free contracts zero API
+on:
+  push:
+    branches: [research/gemini-fourpath-tone-free-20261105]
+    paths: ['experiments/gemini-fourpath-tone-free/**', '.github/workflows/gemini-fourpath-tone-free.yml']
+permissions:
+  contents: read
+jobs:
+  free:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Synthetic boundary and assessment contracts
+        run: node --test experiments/gemini-fourpath-tone-free/contracts.test.cjs
