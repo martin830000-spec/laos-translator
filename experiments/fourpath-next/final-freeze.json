@@ -1,0 +1,61 @@
+{
+  "state": "FROZEN_BEFORE_OPEN",
+  "created_utc": "2026-11-04T02:29:56.822708+00:00",
+  "contracts_sha256": "ff9e25a509db6b3140538c57a04204eb20bd1499ac748601b6ff2455f598efb8",
+  "rubric_sha256": "4603f9d5275339e471115f0e057eafecc12b79f65e9573569ae05a02d5049345",
+  "metadata_sha256": "125601693e076a3fca1ff8d0c1f0b31e38f33ce9b930156a32559d1a52395cbe",
+  "recipes": {
+    "SERVICE": {
+      "KF": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "KB": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "LF": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "LB": [
+        "M38",
+        "SERVICE_EXACT"
+      ]
+    },
+    "NEW": {
+      "KF": [
+        "M31",
+        "QUOTE"
+      ],
+      "KB": [
+        "M38",
+        "SERVICE_EXACT"
+      ],
+      "LF": [
+        "M38",
+        "QUOTE"
+      ],
+      "LB": [
+        "M38",
+        "SERVICE_EXACT"
+      ]
+    }
+  },
+  "model_settings": {
+    "M31": {
+      "id": "gemini-3.1-flash-lite",
+      "thinking": "minimal",
+      "FIRST_maxOutputTokens": 2048
+    },
+    "M38": {
+      "id": "gemini-3.8-flash",
+      "thinking": "low",
+      "maxOutputTokens": 1024
+    }
+  },
+  "selection": "K9/L9, 3 lengths each with ordinary2 important1; selected from pre-reserved metadata before source open",
+  "evaluation": "Same evaluator; model/arm/timing masked before grading. No native validation. No tuning after open.",
+  "budget": "A48+B48+C_BACK12+C_FIRST12+FINAL72=192",
+  "case_hash_manifest_sha256": "23e2c8d13d7a9f5cd5ccb19b6a8b6b0eb9cdf2b066377ca8b670917c5c674e6d"
+}
