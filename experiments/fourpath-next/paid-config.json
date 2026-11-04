@@ -1,13 +1,14 @@
 {
-  "phase": "C_BACK",
-  "prior_actual": 96,
-  "phase_cap": 18,
-  "issue_number": 172,
-  "title": "GEMINI_FOURPATH_NEXT_20261104_C_BACK_PAID192",
-  "plan_sha256": "96793d2f75415a8a80d7e3b73708f1d8e642fe3eba64b302084ae274121ea496",
-  "tag": "gemini-fourpath-next-20261104-c_back-consumed",
+  "phase": "C_FIRST",
+  "prior_actual": 108,
+  "phase_cap": 12,
+  "issue_number": 173,
+  "title": "GEMINI_FOURPATH_NEXT_20261104_C_FIRST_PAID192",
+  "plan_sha256": "3b6e4acb2cbe0b5c4b78d7bd5222137395b64bebbdbf75d2b3f2e0434cb3dbdd",
+  "tag": "gemini-fourpath-next-20261104-c_first-consumed",
   "required_tags": [
     "gemini-fourpath-next-20261104-a-consumed",
-    "gemini-fourpath-next-20261104-b-consumed"
+    "gemini-fourpath-next-20261104-b-consumed",
+    "gemini-fourpath-next-20261104-c_back-consumed"
   ]
 }
