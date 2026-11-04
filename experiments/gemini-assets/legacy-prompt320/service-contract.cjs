@@ -87,4 +87,3 @@ function inspect(raw,input,side,stage){
  return {raw_text,translation,stop_reason:c?.finishReason||'NO_CANDIDATE',status:c?.finishReason==='STOP'&&translation?'SUCCESS':'FAILED'};
 }
 const q=JSON.parse(fs.readFileSync(0,'utf8'));process.stdout.write(JSON.stringify(q.mode==='build'?{payload:build(q.text,q.side,q.stage),smart_ids:q.stage==='first'?(q.side==='K'?getActiveSmartRuleIdsK2L(q.text):getActiveSmartRuleIdsL2K(q.text)):[]}:inspect(q.raw,q.text,q.side,q.stage)));
-

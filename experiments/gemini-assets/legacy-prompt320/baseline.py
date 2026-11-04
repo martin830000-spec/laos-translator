@@ -59,4 +59,3 @@ def usage_cost(raw,model,wire=None):
  out['billed_output_including_thinking']=v+t;out['estimated_usd']=round(cost/1e6,9)
  if out.get('priority_cost_uncertain'):out['estimated_usd_upper']=round(cost*1.8/1e6,9)
  return out
-

@@ -60,4 +60,3 @@ def inspect(raw,text,side,stage,variant):
  for u in obj['units']:assert set(u)=={'source','target'} and all(type(v)is str and v.strip() for v in u.values())
  value=copy.deepcopy(raw);value['candidates'][0]['content']['parts']=[{'text':' '.join(u['target'] for u in obj['units'])}];out=b.inspect(value,text,side,stage,'31');out.update(raw_text=visible,units=obj['units'],source_coverage_exact=''.join(u['source'] for u in obj['units'])==text)
  return out
-
