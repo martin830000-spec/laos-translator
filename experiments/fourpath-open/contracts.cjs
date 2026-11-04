@@ -5,12 +5,16 @@ function build(p,m,v,input){
  if(arguments.length!==4||!old.PATHS[p]||!MODEL[m]||typeof input!=='string'||!input.trim())throw TypeError('REQUEST_BOUNDARY');
  const base=m==='M31L'?'M31':m==='M35L'?'M35':m;
  if(v==='SERVICE_EXACT')return old.build(p,base,v,input);
- if(!['QUOTE','DIRECT'].includes(v))throw TypeError('VARIANT');
+ if(!['QUOTE','DIRECT','SOURCE_CORE'].includes(v))throw TypeError('VARIANT');
  const q=old.build(p,base,'QUOTE',input);q.payload.generationConfig.thinkingConfig.thinkingLevel=MODEL[m].thinking;
  if(v==='DIRECT'){
   const [src,dst]=old.PATHS[p];const before=`Translate the ${src} utterance into ${dst} as a complete quotation, not a reply.`;
   const after=`Translate the ${src} message into ${dst}. Output the ${dst} translation itself, without surrounding quotation marks.`;
   q.payload.systemInstruction.parts[0].text=q.payload.systemInstruction.parts[0].text.replace(before,after);
+ }
+ if(v==='SOURCE_CORE'){
+  const [src,dst]=old.PATHS[p];
+  q.payload.systemInstruction.parts[0].text=`Translate from ${src} to ${dst}. Produce only the translated message in natural everyday ${dst}. Preserve each stated event, its participants, time, uncertainty and emotional force. Leave missing parts and unstated participants unresolved. Keep uncertain personal names by sound or form rather than substituting an ordinary noun.`;
  }
  return q;
 }
