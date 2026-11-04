@@ -1,5 +1,6 @@
 {
-  "phase": "FINAL",
-  "plan_sha256": "c8ad72e34dc4714a3eea3bd932fb3a28aac6bb8b4c2018f61393b3fc7e0138c0",
-  "prior_actual": 184
+  "phase": "CLOSED",
+  "prior_actual": 256,
+  "planned_task_count": 0,
+  "execution_enabled": false
 }

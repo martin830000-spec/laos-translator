@@ -1,0 +1,17 @@
+# Accumulated-assets Gemini research, 2026-11-04
+
+New scope-authorized campaign GEMINI_ACCUMULATED_ASSETS_OPEN_20261104. Actual256 response successes,0 generation failures,0 retries,0 judges; estimated USD0.09827455, invoice unverified. No numerical campaign cap. Four adaptive stages72/80/32/72; count follows completed research questions, not a256-call quota. No old approvals reactivated. Production unchanged.
+
+Inherited exact PROMPT32031U adapter/baseline/config/service builder from5cda250c4d1f6bb9ad3d31fe8feebe68f4d67a0f; inherited OPEN325 SOURCE_CORE38/DIRECT38/actualSERVICE contracts, source pool/exposure data, encrypted one-time sender and full wire measurement. Original4Gitblob identities verified beforeFINAL; early materialization line-ending normalization retained in private provenance, request equality verified. No old senders executed.
+
+New ALIGNED removes31U source-echo output using exact deterministic source segments and target-only array; NEUTRAL removes only couple-role hints; PERSON adds a positive grammatical-person anchor. Fast31FIRST still changed questions/states/references. PERSON BACK still changed completed washing to ongoing.35Lao-output alignment failed in one Thai/food-identity case;35KB n3 limitedpositive evidence retained separately, not permanent model exclusion. No repeatedThinking/coldwarm/Priority experiments.
+
+Frozen independent12source threechain FINAL: currentSERVICE; priorbest KF38SOURCE_CORE/LF38SERVICE/BACK38DIRECT; new sameFIRST contracts with KB31ALIGNED_NEUTRAL/LB31LEGACY31U. NewFIRST is inherited, not a newFIRST improvement. Eacharm freshFIRST+itsactualFIRST-onlyBACK. SameFIRST-controlled BACK32 separately isolates BACK inputs. Candidate/rubric/sourcehashes frozen before sources;72partlymasked quality judgments frozen before mapping/time. Same evaluator/no nativeLao review.
+
+FINAL n6 perarm/path: KF SERVICE5P2/1REVIEW, prior/new6P2; KB SERVICE6P2,prior/new5P2/1REVIEW; LF all6P2 with sameSERVICE contract; LB SERVICE5P2/1REVIEW,prior6P2,new4P2/2REVIEW. No confirmedP0/P1 withinthissmallFINAL, not modelerror-free guarantee. Two Korean study-style sources included; historicalSERVICE exposure and provenance gaps remain.
+
+BACK API median K2.182s SERVICE/1.845 prior/.951 new; L2.616/2.217/1.064. NewKB observed estimatedcost.00107875 vsprior.00170175 for6calls; LB.00163650 vs.00163875 essentiallyflat because sourceecho tokens. Pairmedian K8.884/5.984/3.791s; L4.853/4.438/3.548s. Pairmeans K16.248/7.877/3.926; L11.079/4.836/3.835. FIRSTmedians K5.965/3.807/3.039; L2.256/2.118/2.153. FIRSTcontracts same forprior/new andallLF, so differingFIRSTtails cannotbe attributed to newBACK. API runner,notmobilepaint. Observed3.8FIRST API tails38.190s/36.804s/19.317s/16.730s remainunexplained; no provider/network rootcause claim.
+
+Decision: KB31 target-only neutral alignment CONFIRMED_LIMITED latency/cost researchcomponent with provisionalquality; LB original31U PROMISING/HOLD forquestion/kinship/orthography REVIEW andnearlyflatcost. Wholeengine operationaladoption HOLD; keepTEST code andoldSERVICE.31FIRST alignment/neutral andLBperson method STOP_THIS_METHOD,notmodelpermanentban. Next highestvalue: nativecontextual review ofBACK ambiguity and thenunseen balancedBACK validation; newFIRSTneedsanotherprinciple,notmoreglobalbans.
+
+Sessioncomplete: scopeconsent retained, executionfalse,planned0, newpaidtrigger disabled. No approvalexhaustion asserted. All private originals/grades/process/metrics/code/assetregister are owner-onlyDrive material; no private utterances published here.

@@ -2,12 +2,15 @@
   "campaign_id": "GEMINI_ACCUMULATED_ASSETS_OPEN_20261104",
   "authorization_mode": "unbounded-within-scope",
   "approved_limit": null,
-  "actual_attempts": 184,
+  "actual_attempts": 256,
   "authorized": true,
-  "execution_enabled": true,
-  "planned_task_count": 72,
+  "execution_enabled": false,
+  "planned_task_count": 0,
   "plan_sha256": "c8ad72e34dc4714a3eea3bd932fb3a28aac6bb8b4c2018f61393b3fc7e0138c0",
   "user_instruction_sha256": "6865101678ba66d82e9f147bee05ff574e9dac9a61749997e810476bd34fa842",
   "approval_source": "Explicit latest user paid-open authorization20261104, no numeric campaign limit; no old approvals reused",
-  "old_approvals_reused": 0
+  "old_approvals_reused": 0,
+  "state": "SESSION_COMPLETE_NO_PENDING_SENDS",
+  "remaining_numeric_limit": null,
+  "closure_reason": "Assets-led adaptation and independentFINAL completed; no pending sends. Unbounded scope consent retained, not numeric approval exhaustion."
 }

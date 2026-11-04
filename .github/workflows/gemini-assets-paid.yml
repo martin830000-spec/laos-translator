@@ -2,7 +2,7 @@ name: Scope approved GEMINI ASSETS encrypted phase
 on:
   push:
     branches: [research/gemini-accumulated-assets-20261104]
-    paths: ['experiments/gemini-assets/paid-activation.json']
+    paths: ['__NEVER_TRIGGER_GEMINI_ASSETS_SESSION_CLOSED__']
 permissions:
   contents: write
   issues: read

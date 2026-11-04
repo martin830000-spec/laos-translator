@@ -1,7 +1,7 @@
 {
-  "phase": "FINAL",
-  "prior_actual": 184,
-  "planned_task_count": 72,
+  "phase": "COMPLETE",
+  "prior_actual": 256,
+  "planned_task_count": 0,
   "issue_number": 183,
   "title": "GEMINI_ACCUMULATED_ASSETS_OPEN_20261104_FINAL",
   "plan_sha256": "c8ad72e34dc4714a3eea3bd932fb3a28aac6bb8b4c2018f61393b3fc7e0138c0",
@@ -10,5 +10,6 @@
     "gemini-assets-20261104-discovery-consumed",
     "gemini-assets-20261104-refine-consumed",
     "gemini-assets-20261104-back_probe-consumed"
-  ]
+  ],
+  "state": "SESSION_COMPLETE_NO_PENDING_SENDS"
 }

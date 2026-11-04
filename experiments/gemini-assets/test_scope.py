@@ -15,4 +15,11 @@ class Scope(unittest.TestCase):
    with self.assertRaises(ValueError):c.run(p,ap,build,inspect,send,Path(d)/'new',lambda r:None)
  def test_no_hidden_BACK_original(self):
   with self.assertRaises(ValueError):c.validate(dict(tasks=[dict(slot=1,case_id='x',path='KB',model='M31',variant='DIRECT',depends_on=1,input='hidden')]))
+ def test_closed_session_retains_scope_consent_without_sends(self):
+  a=dict(campaign_id=c.ID,authorization_mode='unbounded-within-scope',approved_limit=None,authorized=True,execution_enabled=True)
+  z=c.close(a,256);self.assertTrue(z['authorized']);self.assertFalse(z['execution_enabled']);self.assertIsNone(z['approved_limit']);self.assertEqual(z['planned_task_count'],0)
+  p=dict(campaign_id=c.ID,phase='DEV',tasks=[dict(slot=1,case_id='synthetic',path='KF',model='M31',variant='DIRECT',input='안녕')]);z['plan_sha256']=c.digest(p);sent=[]
+  with tempfile.TemporaryDirectory() as d:
+   with self.assertRaises(ValueError):c.run(p,z,lambda *a:None,lambda *a:None,lambda q:sent.append(q),Path(d)/'j',lambda r:None)
+  self.assertEqual(sent,[])
 if __name__=='__main__':unittest.main()
