@@ -1,17 +1,19 @@
 {
   "campaign_id": "GEMINI31_AUTONOMOUS_IMPROVE_200_20261106",
-  "authorized": true,
-  "execution_enabled": true,
+  "authorized": false,
+  "execution_enabled": false,
   "approved_limit": 200,
-  "max_new": 72,
-  "phase": "FINAL",
-  "actual_attempts": 128,
+  "max_new": 0,
+  "phase": "CLOSED",
+  "actual_attempts": 200,
   "actual_38": 0,
   "actual_by_path": {
-    "KF": 26,
-    "LF": 26,
-    "KB": 38,
-    "LB": 38
+    "KF": 42,
+    "KB": 54,
+    "LF": 46,
+    "LB": 58
   },
-  "plan_sha256": "8464bd90db72065456d22cfcd8c2e01cc1e55dcb041d04b90fc48921f9c80968"
+  "plan_sha256": "8464bd90db72065456d22cfcd8c2e01cc1e55dcb041d04b90fc48921f9c80968",
+  "unused_not_carried": 0,
+  "closed_utc": "2026-11-05T19:46:16.661154+00:00"
 }

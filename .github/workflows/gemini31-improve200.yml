@@ -1,49 +1,27 @@
-name: Approved Gemini fourpath tone bounded200
+name: Gemini31 IMPROVE200 closed free verification
 on:
   push:
     branches: [research/gemini31-improve200-20261106]
     paths: ['experiments/gemini31-improve200/activation.json']
 permissions:
-  contents: write
-  issues: read
-concurrency:
-  group: gemini31-improve200-20261106
-  cancel-in-progress: false
+  contents: read
 jobs:
-  bounded:
-    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+  free-final:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
-    env:
-      PYTHONDONTWRITEBYTECODE: '1'
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Free bounded controller and inherited candidate tests
+      - name: Approval closed and frozen code intact
+        run: |
+          python3 - <<'CHECK'
+          import json,hashlib,pathlib
+          p=pathlib.Path('experiments/gemini31-improve200')
+          a=json.loads((p/'approval.json').read_text());assert not a['authorized'] and not a['execution_enabled'] and a['max_new']==0 and a['actual_attempts']<=200
+          for f,h in json.loads((p/'frozen-files.json').read_text()).items():assert hashlib.sha256(pathlib.Path(f).read_bytes()).hexdigest()==h,f
+          CHECK
+      - name: Free tests only
         run: |
           python3 -m unittest discover -s experiments/gemini31-improve200 -p test_controller.py
           node --test experiments/gemini31-improve200/contracts.test.cjs
-      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
-      - name: Public one-use handshake
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python3 experiments/gemini31-improve200/bridge.py prepare "$RUNNER_TEMP/improve200"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: improve200-handshake-${{ github.run_id }}
-          path: ${{ runner.temp }}/improve200/handshake.json
-          retention-days: 1
-      - name: Approved phase encrypted execution
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/gemini31-improve200/bridge.py execute "$RUNNER_TEMP/improve200"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: always()
-        with:
-          name: improve200-result-${{ github.run_id }}
-          path: ${{ runner.temp }}/improve200/sealed-result.json
-          retention-days: 7
-          if-no-files-found: warn
-
