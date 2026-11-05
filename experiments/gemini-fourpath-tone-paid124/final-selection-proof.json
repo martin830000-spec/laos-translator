@@ -1,0 +1,11 @@
+{
+  "frozen_candidates_commit": "98608c17d5080864f3df0535f0ae6fa3747f3435",
+  "selection_after_candidate_freeze": true,
+  "manifest_sha256": "ed459beec22c61a20e2dd9a0d62c1522774108dbad72e4028409ce53c015f31d",
+  "count": 12,
+  "K": 6,
+  "L": 6,
+  "development_cluster_overlap": 0,
+  "historical_cluster_seen": 10,
+  "global_unexposed_claim": false
+}

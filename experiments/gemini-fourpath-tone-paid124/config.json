@@ -1,11 +1,12 @@
 {
-  "phase": "B",
-  "prior_actual": 36,
-  "plan_sha256": "9f4f121b81f16a9208bf3529d0cedbdd47ea19954732b36772be0fe9263e133c",
-  "issue_number": 187,
-  "title": "GEMINI_FOURPATH_TONE_PAID124_20261105_B_ENCRYPTED",
-  "tag": "gemini-fourpath-tone-paid124-20261105-b-consumed",
+  "phase": "FINAL",
+  "prior_actual": 76,
+  "plan_sha256": "64a142969b5cecf72a14f2aad5ede85222d49cf7fd966a5b91a6f95f2064a84d",
+  "issue_number": 188,
+  "title": "GEMINI_FOURPATH_TONE_PAID124_20261105_FINAL_ENCRYPTED",
+  "tag": "gemini-fourpath-tone-paid124-20261105-final-consumed",
   "required_tags": [
-    "gemini-fourpath-tone-paid124-20261105-a-consumed"
+    "gemini-fourpath-tone-paid124-20261105-a-consumed",
+    "gemini-fourpath-tone-paid124-20261105-b-consumed"
   ]
 }
