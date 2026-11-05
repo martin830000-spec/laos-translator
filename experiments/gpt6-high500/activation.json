@@ -1,0 +1,11 @@
+{
+  "campaign": "GPT6_HIGH500_20261106",
+  "phase": "DISCOVERY1",
+  "approved_total": 500,
+  "prior_attempts": 0,
+  "phase_max": 60,
+  "enabled": true,
+  "scope": "public synthetic only",
+  "trigger_once": true,
+  "trigger_created_at": "2026-11-06"
+}
