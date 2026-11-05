@@ -1,0 +1,43 @@
+name: GPT6 High500 discovery synthetic Gemini A/B
+on:
+  push:
+    branches:
+      - research/gpt6-high500-20261106
+    paths:
+      - experiments/gpt6-high500/activation.json
+permissions:
+  contents: read
+concurrency:
+  group: gpt6-high500-discovery1-once
+  cancel-in-progress: false
+jobs:
+  gemini-discovery1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Contract and source syntax check (free)
+        run: |
+          node --check experiments/gpt6-high500/contracts.cjs
+          node --check experiments/gpt6-high500/run.cjs
+          node - <<'NODE'
+          const {build,variants}=require('./experiments/gpt6-high500/contracts.cjs');
+          for(const p of ['KF','KB','LF','LB'])for(const v of variants){
+            const x=build(p,v,p[0]==='K'?'ຂ້ອຍຍັງບໍ່ໄດ້ກິນຢາ.':'아직 약을 안 먹었어.');
+            if(x.model!=='gemini-3.1-flash-lite'||x.payload.generationConfig.thinkingConfig.thinkingLevel!=='minimal')throw Error('bad build');
+          }
+          NODE
+      - name: Execute up to 60 authorized calls (no retries)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node experiments/gpt6-high500/run.cjs
+      - name: Preserve synthetic outputs and attempts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt6-high500-discovery1-public-synthetic
+          path: experiments/gpt6-high500/results.json
+          retention-days: 14
+          if-no-files-found: warn
