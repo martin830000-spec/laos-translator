@@ -1,48 +1,32 @@
-name: Approved Gemini fourpath tone bounded1000
+name: Gemini31 AUTO1000 closed free verification
 on:
   push:
     branches: [research/gemini31-auto1000-20261105]
     paths: ['experiments/gemini31-auto1000/activation.json']
 permissions:
-  contents: write
-  issues: read
-concurrency:
-  group: gemini31-auto1000-20261105
-  cancel-in-progress: false
+  contents: read
 jobs:
-  bounded:
-    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+  free-final:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
-    env:
-      PYTHONDONTWRITEBYTECODE: '1'
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Free bounded controller and inherited candidate tests
+      - name: Approval closed and frozen code intact
+        run: |
+          python3 - <<'PYCODE'
+          import json,hashlib
+          from pathlib import Path
+          c=Path('experiments/gemini31-auto1000')
+          a=json.loads((c/'approval.json').read_text())
+          assert a['authorized'] is False and a['execution_enabled'] is False and a['max_new']==0
+          assert a['actual_attempts']<=1000 and sum(a['actual_by_path'].values())==a['actual_attempts']
+          for p,h in json.loads((c/'frozen-files.json').read_text()).items():
+              assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==h,p
+          print('LOCKED max_new=0; frozen files verified; no generation step')
+          PYCODE
+      - name: Free regression tests only
         run: |
           python3 -m unittest discover -s experiments/gemini31-auto1000 -p test_controller.py
           node --test experiments/gemini31-auto1000/contracts.test.cjs
-      - run: python3 -m pip install --disable-pip-version-check cryptography==50.0.2
-      - name: Public one-use handshake
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python3 experiments/gemini31-auto1000/bridge.py prepare "$RUNNER_TEMP/auto1000"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        with:
-          name: auto1000-handshake-${{ github.run_id }}
-          path: ${{ runner.temp }}/auto1000/handshake.json
-          retention-days: 1
-      - name: Approved phase encrypted execution
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/gemini31-auto1000/bridge.py execute "$RUNNER_TEMP/auto1000"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: always()
-        with:
-          name: auto1000-result-${{ github.run_id }}
-          path: ${{ runner.temp }}/auto1000/sealed-result.json
-          retention-days: 7
-          if-no-files-found: warn

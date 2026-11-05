@@ -1,17 +1,19 @@
 {
   "campaign_id": "GEMINI31_AUTONOMOUS_RESEARCH_1000_20261105",
-  "authorized": true,
-  "execution_enabled": true,
+  "authorized": false,
+  "execution_enabled": false,
   "approved_limit": 1000,
-  "max_new": 348,
-  "phase": "FINAL",
-  "actual_attempts": 652,
-  "actual_38": 0,
+  "max_new": 0,
+  "phase": "CLOSED",
+  "actual_attempts": 968,
+  "actual_38": 64,
   "actual_by_path": {
-    "KF": 114,
-    "LF": 114,
-    "KB": 212,
-    "LB": 212
+    "KF": 194,
+    "KB": 288,
+    "LF": 194,
+    "LB": 292
   },
-  "plan_sha256": "9b9c7d9f481e7cada3f981a8cdac92cb0cc075cf0bcab5535128b93d404658c5"
+  "plan_sha256": "9b9c7d9f481e7cada3f981a8cdac92cb0cc075cf0bcab5535128b93d404658c5",
+  "unused_not_carried": 32,
+  "closed_utc": "2026-11-05T04:49:10.494095+00:00"
 }
