@@ -1,0 +1,246 @@
+{
+  "name": "GPT6_HIGH500_FIXED_REAL_FIRST_BACK_SET1",
+  "source_note": "Only public synthetic input cases whose actual Gemini FIRST texts came from run 42110819031; no real private conversations",
+  "cases": [
+    {
+      "id": "K01_NORMAL/KO_DEMO",
+      "source_case": "K01_NORMAL",
+      "prior_first_variant": "KO_DEMO",
+      "path": "KB",
+      "text": "ທີ່ຮັກ, ມື້ນີ້ເມື່ອຍຫຼາຍແມ່ນບໍ່? ກິນເຂົ້າແລ້ວກໍພັກຜ່ອນໃຫ້ເຕັມທີ່ເດີ້. ຮັກເດີ້ ❤️",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K01_NORMAL/LEAN_SCOPE",
+      "source_case": "K01_NORMAL",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "KB",
+      "text": "ທີ່ຮັກ, ມື້ນີ້ເມື່ອຍຫຼາຍບໍ່? ກິນເຂົ້າແລ້ວພັກຜ່ອນໃຫ້ເຕັມທີ່ເດີ້. ຮັກເດີ້ ❤️",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K01_NORMAL/MESSAGE_FRAME",
+      "source_case": "K01_NORMAL",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "KB",
+      "text": "ທີ່ຮັກ, ມື້ນີ້ເຈົ້າເມື່ອຍຫຼາຍແມ່ນບໍ່? ກິນເຂົ້າແລ້ວພັກຜ່ອນໃຫ້ເຕັມທີ່ເດີ. ຮັກເຈົ້າເດີ ❤️",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K02_SCOPE/KO_DEMO",
+      "source_case": "K02_SCOPE",
+      "prior_first_variant": "KO_DEMO",
+      "path": "KB",
+      "text": "ຖ້າສົ່ງທາງໄປສະນີຈະຮອດວັນສຸກ, ແຕ່ຖ້າສົ່ງທາງລົດເມຈະຮອດວັນພະຫັດ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K02_SCOPE/LEAN_SCOPE",
+      "source_case": "K02_SCOPE",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "KB",
+      "text": "ຖ້າສົ່ງທາງໄປສະນີຈະຮອດວັນສຸກ, ແຕ່ຖ້າສົ່ງທາງລົດໂດຍສານຈະຮອດວັນພະຫັດ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K02_SCOPE/MESSAGE_FRAME",
+      "source_case": "K02_SCOPE",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "KB",
+      "text": "ຖ້າສົ່ງທາງໄປສະນີຈະຮອດວັນສຸກ, ຖ້າສົ່ງທາງລົດໂດຍສານຈະຮອດວັນພະຫັດ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K03_ACTOR/KO_DEMO",
+      "source_case": "K03_ACTOR",
+      "prior_first_variant": "KO_DEMO",
+      "path": "KB",
+      "text": "ແມ່ນດວງທີ່ສົ່ງໄປແລ້ວ. ບໍ່ແມ່ນຂ້ອຍສົ່ງ ແລະຂ້ອຍກໍຍັງບໍ່ທັນໄດ້ຮັບເລີຍ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K03_ACTOR/LEAN_SCOPE",
+      "source_case": "K03_ACTOR",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "KB",
+      "text": "ແມ່ນດູອາສົ່ງມາແລ້ວ. ບໍ່ແມ່ນຂ້ອຍສົ່ງ ແລະ ຂ້ອຍເອງກໍຍັງບໍ່ທັນໄດ້ຮັບເລີຍ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K03_ACTOR/MESSAGE_FRAME",
+      "source_case": "K03_ACTOR",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "KB",
+      "text": "ແມ່ນດູອາສົ່ງມາແລ້ວ. ບໍ່ແມ່ນຂ້ອຍສົ່ງ, ຂ້ອຍຍັງບໍ່ທັນໄດ້ຮັບເລີຍ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K04_TIMING/KO_DEMO",
+      "source_case": "K04_TIMING",
+      "prior_first_variant": "KO_DEMO",
+      "path": "KB",
+      "text": "ຂ້ອຍຍັງບໍ່ທັນໄດ້ກິນຢາ. ເລີກວຽກແລ້ວຂ້ອຍຈະກິນ. ໂທຫາຂ້ອຍຕອນ 9 ໂມງແດ່ເດີ້.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K04_TIMING/LEAN_SCOPE",
+      "source_case": "K04_TIMING",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "KB",
+      "text": "ຂ້ອຍຍັງບໍ່ໄດ້ກິນຢາເທື່ອ. ເລີກວຽກແລ້ວຂ້ອຍຈະກິນ. ໂທຫາຂ້ອຍຕອນ 9 ໂມງເດີ້.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K04_TIMING/MESSAGE_FRAME",
+      "source_case": "K04_TIMING",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "KB",
+      "text": "ຂ້ອຍຍັງບໍ່ໄດ້ກິນຢາເທື່ອ. ຫຼັງຈາກເລີິກວຽກຂ້ອຍຈະກິນ. ໂທຫາຂ້ອຍຕອນ 9 ໂມງແດ່ເດີ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K05_COMFORT/KO_DEMO",
+      "source_case": "K05_COMFORT",
+      "prior_first_variant": "KO_DEMO",
+      "path": "KB",
+      "text": "ຖ້າເຈົ້າເສຍໃຈຮອດຂັ້ນຮ້ອງໄຫ້ ຂ້ອຍກໍເຈັບປວດໃຈນຳ. ແຕ່ກໍບໍ່ໄດ້ໝາຍຄວາມວ່າເປັນຄວາມຜິດຂອງເຈົ້າເດີ້.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K05_COMFORT/LEAN_SCOPE",
+      "source_case": "K05_COMFORT",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "KB",
+      "text": "ເວລາທີ່ເຈົ້າເສຍໃຈຈົນຮ້ອງໄຫ້ ຂ້ອຍເອງກໍເຈັບປວດໃຈນຳ. ແຕ່ກໍບໍ່ໄດ້ໝາຍຄວາມວ່າມັນເປັນຄວາມຜິດຂອງເຈົ້າເດີ້.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "K05_COMFORT/MESSAGE_FRAME",
+      "source_case": "K05_COMFORT",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "KB",
+      "text": "ເວລາທີ່ເຈົ້າເສຍໃຈຈົນຮ້ອງໄຫ້ ຂ້ອຍເອງກໍເຈັບປວດໃຈນຳ. ແຕ່ບໍ່ໄດ້ໝາຍຄວາມວ່າເປັນຄວາມຜິດຂອງເຈົ້າດອກ.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L01_NORMAL/KO_DEMO",
+      "source_case": "L01_NORMAL",
+      "prior_first_variant": "KO_DEMO",
+      "path": "LB",
+      "text": "자기야, 오늘 너무 피곤했는데 그래도 너랑 얘기할 수 있어서 기뻤어.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L01_NORMAL/LEAN_SCOPE",
+      "source_case": "L01_NORMAL",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "LB",
+      "text": "자기야, 오늘 너무 피곤했는데 그래도 너랑 얘기할 수 있어서 기뻤어.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L01_NORMAL/MESSAGE_FRAME",
+      "source_case": "L01_NORMAL",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "LB",
+      "text": "여보, 오늘 너무 피곤하지만 당신과 이야기할 수 있어서 기뻐.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L02_SCOPE/KO_DEMO",
+      "source_case": "L02_SCOPE",
+      "prior_first_variant": "KO_DEMO",
+      "path": "LB",
+      "text": "버스로 보내면 금요일에 도착할 거야. 우편으로 보내면 늦게 도착할지도 몰라.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L02_SCOPE/LEAN_SCOPE",
+      "source_case": "L02_SCOPE",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "LB",
+      "text": "버스로 보내면 금요일에 도착할 거야. 우편으로 보내면 늦게 도착할 수도 있어.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L02_SCOPE/MESSAGE_FRAME",
+      "source_case": "L02_SCOPE",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "LB",
+      "text": "버스 편으로 보내면 금요일에 도착할 거야. 우편으로 보내면 늦게 도착할지도 몰라.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L03_DIRECTION/KO_DEMO",
+      "source_case": "L03_DIRECTION",
+      "prior_first_variant": "KO_DEMO",
+      "path": "LB",
+      "text": "짐 가지러 차 불렀어. 10분 안에 도착할 거야.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L03_DIRECTION/LEAN_SCOPE",
+      "source_case": "L03_DIRECTION",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "LB",
+      "text": "짐을 실으러 차를 불렀어. 10분 안에 도착할 거야.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L03_DIRECTION/MESSAGE_FRAME",
+      "source_case": "L03_DIRECTION",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "LB",
+      "text": "짐을 가지러 차를 불렀어. 10분 안에 도착할 거야.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L04_TIMING/KO_DEMO",
+      "source_case": "L04_TIMING",
+      "prior_first_variant": "KO_DEMO",
+      "path": "LB",
+      "text": "아직 약을 안 먹었어. 방에 도착하면 먹을게.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L04_TIMING/LEAN_SCOPE",
+      "source_case": "L04_TIMING",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "LB",
+      "text": "아직 약을 안 먹었어. 방에 돌아가서 먹을 거야.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L04_TIMING/MESSAGE_FRAME",
+      "source_case": "L04_TIMING",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "LB",
+      "text": "아직 약을 안 먹었어. 방에 도착하면 먹을게.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L05_UNITS/KO_DEMO",
+      "source_case": "L05_UNITS",
+      "prior_first_variant": "KO_DEMO",
+      "path": "LB",
+      "text": "금 1바트와 금 2스릉은 서로 달라.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L05_UNITS/LEAN_SCOPE",
+      "source_case": "L05_UNITS",
+      "prior_first_variant": "LEAN_SCOPE",
+      "path": "LB",
+      "text": "금 1밧과 금 2살릉은 서로 달라.",
+      "first_from_run_id": 42110819031
+    },
+    {
+      "id": "L05_UNITS/MESSAGE_FRAME",
+      "source_case": "L05_UNITS",
+      "prior_first_variant": "MESSAGE_FRAME",
+      "path": "LB",
+      "text": "금 1바트와 금 2살릉은 같지 않아.",
+      "first_from_run_id": 42110819031
+    }
+  ]
+}
