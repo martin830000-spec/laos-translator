@@ -1,17 +1,19 @@
 {
   "campaign_id": "GEMINI31_AUTONOMOUS_QUALITY_300_20261105",
-  "authorized": true,
-  "execution_enabled": true,
+  "authorized": false,
+  "execution_enabled": false,
   "approved_limit": 300,
-  "max_new": 156,
-  "phase": "FINAL",
-  "actual_attempts": 144,
-  "actual_38": 0,
+  "max_new": 0,
+  "phase": "CLOSED",
+  "actual_attempts": 270,
+  "actual_38": 42,
   "actual_by_path": {
-    "KF": 28,
-    "LF": 28,
-    "KB": 44,
-    "LB": 44
+    "KF": 58,
+    "KB": 74,
+    "LF": 61,
+    "LB": 77
   },
-  "plan_sha256": "5a585ed3c4c57ea52055f642019678ee38d040c08f0fef3b55bc31aea938af4c"
+  "plan_sha256": "5a585ed3c4c57ea52055f642019678ee38d040c08f0fef3b55bc31aea938af4c",
+  "unused_not_carried": 30,
+  "closed_utc": "2026-11-05T08:12:13.304179+00:00"
 }
