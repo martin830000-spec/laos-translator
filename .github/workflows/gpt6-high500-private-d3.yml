@@ -1,0 +1,41 @@
+name: GPT6 High500 D3 encrypted real dialog
+on:
+  push:
+    branches: [research/gpt6-high500-20261106]
+    paths: ['experiments/gpt6-high500/activation3.json']
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: gpt6-high500-private-d3-ONCE
+  cancel-in-progress: false
+jobs:
+  private-d3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Free syntax and crypto checks
+        run: |
+          python3 -m py_compile experiments/gpt6-high500/secure-private.py
+          node --check experiments/gpt6-high500/private-worker.cjs
+          node --check experiments/gpt6-high500/contracts.cjs
+          python3 - <<'PY'
+          import cryptography
+          print('Private D3 ready; no Gemini call, crypto package verified')
+          PY
+      - name: Execute max 120 encrypted real-dialogue Gemini calls
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 experiments/gpt6-high500/secure-private.py
+      - name: Upload encrypted-only results, no plaintext
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt6-high500-private-d3-SEALED
+          path: experiments/gpt6-high500/results-d3.sealed.json
+          retention-days: 14
+          if-no-files-found: warn
