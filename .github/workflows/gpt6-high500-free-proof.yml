@@ -1,0 +1,25 @@
+name: GPT6 High500 free run verification
+on:
+  push:
+    branches:
+      - research/gpt6-high500-20261106
+    paths:
+      - experiments/gpt6-high500/free-check-trigger.json
+permissions:
+  contents: write
+  actions: read
+jobs:
+  identify-runs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Inspect recent workflow runs and publish public run IDs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs?per_page=70"             --jq '{total_count: .total_count, runs: [.workflow_runs[] | select(.head_branch=="research/gpt6-high500-20261106") | {id,name,workflow_id,head_sha,status,conclusion,event,created_at,updated_at,html_url}]}' > runs.json
+          DATA=$(base64 -w0 runs.json)
+          gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/action-proof.json"             -f message="Research: record public GitHub Actions run metadata"             -f branch="$GITHUB_REF_NAME"             -f content="$DATA" > /dev/null
