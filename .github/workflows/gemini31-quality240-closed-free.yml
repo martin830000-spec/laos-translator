@@ -1,0 +1,24 @@
+name: Quality240 closed free verification zero API
+on:
+  push:
+    branches: [research/gemini31-quality240-20261105]
+    paths: ['experiments/gemini31-quality240/completion-summary.json']
+permissions:
+  contents: read
+jobs:
+  closed-free:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s experiments/gemini31-quality240 -p test_controller.py
+      - run: node --test experiments/gemini31-quality240/contracts.test.cjs
+      - name: Approval and paid trigger closed
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('experiments/gemini31-quality240');a=json.loads((p/'approval.json').read_text());s=json.loads((p/'completion-summary.json').read_text());assert a['authorized'] is False and a['execution_enabled'] is False and a['max_new']==0 and a['actual_attempts']==232 and a['actual_38']==16 and a['unused']==8;assert s['actual_attempts']==232 and s['failed']==0
+          w=pathlib.Path('.github/workflows/gemini31-quality240.yml').read_text();assert '__CLOSED_QUALITY240_NO_NEW_GENERATION__' in w
+          print('CLOSED; new generation0; no secrets in this job')
+          PY

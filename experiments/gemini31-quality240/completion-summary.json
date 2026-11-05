@@ -1,0 +1,31 @@
+{
+  "campaign": "GEMINI31_AUTONOMOUS_QUALITY_240_20261105",
+  "actual_attempts": 232,
+  "success": 232,
+  "failed": 0,
+  "unused": 8,
+  "FIRST": 92,
+  "BACK": 140,
+  "by_model": {
+    "gemini-3.1-flash-lite": 216,
+    "gemini-3.8-flash": 16
+  },
+  "by_path": {
+    "KF": 46,
+    "KB": 70,
+    "LF": 46,
+    "LB": 70
+  },
+  "estimated_usd": 0.0698565,
+  "unknown_cost_count": 0,
+  "decision": "HOLD_ALL31_NO_SERVICE_REPLACEMENT",
+  "new_final_primary_P0P1_reduction": "0/8 vs0/8 ineachpath; notdemonstrated",
+  "FINAL_KF_language_readability_ISSUE_new": 1,
+  "FINAL_KF_language_readability_ISSUE_baseline": 0,
+  "final_freeze_commit": "6c54102ec84f5201bfc4bb4e30693c26943f83b7",
+  "no_native_review": true,
+  "trigger_closed": true,
+  "service_test_diagnostic_changes": 0,
+  "automatic_retry": 0,
+  "judge": 0
+}

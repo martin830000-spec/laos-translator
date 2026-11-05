@@ -2,7 +2,7 @@ name: Approved Gemini fourpath tone bounded240
 on:
   push:
     branches: [research/gemini31-quality240-20261105]
-    paths: ['experiments/gemini31-quality240/activation.json']
+    paths: ['__CLOSED_QUALITY240_NO_NEW_GENERATION__']
 permissions:
   contents: write
   issues: read
