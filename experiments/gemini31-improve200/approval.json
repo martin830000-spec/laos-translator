@@ -3,15 +3,15 @@
   "authorized": true,
   "execution_enabled": true,
   "approved_limit": 200,
-  "max_new": 200,
-  "phase": "A",
-  "actual_attempts": 0,
+  "max_new": 128,
+  "phase": "C",
+  "actual_attempts": 72,
   "actual_38": 0,
   "actual_by_path": {
-    "KF": 0,
-    "LF": 0,
-    "KB": 0,
-    "LB": 0
+    "KF": 18,
+    "LF": 18,
+    "KB": 18,
+    "LB": 18
   },
-  "plan_sha256": "0202b17fa968a7d76c93ba882ea95ce78357503f22d1eb265b1d0844c512d0b6"
+  "plan_sha256": "38fa074012fb2ca7985b58388fb7958342574829efe33be61da20da6cacf0a83"
 }

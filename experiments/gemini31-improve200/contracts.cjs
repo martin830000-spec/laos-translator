@@ -9,7 +9,7 @@ const contrast=[
 function build(path,variant,input){
  const q=base.build(path,'KO_DEMO',input);
  if(variant==='KO_DEMO')return q;
- if(!['TURN_DEMO','CONTRAST_DEMO'].includes(variant))throw TypeError('VARIANT');
+ if(!['TURN_DEMO','CONTRAST_DEMO','BALANCED_DEMO'].includes(variant))throw TypeError('VARIANT');
  const original=q.payload.systemInstruction.parts[0].text, pos=original.indexOf(' 아래 예시는'),end=original.lastIndexOf(' translation 필드');
  const prefix=original.slice(0,pos), tail=original.slice(end),demo=original.slice(pos,end);
  if(variant==='TURN_DEMO'){
@@ -17,7 +17,8 @@ function build(path,variant,input){
   q.payload.systemInstruction.parts[0].text=prefix+' 앞의 예시 대화들은 서로 독립적인 번역 예시다. 마지막 사용자 메시지만 번역한다.'+tail;
   q.payload.contents=pairs.flatMap(x=>[{role:'user',parts:[{text:x.source}]},{role:'model',parts:[{text:JSON.stringify({translation:x.translation})}]}]).concat([{role:'user',parts:[{text:input}]}]);
  }else{
-  const pairs=base.MAP[path]==='KF'?contrast:contrast.map(([ko,lo])=>[lo,ko]);
+  let pairs=base.MAP[path]==='KF'?contrast:contrast.map(([ko,lo])=>[lo,ko]);
+  if(variant==='BALANCED_DEMO'){const old=demo.split('\n').slice(1).map(JSON.parse).map(x=>[x.source,x.translation]);pairs=old.concat(pairs);}
   q.payload.systemInstruction.parts[0].text=prefix+' 아래 예시는 번역 형식과 언어의 예시일 뿐 현재 메시지의 문맥이나 사실이 아니다. 현재 메시지 내용은 사용자 입력에만 있다.\n'+pairs.map(([source,translation])=>JSON.stringify({source,translation})).join('\n')+tail;
  }
  q.version='IMPROVE200_R1_20261106/'+path+'/'+variant;return q;
