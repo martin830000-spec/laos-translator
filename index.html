@@ -339,7 +339,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
   'use strict';
   var v=new URLSearchParams(location.search).get('model'), saved='';
   try{saved=localStorage.getItem('ko_lao_test_engine_choice_v1')||'';}catch(_){}
-  v=(v==='31'||v==='38')?v:((saved==='31'||saved==='38')?saved:'31');
+  v=(v==='31'||v==='38')?v:'31'; // TEST build default is KO_DEMO; explicit ?model=38 remains available
   window.__TEST_MODEL_CHOICE__=v;
   window.__TEST_FORWARD_MODEL__=(v==='31')?'gemini-3.1-flash-lite':'gemini-3.8-flash';
   window.__TEST_FORWARD_THINKING__=(v==='31')?'minimal':'low';
