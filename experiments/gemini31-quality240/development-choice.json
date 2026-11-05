@@ -1,0 +1,16 @@
+{
+  "stage": "DEVELOPMENT_C_NOT_FINAL",
+  "FIRST": {
+    "K": "CLAUSE",
+    "L": "CLAUSE"
+  },
+  "BACK": {
+    "K": "ECHO",
+    "L": "FROZEN"
+  },
+  "rationale": "A EVENT abstracted nonverbatim predicates/null and still changed asserted state; full ECHO had Thai FIRST. CLAUSE replaces actor/state labels with intact verbatim source clauses, no source-specific hint. B K ECHO avoids third-person 형 signal but clinical term remains REVIEW; L FROZEN retained due no proven gain and ECHO Thai regression.",
+  "rubric": "P0/P1/P2/REVIEW primary; tone/naturalness PASS/MINOR/ISSUE/REVIEW; P2/MINOR pass; no native or paid judge",
+  "frozen_at_utc": "2026-11-05T02:42:34.011475+00:00",
+  "FINAL_plaintext_opened": false,
+  "contract_sha256": "475067f5508972d25fe155cbea83a08f9f927be815e12b4019746a87a637aba5"
+}

@@ -14,7 +14,7 @@ def validate(plan,a):
  counts={p:0 for p in CAP};seen={};
  for t in ts:
   check(set(t) in [{'slot','case_id','path','variant','input'},{'slot','case_id','path','variant','from_slot'}]);check(type(t['slot']) is int and t['slot']not in seen and t['path'] in CAP)
-  p=t['path'];v=t['variant'];check(v in (['SERVICE','BASE_FIRST','EVENT','ECHO'] if p.endswith('F') else ['SERVICE','FROZEN','EVENT','ECHO']))
+  p=t['path'];v=t['variant'];check(v in (['SERVICE','BASE_FIRST','EVENT','ECHO','CLAUSE'] if p.endswith('F') else ['SERVICE','FROZEN','EVENT','ECHO','CLAUSE']))
   check((v=='SERVICE')==(ph=='CONTROL'))
   if 'from_slot' in t:
    dep=seen.get(t['from_slot']);check(p.endswith('B') and dep and dep['path']==p[0]+'F' and dep['case_id']==t['case_id'])
@@ -27,11 +27,11 @@ def validate(plan,a):
  return True
 def audit(q,t,s):
  expected='gemini-3.8-flash' if t['variant']=='SERVICE' else 'gemini-3.1-flash-lite';check(q['model']==expected)
- g=q['payload']['generationConfig'];check(g['maxOutputTokens']==(1536 if t['variant']in ['EVENT','ECHO']else 1024) and g['thinkingConfig']==dict(thinkingLevel='low' if t['variant']=='SERVICE'else'minimal',includeThoughts=False));check('temperature'not in g and 'topP'not in g)
+ g=q['payload']['generationConfig'];check(g['maxOutputTokens']==(1536 if t['variant']in ['EVENT','ECHO','CLAUSE']else 1024) and g['thinkingConfig']==dict(thinkingLevel='low' if t['variant']=='SERVICE'else'minimal',includeThoughts=False));check('temperature'not in g and 'topP'not in g)
  cs=q['payload']['contents'];check(len(cs)==1 and len(cs[0]['parts'])==1 and set(cs[0]['parts'][0])=={'text'});body=cs[0]['parts'][0]['text']
  if t['path'].endswith('B') and t['path']=='KB' and t['variant']=='FROZEN':
   obj=json.loads(body);check(set(obj)=={'segments'} and ''.join(x['text']for x in obj['segments'])==s)
- elif t['variant']in ['BASE_FIRST','EVENT','ECHO']:
+ elif t['variant']in ['BASE_FIRST','EVENT','ECHO','CLAUSE']:
   obj=json.loads(body);check(obj['current_message']==s and set(obj)==({'current_message','focus'}if t['variant']=='BASE_FIRST'else{'current_message'}))
  else:check(body==s)
  return {'actual_input_sha256':hashlib.sha256(s.encode()).hexdigest(),'first_only':t['path'].endswith('B'),'original_gold_old_back_injected':False}
