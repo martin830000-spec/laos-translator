@@ -1,0 +1,30 @@
+{
+  "campaign": "GEMINI_FOURPATH_TONE_PAID124_20261105",
+  "actual_attempts": 123,
+  "success": 122,
+  "failed": 1,
+  "unused": 1,
+  "FIRST": 42,
+  "BACK": 81,
+  "by_model": {
+    "gemini-3.8-flash": 58,
+    "gemini-3.1-flash-lite": 65
+  },
+  "by_path": {
+    "KF": 21,
+    "KB": 37,
+    "LF": 21,
+    "LB": 44
+  },
+  "estimated_usd_observed122responses": 0.07338475,
+  "unknown_usage_timeout_attempts": 1,
+  "no_retry": true,
+  "no_SERVICE_app_diagnostic_changes": true,
+  "new_generation_enabled": false,
+  "decisions": {
+    "KF": "SERVICE38 유지 / FIRST31 HOLD(연구후보 보존)",
+    "KB": "ALIGNED_NEUTRAL31 직접 대체 HOLD",
+    "LF": "SERVICE38 유지 / FIRST31 HOLD(연구후보 보존)",
+    "LB": "기존 LEGACY31U31 제한 TEST 후보 PASS; 문체 튜닝 FREEZE"
+  }
+}

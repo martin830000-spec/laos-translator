@@ -1,0 +1,31 @@
+name: Tone124 closure free checks no API
+on:
+  push:
+    branches: [research/gemini-fourpath-tone-paid124-20261105]
+    paths: ['experiments/gemini-fourpath-tone-paid124/completion-summary.json', '.github/workflows/gemini-fourpath-tone-paid124-closed-free.yml']
+permissions:
+  contents: read
+jobs:
+  closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Free controller and frozen candidate contracts
+        run: |
+          python3 -m unittest discover -s experiments/gemini-fourpath-tone-paid124 -p test_controller.py
+          node --test experiments/gemini-fourpath-tone-free/contracts.test.cjs
+      - name: Verify terminal approval lock
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('experiments/gemini-fourpath-tone-paid124')
+          a=json.loads((p/'approval.json').read_text())
+          assert a['authorized'] is False and a['execution_enabled'] is False and a['max_new']==0
+          assert a['actual_attempts']==123 and a['success']==122 and a['failed']==1 and a['unused']==1
+          assert sum(a['actual_by_path'].values())==123 and a['actual_by_path']['KF']+a['actual_by_path']['LF']==42
+          assert '__CLOSED_GEMINI_TONE_PAID124_NO_MORE_EXECUTION__' in pathlib.Path('.github/workflows/gemini-fourpath-tone-paid124.yml').read_text()
+          print('Closure lock verified; model calls0')
+          PY

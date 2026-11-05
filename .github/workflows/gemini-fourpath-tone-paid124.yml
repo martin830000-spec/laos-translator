@@ -2,7 +2,7 @@ name: Approved Gemini fourpath tone bounded124
 on:
   push:
     branches: [research/gemini-fourpath-tone-paid124-20261105]
-    paths: ['experiments/gemini-fourpath-tone-paid124/activation.json']
+    paths: ['__CLOSED_GEMINI_TONE_PAID124_NO_MORE_EXECUTION__']
 permissions:
   contents: write
   issues: read

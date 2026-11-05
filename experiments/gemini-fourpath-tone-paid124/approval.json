@@ -1,15 +1,20 @@
 {
   "campaign_id": "GEMINI_FOURPATH_TONE_PAID124_20261105",
   "approved_limit": 124,
-  "authorized": true,
-  "execution_enabled": true,
-  "phase": "FINAL",
-  "actual_attempts": 76,
+  "authorized": false,
+  "execution_enabled": false,
+  "phase": "COMPLETE",
+  "actual_attempts": 123,
   "actual_by_path": {
-    "KF": 9,
-    "KB": 25,
-    "LF": 9,
-    "LB": 33
+    "KF": 21,
+    "KB": 37,
+    "LF": 21,
+    "LB": 44
   },
-  "plan_sha256": "64a142969b5cecf72a14f2aad5ede85222d49cf7fd966a5b91a6f95f2064a84d"
+  "plan_sha256": "64a142969b5cecf72a14f2aad5ede85222d49cf7fd966a5b91a6f95f2064a84d",
+  "unused": 1,
+  "unused_released": 1,
+  "max_new": 0,
+  "success": 122,
+  "failed": 1
 }
