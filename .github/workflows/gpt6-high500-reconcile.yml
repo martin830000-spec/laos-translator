@@ -1,0 +1,28 @@
+name: GPT6 High500 execution reconciliation FREE
+on:
+  push:
+    branches: [research/gpt6-high500-20261106]
+    paths: ['experiments/gpt6-high500/reconcile-trigger.json']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Get authoritative current workflow runs (no Gemini calls)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs?per_page=100" \
+             --jq '{checked_at: now|todateiso8601, runs: [.workflow_runs[] | select(.head_branch=="research/gpt6-high500-20261106") | {id,name,head_sha,status,conclusion,event,created_at,updated_at,run_attempt,html_url}]}' > snapshot.json
+          DATA=$(base64 -w0 snapshot.json)
+          SHA=$(gh api "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/runs-snapshot.json?ref=${GITHUB_REF_NAME}" --jq .sha 2>/dev/null || true)
+          if [ -n "$SHA" ]; then
+             gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/runs-snapshot.json" -f branch="$GITHUB_REF_NAME" -f sha="$SHA" -f message="Research: audited current Actions runs (free)" -f content="$DATA" > /dev/null
+          else
+             gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/runs-snapshot.json" -f branch="$GITHUB_REF_NAME" -f message="Research: audited current Actions runs (free)" -f content="$DATA" > /dev/null
+          fi
