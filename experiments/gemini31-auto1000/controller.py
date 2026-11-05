@@ -2,7 +2,7 @@
 import json,hashlib,os,time,copy,datetime
 from pathlib import Path
 ID='GEMINI31_AUTONOMOUS_RESEARCH_1000_20261105'
-LIMITS={ph:{'total':n,**{p:n for p in ['KF','LF','KB','LB']}}for ph,n in [('A',192),('B',128),('C',192),('D',160),('FINAL',320)]}
+LIMITS={ph:{'total':n,**{p:n for p in ['KF','LF','KB','LB']}}for ph,n in [('A',192),('B',128),('C',192),('D',160),('E',128),('FINAL',320)]}
 CAP={p:1000 for p in ['KF','LF','KB','LB']}
 def digest(x):return hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 def check(ok):
@@ -14,7 +14,7 @@ def validate(plan,a):
  counts={p:0 for p in CAP};seen={};
  for t in ts:
   check(set(t) in [{'slot','case_id','path','variant','input'},{'slot','case_id','path','variant','from_slot'}]);check(type(t['slot']) is int and t['slot']not in seen and t['path'] in CAP)
-  p=t['path'];v=t['variant'];check(v in (['SERVICE','BASE_FIRST','KO_JSON','KO_KEY','KO_TEXT','LO_KEY','KO_CHAT'] if p.endswith('F') else ['SERVICE','FROZEN','KO_JSON','KO_KEY','KO_TEXT','LO_KEY','KO_CHAT']))
+  p=t['path'];v=t['variant'];check(v in (['SERVICE','BASE_FIRST','KO_JSON','KO_KEY','KO_TEXT','LO_KEY','KO_CHAT','KO_DEMO'] if p.endswith('F') else ['SERVICE','FROZEN','KO_JSON','KO_KEY','KO_TEXT','LO_KEY','KO_CHAT','KO_DEMO']))
   check(v!='SERVICE' or ph=='FINAL')
   if 'from_slot' in t:
    dep=seen.get(t['from_slot']);check(p.endswith('B') and dep and dep['path']==p[0]+'F' and dep['case_id']==t['case_id'])
