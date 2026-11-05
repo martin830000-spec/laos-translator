@@ -1,1 +1,5 @@
-{"purpose":"retrieve public Action run IDs without paid API","paid_api_calls":0}
+{
+  "purpose": "free proof of phase2 execution status",
+  "no_paid_calls": true,
+  "revision": 2
+}
