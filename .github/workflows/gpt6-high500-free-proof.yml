@@ -22,4 +22,7 @@ jobs:
           test "$GITHUB_RUN_ATTEMPT" = "1"
           gh api "repos/${GITHUB_REPOSITORY}/actions/runs?per_page=70"             --jq '{total_count: .total_count, runs: [.workflow_runs[] | select(.head_branch=="research/gpt6-high500-20261106") | {id,name,workflow_id,head_sha,status,conclusion,event,created_at,updated_at,html_url}]}' > runs.json
           DATA=$(base64 -w0 runs.json)
-          gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/action-proof.json"             -f message="Research: record public GitHub Actions run metadata"             -f branch="$GITHUB_REF_NAME"             -f content="$DATA" > /dev/null
+          SHA=$(gh api "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/action-proof.json" --jq .sha 2>/dev/null || true)
+          EXTRA=()
+          if [[ -n "$SHA" ]]; then EXTRA=(-f sha="$SHA"); fi
+          gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/experiments/gpt6-high500/action-proof.json"             -f message="Research: record public GitHub Actions run metadata"             -f branch="$GITHUB_REF_NAME"             -f content="$DATA" "${EXTRA[@]}" > /dev/null
