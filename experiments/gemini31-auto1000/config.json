@@ -1,12 +1,13 @@
 {
-  "phase": "C",
-  "prior_actual": 224,
-  "plan_sha256": "3475d5cde65fe54add27d08ccd0eb65848004f7d673300027d69a67be5f10ff3",
-  "issue_number": 196,
-  "title": "GEMINI31_AUTO1000_C_ENCRYPTED",
-  "tag": "gemini31-auto1000-20261105-c-consumed",
+  "phase": "D",
+  "prior_actual": 368,
+  "plan_sha256": "fc7728170ad5678406cecb4539f8fa11473bf8839db215129b07bb75079b44e3",
+  "issue_number": 197,
+  "title": "GEMINI31_AUTO1000_D_ENCRYPTED",
+  "tag": "gemini31-auto1000-20261105-d-consumed",
   "required_tags": [
     "gemini31-auto1000-20261105-a-consumed",
+    "gemini31-auto1000-20261105-c-consumed",
     "gemini31-auto1000-20261105-b-consumed"
   ]
 }

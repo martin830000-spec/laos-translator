@@ -14,7 +14,7 @@ def validate(plan,a):
  counts={p:0 for p in CAP};seen={};
  for t in ts:
   check(set(t) in [{'slot','case_id','path','variant','input'},{'slot','case_id','path','variant','from_slot'}]);check(type(t['slot']) is int and t['slot']not in seen and t['path'] in CAP)
-  p=t['path'];v=t['variant'];check(v in (['SERVICE','BASE_FIRST','KO_JSON','KO_KEY','KO_TEXT','LO_KEY'] if p.endswith('F') else ['SERVICE','FROZEN','KO_JSON','KO_KEY','KO_TEXT','LO_KEY']))
+  p=t['path'];v=t['variant'];check(v in (['SERVICE','BASE_FIRST','KO_JSON','KO_KEY','KO_TEXT','LO_KEY','KO_CHAT'] if p.endswith('F') else ['SERVICE','FROZEN','KO_JSON','KO_KEY','KO_TEXT','LO_KEY','KO_CHAT']))
   check(v!='SERVICE' or ph=='FINAL')
   if 'from_slot' in t:
    dep=seen.get(t['from_slot']);check(p.endswith('B') and dep and dep['path']==p[0]+'F' and dep['case_id']==t['case_id'])
