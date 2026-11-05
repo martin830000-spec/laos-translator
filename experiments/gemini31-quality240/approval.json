@@ -1,0 +1,17 @@
+{
+  "campaign_id": "GEMINI31_AUTONOMOUS_QUALITY_240_20261105",
+  "authorized": true,
+  "execution_enabled": true,
+  "approved_limit": 240,
+  "max_new": 240,
+  "phase": "A",
+  "actual_attempts": 0,
+  "actual_38": 0,
+  "actual_by_path": {
+    "KF": 0,
+    "LF": 0,
+    "KB": 0,
+    "LB": 0
+  },
+  "plan_sha256": "47f26e42497b11754812da462f7ce398cb1293a9a9784b937cf3921fcba34184"
+}
