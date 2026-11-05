@@ -1,0 +1,56 @@
+name: GPT6 High500 same FIRST BACK phase
+on:
+  push:
+    branches:
+      - research/gpt6-high500-20261106
+    paths:
+      - experiments/gpt6-high500/activation2.json
+permissions:
+  contents: write
+  actions: read
+jobs:
+  fixed-back:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Free syntax and input set check
+        run: |
+          node --check experiments/gpt6-high500/run-back.cjs
+          node - <<'NODE'
+          const p=require('./experiments/gpt6-high500/back-inputs.json');
+          const c=require('./experiments/gpt6-high500/contracts.cjs');
+          if(p.cases.length!==30)throw Error('set');
+          for(const row of p.cases) for(const v of c.variants){
+            const x=c.build(row.path,v,row.text);
+            if(x.model!=='gemini-3.1-flash-lite')throw Error('model');
+          }
+          NODE
+      - name: Execute max 90 Gemini BACK calls
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node experiments/gpt6-high500/run-back.cjs
+      - name: Preserve artifact even if task failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt6-high500-phase2-synthetic-back
+          path: experiments/gpt6-high500/results-back.json
+          retention-days: 14
+          if-no-files-found: warn
+      - name: Publish synthetic-only results for direct readback
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET=experiments/gpt6-high500/results-back.json
+          test -s "$TARGET"
+          DATA=$(base64 -w0 "$TARGET")
+          gh api --method PUT "repos/${GITHUB_REPOSITORY}/contents/$TARGET" \
+            -f message="Research: publish synthetic-only phase2 observed outputs" \
+            -f branch="$GITHUB_REF_NAME" \
+            -f content="$DATA" > /dev/null
