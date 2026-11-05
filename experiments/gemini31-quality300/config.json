@@ -1,0 +1,9 @@
+{
+  "phase": "A",
+  "prior_actual": 0,
+  "plan_sha256": "03f376b5c60c75d4c70414fb5fbc29dd48093dd07c16cc9417a5348fe2802efc",
+  "issue_number": 200,
+  "title": "GEMINI31_QUALITY300_A_ENCRYPTED",
+  "tag": "gemini31-quality300-20261105-a-consumed",
+  "required_tags": []
+}

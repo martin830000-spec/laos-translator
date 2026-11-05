@@ -1,0 +1,10 @@
+{
+  "experiments/gemini31-quality300/contracts.test.cjs": "20e12af934b8050e5e63289015150a1e8bc57a162da48c9582924033291c6813",
+  "experiments/gemini31-quality300/test_controller.py": "1f4846036cace8086f7147ed3199db89ac1963b1f2a34389068b9d60dfb37c6c",
+  "experiments/gemini31-quality300/current-prompt-config.json": "c07846fd5e98ce04177810f901257b12567ba997e950d5c03caf5e109165da0b",
+  "experiments/gemini31-quality300/service-current.cjs": "c3f91736ea830d383e5424b6328bdaba041ec44c362b6e2a7db2967ab44512a6",
+  "experiments/gemini31-quality300/bridge.py": "43ef57bd3e723f5c775a00e4f5d61aa23fd3bd7c4dae0108e4b42bfa1e79d50b",
+  "experiments/gemini31-quality300/worker.cjs": "87ef869f07caf97541dad333e1fc2be6a62f9711e43cdce727d65778d5e57ee4",
+  "experiments/gemini31-quality300/controller.py": "f06d643e87a54dd4d2ddb3f19fc4b0ee7a5f88fd3e87d9f29f671adb6d7f9e1a",
+  "experiments/gemini31-quality300/contracts.cjs": "9e14d078726d73e9b95e36e62beb3e75e82b86b2cb81271adbfb4a1961719862"
+}
