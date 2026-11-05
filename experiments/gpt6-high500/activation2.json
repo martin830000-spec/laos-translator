@@ -1,0 +1,9 @@
+{
+  "campaign": "GPT6_HIGH500_20261106",
+  "phase": "FIXED_FIRST_BACK",
+  "approved_total": 500,
+  "prior_confirmed": 60,
+  "phase_max": 90,
+  "enabled": true,
+  "source_first_run_id": 42110819031
+}
