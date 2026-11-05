@@ -1,9 +1,11 @@
 {
-  "phase": "A",
-  "prior_actual": 0,
-  "plan_sha256": "47f26e42497b11754812da462f7ce398cb1293a9a9784b937cf3921fcba34184",
-  "issue_number": 189,
-  "title": "GEMINI31_QUALITY240_A_ENCRYPTED",
-  "tag": "gemini31-quality240-20261105-a-consumed",
-  "required_tags": []
+  "phase": "B",
+  "prior_actual": 72,
+  "plan_sha256": "a6df26e4e04cac3da87925a02934fb15e615653cf669e1f7144c92a946cad2cc",
+  "issue_number": 190,
+  "title": "GEMINI31_QUALITY240_B_ENCRYPTED",
+  "tag": "gemini31-quality240-20261105-b-consumed",
+  "required_tags": [
+    "gemini31-quality240-20261105-a-consumed"
+  ]
 }
