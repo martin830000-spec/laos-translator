@@ -1,10 +1,10 @@
-name: GPT6 High500 same FIRST BACK phase
+name: GPT6 High500 same FIRST BACK phase CLOSED 90 DONE
 on:
   push:
     branches:
       - research/gpt6-high500-20261106
     paths:
-      - experiments/gpt6-high500/activation2.json
+      - experiments/gpt6-high500/phase2-never-trigger-again.lock
 permissions:
   contents: write
   actions: read
