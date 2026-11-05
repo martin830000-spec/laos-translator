@@ -1,0 +1,59 @@
+{
+  "campaign": "GEMINI_FOURPATH_TONE_PAID124_20261105",
+  "frozen_at_utc": "2026-11-05T00:15:45.056364+00:00",
+  "FIRST": {
+    "K": "SERVICE",
+    "L": "SERVICE"
+  },
+  "BACK": {
+    "K": "FROZEN",
+    "L": "FROZEN"
+  },
+  "M38": {
+    "model": "gemini-3.8-flash",
+    "thinking": "low",
+    "includeThoughts": false,
+    "maxOutputTokens": 1024
+  },
+  "M31": {
+    "model": "gemini-3.1-flash-lite",
+    "thinking": "minimal",
+    "includeThoughts": false,
+    "maxOutputTokens": 1024
+  },
+  "BACK_variants": {
+    "KB": "ALIGNED_NEUTRAL",
+    "LB": "LEGACY31U"
+  },
+  "contracts_manifest_sha256": "c2f50a0b0b0e66347aafecbce8b674d6d1b21dd1b40d421d27e691da2154a339",
+  "A_quality_sha256": "0759db1ce0e4951095839480791c056e4c33d40472433e356b02f6f808cbf206",
+  "B_quality_sha256": "61d4e00665d4c05e9b98c681b9f17657a19bfc35b373c2eec0e19196bd4ce51b",
+  "decision": "FIRST38 retained both directions; newROLE_NEUTRAL STOP due Thai target-language regression and ambiguous address, no consistent benefit. Existing31 BACK proceeds FINAL to assess practical limitedTEST value, no production adoption.",
+  "FINAL_text_opened": false,
+  "rubric": {
+    "meaning": [
+      "P0",
+      "P1",
+      "P2",
+      "REVIEW"
+    ],
+    "tone": [
+      "PASS",
+      "MINOR",
+      "ISSUE",
+      "REVIEW"
+    ],
+    "naturalness": [
+      "PASS",
+      "MINOR",
+      "ISSUE",
+      "REVIEW"
+    ],
+    "MINOR_pass": true,
+    "REVIEW_auto_failure": false,
+    "native_review": false,
+    "BACK_reference": "exact displayed FIRST only",
+    "P0P1_zero_required": false
+  },
+  "no_further_prompt_changes": true
+}
