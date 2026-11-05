@@ -1,6 +1,6 @@
 """Protected Actions envelope protocol. No private plaintext in logs/artifacts."""
 from pathlib import Path
-import sys,os,json,hashlib,time,importlib.util,subprocess,urllib.request,http.client,copy
+import sys,os,json,hashlib,time,importlib.util,subprocess,urllib.request,http.client,copy,zlib,base64
 ROOT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT));import controller as c
 spec=importlib.util.spec_from_file_location('crypto_only',ROOT.parent/'s47-realuse16/run.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b);b.PROTOCOL='gemini31-auto1000-v1'
 spec=importlib.util.spec_from_file_location('metadata_only',ROOT.parent/'gemini-assets/preflight.py');meta=importlib.util.module_from_spec(spec);spec.loader.exec_module(meta)
@@ -9,6 +9,13 @@ def guard(plan=None):
  for p,h in b.read(ROOT/'frozen-files.json').items():c.check(hashlib.sha256((ROOT.parent.parent/p).read_bytes()).hexdigest()==h)
  if plan is not None:c.validate(plan,a);c.check(plan['phase']==f['phase'])
  return a,f
+def pack_plan(plan):
+ data=json.dumps(plan,ensure_ascii=False,separators=(',',':')).encode()
+ return dict(transport='zlib-plan-v1',sha256=hashlib.sha256(data).hexdigest(),data=base64.b64encode(zlib.compress(data,9)).decode())
+def unpack_plan(payload):
+ if payload.get('transport')!='zlib-plan-v1':return payload
+ c.check(set(payload)=={'transport','sha256','data'});d=zlib.decompressobj();raw=d.decompress(base64.b64decode(payload['data'],validate=True),2000001)
+ c.check(len(raw)<=2000000 and d.eof and not d.unused_data and not d.unconsumed_tail and hashlib.sha256(raw).hexdigest()==payload['sha256']);return json.loads(raw)
 def prepare(state):
  a,f=guard();c.check(not state.exists() and os.environ['GITHUB_RUN_ATTEMPT']=='1');i=b.github('/repos/'+b.REPO+'/issues/'+str(f['issue_number']));c.check(i['title']==f['title'] and i['state']=='open'and i['user']['login']==b.OWNER);init=json.loads(i['body']);c.check(init['protocol']==b.PROTOCOL and init['phase']=='init' and len(init['nonce'])==64);b.public_key(init['result_public_key']);state.mkdir(parents=True,mode=0o700)
  h=dict(protocol=b.PROTOCOL,nonce=init['nonce'],run_id=os.environ['GITHUB_RUN_ID'],issue_number=f['issue_number'],commit=os.environ['GITHUB_SHA'],input_public_key=b.keypair(state/'input-private.pem'),result_key_sha256=hashlib.sha256(init['result_public_key'].encode()).hexdigest());b.write(state/'init.json',init);b.write(state/'handshake.json',h);print('AUTO1000 public handshake generation0',flush=True)
@@ -52,7 +59,7 @@ def execute(state):
   until=time.monotonic()+900;plan=None
   while time.monotonic()<until:
    i=b.github('/repos/'+b.REPO+'/issues/'+str(h['issue_number']));c.check(i['state']=='open'and i['title']==f['title']and i['user']['login']==b.OWNER);body=json.loads(i['body']);c.check(body['nonce']==init['nonce']and body['result_public_key']==init['result_public_key'])
-   if body['phase']=='sealed':plan=b.unseal(body['envelope'],state/'input-private.pem',b.aad_for(h,'input'));break
+   if body['phase']=='sealed':plan=unpack_plan(b.unseal(body['envelope'],state/'input-private.pem',b.aad_for(h,'input')));break
    c.check(body['phase']=='init');time.sleep(4)
   c.check(plan is not None);guard(plan)
   for tag in f['required_tags']:b.github('/repos/'+b.REPO+'/git/ref/tags/'+tag)
