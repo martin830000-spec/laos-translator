@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - .github/workflows/lao-cloudrun-deploy.yml
+      - cloudrun/requests/*
 
 permissions:
   contents: read
@@ -79,3 +80,76 @@ jobs:
           node --check source/server.js
           node test_engine_audit.cjs
           echo 'PASS: private release download, SHA-256 verification and backend tests. No image built; no service changed.'
+
+
+  build-private-candidate-images:
+    # Deliberately NOT automatic on workflow edits or normal pushes. Requires a
+    # repository-owner main-branch commit with an explicit [build-relay] marker.
+    if: github.event_name == 'push' && github.actor == 'martin830000-spec' && contains(github.event.head_commit.message, '[build-relay]')
+    name: Build signed-source image for both dedicated registries (NO Cloud Run deployment)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout minimal public workflow metadata
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud without keys
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/github-actions
+          service_account: lao-github-deployer@gen-lang-client-0422436907.iam.gserviceaccount.com
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: gen-lang-client-0422436907
+
+      - name: Download pinned private ZIP and verify offline tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          workdir="$RUNNER_TEMP/lao-private-build"
+          mkdir -p "$workdir"
+          gcloud storage cp 'gs://lao-translator-src-460077888071/releases/translator_cloudrun_engine_audit_deploy_20261106.zip' "$workdir/release.zip" --quiet
+          echo '08696a3a58f0fc9663fd85196c37d7a1da9bbf22e4a4e298cc445026b9c8f882  '"$workdir"'/release.zip' | sha256sum --check --status
+          unzip -q "$workdir/release.zip" -d "$workdir"
+          cd "$workdir/translator_cloudrun_engine_audit_deploy_20261106"
+          sha256sum -c SHA256SUMS.txt
+          node --check source/server.js
+          node test_engine_audit.cjs
+          echo 'PASS: trusted private source and tests verified. No secrets or source uploaded to public GitHub.'
+
+      - name: Docker build and push images (NO Cloud Run deployment)
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_dir="$RUNNER_TEMP/lao-private-build/translator_cloudrun_engine_audit_deploy_20261106/source"
+          dockerfile="$RUNNER_TEMP/lao-private-build/Dockerfile"
+          cat > "$dockerfile" <<'DOCKERFILE'
+          FROM node:20-bookworm-slim
+          ENV NODE_ENV=production
+          WORKDIR /app
+          COPY package.json ./
+          RUN npm install --omit=dev --no-audit --no-fund && npm cache clean --force
+          COPY server.js ./
+          USER node
+          EXPOSE 8080
+          CMD ["node", "server.js"]
+          DOCKERFILE
+          tag="audit-20261106-$(echo "$GITHUB_SHA" | cut -c1-12)"
+          seoul="asia-northeast3-docker.pkg.dev/gen-lang-client-0422436907/lao-translator-deploy/lao-relay:$tag"
+          bangkok="asia-southeast3-docker.pkg.dev/gen-lang-client-0422436907/lao-translator-deploy/lao-relay:$tag"
+          docker build --pull --file "$dockerfile" --tag "$seoul" "$source_dir"
+          docker tag "$seoul" "$bangkok"
+          for region in asia-northeast3 asia-southeast3; do
+            gcloud auth print-access-token | docker login --username oauth2accesstoken --password-stdin "https://$region-docker.pkg.dev" >/dev/null
+          done
+          docker push "$seoul"
+          docker push "$bangkok"
+          echo "Seoul candidate image: $seoul"
+          echo "Bangkok candidate image: $bangkok"
+          echo 'PASS: images pushed only. Cloud Run revisions and traffic are unchanged.'
