@@ -2077,7 +2077,28 @@ async function telemetryIdbPut(record){if(!record?.eventId)return false;let db=n
 async function telemetryIdbRead(limit=60){let db=null;try{db=await telemetryIdbOpen();if(!db)return[];return await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readonly'),store=tx.objectStore(LIVE_TELEMETRY_STORE),out=[];const req=store.index('clientCreatedAtMs').openCursor(null,'next');req.onsuccess=()=&gt;{const c=req.result;if(!c||out.length&gt;=limit){resolve(out);return}if(c.value?.eventId)out.push(c.value);c.continue()};req.onerror=()=&gt;reject(req.error||new Error('IDB_READ_FAILED'))})}catch(e){return[]}finally{try{db?.close()}catch(_){}}}
 async function telemetryIdbDelete(ids){const set=new Set((ids||[]).map(String));if(!set.size)return;let db=null;try{db=await telemetryIdbOpen();if(!db)return;await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readwrite'),s=tx.objectStore(LIVE_TELEMETRY_STORE);for(const id of set)s.delete(id);tx.oncomplete=()=&gt;resolve();tx.onerror=()=&gt;reject(tx.error||new Error('IDB_DELETE_FAILED'));tx.onabort=()=&gt;reject(tx.error||new Error('IDB_DELETE_ABORT'))})}catch(e){}finally{try{db?.close()}catch(_){}}}
 async function telemetryIdbPrune(){let db=null;try{db=await telemetryIdbOpen();if(!db)return;const count=await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readonly'),req=tx.objectStore(LIVE_TELEMETRY_STORE).count();req.onsuccess=()=&gt;resolve(Number(req.result)||0);req.onerror=()=&gt;reject(req.error)});if(count&lt;=LIVE_TELEMETRY_IDB_MAX)return;let remove=count-LIVE_TELEMETRY_IDB_MAX;await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readwrite'),idx=tx.objectStore(LIVE_TELEMETRY_STORE).index('clientCreatedAtMs'),req=idx.openCursor(null,'next');req.onsuccess=()=&gt;{const c=req.result;if(!c||remove&lt;=0)return;c.delete();remove--;c.continue()};tx.oncomplete=()=&gt;resolve();tx.onerror=()=&gt;reject(tx.error||new Error('IDB_PRUNE_FAILED'))})}catch(e){}finally{try{db?.close()}catch(_){}}}
-function telemetryQueuePush(record){if(!record?.eventId)return;record.deploymentChannel=LIVE_DEPLOYMENT_CHANNEL;record.deploymentLabel=LIVE_DEPLOYMENT_LABEL;const q=telemetryQueueRead(),i=q.findIndex(x=&gt;x.eventId===record.eventId);if(i&gt;=0)q[i]=record;else q.push(record);telemetryQueueWrite(q);void telemetryIdbPut(record);telemetryScheduleFlush(1200)}
+
+/* TEST-only attribution for existing telemetry records. No AI calls, prompts or translation behavior changed. */
+function telemetryAddTestEngineAudit(record){
+ if(!record||record.sourceType!=='LIVE'||window.__UNIFIED_DIAGNOSTIC_CLONE__===true)return;
+ const choice=String(window.__TEST_MODEL_CHOICE__||'');
+ if(choice!=='31'&&choice!=='38')return;
+ const lite=choice==='31',model=lite?'gemini-3.1-flash-lite':'gemini-3.8-flash';
+ const thinking=lite?'minimal':'low',label=lite?'AUTO1000 KO_DEMO':'P168A R8';
+ const audit={
+  schemaVersion:1,build:'TEST',source:'TEST_CLIENT_SELECTED_REQUEST_CONTRACT',
+  modelChoice:choice,forwardModel:model,backModel:model,
+  forwardThinking:thinking,backThinking:thinking,
+  forwardPrompt:label+' FIRST',backPrompt:label+' BACK',
+  promptContract:lite?'AUTO1000_R1_20261105/KO_DEMO':'P168A R8',
+  baseConfigSha:typeof COUPLE_PROMPT_SHA256==='string'?COUPLE_PROMPT_SHA256:'',
+  exactRequestPromptSha:null,
+  note:lite?'Base config SHA is not the KO_DEMO wire prompt SHA':'Config SHA describes P168A R8'
+ };
+ record.buildChannel='TEST';record.engineAudit=audit;
+ if(record.runtime&&typeof record.runtime==='object')record.runtime.engineAudit=audit;
+}
+function telemetryQueuePush(record){if(!record?.eventId)return;telemetryAddTestEngineAudit(record);record.deploymentChannel=LIVE_DEPLOYMENT_CHANNEL;record.deploymentLabel=LIVE_DEPLOYMENT_LABEL;const q=telemetryQueueRead(),i=q.findIndex(x=&gt;x.eventId===record.eventId);if(i&gt;=0)q[i]=record;else q.push(record);telemetryQueueWrite(q);void telemetryIdbPut(record);telemetryScheduleFlush(1200)}
 function telemetryQualitySnapshot(q){const x=q||{};let score=null,semanticDiagnosticScore=null;try{score=Number(qualityScoreFromGuard(x));if(!Number.isFinite(score))score=null}catch(e){}try{semanticDiagnosticScore=Number(x.semanticDiagnosticScore??x.postBackScore);if(!Number.isFinite(semanticDiagnosticScore))semanticDiagnosticScore=null}catch(e){}return{score,semanticDiagnosticScore,pass:x.pass!==false,reasons:Array.isArray(x.reasons)?x.reasons.map(String).slice(0,12):[],softReasons:Array.isArray(x.softReasons)?x.softReasons.map(String).slice(0,12):[],semanticAdvisory:x.semanticAdvisory===true,semanticAdvisoryReasons:Array.isArray(x.semanticAdvisoryReasons)?x.semanticAdvisoryReasons.map(String).slice(0,12):[],backReviewReasons:Array.isArray(x.backReviewReasons)?x.backReviewReasons.map(String).slice(0,12):[]}}
 function telemetryResponseRoute(res){const relay=String(res?.__relayRegion||''),via=String(res?.__clientRoute||'');if(via==='cloudflare')return `cloudflare:${relay||'-'}`;if(relay)return `relay:${relay}`;return via||'direct'}
 function telemetryResponseMeta(record,res,startedAt){if(!record)return;record.httpStatus=Number(res?.status)||0;record.route=telemetryResponseRoute(res);record.providerMs=Number(res?.headers?.get?.('X-Provider-Ms'));if(!Number.isFinite(record.providerMs))record.providerMs=null;record.relayRoundTripMs=Number(res?.__relayLatencyMs);if(!Number.isFinite(record.relayRoundTripMs))record.relayRoundTripMs=null;record.estimatedRelayNetworkMs=Number.isFinite(record.providerMs)&amp;&amp;Number.isFinite(record.relayRoundTripMs)?Math.max(0,record.relayRoundTripMs-record.providerMs):null;record.directFallback=res?.__directFallback===true;record.elapsedMs=Math.max(0,performance.now()-startedAt)}
@@ -7181,7 +7202,28 @@ async function telemetryIdbPut(record){if(!record?.eventId)return false;let db=n
 async function telemetryIdbRead(limit=60){let db=null;try{db=await telemetryIdbOpen();if(!db)return[];return await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readonly'),store=tx.objectStore(LIVE_TELEMETRY_STORE),out=[];const req=store.index('clientCreatedAtMs').openCursor(null,'next');req.onsuccess=()=&gt;{const c=req.result;if(!c||out.length&gt;=limit){resolve(out);return}if(c.value?.eventId)out.push(c.value);c.continue()};req.onerror=()=&gt;reject(req.error||new Error('IDB_READ_FAILED'))})}catch(e){return[]}finally{try{db?.close()}catch(_){}}}
 async function telemetryIdbDelete(ids){const set=new Set((ids||[]).map(String));if(!set.size)return;let db=null;try{db=await telemetryIdbOpen();if(!db)return;await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readwrite'),s=tx.objectStore(LIVE_TELEMETRY_STORE);for(const id of set)s.delete(id);tx.oncomplete=()=&gt;resolve();tx.onerror=()=&gt;reject(tx.error||new Error('IDB_DELETE_FAILED'));tx.onabort=()=&gt;reject(tx.error||new Error('IDB_DELETE_ABORT'))})}catch(e){}finally{try{db?.close()}catch(_){}}}
 async function telemetryIdbPrune(){let db=null;try{db=await telemetryIdbOpen();if(!db)return;const count=await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readonly'),req=tx.objectStore(LIVE_TELEMETRY_STORE).count();req.onsuccess=()=&gt;resolve(Number(req.result)||0);req.onerror=()=&gt;reject(req.error)});if(count&lt;=LIVE_TELEMETRY_IDB_MAX)return;let remove=count-LIVE_TELEMETRY_IDB_MAX;await new Promise((resolve,reject)=&gt;{const tx=db.transaction(LIVE_TELEMETRY_STORE,'readwrite'),idx=tx.objectStore(LIVE_TELEMETRY_STORE).index('clientCreatedAtMs'),req=idx.openCursor(null,'next');req.onsuccess=()=&gt;{const c=req.result;if(!c||remove&lt;=0)return;c.delete();remove--;c.continue()};tx.oncomplete=()=&gt;resolve();tx.onerror=()=&gt;reject(tx.error||new Error('IDB_PRUNE_FAILED'))})}catch(e){}finally{try{db?.close()}catch(_){}}}
-function telemetryQueuePush(record){if(!record?.eventId)return;record.deploymentChannel=LIVE_DEPLOYMENT_CHANNEL;record.deploymentLabel=LIVE_DEPLOYMENT_LABEL;const q=telemetryQueueRead(),i=q.findIndex(x=&gt;x.eventId===record.eventId);if(i&gt;=0)q[i]=record;else q.push(record);telemetryQueueWrite(q);void telemetryIdbPut(record);telemetryScheduleFlush(1200)}
+
+/* TEST-only attribution for existing telemetry records. No AI calls, prompts or translation behavior changed. */
+function telemetryAddTestEngineAudit(record){
+ if(!record||record.sourceType!=='LIVE'||window.__UNIFIED_DIAGNOSTIC_CLONE__===true)return;
+ const choice=String(window.__TEST_MODEL_CHOICE__||'');
+ if(choice!=='31'&&choice!=='38')return;
+ const lite=choice==='31',model=lite?'gemini-3.1-flash-lite':'gemini-3.8-flash';
+ const thinking=lite?'minimal':'low',label=lite?'AUTO1000 KO_DEMO':'P168A R8';
+ const audit={
+  schemaVersion:1,build:'TEST',source:'TEST_CLIENT_SELECTED_REQUEST_CONTRACT',
+  modelChoice:choice,forwardModel:model,backModel:model,
+  forwardThinking:thinking,backThinking:thinking,
+  forwardPrompt:label+' FIRST',backPrompt:label+' BACK',
+  promptContract:lite?'AUTO1000_R1_20261105/KO_DEMO':'P168A R8',
+  baseConfigSha:typeof COUPLE_PROMPT_SHA256==='string'?COUPLE_PROMPT_SHA256:'',
+  exactRequestPromptSha:null,
+  note:lite?'Base config SHA is not the KO_DEMO wire prompt SHA':'Config SHA describes P168A R8'
+ };
+ record.buildChannel='TEST';record.engineAudit=audit;
+ if(record.runtime&&typeof record.runtime==='object')record.runtime.engineAudit=audit;
+}
+function telemetryQueuePush(record){if(!record?.eventId)return;telemetryAddTestEngineAudit(record);record.deploymentChannel=LIVE_DEPLOYMENT_CHANNEL;record.deploymentLabel=LIVE_DEPLOYMENT_LABEL;const q=telemetryQueueRead(),i=q.findIndex(x=&gt;x.eventId===record.eventId);if(i&gt;=0)q[i]=record;else q.push(record);telemetryQueueWrite(q);void telemetryIdbPut(record);telemetryScheduleFlush(1200)}
 function telemetryQualitySnapshot(q){const x=q||{};let score=null,semanticDiagnosticScore=null;try{score=Number(qualityScoreFromGuard(x));if(!Number.isFinite(score))score=null}catch(e){}try{semanticDiagnosticScore=Number(x.semanticDiagnosticScore??x.postBackScore);if(!Number.isFinite(semanticDiagnosticScore))semanticDiagnosticScore=null}catch(e){}return{score,semanticDiagnosticScore,pass:x.pass!==false,reasons:Array.isArray(x.reasons)?x.reasons.map(String).slice(0,12):[],softReasons:Array.isArray(x.softReasons)?x.softReasons.map(String).slice(0,12):[],semanticAdvisory:x.semanticAdvisory===true,semanticAdvisoryReasons:Array.isArray(x.semanticAdvisoryReasons)?x.semanticAdvisoryReasons.map(String).slice(0,12):[],backReviewReasons:Array.isArray(x.backReviewReasons)?x.backReviewReasons.map(String).slice(0,12):[]}}
 function telemetryResponseRoute(res){const relay=String(res?.__relayRegion||''),via=String(res?.__clientRoute||'');if(via==='cloudflare')return `cloudflare:${relay||'-'}`;if(relay)return `relay:${relay}`;return via||'direct'}
 function telemetryResponseMeta(record,res,startedAt){if(!record)return;record.httpStatus=Number(res?.status)||0;record.route=telemetryResponseRoute(res);record.providerMs=Number(res?.headers?.get?.('X-Provider-Ms'));if(!Number.isFinite(record.providerMs))record.providerMs=null;record.relayRoundTripMs=Number(res?.__relayLatencyMs);if(!Number.isFinite(record.relayRoundTripMs))record.relayRoundTripMs=null;record.estimatedRelayNetworkMs=Number.isFinite(record.providerMs)&amp;&amp;Number.isFinite(record.relayRoundTripMs)?Math.max(0,record.relayRoundTripMs-record.providerMs):null;record.directFallback=res?.__directFallback===true;record.elapsedMs=Math.max(0,performance.now()-startedAt)}
