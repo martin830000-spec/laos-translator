@@ -2,7 +2,7 @@ name: GPT6 High500 D7 SAME FIRST BACK repeats
 on:
   push:
     branches: [research/gpt6-high500-20261106]
-    paths: ['experiments/gpt6-high500/activation-d7.json']
+    paths: ['experiments/gpt6-high500/d7-frozen-do-not-trigger.lock']
 permissions:
   contents: write
 concurrency:
