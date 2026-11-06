@@ -2,7 +2,7 @@ name: GPT6 High500 D6 synthetic semantic A-B
 on:
   push:
     branches: [research/gpt6-high500-20261106]
-    paths: ['experiments/gpt6-high500/activation-d6.json']
+    paths: ['experiments/gpt6-high500/d6-frozen-do-not-trigger.lock']
 permissions:
   contents: write
 concurrency:
