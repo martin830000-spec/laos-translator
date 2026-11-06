@@ -320,10 +320,21 @@ jobs:
         run: |
           set -euo pipefail
           zipfile="$RUNNER_TEMP/pagination-private-release.zip"
-          curl --fail --silent --show-error --location --max-time 90 --retry 2 \
+          http_status="$(curl --silent --show-error --location --max-time 90 \
             -H "Authorization: Bearer $DRIVE_TOKEN" \
             "https://www.googleapis.com/drive/v3/files/13dWeVbSIBHkAxyF2gtCoffYfsY2e_oHa?alt=media&supportsAllDrives=true" \
-            --output "$zipfile"
+            --output "$zipfile" --write-out '%{http_code}')"
+          if [ "$http_status" != '200' ]; then
+            python3 - "$zipfile" "$http_status" <<'PY'
+          import json,sys
+          try:
+              e=json.load(open(sys.argv[1])).get('error',{})
+              print('Google Drive download blocked:',sys.argv[2],e.get('status'),e.get('message','')[:450])
+          except Exception:
+              print('Google Drive download blocked: HTTP',sys.argv[2],'with non-JSON body')
+          PY
+            exit 1
+          fi
           echo 'a6cc56713530aa0f311c95ee076ade186a2ddf558bc0cfb92d7d5108802eb604  '"$zipfile" | sha256sum --check --status
           mkdir -p "$RUNNER_TEMP/private-release"
           unzip -q "$zipfile" -d "$RUNNER_TEMP/private-release"
