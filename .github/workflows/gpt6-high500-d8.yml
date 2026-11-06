@@ -1,0 +1,47 @@
+name: GPT6 High500 D8 synthetic semantic A-B
+on:
+  push:
+    branches: [research/gpt6-high500-20261106]
+    paths: ['experiments/gpt6-high500/activation-d8.json']
+permissions:
+  contents: write
+concurrency:
+  group: high500-d8-single-run
+  cancel-in-progress: false
+jobs:
+  synthetic-AB:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Free case and request-contract checks
+        run: |
+          node --check experiments/gpt6-high500/contracts-d8.cjs
+          node --check experiments/gpt6-high500/run-d8.cjs
+          node - <<'NODE'
+          const cases=require('./experiments/gpt6-high500/cases-d8.json').cases, c=require('./experiments/gpt6-high500/contracts-d8.cjs');
+          if(cases.length!==20 || new Set(cases.map(x=>x.id)).size!==20)throw Error('CASE_ID_DUPLICATE');
+          for(const x of cases)for(const variant of ['KO_DEMO','ROLE_BRIEF']){
+            const path=x.side+'F', q=c.build(path,variant,x.source);
+            if(q.model!=='gemini-3.1-flash-lite' || q.payload.generationConfig.thinkingConfig.thinkingLevel!=='minimal')throw Error('CONTRACT');
+          }
+          console.log('D8 FREE_CHECK_OK; Gemini calls 0');
+          NODE
+      - name: Acquire immutable no-replay tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" -f ref="refs/tags/gpt6-high500-d8-once-20261106" -f sha="$GITHUB_SHA" > /dev/null
+      - name: Actual approved Gemini A/B calls, cap 80
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node experiments/gpt6-high500/run-d8.cjs
+      - name: Preserve raw public synthetic evidence (no private messages)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt6-high500-d8-synthetic-result
+          path: experiments/gpt6-high500/results-d8.json
+          retention-days: 14
+          if-no-files-found: warn
