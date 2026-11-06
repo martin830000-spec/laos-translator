@@ -1,0 +1,11 @@
+{
+  "campaign": "GPT6_HIGH500_20261106",
+  "phase": "PUBLIC_D7",
+  "approved_total": 500,
+  "prior_confirmed": 270,
+  "phase_max": 80,
+  "enabled": true,
+  "execution_id": "D7_ONCE",
+  "provenance": "PUBLIC_SYNTHETIC",
+  "no_retries": true
+}
