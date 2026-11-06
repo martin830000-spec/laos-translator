@@ -1,5 +1,5 @@
-# Read-only GitHub -> Google Cloud Run OIDC connectivity check.
-# This workflow intentionally has NO build, deploy, traffic, or Firestore write commands.
+# Guarded GitHub OIDC Cloud Run checks and explicitly marked candidate-only jobs.
+# Never promotes live traffic; private backend source stays outside this repository.
 name: Lao Cloud Run OIDC Connection Check
 
 on:
@@ -292,3 +292,44 @@ jobs:
           print('New candidate revision:',b['status']['latestReadyRevisionName'])
           PY
           echo 'NO live traffic promotion, no Firestore writes or paid translation test were performed.'
+
+
+  verify-pagination-private-drive-release:
+    if: github.event_name == 'push' && github.actor == 'martin830000-spec' && contains(github.event.head_commit.message, '[verify-pagination]')
+    name: Download narrowly shared private pagination release and run tests (NO deploy)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Authenticate to Google APIs using short-lived OIDC access token
+        id: drive_auth
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/github-actions
+          service_account: lao-github-deployer@gen-lang-client-0422436907.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/drive.readonly
+          access_token_lifetime: 600s
+      - name: Download exact shared ZIP and validate hashes and tests, without publishing source
+        shell: bash
+        env:
+          DRIVE_TOKEN: ${{ steps.drive_auth.outputs.access_token }}
+        run: |
+          set -euo pipefail
+          zipfile="$RUNNER_TEMP/pagination-private-release.zip"
+          curl --fail --silent --show-error --location --max-time 90 --retry 2 \
+            -H "Authorization: Bearer $DRIVE_TOKEN" \
+            "https://www.googleapis.com/drive/v3/files/13dWeVbSIBHkAxyF2gtCoffYfsY2e_oHa?alt=media&supportsAllDrives=true" \
+            --output "$zipfile"
+          echo 'a6cc56713530aa0f311c95ee076ade186a2ddf558bc0cfb92d7d5108802eb604  '"$zipfile" | sha256sum --check --status
+          mkdir -p "$RUNNER_TEMP/private-release"
+          unzip -q "$zipfile" -d "$RUNNER_TEMP/private-release"
+          cd "$RUNNER_TEMP/private-release/translator_cloudrun_engine_audit_deploy_20261106"
+          sha256sum -c SHA256SUMS.txt
+          node --check source/server.js
+          node test_engine_audit.cjs
+          node test_telemetry_pagination.cjs
+          echo 'PASS: private pagination ZIP verified, 18 local tests successful, no source exposed or server changed.'
