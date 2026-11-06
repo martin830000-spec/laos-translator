@@ -8,7 +8,7 @@ const a=JSON.parse(fs.readFileSync(P+'activation-d9.json','utf8'));
 if(a.campaign!=='GPT6_HIGH500_20261106'||a.phase!=='PUBLIC_D9'||a.prior_confirmed!==430||a.phase_max!==64||a.approved_total!==500||a.enabled!==true||a.execution_id!=='D9_ONCE')throw Error('APPROVAL');
 if(process.env.GITHUB_REF_NAME!=='research/gpt6-high500-20261106'||process.env.GITHUB_RUN_ATTEMPT!=='1')throw Error('REF');
 const src=JSON.parse(fs.readFileSync(P+'cases-d9.json','utf8'));
-if(src.provenance!=='NEW_PUBLIC_SYNTHETIC_NOT_REAL_DIALOGUE'||src.cases.length!==16||src.cases.filter(x=>x.side==='K').length!==8||src.cases.filter(x=>x.side==='L').length!==8||a.prior_confirmed+64>500)throw Error('SET');
+if(src.provenance!=='PUBLIC_SYNTHETIC_FINAL_INDEPENDENT_HOLDOUT'||src.cases.length!==16||src.cases.filter(x=>x.side==='K').length!==8||src.cases.filter(x=>x.side==='L').length!==8||a.prior_confirmed+64>500)throw Error('SET');
 const key=process.env.GEMINI_API_KEY;if(!key)throw Error('NO_SECRET');
 const out={campaign:a.campaign,phase:'PUBLIC_D9',synthetic:true,prior_confirmed:430,approved_limit:500,cap:64,attempts:[],skipped:[],retries:0,judge:0,started:new Date().toISOString()};
 const save=()=>fs.writeFileSync(P+'results-d9.json',JSON.stringify(out,null,2));
@@ -26,7 +26,7 @@ function req(q){
 async function one(c,variant,stage,input){
  if(out.attempts.length>=64)throw Error('CAP');const path=c.side+(stage==='FIRST'?'F':'B');const q=build(path,variant,input);
  if(q.model!=='gemini-3.1-flash-lite'||q.payload.generationConfig?.maxOutputTokens!==1024||q.payload.generationConfig?.thinkingConfig?.thinkingLevel!=='minimal')throw Error('CONFIG');
- const rec={index:out.attempts.length+1,cid:c.id,category:c.category,side:c.side,stage,path,variant,input,request_input_sha256:sha(input),systemInstruction:q.payload.systemInstruction.parts[0].text,status:'SENT_OR_UNKNOWN',sent_or_unknown:true};
+ const rec={index:out.attempts.length+1,cid:c.id,category:c.category,side:c.side,stage,path,variant,input,request_input_sha256:sha(input),actual_prompt_content:q.payload.contents[0].parts[0].text,systemInstruction:q.payload.systemInstruction.parts[0].text,status:'SENT_OR_UNKNOWN',sent_or_unknown:true};
  out.attempts.push(rec);save();
  try{
   const y=await req(q);rec.http_status=y.http;rec.elapsed_ms=y.ms;rec.responseId=y.raw.responseId||null;rec.modelVersion=y.raw.modelVersion||null;rec.usage=y.raw.usageMetadata||null;rec.finishReason=y.raw.candidates?.[0]?.finishReason||null;rec.raw=y.raw;
