@@ -1,8 +1,8 @@
-name: GPT6 High500 D3 CLOSED handshake expired
+name: GPT6 High500 D4 encrypted real dialogue
 on:
   push:
     branches: [research/gpt6-high500-20261106]
-    paths: ['experiments/gpt6-high500/d3-closed-no-trigger.lock']
+    paths: ['experiments/gpt6-high500/activation4.json']
 permissions:
   contents: write
   issues: write
@@ -24,7 +24,7 @@ jobs:
           node --check experiments/gpt6-high500/contracts.cjs
           python3 - <<'PY'
           import cryptography
-          print('Private D3 ready; no Gemini call, crypto package verified')
+          print('Private D4 ready; no Gemini call, crypto package verified')
           PY
       - name: Execute max 120 encrypted real-dialogue Gemini calls
         env:
