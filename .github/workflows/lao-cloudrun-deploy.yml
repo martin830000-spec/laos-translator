@@ -55,4 +55,13 @@ jobs:
             --project=gen-lang-client-0422436907 \
             --region=asia-southeast3 \
             --format='value(status.latestReadyRevisionName)'
-          echo 'PASS: OIDC and read-only service inspection completed. Nothing deployed.'
+          echo 'Inspect dedicated image repositories (READ ONLY):'
+          gcloud artifacts repositories describe lao-translator-deploy \
+            --project=gen-lang-client-0422436907 \
+            --location=asia-northeast3 \
+            --format='value(name)'
+          gcloud artifacts repositories describe lao-translator-deploy \
+            --project=gen-lang-client-0422436907 \
+            --location=asia-southeast3 \
+            --format='value(name)'
+          echo 'PASS: OIDC, two Cloud Run services and two dedicated Artifact Registry repositories readable. Nothing deployed.'
