@@ -1,0 +1,47 @@
+name: GPT6 High500 D7 SAME FIRST BACK repeats
+on:
+  push:
+    branches: [research/gpt6-high500-20261106]
+    paths: ['experiments/gpt6-high500/activation-d7.json']
+permissions:
+  contents: write
+concurrency:
+  group: high500-d7-single-run
+  cancel-in-progress: false
+jobs:
+  fixed-first:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: FREE contract preflight
+        run: |
+          node --check experiments/gpt6-high500/run-d7.cjs
+          node - <<'NODE'
+          const c=require('./experiments/gpt6-high500/cases-d7.json');
+          const b=require('./experiments/gpt6-high500/contracts.cjs');
+          if(c.cases.length!==16)throw Error('count');
+          for(const row of c.cases)for(const v of ['KO_DEMO','LEAN_SCOPE']){
+            const q=b.build(row.side+'F',v,row.source);
+            if(q.model!=='gemini-3.1-flash-lite')throw Error('model');
+          }
+          console.log('FREE D7 preflight, new Gemini calls=0');
+          NODE
+      - name: Immutable D7 tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" -f ref="refs/tags/gpt6-high500-d7-once-20261106" -f sha="$GITHUB_SHA" > /dev/null
+      - name: Execute at most 80 new Gemini requests, no retries
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node experiments/gpt6-high500/run-d7.cjs
+      - name: Save synthetic raw result and exact inputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: high500-d7-same-first-back-raw
+          path: experiments/gpt6-high500/results-d7.json
+          retention-days: 14
+          if-no-files-found: warn
