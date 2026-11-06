@@ -1,0 +1,8 @@
+Lao translator backend candidate image build request
+Date: 2026-11-06
+Purpose: Build the approved engineAudit metadata retention patch into two private Artifact Registry images.
+Release: gs://lao-translator-src-460077888071/releases/translator_cloudrun_engine_audit_deploy_20261106.zip
+Release SHA-256: 08696a3a58f0fc9663fd85196c37d7a1da9bbf22e4a4e298cc445026b9c8f882
+Cloud Run deployment: NO.
+Production traffic or Firestore: NO CHANGE.
+Source archive and server.js must never be committed to this public repository.
