@@ -1,0 +1,8 @@
+Cloud Run controlled candidate rollout: Seoul ONLY
+Project: gen-lang-client-0422436907
+Service: lao-stt-relay
+Region: asia-northeast3
+Image: asia-northeast3-docker.pkg.dev/gen-lang-client-0422436907/lao-translator-deploy/lao-relay:audit-20261106-584e3014e1a9
+Precondition: live ready revision lao-stt-relay-00033-jin and recorded existing image digest must match.
+Action: deploy inactive tagged revision with --no-traffic; verify active traffic, runtime identity and environment unchanged.
+Forbidden: live traffic promotion, paid AI calls, Firestore mutation, other services.
