@@ -4,7 +4,7 @@ on:
     branches:
       - research/gpt6-high500-20261106
     paths:
-      - experiments/gpt6-high500/activation.json
+      - experiments/gpt6-high500/d1-frozen-do-not-trigger.lock
 permissions:
   contents: read
 concurrency:
