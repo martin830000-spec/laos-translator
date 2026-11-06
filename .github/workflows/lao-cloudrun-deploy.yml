@@ -66,6 +66,41 @@ jobs:
             --location=asia-southeast3 \
             --format='value(name)'
           echo 'PASS: OIDC, two Cloud Run services and two dedicated Artifact Registry repositories readable. Nothing deployed.'
+      - name: Verify inactive candidates and anonymous access guard (READ ONLY)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for row in 'lao-stt-relay asia-northeast3 lao-stt-relay-00033-jin lao-stt-relay-00035-wov' 'lao-stt-relay-bkk asia-southeast3 lao-stt-relay-bkk-00032-woh lao-stt-relay-bkk-00034-zop'; do
+            read -r svc region active candidate <<< "$row"
+            jsonfile="$RUNNER_TEMP/$svc-status.json"
+            gcloud run services describe "$svc" --project gen-lang-client-0422436907 --region "$region" --format=json > "$jsonfile"
+            candidate_url="$(python3 - "$jsonfile" "$active" "$candidate" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          old,new=sys.argv[2:4]
+          traffic=d.get('status',{}).get('traffic',[])
+          active=[(t.get('revisionName'),int(t.get('percent') or 0)) for t in traffic if int(t.get('percent') or 0)>0]
+          assert active==[(old,100)], f'Unexpected production traffic: {active}'
+          matching=[t for t in traffic if t.get('revisionName')==new]
+          assert len(matching)==1, f'Candidate revision missing: {new}'
+          t=matching[0]
+          assert int(t.get('percent') or 0)==0, f'Candidate unexpectedly serving live traffic: {t}'
+          assert t.get('tag')=='audit-20261106', f'Candidate tag missing: {t}'
+          url=t.get('url','').rstrip('/')
+          assert url.startswith('https://'), 'Candidate tag URL absent'
+          print(url)
+          PY
+            )"
+            echo "PASS: $svc active 100%=$active; inactive 0%=$candidate"
+            # An anonymous check verifies reachability and authentication guard,
+            # not Firestore; no shared token, secrets or user records are requested.
+            http_code="$(curl --silent --show-error --max-time 15 --output /dev/null --write-out '%{http_code}' "$candidate_url/health")"
+            case "$http_code" in
+              401) echo "PASS: $svc candidate rejects anonymous /health (HTTP 401)" ;;
+              *) echo "BLOCKED: $svc candidate anonymous status HTTP $http_code (expected 401)"; exit 1 ;;
+            esac
+          done
+          echo 'PASS: both candidates remain inactive and authentication-guarded. No writes.'
       - name: Verify private release archive and run offline backend tests (NO deployment)
         shell: bash
         run: |
