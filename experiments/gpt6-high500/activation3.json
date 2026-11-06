@@ -5,10 +5,13 @@
   "prior_confirmed": 150,
   "phase_max": 120,
   "case_count": 30,
-  "enabled": true,
+  "enabled": false,
   "issue_number": 206,
   "issue_title": "GPT6_HIGH500_D3_PRIVATE_ENCRYPTED_20261106",
   "nonce": "f9640e525f2bfc3f00b9aea7a161d6b28b8294c5d0273f96fefaa11620b7685b",
   "plan_sha256": "8484c9fb287bbc3fb8f125aa1b46e274c043731b248524e7caabb64fdbcdd3a3",
-  "result_public_key": "-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEArc8a39P10WRrwP1qmJoq\nXM0A4Z3U46Z/LqjMrZ71+P37oNQb1IjcJ5X6nP9RWyd9uKbPZRydOR6tVMD0j8z4\nCIevNNzAPrWWSxD/J9TAmy4GLG8DArh+xH3M3feI0a5NGjc3cnduhIrIk7Soixg4\nR6Sm/Nvq3pNFaytFaV3owYBan6+m75Am/f0B7exXa4dVk4ilrjwgP/v2T1QS72Qn\nK/KEueabQc/UCovXm4b0MLkOw3iOBchJ35XwHhkeviZu0aq4u3iqseYv8c7hW5BD\nuT3mTNbR8jxEYr1vHwotC6ZfmiZHPjSlxveoAQ7lkBcOHIBAmRrbm5hs2mr9QGg9\nt9ABEeQhiWsl9TmsR//Db+YANUs9nv1Tm3oqQhuC+Dwsv+coxdBDXAdsXFqJIxQx\nYfooaLD+9/Q9d78t5UkyvlN081KbGF6bLkPDTZrhX2A55i/bsItIfjxdIhYguYRj\nQp445Vm3RuCin7QTgy+YOUuQY9nMiPfArIgfJd5nfTChAgMBAAE=\n-----END PUBLIC KEY-----\n"
+  "result_public_key": "-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEArc8a39P10WRrwP1qmJoq\nXM0A4Z3U46Z/LqjMrZ71+P37oNQb1IjcJ5X6nP9RWyd9uKbPZRydOR6tVMD0j8z4\nCIevNNzAPrWWSxD/J9TAmy4GLG8DArh+xH3M3feI0a5NGjc3cnduhIrIk7Soixg4\nR6Sm/Nvq3pNFaytFaV3owYBan6+m75Am/f0B7exXa4dVk4ilrjwgP/v2T1QS72Qn\nK/KEueabQc/UCovXm4b0MLkOw3iOBchJ35XwHhkeviZu0aq4u3iqseYv8c7hW5BD\nuT3mTNbR8jxEYr1vHwotC6ZfmiZHPjSlxveoAQ7lkBcOHIBAmRrbm5hs2mr9QGg9\nt9ABEeQhiWsl9TmsR//Db+YANUs9nv1Tm3oqQhuC+Dwsv+coxdBDXAdsXFqJIxQx\nYfooaLD+9/Q9d78t5UkyvlN081KbGF6bLkPDTZrhX2A55i/bsItIfjxdIhYguYRj\nQp445Vm3RuCin7QTgy+YOUuQY9nMiPfArIgfJd5nfTChAgMBAAE=\n-----END PUBLIC KEY-----\n",
+  "closed_reason": "TECHNICAL_ZERO_GEMINI_ATTEMPTS_OLD_ISSUE_CLOSED",
+  "actual_attempts": 0,
+  "max_new": 0
 }
