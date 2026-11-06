@@ -1,8 +1,8 @@
-name: GPT6 High500 D4 encrypted real dialogue
+name: GPT6 High500 D4 CLOSED after free checksum mismatch
 on:
   push:
     branches: [research/gpt6-high500-20261106]
-    paths: ['experiments/gpt6-high500/activation4.json']
+    paths: ['experiments/gpt6-high500/d4-closed-no-trigger.lock']
 permissions:
   contents: write
   issues: write
