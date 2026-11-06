@@ -194,7 +194,24 @@ jobs:
           docker pull "$image"
           docker run --rm -d --name lao-candidate-smoke -e STT_SHARED_TOKEN=github-local-smoke-only -p 127.0.0.1:18080:8080 "$image"
           trap 'docker rm -f lao-candidate-smoke >/dev/null 2>&1 || true' EXIT
-          curl --fail --silent --show-error --retry 12 --retry-connrefused --retry-delay 1 -H 'x-app-token: github-local-smoke-only' 'http://127.0.0.1:18080/health' | python3 -c "import json,sys; x=json.load(sys.stdin); assert x.get('ok') is True; assert x.get('version') == '3.7.18'; assert 'telemetry-engine-audit-v1' in x.get('capabilities',[]); print('PASS: container local health and audit capability')"
+          ready=0
+          sleep 2
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent --show-error --connect-timeout 2 --max-time 4 -H 'x-app-token: github-local-smoke-only' -o "$RUNNER_TEMP/lao-health.json" 'http://127.0.0.1:18080/health'; then
+              if python3 -c "import json,sys; x=json.load(sys.stdin); assert x.get('ok') is True; assert x.get('version') == '3.7.18'; assert 'telemetry-engine-audit-v1' in x.get('capabilities',[])" < "$RUNNER_TEMP/lao-health.json"; then
+                ready=1
+                break
+              fi
+            fi
+            sleep 1
+          done
+          if [ "$ready" != 1 ]; then
+            echo 'FAIL: isolated container did not become healthy; no deployment attempted.'
+            docker ps --all --filter name=lao-candidate-smoke
+            docker logs --tail 40 lao-candidate-smoke || true
+            exit 1
+          fi
+          echo 'PASS: isolated container health, patch capability and startup confirmed.'
 
       - name: Deploy 0%-traffic candidate only and verify live traffic has not changed
         shell: bash
