@@ -153,3 +153,90 @@ jobs:
           echo "Seoul candidate image: $seoul"
           echo "Bangkok candidate image: $bangkok"
           echo 'PASS: images pushed only. Cloud Run revisions and traffic are unchanged.'
+
+
+  deploy-zero-traffic-candidate:
+    # Only a deliberate main-branch request commit by the repository owner.
+    # No production traffic promotion is implemented anywhere in this workflow.
+    if: github.event_name == 'push' && github.actor == 'martin830000-spec' && (contains(github.event.head_commit.message, '[candidate-seoul]') || contains(github.event.head_commit.message, '[candidate-bangkok]'))
+    name: Prepare inactive 0%-traffic Cloud Run candidate (no promotion)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Authenticate to Google Cloud via OIDC
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/github-actions
+          service_account: lao-github-deployer@gen-lang-client-0422436907.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: gen-lang-client-0422436907
+
+      - name: Verify pinned registry image in isolated local container (no paid API)
+        shell: bash
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          case "$COMMIT_MESSAGE" in
+            *'[candidate-seoul]'*) region='asia-northeast3' ;;
+            *'[candidate-bangkok]'*) region='asia-southeast3' ;;
+            *) echo 'No approved candidate request marker'; exit 2 ;;
+          esac
+          image="$region-docker.pkg.dev/gen-lang-client-0422436907/lao-translator-deploy/lao-relay:audit-20261106-584e3014e1a9"
+          gcloud auth print-access-token | docker login --username oauth2accesstoken --password-stdin "https://$region-docker.pkg.dev" >/dev/null
+          docker pull "$image"
+          docker run --rm -d --name lao-candidate-smoke -e STT_SHARED_TOKEN=github-local-smoke-only -p 127.0.0.1:18080:8080 "$image"
+          trap 'docker rm -f lao-candidate-smoke >/dev/null 2>&1 || true' EXIT
+          curl --fail --silent --show-error --retry 12 --retry-connrefused --retry-delay 1 -H 'x-app-token: github-local-smoke-only' 'http://127.0.0.1:18080/health' | python3 -c "import json,sys; x=json.load(sys.stdin); assert x.get('ok') is True; assert x.get('version') == '3.7.18'; assert 'telemetry-engine-audit-v1' in x.get('capabilities',[]); print('PASS: container local health and audit capability')"
+
+      - name: Deploy 0%-traffic candidate only and verify live traffic has not changed
+        shell: bash
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          PROJECT='gen-lang-client-0422436907'
+          case "$COMMIT_MESSAGE" in
+            *'[candidate-seoul]'*) svc='lao-stt-relay'; region='asia-northeast3'; baseline='lao-stt-relay-00033-jin'; previous_digest='c1230d98be72974a5225f10d8686af8394f83f10fe3a8bba4e813ddca71c27d2' ;;
+            *'[candidate-bangkok]'*) svc='lao-stt-relay-bkk'; region='asia-southeast3'; baseline='lao-stt-relay-bkk-00032-woh'; previous_digest='a32345fed97ffdc2589b465c0f39e372a1feb9553b5e5d8ece2b45a62c6cc491' ;;
+            *) exit 2 ;;
+          esac
+          before="$RUNNER_TEMP/before.json"
+          after="$RUNNER_TEMP/after.json"
+          gcloud run services describe "$svc" --project "$PROJECT" --region "$region" --format=json > "$before"
+          python3 - "$before" "$baseline" "$previous_digest" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']['latestReadyRevisionName']==sys.argv[2], 'Baseline revision changed: abort'
+          current=d['spec']['template']['spec']['containers'][0]['image']
+          assert current.endswith('@sha256:'+sys.argv[3]), 'Baseline image digest changed: abort'
+          print('PASS: service baseline revision and image digest match')
+          PY
+          candidate_image="$region-docker.pkg.dev/$PROJECT/lao-translator-deploy/lao-relay:audit-20261106-584e3014e1a9"
+          gcloud run deploy "$svc" --project "$PROJECT" --region "$region" \
+            --image "$candidate_image" --no-traffic --tag audit-20261106 --quiet
+          gcloud run services describe "$svc" --project "$PROJECT" --region "$region" --format=json > "$after"
+          python3 - "$before" "$after" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1])); b=json.load(open(sys.argv[2]))
+          def active(s):
+              return sorted((t.get('revisionName'),int(t.get('percent',0))) for t in s.get('status',{}).get('traffic',[]) if int(t.get('percent',0))>0)
+          x,y=active(a),active(b)
+          assert x==y,(x,y)
+          assert b['status']['latestReadyRevisionName']!=a['status']['latestReadyRevisionName'], 'Candidate revision not created'
+          assert b['spec']['template']['spec'].get('serviceAccountName')==a['spec']['template']['spec'].get('serviceAccountName'), 'Runtime identity changed'
+          def envs(s):
+              return s['spec']['template']['spec']['containers'][0].get('env',[])
+          assert envs(a)==envs(b), 'Runtime env or secret references changed'
+          print('PASS: 0% candidate created without changing active production traffic, runtime identity or environment.')
+          print('Production revisions (unchanged):',x)
+          print('New candidate revision:',b['status']['latestReadyRevisionName'])
+          PY
+          echo 'NO live traffic promotion, no Firestore writes or paid translation test were performed.'
