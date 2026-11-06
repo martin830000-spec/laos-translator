@@ -1,0 +1,5 @@
+Read-only private pagination candidate verification requested 2026-11-06.
+Source: single Google Drive file 13dWeVbSIBHkAxyF2gtCoffYfsY2e_oHa (shared reader only to deployer account).
+SHA-256: a6cc56713530aa0f311c95ee076ade186a2ddf558bc0cfb92d7d5108802eb604
+Allowed: OIDC auth, fetch precisely shared ZIP, verify SHA-256 and run 18 offline tests.
+Forbidden: publish ZIP/source to GitHub; production deployment/traffic/Firestore writes.
