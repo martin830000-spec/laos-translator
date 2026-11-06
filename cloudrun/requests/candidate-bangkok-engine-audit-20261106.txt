@@ -1,0 +1,9 @@
+Cloud Run controlled candidate rollout: Bangkok ONLY
+Project: gen-lang-client-0422436907
+Service: lao-stt-relay-bkk
+Region: asia-southeast3
+Image: asia-southeast3-docker.pkg.dev/gen-lang-client-0422436907/lao-translator-deploy/lao-relay:audit-20261106-584e3014e1a9
+Precondition: live ready revision lao-stt-relay-bkk-00032-woh and recorded existing image digest must match.
+Action: deploy inactive tagged revision with --no-traffic; verify active traffic, runtime identity and environment unchanged.
+Forbidden: live traffic promotion, paid AI calls, Firestore mutation, other services.
+Seoul inactive candidate validated as revision lao-stt-relay-00035-wov (0% traffic).
