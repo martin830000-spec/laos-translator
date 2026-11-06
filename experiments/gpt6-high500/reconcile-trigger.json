@@ -1,1 +1,5 @@
-{"audit":"run listing only","new_gemini_calls":0}
+{
+  "audit": "High500 D4 trigger and D3 closure verify",
+  "revision": 3,
+  "paid_calls": 0
+}
