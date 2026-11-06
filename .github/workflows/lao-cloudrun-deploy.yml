@@ -65,3 +65,17 @@ jobs:
             --location=asia-southeast3 \
             --format='value(name)'
           echo 'PASS: OIDC, two Cloud Run services and two dedicated Artifact Registry repositories readable. Nothing deployed.'
+      - name: Verify private release archive and run offline backend tests (NO deployment)
+        shell: bash
+        run: |
+          set -euo pipefail
+          workdir="$(mktemp -d)"
+          trap 'rm -rf "$workdir"' EXIT
+          gcloud storage cp 'gs://lao-translator-src-460077888071/releases/translator_cloudrun_engine_audit_deploy_20261106.zip' "$workdir/release.zip" --quiet
+          echo '08696a3a58f0fc9663fd85196c37d7a1da9bbf22e4a4e298cc445026b9c8f882  '"$workdir"'/release.zip' | sha256sum --check --status
+          unzip -q "$workdir/release.zip" -d "$workdir"
+          cd "$workdir/translator_cloudrun_engine_audit_deploy_20261106"
+          sha256sum -c SHA256SUMS.txt
+          node --check source/server.js
+          node test_engine_audit.cjs
+          echo 'PASS: private release download, SHA-256 verification and backend tests. No image built; no service changed.'
