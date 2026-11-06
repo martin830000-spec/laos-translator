@@ -1,0 +1,58 @@
+# Read-only GitHub -> Google Cloud Run OIDC connectivity check.
+# This workflow intentionally has NO build, deploy, traffic, or Firestore write commands.
+name: Lao Cloud Run OIDC Connection Check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/lao-cloudrun-deploy.yml
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: lao-cloudrun-oidc-connection-check
+  cancel-in-progress: false
+
+jobs:
+  auth-and-readonly:
+    name: Authenticate and inspect existing relays (no deployment)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud via OIDC
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/github-actions
+          service_account: lao-github-deployer@gen-lang-client-0422436907.iam.gserviceaccount.com
+
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: gen-lang-client-0422436907
+
+      - name: Verify identity and existing Cloud Run revisions (READ ONLY)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'Authenticated account:'
+          gcloud auth list --filter='status:ACTIVE' --format='value(account)'
+          echo 'Seoul latest ready revision:'
+          gcloud run services describe lao-stt-relay \
+            --project=gen-lang-client-0422436907 \
+            --region=asia-northeast3 \
+            --format='value(status.latestReadyRevisionName)'
+          echo 'Bangkok latest ready revision:'
+          gcloud run services describe lao-stt-relay-bkk \
+            --project=gen-lang-client-0422436907 \
+            --region=asia-southeast3 \
+            --format='value(status.latestReadyRevisionName)'
+          echo 'PASS: OIDC and read-only service inspection completed. Nothing deployed.'
