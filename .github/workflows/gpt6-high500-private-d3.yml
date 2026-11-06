@@ -1,8 +1,8 @@
-name: GPT6 High500 D3 encrypted real dialog
+name: GPT6 High500 D3 CLOSED handshake expired
 on:
   push:
     branches: [research/gpt6-high500-20261106]
-    paths: ['experiments/gpt6-high500/activation3.json']
+    paths: ['experiments/gpt6-high500/d3-closed-no-trigger.lock']
 permissions:
   contents: write
   issues: write
