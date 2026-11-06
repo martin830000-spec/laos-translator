@@ -6,3 +6,4 @@ Image: asia-northeast3-docker.pkg.dev/gen-lang-client-0422436907/lao-translator-
 Precondition: live ready revision lao-stt-relay-00033-jin and recorded existing image digest must match.
 Action: deploy inactive tagged revision with --no-traffic; verify active traffic, runtime identity and environment unchanged.
 Forbidden: live traffic promotion, paid AI calls, Firestore mutation, other services.
+Retry 1: isolated container smoke probe now waits for readiness and reports startup logs; 0%-traffic safety conditions unchanged.
