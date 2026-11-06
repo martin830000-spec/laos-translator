@@ -1,0 +1,34 @@
+{
+  "campaign": "GPT6_HIGH500_20261106",
+  "status": "EVALUATION_CLOSED_WITH_REAL_DIALOGUE_A_B_UNRESOLVED",
+  "judgment": "HOLD_KEEP_KO_DEMO",
+  "approved": 500,
+  "confirmed_attempts": 430,
+  "success": 430,
+  "failed_api_attempts": 0,
+  "retries": 0,
+  "remaining": 70,
+  "estimated_usd": 0.061489,
+  "private_d3_d4_final64_gemini_calls": 0,
+  "d9_gemini_calls": 0,
+  "d9_activation": "ABSENT",
+  "service_modified": false,
+  "test_modified": false,
+  "private_real_A_B_completed": false,
+  "real40_existing_records_verified": 40,
+  "github_runs": [
+    42110819031,
+    42112144594,
+    42135687355,
+    42136540815,
+    42137565273
+  ],
+  "drive": {
+    "final_report_id": "1cI5ehW1JKz5WV2o-sd11sxB01vawN4OF",
+    "ledger_id": "1C9exvTsjfA9U5_fRLl_L75YLqlQmvIhq",
+    "all_public_evidence_id": "1cXpyfF7kotIvsdFY7lomM96fdxnoUGkk",
+    "handoff_id": "1EFHdmS0bfy27czVI22j41tsPGr-romya"
+  },
+  "reason": "Safe private live A/B channel blocked by connected tool safety check; no private plaintext leaked; D9 inactive, no unverified paid requests.",
+  "note": "Executing 430 Gemini API requests and evaluating the evidence is complete. The separate goal of proving real-couple-dialogue improvement was NOT met."
+}
