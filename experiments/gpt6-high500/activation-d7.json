@@ -1,11 +1,14 @@
 {
   "campaign": "GPT6_HIGH500_20261106",
-  "phase": "PUBLIC_D7",
+  "phase": "CLOSED",
   "approved_total": 500,
   "prior_confirmed": 270,
   "phase_max": 80,
-  "enabled": true,
+  "enabled": false,
   "execution_id": "D7_ONCE",
   "provenance": "PUBLIC_SYNTHETIC",
-  "no_retries": true
+  "no_retries": true,
+  "actual_attempts": 80,
+  "max_new": 0,
+  "closed_reason": "RESEARCH_FINISHED_HOLD_KO_DEMO"
 }
