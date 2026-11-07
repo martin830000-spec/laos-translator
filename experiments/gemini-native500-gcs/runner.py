@@ -106,7 +106,15 @@ def validate_tasks(tasks, model, config):
             first = seen[target]
             check(first["path"] == item["path"][0] + "F", "BACK_DIRECTION_MISMATCH")
             check(first["case_id"] == case_id, "BACK_CASE_MISMATCH")
-            check(first["variant"] == item["variant"], "BACK_VARIANT_MISMATCH")
+            first_variant = item.get("first_variant", item["variant"])
+            check(first["variant"] == first_variant, "BACK_VARIANT_MISMATCH")
+            if first_variant != item["variant"]:
+                check(
+                    model == "36"
+                    and first_variant == "BASE"
+                    and item["variant"] == "R36",
+                    "UNAPPROVED_CROSS_VARIANT"
+                )
         seen[slot] = item
     return True
 
