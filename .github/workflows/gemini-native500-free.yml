@@ -1,0 +1,20 @@
+name: Model-native500 offline verification
+on:
+  push:
+    branches: [research/gemini-model-native500-20261107]
+    paths: [.github/workflows/gemini-native500-free.yml]
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: python3 experiments/gemini35-native500/offline.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: native500-free
+          path: native500-free.json

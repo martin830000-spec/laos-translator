@@ -1,0 +1,50 @@
+name: Gemini 35 model-native protected research
+on:
+  push:
+    branches: [research/gemini-model-native500-20261107]
+    paths: [experiments/gemini35-native500/activation.json]
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: gemini35-native500-20261107
+  cancel-in-progress: false
+jobs:
+  protected:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify separate 500 cap and frozen plan
+        run: |
+          python3 - <<'PYCODE'
+          import json,time
+          from pathlib import Path
+          p=Path('experiments/gemini35-native500');c=json.loads((p/'config.json').read_text());a=json.loads((p/'activation.json').read_text())
+          assert c['enabled'] is True and 0<c['max_new']<=500 and 0<=c['prior_actual']<500 and c['prior_actual']+c['max_new']<=500
+          assert c['model']=='gemini-3.5-flash-lite' and c['campaign']=='GEMINI35_MODEL_NATIVE_OPT500_20261107'
+          assert c['phase']==a['phase'] and c['plan_sha500']==a['digest'] and c['deadline_epoch']>time.time()
+          print('Independent cap and frozen plan verified; zero generation so far.')
+          PYCODE
+      - run: python3 -m pip install --quiet cryptography==46.0.3
+      - name: Prepare sealed input handshake
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 experiments/gemini35-native500/runner.py prepare /tmp/native35
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: native35-handshake
+          path: /tmp/native35/handshake.json
+      - name: Execute sealed plan once
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/gemini35-native500/runner.py execute /tmp/native35
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: native35-encrypted-result
+          path: /tmp/native35/sealed-result.json
