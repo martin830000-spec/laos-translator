@@ -181,6 +181,9 @@ def gcs_protocol_offline():
     import os
     runner = ROOT / "experiments" / "gemini-native500-gcs" / "runner.py"
     selector = ROOT / "experiments" / "gemini-native500-gcs" / "select_samples.py"
+    plan_builder = ROOT / "experiments" / "gemini-native500-gcs" / "build_plans.py"
+    assert plan_builder.is_file()
+    compile(plan_builder.read_text(encoding="utf-8"), str(plan_builder), "exec")
     assert selector.is_file()
     selector_source = selector.read_text(encoding="utf-8")
     compile(selector_source, str(selector), "exec")
