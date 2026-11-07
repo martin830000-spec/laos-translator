@@ -253,10 +253,20 @@ def main() -> None:
         "same_source_samples_for_both_models": True,
         "plans": {},
         "budgets": {
-            "model35": {"development": 80, "ab": 300, "final_reserved": 100,
-                        "planned_before_reserve": 480, "reserve": 20},
-            "model36": {"development": 80, "ab": 250, "final_reserved": 100,
-                        "planned_before_reserve": 430, "reserve": 70},
+            "model35": {
+                "development_planned": 80, "development_prior_actual": 0,
+                "ab_prior_actual": args.ab_prior_actual, "ab": 300,
+                "final_reserved": 100,
+                "planned_before_reserve": args.ab_prior_actual + 300 + 100,
+                "reserve": 500 - args.ab_prior_actual - 300 - 100,
+            },
+            "model36": {
+                "development_planned": 80, "development_prior_actual": 0,
+                "ab_prior_actual": args.ab_prior_actual, "ab": 250,
+                "final_reserved": 100,
+                "planned_before_reserve": args.ab_prior_actual + 250 + 100,
+                "reserve": 500 - args.ab_prior_actual - 250 - 100,
+            },
         },
         "paid_api_calls": 0,
     }
@@ -297,8 +307,10 @@ def main() -> None:
     for name, info in result_manifest["plans"].items():
         print(name, "CALLS=", info["planned_calls"], "SHA256=", info["plan_sha256"])
         print("GCS_OBJECT:", info["gcs_object"])
-    print("MODEL35_PLANNED_WITH_FINAL:", 480, "RESERVE:", 20)
-    print("MODEL36_PLANNED_WITH_FINAL:", 430, "RESERVE:", 70)
+    print("MODEL35_PLANNED_WITH_FINAL:", args.ab_prior_actual + 400,
+          "RESERVE:", 500 - args.ab_prior_actual - 400)
+    print("MODEL36_PLANNED_WITH_FINAL:", args.ab_prior_actual + 350,
+          "RESERVE:", 500 - args.ab_prior_actual - 350)
     print("OUTPUT_DIRECTORY:", output)
     print("PAID_API_CALLS: 0")
 
