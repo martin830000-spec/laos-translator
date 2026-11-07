@@ -1,4 +1,4 @@
-name: Gemini native500 WIF GCS readiness (no generation)
+name: Gemini native500 dedicated WIF GCS readiness (no generation)
 on:
   push:
     branches:
@@ -9,30 +9,46 @@ permissions:
   contents: read
   id-token: write
 jobs:
-  wif-readonly:
+  wif-research-preflight:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Authenticate with existing GitHub OIDC WIF
+      - name: Validate dedicated identity configuration
+        env:
+          PROVIDER: ${{ vars.NATIVE500_WIF_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ vars.NATIVE500_RESEARCH_SA }}
+        run: |
+          test -n "$PROVIDER"
+          test -n "$SERVICE_ACCOUNT"
+          echo 'Dedicated research WIF configured; no translation API call'
+      - name: Authenticate to GCP with dedicated research WIF
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
-          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/github-actions
-          service_account: lao-github-deployer@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - uses: google-github-actions/setup-gcloud@v3
-        with:
-          project_id: gen-lang-client-0422436907
-      - name: Verify WIF research-branch access to known public-code release object
+          workload_identity_provider: ${{ vars.NATIVE500_WIF_PROVIDER }}
+          service_account: ${{ vars.NATIVE500_RESEARCH_SA }}
+      - name: Install GCS client
+        run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
+      - name: Verify private bucket policies and non-sensitive marker write
         shell: bash
         run: |
-          set -euo pipefail
-          # This is only a pre-existing engine ZIP, never any private conversation.
-          # Check exact object get permissions. Do not enumerate the bucket or print data.
-          scratch="$(mktemp -d)"
-          trap 'rm -rf "$scratch"' EXIT
-          gcloud storage cp 'gs://lao-translator-src-460077888071/releases/translator_cloudrun_engine_audit_deploy_20261106.zip' "$scratch/readiness.zip" --quiet
-          test -s "$scratch/readiness.zip"
-          printf '%s\n' 'WIF_GCS_READ_OK; NO_GENERATION; NO_PRIVATE_SOURCE'
+          python3 - <<'PY'
+          from google.cloud import storage
+          import os
+          client=storage.Client(project='gen-lang-client-0422436907')
+          b=client.bucket('lao-translator-src-460077888071')
+          b.reload()
+          assert b.iam_configuration.uniform_bucket_level_access_enabled, 'UNIFORM_ACCESS_REQUIRED'
+          assert b.public_access_prevention=='enforced', 'PUBLIC_ACCESS_PREVENTION_REQUIRED'
+          # Only non-sensitive readiness marker; never load private translation samples.
+          key='research/gemini-model-native500-20261107/preflight/'+os.environ['GITHUB_RUN_ID']+'.json'
+          blob=b.blob(key)
+          blob.upload_from_string('{"preflight":"PASS","paid_calls":0}',
+                                  content_type='application/json',
+                                  if_generation_match=0,timeout=30)
+          assert blob.reload() is None
+          print('RESEARCH_WIF_GCS_READ_WRITE_READY; NO_API; NO_PRIVATE_CONVERSATION')
+          PY
