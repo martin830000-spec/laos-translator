@@ -249,6 +249,34 @@ def gcs_protocol_offline():
         assert "secrets.GEMINI_API_KEY" in wf
         assert "github.run_attempt == 1" in wf
         assert "github.actor == 'martin830000-spec'" in wf
+    plan_builder_module = runpy.run_path(str(plan_builder), run_name="_native500_plan_builder_offline")
+    synthetic_dev = []
+    for index in range(20):
+        for side in ("K", "L"):
+            synthetic_dev.append({
+                "id": f"dev-{index}-{side}", "side": side,
+                "cluster": f"dev-cluster-{index}", "source": "synthetic"
+            })
+    synthetic_ab = []
+    for index in range(25):
+        for side in ("K", "L"):
+            synthetic_ab.append({
+                "id": f"ab-{index}-{side}", "side": side,
+                "cluster": f"ab-cluster-{index}-{side}", "source": "synthetic"
+            })
+    dev_plan_35 = plan_builder_module["build_development"]("35", synthetic_dev, "a" * 64)
+    dev_plan_36 = plan_builder_module["build_development"]("36", synthetic_dev, "a" * 64)
+    ab_plan_35 = plan_builder_module["build_ab_35"](synthetic_ab, "a" * 64)
+    ab_plan_36 = plan_builder_module["build_ab_36"](synthetic_ab, "a" * 64)
+    for model, plan, expected_count in (
+        ("35", dev_plan_35, 80), ("36", dev_plan_36, 80),
+        ("35", ab_plan_35, 300), ("36", ab_plan_36, 250),
+    ):
+        plan_builder_module["validate_plan"](plan, model)
+        assert len(plan["tasks"]) == expected_count
+        assert plan["prior_actual"] + expected_count <= 500
+    assert sum(t.get("variant") == "R36" for t in ab_plan_36["tasks"]) == 50
+    assert sum(t.get("first_variant") == "BASE" for t in ab_plan_36["tasks"]) == 50
     cfg = (ROOT / "experiments" / "gemini35-native500" /
            "config.json").read_text(encoding="utf-8")
     assert '"enabled": false' in cfg
