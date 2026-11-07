@@ -1,8 +1,8 @@
 {
-  "enabled": true,
-  "max_new": 80,
-  "prior_actual": 0,
-  "phase": "DEVELOPMENT_BASELINE",
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 80,
+  "phase": "DEVELOPMENT_BASELINE_COMPLETE",
   "deadline_epoch": 1794216000,
   "model": "gemini-3.6-flash",
   "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
