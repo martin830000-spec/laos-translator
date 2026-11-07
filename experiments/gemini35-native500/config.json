@@ -1,14 +1,15 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "max_new": 64,
   "prior_actual": 152,
-  "phase": "AB_EXPLORATION_R1_COMPLETE",
-  "deadline_epoch": 1794075695,
+  "phase": "AB_LAO_PRIMER_R2",
+  "deadline_epoch": 1794076166,
   "model": "gemini-3.5-flash-lite",
   "campaign": "GEMINI35_MODEL_NATIVE_OPT500_20261107",
-  "plan_sha256": "d9b27fd66ff1cbafa3948f7355d2edaf679f6f80eb427c6f0da6afdf7ee40f46",
-  "run_nonce": "native500-ab1-Bd5AWl0G0AztJi5eHtDu68L3hkk9U8zR",
+  "plan_sha256": "a77f13186376bea4857e4ab0637713385fa8f11f9ba81f7fa46d92164d2e7d1e",
+  "run_nonce": "native500-r2-OQigPtFAXu1zev_T19mSpTZrtQf8dyjF",
   "prior_plans": [
-    "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b"
+    "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b",
+    "d9b27fd66ff1cbafa3948f7355d2edaf679f6f80eb427c6f0da6afdf7ee40f46"
   ]
 }
