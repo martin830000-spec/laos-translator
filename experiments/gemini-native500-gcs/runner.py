@@ -262,15 +262,20 @@ def execute(model):
                 succeeded += 1
             else:
                 failed += 1
-                stopped_reason = row["status"]
-                break
+                # A translation/output failure is valid research evidence:
+                # keep processing independent cases, while its own BACK is
+                # skipped by the dependency check above. Never retry.
+                # Transport/provider failures stop the campaign immediately.
+                if row["status"] in ("PROVIDER_ERROR", "UNCONFIRMED_REQUEST_ERROR"):
+                    stopped_reason = row["status"]
+                    break
     finally:
         proc.terminate()
     immutable_write(bucket, f"{result_base}/RUN_FINISHED.json", {
         "campaign": CAMPAIGNS[model], "model": MODELS[model],
         "attempted": attempted, "success": succeeded, "failed": failed,
         "skipped": skipped, "remaining_in_reserved_plan": len(tasks)-len(prior),
-        "status": "STOPPED" if stopped_reason else "DONE",
+        "status": "STOPPED" if stopped_reason else ("DONE_WITH_FAILURES" if failed else "DONE"),
         "reason": stopped_reason,
     })
     # Never reveal source or translations in standard Actions logs.
