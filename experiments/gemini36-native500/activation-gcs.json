@@ -1,0 +1,9 @@
+{
+  "model": "gemini-3.6-flash",
+  "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
+  "phase": "DEVELOPMENT_BASELINE",
+  "max_new": 80,
+  "plan_sha256": "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb",
+  "run_nonce": "native500-dev-IO1XIjCmAw_Dn7P8Q8ZuOs2RlPBvooVon7QGK7oWGc0",
+  "plan_object": "research/gemini-model-native500-20261107/36/plans/f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb.json"
+}
