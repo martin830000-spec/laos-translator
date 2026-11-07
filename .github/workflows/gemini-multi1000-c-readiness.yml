@@ -64,3 +64,21 @@ jobs:
             assert q["payload"]["contents"][0]["parts"][0]["text"] == source
           print("C_PAYLOAD_DRY_RUN_PASS: four directions, model, LOW, 1024, input preservation; paid calls 0.")
           PY
+      - name: Verify protected C workflow stays dormant until new authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("experiments/gemini-multi1000")
+          protected=Path(".github/workflows/gemini-multi1000-c-protected.yml").read_text()
+          assert not (p/"c-paid-activation.json").exists()
+          assert "c-paid-activation.json" in protected
+          assert "USER_APPROVED_C_RESUME" in protected
+          assert "c[\"enabled\"] is True" in protected
+          assert "c[\"max_new\"] <= 72" in protected
+          assert "c[\"issue_number\"] != 211" in protected
+          assert "secrets.GEMINI_API_KEY" in protected
+          assert "runner.py execute" in protected
+          print("C_PROTECTED_WORKFLOW_PRESENT_DORMANT: activation missing, closure retained, no paid generation.")
+          PY
