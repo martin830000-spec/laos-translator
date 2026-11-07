@@ -180,6 +180,9 @@ def gcs_protocol_offline():
     import importlib.util
     import os
     runner = ROOT / "experiments" / "gemini-native500-gcs" / "runner.py"
+    selector = ROOT / "experiments" / "gemini-native500-gcs" / "select_samples.py"
+    assert selector.is_file()
+    compile(selector.read_text(encoding="utf-8"), str(selector), "exec")
     assert runner.is_file()
     compile(runner.read_text(encoding="utf-8"), str(runner), "exec")
     module = runpy.run_path(str(runner), run_name="_native500_offline")
