@@ -152,34 +152,57 @@ def select_ab(rows: list, rng: random.Random) -> list:
 
 def select_final(rows: list, rng: random.Random) -> list:
     groups = make_groups(rows, "FINAL", rng)
-    k_clusters = [c for c, sides in groups.items() if sides["K"]]
-    l_clusters = [c for c, sides in groups.items() if sides["L"]]
-    if len(k_clusters) < 25 or len(l_clusters) < 22:
-        raise RuntimeError("INSUFFICIENT_FINAL_DIRECTION_CLUSTERS")
+    k_clusters = {c for c, sides in groups.items() if sides["K"]}
+    l_clusters = {c for c, sides in groups.items() if sides["L"]}
+    shared = k_clusters & l_clusters
+    k_only = sorted(k_clusters - l_clusters)
+
+    if len(k_clusters) != 29 or len(l_clusters) != 22 or len(shared) != 21 or len(k_only) != 8:
+        raise RuntimeError("FINAL_CLUSTER_LAYOUT_CHANGED")
+
+    # Select 8 K-only + 17 shared clusters for 25 K records.
+    # Leave at least 3 other shared clusters with a second L record available.
+    chosen_k_shared = None
+    extra_l_shared = None
+    for combo in combinations(sorted(shared), 17):
+        remaining = [
+            c for c in shared - set(combo)
+            if len(groups[c]["L"]) >= 2
+        ]
+        if len(remaining) >= 3:
+            chosen_k_shared = set(combo)
+            rng.shuffle(remaining)
+            extra_l_shared = remaining[:3]
+            break
+
+    if chosen_k_shared is None:
+        raise RuntimeError("FINAL_MAX2_CLUSTER_LAYOUT_UNAVAILABLE")
 
     selected = defaultdict(list)
     result = []
 
-    # 25 K records from 25 distinct clusters.
-    rng.shuffle(k_clusters)
-    for cluster in k_clusters[:25]:
+    for cluster in k_only + sorted(chosen_k_shared):
         row = choose_one(groups, "K", cluster, selected)
         selected[cluster].append(row)
         result.append(row)
 
-    # One L record from every eligible L cluster, then three extra L records.
-    rng.shuffle(l_clusters)
-    for cluster in l_clusters:
+    # One L from each of 22 L clusters.
+    for cluster in sorted(l_clusters):
         row = choose_one(groups, "L", cluster, selected)
         selected[cluster].append(row)
         result.append(row)
 
-    add_extra_records(groups, selected, result, "L", 25, 3, rng)
+    # Add exactly one more L to three shared clusters not used for K.
+    for cluster in extra_l_shared:
+        row = choose_one(groups, "L", cluster, selected)
+        selected[cluster].append(row)
+        result.append(row)
 
     stats = summarize(result)
     assert stats["records"] == 50
     assert stats["K"] == 25 and stats["L"] == 25
-    assert stats["max_records_per_cluster"] <= 3
+    assert stats["max_records_per_cluster"] <= 2
+    assert stats["clusters"] == 30
     return result
 
 
