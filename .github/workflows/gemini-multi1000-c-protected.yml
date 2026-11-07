@@ -1,0 +1,80 @@
+# Prepared recovery path only. NO paid execution on workflow creation.
+# A future explicitly approved C resume must create c-paid-activation.json;
+# the current research config is locked and contains an expired deadline.
+name: Gemini multi1000 C protected research (dormant)
+on:
+  push:
+    branches:
+      - research/gemini-multi1000-20261107
+    paths:
+      - experiments/gemini-multi1000/c-paid-activation.json
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: gemini-multi1000-c-recovery-20261107
+  cancel-in-progress: false
+jobs:
+  preflight:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Require a fresh explicit authorization and previously unused C quota
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, time
+          from pathlib import Path
+          p = Path("experiments/gemini-multi1000")
+          c = json.loads((p/"config.json").read_text())
+          x = json.loads((p/"closure.json").read_text())
+          a = json.loads((p/"c-paid-activation.json").read_text())
+          assert x["actual"] == 172 and x["unused"] == 828
+          assert x["phase_actual"]["C"] == 0 and x["phase_actual"]["FINAL"] == 0
+          assert a["approval"] == "USER_APPROVED_C_RESUME"
+          assert a["explicit_authorization"] is True
+          assert a["prior_actual"] == 172 and c["prior_actual"] == 172
+          assert a["phase"] == "C" and c["phase"] == "C"
+          assert c["enabled"] is True and c["max_new"] > 0
+          assert c["max_new"] <= 72 and c["max_new"] <= 828
+          assert a["max_new"] == c["max_new"]
+          assert a["plan_sha256"] == c["plan_sha256"]
+          assert c["deadline_epoch"] > int(time.time())
+          assert c["tag"].startswith("gemini-multi1000-20261107-c-resume-")
+          assert c["issue_number"] != 211
+          print("C_AUTHORIZATION_GATE_PASS: new C allocation validated; private source only via encrypted issue.")
+          PY
+  protected-c:
+    needs: preflight
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Cryptography dependency
+        run: python3 -m pip install --quiet cryptography==46.0.3
+      - name: Prepare encrypted handshake
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 experiments/gemini-multi1000/runner.py prepare /tmp/multi1000-c-state
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: multi1000-c-handshake
+          path: /tmp/multi1000-c-state/handshake.json
+      - name: Execute bounded encrypted C research once
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/gemini-multi1000/runner.py execute /tmp/multi1000-c-state
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: multi1000-c-encrypted-result
+          path: /tmp/multi1000-c-state/sealed-result.json
