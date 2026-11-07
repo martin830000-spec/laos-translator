@@ -1,5 +1,5 @@
 {
-  "status": "CODE_REPAIRED_FREE_CI_PASS_PAID_PREFLIGHT_PENDING",
+  "status": "CODE_REPAIRED_OFFLINE_PASS_PROTECTED_PREFLIGHT_BLOCKED",
   "paid_calls": {
     "35": 0,
     "36": 0
@@ -12,14 +12,18 @@
   "cause": "Original missing svc.smart export repaired using previously verified factor768 implementation; 3.6 SMART metadata corrected.",
   "candidate_quality": "UNTESTED",
   "generation_enabled": false,
-  "free_run": 42358188202,
+  "free_run": 42358718476,
   "model_specific": "36",
   "blockers": [
-    "activation.json missing in model directories",
-    "config.json lacks issue_number,title,plan_sha256,tag and activation phase linkage",
-    "no matching open GitHub handshake issue found",
-    "no sealed task plan or activation digest available",
-    "protected workflows have not run"
+    "activation.json missing",
+    "config.json missing issue_number,title,plan_sha256,tag",
+    "no open handshake issue found",
+    "no sealed task plan/activation digest exists",
+    "protected workflow not run"
   ],
-  "next": "Complete a separate no-generation protected-runner handshake/preflight; keep enabled=false,max_new=0 until all gates and user-authorized task plan are ready."
+  "next": "Prepare no-generation issue handshake and frozen task plan; keep enabled=false/max_new=0 until protected readiness is complete.",
+  "fixed_followup": [
+    "workflow plan digest field corrected from plan_sha500 to plan_sha256",
+    "offline.py now compiles runner and reports protected readiness without generation"
+  ]
 }
