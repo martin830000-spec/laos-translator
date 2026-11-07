@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 0,
+  "model": "gemini-3.6-flash",
+  "campaign": "GEMINI36_SERVICE2000_REAL500_20261107",
+  "phase": "PREPARED",
+  "deadline_epoch": 1794026612
+}
