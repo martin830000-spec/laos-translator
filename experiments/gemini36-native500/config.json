@@ -1,15 +1,16 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "max_new": 100,
   "prior_actual": 204,
-  "phase": "AB_LAO_PRIMER_R2",
-  "deadline_epoch": 1794076166,
+  "phase": "FINAL_FROZEN_BASE",
+  "deadline_epoch": 1794056977,
   "model": "gemini-3.6-flash",
   "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
-  "plan_sha256": "f80d24e7b460dfa740584944c03fc1daaabc20bb9199eba793e811b5b0af0710",
-  "run_nonce": "native500-r2-XdW0FNxx1AO0O84rMfTRHTANXMKVlmrH",
+  "plan_sha256": "01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b",
+  "run_nonce": "native500-final-pPpNDUZw2DMEqpmrU9IReaqB7kSdvJxq",
   "prior_plans": [
-    "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb",
-    "41ed220ebbe248e4430cecc05258025e0520b2b3677176d4c67ed73356c4d60a"
+    "f80d24e7b460dfa740584944c03fc1daaabc20bb9199eba793e811b5b0af0710",
+    "41ed220ebbe248e4430cecc05258025e0520b2b3677176d4c67ed73356c4d60a",
+    "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb"
   ]
 }
