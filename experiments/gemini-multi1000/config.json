@@ -1,11 +1,11 @@
 {
   "enabled": true,
-  "phase": "B",
-  "issue_number": 210,
-  "title": "GEMINI_MULTI1000_B_ENCRYPTED",
-  "prior_actual": 100,
+  "phase": "C",
+  "issue_number": 211,
+  "title": "GEMINI_MULTI1000_C_ENCRYPTED",
+  "prior_actual": 172,
   "max_new": 72,
-  "plan_sha256": "f229aacb33bc42c790506fc6a857fa58c3171dc13926d7e507f6bfd7d1322dcd",
+  "plan_sha256": "f854db2b6fd4a3f809edf0ee25f9cebcd7562990537de6c3e69e350646fa385c",
   "deadline_epoch": 1794014450,
-  "tag": "gemini-multi1000-20261107-b-consumed"
+  "tag": "gemini-multi1000-20261107-c-consumed"
 }
