@@ -1,0 +1,9 @@
+{
+  "campaign": "GEMINI36_FAST_REPLACEMENT320_20261108",
+  "max_new": 112,
+  "model": "gemini-3.6-flash",
+  "phase": "DEV_FIRST",
+  "plan_object": "research/gemini-model-native500-20261107/fast-replacement320-20261108/36/plans/2286d52e0467fa8a1e56a564fe8ddea430071cbd8ac27b6a8ed4f2408253feae.json",
+  "plan_sha256": "2286d52e0467fa8a1e56a564fe8ddea430071cbd8ac27b6a8ed4f2408253feae",
+  "run_nonce": "fast320-dev-3e1e7561121038985ccbe6c7b3a29660"
+}
