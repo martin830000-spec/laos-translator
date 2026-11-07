@@ -32,11 +32,7 @@ jobs:
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Install GCS client
         run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: Provision new campaign encrypted input path (no generation)
-        run: python3 experiments/gemini-fast320/bootstrap.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: fast320-public-input-certificate
-          path: ${{ runner.temp }}/fast320-input-cert.pem
-          retention-days: 1
-          if-no-files-found: error
+      - name: Check isolated campaign and independent BACK contracts
+        run: python3 experiments/gemini-fast320/offline.py
+      - name: Stage encrypted research plans (no generation)
+        run: python3 experiments/gemini-fast320/stage.py

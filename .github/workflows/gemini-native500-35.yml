@@ -1,10 +1,10 @@
-name: Gemini 35 private-GCS native500 research (no Issue handshake)
+name: Gemini 35 private-GCS FAST320 research (no Issue handshake)
 on:
   push:
     branches:
       - research/gemini-model-native500-20261107
     paths:
-      - experiments/gemini35-native500/activation-gcs.json
+      - experiments/gemini-fast320/35/activation-gcs.json
 permissions:
   contents: read
   id-token: write
@@ -20,27 +20,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Validate immutable model-specific request cap and plan
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          import json, os, time
-          from pathlib import Path
-          p = Path('experiments/gemini35-native500')
-          c = json.loads((p/'config.json').read_text())
-          a = json.loads((p/'activation-gcs.json').read_text())
-          assert c['enabled'] is True
-          assert c['model'] == 'gemini-3.5-flash-lite' and a['model'] == 'gemini-3.5-flash-lite'
-          assert c['campaign'] == 'GEMINI35_MODEL_NATIVE_OPT500_20261107'
-          assert type(c['prior_actual']) is int and type(c['max_new']) is int
-          assert 0 <= c['prior_actual'] < 500
-          assert 0 < c['max_new'] <= 500-c['prior_actual']
-          assert c['plan_sha256'] == a['plan_sha256']
-          assert c['run_nonce'] == a['run_nonce']
-          assert c['deadline_epoch'] > time.time()
-          assert not (p/'activation.json').exists()
-          print('GCS research gate accepted; no generation yet')
-          PY
+      - name: Validate new campaign paid gate
+        run: python3 -c "import sys; sys.path.insert(0,'experiments/gemini-fast320'); import runner; runner.load('35')"
       - name: Check configured research-only WIF principal
         env:
           PROVIDER: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
@@ -60,11 +41,11 @@ jobs:
       - name: Execute private-GCS plan once
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/gemini-native500-gcs/runner.py execute 35
+        run: python3 experiments/gemini-fast320/runner.py execute 35
 
       - name: Export encrypted private analysis copy
         if: always()
-        run: python3 experiments/gemini-native500-gcs/review_export.py 35
+        run: python3 experiments/gemini-fast320/review_export.py 35
       - name: Upload ciphertext only
         if: always()
         uses: actions/upload-artifact@v4
