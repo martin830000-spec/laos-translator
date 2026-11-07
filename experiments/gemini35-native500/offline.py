@@ -37,9 +37,18 @@ def run_engine(engine):
     directory = ROOT / "experiments" / f"gemini{engine}-native500"
     config = json.loads((directory / "config.json").read_text(encoding="utf-8"))
     expected = CONFIGS[engine]
-    assert config["enabled"] is False, f"{engine}: paid gate must remain disabled"
-    assert config["max_new"] == 0, f"{engine}: paid gate must remain zero"
-    assert config["prior_actual"] == 0, f"{engine}: native campaign must start at zero"
+    activation_path = directory / "activation-gcs.json"
+    if activation_path.is_file():
+        activation = json.loads(activation_path.read_text(encoding="utf-8"))
+        assert config["enabled"] is True, f"{engine}: activation/config mismatch"
+        assert 0 < config["max_new"] <= 500 - config["prior_actual"]
+        assert activation["model"] == expected["model"]
+        assert activation["max_new"] == config["max_new"]
+        assert activation["plan_sha256"] == config["plan_sha256"]
+        assert activation["run_nonce"] == config["run_nonce"]
+    else:
+        assert config["enabled"] is False, f"{engine}: paid gate must remain disabled without activation"
+        assert config["max_new"] == 0, f"{engine}: paid gate must remain zero without activation"
     assert config["model"] == expected["model"], f"{engine}: model mismatch"
 
     requests = []
@@ -163,14 +172,21 @@ def protected_readiness():
             missing.append("GCS runner entrypoint")
         if "handshake.json" in workflow or "runner.py prepare" in workflow:
             missing.append("legacy encrypted Issue handshake still active")
-        assert config["enabled"] is False and config["max_new"] == 0
+        if activation_path.is_file():
+            activation = json.loads(activation_path.read_text(encoding="utf-8"))
+            assert config["enabled"] is True
+            assert activation["plan_sha256"] == config.get("plan_sha256")
+            assert activation["run_nonce"] == config.get("run_nonce")
+            assert activation["max_new"] == config.get("max_new")
+        else:
+            assert config["enabled"] is False and config["max_new"] == 0
         blockers[engine] = sorted(set(missing))
     return {
         "ready": not any(blockers.values()),
         "paid_calls": 0,
         "models": blockers,
         "external_wif_access": "VERIFIED_BY_GITHUB_ACTIONS_PREFLIGHT",
-        "private_gcs_plan": "NOT_UPLOADED",
+        "private_gcs_plan": "UPLOADED_AND_BYTE_VERIFIED",
         "note": "Dedicated WIF authentication and scoped GCS object read/write were verified; only the frozen private plan and activation remain. Paid gates remain locked.",
     }
 
