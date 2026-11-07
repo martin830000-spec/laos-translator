@@ -1,0 +1,15 @@
+{
+  "phase": "AB160_CLOSED",
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 464,
+  "new_this_turn": 160,
+  "success": 160,
+  "failed": 0,
+  "remaining": 36,
+  "turn_unused": 0,
+  "previous_closure_preserved": true,
+  "final": "DONE_HOLD",
+  "source_private": true,
+  "auto_retries": 0
+}
