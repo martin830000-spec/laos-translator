@@ -18,8 +18,8 @@ jobs:
           persist-credentials: false
       - name: Validate dedicated identity configuration
         env:
-          PROVIDER: ${{ vars.NATIVE500_WIF_PROVIDER }}
-          SERVICE_ACCOUNT: ${{ vars.NATIVE500_RESEARCH_SA }}
+          PROVIDER: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
+          SERVICE_ACCOUNT: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
         run: |
           test -n "$PROVIDER"
           test -n "$SERVICE_ACCOUNT"
@@ -28,8 +28,8 @@ jobs:
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
-          workload_identity_provider: ${{ vars.NATIVE500_WIF_PROVIDER }}
-          service_account: ${{ vars.NATIVE500_RESEARCH_SA }}
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
+          service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Install GCS client
         run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
       - name: Verify private bucket policies and non-sensitive marker write
