@@ -112,5 +112,20 @@
     "planned_total": 480,
     "reserve": 20
   },
-  "prior_actual": 0
+  "prior_actual": 0,
+  "plan_files": {
+    "35-development-baseline.json": {
+      "model": "gemini-3.5-flash-lite",
+      "calls": 80,
+      "sha256": "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b",
+      "object": "research/gemini-model-native500-20261107/35/plans/9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b.json"
+    },
+    "35-ab-compare.json": {
+      "model": "gemini-3.5-flash-lite",
+      "calls": 300,
+      "sha256": "40f1d99300e9a53e565e42d30b7e11e4eccdb02c2e4fcba4f84da398040e6c2d",
+      "object": "research/gemini-model-native500-20261107/35/plans/40f1d99300e9a53e565e42d30b7e11e4eccdb02c2e4fcba4f84da398040e6c2d.json"
+    }
+  },
+  "plan_upload_status": "LOCAL_BUILT_GCS_UPLOAD_PENDING"
 }
