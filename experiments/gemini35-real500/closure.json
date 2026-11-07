@@ -1,0 +1,10 @@
+{
+  "status": "COMPLETE_RESEARCH_HOLD",
+  "actual": 206,
+  "unused": 294,
+  "automatic_retries": 0,
+  "paid_judge": 0,
+  "all_final_completed": true,
+  "old_campaigns_untouched": true,
+  "end_research_utc": "2026-11-07T04:28:12.598243+00:00"
+}

@@ -18,3 +18,5 @@ jobs:
         with:
           name: real500-free-boundary
           path: real500-free.json
+
+# Verify final locks and 24 offline model/path/variant boundaries.
