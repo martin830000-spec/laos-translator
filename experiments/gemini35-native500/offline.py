@@ -315,7 +315,17 @@ def gcs_protocol_offline():
            "config.json").read_text(encoding="utf-8")
     gate=json.loads(cfg)
     assert (gate['enabled'] is False and gate['max_new']==0) or (gate['enabled'] is True and 0<gate['max_new']<=500-gate['prior_actual'])
-    return {"protocol": "GCS_ONLY", "offline": "PASS", "paid_calls": 0}
+    # Bind the same immutable object path checked by runner.load before dispatch.
+    # This catches missing activation fields even while the paid gates are locked.
+    for model in ("35", "36"):
+        directory = ROOT / "experiments" / f"gemini{model}-native500"
+        config = json.loads((directory / "config.json").read_text())
+        active = json.loads((directory / "activation-gcs.json").read_text())
+        expected = f"research/gemini-model-native500-20261107/{model}/plans/{active['plan_sha256']}.json"
+        assert active.get("plan_object") == expected, "ACTIVATION_PLAN_OBJECT_MISSING"
+        assert active["plan_sha256"] == config["plan_sha256"]
+        assert active["model"] == config["model"]
+    return {"protocol": "GCS_ONLY", "offline": "PASS", "paid_calls": 0, "activation_plan_object_verified": True}
 
 
 def main():
@@ -337,7 +347,7 @@ def main():
             "SMART active IDs and actual attachments",
             "BACK SMART isolation",
             "neutral-input no-SMART behavior",
-            "paid campaign gates remain disabled",
+            "paid campaign gate bounds and exact immutable plan object",
             "runner Python syntax",
             "protected workflow/runner digest field parity",
             "explicit protected-runner readiness blockers",

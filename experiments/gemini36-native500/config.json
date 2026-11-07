@@ -1,7 +1,7 @@
 {
-  "enabled": true,
-  "max_new": 100,
-  "prior_actual": 204,
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 304,
   "phase": "FINAL_FROZEN_BASE",
   "deadline_epoch": 1794056977,
   "model": "gemini-3.6-flash",

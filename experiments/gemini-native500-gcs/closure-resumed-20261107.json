@@ -1,0 +1,31 @@
+{
+  "closed_utc": "2026-11-07T12:48:43.961361+00:00",
+  "status": "RESEARCH_COMPLETE_NEW_PROMPTS_HOLD_BASE_RETAINED",
+  "totals": {
+    "35": {
+      "prior_baseline": 80,
+      "attempted": 316,
+      "success": 316,
+      "failed": 0,
+      "estimated_usd": 0.0646159,
+      "new_estimated_usd": 0.0497489,
+      "new_attempted": 236,
+      "remaining": 184
+    },
+    "36": {
+      "prior_baseline": 80,
+      "attempted": 304,
+      "success": 304,
+      "failed": 0,
+      "estimated_usd": 0.2619405,
+      "new_estimated_usd": 0.19354125,
+      "new_attempted": 224,
+      "remaining": 196
+    }
+  },
+  "enabled": false,
+  "max_new": 0,
+  "prior_closure_preserved": true,
+  "final_consumed": true,
+  "no_deployment": true
+}
