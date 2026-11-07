@@ -26,7 +26,7 @@ jobs:
           p=Path('experiments/gemini36-native500');c=json.loads((p/'config.json').read_text());a=json.loads((p/'activation.json').read_text())
           assert c['enabled'] is True and 0<c['max_new']<=500 and 0<=c['prior_actual']<500 and c['prior_actual']+c['max_new']<=500
           assert c['model']=='gemini-3.6-flash' and c['campaign']=='GEMINI36_MODEL_NATIVE_OPT500_20261107'
-          assert c['phase']==a['phase'] and c['plan_sha500']==a['digest'] and c['deadline_epoch']>time.time()
+          assert c['phase']==a['phase'] and c['plan_sha256']==a['digest'] and c['deadline_epoch']>time.time()
           print('Independent cap and frozen plan verified; zero generation so far.')
           PYCODE
       - run: python3 -m pip install --quiet cryptography==46.0.3
