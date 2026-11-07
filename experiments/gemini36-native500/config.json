@@ -1,17 +1,18 @@
 {
   "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
   "deadline_epoch": 1794061993,
-  "enabled": true,
-  "max_new": 120,
+  "enabled": false,
+  "max_new": 0,
   "model": "gemini-3.6-flash",
   "phase": "AB160_DEV",
   "plan_sha256": "f28aa51ece82721068b84c59e37deded629be064cbc6d5a7180f440b7f99bd26",
-  "prior_actual": 304,
+  "prior_actual": 424,
   "prior_plans": [
     "f80d24e7b460dfa740584944c03fc1daaabc20bb9199eba793e811b5b0af0710",
     "41ed220ebbe248e4430cecc05258025e0520b2b3677176d4c67ed73356c4d60a",
     "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb",
-    "01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b"
+    "01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b",
+    "f28aa51ece82721068b84c59e37deded629be064cbc6d5a7180f440b7f99bd26"
   ],
   "run_nonce": "ab160-dev-58f746256cf74d5042f03435540ea1d6",
   "turn_cap": 160,
