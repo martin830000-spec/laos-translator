@@ -36,4 +36,4 @@ jobs:
         run: python3 experiments/gemini-fast320/offline.py
       - name: Stage encrypted research plans (no generation)
         run: python3 experiments/gemini-fast320/stage.py
-# FAST320 stage revision: BACK
+# FAST320 stage revision: FINAL
