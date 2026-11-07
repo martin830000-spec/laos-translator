@@ -1,9 +1,9 @@
 {
-  "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
   "model": "gemini-3.6-flash",
-  "phase": "AB160_DEV",
-  "max_new": 120,
-  "plan_sha256": "f28aa51ece82721068b84c59e37deded629be064cbc6d5a7180f440b7f99bd26",
-  "run_nonce": "ab160-dev-58f746256cf74d5042f03435540ea1d6",
-  "plan_object": "research/gemini-model-native500-20261107/36/plans/f28aa51ece82721068b84c59e37deded629be064cbc6d5a7180f440b7f99bd26.json"
+  "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
+  "phase": "AB160_FINAL_B",
+  "max_new": 40,
+  "plan_sha256": "b12cda07eab545d637c84b64cd95a0bc02accd12fa6ef80af855da9cd2959af0",
+  "run_nonce": "ab160-final-2f1571470d6c0c68a24f8bb57b67a3d2",
+  "plan_object": "research/gemini-model-native500-20261107/36/plans/b12cda07eab545d637c84b64cd95a0bc02accd12fa6ef80af855da9cd2959af0.json"
 }
