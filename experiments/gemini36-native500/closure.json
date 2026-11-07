@@ -1,5 +1,5 @@
 {
-  "status": "SAMPLES_SELECTED_LOCAL_GCS_UPLOAD_PENDING",
+  "status": "SAMPLES_GCS_SHA_PASS_PLAN_BUILD_READY",
   "paid_calls": 0,
   "remaining": 500,
   "last_success": "36/36 offline worker/SMART contract checks passed in run 42358188202; paid execution not started",
@@ -74,5 +74,30 @@
         "sha256": "ad1ae9a6c530bd4c5458e028b6056315c12f306b96e5c037371376e599ce15bb"
       }
     ]
+  },
+  "sample_storage": {
+    "prefix": "gs://lao-translator-src-460077888071/research/gemini-model-native500-20261107/samples/20261107_R2/",
+    "files": [
+      "development_baseline.json",
+      "ab_candidates.json",
+      "final_holdout.json",
+      "MANIFEST.json"
+    ],
+    "remote_sha256_verified": true,
+    "manifest_sha256": "221f446226e7d79a69f1f3aad65aabcfddf965e6f62e53818eeeb3dcbe57b533",
+    "records": 185
+  },
+  "plan_design": {
+    "development_baseline_records": 40,
+    "development_api_calls": 80,
+    "ab_records": 50,
+    "ab_calls": 250,
+    "final_holdout_records": 50,
+    "final_reserved_calls": 100,
+    "total_planned_with_final": 430,
+    "reserve": 70,
+    "paid_calls": 0,
+    "enabled": false,
+    "max_new": 0
   }
 }
