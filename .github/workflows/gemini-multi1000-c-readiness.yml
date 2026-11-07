@@ -82,3 +82,11 @@ jobs:
           assert "runner.py execute" in protected
           print("C_PROTECTED_WORKFLOW_PRESENT_DORMANT: activation missing, closure retained, no paid generation.")
           PY
+      - name: Write readiness evidence
+        run: |
+          mkdir -p /tmp/multi1000-readiness
+          printf '%s\n' '{"paid_calls":0,"prior_actual":172,"remaining":828,"purpose":"resume-readiness"}' > /tmp/multi1000-readiness/evidence.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: multi1000-resume-readiness
+          path: /tmp/multi1000-readiness/evidence.json
