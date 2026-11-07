@@ -1,8 +1,8 @@
 {
-  "phase": "E",
-  "prior_actual": 308,
-  "max_new": 80,
-  "plan_sha256": "612fcf3c597ebab0dc5572884ad089009d9b8f4c04e11ec63b6562ae1845f2d6",
+  "phase": "FINAL",
+  "prior_actual": 388,
+  "max_new": 228,
+  "plan_sha256": "542d1a29c4127fafc1732a9ecf12a9388fd5afe75c0145e1827bad3e1410e878",
   "approval": "USER_APPROVED_MULTI1000_RESUME",
   "explicit_authorization": true
 }
