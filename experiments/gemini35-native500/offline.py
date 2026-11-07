@@ -277,6 +277,13 @@ def gcs_protocol_offline():
         assert plan["prior_actual"] + expected_count <= 500
     assert sum(t.get("variant") == "R36" for t in ab_plan_36["tasks"]) == 50
     assert sum(t.get("first_variant") == "BASE" for t in ab_plan_36["tasks"]) == 50
+    ab35_partial = plan_builder_module["build_ab_35"](synthetic_ab, "a" * 64, 77)
+    ab36_partial = plan_builder_module["build_ab_36"](synthetic_ab, "a" * 64, 77)
+    assert ab35_partial["prior_actual"] == 77
+    assert ab36_partial["prior_actual"] == 77
+    runner_source = runner.read_text(encoding="utf-8")
+    assert 'if row["status"] in ("PROVIDER_ERROR", "UNCONFIRMED_REQUEST_ERROR")' in runner_source
+    assert '"DONE_WITH_FAILURES" if failed else "DONE"' in runner_source
     cfg = (ROOT / "experiments" / "gemini35-native500" /
            "config.json").read_text(encoding="utf-8")
     assert '"enabled": false' in cfg
