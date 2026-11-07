@@ -1,0 +1,66 @@
+name: Gemini multi1000 C SAFE readiness (no paid API)
+on:
+  push:
+    branches:
+      - research/gemini-multi1000-20261107
+    paths:
+      - .github/workflows/gemini-multi1000-c-readiness.yml
+      - experiments/gemini-multi1000/c-readiness-trigger.json
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  c-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify research closure and candidate source (offline only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("experiments/gemini-multi1000")
+          cfg = json.loads((p / "config.json").read_text())
+          closed = json.loads((p / "closure.json").read_text())
+          assert cfg["enabled"] is False and cfg["max_new"] == 0
+          assert cfg["prior_actual"] == 172
+          assert closed["actual"] == 172 and closed["unused"] == 828
+          assert closed["phase_actual"]["C"] == 0 and closed["phase_actual"]["FINAL"] == 0
+          assert closed["new_generation_enabled"] is False
+          assert "M36_KO" in (p / "worker.cjs").read_text()
+          print("C_READINESS_GATE_PASS: 172/1000 preserved; C=0; FINAL=0; paid execution locked.")
+          PY
+      - name: Validate runner syntax and four C model payloads without calling API
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile experiments/gemini-multi1000/runner.py
+          node --check experiments/gemini-multi1000/worker.cjs
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          worker = str(Path("experiments/gemini-multi1000/worker.cjs"))
+          synthetic = {
+            "KF": "자기야, 오늘은 집에서 쉬자.",
+            "KB": "ທີ່ຮັກ ມື້ນີ້ພັກຜ່ອນຢູ່ເຮືອນ.",
+            "LF": "ທີ່ຮັກ ມື້ນີ້ຂ້ອຍພັກຜ່ອນຢູ່ເຮືອນ.",
+            "LB": "자기야, 오늘은 집에서 푹 쉬고 있어."
+          }
+          requests = [json.dumps({"mode":"build","variant":"M36_KO","path":p,"input":src}, ensure_ascii=False) for p,src in synthetic.items()]
+          proc = subprocess.run(["node", worker], input="\n".join(requests)+"\n", text=True, capture_output=True, timeout=15, check=True)
+          outputs = [json.loads(line) for line in proc.stdout.splitlines() if line.strip()]
+          assert len(outputs) == 4, (len(outputs), proc.stderr)
+          for (path,source),result in zip(synthetic.items(), outputs):
+            assert result["ok"] is True, (path,result)
+            q = result["value"]
+            assert q["model"] == "gemini-3.6-flash"
+            assert q["payload"]["generationConfig"]["thinkingConfig"]["thinkingLevel"] == "low"
+            assert q["payload"]["generationConfig"]["maxOutputTokens"] == 1024
+            assert q["payload"]["contents"][0]["parts"][0]["text"] == source
+          print("C_PAYLOAD_DRY_RUN_PASS: four directions, model, LOW, 1024, input preservation; paid calls 0.")
+          PY
