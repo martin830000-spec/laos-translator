@@ -219,6 +219,20 @@ def gcs_protocol_offline():
         assert False, "Unexpected acceptance of original-source BACK"
     except RuntimeError as exc:
         assert "BACK_MUST_DEPEND" in str(exc)
+    cross_variant_tasks = [
+        {"slot": "base-first", "case_id": "cross-case", "path": "KF",
+         "variant": "BASE", "input": "잘 잤어?"},
+        {"slot": "r36-back", "case_id": "cross-case", "path": "KB",
+         "variant": "R36", "first_variant": "BASE", "from_slot": "base-first"},
+    ]
+    assert module["validate_tasks"](cross_variant_tasks, "36", {"max_new": 2})
+    unsafe_cross_variant = [dict(x) for x in cross_variant_tasks]
+    unsafe_cross_variant[1]["variant"] = "S36"
+    try:
+        module["validate_tasks"](unsafe_cross_variant, "36", {"max_new": 2})
+        assert False, "Unexpected acceptance of unapproved cross-variant pair"
+    except RuntimeError as exc:
+        assert "UNAPPROVED_CROSS_VARIANT" in str(exc)
     for model in ("35", "36"):
         wf = (ROOT / ".github" / "workflows" /
               f"gemini-native500-{model}.yml").read_text(encoding="utf-8")
