@@ -6,6 +6,9 @@ on:
       - .github/workflows/gemini-native500-free.yml
       - experiments/gemini35-native500/**
       - experiments/gemini36-native500/**
+      - experiments/gemini-native500-gcs/**
+      - .github/workflows/gemini-native500-35.yml
+      - .github/workflows/gemini-native500-36.yml
 permissions:
   contents: read
 jobs:
