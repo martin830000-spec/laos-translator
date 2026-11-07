@@ -1,9 +1,13 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "phase": "36_A",
+  "issue_number": 228,
+  "title": "GEMINI_SERVICE2000_REAL500_36_A_ENCRYPTED",
   "prior_actual": 0,
+  "max_new": 32,
+  "plan_sha256": "47bc931c5047d303e98e6029940026adc422fc6dcb53e677cc37ac4b6b8d9b2f",
+  "deadline_epoch": 1794026612,
+  "tag": "gemini-real500-20261107-36_a-consumed",
   "model": "gemini-3.6-flash",
-  "campaign": "GEMINI36_SERVICE2000_REAL500_20261107",
-  "phase": "PREPARED",
-  "deadline_epoch": 1794026612
+  "campaign": "GEMINI36_SERVICE2000_REAL500_20261107"
 }
