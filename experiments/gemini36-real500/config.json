@@ -1,13 +1,13 @@
 {
   "enabled": true,
-  "phase": "36_C",
-  "issue_number": 232,
-  "title": "GEMINI_SERVICE2000_REAL500_36_C_ENCRYPTED",
-  "prior_actual": 63,
-  "max_new": 54,
-  "plan_sha256": "01b2d5b2dd53d14e11cc88680447a418f7c842c2d9c9f4c1370c4dcc65cbba30",
+  "phase": "36_FINAL",
+  "issue_number": 234,
+  "title": "GEMINI_SERVICE2000_REAL500_36_FINAL_ENCRYPTED",
+  "prior_actual": 117,
+  "max_new": 104,
+  "plan_sha256": "2b00d52e1675cfedf86d7f7da2f0fa86f3110c9acf816d87219195b1e5c6837b",
   "deadline_epoch": 1794026612,
-  "tag": "gemini-real500-20261107-36_c-consumed",
+  "tag": "gemini-real500-20261107-36_final-consumed",
   "model": "gemini-3.6-flash",
   "campaign": "GEMINI36_SERVICE2000_REAL500_20261107"
 }
