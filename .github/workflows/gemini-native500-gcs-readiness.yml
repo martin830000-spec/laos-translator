@@ -52,6 +52,9 @@ jobs:
           print('RESEARCH_WIF_GCS_READ_WRITE_READY; NO_API; NO_PRIVATE_CONVERSATION')
           PY
 
-      - name: Stage frozen FINAL private research plans without generation
+      - name: Check A/B single-pass contracts
+        run: python3 experiments/gemini-native500-gcs/ab160_offline.py
+
+      - name: Stage AB160 DEV private plans without generation
         run: python3 experiments/gemini-native500-gcs/stage_plan.py
-# Stage revision FINAL_BASE_FROZEN
+# Stage revision AB160_DEV_V1

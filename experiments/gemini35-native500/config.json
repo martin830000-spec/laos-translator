@@ -1,16 +1,19 @@
 {
+  "campaign": "GEMINI35_MODEL_NATIVE_OPT500_20261107",
+  "deadline_epoch": 1794056977,
   "enabled": false,
   "max_new": 0,
-  "prior_actual": 316,
-  "phase": "FINAL_FROZEN_BASE",
-  "deadline_epoch": 1794056977,
   "model": "gemini-3.5-flash-lite",
-  "campaign": "GEMINI35_MODEL_NATIVE_OPT500_20261107",
+  "phase": "FINAL_FROZEN_BASE",
   "plan_sha256": "ecd95eb0640c6807226dde0df7364763e539237fa3fa9fb553d18f2481cd11f8",
-  "run_nonce": "native500-final-dyu2YgVwzwUKwQzMEyaSg0WvxIPEluD4",
+  "prior_actual": 316,
   "prior_plans": [
     "d9b27fd66ff1cbafa3948f7355d2edaf679f6f80eb427c6f0da6afdf7ee40f46",
     "a77f13186376bea4857e4ab0637713385fa8f11f9ba81f7fa46d92164d2e7d1e",
-    "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b"
-  ]
+    "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b",
+    "ecd95eb0640c6807226dde0df7364763e539237fa3fa9fb553d18f2481cd11f8"
+  ],
+  "run_nonce": "native500-final-dyu2YgVwzwUKwQzMEyaSg0WvxIPEluD4",
+  "turn_cap": 160,
+  "turn_initial_actual": 316
 }

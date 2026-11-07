@@ -3,7 +3,7 @@ import hashlib,json,pathlib,sys
 import build_plans as b
 HERE=pathlib.Path(__file__).resolve().parent
 def build(cfg,raw):
-    assert hashlib.sha256(raw).hexdigest()==cfg['sample_sha256']
+    assert isinstance(raw,bytes)
     rows=json.loads(raw); byhash={r['source_sha256']:r for r in rows}
     selected=[byhash[h] for h in cfg['selected_source_sha256']]
     if 'selected_record_sha256' in cfg:
@@ -35,7 +35,12 @@ def main():
     from google.cloud import storage
     from google.api_core.exceptions import PreconditionFailed
     cfg=json.loads((HERE/'stage_config.json').read_text());bucket=storage.Client(project='gen-lang-client-0422436907').bucket(b.BUCKET)
-    raw=bucket.blob(f'{b.PREFIX}/samples/20261107_R2/'+cfg['sample_file']).download_as_bytes(timeout=30)
+    rows=[]
+    for filename,expected in cfg['sample_files'].items():
+        part=bucket.blob(f'{b.PREFIX}/samples/20261107_R2/'+filename).download_as_bytes(timeout=30)
+        assert hashlib.sha256(part).hexdigest()==expected
+        rows.extend(json.loads(part))
+    raw=json.dumps(rows,ensure_ascii=False).encode()
     result=build(cfg,raw)
     for model,(payload,sha) in result.items():
         # Frozen prior plans must all be finished and their actual calls match prior_actual.

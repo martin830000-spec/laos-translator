@@ -23,8 +23,7 @@ CAMPAIGNS = {
     "36": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
 }
 PATHS = ("KF", "KB", "LF", "LB")
-VARIANTS = {"35": {"Q35", "BASE", "N35", "S35", "S35_LOW"},
-            "36": {"Q36", "BASE", "R36", "S36", "S36_MINIMAL"}}
+VARIANTS = {m: {'BASE','A','B'} for m in MODELS}
 
 
 def check(assertion, reason):
@@ -54,6 +53,7 @@ def load(model):
     check(type(config.get("max_new")) is int, "BAD_MAX_NEW")
     check(0 <= config["prior_actual"] < 500, "PRIOR_OUT_OF_BOUNDS")
     check(0 < config["max_new"] <= 500 - config["prior_actual"], "CAP_EXCEEDED")
+    check(config["prior_actual"] + config["max_new"] <= config["turn_initial_actual"] + config["turn_cap"] and config["turn_cap"] == 160, "TURN_CAP_EXCEEDED")
     check(activation.get("model") == MODELS[model], "ACTIVATION_MODEL_MISMATCH")
     check(activation.get("campaign") == CAMPAIGNS[model], "ACTIVATION_CAMPAIGN_MISMATCH")
     check(activation.get("phase") == config.get("phase"), "PHASE_MISMATCH")
@@ -274,8 +274,8 @@ def execute(model):
                 # A translation/output failure is valid research evidence:
                 # keep processing independent cases, while its own BACK is
                 # skipped by the dependency check above. Never retry.
-                # Transport/provider failures stop the campaign immediately.
-                if row["status"] in ("PROVIDER_ERROR", "UNCONFIRMED_REQUEST_ERROR"):
+                # Only global authentication loss stops; isolated errors continue without retry.
+                if row.get("http_status") in (401,403):
                     stopped_reason = row["status"]
                     break
     finally:
