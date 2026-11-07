@@ -1,0 +1,16 @@
+{
+  "status": "STOPPED_REPEATED_OFFLINE_FAILURE",
+  "paid_calls": {
+    "35": 0,
+    "36": 0
+  },
+  "remaining": {
+    "35": 500,
+    "36": 500
+  },
+  "last_success": "Historical BASE request equality verified; private samples reserved; no paid execution",
+  "cause": "Missing SMART export in copied service helper. One repair attempt used wrong working directory and did not apply; offline assertion repeated.",
+  "candidate_quality": "UNTESTED",
+  "generation_enabled": false,
+  "free_run": 42357383141
+}
