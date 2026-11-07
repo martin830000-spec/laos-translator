@@ -1,0 +1,43 @@
+{
+  "phase": "AB_EXPLORATION_R1",
+  "sample_file": "ab_candidates.json",
+  "sample_sha256": "0159f00217fded127bd3a656cf2fca1e9219b352487aa0a994fcdb4a33f3a109",
+  "selected_source_sha256": [
+    "73a14b5ccd3edee1342720c8af3cf6e18f313ef65c069fb73e926595079cb94d",
+    "588d8ebc3e849eceb6877754f405f582521516211d902457f11ab52f2daaf8d0",
+    "0694746d56180243bdd5e5f483ea28d2ea27d11efcb9822a4365b2bbd4eb8353",
+    "312bfc018c39542cd340038a5adc147022081cccf7c39b9926781f273535dced",
+    "da2646cd39d949fd784058648bbcd4a9d847f7bc97f4553fcc0745743f31548b",
+    "fcd3acc65a0ae75df634506b8af5e5884dc03d36dc99674e0c68da0a8b51b1da",
+    "cb704759043b9d731fafd20448affddade0677fd54785190bc77d14d49feb97d",
+    "3a5c5923a1840893a3ff883ab1ce33b53006ab07b1584fab02986339a28d3678",
+    "7bebaf2a1ba6c7dca55abf8b6c82718fb315f886d4cc7d23f88634ac7ae13a72",
+    "228bf26cba935920fb898954f0fcc543dff672721ca396e0434d13c308c215c1",
+    "b88e8d0ad6107f04a449cb70e824e117d6bf0371086b64c93ab4b76d36b078bd",
+    "814ecc855d57d9201fb07bf66e3b3d6d1016f645a089e78a5e451ff072324bd4"
+  ],
+  "models": {
+    "35": {
+      "prior_actual": 80,
+      "variants": [
+        "BASE",
+        "N35",
+        "S35"
+      ],
+      "prior_plans": [
+        "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b"
+      ]
+    },
+    "36": {
+      "prior_actual": 80,
+      "variants": [
+        "BASE",
+        "R36",
+        "S36"
+      ],
+      "prior_plans": [
+        "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb"
+      ]
+    }
+  }
+}
