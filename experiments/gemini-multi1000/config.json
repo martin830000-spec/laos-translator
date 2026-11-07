@@ -1,10 +1,10 @@
 {
-  "enabled": true,
-  "phase": "C",
+  "enabled": false,
+  "phase": "CLOSED_BOTTLENECK",
   "issue_number": 211,
   "title": "GEMINI_MULTI1000_C_ENCRYPTED",
   "prior_actual": 172,
-  "max_new": 72,
+  "max_new": 0,
   "plan_sha256": "f854db2b6fd4a3f809edf0ee25f9cebcd7562990537de6c3e69e350646fa385c",
   "deadline_epoch": 1794014450,
   "tag": "gemini-multi1000-20261107-c-consumed"

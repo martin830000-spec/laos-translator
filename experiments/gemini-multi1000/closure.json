@@ -1,0 +1,23 @@
+{
+  "campaign": "GEMINI_MULTI1000_20261107",
+  "status": "STOPPED_EXECUTION_BOTTLENECK",
+  "approved": 1000,
+  "actual": 172,
+  "unused": 828,
+  "phase_actual": {
+    "ACCESS": 4,
+    "A": 96,
+    "B": 72,
+    "C": 0,
+    "FINAL": 0
+  },
+  "new_generation_enabled": false,
+  "time_utc": "2026-11-07T00:55:13.141130+00:00",
+  "reason": "C commit present, no Actions run found using commit query and branch run listing; do not repeat recovery; no C sealed plan sent. Underlying trigger/index cause unconfirmed.",
+  "last_success": "B72 complete with encrypted result verified",
+  "remaining": [
+    "C72 designed but unexecuted",
+    "FINAL24 sources reserved but final candidate/payload not selected/executed"
+  ],
+  "source_private": true
+}
