@@ -5,5 +5,6 @@
   "plan_sha256": "01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b",
   "run_nonce": "native500-final-pPpNDUZw2DMEqpmrU9IReaqB7kSdvJxq",
   "max_new": 100,
-  "prior_actual": 204
+  "prior_actual": 204,
+  "plan_object": "research/gemini-model-native500-20261107/36/plans/01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b.json"
 }
