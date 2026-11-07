@@ -1,50 +1,63 @@
-name: Gemini 36 model-native protected research
+name: Gemini 36 private-GCS native500 research (no Issue handshake)
 on:
   push:
-    branches: [research/gemini-model-native500-20261107]
-    paths: [experiments/gemini36-native500/activation.json]
+    branches:
+      - research/gemini-model-native500-20261107
+    paths:
+      - experiments/gemini36-native500/activation-gcs.json
 permissions:
-  contents: write
-  issues: read
+  contents: read
+  id-token: write
 concurrency:
-  group: gemini36-native500-20261107
+  group: native500-gcs-36
   cancel-in-progress: false
 jobs:
   protected:
-    if: github.run_attempt == 1
+    if: github.actor == 'martin830000-spec' && github.run_attempt == 1
     runs-on: ubuntu-latest
-    timeout-minutes: 24
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Verify separate 500 cap and frozen plan
+      - name: Validate immutable model-specific request cap and plan
+        shell: bash
         run: |
-          python3 - <<'PYCODE'
-          import json,time
+          python3 - <<'PY'
+          import json, os, time
           from pathlib import Path
-          p=Path('experiments/gemini36-native500');c=json.loads((p/'config.json').read_text());a=json.loads((p/'activation.json').read_text())
-          assert c['enabled'] is True and 0<c['max_new']<=500 and 0<=c['prior_actual']<500 and c['prior_actual']+c['max_new']<=500
-          assert c['model']=='gemini-3.6-flash' and c['campaign']=='GEMINI36_MODEL_NATIVE_OPT500_20261107'
-          assert c['phase']==a['phase'] and c['plan_sha256']==a['digest'] and c['deadline_epoch']>time.time()
-          print('Independent cap and frozen plan verified; zero generation so far.')
-          PYCODE
-      - run: python3 -m pip install --quiet cryptography==46.0.3
-      - name: Prepare sealed input handshake
+          p = Path('experiments/gemini36-native500')
+          c = json.loads((p/'config.json').read_text())
+          a = json.loads((p/'activation-gcs.json').read_text())
+          assert c['enabled'] is True
+          assert c['model'] == 'gemini-3.6-flash' and a['model'] == 'gemini-3.6-flash'
+          assert c['campaign'] == 'GEMINI36_MODEL_NATIVE_OPT500_20261107'
+          assert type(c['prior_actual']) is int and type(c['max_new']) is int
+          assert 0 <= c['prior_actual'] < 500
+          assert 0 < c['max_new'] <= 500-c['prior_actual']
+          assert c['plan_sha256'] == a['plan_sha256']
+          assert c['run_nonce'] == a['run_nonce']
+          assert c['deadline_epoch'] > time.time()
+          assert not (p/'activation.json').exists()
+          print('GCS research gate accepted; no generation yet')
+          PY
+      - name: Check configured research-only WIF principal
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 experiments/gemini36-native500/runner.py prepare /tmp/native36
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          PROVIDER: ${{ vars.NATIVE500_WIF_PROVIDER }}
+          SERVICE_ACCOUNT: ${{ vars.NATIVE500_RESEARCH_SA }}
+        shell: bash
+        run: |
+          test -n "$PROVIDER" && test -n "$SERVICE_ACCOUNT"
+          echo 'Dedicated research principal configured; public Issue handshake disabled'
+      - name: Authenticate with research-only WIF
+        uses: google-github-actions/auth@v3
         with:
-          name: native36-handshake
-          path: /tmp/native36/handshake.json
-      - name: Execute sealed plan once
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: ${{ vars.NATIVE500_WIF_PROVIDER }}
+          service_account: ${{ vars.NATIVE500_RESEARCH_SA }}
+      - name: Set up Python dependencies
+        run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
+      - name: Execute private-GCS plan once
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/gemini36-native500/runner.py execute /tmp/native36
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: always()
-        with:
-          name: native36-encrypted-result
-          path: /tmp/native36/sealed-result.json
+        run: python3 experiments/gemini-native500-gcs/runner.py execute 36
