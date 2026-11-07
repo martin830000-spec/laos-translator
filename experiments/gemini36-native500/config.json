@@ -1,9 +1,11 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "max_new": 80,
   "prior_actual": 0,
-  "phase": "PREPARED",
-  "deadline_epoch": 1794052303,
+  "phase": "DEVELOPMENT_BASELINE",
+  "deadline_epoch": 1794216000,
   "model": "gemini-3.6-flash",
-  "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107"
+  "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
+  "plan_sha256": "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb",
+  "run_nonce": "native500-dev-IO1XIjCmAw_Dn7P8Q8ZuOs2RlPBvooVon7QGK7oWGc0"
 }
