@@ -1,5 +1,5 @@
 {
-  "status": "SAMPLES_GCS_SHA_PASS_PLAN_BUILD_READY",
+  "status": "SAMPLES_GCS_SHA_PASS_PLAN_BUILDER_CI_PASS",
   "paid_calls": 0,
   "remaining": 500,
   "last_success": "36/36 offline worker/SMART contract checks passed in run 42358188202; paid execution not started",
@@ -99,5 +99,18 @@
     "paid_calls": 0,
     "enabled": false,
     "max_new": 0
-  }
+  },
+  "plan_builder": {
+    "script": "experiments/gemini-native500-gcs/build_plans.py",
+    "commit": "1aa95b5b43e0084d6b9de91f5b6f074852d5675f",
+    "ci_run": 42365852676,
+    "ci_conclusion": "success",
+    "paid_calls": 0,
+    "development_calls": 80,
+    "ab_calls": 250,
+    "final_reserved_calls": 100,
+    "planned_total": 430,
+    "reserve": 70
+  },
+  "prior_actual": 0
 }
