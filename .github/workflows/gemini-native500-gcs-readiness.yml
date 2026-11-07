@@ -52,12 +52,6 @@ jobs:
           print('RESEARCH_WIF_GCS_READ_WRITE_READY; NO_API; NO_PRIVATE_CONVERSATION')
           PY
 
-      - name: Export reserved FINAL only after candidate freeze
-        run: python3 experiments/gemini-native500-gcs/review_export.py
-      - name: Upload ciphertext only
-        uses: actions/upload-artifact@v4
-        with:
-          name: native500-private-final-input
-          path: ${{ runner.temp }}/native500-review.p7m
-          retention-days: 1
-          if-no-files-found: error
+      - name: Stage frozen FINAL private research plans without generation
+        run: python3 experiments/gemini-native500-gcs/stage_plan.py
+# Stage revision FINAL_BASE_FROZEN
