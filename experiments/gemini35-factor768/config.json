@@ -1,9 +1,13 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "phase": "35_ALL",
+  "issue_number": 235,
+  "title": "GEMINI_P168_SMART768_35_ALL_ENCRYPTED",
   "prior_actual": 0,
+  "max_new": 256,
+  "plan_sha256": "0664a5272b517ac535686b8635c0619c8ecb340d2d883f9b4a20031704885cef",
+  "deadline_epoch": 1794040596,
+  "tag": "gemini-factor768-20261107-35_all-consumed",
   "model": "gemini-3.5-flash-lite",
-  "campaign": "GEMINI35_P168_SMART256_20261107",
-  "phase": "FROZEN",
-  "deadline_epoch": 1794040596
+  "campaign": "GEMINI35_P168_SMART256_20261107"
 }

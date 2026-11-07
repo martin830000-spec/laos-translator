@@ -1,9 +1,13 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "phase": "38_ALL",
+  "issue_number": 237,
+  "title": "GEMINI_P168_SMART768_38_ALL_ENCRYPTED",
   "prior_actual": 0,
+  "max_new": 256,
+  "plan_sha256": "07f348c79f4d42e509c630a082dcf740390699a46bdbd27f1a8a665b599c6cbb",
+  "deadline_epoch": 1794040596,
+  "tag": "gemini-factor768-20261107-38_all-consumed",
   "model": "gemini-3.8-flash",
-  "campaign": "GEMINI38_P168_SMART256_20261107",
-  "phase": "FROZEN",
-  "deadline_epoch": 1794040596
+  "campaign": "GEMINI38_P168_SMART256_20261107"
 }
