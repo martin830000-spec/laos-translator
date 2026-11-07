@@ -1,10 +1,9 @@
 {
   "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
   "model": "gemini-3.6-flash",
-  "phase": "FINAL_FROZEN_BASE",
-  "plan_sha256": "01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b",
-  "run_nonce": "native500-final-pPpNDUZw2DMEqpmrU9IReaqB7kSdvJxq",
-  "max_new": 100,
-  "prior_actual": 204,
-  "plan_object": "research/gemini-model-native500-20261107/36/plans/01effc7a7a2f1e15160b166e2864a5dc4a9445057eb394448afaedd5ae78918b.json"
+  "phase": "AB160_DEV",
+  "max_new": 120,
+  "plan_sha256": "f28aa51ece82721068b84c59e37deded629be064cbc6d5a7180f440b7f99bd26",
+  "run_nonce": "ab160-dev-58f746256cf74d5042f03435540ea1d6",
+  "plan_object": "research/gemini-model-native500-20261107/36/plans/f28aa51ece82721068b84c59e37deded629be064cbc6d5a7180f440b7f99bd26.json"
 }

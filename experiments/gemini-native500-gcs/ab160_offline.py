@@ -20,4 +20,6 @@ for m in ['35','36']:
 mod=runpy.run_path(str(R/'experiments/gemini-native500-gcs/runner.py'))
 for m in ['35','36']:
  cfg=json.loads((R/f'experiments/gemini{m}-native500/config.json').read_text());test(cfg['turn_cap']==160);test(cfg['turn_initial_actual']=={'35':316,'36':304}[m]);test(cfg['prior_actual']+cfg['max_new']<=cfg['turn_initial_actual']+160)
-print(json.dumps({'checks':count,'status':'PASS','generation_calls':0}))
+result={'checks':count,'status':'PASS','generation_calls':0}
+(R/'native500-free.json').write_text(json.dumps(result))
+print(json.dumps(result))
