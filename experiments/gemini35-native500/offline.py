@@ -182,7 +182,26 @@ def gcs_protocol_offline():
     runner = ROOT / "experiments" / "gemini-native500-gcs" / "runner.py"
     selector = ROOT / "experiments" / "gemini-native500-gcs" / "select_samples.py"
     assert selector.is_file()
-    compile(selector.read_text(encoding="utf-8"), str(selector), "exec")
+    selector_source = selector.read_text(encoding="utf-8")
+    compile(selector_source, str(selector), "exec")
+    assert "from itertools import combinations" in selector_source
+    selector_module = runpy.run_path(str(selector), run_name="_native500_selector_offline")
+    import random
+    synthetic_final = []
+    for index in range(8):
+        synthetic_final.append({"id": f"ko-{index}", "side": "K", "cluster": f"k-only-{index}", "source": "synthetic"})
+    for index in range(21):
+        cluster = f"shared-{index}"
+        synthetic_final.append({"id": f"k-{index}", "side": "K", "cluster": cluster, "source": "synthetic"})
+        synthetic_final.append({"id": f"l-{index}-a", "side": "L", "cluster": cluster, "source": "synthetic"})
+        synthetic_final.append({"id": f"l-{index}-b", "side": "L", "cluster": cluster, "source": "synthetic"})
+    synthetic_final.append({"id": "l-only", "side": "L", "cluster": "l-only", "source": "synthetic"})
+    selected_final = selector_module["select_final"](synthetic_final, random.Random(20261110))
+    final_stats = selector_module["summarize"](selected_final)
+    assert final_stats["records"] == 50
+    assert final_stats["K"] == 25 and final_stats["L"] == 25
+    assert final_stats["clusters"] == 30
+    assert final_stats["max_records_per_cluster"] == 2
     assert runner.is_file()
     compile(runner.read_text(encoding="utf-8"), str(runner), "exec")
     module = runpy.run_path(str(runner), run_name="_native500_offline")
