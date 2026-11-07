@@ -1,7 +1,7 @@
 {
-  "enabled": true,
-  "max_new": 64,
-  "prior_actual": 152,
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 216,
   "phase": "AB_LAO_PRIMER_R2",
   "deadline_epoch": 1794076166,
   "model": "gemini-3.5-flash-lite",
