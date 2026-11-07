@@ -145,31 +145,33 @@ def protected_readiness():
     for engine in ("35", "36"):
         directory = ROOT / "experiments" / f"gemini{engine}-native500"
         config = json.loads((directory / "config.json").read_text(encoding="utf-8"))
-        workflow_path = ROOT / ".github" / "workflows" / f"gemini-native500-{engine}.yml"
-        workflow = workflow_path.read_text(encoding="utf-8")
-        runner_path = directory / "runner.py"
-        runner_source = runner_path.read_text(encoding="utf-8")
-        compile(runner_source, str(runner_path), "exec")
-        activation_path = directory / "activation.json"
+        workflow = (
+            ROOT / ".github" / "workflows" / f"gemini-native500-{engine}.yml"
+        ).read_text(encoding="utf-8")
+        activation_path = directory / "activation-gcs.json"
         missing = [
-            key for key in ("issue_number", "title", "plan_sha256", "tag")
+            key for key in ("run_nonce", "plan_sha256")
             if key not in config
         ]
         if not activation_path.is_file():
-            missing.append("activation.json")
-        if "cfg['plan_sha256']" not in runner_source:
-            missing.append("runner plan_sha256 contract")
-        if "c['plan_sha256']==a['digest']" not in workflow:
-            missing.append("workflow plan digest contract")
-        if "plan_sha500" in workflow:
-            missing.append("stale plan_sha500 field")
+            missing.append("activation-gcs.json")
+        if "vars.NATIVE500_WIF_PROVIDER" not in workflow:
+            missing.append("dedicated WIF provider binding")
+        if "vars.NATIVE500_RESEARCH_SA" not in workflow:
+            missing.append("dedicated research service account binding")
+        if f"runner.py execute {engine}" not in workflow:
+            missing.append("GCS runner entrypoint")
+        if "handshake.json" in workflow or "runner.py prepare" in workflow:
+            missing.append("legacy encrypted Issue handshake still active")
         assert config["enabled"] is False and config["max_new"] == 0
         blockers[engine] = sorted(set(missing))
     return {
         "ready": not any(blockers.values()),
         "paid_calls": 0,
         "models": blockers,
-        "note": "BLOCKED is expected until sealed issue/activation/plan are prepared; paid gates remain locked."
+        "external_wif_access": "NOT_VERIFIED",
+        "private_gcs_plan": "NOT_UPLOADED",
+        "note": "Research WIF credentials and private GCS plan must be authorized and verified; paid gates remain locked.",
     }
 
 
