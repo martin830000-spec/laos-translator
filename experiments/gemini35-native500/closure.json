@@ -1,13 +1,7 @@
 {
-  "status": "CODE_REPAIRED_OFFLINE_PASS_PROTECTED_PREFLIGHT_BLOCKED",
-  "paid_calls": {
-    "35": 0,
-    "36": 0
-  },
-  "remaining": {
-    "35": 500,
-    "36": 500
-  },
+  "status": "CODE_REPAIRED_WIF_GCS_PREFLIGHT_PASS_PRIVATE_PLAN_PENDING",
+  "paid_calls": 0,
+  "remaining": 500,
   "last_success": "36/36 offline worker/SMART contract checks passed in run 42358188202; paid execution not started",
   "cause": "Original missing svc.smart export repaired using previously verified factor768 implementation; 3.6 SMART metadata corrected.",
   "candidate_quality": "UNTESTED",
@@ -25,5 +19,23 @@
   "fixed_followup": [
     "workflow plan digest field corrected from plan_sha500 to plan_sha256",
     "offline.py now compiles runner and reports protected readiness without generation"
-  ]
+  ],
+  "wif_gcs_preflight": {
+    "run_id": 42361874910,
+    "conclusion": "success",
+    "paid_calls": 0,
+    "provider": "gemini-research",
+    "service_account": "gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com",
+    "scope": "research_branch=native500",
+    "gcs_prefix": "research/gemini-model-native500-20261107/",
+    "object_create_and_metadata_read": "PASS"
+  },
+  "remaining_blockers": [
+    "frozen private GCS task plan not uploaded",
+    "activation-gcs.json not created",
+    "config plan_sha256/run_nonce not frozen",
+    "no actual Gemini API requests have been sent"
+  ],
+  "enabled": false,
+  "max_new": 0
 }
