@@ -1,0 +1,36 @@
+{
+  "frozen_utc": "2026-11-07T03:08:37.429464+00:00",
+  "count": 24,
+  "side_counts": {
+    "K": 12,
+    "L": 12
+  },
+  "candidate": {
+    "35": {
+      "name": "S35_LB_NATIVE_R4",
+      "paths": {
+        "KF": "BASE",
+        "KB": "BASE",
+        "LF": "BASE",
+        "LB": "NATIVE"
+      }
+    },
+    "36": {
+      "name": "S36_LB_COMPACT_R1",
+      "paths": {
+        "KF": "BASE",
+        "KB": "BASE",
+        "LF": "BASE",
+        "LB": "COMPACT"
+      }
+    }
+  },
+  "reason": "No full new contract wins. Restrict potential benefit to LB:35NATIVE exact-FIRST removes malformed eating phrase and improves some spelling without new definite P0/P1 in6LB;36COMPACT B avoids tenfold stake error and lower cost though A regressions remain. These are exploratory candidates, not proven winners. Other3paths retain strongest baseline. No model mixing.",
+  "selection_limit": "Single model identity per campaign. Full MESSAGE/THINK/STABLE and NATIVE KF excluded. FINAL may reject both. No tuning or repeat FINAL after outputs.",
+  "evaluation": "Same P0/P1/P2/REVIEW protocol. Native unverified not failure. Assess every actual output, attribute BACK errors against actual input. Compare important errors, readability, timing and cost, not require zero errors.",
+  "shared_paths": "KF/KB/LF same actual output shared between2configurations, only LB paired A/B.60 actual calls/model;48 outputs/config,96 views not96independent calls.",
+  "worker_sha256": {
+    "35": "3dd64d119a044e0af03870d06d9ea3b2b3281b20c781e77d029917433e49054c",
+    "36": "6b43f7775a368f1b98aa3c319467ee4b8c36bc0133f21e08f1b8ce71c758cf67"
+  }
+}
