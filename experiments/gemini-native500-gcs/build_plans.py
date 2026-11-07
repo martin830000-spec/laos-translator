@@ -118,15 +118,15 @@ def build_development(model: str, rows: list, manifest_sha: str) -> dict:
     return make_plan(model, "DEVELOPMENT_BASELINE", 0, tasks, rows, manifest_sha)
 
 
-def build_ab_35(rows: list, manifest_sha: str) -> dict:
+def build_ab_35(rows: list, manifest_sha: str, prior_actual: int = 80) -> dict:
     tasks = []
     for i, row in enumerate(rows, 1):
         for variant in ("BASE", "N35", "S35"):
             add_pair(tasks, row, i, variant, "ab")
-    return make_plan("35", "AB_COMPARE", 80, tasks, rows, manifest_sha)
+    return make_plan("35", "AB_COMPARE", prior_actual, tasks, rows, manifest_sha)
 
 
-def build_ab_36(rows: list, manifest_sha: str) -> dict:
+def build_ab_36(rows: list, manifest_sha: str, prior_actual: int = 80) -> dict:
     tasks = []
     for i, row in enumerate(rows, 1):
         base_first = add_pair(tasks, row, i, "BASE", "ab")
@@ -143,7 +143,7 @@ def build_ab_36(rows: list, manifest_sha: str) -> dict:
             "sample_cluster": str(row["cluster"]),
         })
         add_pair(tasks, row, i, "S36", "ab")
-    return make_plan("36", "AB_COMPARE", 80, tasks, rows, manifest_sha)
+    return make_plan("36", "AB_COMPARE", prior_actual, tasks, rows, manifest_sha)
 
 
 def make_plan(model: str, phase: str, prior_actual: int, tasks: list,
@@ -198,6 +198,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--samples", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--ab-prior-actual", type=int, default=80)
     args = parser.parse_args()
     sample_dir = Path(args.samples).expanduser()
     output = Path(args.output).expanduser()
@@ -218,14 +219,24 @@ def main() -> None:
     ab = choose_ab(ab_all)
     if len(final_rows) != 50:
         raise RuntimeError("FINAL_HOLDOUT_COUNT")
+    final_k = sum(row["side"] == "K" for row in final_rows)
+    final_l = sum(row["side"] == "L" for row in final_rows)
+    final_cluster_counts = {}
+    for row in final_rows:
+        cluster = str(row["cluster"])
+        final_cluster_counts[cluster] = final_cluster_counts.get(cluster, 0) + 1
+    if final_k != 25 or final_l != 25 or len(final_cluster_counts) != 30 or max(final_cluster_counts.values()) > 2:
+        raise RuntimeError("FINAL_HOLDOUT_BALANCE_OR_CLUSTER_CAP")
+    if not 0 <= args.ab_prior_actual < 500:
+        raise RuntimeError("AB_PRIOR_OUT_OF_RANGE")
     if len({str(x["id"]) for x in dev + ab + final_rows}) != 140:
         raise RuntimeError("CROSS_STAGE_DUPLICATE")
 
     plans = {}
     for model in ("35", "36"):
         plans[f"{model}-development-baseline.json"] = build_development(model, dev, manifest_sha)
-    plans["35-ab-compare.json"] = build_ab_35(ab, manifest_sha)
-    plans["36-ab-compare.json"] = build_ab_36(ab, manifest_sha)
+    plans["35-ab-compare.json"] = build_ab_35(ab, manifest_sha, args.ab_prior_actual)
+    plans["36-ab-compare.json"] = build_ab_36(ab, manifest_sha, args.ab_prior_actual)
 
     expected_calls = {
         "35-development-baseline.json": 80,
