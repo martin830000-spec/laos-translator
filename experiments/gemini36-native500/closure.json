@@ -1,5 +1,5 @@
 {
-  "status": "CODE_REPAIRED_WIF_GCS_PREFLIGHT_PASS_PRIVATE_PLAN_PENDING",
+  "status": "SAMPLES_SELECTED_LOCAL_GCS_UPLOAD_PENDING",
   "paid_calls": 0,
   "remaining": 500,
   "last_success": "36/36 offline worker/SMART contract checks passed in run 42358188202; paid execution not started",
@@ -37,5 +37,42 @@
     "no actual Gemini API requests have been sent"
   ],
   "enabled": false,
-  "max_new": 0
+  "max_new": 0,
+  "sample_set": {
+    "directory": "GEMINI_NATIVE500_SAMPLES_20261107_R2",
+    "source_sha256": "1db5838ab90d5a80edb199d959905944fbcfde74fadb5d26b51a3403dcaccfc7",
+    "manifest_sha256": "221f446226e7d79a69f1f3aad65aabcfddf965e6f62e53818eeeb3dcbe57b533",
+    "total_records": 185,
+    "unique_source_records": 185,
+    "same_samples_for_both_models": true,
+    "sets": [
+      {
+        "file": "development_baseline.json",
+        "records": 80,
+        "K": 40,
+        "L": 40,
+        "clusters": 40,
+        "max_per_cluster": 2,
+        "sha256": "70add842393768eabeb2695ffbbd37507923ddf1ee77d3725e98344fc38b8169"
+      },
+      {
+        "file": "ab_candidates.json",
+        "records": 55,
+        "K": 28,
+        "L": 27,
+        "clusters": 23,
+        "max_per_cluster": 3,
+        "sha256": "0159f00217fded127bd3a656cf2fca1e9219b352487aa0a994fcdb4a33f3a109"
+      },
+      {
+        "file": "final_holdout.json",
+        "records": 50,
+        "K": 25,
+        "L": 25,
+        "clusters": 30,
+        "max_per_cluster": 2,
+        "sha256": "ad1ae9a6c530bd4c5458e028b6056315c12f306b96e5c037371376e599ce15bb"
+      }
+    ]
+  }
 }
