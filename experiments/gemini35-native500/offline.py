@@ -201,8 +201,8 @@ def gcs_protocol_offline():
         wf = (ROOT / ".github" / "workflows" /
               f"gemini-native500-{model}.yml").read_text(encoding="utf-8")
         assert "id-token: write" in wf
-        assert "vars.NATIVE500_WIF_PROVIDER" in wf
-        assert "vars.NATIVE500_RESEARCH_SA" in wf
+        assert "projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research" in wf
+        assert "gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com" in wf
         assert f"runner.py execute {model}" in wf
         assert "issues: write" not in wf
         assert "handshake.json" not in wf and "runner.py prepare" not in wf
