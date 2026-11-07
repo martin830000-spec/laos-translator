@@ -189,13 +189,13 @@ def gcs_protocol_offline():
     import random
     synthetic_final = []
     for index in range(8):
-        synthetic_final.append({"id": f"ko-{index}", "side": "K", "cluster": f"k-only-{index}", "source": "synthetic"})
+        synthetic_final.append({"id": f"ko-{index}", "side": "K", "partition": "FINAL", "cluster": f"k-only-{index}", "source": "synthetic", "first": "synthetic", "back": "synthetic"})
     for index in range(21):
         cluster = f"shared-{index}"
-        synthetic_final.append({"id": f"k-{index}", "side": "K", "cluster": cluster, "source": "synthetic"})
-        synthetic_final.append({"id": f"l-{index}-a", "side": "L", "cluster": cluster, "source": "synthetic"})
-        synthetic_final.append({"id": f"l-{index}-b", "side": "L", "cluster": cluster, "source": "synthetic"})
-    synthetic_final.append({"id": "l-only", "side": "L", "cluster": "l-only", "source": "synthetic"})
+        synthetic_final.append({"id": f"k-{index}", "side": "K", "partition": "FINAL", "cluster": cluster, "source": "synthetic", "first": "synthetic", "back": "synthetic"})
+        synthetic_final.append({"id": f"l-{index}-a", "side": "L", "partition": "FINAL", "cluster": cluster, "source": "synthetic", "first": "synthetic", "back": "synthetic"})
+        synthetic_final.append({"id": f"l-{index}-b", "side": "L", "partition": "FINAL", "cluster": cluster, "source": "synthetic", "first": "synthetic", "back": "synthetic"})
+    synthetic_final.append({"id": "l-only", "side": "L", "partition": "FINAL", "cluster": "l-only", "source": "synthetic", "first": "synthetic", "back": "synthetic"})
     selected_final = selector_module["select_final"](synthetic_final, random.Random(20261110))
     final_stats = selector_module["summarize"](selected_final)
     assert final_stats["records"] == 50
