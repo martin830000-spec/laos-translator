@@ -1,0 +1,13 @@
+{
+  "campaign": "GEMINI35L_AUTONOMOUS500_20261107",
+  "closed_utc": "2026-11-07T03:14:08.062196+00:00",
+  "actual": 204,
+  "unused": 296,
+  "independent_cap": 500,
+  "approval_locked": true,
+  "automatic_reexecution": false,
+  "verdict": "HOLD",
+  "previous_multi1000_unchanged": true,
+  "service_changed": false,
+  "test_changed": false
+}

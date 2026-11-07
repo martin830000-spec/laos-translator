@@ -18,3 +18,5 @@ jobs:
         with:
           name: solo500-free-boundary
           path: solo500-free.json
+
+# Closure verification: both campaign locks,48offline request boundaries, zero paid generation.
