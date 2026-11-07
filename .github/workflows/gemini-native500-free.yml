@@ -2,7 +2,10 @@ name: Model-native500 offline verification
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
-    paths: [.github/workflows/gemini-native500-free.yml]
+    paths:
+      - .github/workflows/gemini-native500-free.yml
+      - experiments/gemini35-native500/**
+      - experiments/gemini36-native500/**
 permissions:
   contents: read
 jobs:
