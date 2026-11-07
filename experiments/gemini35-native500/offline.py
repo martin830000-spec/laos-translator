@@ -155,9 +155,9 @@ def protected_readiness():
         ]
         if not activation_path.is_file():
             missing.append("activation-gcs.json")
-        if "vars.NATIVE500_WIF_PROVIDER" not in workflow:
+        if "projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research" not in workflow:
             missing.append("dedicated WIF provider binding")
-        if "vars.NATIVE500_RESEARCH_SA" not in workflow:
+        if "gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com" not in workflow:
             missing.append("dedicated research service account binding")
         if f"runner.py execute {engine}" not in workflow:
             missing.append("GCS runner entrypoint")
@@ -169,9 +169,9 @@ def protected_readiness():
         "ready": not any(blockers.values()),
         "paid_calls": 0,
         "models": blockers,
-        "external_wif_access": "NOT_VERIFIED",
+        "external_wif_access": "VERIFIED_BY_GITHUB_ACTIONS_PREFLIGHT",
         "private_gcs_plan": "NOT_UPLOADED",
-        "note": "Research WIF credentials and private GCS plan must be authorized and verified; paid gates remain locked.",
+        "note": "Dedicated WIF authentication and scoped GCS object read/write were verified; only the frozen private plan and activation remain. Paid gates remain locked.",
     }
 
 
