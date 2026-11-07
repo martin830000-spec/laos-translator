@@ -1,0 +1,9 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "campaign": "GEMINI35_MODEL_NATIVE_OPT500_20261107",
+  "phase": "DEVELOPMENT_BASELINE",
+  "max_new": 80,
+  "plan_sha256": "9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b",
+  "run_nonce": "native500-dev-XCqxbiaU90lJfloPJF_UgWfnxlxtEfPwbFq9shT4oKQ",
+  "plan_object": "research/gemini-model-native500-20261107/35/plans/9cd55e8dceeda7b334bcad32dcb7c6d22768361e82b22c3c4b853141c7dba78b.json"
+}
