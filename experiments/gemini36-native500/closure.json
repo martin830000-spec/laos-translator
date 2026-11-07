@@ -1,5 +1,5 @@
 {
-  "status": "SAMPLES_GCS_SHA_PASS_PLAN_BUILDER_CI_PASS",
+  "status": "DEVELOPMENT_BASELINE_COMPLETE_AB_READY",
   "paid_calls": 0,
   "remaining": 500,
   "last_success": "36/36 offline worker/SMART contract checks passed in run 42358188202; paid execution not started",
@@ -127,5 +127,28 @@
       "object": "research/gemini-model-native500-20261107/36/plans/a4f3158853b82c0153c2280702118fa9a5d053c30fed68d326d155ece590c537.json"
     }
   },
-  "plan_upload_status": "LOCAL_BUILT_GCS_UPLOAD_PENDING"
+  "plan_upload_status": "LOCAL_BUILT_GCS_UPLOAD_PENDING",
+  "actual_calls": 80,
+  "actual_success": 80,
+  "actual_failed": 0,
+  "actual_skipped": 0,
+  "remaining_cap": 420,
+  "last_run": {
+    "run_id": 42367675652,
+    "conclusion": "success",
+    "plan_sha256": "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb",
+    "attempted": 80,
+    "success": 80,
+    "failed": 0,
+    "skipped": 0
+  },
+  "next_phase": {
+    "phase": "AB_COMPARE",
+    "plan_sha256": "a4f3158853b82c0153c2280702118fa9a5d053c30fed68d326d155ece590c537",
+    "planned_calls": 250,
+    "prior_actual": 80,
+    "remaining_after_ab": 170,
+    "final_reserved": 100,
+    "reserve": 70
+  }
 }
