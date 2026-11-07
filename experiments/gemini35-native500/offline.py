@@ -140,8 +140,42 @@ def run_engine(engine):
     return len(requests)
 
 
+def protected_readiness():
+    blockers = {}
+    for engine in ("35", "36"):
+        directory = ROOT / "experiments" / f"gemini{engine}-native500"
+        config = json.loads((directory / "config.json").read_text(encoding="utf-8"))
+        workflow_path = ROOT / ".github" / "workflows" / f"gemini-native500-{engine}.yml"
+        workflow = workflow_path.read_text(encoding="utf-8")
+        runner_path = directory / "runner.py"
+        runner_source = runner_path.read_text(encoding="utf-8")
+        compile(runner_source, str(runner_path), "exec")
+        activation_path = directory / "activation.json"
+        missing = [
+            key for key in ("issue_number", "title", "plan_sha256", "tag")
+            if key not in config
+        ]
+        if not activation_path.is_file():
+            missing.append("activation.json")
+        if "cfg['plan_sha256']" not in runner_source:
+            missing.append("runner plan_sha256 contract")
+        if "c['plan_sha256']==a['digest']" not in workflow:
+            missing.append("workflow plan digest contract")
+        if "plan_sha500" in workflow:
+            missing.append("stale plan_sha500 field")
+        assert config["enabled"] is False and config["max_new"] == 0
+        blockers[engine] = sorted(set(missing))
+    return {
+        "ready": not any(blockers.values()),
+        "paid_calls": 0,
+        "models": blockers,
+        "note": "BLOCKED is expected until sealed issue/activation/plan are prepared; paid gates remain locked."
+    }
+
+
 def main():
     total = run_engine("35") + run_engine("36")
+    readiness = protected_readiness()
     result = {
         "status": "PASS",
         "checks": total,
@@ -158,7 +192,11 @@ def main():
             "BACK SMART isolation",
             "neutral-input no-SMART behavior",
             "paid campaign gates remain disabled",
+            "runner Python syntax",
+            "protected workflow/runner digest field parity",
+            "explicit protected-runner readiness blockers",
         ],
+        "protected_execution": readiness,
     }
     (ROOT / "native500-free.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n",
