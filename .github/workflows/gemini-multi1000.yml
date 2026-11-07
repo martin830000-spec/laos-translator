@@ -1,0 +1,25 @@
+name: Gemini multi1000 access preflight
+on:
+  push:
+    branches: [research/gemini-multi1000-20261107]
+    paths: [experiments/gemini-multi1000/probe-activation.json]
+permissions:
+  contents: read
+jobs:
+  probe:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Four bounded access probes
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/gemini-multi1000/probe.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: multi1000-probe
+          path: probe-result.json
