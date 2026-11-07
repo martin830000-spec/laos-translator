@@ -6,6 +6,10 @@ def build(cfg,raw):
     assert hashlib.sha256(raw).hexdigest()==cfg['sample_sha256']
     rows=json.loads(raw); byhash={r['source_sha256']:r for r in rows}
     selected=[byhash[h] for h in cfg['selected_source_sha256']]
+    if 'selected_record_sha256' in cfg:
+        identities={hashlib.sha256((str(r['id'])+'|'+r['source_sha256']).encode()).hexdigest():r for r in rows}
+        selected=[identities[h] for h in cfg['selected_record_sha256']]
+        assert [r['source_sha256'] for r in selected]==cfg['selected_source_sha256']
     assert len(selected)==len(set(r['source_sha256'] for r in selected))
     result={}
     for model,settings in cfg['models'].items():

@@ -23,8 +23,8 @@ CAMPAIGNS = {
     "36": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
 }
 PATHS = ("KF", "KB", "LF", "LB")
-VARIANTS = {"35": {"BASE", "N35", "S35", "S35_LOW"},
-            "36": {"BASE", "R36", "S36", "S36_MINIMAL"}}
+VARIANTS = {"35": {"Q35", "BASE", "N35", "S35", "S35_LOW"},
+            "36": {"Q36", "BASE", "R36", "S36", "S36_MINIMAL"}}
 
 
 def check(assertion, reason):

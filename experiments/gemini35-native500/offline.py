@@ -6,8 +6,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 PATHS = ["KF", "KB", "LF", "LB"]
 VARIANTS = {
-    "35": ["BASE", "N35", "S35", "S35_LOW"],
-    "36": ["BASE", "R36", "S36", "S36_MINIMAL"],
+    "35": ["Q35", "BASE", "N35", "S35", "S35_LOW"],
+    "36": ["Q36", "BASE", "R36", "S36", "S36_MINIMAL"],
 }
 CONFIGS = {
     "35": {"model": "gemini-3.5-flash-lite", "smart_variant": {"S35", "S35_LOW"}},

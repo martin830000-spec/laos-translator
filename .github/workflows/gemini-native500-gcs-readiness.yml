@@ -54,3 +54,4 @@ jobs:
 
       - name: Stage frozen private research plans without generation
         run: python3 experiments/gemini-native500-gcs/stage_plan.py
+# Stage revision: LAO_PRIMER_R2
