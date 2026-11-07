@@ -1,0 +1,16 @@
+{
+  "status": "COMPLETE_NO_MORE_GENERATION",
+  "actual": {
+    "35": 255,
+    "36": 254,
+    "38": 256
+  },
+  "unused": {
+    "35": 1,
+    "36": 2,
+    "38": 0
+  },
+  "total_actual": 765,
+  "reason": "All frozen cells attempted; failed FIRST dependent BACK skipped; no retries",
+  "operations_changed": false
+}

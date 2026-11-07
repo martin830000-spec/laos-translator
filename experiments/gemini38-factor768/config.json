@@ -1,10 +1,10 @@
 {
-  "enabled": true,
+  "enabled": false,
   "phase": "38_ALL",
   "issue_number": 237,
   "title": "GEMINI_P168_SMART768_38_ALL_ENCRYPTED",
-  "prior_actual": 0,
-  "max_new": 256,
+  "prior_actual": 256,
+  "max_new": 0,
   "plan_sha256": "07f348c79f4d42e509c630a082dcf740390699a46bdbd27f1a8a665b599c6cbb",
   "deadline_epoch": 1794040596,
   "tag": "gemini-factor768-20261107-38_all-consumed",
