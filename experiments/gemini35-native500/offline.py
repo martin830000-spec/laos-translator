@@ -173,8 +173,50 @@ def protected_readiness():
     }
 
 
+def gcs_protocol_offline():
+    import runpy
+    import importlib.util
+    import os
+    runner = ROOT / "experiments" / "gemini-native500-gcs" / "runner.py"
+    assert runner.is_file()
+    compile(runner.read_text(encoding="utf-8"), str(runner), "exec")
+    module = runpy.run_path(str(runner), run_name="_native500_offline")
+    valid_tasks = [
+        {"slot": "first-1", "case_id": "case-1", "path": "KF",
+         "variant": "N35", "input": "잘 잤어?"},
+        {"slot": "back-1", "case_id": "case-1", "path": "KB",
+         "variant": "N35", "from_slot": "first-1"},
+    ]
+    assert module["validate_tasks"](valid_tasks, "35", {"max_new": 2})
+    illegal = [dict(x) for x in valid_tasks]
+    illegal[1]["input"] = "처음 한국어 원문을 역번역에 전달하면 안 됨"
+    try:
+        module["validate_tasks"](illegal, "35", {"max_new": 2})
+        assert False, "Unexpected acceptance of original-source BACK"
+    except RuntimeError as exc:
+        assert "BACK_MUST_DEPEND" in str(exc)
+    for model in ("35", "36"):
+        wf = (ROOT / ".github" / "workflows" /
+              f"gemini-native500-{model}.yml").read_text(encoding="utf-8")
+        assert "id-token: write" in wf
+        assert "vars.NATIVE500_WIF_PROVIDER" in wf
+        assert "vars.NATIVE500_RESEARCH_SA" in wf
+        assert f"runner.py execute {model}" in wf
+        assert "issues: write" not in wf
+        assert "handshake.json" not in wf and "runner.py prepare" not in wf
+        assert "activation-gcs.json" in wf
+        assert "secrets.GEMINI_API_KEY" in wf
+        assert "github.run_attempt == 1" in wf
+        assert "github.actor == 'martin830000-spec'" in wf
+    cfg = (ROOT / "experiments" / "gemini35-native500" /
+           "config.json").read_text(encoding="utf-8")
+    assert '"enabled": false' in cfg
+    return {"protocol": "GCS_ONLY", "offline": "PASS", "paid_calls": 0}
+
+
 def main():
     total = run_engine("35") + run_engine("36")
+    gcs_check = gcs_protocol_offline()
     readiness = protected_readiness()
     result = {
         "status": "PASS",
@@ -197,6 +239,7 @@ def main():
             "explicit protected-runner readiness blockers",
         ],
         "protected_execution": readiness,
+        "gcs_protocol": gcs_check,
     }
     (ROOT / "native500-free.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n",
