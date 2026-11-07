@@ -40,12 +40,17 @@ def run_engine(engine):
     activation_path = directory / "activation-gcs.json"
     if activation_path.is_file():
         activation = json.loads(activation_path.read_text(encoding="utf-8"))
-        assert config["enabled"] is True, f"{engine}: activation/config mismatch"
-        assert 0 < config["max_new"] <= 500 - config["prior_actual"]
         assert activation["model"] == expected["model"]
-        assert activation["max_new"] == config["max_new"]
         assert activation["plan_sha256"] == config["plan_sha256"]
         assert activation["run_nonce"] == config["run_nonce"]
+        if config["enabled"] is True:
+            assert 0 < config["max_new"] <= 500 - config["prior_actual"]
+            assert activation["max_new"] == config["max_new"]
+        else:
+            # A completed phase keeps its immutable activation as evidence but
+            # disables further requests and carries forward actual attempts.
+            assert config["max_new"] == 0
+            assert config["prior_actual"] >= activation["max_new"]
     else:
         assert config["enabled"] is False, f"{engine}: paid gate must remain disabled without activation"
         assert config["max_new"] == 0, f"{engine}: paid gate must remain zero without activation"
@@ -174,10 +179,13 @@ def protected_readiness():
             missing.append("legacy encrypted Issue handshake still active")
         if activation_path.is_file():
             activation = json.loads(activation_path.read_text(encoding="utf-8"))
-            assert config["enabled"] is True
             assert activation["plan_sha256"] == config.get("plan_sha256")
             assert activation["run_nonce"] == config.get("run_nonce")
-            assert activation["max_new"] == config.get("max_new")
+            if config["enabled"] is True:
+                assert activation["max_new"] == config.get("max_new")
+            else:
+                assert config["max_new"] == 0
+                assert config["prior_actual"] >= activation["max_new"]
         else:
             assert config["enabled"] is False and config["max_new"] == 0
         blockers[engine] = sorted(set(missing))
