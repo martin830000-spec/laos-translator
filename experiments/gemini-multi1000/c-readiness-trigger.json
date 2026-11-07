@@ -1,0 +1,9 @@
+{
+  "campaign": "GEMINI_MULTI1000_20261107",
+  "phase": "C",
+  "mode": "OFFLINE_DRY_RUN_ONLY",
+  "actual": 172,
+  "unused": 828,
+  "paid_calls_authorized_in_this_trigger": 0,
+  "notes": "Do not enable paid generation. Checks only C model request builder and closed authorization."
+}
