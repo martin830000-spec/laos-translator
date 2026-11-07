@@ -1,0 +1,26 @@
+{
+  "campaign": "GEMINI_MULTI1000_20261107",
+  "status": "RESEARCH_COMPLETE_HOLD",
+  "closed_utc": "2026-11-07T01:43:58.716648+00:00",
+  "original_actual": 172,
+  "new_actual": 444,
+  "actual": 616,
+  "unused": 384,
+  "cap": 1000,
+  "phase_actual": {
+    "ACCESS": 4,
+    "A": 96,
+    "B": 72,
+    "C": 72,
+    "D": 64,
+    "E": 80,
+    "FINAL": 228
+  },
+  "new_generation_enabled": false,
+  "automatic_retries": 0,
+  "native_review": false,
+  "service_changed": false,
+  "original_closure_sha256": "b2e5e849a2021c84c680a2b8e32ca9d8ebe29a754316aeaee8b25acdeda6a0e6",
+  "final_run": 42324805348,
+  "decision": "M31_KO remains current TEST; M36_DIR is most promising new directional research candidate, HOLD for deployment; M31_DIR no net error reduction; M35 contrast method expansion stopped"
+}

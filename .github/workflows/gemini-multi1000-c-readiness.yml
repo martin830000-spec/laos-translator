@@ -1,92 +1,51 @@
-name: Gemini multi1000 C SAFE readiness (no paid API)
+name: Gemini multi1000 resumed closure verification (free)
 on:
   push:
-    branches:
-      - research/gemini-multi1000-20261107
+    branches: [research/gemini-multi1000-20261107]
     paths:
       - .github/workflows/gemini-multi1000-c-readiness.yml
-      - experiments/gemini-multi1000/c-readiness-trigger.json
+      - experiments/gemini-multi1000/resume-closure.json
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  c-readiness:
+  closed-verification:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Verify research closure and candidate source (offline only)
+      - name: Verify immutable history, closed cap, syntax and synthetic payloads
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import json
+          python3 - <<'PYCODE'
+          import json,hashlib,subprocess
           from pathlib import Path
-          p = Path("experiments/gemini-multi1000")
-          cfg = json.loads((p / "config.json").read_text())
-          closed = json.loads((p / "closure.json").read_text())
-          assert cfg["enabled"] is False and cfg["max_new"] == 0
-          assert cfg["prior_actual"] == 172
-          assert closed["actual"] == 172 and closed["unused"] == 828
-          assert closed["phase_actual"]["C"] == 0 and closed["phase_actual"]["FINAL"] == 0
-          assert closed["new_generation_enabled"] is False
-          assert "M36_KO" in (p / "worker.cjs").read_text()
-          print("C_READINESS_GATE_PASS: 172/1000 preserved; C=0; FINAL=0; paid execution locked.")
-          PY
-      - name: Validate runner syntax and four C model payloads without calling API
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m py_compile experiments/gemini-multi1000/runner.py
-          node --check experiments/gemini-multi1000/worker.cjs
-          python3 - <<'PY'
-          import json, subprocess
-          from pathlib import Path
-          worker = str(Path("experiments/gemini-multi1000/worker.cjs"))
-          synthetic = {
-            "KF": "자기야, 오늘은 집에서 쉬자.",
-            "KB": "ທີ່ຮັກ ມື້ນີ້ພັກຜ່ອນຢູ່ເຮືອນ.",
-            "LF": "ທີ່ຮັກ ມື້ນີ້ຂ້ອຍພັກຜ່ອນຢູ່ເຮືອນ.",
-            "LB": "자기야, 오늘은 집에서 푹 쉬고 있어."
-          }
-          requests = [json.dumps({"mode":"build","variant":"M36_KO","path":p,"input":src}, ensure_ascii=False) for p,src in synthetic.items()]
-          proc = subprocess.run(["node", worker], input="\n".join(requests)+"\n", text=True, capture_output=True, timeout=15, check=True)
-          outputs = [json.loads(line) for line in proc.stdout.splitlines() if line.strip()]
-          assert len(outputs) == 4, (len(outputs), proc.stderr)
-          for (path,source),result in zip(synthetic.items(), outputs):
-            assert result["ok"] is True, (path,result)
-            q = result["value"]
-            assert q["model"] == "gemini-3.6-flash"
-            assert q["payload"]["generationConfig"]["thinkingConfig"]["thinkingLevel"] == "low"
-            assert q["payload"]["generationConfig"]["maxOutputTokens"] == 1024
-            assert q["payload"]["contents"][0]["parts"][0]["text"] == source
-          print("C_PAYLOAD_DRY_RUN_PASS: four directions, model, LOW, 1024, input preservation; paid calls 0.")
-          PY
-      - name: Verify protected C workflow stays dormant until new authorization
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path("experiments/gemini-multi1000")
-          protected=Path(".github/workflows/gemini-multi1000-c-protected.yml").read_text()
-          assert not (p/"c-paid-activation.json").exists()
-          assert "c-paid-activation.json" in protected
-          assert "USER_APPROVED_C_RESUME" in protected
-          assert "c[\"enabled\"] is True" in protected
-          assert "c[\"max_new\"] <= 72" in protected
-          assert "c[\"issue_number\"] != 211" in protected
-          assert "secrets.GEMINI_API_KEY" in protected
-          assert "runner.py execute" in protected
-          print("C_PROTECTED_WORKFLOW_PRESENT_DORMANT: activation missing, closure retained, no paid generation.")
-          PY
-      - name: Write readiness evidence
-        run: |
-          mkdir -p /tmp/multi1000-readiness
-          printf '%s\n' '{"paid_calls":0,"prior_actual":172,"remaining":828,"purpose":"resume-readiness"}' > /tmp/multi1000-readiness/evidence.json
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          p=Path('experiments/gemini-multi1000')
+          c=json.loads((p/'config.json').read_text());r=json.loads((p/'resume-closure.json').read_text());o=json.loads((p/'closure.json').read_text())
+          assert c['enabled'] is False and c['max_new']==0 and c['prior_actual']==616
+          assert o['actual']==172 and o['unused']==828
+          assert hashlib.sha256((p/'closure.json').read_bytes()).hexdigest()==r['original_closure_sha256']
+          assert r['actual']==616 and r['unused']==384 and r['new_actual']==444
+          assert sum(r['phase_actual'].values())==616 and r['new_generation_enabled'] is False
+          subprocess.run(['python3','-m','py_compile',str(p/'runner.py')],check=True)
+          subprocess.run(['node','--check',str(p/'worker.cjs')],check=True)
+          requests=[]
+          for variant in ['M31_KO','M31_CDEMO','M35_R','M35_CDEMO','M36_KO','M36_SVC','M38_SVC']:
+              for path in ['KF','KB','LF','LB']:
+                  source='자기야, 오늘은 쉬자.' if path in ['KF','LB'] else 'ທີ່ຮັກ ມື້ນີ້ພັກຜ່ອນ.'
+                  requests.append(dict(mode='build',variant=variant,path=path,input=source))
+          z=subprocess.run(['node',str(p/'worker.cjs')],input='\n'.join(json.dumps(x,ensure_ascii=False) for x in requests)+'\n',text=True,capture_output=True,check=True)
+          a=[json.loads(s) for s in z.stdout.splitlines() if s.strip()];assert len(a)==28
+          for req,out in zip(requests,a):
+              assert out['ok'] is True
+              assert out['value']['payload']['contents'][0]['parts'][0]['text']==req['input']
+          Path('closure-verification.json').write_text(json.dumps({'actual':616,'unused':384,'old_closure_preserved':True,'payload_checks':28,'paid_calls':0,'passed':True}))
+          print('CLOSURE_PASS: 616/1000; 384 unused; paid generation disabled; 28 offline payload checks; old closure preserved.')
+          PYCODE
+      - uses: actions/upload-artifact@v4
         with:
-          name: multi1000-resume-readiness
-          path: /tmp/multi1000-readiness/evidence.json
+          name: multi1000-resume-closure-verification
+          path: closure-verification.json
