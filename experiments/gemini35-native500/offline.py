@@ -313,7 +313,8 @@ def gcs_protocol_offline():
     assert '"DONE_WITH_FAILURES" if failed else "DONE"' in runner_source
     cfg = (ROOT / "experiments" / "gemini35-native500" /
            "config.json").read_text(encoding="utf-8")
-    assert '"enabled": false' in cfg
+    gate=json.loads(cfg)
+    assert (gate['enabled'] is False and gate['max_new']==0) or (gate['enabled'] is True and 0<gate['max_new']<=500-gate['prior_actual'])
     return {"protocol": "GCS_ONLY", "offline": "PASS", "paid_calls": 0}
 
 
@@ -353,3 +354,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

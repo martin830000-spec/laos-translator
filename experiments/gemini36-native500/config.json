@@ -1,11 +1,14 @@
 {
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "max_new": 60,
   "prior_actual": 80,
-  "phase": "DEVELOPMENT_BASELINE_COMPLETE",
-  "deadline_epoch": 1794216000,
+  "phase": "AB_EXPLORATION_R1",
+  "deadline_epoch": 1794075695,
   "model": "gemini-3.6-flash",
   "campaign": "GEMINI36_MODEL_NATIVE_OPT500_20261107",
-  "plan_sha256": "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb",
-  "run_nonce": "native500-dev-IO1XIjCmAw_Dn7P8Q8ZuOs2RlPBvooVon7QGK7oWGc0"
+  "plan_sha256": "41ed220ebbe248e4430cecc05258025e0520b2b3677176d4c67ed73356c4d60a",
+  "run_nonce": "native500-ab1-K9eTMSJnrlNpjmF2f8qmF9J--qHm_yd0",
+  "prior_plans": [
+    "f597d1317494470b42f5e7e4c45126e396e01b64555da057717d0a4d0ee07cbb"
+  ]
 }

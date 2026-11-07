@@ -180,6 +180,12 @@ def execute(model):
     check(plan.get("model") == MODELS[model], "PLAN_MODEL_MISMATCH")
     check(plan.get("phase") == config["phase"], "PLAN_PHASE_MISMATCH")
     check(plan.get("prior_actual") == config["prior_actual"], "PLAN_PRIOR_MISMATCH")
+    prior_actual=0
+    for previous_sha in config.get("prior_plans", []):
+        previous=json.loads(bucket.blob(f"{PREFIX}/{model}/results/{previous_sha}/RUN_FINISHED.json").download_as_bytes(timeout=30))
+        check(previous["status"] in ("DONE", "DONE_WITH_FAILURES"), "PRIOR_NOT_FINISHED")
+        prior_actual+=previous["attempted"]
+    check(prior_actual==config["prior_actual"], "REMOTE_LEDGER_PRIOR_MISMATCH")
     tasks = plan.get("tasks")
     validate_tasks(tasks, model, config)
 
@@ -236,7 +242,9 @@ def execute(model):
             })
             row = {"slot": slot, "model": MODELS[model], "case_id": t["case_id"],
                    "path": t["path"], "variant": t["variant"], "input": actual_input,
-                   "request": built, "status": "UNKNOWN_AFTER_SEND"}
+                   "request": built, "status": "UNKNOWN_AFTER_SEND",
+                   "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                   "input_sha256": digest(actual_input.encode("utf-8")), "run_id": os.environ.get("GITHUB_RUN_ID")}
             try:
                 status, body, latency = gemini_request(
                     model, built["payload"], os.environ["GEMINI_API_KEY"]
@@ -255,6 +263,7 @@ def execute(model):
             except Exception as exc:
                 row["status"] = "UNCONFIRMED_REQUEST_ERROR"
                 row["error_type"] = type(exc).__name__
+            row["completed_utc"]=datetime.datetime.now(datetime.timezone.utc).isoformat()
             # Private full output is stored in GCS only, never GitHub Actions artifacts.
             immutable_write(bucket, key, row)
             prior[slot] = {"status": row["status"], "displayed": row.get("displayed")}
@@ -287,3 +296,4 @@ def execute(model):
 if __name__ == "__main__":
     check(len(sys.argv) == 3 and sys.argv[1] == "execute", "ARGS")
     execute(sys.argv[2])
+

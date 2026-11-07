@@ -61,3 +61,15 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python3 experiments/gemini-native500-gcs/runner.py execute 36
+
+      - name: Export encrypted private analysis copy
+        if: always()
+        run: python3 experiments/gemini-native500-gcs/review_export.py 36
+      - name: Upload ciphertext only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native500-private-review-36
+          path: ${{ runner.temp }}/native500-review.p7m
+          retention-days: 1
+          if-no-files-found: error
