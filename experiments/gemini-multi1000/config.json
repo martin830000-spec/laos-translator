@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "phase": "A",
+  "issue_number": 209,
+  "title": "GEMINI_MULTI1000_A_ENCRYPTED",
+  "prior_actual": 4,
+  "max_new": 96,
+  "plan_sha256": "03dbf8067add5843c1ebbebf5a7d6ec54d0a86db85c82d94c5179d86f1f078aa",
+  "deadline_epoch": 1794014450,
+  "tag": "gemini-multi1000-20261107-a-consumed"
+}

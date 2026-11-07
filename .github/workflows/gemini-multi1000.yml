@@ -1,25 +1,40 @@
-name: Gemini multi1000 access preflight
+name: Gemini multi1000 protected research
 on:
   push:
     branches: [research/gemini-multi1000-20261107]
-    paths: [experiments/gemini-multi1000/probe-activation.json]
+    paths: [experiments/gemini-multi1000/activation.json]
 permissions:
-  contents: read
+  contents: write
+  issues: read
+concurrency:
+  group: gemini-multi1000-20261107
+  cancel-in-progress: false
 jobs:
-  probe:
+  research:
     if: github.run_attempt == 1
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
-      - name: Four bounded access probes
+      - name: Cryptography dependency
+        run: python3 -m pip install --quiet cryptography==46.0.3
+      - name: Prepare public handshake
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 experiments/gemini-multi1000/runner.py prepare /tmp/multi1000-state
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: multi1000-handshake
+          path: /tmp/multi1000-state/handshake.json
+      - name: Bounded private research
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/gemini-multi1000/probe.py
+        run: python3 experiments/gemini-multi1000/runner.py execute /tmp/multi1000-state
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: multi1000-probe
-          path: probe-result.json
+          name: multi1000-result
+          path: /tmp/multi1000-state/sealed-result.json
