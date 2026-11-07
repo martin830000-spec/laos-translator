@@ -1,4 +1,4 @@
-name: Gemini native500 dedicated WIF GCS readiness (no generation)
+name: Gemini FAST320 private input readiness (no generation)
 on:
   push:
     branches:
@@ -32,29 +32,11 @@ jobs:
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Install GCS client
         run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: Verify private bucket policies and non-sensitive marker write
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from google.cloud import storage
-          import os
-          client=storage.Client(project='gen-lang-client-0422436907')
-          b=client.bucket('lao-translator-src-460077888071')
-          # Bucket security settings were verified separately by the owner.
-          # This identity is intentionally limited to objects under the research prefix.
-          # Only non-sensitive readiness marker; never load private translation samples.
-          key='research/gemini-model-native500-20261107/preflight/'+os.environ['GITHUB_RUN_ID']+'.json'
-          blob=b.blob(key)
-          blob.upload_from_string('{"preflight":"PASS","paid_calls":0}',
-                                  content_type='application/json',
-                                  if_generation_match=0,timeout=30)
-          assert blob.reload() is None
-          print('RESEARCH_WIF_GCS_READ_WRITE_READY; NO_API; NO_PRIVATE_CONVERSATION')
-          PY
-
-      - name: Check A/B single-pass contracts
-        run: python3 experiments/gemini-native500-gcs/ab160_offline.py
-
-      - name: Stage AB160 FINAL private plans without generation
-        run: python3 experiments/gemini-native500-gcs/stage_plan.py
-# Stage revision AB160_FINAL_B_V1
+      - name: Provision new campaign encrypted input path (no generation)
+        run: python3 experiments/gemini-fast320/bootstrap.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fast320-public-input-certificate
+          path: ${{ runner.temp }}/fast320-input-cert.pem
+          retention-days: 1
+          if-no-files-found: error
