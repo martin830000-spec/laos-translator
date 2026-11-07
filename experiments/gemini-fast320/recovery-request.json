@@ -1,0 +1,30 @@
+{
+  "purpose": "read existing six plans; no generation; finish interrupted closure",
+  "paid_calls": 0,
+  "plans": [
+    [
+      "35",
+      "d80ac6f9d652d3517de6ba3dd96238d30db05b8bd3c496edd79797a0b9f250a3"
+    ],
+    [
+      "35",
+      "b5844faaadb7bc2a2888142c2de05c81f5d54ed5e21c7f3432cf4e573c98284f"
+    ],
+    [
+      "35",
+      "f97f1aef9b75ae83644818afb8255c7740b6cfe48ea177f275ba663abafb2f6c"
+    ],
+    [
+      "36",
+      "76614e101ce2844c3002deb089bcb10a7622b1850cf6825ae5aa9bb0c0f2dc94"
+    ],
+    [
+      "36",
+      "2286d52e0467fa8a1e56a564fe8ddea430071cbd8ac27b6a8ed4f2408253feae"
+    ],
+    [
+      "36",
+      "5bf310be3d5ecb1d203db834c6836c626af748962cd26553123a9584552a29ff"
+    ]
+  ]
+}
