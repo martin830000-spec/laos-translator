@@ -1,7 +1,7 @@
 {
   "campaign": "GEMINI36_FAST_REPLACEMENT320_20261108",
   "deadline_epoch": 1794098762,
-  "enabled": false,
+  "enabled": true,
   "max_new": 80,
   "model": "gemini-3.6-flash",
   "phase": "SAME_FIRST_BACK",

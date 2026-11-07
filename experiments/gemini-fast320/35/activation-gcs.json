@@ -1,9 +1,9 @@
 {
   "campaign": "GEMINI35_FAST_REPLACEMENT320_20261108",
-  "max_new": 112,
+  "max_new": 80,
   "model": "gemini-3.5-flash-lite",
-  "phase": "DEV_FIRST",
-  "plan_object": "research/gemini-model-native500-20261107/fast-replacement320-20261108/35/plans/b5844faaadb7bc2a2888142c2de05c81f5d54ed5e21c7f3432cf4e573c98284f.json",
-  "plan_sha256": "b5844faaadb7bc2a2888142c2de05c81f5d54ed5e21c7f3432cf4e573c98284f",
-  "run_nonce": "fast320-dev-a71ad056f843fcbd59d15b007b94e984"
+  "phase": "SAME_FIRST_BACK",
+  "plan_object": "research/gemini-model-native500-20261107/fast-replacement320-20261108/35/plans/d80ac6f9d652d3517de6ba3dd96238d30db05b8bd3c496edd79797a0b9f250a3.json",
+  "plan_sha256": "d80ac6f9d652d3517de6ba3dd96238d30db05b8bd3c496edd79797a0b9f250a3",
+  "run_nonce": "fast320-back-b446136e1b62e8d93d0c3f480bcf919c"
 }
