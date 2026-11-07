@@ -1,0 +1,8 @@
+{
+  "phase": "C",
+  "prior_actual": 172,
+  "max_new": 72,
+  "plan_sha256": "f854db2b6fd4a3f809edf0ee25f9cebcd7562990537de6c3e69e350646fa385c",
+  "approval": "USER_APPROVED_C_RESUME",
+  "explicit_authorization": true
+}

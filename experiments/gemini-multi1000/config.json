@@ -1,11 +1,11 @@
 {
-  "enabled": false,
-  "phase": "CLOSED_BOTTLENECK",
-  "issue_number": 211,
-  "title": "GEMINI_MULTI1000_C_ENCRYPTED",
+  "enabled": true,
+  "phase": "C",
+  "issue_number": 212,
+  "title": "GEMINI_MULTI1000_C_RESUME_ENCRYPTED",
   "prior_actual": 172,
-  "max_new": 0,
+  "max_new": 72,
   "plan_sha256": "f854db2b6fd4a3f809edf0ee25f9cebcd7562990537de6c3e69e350646fa385c",
-  "deadline_epoch": 1794014450,
-  "tag": "gemini-multi1000-20261107-c-consumed"
+  "deadline_epoch": 1794017040,
+  "tag": "gemini-multi1000-20261107-c-resume-0121"
 }
