@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 0,
+  "model": "gemini-3.5-flash-lite",
+  "campaign": "GEMINI35_P168_SMART256_20261107",
+  "phase": "FROZEN",
+  "deadline_epoch": 1794040596
+}

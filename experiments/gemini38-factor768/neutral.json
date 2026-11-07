@@ -1,0 +1,6 @@
+{
+  "KF": "Translate the given Korean message into natural Lao, preserving its meaning. Output only the translation.",
+  "LF": "Translate the given Lao message into natural Korean, preserving its meaning. Output only the translation.",
+  "KB": "Back-translate only the given Lao message into natural Korean, preserving its meaning. Use only this message, without reconstructing an unseen original. Output only the translation.",
+  "LB": "Back-translate only the given Korean message into natural Lao, preserving its meaning. Use only this message, without reconstructing an unseen original. Output only the translation."
+}
