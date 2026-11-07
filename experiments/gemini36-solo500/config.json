@@ -1,13 +1,13 @@
 {
   "enabled": true,
-  "phase": "36_C",
-  "issue_number": 222,
-  "title": "GEMINI_SOLO500_36_C_ENCRYPTED",
-  "prior_actual": 137,
-  "max_new": 24,
-  "plan_sha256": "09ea142f715a0081e61d4573f10a07bd90da2235458e302433864c5c4b675701",
+  "phase": "36_D",
+  "issue_number": 224,
+  "title": "GEMINI_SOLO500_36_D_ENCRYPTED",
+  "prior_actual": 161,
+  "max_new": 18,
+  "plan_sha256": "2a98c79f0afe3d1375f1a4a6aad1b73915ee3cce25a5d3ce70d1c827c55f6c3d",
   "deadline_epoch": 1794022061,
-  "tag": "gemini-solo500-20261107-36_c-consumed",
+  "tag": "gemini-solo500-20261107-36_d-consumed",
   "model": "gemini-3.6-flash",
   "campaign": "GEMINI36_AUTONOMOUS500_20261107"
 }

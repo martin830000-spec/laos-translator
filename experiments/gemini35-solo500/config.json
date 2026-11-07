@@ -1,13 +1,13 @@
 {
   "enabled": true,
-  "phase": "35_C",
-  "issue_number": 221,
-  "title": "GEMINI_SOLO500_35_C_ENCRYPTED",
-  "prior_actual": 102,
-  "max_new": 24,
-  "plan_sha256": "3c4b17f451c5bfda1680da7fc952564f34b4a86bc6e977342b757950365a2256",
+  "phase": "35_D",
+  "issue_number": 223,
+  "title": "GEMINI_SOLO500_35_D_ENCRYPTED",
+  "prior_actual": 126,
+  "max_new": 18,
+  "plan_sha256": "9d2ef3bfe6128de83ef2ee445eeaf79abf44330132b916922bf1cd29a4361338",
   "deadline_epoch": 1794022061,
-  "tag": "gemini-solo500-20261107-35_c-consumed",
+  "tag": "gemini-solo500-20261107-35_d-consumed",
   "model": "gemini-3.5-flash-lite",
   "campaign": "GEMINI35L_AUTONOMOUS500_20261107"
 }
