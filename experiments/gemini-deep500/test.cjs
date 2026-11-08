@@ -17,3 +17,12 @@ assert.deepEqual(a.payload.systemInstruction,b.payload.systemInstruction);
 assert.equal(a.payload.generationConfig.thinkingConfig.thinkingLevel,'low');
 assert.equal(b.payload.generationConfig.thinkingConfig.thinkingLevel,'minimal');
 console.log(JSON.stringify({request_contract_cases:count,paid_calls:0,back_input_isolation:true}));
+
+for(const m of ['35','36'])for(const p of ['KF','KB','LF','LB'])for(const v of ['REFINE','ALT']){
+ const q=build(m,p,v,'ACTUAL_FIRST_ONLY');
+ assert.deepEqual(q.payload.contents,[{role:'user',parts:[{text:'ACTUAL_FIRST_ONLY'}]}]);
+ const raw=m==='36'&&v==='REFINE'?JSON.stringify('실제 출력 ສະບາຍດີ'):'실제 출력 ສະບາຍດີ';
+ assert.equal(inspect(m,{candidates:[{finishReason:'STOP',content:{parts:[{text:raw}]}}]},p,v).displayed,'실제 출력 ສະບາຍດີ');
+}
+assert.equal(inspect('36',{candidates:[{finishReason:'STOP',content:{parts:[{text:'not JSON'}]}}]},'KB','REFINE').status,'FAILED');
+console.log(JSON.stringify({new_contract_cases:16,scalar_roundtrip:true,malformed_not_repaired:true,paid_calls:0}));

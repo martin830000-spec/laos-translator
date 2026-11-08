@@ -12,7 +12,20 @@ function build(model,path,variant,input){
  ['보고 싶지만 지금은 쉬고 싶어.','ຄິດຮອດ ແຕ່ຕອນນີ້ຢາກພັກຜ່ອນ.']
  ];
  let instruction,level=model==='35'?'minimal':'low';
- if(variant==='DEMO'){
+ if(variant==='REFINE'||variant==='ALT'){
+ const native=lao?
+ 'ແປຂໍ້ຄວາມຈາກພາສາເກົາຫຼີເປັນພາສາລາວ. ໃຊ້ຕົວອັກສອນແລະຄຳສັບລາວ ໃຫ້ເປັນຂໍ້ຄວາມສົນທະນາທີ່ອ່ານງ່າຍ. ຮັກສາຄວາມໝາຍ ນ້ຳສຽງ ແລະມຸມມອງຂອງຜູ້ເວົ້າ. ບໍ່ຕື່ມເຫດການ ຫຼືແກ້ເລື່ອງຕາມການຄາດເດົາ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ອະທິບາຍ ແລະບໍ່ສະເໜີທາງເລືອກ.':
+ '라오어 입력을 자연스러운 한국어 메시지로 번역하세요. 화자의 관점과 어조, 말한 내용을 그대로 전달하세요. 어색한 표현을 다듬되 말하지 않은 사건을 추가하거나 상황을 추측해 고치지 마세요. 번역 하나만 반환하며 해설이나 대안을 나열하지 마세요.';
+ instruction=native;
+ if(model==='35'){
+ const pairs=examples.slice(0,variant==='REFINE'?4:2);
+ instruction+='\n'+(lao?'ຕົວຢ່າງການແປ (ບໍ່ແມ່ນບໍລິບົດຂອງຂໍ້ຄວາມໃໝ່):':'다음은 번역 방식의 예시이며 새 메시지의 배경 정보가 아닙니다:')+'\n'+pairs.map(([k,l])=>(lao?'ຕົ້ນສະບັບ: ':'입력: ')+(lao?k:l)+'\n'+(lao?'ຄຳແປ: ':'번역: ')+(lao?l:k)).join('\n\n');
+ }else if(variant==='REFINE'){
+ instruction+='\nSerialize the translated message as one JSON string value. The string contains only the translation. No analysis fields, object keys, alternatives or hidden corrections.';
+ }
+ if(back)instruction+=lao?'\nແປຕາມຂໍ້ຄວາມທີ່ເຫັນນີ້ເທົ່ານັ້ນ. ບໍ່ມີຕົ້ນສະບັບກ່ອນໜ້າໃຫ້ຟື້ນຟູ. ເຖິງຂໍ້ຄວາມຈະແປກ ກໍຕ້ອງຮັກສາຄວາມໝາຍທີ່ມັນບອກ.':'\n지금 보이는 메시지만 독립적으로 옮기세요. 보이지 않는 이전 원문을 복원할 수 없습니다. 내용이 이상해도 실제로 말한 의미를 보여주세요.';
+ return {model:model==='35'?'gemini-3.5-flash-lite':'gemini-3.6-flash',version:'DEEP500_'+(model==='35'?(variant==='REFINE'?'NATIVE_DEMO4':'NATIVE_DEMO2'):(variant==='REFINE'?'SCALAR':'SCALAR_PLAIN_CONTROL'))+'_R2',payload:{systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:input}]}],generationConfig:{temperature:1,maxOutputTokens:2048,thinkingConfig:{thinkingLevel:level,includeThoughts:false},...(model==='36'&&variant==='REFINE'?{responseMimeType:'application/json',responseSchema:{type:'STRING',description:lao?'ຄຳແປເປັນພາສາລາວ':'한국어 번역문'}}:{})}}};
+ }else if(variant==='DEMO'){
  instruction='Translate the user message from '+(lao?'Korean to Lao':'Lao to Korean')+'. These invented examples demonstrate faithful conversational translation, not context or facts about the user.\n'+examples.map(([k,l])=>'Source: '+(lao?k:l)+'\nTranslation: '+(lao?l:k)).join('\n\n')+'\nApply the demonstrated approach to the whole user message. Output only its translation; no examples, explanation or reply.';
  }else if(variant==='SEGLINE'){
  instruction='Translate '+(lao?'Korean into natural Lao':'Lao into natural Korean')+' using sentence alignment. Read the whole message for reference, then express each source sentence in its own target-language sentence in the same order. Put each complete translated sentence on a new line. A long sentence may use natural target-language clauses, but do not merge distinct events or reorder them into a reconstructed story. Output only the complete translation, without numbering, headings, source text, analysis or a reply. Keep the original speaker’s tone and leave implicit details implicit.';
@@ -24,9 +37,15 @@ function build(model,path,variant,input){
  else instruction+='\nThis is a private conversation. Preserve the expressed warmth, concern, joke or frustration without intensifying it.';
  return {model:model==='35'?'gemini-3.5-flash-lite':'gemini-3.6-flash',version:'DEEP500_'+variant+'_R1',payload:{systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:input}]}],generationConfig:{temperature:1,maxOutputTokens:2048,thinkingConfig:{thinkingLevel:level,includeThoughts:false}}}};
 }
-function inspect(model,raw,path){return require('../gemini'+model+'-native500/base.cjs').inspect(raw,path);}
+function inspect(model,raw,path,variant){
+ const result=require('../gemini'+model+'-native500/base.cjs').inspect(raw,path);
+ if(model==='36'&&variant==='REFINE'&&result.status==='SUCCESS'){
+  try{const value=JSON.parse(result.raw_text);if(typeof value!=='string'||!value.trim())throw Error('SCALAR');result.displayed=value.trim();result.format_decoding='JSON_STRING_ONLY';}
+  catch{result.status='FAILED';result.reason='JSON_SCALAR_FORMAT';result.displayed=null;}
+ }return result;
+}
 if(require.main===module){
  const model=process.argv[2];
- readline.createInterface({input:process.stdin,crlfDelay:Infinity}).on('line',line=>{try{const r=JSON.parse(line);const value=r.mode==='build'?build(model,r.path,r.variant,r.input):inspect(model,r.raw,r.path);process.stdout.write(JSON.stringify({ok:true,value})+'\n');}catch(e){process.stdout.write(JSON.stringify({ok:false,error:e.message})+'\n');}});
+ readline.createInterface({input:process.stdin,crlfDelay:Infinity}).on('line',line=>{try{const r=JSON.parse(line);const value=r.mode==='build'?build(model,r.path,r.variant,r.input):inspect(model,r.raw,r.path,r.variant);process.stdout.write(JSON.stringify({ok:true,value})+'\n');}catch(e){process.stdout.write(JSON.stringify({ok:false,error:e.message})+'\n');}});
 }
 module.exports={build,inspect};
