@@ -10,11 +10,11 @@
       "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2"
     ]
   ],
-  "input_sha256": "6cf6e14e68ecb8236322272321a732d8f1bc81e47e02a6202631d99e43bef980",
+  "input_sha256": "cb8540d2782f6f68d20eaed27bf11dc7e0b8de6bbb533267c210b4cafc433856",
   "mode": "STAGE",
-  "nonce": "v2-stage-cross-20261108",
+  "nonce": "v2-stage-repeat-20261108",
   "plans": {
-    "35": "11e93edb68d4a07a532077c60400fc94f7de903e29e90a0bab4f3a2ae36f0d8e",
-    "36": "bab21716e9849f47ce393e88c6af25985361d75803aa3b6a2ce019c61c04d196"
+    "35": "596a1f437a3a91903cb4d7074a0ea601c616bd1b0feb8078afabe911eef14276",
+    "36": "d4ab0f5867e74ceafeacdb2b1fa6902ecab10621946f5a897fa597f705b90074"
   }
 }
