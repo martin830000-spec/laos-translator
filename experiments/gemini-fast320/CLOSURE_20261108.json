@@ -1,0 +1,38 @@
+{
+  "status": "RESEARCH_CLOSED_ADOPTION_HOLD",
+  "closed_date_utc": "2026-11-08",
+  "closure_generation_calls": 0,
+  "experiment_source_sha": "a8dedf540870b019315977cf1be64dfc2c2a8586",
+  "models": {
+    "35": {
+      "attempted": 320,
+      "success": 320,
+      "failed": 0,
+      "remaining": 0,
+      "enabled": false,
+      "max_new": 0
+    },
+    "36": {
+      "attempted": 319,
+      "success": 317,
+      "failed": 2,
+      "skipped_dependency": 1,
+      "remaining": 1,
+      "enabled": false,
+      "max_new": 0
+    }
+  },
+  "back_payload_checked": 399,
+  "back_payload_pass": 399,
+  "recovered_raw_zip_sha256": "8c096675d61ee8b89c2d30c08476359d7d6630f38facbba10c3bb78f9577781a",
+  "raw_manifest_files": 1297,
+  "final_quality": "provisional, non-native, non-blind; P2 pass; REVIEW not failure",
+  "final_design": "BASE FIRST+BASE BACK vs NP8 FIRST+BASE BACK; FWD variants not in FINAL",
+  "decision": "Keep research BASE; HOLD deployment for both models. Not a model-wide stop.",
+  "cost": {
+    "estimated_usd35": 0.0672259,
+    "estimated_usd36": 0.288921,
+    "rates": "previous research assumptions; not current price or invoice verification"
+  },
+  "private_evidence": "Google Drive LIVE_STATE; no source messages or model outputs in this public record"
+}
