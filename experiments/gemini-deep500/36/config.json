@@ -1,8 +1,12 @@
 {
   "campaign": "GEMINI36_DEEP500_20261108",
   "model": "gemini-3.6-flash",
-  "enabled": false,
-  "max_new": 0,
+  "phase": "DISCOVERY",
+  "enabled": true,
+  "max_new": 144,
   "prior_actual": 0,
-  "prior_plans": []
+  "prior_plans": [],
+  "plan_sha256": "75265b4f1595dc8196a7c46fcb456d2736621443e3cace7fd9da3da98028bc2d",
+  "run_nonce": "1610f5e033f10a1aa9144e340654f81b",
+  "deadline_epoch": 1794120967
 }

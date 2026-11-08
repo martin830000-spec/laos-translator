@@ -1,8 +1,12 @@
 {
   "campaign": "GEMINI35_DEEP500_20261108",
   "model": "gemini-3.5-flash-lite",
-  "enabled": false,
-  "max_new": 0,
+  "phase": "DISCOVERY",
+  "enabled": true,
+  "max_new": 144,
   "prior_actual": 0,
-  "prior_plans": []
+  "prior_plans": [],
+  "plan_sha256": "a74c83edcdab36766c96de65776a0a5d4786348ab78164f8f785c0099e3a60dd",
+  "run_nonce": "a71cfe8aa0bc314e5024a129165eceea",
+  "deadline_epoch": 1794120967
 }
