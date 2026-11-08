@@ -79,6 +79,7 @@ async def execute(s,c):
  assert plan['campaign']==CAMPAIGN and len(plan['slots'])==c['max_new'];assert len({x['slot'] for x in plan['slots']})==len(plan['slots'])
  key=os.environ['OPENAI_API_KEY'];lock=s.acquire();rs=reservations(s);prior=len(rs);assert prior==c['prior_actual'];assert len(rs)+c['max_new']<=160
  state=json.loads(s.get('STATE.json'));assert state['cumulative_actual']==prior
+ state=cfg.copy();state['status']='RUNNING';state['phase']=c['phase'];s.replace('STATE.json',canon(state))
  meta={'phase':c['phase'],'run':os.environ['GITHUB_RUN_ID'],'sha':os.environ['GITHUB_SHA'],'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'python':platform.python_version(),'httpx':importlib.metadata.version('httpx'),'concurrency':1,'connection_reuse':True,'http_retries':0,'sdk':'No OpenAI SDK; official Responses HTTP via httpx','runner':os.environ.get('RUNNER_OS'),'runner_region':'Read GitHub hosted runner job header; not assumed'}
  s.put('runs/'+c['phase']+'/START.json',canon(meta));disabled={};streak={};attempted_now=0;all_done=False
  try:

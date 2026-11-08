@@ -1,0 +1,23 @@
+{
+  "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
+  "generated_calls": 0,
+  "key_binding": "secrets.GPT_API_KEY -> env.OPENAI_API_KEY",
+  "key_present": true,
+  "models_metadata_http": 200,
+  "models_listed": [
+    "gpt-6-luna",
+    "gpt-6.1-terra"
+  ],
+  "offline_contract_tests": 11,
+  "remote_http_mock_tests": 5,
+  "model_api_warmup_calls": 0,
+  "hard_deadline_test": "0.05s test limit interrupts 0.02s trickling bytes; production limit60",
+  "http_transport": "httpx0.28.1 AsyncHTTPTransport(retries=0); no OpenAI SDK",
+  "source_and_prompts_unchanged_from_initial_freeze": true,
+  "GCS_stage_verified_against_local_plan": true,
+  "GCS_duplicate_create_guard": "PASS",
+  "roundtrip_extra_synthetic_pending": false,
+  "capture_date_kst": "2026-11-09",
+  "roundtrip_extra_synthetic_pass": true,
+  "roundtrip_run": 42512053104
+}

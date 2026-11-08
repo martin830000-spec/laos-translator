@@ -1,0 +1,11 @@
+{
+  "phase": "ROUND",
+  "drive_id": "1Aqjf90hgXEsSyhKZxZwSPorfRsFaTynb",
+  "sha256": "8d1b54c50182ef6ce6e0b50dc7b83cb545e087aab194fdd21d269cdc6a35de3e",
+  "bytes": 40458,
+  "readback_exact": true,
+  "zip_crc": "PASS",
+  "manifest_count": 22,
+  "owner_only": true,
+  "verified_at_utc": "2026-11-08T18:53:40.425098+00:00"
+}
