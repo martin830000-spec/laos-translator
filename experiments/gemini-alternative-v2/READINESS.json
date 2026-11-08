@@ -1,20 +1,6 @@
 {
-  "export_cert": "export-b-cert.pem",
-  "frozen_sources": [
-    [
-      "35",
-      "e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c"
-    ],
-    [
-      "36",
-      "ada700122cb3c6484c2ab5bb572e2ccad1783b306dbcc3cc319dd73174330c82"
-    ]
-  ],
-  "input_sha256": "63c26c1ba44e4af19375c94d9a590ef0ce13d143a67d554fa1a77f32995a0e31",
-  "mode": "STAGE",
-  "nonce": "v2-stage-final_back-20261108",
-  "plans": {
-    "35": "6c8f3cf4a5d67bb251c21411f2debf8c3756ba588aa661090f92ef822cfc6628",
-    "36": "4b8486abda18207c28c6e37686422e1f24b1f16cb7e6a2465b2c01d721c4f8ae"
-  }
+  "mode": "LOCKED",
+  "status": "CLOSED",
+  "generation_calls_allowed": 0,
+  "recovery": "Existing private GCS originals may be read and re-encrypted under existing authority; no generation replay."
 }
