@@ -1,0 +1,21 @@
+{
+  "mechanism": "single-call draft-then-bidirectional-evidence-check",
+  "target": "unsupported interpretation and omitted logical counterpart, followed by explicit Lao orthography at final realization",
+  "difference": "SCOPE parses clauses before production; ANCHOR fixes lexical referents before production; SURFACE composes simple meaning units. REFINE instead checks the produced proposition against source evidence in both directions before finalizing. FOCUS DETAIL listed static rules but did not require draft-to-source and source-to-draft coverage comparison.",
+  "no_extra_calls": "Only normal one generate request; no emitted reasoning, external critic or paid judge. Internal compliance cannot be observed.",
+  "risks": [
+    "self-check may reinforce first guess",
+    "overliteral Korean or malformed Lao",
+    "long Korean instructions previously damaged Lao; explicit final Lao contract is an unproven intervention, not claimed fix"
+  ],
+  "falsification": [
+    "new verified unsupported participant/condition despite audit",
+    "no paired important-error benefit on new actual messages",
+    "readability or latency regressions outweigh gains"
+  ],
+  "draft_status": "FROZEN_FOR_S3",
+  "settings": "minimal unchanged; no sampling or thinking comparison",
+  "causality_limit": "Prompt package changes process and output-language emphasis together; cannot attribute outcome to either alone",
+  "S2_basis": "same-FIRST ANCHOR KB adds an opposite state interpretation; lexical fixation alone is insufficient. SURFACE LB avoids one lexical failure but has several readability reviews. Try validating produced propositions against the current input while allowing natural paraphrase.",
+  "budget": 96
+}
