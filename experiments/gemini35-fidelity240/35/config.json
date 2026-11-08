@@ -2,9 +2,9 @@
   "approved_total": 240,
   "backup_gate_passed": true,
   "campaign": "GEMINI35_FIDELITY240_20261108",
-  "cumulative_actual": 80,
+  "cumulative_actual": 112,
   "deadline_epoch": 1794142194,
-  "enabled": true,
+  "enabled": false,
   "frozen_sources": [
     "1a12c10b5541ca979670900b805fef5edcccf1e5ffad99dce3955866537b85a4",
     "1ce36ca9a77bd26b61d1f98f7cf3a28960033adc0b9b5dbd2964871bb3c2863a",
@@ -23,7 +23,7 @@
     "cb189c2b67ab48abd51cae37edaba21b9c42b84f2fe411909a4a123a5265e6e6",
     "efa5c5e8e131d2ff084cccbb3b49ea587edf3c35ba7b6d68af5ab04fb9180e83"
   ],
-  "max_new": 32,
+  "max_new": 0,
   "model": "gemini-3.5-flash-lite",
   "phase": "P2",
   "plan_sha256": "8072e2ddd3811e12e38ed9fa1bf4f14e0feeb96206bd31584d2d31682ccd64b1",
@@ -31,7 +31,7 @@
   "prior_plans": [
     "47746d97a9ee5f7edcbf42e1498776ab18b7081f84e7120865f8178741103b5d"
   ],
-  "remaining_authorized": 160,
+  "remaining_authorized": 128,
   "run_nonce": "fidelity240-p2-de2d63c2b0961cf05e342f2a",
-  "status": "P2_ARMED_EXACT_PLAN"
+  "status": "P2_COMPLETE_ANALYSIS"
 }
