@@ -1,0 +1,9 @@
+{
+  "campaign": "GEMINI35_MECHANISM500_20261108",
+  "model": "gemini-3.5-flash-lite",
+  "phase": "S1",
+  "max_new": 96,
+  "plan_sha256": "3001204ec83f540cd01865a2fae57d154a1c739582d18ee7d2fb51e17e1139a7",
+  "run_nonce": "mechanism500-s1-20261108-singlepass",
+  "plan_object": "research/gemini-model-native500-20261107/mechanism500-20261108/35/plans/3001204ec83f540cd01865a2fae57d154a1c739582d18ee7d2fb51e17e1139a7.json"
+}
