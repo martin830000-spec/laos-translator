@@ -1,19 +1,20 @@
 {
   "campaign": "GEMINI35_FOCUS320_20261108",
   "model": "gemini-3.5-flash-lite",
-  "enabled": false,
-  "max_new": 0,
-  "prior_actual": 160,
+  "enabled": true,
+  "max_new": 128,
+  "prior_actual": 192,
   "cumulative_actual": 192,
   "prior_plans": [
     "37a8a2464b93f75f4d257212bf1450a02dd54c1619279bf366475a506f041fea",
     "71b42d154e454ccb1529aef56b00ed74ed909c5ab2c4123fbcc522eaca81b782",
-    "8f2f222d33186ef1032c5b125fc76683a20ac3a635739f233ba4b33022b08b28"
+    "8f2f222d33186ef1032c5b125fc76683a20ac3a635739f233ba4b33022b08b28",
+    "778c54baf4366134de28bf273aad780cb100cf498fe1982586529677106fac2e"
   ],
-  "phase": "S4",
-  "plan_sha256": "778c54baf4366134de28bf273aad780cb100cf498fe1982586529677106fac2e",
-  "run_nonce": "focus320-s4-20261108-singlepass",
-  "deadline_epoch": 1794127514,
+  "phase": "S5",
+  "plan_sha256": "f0f043c1dc40e7db97c00916e0fff111c5dabaac5ba80b77147b8739447c1fef",
+  "run_nonce": "focus320-s5-20261108-singlepass",
+  "deadline_epoch": 1794127825,
   "backup_gate_passed": true,
   "frozen_sources": []
 }
