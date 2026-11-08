@@ -1,0 +1,4 @@
+{
+  "mode": "PROBE_WRITE",
+  "export_cert": "export-cert.pem"
+}

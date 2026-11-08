@@ -1,0 +1,8 @@
+{
+  "campaign": "GEMINI35_FOCUS320_20261108",
+  "model": "gemini-3.5-flash-lite",
+  "authorized_max": 320,
+  "other_models": 0,
+  "automatic_retries": 0,
+  "new_campaign_not_v2": true
+}
