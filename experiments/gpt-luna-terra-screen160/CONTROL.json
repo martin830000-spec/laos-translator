@@ -6,14 +6,18 @@
     "checks/atomic-AB.json",
     "plans/d9fd443d82b2128c0b787e79efdd2d379000eaea97e7bfc10ba271dec90f6160.json",
     "checkpoints/fixed-first-panel.json",
-    "checks/atomic-C.json"
+    "checks/atomic-C.json",
+    "states/CLOSED.json",
+    "closure/READBACK.json",
+    "closure/FIDELITY240_UNCHANGED.json"
   ],
-  "mode": "EXECUTE",
+  "mode": "CLOSE",
   "package_sha256": "321c13217605627ac561df703f08ca18e320d223c78ad27af4ad5bf985b29907",
   "phase": "C",
   "plan_sha256": "d9fd443d82b2128c0b787e79efdd2d379000eaea97e7bfc10ba271dec90f6160",
-  "max_new": 32,
+  "max_new": 0,
   "prior_actual": 128,
   "deadline_epoch": 1794172872,
-  "previous_state_object": "states/AB-finished.json"
+  "previous_state_object": "states/AB-finished.json",
+  "expected_actual": 160
 }

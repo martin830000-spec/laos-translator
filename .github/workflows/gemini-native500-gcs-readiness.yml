@@ -24,13 +24,8 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
-      - name: Free sender tests without model calls
-        working-directory: experiments/gpt-luna-terra-screen160
-        run: python3 -m unittest -v test_sender.py
       - name: Exact controlled stage or execution
-        env:
-          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
-        run: python3 experiments/gpt-luna-terra-screen160/runner.py
+        run: python3 experiments/gpt-luna-terra-screen160/closure.py
       - name: Preserve encrypted private checkpoint
         if: always()
         run: python3 experiments/gpt-luna-terra-screen160/runner.py EXPORT

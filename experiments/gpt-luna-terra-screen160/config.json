@@ -1,38 +1,40 @@
 {
-  "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
-  "enabled": true,
-  "max_new": 32,
-  "cumulative_actual": 128,
-  "status": "C_AUTHORIZED",
-  "approved_total": 160,
   "approved_per_model": 80,
-  "models": [
-    "gpt-6-luna",
-    "gpt-6.1-terra"
-  ],
+  "approved_total": 160,
+  "backup_gate_sha256": "cd0dfc94c5fe30899c077c7da98ada54fa27c16670e75b5cd50774ebd95e53c6",
+  "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
+  "cumulative_actual": 160,
   "efforts": [
     "none",
     "low"
   ],
-  "transport": "official Responses HTTP via httpx0.28.1, retries0, monotonic deadline60s",
+  "enabled": false,
+  "latest_state_object": "states/CLOSED.json",
+  "max_new": 0,
+  "models": [
+    "gpt-6-luna",
+    "gpt-6.1-terra"
+  ],
   "models_ledger": {
     "gpt-6-luna": {
-      "attempted": 64,
+      "attempted": 80,
       "failed": 0,
-      "success": 64,
+      "success": 80,
       "unknown": 0,
-      "unused_locked": 16
+      "unused_locked": 0
     },
     "gpt-6.1-terra": {
-      "attempted": 64,
+      "attempted": 80,
       "failed": 0,
-      "success": 64,
+      "success": 80,
       "unknown": 0,
-      "unused_locked": 16
+      "unused_locked": 0
     }
   },
+  "phase": "C",
   "plan_sha256": "d9fd443d82b2128c0b787e79efdd2d379000eaea97e7bfc10ba271dec90f6160",
-  "backup_gate_sha256": "cd0dfc94c5fe30899c077c7da98ada54fa27c16670e75b5cd50774ebd95e53c6",
   "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad",
-  "latest_state_object": "states/C-running.json"
+  "status": "CLOSED_LOCKED",
+  "transport": "official Responses HTTP via httpx0.28.1, retries0, monotonic deadline60s",
+  "unused_locked": 0
 }
