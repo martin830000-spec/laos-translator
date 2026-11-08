@@ -1,9 +1,9 @@
 {
   "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
-  "enabled": false,
-  "max_new": 0,
+  "enabled": true,
+  "max_new": 128,
   "cumulative_actual": 0,
-  "status": "APPEND_ONLY_READINESS",
+  "status": "AB_AUTHORIZED",
   "approved_total": 160,
   "approved_per_model": 80,
   "models": [
@@ -28,5 +28,5 @@
   "plan_sha256": "c8d56c55937bc5fda3f89fd63ec4f1b2873817d3b012444086f590990dc8af93",
   "backup_gate_sha256": "cd0dfc94c5fe30899c077c7da98ada54fa27c16670e75b5cd50774ebd95e53c6",
   "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad",
-  "latest_state_object": "STATE.json"
+  "latest_state_object": "states/AB-running.json"
 }
