@@ -2,7 +2,7 @@ name: DEEP500 input readiness (zero generation)
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
-    paths: [.github/workflows/gemini-native500-gcs-readiness.yml]
+    paths: [.github/workflows/gemini-native500-gcs-readiness.yml, experiments/gemini-deep500/stage.json]
 permissions:
   contents: read
   id-token: write
@@ -21,10 +21,6 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - run: python3 experiments/gemini-deep500/bootstrap.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: deep500-input-certificate
-          path: ${{ runner.temp }}/deep500-input-cert.pem
-          retention-days: 3
-          if-no-files-found: error
+      - run: node experiments/gemini-deep500/test.cjs
+      - run: python3 -m py_compile experiments/gemini-deep500/runner.py experiments/gemini-deep500/stage.py
+      - run: python3 experiments/gemini-deep500/stage.py
