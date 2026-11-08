@@ -1,5 +1,5 @@
 """V2 private GCS transfer. No generation API or API key access."""
-import pathlib,json,os,hashlib,subprocess,tempfile,zipfile,base64,concurrent.futures,sys
+import pathlib,json,os,hashlib,subprocess,tempfile,zipfile,base64,concurrent.futures,sys,gzip
 from google.cloud import storage
 from google.api_core.exceptions import PreconditionFailed
 HERE=pathlib.Path(__file__).resolve().parent
@@ -31,11 +31,11 @@ def main():
    write('keys/input-key.pem',key.read_bytes());write('keys/input-cert.pem',cert.read_bytes())
  if mode in ('PROBE_WRITE','PROBE_READ'):
   objs['synthetic.json']=read('readiness/synthetic.json')
- elif mode=='STAGE':
+ elif mode in ('STAGE','CHECKPOINT'):
   with tempfile.TemporaryDirectory() as td:
    p=pathlib.Path(td);(p/'key.pem').write_bytes(read('keys/input-key.pem'));(p/'key.pem').chmod(0o600);(p/'in.p7m').write_bytes(base64.b64decode((HERE/'input.p7m.b64').read_text()))
    subprocess.run(['openssl','cms','-decrypt','-binary','-inform','DER','-in',str(p/'in.p7m'),'-inkey',str(p/'key.pem'),'-out',str(p/'input.json')],check=True,capture_output=True)
-   raw=(p/'input.json').read_bytes();assert digest(raw)==cfg['input_sha256'];package=json.loads(raw)
+   raw=(p/'input.json').read_bytes();raw=gzip.decompress(raw) if raw.startswith(b'\x1f\x8b') else raw;assert digest(raw)==cfg['input_sha256'];package=json.loads(raw)
    for m,plan in package['plans'].items():
     assert m in ('35',) and plan['campaign']==f'GEMINI{m}_MECHANISM500_20261108'
     import runner
@@ -48,6 +48,9 @@ def main():
       assert built['payload']['contents']==[{'role':'user','parts':[{'text':source}]}]
     finally:proc.terminate()
     payload=canon(plan);sha=digest(payload);assert sha==cfg['plans'][m];write(f'{m}/plans/{sha}.json',payload);objs[f'{m}/plans/{sha}.json']=read(f'{m}/plans/{sha}.json')
+   for phase,data in package.get('checkpoints',{}).items():
+    assert phase in ('S1','S2','S3','S4','S5','FINAL')
+    payload=canon(data);sha=digest(payload);name=f'35/checkpoints/{phase}/{sha}.json';write(name,payload);objs[name]=read(name)
  elif mode=='EXPORT':
   for m,sha in cfg['plans']:
    name=f'{m}/plans/{sha}.json';raw=read(name);assert digest(raw)==sha;objs[name]=raw;plan=json.loads(raw);base=f'{m}/results/{sha}'
