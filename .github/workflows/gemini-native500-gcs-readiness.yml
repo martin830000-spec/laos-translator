@@ -1,17 +1,14 @@
-name: FIDELITY240 existing-WIF private transfer readiness
+name: DEEP500 existing-WIF read-only recovery
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
-    paths: [experiments/gemini35-fidelity240/READINESS.json, .github/workflows/gemini-native500-gcs-readiness.yml]
+    paths: [.github/workflows/gemini-native500-gcs-readiness.yml]
 permissions:
   contents: read
   id-token: write
-concurrency:
-  group: native500-gcs-35
-  cancel-in-progress: false
 jobs:
   recover:
-    if: github.actor == 'martin830000-spec' && github.run_attempt == 1
+    if: ${{ false }} # Recovery complete; keep disabled
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -25,13 +22,10 @@ jobs:
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
       - name: Read existing objects only
-        run: python3 experiments/gemini35-fidelity240/bridge.py
+        run: python3 experiments/gemini-deep500/recover_readonly.py
       - uses: actions/upload-artifact@v4
         with:
-          name: fidelity240-private-transfer
-          path: |
-            ${{ runner.temp }}/fidelity240-transfer.p7m
-            ${{ runner.temp }}/fidelity240-input-cert.pem
+          name: deep500-recovery-encrypted
+          path: ${{ runner.temp }}/deep500-recovery.p7m
           retention-days: 3
           if-no-files-found: error
-
