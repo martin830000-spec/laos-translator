@@ -1,8 +1,14 @@
 {
   "mode": "STAGE",
   "export_cert": "export-cert.pem",
-  "input_sha256": "e2fab53c4418f6d53b3b893e883eb3e8438c2c5ff790fcbffa28a9d66cbbd860",
+  "input_sha256": "08d0435af3fca5916db0dc89a37b244f3fee6338a0684ae61c7f09a85b2b90fe",
   "plans": {
-    "35": "37a8a2464b93f75f4d257212bf1450a02dd54c1619279bf366475a506f041fea"
-  }
+    "35": "71b42d154e454ccb1529aef56b00ed74ed909c5ab2c4123fbcc522eaca81b782"
+  },
+  "frozen_sources": [
+    [
+      "35",
+      "37a8a2464b93f75f4d257212bf1450a02dd54c1619279bf366475a506f041fea"
+    ]
+  ]
 }
