@@ -1,14 +1,16 @@
 {
   "campaign": "GEMINI35_FOCUS320_20261108",
   "approved": 320,
-  "attempted": 192,
-  "success": 192,
+  "attempted": 320,
+  "success": 320,
   "failed": 0,
-  "remaining": 128,
+  "remaining": 0,
   "phases": {
     "S1": 64,
     "S2": 48,
     "S3": 48,
-    "S4": 32
-  }
+    "S4": 32,
+    "S5": 128
+  },
+  "locked": true
 }
