@@ -1,20 +1,11 @@
 {
   "export_cert": "export-b-cert.pem",
-  "frozen_sources": [
-    [
-      "35",
-      "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1"
-    ],
-    [
-      "36",
-      "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2"
-    ]
-  ],
-  "input_sha256": "cb8540d2782f6f68d20eaed27bf11dc7e0b8de6bbb533267c210b4cafc433856",
+  "frozen_sources": [],
+  "input_sha256": "e161fa75bc3586315b7d7a0d2a05babf7b78b04f9a61a27359f6079c7e55f9f1",
   "mode": "STAGE",
-  "nonce": "v2-stage-repeat-20261108",
+  "nonce": "v2-stage-final_base-20261108",
   "plans": {
-    "35": "596a1f437a3a91903cb4d7074a0ea601c616bd1b0feb8078afabe911eef14276",
-    "36": "d4ab0f5867e74ceafeacdb2b1fa6902ecab10621946f5a897fa597f705b90074"
+    "35": "e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c",
+    "36": "ada700122cb3c6484c2ab5bb572e2ccad1783b306dbcc3cc319dd73174330c82"
   }
 }
