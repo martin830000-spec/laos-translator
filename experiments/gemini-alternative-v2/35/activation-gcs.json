@@ -1,9 +1,9 @@
 {
   "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
   "model": "gemini-3.5-flash-lite",
-  "phase": "FINAL_BASE",
-  "max_new": 64,
-  "plan_sha256": "e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c",
-  "run_nonce": "v2-35-final_base-20261108-singlepass",
-  "plan_object": "research/gemini-model-native500-20261107/alternative-v2-20261108/35/plans/e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c.json"
+  "phase": "FINAL_BACK",
+  "max_new": 16,
+  "plan_sha256": "6c8f3cf4a5d67bb251c21411f2debf8c3756ba588aa661090f92ef822cfc6628",
+  "run_nonce": "v2-35-final_back-20261108-singlepass",
+  "plan_object": "research/gemini-model-native500-20261107/alternative-v2-20261108/35/plans/6c8f3cf4a5d67bb251c21411f2debf8c3756ba588aa661090f92ef822cfc6628.json"
 }
