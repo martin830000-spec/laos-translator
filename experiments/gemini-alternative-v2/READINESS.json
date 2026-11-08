@@ -1,0 +1,6 @@
+{
+  "mode": "LOCKED",
+  "status": "CLOSED",
+  "generation_calls_allowed": 0,
+  "recovery": "Existing private GCS originals may be read and re-encrypted under existing authority; no generation replay."
+}

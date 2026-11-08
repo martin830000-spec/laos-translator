@@ -1,13 +1,14 @@
 {
-  "actual": 0,
-  "success": 0,
-  "failure": 0,
+  "actual": 200,
+  "success": 199,
+  "failure": 1,
+  "remaining": 300,
   "skipped_dependency": 0,
-  "estimated_usd": 0,
-  "input_tokens": 0,
-  "output_tokens": 0,
+  "estimated_usd": 0.0421557,
+  "input_tokens": 54894,
+  "output_tokens": 10275,
   "thinking_tokens": 0,
-  "cached_tokens": 0,
   "pending_unknown_sends": 0,
-  "next": "Verify a permitted plaintext GCS-to-Work/Drive retrieval path before any generation; do not replay older campaigns."
+  "status": "CLOSED_LOCKED",
+  "next": "No automatic further generation. Read final private evidence and handoff. Same existing campaign; unused allowance is not a new campaign."
 }
