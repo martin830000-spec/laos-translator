@@ -1,7 +1,7 @@
 {
-  "actual": 152,
+  "actual": 216,
   "campaign": "GEMINI36_ALTERNATIVE_V2_20261108",
-  "remaining": 348,
+  "remaining": 284,
   "stages": [
     {
       "attempted": 64,
@@ -41,6 +41,19 @@
       "skipped": 0,
       "status": "DONE",
       "success": 40
+    },
+    {
+      "attempted": 64,
+      "campaign": "GEMINI36_ALTERNATIVE_V2_20261108",
+      "failed": 0,
+      "model": "gemini-3.6-flash",
+      "phase": "FINAL_BASE",
+      "plan_sha256": "ada700122cb3c6484c2ab5bb572e2ccad1783b306dbcc3cc319dd73174330c82",
+      "reason": null,
+      "remaining_in_reserved_plan": 0,
+      "skipped": 0,
+      "status": "DONE",
+      "success": 64
     }
   ]
 }

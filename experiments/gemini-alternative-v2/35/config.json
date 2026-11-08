@@ -1,20 +1,20 @@
 {
+  "backup_gate_passed": true,
   "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
-  "model": "gemini-3.5-flash-lite",
+  "cumulative_actual": 184,
+  "deadline_epoch": 1794114617,
   "enabled": false,
+  "frozen_sources": [],
   "max_new": 0,
-  "cumulative_actual": 120,
+  "model": "gemini-3.5-flash-lite",
+  "phase": "FINAL_BASE",
+  "plan_sha256": "e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c",
   "prior_actual": 120,
   "prior_plans": [
     "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1",
     "11e93edb68d4a07a532077c60400fc94f7de903e29e90a0bab4f3a2ae36f0d8e",
     "596a1f437a3a91903cb4d7074a0ea601c616bd1b0feb8078afabe911eef14276"
   ],
-  "frozen_sources": [],
-  "phase": "FINAL_BASE",
-  "plan_sha256": "e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c",
   "run_nonce": "v2-35-final_base-20261108-singlepass",
-  "deadline_epoch": 1794114617,
-  "backup_gate_passed": true,
-  "status": "READ_ONLY_MIRROR_EXECUTION_BRANCH_AUTHORITATIVE"
+  "status": "LOCKED_STAGE_RECOVERED"
 }

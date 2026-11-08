@@ -3,7 +3,10 @@ from gate import validate
 R=pathlib.Path(__file__).parent
 class Gates(unittest.TestCase):
  def setup(self,m='35'):
-  return json.loads((R/m/'approval.json').read_text()),json.loads((R/m/'config.json').read_text())
+  a=json.loads((R/m/'approval.json').read_text());c=json.loads((R/m/'config.json').read_text())
+  # Synthetic empty-ledger fixture, independent of the real campaign's usage.
+  c.update(enabled=False,max_new=0,cumulative_actual=0)
+  return a,c
  def test_locked(self):
   for m in ('35','36'):
    a,c=self.setup(m);self.assertEqual(validate(m,a,c,[],{}),'LOCKED')
