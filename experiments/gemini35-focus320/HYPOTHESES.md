@@ -1,0 +1,10 @@
+# GEMINI35_FOCUS320_20261108 — prespecified exploration
+Model: gemini-3.5-flash-lite only. New cap320, old budgets untouched. SINGLE_PASS. No retries, judge, extra correction or original text in BACK.
+
+A BASE: exact prior request payload and minimal/1024. KF474 KB298 LF260 LB522 Unicode characters.
+B ROLE: retain BASE and append target-language speaker/listener assignment plus grammar/quotation precedence and no invented omitted roles. Mechanism differs from V2 NOCONTEXT removal: preserve useful context but constrain reference binding. Risk: wife/husband inference overrides explicit third parties. Falsified if role errors or naturalness regress without repeatable benefit. S1:16 FIRST.
+C EN: English near-equivalent of BASE, same instructions/content order as practicable. No new examples or knowledge. Tests instruction-language sensitivity (Lao→English KF, Korean→English LF); wording/tokenization remain confounders, not a pure language proof. Risk: English-mediated literalness. Falsified by no accuracy/readability improvement over matched BASE. S1:16 FIRST.
+D DETAIL: complete Korean structured redesign, clause relationships, event status, ambiguity and ordinary target grammar as joint contracts. No source-specific answers or glossaries. Different from adding isolated historical error patches and prior DEMO examples. Risk: verbosity causes latency, literalness, or overpreservation of typos. Falsified if important distortion does not decrease or readability declines relative to BASE. S1:16 FIRST, later same-FIRST BACK only if useful.
+
+All S1 settings identical minimal/1024; no temperature/topP/topK. BASE16+ROLE16+EN16+DETAIL16=64. S2 same-FIRST BACK<=48. S3 refined full-chain<=48. Repeat<=32. Independent FINAL<=128. A low-thinking arm, if justified, will be isolated in a new frozen comparison with the exact same prompt; never attribute thinking benefit to prompt language.
+Research improvement, whole-pair usability, and SERVICE authorization are distinct outcomes. AI provisional; Lao native speaker not verified. REVIEW excluded from failure counts.

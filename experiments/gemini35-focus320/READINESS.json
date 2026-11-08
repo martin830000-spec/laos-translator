@@ -1,4 +1,8 @@
 {
-  "mode": "PROBE_WRITE",
-  "export_cert": "export-cert.pem"
+  "mode": "STAGE",
+  "export_cert": "export-cert.pem",
+  "input_sha256": "e2fab53c4418f6d53b3b893e883eb3e8438c2c5ff790fcbffa28a9d66cbbd860",
+  "plans": {
+    "35": "37a8a2464b93f75f4d257212bf1450a02dd54c1619279bf366475a506f041fea"
+  }
 }

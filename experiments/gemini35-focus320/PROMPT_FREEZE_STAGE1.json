@@ -1,0 +1,84 @@
+{
+  "stage": "S1",
+  "settings": {
+    "maxOutputTokens": 1024,
+    "thinkingConfig": {
+      "thinkingLevel": "minimal",
+      "includeThoughts": false
+    }
+  },
+  "prompts": {
+    "BASE": {
+      "KF": {
+        "characters": 474,
+        "sha256": "2a0a16d90ba0950f9af8ccd888e83762bc83471a71d601f5449b9490745bf692"
+      },
+      "KB": {
+        "characters": 298,
+        "sha256": "08d6d687de55dcf487663b5690c86cd98cdf5fdc7ae2fbaab6a54bc0d1c1bf64"
+      },
+      "LF": {
+        "characters": 260,
+        "sha256": "331451f4ea13ffcb22a2f09d9f95096ac781e97faf99a7292f6570eede8cd746"
+      },
+      "LB": {
+        "characters": 522,
+        "sha256": "2410b89a4b95e69e0c7e0fa59315261cc33b22a4661269f11df43776f6ad7900"
+      }
+    },
+    "ROLE": {
+      "KF": {
+        "characters": 715,
+        "sha256": "7a872bfb133ab88d2521adf9b4c19d979a8d8b6a3e72abd6d6d3a705315008f2"
+      },
+      "KB": {
+        "characters": 298,
+        "sha256": "08d6d687de55dcf487663b5690c86cd98cdf5fdc7ae2fbaab6a54bc0d1c1bf64"
+      },
+      "LF": {
+        "characters": 391,
+        "sha256": "4992c68272374655b20160e9140a2eb9ca15e58207db3a0d9f56d33d55c23280"
+      },
+      "LB": {
+        "characters": 522,
+        "sha256": "2410b89a4b95e69e0c7e0fa59315261cc33b22a4661269f11df43776f6ad7900"
+      }
+    },
+    "EN": {
+      "KF": {
+        "characters": 621,
+        "sha256": "26c166acb83564fd23a21a3ed345575ece0c587cc5959e21afe2ca02e338f23c"
+      },
+      "LF": {
+        "characters": 608,
+        "sha256": "ade1649b74fbb216f5b529988196c1784e3edb45d76bad01a186edf6cb5ff51a"
+      },
+      "KB": {
+        "characters": 665,
+        "sha256": "41a352d6d9caf3273c6d131f01add7182f23ef9932c5158899248dec3bf542c6"
+      },
+      "LB": {
+        "characters": 685,
+        "sha256": "402bdecc05da54f36b41ef5cf14e1ce4e8ac516d29e1866571c8c2a8eb2118e0"
+      }
+    },
+    "DETAIL": {
+      "KF": {
+        "characters": 1182,
+        "sha256": "219b8e88b13fe84144750eeadc516fcf0db9062a00c7b35500ebfbc6d324fea3"
+      },
+      "LF": {
+        "characters": 1168,
+        "sha256": "9b065639113e44b7655eb9d2cd77f75c4814b983627cad847c0078cfeb7711cc"
+      },
+      "KB": {
+        "characters": 1282,
+        "sha256": "784e7adc6e8cf510d471f175b9299288b64bc1c0b09bbdd97bd64de673513ac2"
+      },
+      "LB": {
+        "characters": 1296,
+        "sha256": "ac5ddd52777cf438b4ef3215bc59ba2e1537728109de8692b5e16c9e3800bd3e"
+      }
+    }
+  }
+}

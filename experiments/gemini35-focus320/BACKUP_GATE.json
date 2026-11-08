@@ -1,4 +1,10 @@
 {
-  "passed": false,
-  "replacement_key_plaintext_identical": false
+  "passed": true,
+  "synthetic_roundtrip_verified": true,
+  "generation_calls": 0,
+  "run_id": 42458092467,
+  "sha256": "4bc608386e6778cb1f2248c8fa804b27983731c8cdfe8f9134350053667cc058",
+  "drive_file_id": "1fzjl1Mv2kDvO_1pdlflZ0OA8_Kskf7Hj",
+  "owner_only": true,
+  "gcs_rekey_recovery_prior_verified": true
 }

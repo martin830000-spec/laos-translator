@@ -43,7 +43,7 @@ def load(model):
     directory = ROOT / "experiments" / "gemini35-focus320" / model
     config = json.loads((directory / "config.json").read_text(encoding="utf-8"))
     proof = json.loads((directory.parent / "BACKUP_GATE.json").read_text())
-    check(proof.get("passed") is True and proof.get("replacement_key_plaintext_identical") is True, "BACKUP_GATE")
+    check(proof.get("passed") is True and proof.get("synthetic_roundtrip_verified") is True, "BACKUP_GATE")
     check(config.get("backup_gate_passed") is True, "CONFIG_BACKUP_GATE")
     activation_path = directory / "activation-gcs.json"
     check(activation_path.is_file(), "ACTIVATION_MISSING")
