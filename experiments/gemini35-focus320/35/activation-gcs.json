@@ -1,0 +1,9 @@
+{
+  "campaign": "GEMINI35_FOCUS320_20261108",
+  "model": "gemini-3.5-flash-lite",
+  "phase": "S1",
+  "max_new": 64,
+  "plan_sha256": "37a8a2464b93f75f4d257212bf1450a02dd54c1619279bf366475a506f041fea",
+  "run_nonce": "focus320-s1-20261108-singlepass",
+  "plan_object": "research/gemini-model-native500-20261107/focus320-20261108/35/plans/37a8a2464b93f75f4d257212bf1450a02dd54c1619279bf366475a506f041fea.json"
+}
