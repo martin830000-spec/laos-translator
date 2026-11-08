@@ -1,0 +1,30 @@
+{
+  "actual_before": 112,
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "evaluation": "Blindlabels; FIRSTmeaning/naturalness separately; BACKcurrentFIRST only first thenchaincombine. P2pass/REVIEWunconfirmed. Importantmeaning reversalsP0/P1; harmless styleand dreamcount nuance notautomaticP1. Lao nativeunverified. No postFINAL tuning/replay.",
+  "exposure_audit_sha256": "ab5b572e15f2ab7f45308c86ca4c13eca41decd449a25063a291cdbcecc8a28e",
+  "files": {
+    "BASE_REQUESTS.json": "31b78c0d5c86303d9738ee15c7c36921d2545ab31d32b34af13cb82f7c8dc358",
+    "prompts.json": "4b341074d15f5366df015708f5b41a5090aa3e59c286a4dea2cd564e5ce555c5",
+    "runner.py": "fed2d3bb56cb92514f711b2646dc0db2007dcaf22e6bba5be16c3f15511574d0",
+    "schema.json": "804b27fc66e3ff91251a960456726ecbb7ef8051c1f072c13fbf1508cdade185",
+    "worker.cjs": "22378fc83666ba0e526cb43263cba62b06b82ed446fa1baa4570ccb6983e88ed"
+  },
+  "frozen_at": "2026-11-08T12:15:44.979520+00:00",
+  "paired_attribution": "SameFIRSTKB directeffect; LFpaired sourceoverallchain. LBBASEtwodifferentFIRST notLBprompt comparison. KFunchanged single sample.",
+  "parser": "BASE_text_trim or ALIGN_JSON_TRANSLATION_V1; entire response charged; no repair",
+  "plan_sha256": "c0a40177fe5855a56a8a11f3fc3ec01ad2c7c67997327b4d659dcc9d078fdd01",
+  "selection": {
+    "KB": "ALIGN",
+    "KF": "BASE",
+    "LB": "BASE",
+    "LF": "ALIGN_FIRST"
+  },
+  "sensitivity": "All32; exclude4strongrelatedevents28; exclude19temporalproxy13; no sources replaced.",
+  "settings": {
+    "maxOutputTokens": 1024,
+    "model": "gemini-3.5-flash-lite",
+    "thinkingLevel": "minimal"
+  },
+  "source_freeze_sha256": "dab7051d2d4e01c3792d503f2ae99d17cd152f6dfa7071526fc9f9a2356cd4e0"
+}
