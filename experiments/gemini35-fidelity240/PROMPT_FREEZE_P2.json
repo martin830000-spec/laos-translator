@@ -1,0 +1,10 @@
+{
+  "P1prompt_bytes_unchanged": true,
+  "actual_before": 80,
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "plan_sha256": "8072e2ddd3811e12e38ed9fa1bf4f14e0feeb96206bd31584d2d31682ccd64b1",
+  "prompts_sha256": "4b341074d15f5366df015708f5b41a5090aa3e59c286a4dea2cd564e5ce555c5",
+  "schema_sha256": "804b27fc66e3ff91251a960456726ecbb7ef8051c1f072c13fbf1508cdade185",
+  "settings": "minimal1024",
+  "worker_sha256": "22378fc83666ba0e526cb43263cba62b06b82ed446fa1baa4570ccb6983e88ed"
+}

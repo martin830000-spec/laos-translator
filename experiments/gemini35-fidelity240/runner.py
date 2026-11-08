@@ -22,7 +22,7 @@ CAMPAIGNS = {
     "35": "GEMINI35_FIDELITY240_20261108",
 }
 PATHS = ("KF", "KB", "LF", "LB")
-VARIANTS = {'35': {'BASE','SURFACE','PRESERVE','ALIGN'}}
+VARIANTS = {'35': {'BASE','SURFACE','PRESERVE','ALIGN','ALIGN_FIRST'}}
 
 
 def check(assertion, reason):
@@ -295,7 +295,7 @@ def execute(model):
                 # keep processing independent cases, while its own BACK is
                 # skipped by the dependency check above. Never retry.
                 # Only global authentication loss stops; isolated errors continue without retry.
-                if row.get("http_status") in (401,403) or (row.get("http_status")==400 and t["variant"]=="ALIGN"):
+                if row.get("http_status") in (401,403) or (row.get("http_status")==400 and t["variant"] in ("ALIGN","ALIGN_FIRST")):
                     stopped_reason = row["status"]
                     break
     finally:

@@ -10,20 +10,20 @@ function build(model,path,variant,input){
  const q=JSON.parse(JSON.stringify(base[path]));
  q.payload.contents=[{role:'user',parts:[{text:input}]}];
  q.payload.system_instruction.parts[0].text=prompts[variant][path];
- if(variant==='ALIGN'){
+ if(['ALIGN','ALIGN_FIRST'].includes(variant)){
   q.payload.generationConfig.responseMimeType='application/json';
   q.payload.generationConfig.responseJsonSchema=schema;
  }
  q.version='FIDELITY240_'+variant+'_R1';q.prompt_variant=variant;
- q.prompt_sha256=sha(prompts[variant][path]);q.schema_sha256=variant==='ALIGN'?sha(JSON.stringify(schema)):null;
- q.parser=variant==='ALIGN'?'ALIGN_JSON_TRANSLATION_V1':'BASE_TEXT_TRIM_V1';
+ q.prompt_sha256=sha(prompts[variant][path]);q.schema_sha256=['ALIGN','ALIGN_FIRST'].includes(variant)?sha(JSON.stringify(schema)):null;
+ q.parser=['ALIGN','ALIGN_FIRST'].includes(variant)?'ALIGN_JSON_TRANSLATION_V1':'BASE_TEXT_TRIM_V1';
  return q;
 }
 function inspect(raw,path,variant,input){
  const c=(raw.candidates||[])[0]||{};const parts=(c.content||{}).parts||[];
  const raw_text=parts.filter(x=>x.text&&!x.thought).map(x=>x.text).join('');
  let displayed=raw_text.trim(),parser_status='NOT_REQUIRED',evidence=null;
- if(variant==='ALIGN'){
+ if(['ALIGN','ALIGN_FIRST'].includes(variant)){
   try{
    const v=JSON.parse(raw_text);
    if(!v||Array.isArray(v)||Object.keys(v).sort().join()!=='segments,translation'||typeof v.translation!=='string'||!v.translation.trim()||!Array.isArray(v.segments)||!v.segments.length)throw Error('SHAPE');
