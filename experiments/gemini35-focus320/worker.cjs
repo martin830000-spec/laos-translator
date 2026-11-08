@@ -4,12 +4,12 @@ const base=JSON.parse(fs.readFileSync(__dirname+'/BASE_REQUESTS.json','utf8'));
 const prompts=JSON.parse(fs.readFileSync(__dirname+'/prompts.json','utf8'));
 function build(model,path,variant,input){
  if(model!=='35'||!['KF','KB','LF','LB'].includes(path)||typeof input!=='string'||!input.trim())throw Error('BOUNDARY');
- const v=variant==='LOW'?'DETAIL':variant;
+ const v=variant==='LOW'?'DETAIL':variant==='ROLE_LOW'?'ROLE':variant;
  if(!prompts[v]||!prompts[v][path])throw Error('VARIANT');
  const q=JSON.parse(JSON.stringify(base[path]));
  q.payload.contents=[{role:'user',parts:[{text:input}]}];
  q.payload.system_instruction.parts[0].text=prompts[v][path];
- if(variant==='LOW')q.payload.generationConfig.thinkingConfig.thinkingLevel='low';
+ if(variant==='LOW'||variant==='ROLE_LOW')q.payload.generationConfig.thinkingConfig.thinkingLevel='low';
  q.version='FOCUS320_'+variant+'_R1';q.prompt_variant=variant;
  q.prompt_sha256=crypto.createHash('sha256').update(prompts[v][path]).digest('hex');
  return q;

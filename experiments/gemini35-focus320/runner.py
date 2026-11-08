@@ -22,7 +22,7 @@ CAMPAIGNS = {
     "35": "GEMINI35_FOCUS320_20261108",
 }
 PATHS = ("KF", "KB", "LF", "LB")
-VARIANTS = {'35': {'BASE','ROLE','EN','DETAIL','REVISED','LOW'}}
+VARIANTS = {'35': {'BASE','ROLE','EN','DETAIL','REVISED','LOW','ROLE_LOW'}}
 
 
 def check(assertion, reason):
