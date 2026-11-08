@@ -1,13 +1,45 @@
 {
   "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
+  "completion": "PARTIAL_BLOCKED_BEFORE_GENERATION",
+  "efforts": [
+    "none",
+    "low"
+  ],
   "enabled": false,
+  "endpoint": "https://api.openai.com/v1/responses",
+  "hard_deadline_seconds": 60,
+  "http_retries": 0,
+  "input": "single actual source or displayed FIRST string",
+  "instructions": "path-specific identical frozen prompt",
   "max_new": 0,
-  "status": "READINESS_ONLY",
-  "approved_total": 160,
-  "approved_per_model": 80,
-  "cumulative_actual": 0,
+  "max_output_tokens": 4096,
   "models": [
     "gpt-6-luna",
     "gpt-6.1-terra"
-  ]
+  ],
+  "paid_activation": false,
+  "planned_connect_timeout_seconds": 10,
+  "planned_read_timeout_seconds": 60,
+  "sdk_retries": 0,
+  "service_tier": "default",
+  "status": "CLOSED_LOCKED",
+  "store": false,
+  "stream": true,
+  "transport_implementation": "NOT_IMPLEMENTED_OR_VALIDATED; prerequisite key not injected",
+  "cumulative_actual": 0,
+  "approved_total": 160,
+  "approved_per_model": 80,
+  "unused_locked": 160,
+  "models_ledger": {
+    "gpt-6-luna": {
+      "attempted": 0,
+      "unused_locked": 80
+    },
+    "gpt-6.1-terra": {
+      "attempted": 0,
+      "unused_locked": 80
+    }
+  },
+  "blocker": "OPENAI_API_KEY_NOT_INJECTED",
+  "resume_policy": "Same campaign and original authorization; no reset or additional budget; require all missing readiness checks before any paid activation"
 }

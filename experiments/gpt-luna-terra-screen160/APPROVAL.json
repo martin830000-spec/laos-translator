@@ -1,0 +1,13 @@
+{
+  "approved_per_model": {
+    "gpt-6-luna": 80,
+    "gpt-6.1-terra": 80
+  },
+  "approved_total": 160,
+  "authorization": "User directly supplied full SCREEN160 directive in this conversation",
+  "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
+  "no_additive_approval_on_resume": true,
+  "other_campaign_budgets_not_used": true,
+  "scope": "Fixed prompts, none/low, 128 chain calls +32 fixed-FIRST panel",
+  "version": "R1 2026-11-09"
+}

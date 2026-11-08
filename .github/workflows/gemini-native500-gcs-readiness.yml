@@ -1,8 +1,8 @@
-name: GPT SCREEN160 free readiness only
+name: GPT SCREEN160 free blocked closure
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
-    paths: [experiments/gpt-luna-terra-screen160/readiness-trigger.json, .github/workflows/gemini-native500-gcs-readiness.yml]
+    paths: [experiments/gpt-luna-terra-screen160/closure-trigger.json]
 permissions:
   contents: read
   id-token: write
@@ -24,12 +24,12 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: Free credential and storage checks
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python3 experiments/gpt-luna-terra-screen160/probe.py
+      - name: Persist and read back zero-call locked state
+        run: python3 experiments/gpt-luna-terra-screen160/close_remote.py
       - uses: actions/upload-artifact@v4
         with:
-          name: screen160-free-readiness
-          path: ${{ runner.temp }}/screen160-readiness.json
+          name: screen160-free-closure
+          path: |
+            ${{ runner.temp }}/screen160-closure.json
+            ${{ runner.temp }}/screen160-synthetic.json
           retention-days: 3
