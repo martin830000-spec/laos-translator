@@ -22,11 +22,10 @@ class Store:
   try:o.upload_from_string(b,if_generation_match=0,timeout=30)
   except PreconditionFailed:pass
   assert self.get(n)==b,'IMMUTABLE_OBJECT_MISMATCH'
- def replace(self,n,b):
-  o=self.bucket.blob(PREFIX+'/'+n);o.reload(timeout=30);generation=o.generation;o.upload_from_string(b,if_generation_match=generation,timeout=30);assert self.get(n)==b
- def acquire(self):
-  o=self.bucket.blob(PREFIX+'/LOCK.json');o.upload_from_string(canon({'run':os.environ['GITHUB_RUN_ID'],'sha':os.environ['GITHUB_SHA']}),if_generation_match=0,timeout=30);o.reload(timeout=30);return o.generation
- def release(self,generation):self.bucket.blob(PREFIX+'/LOCK.json').delete(if_generation_match=generation,timeout=30)
+ def acquire(self,phase):
+  if phase=='C':assert self.get('locks/AB.RELEASED.json') is not None
+  o=self.bucket.blob(PREFIX+'/locks/'+phase+'.json');o.upload_from_string(canon({'run':os.environ['GITHUB_RUN_ID'],'sha':os.environ['GITHUB_SHA']}),if_generation_match=0,timeout=30);o.reload(timeout=30);return {'phase':phase,'generation':o.generation,'run':os.environ['GITHUB_RUN_ID']}
+ def release(self,lock):self.put('locks/'+lock['phase']+'.RELEASED.json',canon(lock))
 def config():
  assert os.environ['GITHUB_REF']=='refs/heads/research/gemini-model-native500-20261107'
  assert os.environ['GITHUB_RUN_ATTEMPT']=='1' and os.environ['GITHUB_ACTOR']=='martin830000-spec'
@@ -77,9 +76,10 @@ async def execute(s,c):
  assert c['phase'] in ('AB','C') and bool(os.environ.get('OPENAI_API_KEY'))
  prompts=json.loads((HERE/'prompts.json').read_bytes());planraw=s.get('plans/'+c['plan_sha256']+'.json');assert sha(planraw)==c['plan_sha256'];plan=json.loads(planraw)
  assert plan['campaign']==CAMPAIGN and len(plan['slots'])==c['max_new'];assert len({x['slot'] for x in plan['slots']})==len(plan['slots'])
- key=os.environ['OPENAI_API_KEY'];lock=s.acquire();rs=reservations(s);prior=len(rs);assert prior==c['prior_actual'];assert len(rs)+c['max_new']<=160
- state=json.loads(s.get('STATE.json'));assert state['cumulative_actual']==prior
- state=cfg.copy();state['status']='RUNNING';state['phase']=c['phase'];s.replace('STATE.json',canon(state))
+ key=os.environ['OPENAI_API_KEY'];lock=s.acquire(c['phase']);rs=reservations(s);prior=len(rs);assert prior==c['prior_actual'];assert len(rs)+c['max_new']<=160
+ state=json.loads(s.get(c.get('previous_state_object','STATE.json')));assert state['cumulative_actual']==prior
+ assert s.get('recovery/legacy-lock-abandoned-zero.json') is not None
+ state=cfg.copy();state['status']='RUNNING';state['phase']=c['phase'];s.put('states/'+c['phase']+'-running.json',canon(state))
  meta={'phase':c['phase'],'run':os.environ['GITHUB_RUN_ID'],'sha':os.environ['GITHUB_SHA'],'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'python':platform.python_version(),'httpx':importlib.metadata.version('httpx'),'concurrency':1,'connection_reuse':True,'http_retries':0,'sdk':'No OpenAI SDK; official Responses HTTP via httpx','runner':os.environ.get('RUNNER_OS'),'runner_region':'Read GitHub hosted runner job header; not assumed'}
  s.put('runs/'+c['phase']+'/START.json',canon(meta));disabled={};streak={};attempted_now=0;all_done=False
  try:
@@ -129,11 +129,12 @@ async def execute(s,c):
   by=totals(s,rs);end={'phase':c['phase'],'prior_actual':prior,'attempted_new':attempted_now,'reserved_total':len(rs),'models':by,'disabled':disabled,'finished':all_done,'run':os.environ['GITHUB_RUN_ID']}
   s.put('runs/'+c['phase']+'/FINISH.json',canon(end))
   state.update(enabled=False,max_new=0,status='CHECKPOINT_LOCKED',cumulative_actual=len(rs),unused_locked=160-len(rs),models_ledger=by)
-  s.replace('STATE.json',canon(state));s.release(lock)
+  s.put('states/'+c['phase']+'-finished.json',canon(state));s.release(lock)
 def export(s,c):
  rs=reservations(s);names=['STATE.json','readiness/synthetic.json']+[f'budget/{i:04d}.json' for i in range(1,len(rs)+1)]
  for ph in ['AB','C']:
-  names += ['runs/'+ph+'/START.json','runs/'+ph+'/FINISH.json','checks/stage-'+ph+'.json']
+  names += ['runs/'+ph+'/START.json','runs/'+ph+'/FINISH.json','checks/stage-'+ph+'.json','states/'+ph+'-running.json','states/'+ph+'-finished.json','locks/'+ph+'.json','locks/'+ph+'.RELEASED.json']
+ names += ['LOCK.json','recovery/legacy-lock-abandoned-zero.json','checks/append-only.json']
  for i in range(1,161):names += [f'results/S{i:03d}.json',f'skips/S{i:03d}.json',f'checkpoints/attempt-{i:04d}.json']
  names+=c.get('export_objects',[])
  objs={}
@@ -154,4 +155,12 @@ if __name__=='__main__':
  if mode=='STAGE':stage(s,c)
  elif mode=='EXECUTE':asyncio.run(execute(s,c))
  elif mode=='EXPORT':export(s,c)
+ elif mode=='CHECK_APPEND_ONLY':
+  assert not json.loads((HERE/'config.json').read_bytes())['enabled']
+  rs=reservations(s);assert not rs
+  old=json.loads(s.get('LOCK.json'));assert old['run']=='42512297440' and old['sha']=='5258cbccde82a2381438267719ec0b291083af1a'
+  assert s.get('locks/AB.json',True) is None
+  s.put('recovery/legacy-lock-abandoned-zero.json',canon({'old_lock':old,'reservations':0,'reason':'Prior finished Actions failed before any budget reservation; append-only recovery, no deletion or replay','confirmed_failed_run':42512297440}))
+  s.put('checks/append-only.json',canon({'only_create_and_get':True,'generation_calls':0,'state_no_overwrite':True,'legacy_lock_preserved':True}))
+  print(json.dumps({'append_only_readiness':'PASS','generation_calls':0}))
  else:raise ValueError('MODE_NOT_ALLOWED')
