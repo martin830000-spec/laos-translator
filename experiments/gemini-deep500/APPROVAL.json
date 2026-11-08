@@ -1,0 +1,13 @@
+{
+  "campaigns": {
+    "35": "GEMINI35_DEEP500_20261108",
+    "36": "GEMINI36_DEEP500_20261108"
+  },
+  "max_actual_attempts_per_model": 500,
+  "new_authorization": true,
+  "no_transfer_between_models": true,
+  "old_campaigns_locked": true,
+  "automatic_retry": false,
+  "paid_judge": false,
+  "service_change_authorized": false
+}
