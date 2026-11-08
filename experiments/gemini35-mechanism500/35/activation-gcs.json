@@ -1,9 +1,9 @@
 {
   "campaign": "GEMINI35_MECHANISM500_20261108",
   "model": "gemini-3.5-flash-lite",
-  "phase": "S2",
-  "max_new": 64,
-  "plan_sha256": "6b1d5186514bb9b4beb3c3a2ab6cb9d91e23408f048bd86985dc2306f1e5a312",
-  "run_nonce": "mechanism500-s2-20261108-singlepass",
-  "plan_object": "research/gemini-model-native500-20261107/mechanism500-20261108/35/plans/6b1d5186514bb9b4beb3c3a2ab6cb9d91e23408f048bd86985dc2306f1e5a312.json"
+  "phase": "S3",
+  "max_new": 96,
+  "plan_sha256": "f9e129a5857ea903d5a075e265b98192d190265c14a73020f7bbbd48a53fa26b",
+  "run_nonce": "mechanism500-s3-20261108-singlepass",
+  "plan_object": "research/gemini-model-native500-20261107/mechanism500-20261108/35/plans/f9e129a5857ea903d5a075e265b98192d190265c14a73020f7bbbd48a53fa26b.json"
 }
