@@ -1,5 +1,5 @@
 {
-  "mode": "PROBE_WRITE",
-  "export_cert": "export-a-cert.pem",
-  "nonce": "v2-safe-roundtrip-initial-20261108"
+  "mode": "PROBE_READ",
+  "export_cert": "export-b-cert.pem",
+  "nonce": "v2-safe-recovery-new-key-20261108"
 }
