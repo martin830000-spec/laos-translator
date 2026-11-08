@@ -1,16 +1,16 @@
-name: DEEP500 input readiness (zero generation)
+name: DEEP500 existing-WIF read-only recovery
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
-    paths: [.github/workflows/gemini-native500-gcs-readiness.yml, experiments/gemini-deep500/stage.json]
+    paths: [.github/workflows/gemini-native500-gcs-readiness.yml]
 permissions:
   contents: read
   id-token: write
 jobs:
-  prepare:
+  recover:
     if: github.actor == 'martin830000-spec' && github.run_attempt == 1
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -21,6 +21,11 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - run: node experiments/gemini-deep500/test.cjs
-      - run: python3 -m py_compile experiments/gemini-deep500/runner.py experiments/gemini-deep500/stage.py
-      - run: python3 experiments/gemini-deep500/stage.py
+      - name: Read existing objects only
+        run: python3 experiments/gemini-deep500/recover_readonly.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deep500-recovery-encrypted
+          path: ${{ runner.temp }}/deep500-recovery.p7m
+          retention-days: 3
+          if-no-files-found: error
