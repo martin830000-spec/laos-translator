@@ -1,0 +1,9 @@
+{
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "model": "gemini-3.5-flash-lite",
+  "phase": "P1",
+  "max_new": 80,
+  "plan_sha256": "47746d97a9ee5f7edcbf42e1498776ab18b7081f84e7120865f8178741103b5d",
+  "run_nonce": "fidelity240-p1-08de506269a50e95bad329c5",
+  "plan_object": "research/gemini-model-native500-20261107/fidelity240-20261108/35/plans/47746d97a9ee5f7edcbf42e1498776ab18b7081f84e7120865f8178741103b5d.json"
+}
