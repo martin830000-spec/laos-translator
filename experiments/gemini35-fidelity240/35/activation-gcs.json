@@ -1,9 +1,9 @@
 {
   "campaign": "GEMINI35_FIDELITY240_20261108",
-  "max_new": 32,
+  "max_new": 112,
   "model": "gemini-3.5-flash-lite",
-  "phase": "P2",
-  "plan_object": "research/gemini-model-native500-20261107/fidelity240-20261108/35/plans/8072e2ddd3811e12e38ed9fa1bf4f14e0feeb96206bd31584d2d31682ccd64b1.json",
-  "plan_sha256": "8072e2ddd3811e12e38ed9fa1bf4f14e0feeb96206bd31584d2d31682ccd64b1",
-  "run_nonce": "fidelity240-p2-de2d63c2b0961cf05e342f2a"
+  "phase": "P3",
+  "plan_object": "research/gemini-model-native500-20261107/fidelity240-20261108/35/plans/c0a40177fe5855a56a8a11f3fc3ec01ad2c7c67997327b4d659dcc9d078fdd01.json",
+  "plan_sha256": "c0a40177fe5855a56a8a11f3fc3ec01ad2c7c67997327b4d659dcc9d078fdd01",
+  "run_nonce": "fidelity240-p3-df964b1709191630cd2d16c3"
 }
