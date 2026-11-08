@@ -2,10 +2,10 @@
   "campaign": "GEMINI35_MECHANISM500_20261108",
   "model": "gemini-3.5-flash-lite",
   "approved_total": 500,
-  "enabled": true,
-  "max_new": 20,
+  "enabled": false,
+  "max_new": 0,
   "prior_actual": 320,
-  "cumulative_actual": 320,
+  "cumulative_actual": 340,
   "prior_plans": [
     "3001204ec83f540cd01865a2fae57d154a1c739582d18ee7d2fb51e17e1139a7",
     "6b1d5186514bb9b4beb3c3a2ab6cb9d91e23408f048bd86985dc2306f1e5a312",
@@ -30,5 +30,6 @@
       "35",
       "f9e129a5857ea903d5a075e265b98192d190265c14a73020f7bbbd48a53fa26b"
     ]
-  ]
+  ],
+  "status": "STAGE_COMPLETE_REVIEW_AND_BACKUP"
 }

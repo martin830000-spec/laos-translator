@@ -1,10 +1,10 @@
 {
   "campaign": "GEMINI35_MECHANISM500_20261108",
   "approved": 500,
-  "attempted": 320,
-  "success": 320,
+  "attempted": 340,
+  "success": 340,
   "failed": 0,
-  "remaining": 180,
+  "remaining": 160,
   "phases": {
     "S1": {
       "attempted": 96,
@@ -27,6 +27,12 @@
     "S4": {
       "attempted": 64,
       "success": 64,
+      "failed": 0,
+      "skipped": 0
+    },
+    "S4X": {
+      "attempted": 20,
+      "success": 20,
       "failed": 0,
       "skipped": 0
     }
