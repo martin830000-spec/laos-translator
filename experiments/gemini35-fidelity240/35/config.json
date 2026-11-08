@@ -2,10 +2,10 @@
   "campaign": "GEMINI35_FIDELITY240_20261108",
   "model": "gemini-3.5-flash-lite",
   "approved_total": 240,
-  "enabled": true,
-  "max_new": 80,
+  "enabled": false,
+  "max_new": 0,
   "prior_actual": 0,
-  "cumulative_actual": 0,
+  "cumulative_actual": 80,
   "prior_plans": [],
   "phase": "P1",
   "plan_sha256": "47746d97a9ee5f7edcbf42e1498776ab18b7081f84e7120865f8178741103b5d",
@@ -30,5 +30,6 @@
     "cb189c2b67ab48abd51cae37edaba21b9c42b84f2fe411909a4a123a5265e6e6",
     "efa5c5e8e131d2ff084cccbb3b49ea587edf3c35ba7b6d68af5ab04fb9180e83"
   ],
-  "remaining_authorized": 240
+  "remaining_authorized": 160,
+  "status": "P1_COMPLETE_ANALYSIS"
 }

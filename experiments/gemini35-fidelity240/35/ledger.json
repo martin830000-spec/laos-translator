@@ -1,8 +1,16 @@
 {
   "campaign": "GEMINI35_FIDELITY240_20261108",
   "approved": 240,
-  "attempted": 0,
-  "success": 0,
+  "attempted": 80,
+  "success": 80,
   "failed": 0,
-  "remaining": 240
+  "remaining": 160,
+  "phases": [
+    {
+      "phase": "P1",
+      "attempted": 80,
+      "run_id": 42477713066,
+      "plan_sha256": "47746d97a9ee5f7edcbf42e1498776ab18b7081f84e7120865f8178741103b5d"
+    }
+  ]
 }
