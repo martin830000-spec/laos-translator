@@ -1,4 +1,12 @@
 {
-  "passed": false,
-  "synthetic_roundtrip_verified": false
+  "passed": true,
+  "synthetic_roundtrip_verified": true,
+  "generation_calls": 0,
+  "run_id": 42477129251,
+  "drive_file_id": "1WPlkokGcVnRpUiFb_Mz_YsT0sZFT_g1u",
+  "sha256": "f590f7fbb4facc6070a969d6ccdd89ee50b2f07ed37b58ee1c07fd2c72cbbe28",
+  "bytes": 493,
+  "owner_only": true,
+  "readback_exact": true,
+  "crc_manifest": "PASS"
 }

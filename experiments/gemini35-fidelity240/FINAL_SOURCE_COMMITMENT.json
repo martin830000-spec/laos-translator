@@ -1,0 +1,8 @@
+{
+  "K": 16,
+  "L": 16,
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "frozen_at_paid_calls": 0,
+  "replace_after_generation": false,
+  "source_freeze_sha256": "dab7051d2d4e01c3792d503f2ae99d17cd152f6dfa7071526fc9f9a2356cd4e0"
+}

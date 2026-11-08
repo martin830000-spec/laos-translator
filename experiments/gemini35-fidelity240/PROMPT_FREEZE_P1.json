@@ -1,0 +1,14 @@
+{
+  "actual_calls": 0,
+  "base_requests_sha256": "31b78c0d5c86303d9738ee15c7c36921d2545ab31d32b34af13cb82f7c8dc358",
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "draft_before_calls": false,
+  "first48_back32": true,
+  "maxOutputTokens": 1024,
+  "model": "gemini-3.5-flash-lite",
+  "plan_sha256": "47746d97a9ee5f7edcbf42e1498776ab18b7081f84e7120865f8178741103b5d",
+  "prompts_sha256": "76d77d19d1fd2e890770eb55f2674da29bc4bf2bed29e997666a844df291e6f1",
+  "schema_sha256": "804b27fc66e3ff91251a960456726ecbb7ef8051c1f072c13fbf1508cdade185",
+  "thinking": "minimal",
+  "worker_sha256": "495e5306950358115e6f0739436da242c77b9ee92d1fe1c78a6a41c49f7ef1de"
+}
