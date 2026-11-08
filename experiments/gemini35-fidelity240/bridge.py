@@ -65,6 +65,24 @@ def main():
     for n,v in zip(names,pool.map(read,names)):objs[n]=v
  else:
   if mode not in ('PROBE_WRITE','PROBE_READ'):raise ValueError('MODE')
+ if cfg.get('audit_plans'):
+  assert mode=='CHECKPOINT'
+  gate=json.loads((HERE/'35/config.json').read_text());ledger=json.loads((HERE/'35/ledger.json').read_text())
+  assert gate['enabled'] is False and gate['max_new']==0 and gate['cumulative_actual']==ledger['attempted']==224
+  names=sorted(x.name for x in b.list_blobs(prefix=PREFIX+'/35/call-budget/'))
+  assert names==[PREFIX+f'/35/call-budget/{i:04d}.json' for i in range(1,225)]
+  done=[];budgets=[]
+  for sha in cfg['audit_plans']:
+   raw=read(f'35/results/{sha}/RUN_FINISHED.json');v=json.loads(raw)
+   assert v['status']=='DONE' and v['failed']==0 and v['model']=='gemini-3.5-flash-lite'
+   done.append({'plan_sha256':sha,'record':v,'record_sha256':digest(raw)})
+  with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+   for i,raw in enumerate(pool.map(read,[f'35/call-budget/{i:04d}.json' for i in range(1,225)]),1):
+    v=json.loads(raw);assert v['ordinal']==i and v['plan_sha256'] in cfg['audit_plans'];budgets.append({'record':v,'sha256':digest(raw)})
+  assert sum(x['record']['attempted'] for x in done)==224
+  assert len({(x['record']['plan_sha256'],x['record']['slot']) for x in budgets})==224
+  audit={'type':'FREE_REMOTE_FINAL_AUDIT','generation_calls':0,'github_sha':os.environ['GITHUB_SHA'],'github_run_id':os.environ['GITHUB_RUN_ID'],'gate':gate,'ledger':ledger,'gcs_run_finished':done,'gcs_budget_count':len(budgets),'gcs_budgets':budgets,'no_extra_budget_objects':True}
+  payload=canon(audit);name=f'35/checkpoints/FINAL_AUDIT/{digest(payload)}.json';write(name,payload);objs[name]=read(name);objs['audit/REMOTE_FINAL_AUDIT.json']=payload
  manifest={n:{'bytes':len(v),'sha256':digest(v)} for n,v in objs.items()}
  out=pathlib.Path(os.environ['RUNNER_TEMP']);(out/'fidelity240-input-cert.pem').write_bytes(read('keys/input-cert.pem'))
  with tempfile.TemporaryDirectory() as td:
