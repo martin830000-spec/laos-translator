@@ -1,0 +1,13 @@
+{
+  "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
+  "enabled": false,
+  "max_new": 0,
+  "status": "READINESS_ONLY",
+  "approved_total": 160,
+  "approved_per_model": 80,
+  "cumulative_actual": 0,
+  "models": [
+    "gpt-6-luna",
+    "gpt-6.1-terra"
+  ]
+}
