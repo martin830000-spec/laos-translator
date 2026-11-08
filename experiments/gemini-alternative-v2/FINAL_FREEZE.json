@@ -1,0 +1,76 @@
+{
+  "frozen": true,
+  "campaigns": [
+    "GEMINI35_ALTERNATIVE_V2_20261108",
+    "GEMINI36_ALTERNATIVE_V2_20261108"
+  ],
+  "FIRST": {
+    "35": "BASE",
+    "36": "BASE"
+  },
+  "BASE_BACK": {
+    "35": "BASE",
+    "36": "BASE"
+  },
+  "candidate35": {
+    "KF": "35BASE",
+    "KB": "35BASE",
+    "LF": "35BASE",
+    "LB": "36BASE"
+  },
+  "candidate36": {
+    "KF": "36BASE",
+    "KB": "35BASE",
+    "LF": "36BASE",
+    "LB": "36MINIMAL"
+  },
+  "candidate36_solo": {
+    "KF": "36BASE",
+    "KB": "36MINIMAL",
+    "LF": "36BASE",
+    "LB": "36MINIMAL"
+  },
+  "worker_sha256": "f26858a60108cad80b7916c3ef5eec51ef509ced2a824dc9f9cb2dc595628b05",
+  "base_freeze_sha256": "985ee382c7c73b1649931274583e63a2f4f9fbf70e3706c6e7f477e8a7229b00",
+  "source_hashes": [
+    "55891de95666cf30a2071b690d818d3f8da009b04f3a54aac11e829371640e8c",
+    "54a835468c442f759cfe8f4193c1c7edf17d34920cc1d6e45d13fe64b1c71c72",
+    "8579a4810f448b220cd2ee967ce866e291fa8375e93750cac42b40ff28d7f684",
+    "8b0acaa84fd8345c279bf05bccff03692521e6bb4973c507a42fbd1b046301af",
+    "c73da5869eb8f861a3ee8604f4339a87a23eb6288e291f0ac2a077c42cda40bb",
+    "84948a710fbe1d7c44ed5d52bd21ffdbb0881214d1aa348cd419789f1570ca39",
+    "6553eaf5b0b134c94d83e16f3a082cd23fb7c176d6f8a9e770eb7f5a8802860f",
+    "8e47a597c19d3219ba84902bdd01d6e0e59144a9a79e4149eaa5df778dbafaf1",
+    "e5fc96ceb0a84ef6e092a14ee937384794296ef32a67f41448597a816541c334",
+    "5bb5b7f55a022fc553c27e63c82ba31167f06687618539755f41afe8aca402b6",
+    "c996e721cc1678b4b274eb7f9671d4aa9a2079f45f6fec871fca2629fc615512",
+    "62ef0982a38f15fe10ff3b95d3799514fe18045885dbca8d9adf5c2c6c80d33e",
+    "16631d1cc98eb63cb93f211f57f0b737f332ef77223abf86826d2a2d3aaefa17",
+    "1d3926af774cc2e4ecd0df48cf6e0c724b6ae0b1765d3311501e4de79443979b",
+    "4b576dc02e0b5158aac4bdfdad2e957d0fbe5d6160d70ce0cb9fee23feea257a",
+    "bd3121a0e760555c69a866d65908536f73537a20e08508ef5dfed014ac846350",
+    "0c19dbfe77c8d5fc970eb2b7747ba368edbb1c4396341b51c0da6f2e994d2267",
+    "21f57615d957ef76f551083170683d0e82120331552480527be7e51f60d27fb5",
+    "a774dcc63526cabaaa45796e9d414c14b75ad3ebec749f57e5ebe51d59f69616",
+    "3cbfc05fee894919ef2281851f1d93a79b9b139357b560a1058d2a073be33a66",
+    "c04f4517e250d1bcc9330087153a62261ec5de18d2c83d86891d01af7c57b314",
+    "063b047fa480f7112744d4103909b46f6823998fdfcf0e09ec36bd79d2650afd",
+    "5bc9f7f87e055b1a82ffe170a44b080a9e2f9c6a8a16a4ffd4cde9ccbe7336d6",
+    "c46ce435c3312b4e575902b0eb1c9b134036401412368ed8a22be71c14d3e927",
+    "2ff6f9e515297f7d162413ad9c2a73798105b00cff52d9471c58e9c8432344c3",
+    "0604ebba4aaf21c34e145743d1457d5f7483d45ee7ce8ff91a35c74adf9ff19f",
+    "2e0ebad598c33ce721b79997510608b7f345ff96202ef35bea3362e47250b3f4",
+    "059316ec172b80bfddf126b0a2713ddacdaf583569f37a4ed89478b5e9f6f8f7",
+    "5ab244e0b97a07b62a9d21e51108d25f5e2111a896e4f4cf44a336cd71eeddff",
+    "b68eb764dda285f165bbc3c278b071d5c3c754815bfb9ead38db4130b39c013f",
+    "44e46d1b7043d3b74874896ad0473781fd84ef6e2e37ee1022a814c31ca5aa7d",
+    "090ad8ef1fb0e52ff44967a6081dc9342fb4e7bade33982b21ecb433b76a4d54"
+  ],
+  "originals": 32,
+  "clusters": 21,
+  "own_development_cluster_overlap": 0,
+  "historical_exposure": "Known DEEP IDs/corpus prior flags excluded; older broad semantic clusters may have exposure; not fully historically unseen.",
+  "design": "Shared actual FIRST within each model; BASE and frozen candidate BACK compared on byte-identical input. Cross model requests charged to actual processor. FINAL_BASE produces32FIRST+32BASEBACK per model;FINAL_BACK35<=16KB,36<=32MINIMALBACK+16crossLB.",
+  "failure_rule": "FIRST failure: dependent BACK omitted; technical failure retained; no retries.",
+  "do_not_change_after_final": true
+}
