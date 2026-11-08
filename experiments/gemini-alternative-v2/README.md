@@ -1,9 +1,13 @@
-# Gemini alternative V2 — blocked before paid execution
+# Gemini ALTERNATIVE V2 — existing approval resumed
 
-Authorized maximum: 500 requests per model in independent V2 campaigns. Actual: 0/500 each. The configuration is locked (false/0). This directory contains BASE freeze, approval/checkpoint/empty ledgers, offline gate checks and unexecuted hypothesis review only. There is no new paid runner or activation workflow.
+Same campaigns GEMINI35_ALTERNATIVE_V2_20261108 and GEMINI36_ALTERNATIVE_V2_20261108; original caps500/model, no additional approval. CMS intermediate transfer is now explicitly user-authorized. Final/plaintext evidence is private owner-only Drive; keys excluded.
 
-The current Work executor has no configured GCS identity. The public GitHub research repository cannot hold private plaintext outputs. The previous GCS-to-Work path used a CMS-encrypted artifact; the V2 instruction forbids that path. A direct GCS Console browser check returned Site Unavailable. No safe end-to-end plaintext recovery route has yet been verified. Drive upload/readback works independently; it does not prove the runner-to-Drive leg. No IAM, secrets, sharing or old campaign locks were changed.
+Execution authority is the existing WIF-approved branch `research/gemini-model-native500-20261107`, only this V2 namespace. This preparation branch is a locked read-only mirror and must never be treated as unused approval. Check the private GCS immutable call-budget and RUN_FINISHED records before any new action. Do not duplicate the campaign.
 
-Resume condition: an already-authorized private plaintext GCS-to-Work/Drive readback path must pass a non-sensitive free roundtrip, owner-only permission check and SHA256 verification first. If such access is not available in the next environment, a user-authorized environment connection is required; do not publish outputs, expose credentials or restore file encryption as a workaround. Then recheck current branch/BASE, select non-overlapping samples, implement candidates, run free checks and activate only the approved first stage. Authorization does not need to be renewed merely because no calls were used.
+Free synthetic roundtrip and replacement-key read-only recovery passed: Actions42443601663 and42443904975. Private originals persist in GCS and can be re-encrypted with a new public key without the old session key. No IAM/Secrets or operational service changes.
 
-Offline checks: `node experiments/gemini-alternative-v2/test.cjs` and `python3 experiments/gemini-alternative-v2/test_gate.py`. Free checks are not translation quality evidence. Existing BASE and all previous research files remain unchanged.
+DISCOVERY actual64/model; CROSS actual35:32 (31success/1HTTP503),36:48; REPEAT actual35:24,36:40. Verified cumulative at this checkpoint35:120,36:152. Frozen FINAL_BASE64/model is currently reserved/running on execution branch; do not re-run or assume those requests unused. Counts will be reconciled after completion.
+
+Model35 NOCONTEXT stopped after regressions. Frozen FINAL tests unchanged BASE FIRST with directional BACK choices:35 engine uses36BASE for LB;36 engine uses35BASE for KB and36MINIMAL for LB, also36MINIMAL-only BACK comparator. Same actual FIRST bytes are used for causal BACK comparison. All quality provisional and native-speaker unverified.
+
+Operational main, SERVICE, TEST main, databases and deployment unchanged. Previous campaigns and their locks are independent and untouched.

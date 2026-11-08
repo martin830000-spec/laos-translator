@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "generation_calls": 0,
+  "synthetic_only": true,
+  "roundtrip_run": 42443601663,
+  "replacement_key_readonly_run": 42443904975,
+  "drive_owner_only": true,
+  "drive_remote_sha_verified": true,
+  "replacement_key_plaintext_identical": true,
+  "drive_files": [
+    "1hH6INg2Dpt35dh9go5lMo2XZt1TsHpw8",
+    "1OBcUh6pl1BWKyxJCXaDyEsWe7J7oQK56"
+  ],
+  "probe_b_zip_sha256": "a7c5714f0e659d792f59344f17d61c896ae4f24ac83ea80d01af88bbe50a7c6b"
+}

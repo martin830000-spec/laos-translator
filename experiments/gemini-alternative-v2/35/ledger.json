@@ -1,1 +1,46 @@
-[]
+{
+  "actual": 120,
+  "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
+  "remaining": 380,
+  "stages": [
+    {
+      "attempted": 64,
+      "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
+      "failed": 0,
+      "model": "gemini-3.5-flash-lite",
+      "phase": "DISCOVERY",
+      "plan_sha256": "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1",
+      "reason": null,
+      "remaining_in_reserved_plan": 0,
+      "skipped": 0,
+      "status": "DONE",
+      "success": 64
+    },
+    {
+      "attempted": 32,
+      "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
+      "failed": 1,
+      "model": "gemini-3.5-flash-lite",
+      "phase": "CROSS",
+      "plan_sha256": "11e93edb68d4a07a532077c60400fc94f7de903e29e90a0bab4f3a2ae36f0d8e",
+      "reason": null,
+      "remaining_in_reserved_plan": 0,
+      "skipped": 0,
+      "status": "DONE_WITH_FAILURES",
+      "success": 31
+    },
+    {
+      "attempted": 24,
+      "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
+      "failed": 0,
+      "model": "gemini-3.5-flash-lite",
+      "phase": "REPEAT",
+      "plan_sha256": "596a1f437a3a91903cb4d7074a0ea601c616bd1b0feb8078afabe911eef14276",
+      "reason": null,
+      "remaining_in_reserved_plan": 0,
+      "skipped": 0,
+      "status": "DONE",
+      "success": 24
+    }
+  ]
+}

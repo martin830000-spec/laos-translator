@@ -8,7 +8,7 @@ for(const m of ['35','36']){
   assert.deepEqual(a.payload.contents,[{role:'user',parts:[{text:'FIRST_A'}]}]);delete a.payload.contents;delete b.payload.contents;assert.deepEqual(a,b);checks++;
   assert.equal(base.inspect({candidates:[{finishReason:'STOP',content:{parts:[{text:'ทดสอบ'}]}}]},p).status,'SUCCESS');checks++;
  }
- const config=require('./'+m+'/config.json');assert.equal(config.enabled,false);assert.equal(config.max_new,0);assert.equal(config.cumulative_actual,0);checks++;
+ const config=require('./'+m+'/config.json');assert.equal(config.enabled,false);assert.equal(config.max_new,0);assert.ok(Number.isInteger(config.cumulative_actual)&&config.cumulative_actual>=0&&config.cumulative_actual<=500);checks++;
 }
 for(const x of freeze.files){const p=path.resolve(root,'../../',x.path);assert.equal(crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),x.sha256);checks++;}
 console.log(JSON.stringify({status:'PASS',checks,generation_calls:0,quality_status:'NOT_TESTED'}));
