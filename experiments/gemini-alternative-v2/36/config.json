@@ -1,16 +1,27 @@
 {
-  "backup_gate_passed": true,
   "campaign": "GEMINI36_ALTERNATIVE_V2_20261108",
-  "cumulative_actual": 64,
-  "deadline_epoch": 1794113276,
-  "enabled": false,
-  "frozen_sources": [],
-  "max_new": 0,
   "model": "gemini-3.6-flash",
-  "phase": "DISCOVERY",
-  "plan_sha256": "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2",
-  "prior_actual": 0,
-  "prior_plans": [],
-  "run_nonce": "v2-36-discovery-20261108-singlepass",
-  "status": "LOCKED_STAGE_RECOVERED"
+  "enabled": true,
+  "max_new": 48,
+  "cumulative_actual": 64,
+  "prior_actual": 64,
+  "prior_plans": [
+    "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2"
+  ],
+  "frozen_sources": [
+    [
+      "35",
+      "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1"
+    ],
+    [
+      "36",
+      "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2"
+    ]
+  ],
+  "phase": "CROSS",
+  "plan_sha256": "bab21716e9849f47ce393e88c6af25985361d75803aa3b6a2ce019c61c04d196",
+  "run_nonce": "v2-36-cross-20261108-singlepass",
+  "deadline_epoch": 1794113793,
+  "backup_gate_passed": true,
+  "status": "ACTIVE_RESERVED"
 }

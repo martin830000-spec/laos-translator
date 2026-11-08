@@ -1,16 +1,23 @@
 {
-  "backup_gate_passed": true,
   "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
-  "cumulative_actual": 64,
-  "deadline_epoch": 1794113276,
-  "enabled": false,
-  "frozen_sources": [],
-  "max_new": 0,
   "model": "gemini-3.5-flash-lite",
-  "phase": "DISCOVERY",
-  "plan_sha256": "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1",
-  "prior_actual": 0,
-  "prior_plans": [],
-  "run_nonce": "v2-35-discovery-20261108-singlepass",
-  "status": "LOCKED_STAGE_RECOVERED"
+  "enabled": true,
+  "max_new": 32,
+  "cumulative_actual": 64,
+  "prior_actual": 64,
+  "prior_plans": [
+    "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1"
+  ],
+  "frozen_sources": [
+    [
+      "36",
+      "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2"
+    ]
+  ],
+  "phase": "CROSS",
+  "plan_sha256": "11e93edb68d4a07a532077c60400fc94f7de903e29e90a0bab4f3a2ae36f0d8e",
+  "run_nonce": "v2-35-cross-20261108-singlepass",
+  "deadline_epoch": 1794113793,
+  "backup_gate_passed": true,
+  "status": "ACTIVE_RESERVED"
 }
