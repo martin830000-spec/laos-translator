@@ -1,16 +1,17 @@
 {
   "campaign": "GEMINI35_DEEP500_20261108",
   "model": "gemini-3.5-flash-lite",
-  "phase": "LONGFORM",
+  "phase": "FINAL",
   "enabled": true,
-  "max_new": 52,
-  "prior_actual": 320,
+  "max_new": 128,
+  "prior_actual": 372,
   "prior_plans": [
     "a74c83edcdab36766c96de65776a0a5d4786348ab78164f8f785c0099e3a60dd",
     "384fc8db04e0d700dc2242e2178e60adcba74190b68566df069161d26ae451de",
-    "f356c7df2fc30dd76f8970be5553523ea58899892dc39d094133cd2acbcafea8"
+    "f356c7df2fc30dd76f8970be5553523ea58899892dc39d094133cd2acbcafea8",
+    "85c7b01dc19ff48c3e6270045b3bef4a8bb87407ed0068f86ac128afe705857e"
   ],
-  "plan_sha256": "85c7b01dc19ff48c3e6270045b3bef4a8bb87407ed0068f86ac128afe705857e",
-  "run_nonce": "7adf2535cde8b02b26b4ad5c17d5b8ab",
-  "deadline_epoch": 1794122573
+  "plan_sha256": "ad58a745377e89db4ce10e44cc462c821593579b2f0e3098dc32aff749bf7db9",
+  "run_nonce": "5ad1c491711d7b1ea11224b276d8c996",
+  "deadline_epoch": 1794122997
 }
