@@ -1,19 +1,16 @@
-name: SCREEN160 private fixed comparison
+name: DEEP500 existing-WIF read-only recovery
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
-    paths: [experiments/gpt-luna-terra-screen160/CONTROL.json]
+    paths: [.github/workflows/gemini-native500-gcs-readiness.yml]
 permissions:
   contents: read
   id-token: write
-concurrency:
-  group: native500-gcs-35
-  cancel-in-progress: false
 jobs:
-  screen160:
-    if: github.actor == 'martin830000-spec' && github.run_attempt == 1
+  recover:
+    if: ${{ false }} # Recovery complete; keep disabled
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -23,16 +20,12 @@ jobs:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
-      - name: Exact controlled stage or execution
-        run: python3 experiments/gpt-luna-terra-screen160/closure.py
-      - name: Preserve encrypted private checkpoint
-        if: always()
-        run: python3 experiments/gpt-luna-terra-screen160/runner.py EXPORT
+      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
+      - name: Read existing objects only
+        run: python3 experiments/gemini-deep500/recover_readonly.py
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: screen160-private-checkpoint
-          path: ${{ runner.temp }}/screen160-export.p7m
+          name: deep500-recovery-encrypted
+          path: ${{ runner.temp }}/deep500-recovery.p7m
           retention-days: 3
           if-no-files-found: error
