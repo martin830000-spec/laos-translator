@@ -19,5 +19,6 @@
   "deadline_epoch": 1794135940,
   "backup_gate_passed": true,
   "frozen_sources": [],
-  "status": "STAGE_COMPLETE_REVIEW_AND_BACKUP"
+  "status": "CAMPAIGN_CLOSED",
+  "remaining_authorized": 0
 }

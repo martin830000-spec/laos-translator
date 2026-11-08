@@ -1,0 +1,17 @@
+{
+  "campaign": "GEMINI35_MECHANISM500_20261108",
+  "approved": 500,
+  "actual_sent": 500,
+  "success": 500,
+  "failed": 0,
+  "remaining": 0,
+  "enabled": false,
+  "max_new": 0,
+  "model": "gemini-3.5-flash-lite",
+  "other_model_new_generations": 0,
+  "retries": 0,
+  "paid_judge": 0,
+  "private_final_quality_checkpoint_run": 42471092520,
+  "common_workflows_restored_to_original_blobs": true,
+  "SERVICE_changed": false
+}
