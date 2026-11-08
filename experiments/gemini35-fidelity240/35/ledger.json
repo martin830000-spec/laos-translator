@@ -1,6 +1,6 @@
 {
   "approved": 240,
-  "attempted": 112,
+  "attempted": 224,
   "campaign": "GEMINI35_FIDELITY240_20261108",
   "failed": 0,
   "phases": [
@@ -17,8 +17,16 @@
       "plan_sha256": "8072e2ddd3811e12e38ed9fa1bf4f14e0feeb96206bd31584d2d31682ccd64b1",
       "run_id": 42478952017,
       "success": 32
+    },
+    {
+      "attempted": 112,
+      "failed": 0,
+      "phase": "P3",
+      "plan_sha256": "c0a40177fe5855a56a8a11f3fc3ec01ad2c7c67997327b4d659dcc9d078fdd01",
+      "run_id": 42479515870,
+      "success": 112
     }
   ],
-  "remaining": 128,
-  "success": 112
+  "remaining": 16,
+  "success": 224
 }
