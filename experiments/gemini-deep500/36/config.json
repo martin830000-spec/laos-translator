@@ -1,14 +1,15 @@
 {
   "campaign": "GEMINI36_DEEP500_20261108",
   "model": "gemini-3.6-flash",
-  "phase": "SAME_FIRST",
+  "phase": "REFINE",
   "enabled": true,
-  "max_new": 64,
-  "prior_actual": 144,
+  "max_new": 112,
+  "prior_actual": 208,
   "prior_plans": [
-    "75265b4f1595dc8196a7c46fcb456d2736621443e3cace7fd9da3da98028bc2d"
+    "75265b4f1595dc8196a7c46fcb456d2736621443e3cace7fd9da3da98028bc2d",
+    "c33a49a9f527fcea99e7945019d0b139ea13cdb4cad693115594dd260889acb3"
   ],
-  "plan_sha256": "c33a49a9f527fcea99e7945019d0b139ea13cdb4cad693115594dd260889acb3",
-  "run_nonce": "b064f537e50b73917da155054c1babd0",
-  "deadline_epoch": 1794121581
+  "plan_sha256": "f67ee691a3ca37284a1c38cdb4bc4040fa012ca6bf4df2c4f2966af663287ae8",
+  "run_nonce": "c48eecb7d72ba3e36aa0a1bedc1fccf7",
+  "deadline_epoch": 1794122005
 }

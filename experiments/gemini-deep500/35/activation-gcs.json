@@ -1,9 +1,9 @@
 {
   "campaign": "GEMINI35_DEEP500_20261108",
   "model": "gemini-3.5-flash-lite",
-  "phase": "SAME_FIRST",
-  "max_new": 64,
-  "plan_sha256": "384fc8db04e0d700dc2242e2178e60adcba74190b68566df069161d26ae451de",
-  "run_nonce": "d6e61899e24f2550db50405496ef2b73",
-  "plan_object": "research/gemini-model-native500-20261107/deep500-20261108/35/plans/384fc8db04e0d700dc2242e2178e60adcba74190b68566df069161d26ae451de.json"
+  "phase": "REFINE",
+  "max_new": 112,
+  "plan_sha256": "f356c7df2fc30dd76f8970be5553523ea58899892dc39d094133cd2acbcafea8",
+  "run_nonce": "ecc34f2e6b682fe6c122fc84f3a55715",
+  "plan_object": "research/gemini-model-native500-20261107/deep500-20261108/35/plans/f356c7df2fc30dd76f8970be5553523ea58899892dc39d094133cd2acbcafea8.json"
 }
