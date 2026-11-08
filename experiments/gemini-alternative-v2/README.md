@@ -1,13 +1,11 @@
-# Gemini ALTERNATIVE V2 — existing approval resumed
+# Gemini ALTERNATIVE V2 — closed, existing approval only
 
-Same campaigns GEMINI35_ALTERNATIVE_V2_20261108 and GEMINI36_ALTERNATIVE_V2_20261108; original caps500/model, no additional approval. CMS intermediate transfer is now explicitly user-authorized. Final/plaintext evidence is private owner-only Drive; keys excluded.
+Same campaigns GEMINI35_ALTERNATIVE_V2_20261108 and GEMINI36_ALTERNATIVE_V2_20261108. Final actual usage:35 200/500 (199success,1HTTP503);36 264/500 (264success). Remaining300/236 preserved, not a new approval or an automatic next campaign. Both configs disabled/max_new0. Do not rerun activations or treat the read-only mirror as a new unused campaign.
 
-Execution authority is the existing WIF-approved branch `research/gemini-model-native500-20261107`, only this V2 namespace. This preparation branch is a locked read-only mirror and must never be treated as unused approval. Check the private GCS immutable call-budget and RUN_FINISHED records before any new action. Do not duplicate the campaign.
+Stages actual35/36:DISCOVERY64/64;CROSS32/48;REPEAT24/40;FINAL_BASE64/64;FINAL_BACK16/48. Immutable private-GCS ordinals and request/response records audited. No retries, paid judge, new3.8 calls or dependent skips. Frozen FINAL32originals separated from own V2 development;2 exact historical DEEP500 texts and additional historically discussed semantic overlap disclosed. Not claimed historically unseen.
 
-Free synthetic roundtrip and replacement-key read-only recovery passed: Actions42443601663 and42443904975. Private originals persist in GCS and can be re-encrypted with a new public key without the old session key. No IAM/Secrets or operational service changes.
+Private plaintext evidence and evaluations reside in owner-only Google Drive LIVE_STATE; ciphertext artifacts are only intermediate transport. Free synthetic roundtrip and replacement-key re-encryption recovery passed. Private keys excluded from all deliverables.
 
-DISCOVERY actual64/model; CROSS actual35:32 (31success/1HTTP503),36:48; REPEAT actual35:24,36:40. Verified cumulative at this checkpoint35:120,36:152. Frozen FINAL_BASE64/model is currently reserved/running on execution branch; do not re-run or assume those requests unused. Counts will be reconciled after completion.
+Model35 and model36 practical adoption HOLD.35 NOCONTEXT and directional cross-back configurations did not establish general improvement.36MINIMAL Korean BACK has a limited promising result; Lao BACK regressed. No SERVICE change. Model-wide permanent rejection is not implied.
 
-Model35 NOCONTEXT stopped after regressions. Frozen FINAL tests unchanged BASE FIRST with directional BACK choices:35 engine uses36BASE for LB;36 engine uses35BASE for KB and36MINIMAL for LB, also36MINIMAL-only BACK comparator. Same actual FIRST bytes are used for causal BACK comparison. All quality provisional and native-speaker unverified.
-
-Operational main, SERVICE, TEST main, databases and deployment unchanged. Previous campaigns and their locks are independent and untouched.
+The existing WIF execution branch research/gemini-model-native500-20261107 was used only in the V2 namespace. Shared execution workflow files are restored to their pre-V2 bytes at closure; old campaigns/locks unchanged. This branch is a locked source mirror, never an execution authorization.

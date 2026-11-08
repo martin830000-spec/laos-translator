@@ -12,4 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - run: node experiments/gemini-alternative-v2/test.cjs
+      - run: node experiments/gemini-alternative-v2/test_resume.cjs
       - run: python3 experiments/gemini-alternative-v2/test_gate.py
