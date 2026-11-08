@@ -1,9 +1,16 @@
 {
   "campaign": "GEMINI36_ALTERNATIVE_V2_20261108",
-  "enabled": false,
-  "max_new": 0,
+  "model": "gemini-3.6-flash",
+  "enabled": true,
+  "max_new": 64,
   "cumulative_actual": 0,
-  "status": "BLOCKED_BEFORE_PAID_PLAINTEXT_RECOVERY_GATE",
-  "phase": "FREE_PREPARATION",
-  "backup_gate_passed": false
+  "prior_actual": 0,
+  "prior_plans": [],
+  "frozen_sources": [],
+  "phase": "DISCOVERY",
+  "plan_sha256": "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2",
+  "run_nonce": "v2-36-discovery-20261108-singlepass",
+  "deadline_epoch": 1794113276,
+  "backup_gate_passed": true,
+  "status": "ACTIVE_RESERVED"
 }
