@@ -1,5 +1,10 @@
 {
-  "mode": "PROBE_READ",
   "export_cert": "export-b-cert.pem",
-  "nonce": "v2-safe-recovery-new-key-20261108"
+  "input_sha256": "9690adf897d934854b6266d7f55d2a9a9e7d6d724fb6562c0c440c8137f57320",
+  "mode": "STAGE",
+  "nonce": "v2-stage-discovery-20261108",
+  "plans": {
+    "35": "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1",
+    "36": "264b66ae3e5422e50757a1a83e13192ae75e4bcd11d32a72c4e91dec0ab163c2"
+  }
 }

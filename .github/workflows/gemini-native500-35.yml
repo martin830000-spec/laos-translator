@@ -1,10 +1,10 @@
-name: Gemini 35 private-GCS DEEP500 research (no Issue handshake)
+name: Gemini 35 private-GCS ALTERNATIVE V2 research (no Issue handshake)
 on:
   push:
     branches:
       - research/gemini-model-native500-20261107
     paths:
-      - experiments/gemini-deep500/35/activation-gcs.json
+      - experiments/gemini-alternative-v2/35/activation-gcs.json
 permissions:
   contents: read
   id-token: write
@@ -21,7 +21,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Validate new campaign paid gate
-        run: python3 -c "import sys; sys.path.insert(0,'experiments/gemini-deep500'); import runner; runner.load('35')"
+        run: python3 -c "import sys; sys.path.insert(0,'experiments/gemini-alternative-v2'); import runner; runner.load('35')"
       - name: Check configured research-only WIF principal
         env:
           PROVIDER: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
@@ -41,16 +41,17 @@ jobs:
       - name: Execute private-GCS plan once
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 experiments/gemini-deep500/runner.py execute 35
+        run: python3 experiments/gemini-alternative-v2/runner.py execute 35
 
       - name: Export encrypted private analysis copy
         if: always()
-        run: python3 experiments/gemini-deep500/review_export.py 35
+        run: python3 experiments/gemini-alternative-v2/bridge.py 35
       - name: Upload ciphertext only
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: deep500-private-review-35
-          path: ${{ runner.temp }}/native500-review.p7m
+          name: v2-private-review-35
+          path: ${{ runner.temp }}/v2-transfer.p7m
           retention-days: 3
           if-no-files-found: error
+

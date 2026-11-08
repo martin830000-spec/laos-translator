@@ -38,6 +38,15 @@ def main():
    raw=(p/'input.json').read_bytes();assert digest(raw)==cfg['input_sha256'];package=json.loads(raw)
    for m,plan in package['plans'].items():
     assert m in ('35','36') and plan['campaign']==f'GEMINI{m}_ALTERNATIVE_V2_20261108'
+    import runner
+    runner.validate_tasks(plan['tasks'],m,{'max_new':len(plan['tasks']),'prior_plans':[],'frozen_sources':cfg.get('frozen_sources',[])})
+    proc=subprocess.Popen(['node',str(HERE/'worker.cjs'),m],stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True)
+    try:
+     for task in plan['tasks']:
+      source=task.get('input','SYNTHETIC_FIRST_FOR_FREE_BUILD_ONLY')
+      built=runner.worker_call(proc,{'mode':'build','path':task['path'],'variant':task['variant'],'input':source})
+      assert built['payload']['contents']==[{'role':'user','parts':[{'text':source}]}]
+    finally:proc.terminate()
     payload=canon(plan);sha=digest(payload);assert sha==cfg['plans'][m];write(f'{m}/plans/{sha}.json',payload);objs[f'{m}/plans/{sha}.json']=read(f'{m}/plans/{sha}.json')
  elif mode=='EXPORT':
   for m,sha in cfg['plans']:
