@@ -1,16 +1,16 @@
 {
+  "backup_gate_passed": true,
   "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
-  "model": "gemini-3.5-flash-lite",
-  "enabled": true,
-  "max_new": 64,
-  "cumulative_actual": 0,
-  "prior_actual": 0,
-  "prior_plans": [],
+  "cumulative_actual": 64,
+  "deadline_epoch": 1794113276,
+  "enabled": false,
   "frozen_sources": [],
+  "max_new": 0,
+  "model": "gemini-3.5-flash-lite",
   "phase": "DISCOVERY",
   "plan_sha256": "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1",
+  "prior_actual": 0,
+  "prior_plans": [],
   "run_nonce": "v2-35-discovery-20261108-singlepass",
-  "deadline_epoch": 1794113276,
-  "backup_gate_passed": true,
-  "status": "ACTIVE_RESERVED"
+  "status": "LOCKED_STAGE_RECOVERED"
 }
