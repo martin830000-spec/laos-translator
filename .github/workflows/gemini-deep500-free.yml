@@ -26,3 +26,5 @@ jobs:
               assert len(c['prior_plans'])==5
           print('Both campaigns LOCKED: 500/500 each; no API credentials or generation calls in this workflow')
           PY
+
+# Final closure verification: recovered 1000 outputs; no generation permitted.

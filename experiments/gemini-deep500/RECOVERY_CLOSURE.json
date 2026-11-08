@@ -1,0 +1,12 @@
+{
+  "scope": "Existing DEEP500 evidence recovery and offline evaluation only",
+  "generated_calls_during_closure": 0,
+  "recovered_outputs": 1000,
+  "recovered_gcs_objects": 3030,
+  "original_lock_commit": "5dfc393239fe6b31570e9e251a0a4b1c7490ee61",
+  "recovery_run": 42436052786,
+  "recovery_workflows_disabled": true,
+  "quality": "AI provisional; native speaker unverified; row evaluations reconstructed after old local environment loss",
+  "private_evidence": "Google Drive LIVE_STATE; private conversations and keys excluded from this commit",
+  "next_work": "Handoff only; no new campaign or SERVICE deployment authorized"
+}
