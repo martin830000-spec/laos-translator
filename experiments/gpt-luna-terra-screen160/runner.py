@@ -130,7 +130,7 @@ async def execute(s,c):
   state.update(enabled=False,max_new=0,status='CHECKPOINT_LOCKED',cumulative_actual=len(rs),unused_locked=160-len(rs),models_ledger=by)
   s.replace('STATE.json',canon(state));s.release(lock)
 def export(s,c):
- rs=reservations(s);names=['STATE.json']+[f'budget/{i:04d}.json' for i in range(1,len(rs)+1)]
+ rs=reservations(s);names=['STATE.json','readiness/synthetic.json']+[f'budget/{i:04d}.json' for i in range(1,len(rs)+1)]
  for ph in ['AB','C']:
   names += ['runs/'+ph+'/START.json','runs/'+ph+'/FINISH.json','checks/stage-'+ph+'.json']
  for i in range(1,161):names += [f'results/S{i:03d}.json',f'skips/S{i:03d}.json',f'checkpoints/attempt-{i:04d}.json']

@@ -2,10 +2,12 @@
   "export_objects": [
     "plans/c8d56c55937bc5fda3f89fd63ec4f1b2873817d3b012444086f590990dc8af93.json",
     "checkpoints/source-manifest.json",
-    "checkpoints/run-plan.json"
+    "checkpoints/run-plan.json",
+    "checks/atomic-AB.json"
   ],
-  "mode": "STAGE",
+  "mode": "EXPORT",
   "package_sha256": "ef290f1a85429a6a43a034a57ab562d637c94d818a3b0d9393ebcbc1fa8b41f1",
   "phase": "AB",
-  "plan_sha256": "c8d56c55937bc5fda3f89fd63ec4f1b2873817d3b012444086f590990dc8af93"
+  "plan_sha256": "c8d56c55937bc5fda3f89fd63ec4f1b2873817d3b012444086f590990dc8af93",
+  "roundtrip": "SYNTHETIC_PREPAID"
 }
