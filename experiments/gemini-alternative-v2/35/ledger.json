@@ -1,7 +1,7 @@
 {
-  "actual": 96,
+  "actual": 120,
   "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
-  "remaining": 404,
+  "remaining": 380,
   "stages": [
     {
       "attempted": 64,
@@ -28,6 +28,19 @@
       "skipped": 0,
       "status": "DONE_WITH_FAILURES",
       "success": 31
+    },
+    {
+      "attempted": 24,
+      "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
+      "failed": 0,
+      "model": "gemini-3.5-flash-lite",
+      "phase": "REPEAT",
+      "plan_sha256": "596a1f437a3a91903cb4d7074a0ea601c616bd1b0feb8078afabe911eef14276",
+      "reason": null,
+      "remaining_in_reserved_plan": 0,
+      "skipped": 0,
+      "status": "DONE",
+      "success": 24
     }
   ]
 }
