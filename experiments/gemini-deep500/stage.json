@@ -1,8 +1,8 @@
 {
-  "phase": "REFINE",
-  "input_sha256": "82d801364ecd93aabe66698dbd59df1fcf63c09666c5d70d3cc3067eebae5cd5",
+  "phase": "LONGFORM",
+  "input_sha256": "43bd01175d8b5aeba2ab4f88b9761b1736aeaae4bb185da0e62d4727ca20da6f",
   "plans": {
-    "35": "f356c7df2fc30dd76f8970be5553523ea58899892dc39d094133cd2acbcafea8",
-    "36": "f67ee691a3ca37284a1c38cdb4bc4040fa012ca6bf4df2c4f2966af663287ae8"
+    "35": "85c7b01dc19ff48c3e6270045b3bef4a8bb87407ed0068f86ac128afe705857e",
+    "36": "40240cc5ac145b0c9cbbe6f4b4ad2384da6621260252d399a2b508f51814ecb7"
   }
 }

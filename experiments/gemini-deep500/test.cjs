@@ -28,3 +28,5 @@ assert.equal(inspect('36',{candidates:[{finishReason:'STOP',content:{parts:[{tex
 console.log(JSON.stringify({new_contract_cases:16,scalar_roundtrip:true,malformed_not_repaired:true,paid_calls:0}));
 
 for(const p of ['KF','KB','LF','LB']){const q=build('36',p,'VERIFY','ACTUAL_FIRST_ONLY');assert.deepEqual(q.payload.contents,[{role:'user',parts:[{text:'ACTUAL_FIRST_ONLY'}]}]);assert.equal(q.payload.generationConfig.thinkingConfig.thinkingLevel,'medium');assert.equal(q.payload.generationConfig.thinkingConfig.includeThoughts,false);}console.log('VERIFY: 4 isolated requests, 0 API calls');
+
+for(const m of ['35','36'])for(const p of ['KF','KB','LF','LB']){const q=build(m,p,'VERIFY_LOW','VISIBLE_ONLY');assert.equal(q.payload.contents[0].parts[0].text,'VISIBLE_ONLY');assert.equal(q.payload.generationConfig.thinkingConfig.thinkingLevel,'low');}console.log('VERIFY_LOW: 8 isolated requests, 0 API calls');

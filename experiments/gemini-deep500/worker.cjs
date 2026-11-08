@@ -12,13 +12,13 @@ function build(model,path,variant,input){
  ['보고 싶지만 지금은 쉬고 싶어.','ຄິດຮອດ ແຕ່ຕອນນີ້ຢາກພັກຜ່ອນ.']
  ];
  let instruction,level=model==='35'?'minimal':'low';
- if(variant==='VERIFY'){
- if(model!=='36')throw Error('MODEL_SPECIFIC');
+ if(variant==='VERIFY'||variant==='VERIFY_LOW'){
+ if(variant==='VERIFY'&&model!=='36')throw Error('MODEL_SPECIFIC');
  const target=lao?'Lao (ພາສາລາວ, Lao script)':'Korean (한국어, Hangul)';
  instruction='Translate the visible message into '+target+'. Perform a private semantic round trip inside this one generation: formulate a natural target message, understand that proposed message literally as its recipient would, and compare its assertions with the visible input. If the proposal creates or changes a claim, revise it internally before output. Check the whole message rather than matching isolated words. Do not output drafts, analysis, alternatives or the private comparison. Output only the one final translation. This is a translation task, not a reply to the message.';
  if(back)instruction+=' The visible input is already the delivered FIRST. It is the sole meaning reference, even if odd or mistaken. There is no previous original to reconstruct. Preserve what this input actually says.';
  instruction+=lao?'\nຂຽນຄຳແປສຸດທ້າຍເປັນພາສາລາວທີ່ອ່ານງ່າຍ ໂດຍໃຊ້ອັກສອນລາວ. ບໍ່ຕອບກັບຂໍ້ຄວາມ ແລະບໍ່ອະທິບາຍ.':'\n최종 번역문만 자연스러운 한국어로 쓰세요. 입력에 답하거나 해설하지 마세요.';
- return {model:'gemini-3.6-flash',version:'DEEP500_PRIVATE_SEMANTIC_COMPARE_R3',payload:{systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:input}]}],generationConfig:{temperature:1,maxOutputTokens:3072,thinkingConfig:{thinkingLevel:'medium',includeThoughts:false}}}};
+ return {model:model==='35'?'gemini-3.5-flash-lite':'gemini-3.6-flash',version:variant==='VERIFY'?'DEEP500_PRIVATE_SEMANTIC_COMPARE_R3':'DEEP500_PRIVATE_SEMANTIC_COMPARE_LOW_R4',payload:{systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:input}]}],generationConfig:{temperature:1,maxOutputTokens:3072,thinkingConfig:{thinkingLevel:variant==='VERIFY'?'medium':'low',includeThoughts:false}}}};
  }else if(variant==='REFINE'||variant==='ALT'){
  const native=lao?
  'ແປຂໍ້ຄວາມຈາກພາສາເກົາຫຼີເປັນພາສາລາວ. ໃຊ້ຕົວອັກສອນແລະຄຳສັບລາວ ໃຫ້ເປັນຂໍ້ຄວາມສົນທະນາທີ່ອ່ານງ່າຍ. ຮັກສາຄວາມໝາຍ ນ້ຳສຽງ ແລະມຸມມອງຂອງຜູ້ເວົ້າ. ບໍ່ຕື່ມເຫດການ ຫຼືແກ້ເລື່ອງຕາມການຄາດເດົາ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ອະທິບາຍ ແລະບໍ່ສະເໜີທາງເລືອກ.':
