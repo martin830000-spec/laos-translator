@@ -23,7 +23,7 @@ CAMPAIGNS = {
     "36": "GEMINI36_DEEP500_20261108",
 }
 PATHS = ("KF", "KB", "LF", "LB")
-VARIANTS = {m: {'BASE','DEMO','SEGLINE','VOICE','VOICE_MIN','REFINE','ALT'} for m in MODELS}
+VARIANTS = {m: {'BASE','DEMO','SEGLINE','VOICE','VOICE_MIN','REFINE','ALT','VERIFY'} for m in MODELS}
 
 
 def check(assertion, reason):
