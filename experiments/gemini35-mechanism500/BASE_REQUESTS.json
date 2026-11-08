@@ -1,0 +1,130 @@
+{
+  "KF": {
+    "model": "gemini-3.5-flash-lite",
+    "payload": {
+      "system_instruction": {
+        "parts": [
+          {
+            "text": "ແປເປັນພາສາລາວທີ່ທຳມະຊາດ ແລະ ອ່ານງ່າຍ. ຂຽນຄຳລາວດ້ວຍອັກສອນລາວ. ຮັກສາຄວາມໝາຍ ຜູ້ເວົ້າ ຜູ້ຟັງ ບຸກຄົນທີສາມ ເວລາ ການປະຕິເສດ ເງື່ອນໄຂ ຈຳນວນ ແລະ ນ້ຳສຽງຂອງຂໍ້ຄວາມ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ຕ້ອງອະທິບາຍ. ຂໍ້ຄວາມນີ້ແມ່ນຄຳເວົ້າລະຫວ່າງຜົວເມຍ. ຢ່າປ່ຽນຜູ້ເຮັດ ຫຼື ຜູ້ຮັບການກະທຳ. ຢ່າເພີ່ມສິ່ງຂອງ ເຫດການ ຫຼື ອາການທີ່ບໍ່ມີໃນຂໍ້ຄວາມ. ຮັກສາຊື່ຄົນ ສະຖານທີ່ ແລະ ສິ່ງຂອງ. ແຍກການກະທຳທີ່ແລ້ວ ທີ່ກຳລັງເຮັດ ແລະ ທີ່ຈະເຮັດ. ຖ້າບໍ່ຊັດເຈນ ຢ່າເດົາເພີ່ມ. ຮັກສາຄຳຖາມ ຄວາມປາຖະໜາ ແລະ ຄວາມຮູ້ສຶກ. ຂຽນພຽງຄຳແປເປັນພາສາລາວ."
+          }
+        ]
+      },
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "V2_FREE_SYNTHETIC_INPUT"
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        }
+      }
+    },
+    "smart_ids": [],
+    "prompt_variant": "35R",
+    "version": "SINGLE500_BASE_BOUNDARY_R1"
+  },
+  "KB": {
+    "model": "gemini-3.5-flash-lite",
+    "payload": {
+      "system_instruction": {
+        "parts": [
+          {
+            "text": "주어진 라오어 메시지만 자연스럽고 읽기 쉬운 한국어로 번역하세요. 명시된 화자·청자·제삼자, 행동의 주체와 대상, 부정·조건·시점·예정과 완료·확실성·수치·단위·이름·증상·감정을 그대로 전달하세요. 없는 물건이나 사건·증상을 덧붙이지 마세요. 모호한 부분은 모호하게 남기고 문법만 자연스럽게 정리하세요. 친근한 말은 자연스러운 반말로, 공손한 말은 자연스러운 존댓말로 옮기세요. 해설·대안·라벨 없이 완성된 한국어 번역문 하나만 출력하세요. 주어진 번역문만 근거로 삼으세요. 보이지 않는 최초 원문을 추측하거나 복원·수정하지 마세요."
+          }
+        ]
+      },
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "V2_FREE_SYNTHETIC_INPUT"
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        }
+      }
+    },
+    "smart_ids": [],
+    "prompt_variant": "35R",
+    "version": "SINGLE500_BASE_BOUNDARY_R1"
+  },
+  "LF": {
+    "model": "gemini-3.5-flash-lite",
+    "payload": {
+      "system_instruction": {
+        "parts": [
+          {
+            "text": "주어진 라오어 메시지만 자연스럽고 읽기 쉬운 한국어로 번역하세요. 부부 사이의 대화입니다. 명시된 화자·청자·제삼자, 행동의 주체와 대상, 부정·조건·시점·예정과 완료·확실성·수치·단위·이름·증상·감정을 그대로 전달하세요. 없는 물건이나 사건·증상을 덧붙이지 마세요. 모호한 부분은 모호하게 남기고 문법만 자연스럽게 정리하세요. 친근한 말은 자연스러운 반말로, 공손한 말은 자연스러운 존댓말로 옮기세요. 해설·대안·라벨 없이 완성된 한국어 번역문 하나만 출력하세요."
+          }
+        ]
+      },
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "V2_FREE_SYNTHETIC_INPUT"
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        }
+      }
+    },
+    "smart_ids": [],
+    "prompt_variant": "35R",
+    "version": "SINGLE500_BASE_BOUNDARY_R1"
+  },
+  "LB": {
+    "model": "gemini-3.5-flash-lite",
+    "payload": {
+      "system_instruction": {
+        "parts": [
+          {
+            "text": "ແປເປັນພາສາລາວທີ່ທຳມະຊາດ ແລະ ອ່ານງ່າຍ. ຂຽນຄຳລາວດ້ວຍອັກສອນລາວ. ຮັກສາຄວາມໝາຍ ຜູ້ເວົ້າ ຜູ້ຟັງ ບຸກຄົນທີສາມ ເວລາ ການປະຕິເສດ ເງື່ອນໄຂ ຈຳນວນ ແລະ ນ້ຳສຽງຂອງຂໍ້ຄວາມ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ຕ້ອງອະທິບາຍ.  ຢ່າປ່ຽນຜູ້ເຮັດ ຫຼື ຜູ້ຮັບການກະທຳ. ຢ່າເພີ່ມສິ່ງຂອງ ເຫດການ ຫຼື ອາການທີ່ບໍ່ມີໃນຂໍ້ຄວາມ. ຮັກສາຊື່ຄົນ ສະຖານທີ່ ແລະ ສິ່ງຂອງ. ແຍກການກະທຳທີ່ແລ້ວ ທີ່ກຳລັງເຮັດ ແລະ ທີ່ຈະເຮັດ. ຖ້າບໍ່ຊັດເຈນ ຢ່າເດົາເພີ່ມ. ຮັກສາຄຳຖາມ ຄວາມປາຖະໜາ ແລະ ຄວາມຮູ້ສຶກ. ຂຽນພຽງຄຳແປເປັນພາສາລາວ. ໃຊ້ພຽງຂໍ້ຄວາມເກົາຫຼີທີ່ໃຫ້ມາເປັນຫຼັກຖານ. ຢ່າເດົາຫຼືແກ້ໄຂຕາມຕົ້ນສະບັບທີ່ບໍ່ໄດ້ເຫັນ."
+          }
+        ]
+      },
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "V2_FREE_SYNTHETIC_INPUT"
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "maxOutputTokens": 1024,
+        "thinkingConfig": {
+          "thinkingLevel": "minimal",
+          "includeThoughts": false
+        }
+      }
+    },
+    "smart_ids": [],
+    "prompt_variant": "35R",
+    "version": "SINGLE500_BASE_BOUNDARY_R1"
+  }
+}
