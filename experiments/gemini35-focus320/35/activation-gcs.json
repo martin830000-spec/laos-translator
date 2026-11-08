@@ -1,9 +1,9 @@
 {
   "campaign": "GEMINI35_FOCUS320_20261108",
   "model": "gemini-3.5-flash-lite",
-  "phase": "S3",
-  "max_new": 48,
-  "plan_sha256": "8f2f222d33186ef1032c5b125fc76683a20ac3a635739f233ba4b33022b08b28",
-  "run_nonce": "focus320-s3-20261108-singlepass",
-  "plan_object": "research/gemini-model-native500-20261107/focus320-20261108/35/plans/8f2f222d33186ef1032c5b125fc76683a20ac3a635739f233ba4b33022b08b28.json"
+  "phase": "S4",
+  "max_new": 32,
+  "plan_sha256": "778c54baf4366134de28bf273aad780cb100cf498fe1982586529677106fac2e",
+  "run_nonce": "focus320-s4-20261108-singlepass",
+  "plan_object": "research/gemini-model-native500-20261107/focus320-20261108/35/plans/778c54baf4366134de28bf273aad780cb100cf498fe1982586529677106fac2e.json"
 }
