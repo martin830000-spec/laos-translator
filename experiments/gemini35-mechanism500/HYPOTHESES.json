@@ -1,0 +1,50 @@
+[
+  {
+    "candidate": "SCOPE",
+    "target": "clause-local negation/condition/event state and participants",
+    "mechanism": "source predicate/marker binding then target composition; direction-specific grammar rather than a common preserve-everything checklist",
+    "different_from_FOCUS": "no role add-on or thinking change, no examples; explicitly ordered clause dependency representation, never printed",
+    "predicted_benefit": "LF negation/scope and KB time fidelity; KF long clause relations",
+    "risk": "overparse colloquial fragments, literal grammar; extra instruction tokens",
+    "falsifier": "reverses local negative/conditional or repairs a malformed BACK while BASE preserves it; no paired quality gain",
+    "paths": [
+      "KF",
+      "LF",
+      "KB",
+      "LB"
+    ],
+    "cost_prediction": "more input tokens; minimal/1024 unchanged, latency effect unknown"
+  },
+  {
+    "candidate": "SURFACE",
+    "target": "Lao readability/spelling degradation and bloated target syntax",
+    "mechanism": "generate everyday target sentences one meaning unit at a time, allow sentence splitting but retain cross-clause links",
+    "different_from_FOCUS": "Lao realization contract written for KF and LB separately; not common Korean DETAIL; source is not role-expanded",
+    "predicted_benefit": "KF/LB lower lexical/orthographic complexity; Korean LF/KB simpler idiomatic output",
+    "risk": "simplification may omit a named item, nuance or causal/conditional link",
+    "falsifier": "readability does not improve or omissions rise vs BASE on normal and long actual messages",
+    "paths": [
+      "KF",
+      "LB",
+      "LF",
+      "KB"
+    ],
+    "cost_prediction": "longer input, potentially shorter output, elapsed unproven"
+  },
+  {
+    "candidate": "ANCHOR",
+    "target": "identity-bearing names/items/amounts and lexical substitutions in FIRST or BACK",
+    "mechanism": "select contextual senses and bind referent/unit before composing target around fixed anchors",
+    "different_from_FOCUS": "lexical coverage priority rather than spouse role or all-feature rule inventory; no training examples or supplied glossary",
+    "predicted_benefit": "LF omitted named places and KF malformed items; BACK retains actual anomalous nouns",
+    "risk": "stiffness, excessive source form copying or unnecessary foreign script; context can still be guessed wrongly",
+    "falsifier": "introduces names or broadens concrete referents; similar typo/ambiguity quality without speed benefit",
+    "paths": [
+      "KF",
+      "LF",
+      "KB",
+      "LB"
+    ],
+    "cost_prediction": "extra prompt tokens, minimal only; possible output verbosity checked"
+  }
+]

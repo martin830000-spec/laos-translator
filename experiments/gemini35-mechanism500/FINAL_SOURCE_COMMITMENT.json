@@ -1,0 +1,11 @@
+{
+  "campaign": "GEMINI35_MECHANISM500_20261108",
+  "source_freeze_sha256": "09270697dd7d1575b0f7bb14603232677922c257c8a34d3f77e6e75fdbeba536",
+  "source_count": 40,
+  "K": 20,
+  "L": 20,
+  "reserve_count": 11,
+  "source_origin": "byte-verified existing SERVICE2000 exports",
+  "pre_generation_manual_leakage_review": true,
+  "paid_calls_at_freeze": 0
+}
