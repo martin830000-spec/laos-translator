@@ -1,9 +1,6 @@
 {
-  "mode": "STAGE",
+  "mode": "CHECKPOINT",
   "export_cert": "export-cert.pem",
-  "input_sha256": "e43c1e8267fd2e2a0f154a66b53edf66b7b997cd939fe33779fa8d8f81e9deba",
-  "plans": {
-    "35": "b8496987f8b2a61bfa2ce0d50cedf258d3f64ad52a39c27b854e321eb12caa6f"
-  },
-  "frozen_sources": []
+  "input_sha256": "81f35d8933e8c234b0835bb37e74ad3cdf8f0b0870e42bac0f5e2db7d3fced73",
+  "plans": {}
 }
