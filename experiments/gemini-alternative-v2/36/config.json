@@ -1,0 +1,9 @@
+{
+  "campaign": "GEMINI36_ALTERNATIVE_V2_20261108",
+  "enabled": false,
+  "max_new": 0,
+  "cumulative_actual": 0,
+  "status": "BLOCKED_BEFORE_PAID_PLAINTEXT_RECOVERY_GATE",
+  "phase": "FREE_PREPARATION",
+  "backup_gate_passed": false
+}
