@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "properties": {
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "target"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "translation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "segments",
+    "translation"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,12 @@
+{
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "model": "gemini-3.5-flash-lite",
+  "approved_total": 240,
+  "enabled": false,
+  "max_new": 0,
+  "cumulative_actual": 0,
+  "prior_actual": 0,
+  "prior_plans": [],
+  "phase": "PREP",
+  "status": "PREPARATION_ONLY"
+}

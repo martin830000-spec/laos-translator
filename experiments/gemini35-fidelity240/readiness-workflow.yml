@@ -1,0 +1,37 @@
+name: FIDELITY240 existing-WIF private transfer readiness
+on:
+  push:
+    branches: [research/gemini-model-native500-20261107]
+    paths: [experiments/gemini35-fidelity240/READINESS.json, .github/workflows/gemini-native500-gcs-readiness.yml]
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: native500-gcs-35
+  cancel-in-progress: false
+jobs:
+  recover:
+    if: github.actor == 'martin830000-spec' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
+          service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
+      - name: Read existing objects only
+        run: python3 experiments/gemini35-fidelity240/bridge.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fidelity240-private-transfer
+          path: |
+            ${{ runner.temp }}/fidelity240-transfer.p7m
+            ${{ runner.temp }}/fidelity240-input-cert.pem
+          retention-days: 3
+          if-no-files-found: error
+

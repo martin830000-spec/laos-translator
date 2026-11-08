@@ -1,0 +1,57 @@
+name: Gemini 35 private-GCS FIDELITY240 research (no Issue handshake)
+on:
+  push:
+    branches:
+      - research/gemini-model-native500-20261107
+    paths:
+      - experiments/gemini35-fidelity240/35/activation-gcs.json
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: native500-gcs-35
+  cancel-in-progress: false
+jobs:
+  protected:
+    if: github.actor == 'martin830000-spec' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Validate new campaign paid gate
+        run: python3 -c "import sys; sys.path.insert(0,'experiments/gemini35-fidelity240'); import runner; runner.load('35')"
+      - name: Check configured research-only WIF principal
+        env:
+          PROVIDER: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
+          SERVICE_ACCOUNT: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+        shell: bash
+        run: |
+          test -n "$PROVIDER" && test -n "$SERVICE_ACCOUNT"
+          echo 'Dedicated research principal configured; public Issue handshake disabled'
+      - name: Authenticate with research-only WIF
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
+          service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - name: Set up Python dependencies
+        run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
+      - name: Execute private-GCS plan once
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 experiments/gemini35-fidelity240/runner.py execute 35
+
+      - name: Export encrypted private analysis copy
+        if: always()
+        run: python3 experiments/gemini35-fidelity240/bridge.py 35
+      - name: Upload ciphertext only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fidelity240-private-review-35
+          path: ${{ runner.temp }}/fidelity240-transfer.p7m
+          retention-days: 3
+          if-no-files-found: error
+

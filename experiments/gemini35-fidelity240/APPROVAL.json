@@ -1,0 +1,17 @@
+{
+  "campaign": "GEMINI35_FIDELITY240_20261108",
+  "total_cap": 240,
+  "exploration_cap": 112,
+  "final_cap": 128,
+  "stage_caps": {
+    "P1": 80,
+    "P2": 32,
+    "P3": 128
+  },
+  "model": "gemini-3.5-flash-lite",
+  "other_models": 0,
+  "retries": 0,
+  "judges": 0,
+  "directive_sha256": "ad613159d907943473ee1e3322c03db2739131f1994156e2c39874596620a56d",
+  "source": "User directly attached R2 directive in this Work thread; not an additional240 over same campaign."
+}
