@@ -1,0 +1,28 @@
+name: DEEP500 locked offline verification
+on:
+  push:
+    branches: [research/gemini-model-native500-20261107]
+    paths: [.github/workflows/gemini-deep500-free.yml]
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify request builders without API calls
+        run: node experiments/gemini-deep500/test.cjs
+      - name: Verify both campaigns are locked
+        run: |
+          python3 - <<'PY'
+          import json
+          for model in ('35','36'):
+              c=json.load(open('experiments/gemini-deep500/'+model+'/config.json'))
+              assert c['enabled'] is False and c['max_new']==0
+              assert c['prior_actual']==500 and c['cumulative_actual']==500
+              assert len(c['prior_plans'])==5
+          print('Both campaigns LOCKED: 500/500 each; no API credentials or generation calls in this workflow')
+          PY

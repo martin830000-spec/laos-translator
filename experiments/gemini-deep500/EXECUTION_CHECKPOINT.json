@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-08",
+  "status": "API_COMPLETE_ANALYSIS_PENDING_ENVIRONMENT",
+  "actual_attempts": {
+    "35": 500,
+    "36": 500
+  },
+  "success": {
+    "35": 500,
+    "36": 500
+  },
+  "failure": {
+    "35": 0,
+    "36": 0
+  },
+  "new_calls_allowed": {
+    "35": 0,
+    "36": 0
+  },
+  "phase_attempts_per_model": {
+    "DISCOVERY": 144,
+    "SAME": 64,
+    "REFINE": 112,
+    "LONG": 52,
+    "FINAL": 128
+  },
+  "final_runs": {
+    "35": 42434500113,
+    "36": 42434500050
+  },
+  "final_source_commit": "159912442d54210742964b6d094f4b85579b36d0",
+  "quality_complete": false,
+  "final_report_complete": false,
+  "drive_evidence_zip_verified": false,
+  "blocker": "Execution environment unavailable; local analysis and decryption key are not currently accessible. Do not repeat paid experiments.",
+  "next": "Recover existing private GCS outputs/local workspace, complete FINAL quality audit, cost/timing aggregation, Drive backup and integrity verification.",
+  "production_changes": false
+}

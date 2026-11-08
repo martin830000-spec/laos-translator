@@ -2,16 +2,20 @@
   "campaign": "GEMINI36_DEEP500_20261108",
   "model": "gemini-3.6-flash",
   "phase": "FINAL",
-  "enabled": true,
-  "max_new": 128,
-  "prior_actual": 372,
+  "enabled": false,
+  "max_new": 0,
+  "prior_actual": 500,
   "prior_plans": [
     "75265b4f1595dc8196a7c46fcb456d2736621443e3cace7fd9da3da98028bc2d",
     "c33a49a9f527fcea99e7945019d0b139ea13cdb4cad693115594dd260889acb3",
     "f67ee691a3ca37284a1c38cdb4bc4040fa012ca6bf4df2c4f2966af663287ae8",
-    "40240cc5ac145b0c9cbbe6f4b4ad2384da6621260252d399a2b508f51814ecb7"
+    "40240cc5ac145b0c9cbbe6f4b4ad2384da6621260252d399a2b508f51814ecb7",
+    "0c0a9c222201a7158a5989c89415f33cda38d95f2807e57e46b2f1ce4df52805"
   ],
   "plan_sha256": "0c0a9c222201a7158a5989c89415f33cda38d95f2807e57e46b2f1ce4df52805",
   "run_nonce": "79125e609ac12464f146b60b9ef8ca20",
-  "deadline_epoch": 1794122997
+  "deadline_epoch": 0,
+  "cumulative_actual": 500,
+  "execution_status": "COMPLETE_ANALYSIS_PENDING_ENVIRONMENT",
+  "final_run_id": 42434500050
 }
