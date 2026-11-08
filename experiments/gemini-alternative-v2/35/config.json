@@ -1,9 +1,19 @@
 {
+  "backup_gate_passed": true,
   "campaign": "GEMINI35_ALTERNATIVE_V2_20261108",
+  "cumulative_actual": 200,
+  "deadline_epoch": 1794115224,
+  "enabled": false,
+  "frozen_sources": [
+    [
+      "36",
+      "ada700122cb3c6484c2ab5bb572e2ccad1783b306dbcc3cc319dd73174330c82"
+    ]
+  ],
+  "max_new": 0,
   "model": "gemini-3.5-flash-lite",
-  "enabled": true,
-  "max_new": 16,
-  "cumulative_actual": 184,
+  "phase": "FINAL_BACK",
+  "plan_sha256": "6c8f3cf4a5d67bb251c21411f2debf8c3756ba588aa661090f92ef822cfc6628",
   "prior_actual": 184,
   "prior_plans": [
     "eeaf6d405a314cc862fe46bd3674d16466bb628c43366914d1f5df833a63a4c1",
@@ -11,16 +21,6 @@
     "596a1f437a3a91903cb4d7074a0ea601c616bd1b0feb8078afabe911eef14276",
     "e198adeb8f4f3efe28fd11887af978ffe40695a4a09a7466806f77a809a2014c"
   ],
-  "frozen_sources": [
-    [
-      "36",
-      "ada700122cb3c6484c2ab5bb572e2ccad1783b306dbcc3cc319dd73174330c82"
-    ]
-  ],
-  "phase": "FINAL_BACK",
-  "plan_sha256": "6c8f3cf4a5d67bb251c21411f2debf8c3756ba588aa661090f92ef822cfc6628",
   "run_nonce": "v2-35-final_back-20261108-singlepass",
-  "deadline_epoch": 1794115224,
-  "backup_gate_passed": true,
-  "status": "ACTIVE_RESERVED"
+  "status": "LOCKED_STAGE_RECOVERED"
 }
