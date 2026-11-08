@@ -49,7 +49,7 @@ def main():
     finally:proc.terminate()
     payload=canon(plan);sha=digest(payload);assert sha==cfg['plans'][m];write(f'{m}/plans/{sha}.json',payload);objs[f'{m}/plans/{sha}.json']=read(f'{m}/plans/{sha}.json')
    for phase,data in package.get('checkpoints',{}).items():
-    assert phase in ('S1','S2','S3','S4','S5','FINAL')
+    assert phase in ('S1','S2','S3','S4','S4X','S5','FINAL')
     payload=canon(data);sha=digest(payload);name=f'35/checkpoints/{phase}/{sha}.json';write(name,payload);objs[name]=read(name)
  elif mode=='EXPORT':
   for m,sha in cfg['plans']:

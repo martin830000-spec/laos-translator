@@ -1,0 +1,14 @@
+{
+  "phase": "S4X",
+  "new_calls_max": 20,
+  "budget_source": "explicit unassigned20 in user MECHANISM500 instruction; no old campaign budget",
+  "trigger": "S4 BASE KB C concealment repeated twice on identical actual FIRST; S2 different FIRST wording did not show this C pattern.",
+  "mechanism": "SCOPE KB clause/predicate binding, frozen since before S1 but never generated in KB path. SCOPE FIRST failed does not establish its independent BACK contract. Contrast with S2 lexical-ANCHOR KB.",
+  "same_FIRST_records": 10,
+  "unique_originals": 10,
+  "path": "KB only targeted reserve diagnostic, deliberately not balanced population sample",
+  "no_retry": "Each BASE and SCOPE draw is an explicitly new comparison slot; S4 outputs are not overwritten and failed/normal outputs are not silently regenerated.",
+  "prediction": "SCOPE preserves the actual comparison direction and odd referents while retaining normal Korean.",
+  "risks": "Clause analysis can misread Lao polysemy or damage fluency, as SCOPE FIRST did.",
+  "selection_gate": "Advance KB only if confirmed same-FIRST important improvement exceeds confirmed regressions, C trigger faithfully retained, and no new critical semantic error. Otherwise leave BASE KB and report its observed risk. No S5 result used for tuning."
+}
