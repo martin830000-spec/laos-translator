@@ -1,0 +1,301 @@
+{
+  "origin_commit": "aa2811996cd441c985d4844076db899c5cc1cbeb",
+  "base_origin_lock": "5dfc393239fe6b31570e9e251a0a4b1c7490ee61",
+  "files": [
+    {
+      "path": "experiments/gemini35-native500/base.cjs",
+      "sha256": "49f3703afbe978a2bb812ff525539669ee7917a9835fca0d11f21172fd9f0eeb",
+      "bytes": 7538
+    },
+    {
+      "path": "experiments/gemini35-native500/baseline35.json",
+      "sha256": "0ed580f981778a6d60729ff0361c206d4b53a2e6e0bd0729c3c1922ba38f9ece",
+      "bytes": 6611
+    },
+    {
+      "path": "experiments/gemini35-native500/current-prompt-config.json",
+      "sha256": "c07846fd5e98ce04177810f901257b12567ba997e950d5c03caf5e109165da0b",
+      "bytes": 20990
+    },
+    {
+      "path": "experiments/gemini35-native500/service.cjs",
+      "sha256": "2ed4fecfe02ff1416687165cd86534e6e0fdfdb67cfa318b7a5231ad5168f4ae",
+      "bytes": 9170
+    },
+    {
+      "path": "experiments/gemini36-native500/base.cjs",
+      "sha256": "c6bcf5ded113d7fee0c1617c2d616b15cdc402ba5bdc6efd41b9f0314de37140",
+      "bytes": 7533
+    },
+    {
+      "path": "experiments/gemini36-native500/baseline35.json",
+      "sha256": "0ed580f981778a6d60729ff0361c206d4b53a2e6e0bd0729c3c1922ba38f9ece",
+      "bytes": 6611
+    },
+    {
+      "path": "experiments/gemini36-native500/current-prompt-config.json",
+      "sha256": "c07846fd5e98ce04177810f901257b12567ba997e950d5c03caf5e109165da0b",
+      "bytes": 20990
+    },
+    {
+      "path": "experiments/gemini36-native500/service.cjs",
+      "sha256": "2ed4fecfe02ff1416687165cd86534e6e0fdfdb67cfa318b7a5231ad5168f4ae",
+      "bytes": 9170
+    }
+  ],
+  "requests": {
+    "35": {
+      "KF": {
+        "model": "gemini-3.5-flash-lite",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "ແປເປັນພາສາລາວທີ່ທຳມະຊາດ ແລະ ອ່ານງ່າຍ. ຂຽນຄຳລາວດ້ວຍອັກສອນລາວ. ຮັກສາຄວາມໝາຍ ຜູ້ເວົ້າ ຜູ້ຟັງ ບຸກຄົນທີສາມ ເວລາ ການປະຕິເສດ ເງື່ອນໄຂ ຈຳນວນ ແລະ ນ້ຳສຽງຂອງຂໍ້ຄວາມ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ຕ້ອງອະທິບາຍ. ຂໍ້ຄວາມນີ້ແມ່ນຄຳເວົ້າລະຫວ່າງຜົວເມຍ. ຢ່າປ່ຽນຜູ້ເຮັດ ຫຼື ຜູ້ຮັບການກະທຳ. ຢ່າເພີ່ມສິ່ງຂອງ ເຫດການ ຫຼື ອາການທີ່ບໍ່ມີໃນຂໍ້ຄວາມ. ຮັກສາຊື່ຄົນ ສະຖານທີ່ ແລະ ສິ່ງຂອງ. ແຍກການກະທຳທີ່ແລ້ວ ທີ່ກຳລັງເຮັດ ແລະ ທີ່ຈະເຮັດ. ຖ້າບໍ່ຊັດເຈນ ຢ່າເດົາເພີ່ມ. ຮັກສາຄຳຖາມ ຄວາມປາຖະໜາ ແລະ ຄວາມຮູ້ສຶກ. ຂຽນພຽງຄຳແປເປັນພາສາລາວ."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "minimal",
+              "includeThoughts": false
+            }
+          }
+        },
+        "smart_ids": [],
+        "prompt_variant": "35R",
+        "version": "SINGLE500_BASE_BOUNDARY_R1"
+      },
+      "KB": {
+        "model": "gemini-3.5-flash-lite",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "주어진 라오어 메시지만 자연스럽고 읽기 쉬운 한국어로 번역하세요. 명시된 화자·청자·제삼자, 행동의 주체와 대상, 부정·조건·시점·예정과 완료·확실성·수치·단위·이름·증상·감정을 그대로 전달하세요. 없는 물건이나 사건·증상을 덧붙이지 마세요. 모호한 부분은 모호하게 남기고 문법만 자연스럽게 정리하세요. 친근한 말은 자연스러운 반말로, 공손한 말은 자연스러운 존댓말로 옮기세요. 해설·대안·라벨 없이 완성된 한국어 번역문 하나만 출력하세요. 주어진 번역문만 근거로 삼으세요. 보이지 않는 최초 원문을 추측하거나 복원·수정하지 마세요."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "minimal",
+              "includeThoughts": false
+            }
+          }
+        },
+        "smart_ids": [],
+        "prompt_variant": "35R",
+        "version": "SINGLE500_BASE_BOUNDARY_R1"
+      },
+      "LF": {
+        "model": "gemini-3.5-flash-lite",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "주어진 라오어 메시지만 자연스럽고 읽기 쉬운 한국어로 번역하세요. 부부 사이의 대화입니다. 명시된 화자·청자·제삼자, 행동의 주체와 대상, 부정·조건·시점·예정과 완료·확실성·수치·단위·이름·증상·감정을 그대로 전달하세요. 없는 물건이나 사건·증상을 덧붙이지 마세요. 모호한 부분은 모호하게 남기고 문법만 자연스럽게 정리하세요. 친근한 말은 자연스러운 반말로, 공손한 말은 자연스러운 존댓말로 옮기세요. 해설·대안·라벨 없이 완성된 한국어 번역문 하나만 출력하세요."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "minimal",
+              "includeThoughts": false
+            }
+          }
+        },
+        "smart_ids": [],
+        "prompt_variant": "35R",
+        "version": "SINGLE500_BASE_BOUNDARY_R1"
+      },
+      "LB": {
+        "model": "gemini-3.5-flash-lite",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "ແປເປັນພາສາລາວທີ່ທຳມະຊາດ ແລະ ອ່ານງ່າຍ. ຂຽນຄຳລາວດ້ວຍອັກສອນລາວ. ຮັກສາຄວາມໝາຍ ຜູ້ເວົ້າ ຜູ້ຟັງ ບຸກຄົນທີສາມ ເວລາ ການປະຕິເສດ ເງື່ອນໄຂ ຈຳນວນ ແລະ ນ້ຳສຽງຂອງຂໍ້ຄວາມ. ສົ່ງພຽງຄຳແປດຽວ ບໍ່ຕ້ອງອະທິບາຍ.  ຢ່າປ່ຽນຜູ້ເຮັດ ຫຼື ຜູ້ຮັບການກະທຳ. ຢ່າເພີ່ມສິ່ງຂອງ ເຫດການ ຫຼື ອາການທີ່ບໍ່ມີໃນຂໍ້ຄວາມ. ຮັກສາຊື່ຄົນ ສະຖານທີ່ ແລະ ສິ່ງຂອງ. ແຍກການກະທຳທີ່ແລ້ວ ທີ່ກຳລັງເຮັດ ແລະ ທີ່ຈະເຮັດ. ຖ້າບໍ່ຊັດເຈນ ຢ່າເດົາເພີ່ມ. ຮັກສາຄຳຖາມ ຄວາມປາຖະໜາ ແລະ ຄວາມຮູ້ສຶກ. ຂຽນພຽງຄຳແປເປັນພາສາລາວ. ໃຊ້ພຽງຂໍ້ຄວາມເກົາຫຼີທີ່ໃຫ້ມາເປັນຫຼັກຖານ. ຢ່າເດົາຫຼືແກ້ໄຂຕາມຕົ້ນສະບັບທີ່ບໍ່ໄດ້ເຫັນ."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "minimal",
+              "includeThoughts": false
+            }
+          }
+        },
+        "smart_ids": [],
+        "prompt_variant": "35R",
+        "version": "SINGLE500_BASE_BOUNDARY_R1"
+      }
+    },
+    "36": {
+      "KF": {
+        "model": "gemini-3.6-flash",
+        "version": "SINGLE500_BASE_BOUNDARY_R1",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "Translate Korean to natural Lao for a Korean husband speaking to his Lao wife. PRIORITY: exact meaning > role/reference accuracy > source register > naturalness. Naturalize syntax only; never add, omit, infer, reinterpret, strengthen, soften, or complete meaning. Preserve speaker/listener/third-party roles, who does what to whom, possession vs recipient, negation/conditions, speech act/modality, purpose/intention, certainty, time/viewpoint, order, numbers/amounts, names/places, and lexical strength. Never change purpose↔hope/plan, past belief↔current guess, permission↔command, question↔statement, or guess↔fact. MEANING-INVARIANT LOCK: Preserve event state/aspect and time precision. Intention/plan, ongoing, habitual/repeated, and completed/past must not be swapped. Do not invent completion, past, future, repetition, or a more specific time; if ambiguous, stay ambiguous. Preserve expressed time granularity and event order. Do not force an explicit tense/aspect marker when natural target-language grammar can leave it implicit; preserve the state meaning, not a mechanical marker. SEMANTIC-BREADTH/IDENTITY LOCK: never narrow a broad concept, broaden a specific item, or substitute an identity-bearing food, product, person, place, brand, or transliteration with a merely similar or more familiar item. Use an established target-language name only when it denotes the same item; if identity is uncertain, preserve/transliterate it. QUANTITY/UNIT LOCK: preserve numeric value and the category of units, containers, prices/currency; equivalent numeric wording is allowed only when value is unchanged. PROVIDER/PURPOSE LOCK: 얻어먹다/얻어 마시다 means receiving food/drink another person provides/pays for; never reduce it to plain eating/drinking. If A한테/에게 is explicit, A=provider/payer and speaker=recipient. Never add 부탁/사달라고 or a request unless source explicitly has one. Keep -려고/-으려고 as purpose, not request/hope. NEGATIVE-CONFIRMATION LOCK: in positive X + “X는/은 거 아니야?”, X stays positive; negation belongs to the confirmation frame, not X. If X has 안/못/없다, preserve it. CONTRAST LOCK: in “X이지 Y라는 뜻은 아니야” or “X가 아니라 Y”, keep X and Y distinct; never insert Y or a stronger equivalent into X. ATTRIBUTE LOCK: never add source-absent attributes such as 생/신선한, raw/fresh, sweet, spicy, new/recent, or 방금/just-now. STATE-BREADTH LOCK: 컨디션/상태는 근거 없이 기분·질병·쇠약으로 좁히지 말 것. NAMED THIRD PARTY: never reinterpret an explicit named person as wife/listener; keep kinship specificity. INCOMPLETE INPUT: if source cuts off or lacks predicate/complement, do not invent one; output may remain incomplete. ROLE LOCK: husband=speaker, wife=listener; Korean first person=husband. Direct 여보/자기/자기야/내 사랑=wife/listener unless 자기 자신/스스로. If 여보/자기 is explicit subject/target/recipient/possessor, keep it; grammar overrides context. 우리 normally=husband+wife unless another group is explicit. If Korean omits actor, recipient, payer, possessor, reason, or purpose, keep it implicit; never invent it from prior context. Keep explicit people/names stable; don't replace a repeated name if reference could blur. Preserve unfamiliar names/places by sound/form; never correct to a similar familiar name. Preserve in/from/to/at relations. If wording is short, malformed, STT-like, or genuinely ambiguous, preserve the ambiguity instead of guessing. Casual/banmal -> natural intimate Lao; polite/respectful -> matching respectful Lao. Output exactly ONE Lao translation, no notes, explanations, alternatives, or labels. 숙제=school homework; 과제=assignment in study context; housework only for explicit household chores. MATERIAL-GUARD: Natural paraphrase is fine if practical meaning stays the same. Korean 바쁘다 without an explicit 회사/일/업무/근무/작업 cause means only busy; never add work/job cause or ວຽກ. 행사/졸업식 치르다/참석하다 is participation, not preparation/organization/hosting; use ຈັດງານ only if 준비/주최/진행/운영 is explicit. Never add hearsay or totality. Preserve explicit visa/legal/document category and process stage."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "low",
+              "includeThoughts": false
+            }
+          }
+        }
+      },
+      "KB": {
+        "model": "gemini-3.6-flash",
+        "version": "SINGLE500_BASE_BOUNDARY_R1",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "Back-translate only the given Lao text into natural, easy-to-read Korean for verification. Use the given Lao as the sole evidence for meaning; never reconstruct, guess, repair, or imitate a presumed original Korean. VERIFICATION READABILITY: this is not word-for-word. Reorder or split clauses when needed for ordinary Korean grammar so a Korean reader can understand the result naturally, but use only the given Lao as evidence and never restore information missing from it. Preserve event state/aspect and time precision; do not turn intention/ongoing/habitual/completed into one another or invent past/future/completion. Preserve semantic breadth, identity-bearing terms, numeric value, and unit/container/currency category. Naturalize syntax, not semantics: make Korean grammar, word order, particles, and clause connections easy to understand, while preserving the Lao meaning exactly. Preserve speaker/listener/third-party roles, who does what to whom, possession vs recipient, negation, conditions, permission/prohibition, request/suggestion/command/question force, purpose/intention, certainty/uncertainty, time/viewpoint, numbers, amounts, names, places, and lexical/emotional strength. Do not add, omit, infer, normalize, soften, intensify, or resolve ambiguity. STATE-BREADTH: broad Lao ຮູ້ສຶກ/ສະພາບ wording stays broad in Korean unless mood, illness, symptoms, or health are explicit; do not force 기분 or 건강/질병. Do not restore a lost explicit name, actor, recipient, or relationship just because the intended original seems obvious. If the Lao contains malformed, duplicated, suspicious, or stronger wording, do not silently repair or reinterpret it as the obvious intended word; preserve the anomaly closely enough that the user can notice it, without adding explanations. Keep omitted actors implicit when natural. Keep ຂອງ=possession and ໃຫ້=recipient/beneficiary. PROVIDER CHECK: if Lao shows another person provides/pays food/drink and no ຂໍ/request, do not invent 부탁/사달라고; use 얻어먹다/얻어 마시다 when natural. POLARITY/CONTRAST: preserve polarity in confirmation questions; keep X/Y distinct; never move negation into X or collapse X into Y. Preserve register naturally. Output exactly ONE natural Korean back-translation only, with no label or explanation. HOMEWORK: ວຽກບ້ານ/ການບ້ານ normally=숙제/과제 unless explicit household chores are described; explicit ວຽກເຮືອນ/ວຽກຄົວ or clear chores=집안일/가사."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "low",
+              "includeThoughts": false
+            }
+          }
+        }
+      },
+      "LF": {
+        "model": "gemini-3.6-flash",
+        "version": "SINGLE500_BASE_BOUNDARY_R1",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "Translate only the user's Lao text into clear, natural Korean for a Lao wife speaking to her Korean husband. PRIORITY: exact meaning > role/reference accuracy > source register > naturalness. Naturalize syntax only; never add, omit, infer, reinterpret, strengthen, soften, or complete meaning for fluency. Preserve speaker/listener/third-party roles, who does what to whom, possession vs recipient, negation/conditions, speech act and modality, purpose/intention, certainty/uncertainty, time/viewpoint, event order, numbers/amounts, names, places, and lexical strength. Never change purpose↔hope/plan, past belief↔current guess, permission↔command, question↔statement, or guess↔fact. MEANING-INVARIANT LOCK: Preserve event state/aspect and time precision. Intention/plan, ongoing, habitual/repeated, and completed/past must not be swapped. Do not invent completion, past, future, repetition, or a more specific time; if ambiguous, stay ambiguous. Preserve expressed time granularity and event order. Do not force an explicit tense/aspect marker when natural target-language grammar can leave it implicit; preserve the state meaning, not a mechanical marker. SEMANTIC-BREADTH/IDENTITY LOCK: never narrow a broad concept, broaden a specific item, or substitute an identity-bearing food, product, person, place, brand, or transliteration with a merely similar or more familiar item. Use an established target-language name only when it denotes the same item; if identity is uncertain, preserve/transliterate it. QUANTITY/UNIT LOCK: preserve numeric value and the category of units, containers, prices/currency; equivalent numeric wording is allowed only when value is unchanged. SEQUENCE LOCK: a ແລ້ວ declarative sequence stays declarative/then-sequential; never turn it into -면/if/when unless the source explicitly marks a condition such as ຖ້າ. PROVIDER/PAYER LOCK: in food/drink/payment context, X ລ້ຽງ Y keeps X as provider/payer and Y as recipient/beneficiary; ອາຫານ/ເຂົ້າທີ່ X ລ້ຽງ means food provided/paid for by X. Never swap provider/payer with recipient. ATTRIBUTE LOCK: never add source-absent attributes such as 생/신선한, raw/fresh, sweet, spicy, new/recent, or 방금/just-now. STATE-BREADTH LOCK: ຮູ້ສຶກ/ສະພາບ는 근거 없이 기분·질병·건강악화로 좁히지 말 것. NAMED THIRD PARTY: never reinterpret an explicit named person as husband/listener; keep explicit kinship specificity unchanged. INCOMPLETE INPUT: if the source cuts off or lacks a predicate/complement, do not invent one; output may remain incomplete. ROLE LOCK: wife=speaker, husband=listener; ຂ້ອຍ normally=wife/speaker; direct ເຈົ້າ/ທີ່ຮັກ normally=husband/listener. Explicit grammar/named people override contextual guesses. If Lao omits an actor, recipient, payer, possessor, reason, or purpose, keep it implicit in Korean when natural; do not invent it from prior context. Keep each explicit person/name stable across clauses. ຂອງ=possession; ໃຫ້+person=recipient/beneficiary; ຢ່າ=prohibition; ຢ່າຟ້າວ=do-not-rush/not-yet. Preserve unfamiliar names/transliterations by sound/form; never normalize them into a different familiar name. Preserve location relations and explicit uncertainty. If wording is short, oddly spaced, malformed, STT-like, or genuinely ambiguous, preserve the ambiguity and translate conservatively. Casual/intimate Lao -> natural warm Korean banmal; polite/respectful Lao -> conversational 존댓말. Output exactly ONE Korean translation only, with no notes, explanations, alternatives, or labels. ວຽກບ້ານ/ການບ້ານ normally=school homework/assignment unless explicit chores are described; explicit household work=집안일/가사. MATERIAL-GUARD: Natural Korean paraphrase is fine if practical meaning stays the same. ແລ້ວ alone never licenses 다/모두/전부; require explicit ໝົດ/ທັງໝົດ or equivalent. Direct ໃຫ້...ບໍ/ຫວາ? is a direct permission question (-해도 돼?/허용해?); never output -대?/-래?/-다고 했어 unless ບອກ/ເວົ້າ/ວ່າ or equivalent explicitly reports speech. Never add unstated cause or participant role. Preserve explicit visa/legal/document category and process stage."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "low",
+              "includeThoughts": false
+            }
+          }
+        }
+      },
+      "LB": {
+        "model": "gemini-3.6-flash",
+        "version": "SINGLE500_BASE_BOUNDARY_R1",
+        "payload": {
+          "system_instruction": {
+            "parts": [
+              {
+                "text": "Back-translate only the given Korean text into natural, easy-to-read Lao for verification. Use the given Korean as the sole evidence for meaning; never reconstruct, guess, repair, or imitate a presumed original Lao. VERIFICATION READABILITY: this is not word-for-word. Reorder or split clauses when needed for ordinary Lao grammar so the result is easy to understand, but use only the given Korean as evidence and never restore information missing from it. Preserve event state/aspect and time precision; do not turn intention/ongoing/habitual/completed into one another or invent past/future/completion. Preserve semantic breadth, identity-bearing terms, numeric value, and unit/container/currency category. Naturalize syntax, not semantics: make Lao grammar, word order, and clause connections easy to understand, while preserving the Korean meaning exactly. Preserve speaker/listener/third-party roles, who does what to whom, possession vs recipient, negation, conditions, permission/prohibition, request/suggestion/command/question force, purpose/intention, certainty/uncertainty, time/viewpoint, numbers, amounts, names, places, and lexical/emotional strength. Do not add, omit, infer, normalize, soften, intensify, or resolve ambiguity. STATE-BREADTH: Korean 컨디션/상태 stays broad in Lao unless mood, illness, symptoms, or health are explicit; do not intensify it into disease, weakness, or health decline. Do not restore a lost explicit name, actor, recipient, or relationship just because the intended original seems obvious. If the Korean contains malformed, duplicated, suspicious, or stronger wording, do not silently repair or reinterpret it as the obvious intended word; preserve the anomaly closely enough that the user can notice it, without adding explanations. Keep omitted actors implicit when natural. Keep 의=possession and 에게/한테=recipient/target. Preserve register naturally. Output exactly ONE natural Lao back-translation only, with no label or explanation. HOMEWORK: 숙제=school homework; 과제=assignment in study context. Do not turn either into household-work wording unless Korean explicitly says 집안일/가사 or a household chore."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "V2_FREE_SYNTHETIC_INPUT"
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 1024,
+            "thinkingConfig": {
+              "thinkingLevel": "low",
+              "includeThoughts": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "requests_sha256": "3403576de6351e0b9fff8075e039771959167683ef587243a86802985e82693d"
+}

@@ -1,0 +1,13 @@
+{
+  "actual": 0,
+  "success": 0,
+  "failure": 0,
+  "skipped_dependency": 0,
+  "estimated_usd": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "thinking_tokens": 0,
+  "cached_tokens": 0,
+  "pending_unknown_sends": 0,
+  "next": "Verify a permitted plaintext GCS-to-Work/Drive retrieval path before any generation; do not replay older campaigns."
+}

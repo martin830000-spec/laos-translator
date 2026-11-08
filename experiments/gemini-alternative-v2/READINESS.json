@@ -1,0 +1,5 @@
+{
+  "mode": "PROBE_WRITE",
+  "export_cert": "export-a-cert.pem",
+  "nonce": "v2-safe-roundtrip-initial-20261108"
+}
