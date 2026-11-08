@@ -2,34 +2,21 @@
   "campaign": "GEMINI35_MECHANISM500_20261108",
   "model": "gemini-3.5-flash-lite",
   "approved_total": 500,
-  "enabled": false,
-  "max_new": 0,
-  "prior_actual": 320,
+  "enabled": true,
+  "max_new": 160,
+  "prior_actual": 340,
   "cumulative_actual": 340,
   "prior_plans": [
     "3001204ec83f540cd01865a2fae57d154a1c739582d18ee7d2fb51e17e1139a7",
     "6b1d5186514bb9b4beb3c3a2ab6cb9d91e23408f048bd86985dc2306f1e5a312",
     "f9e129a5857ea903d5a075e265b98192d190265c14a73020f7bbbd48a53fa26b",
-    "2ea98e0e49f5ce9f88ed5d0d1e3725e75590acaa2a9b10e06f3bda47f719b6b6"
+    "2ea98e0e49f5ce9f88ed5d0d1e3725e75590acaa2a9b10e06f3bda47f719b6b6",
+    "4d51375d5479ebe20cd88ffaba53d02d950f7eea1b6e65bdefd70946d6e1d047"
   ],
-  "phase": "S4X",
-  "plan_sha256": "4d51375d5479ebe20cd88ffaba53d02d950f7eea1b6e65bdefd70946d6e1d047",
-  "run_nonce": "mechanism500-s4x-20261108-singlepass",
-  "deadline_epoch": 1794135565,
+  "phase": "S5",
+  "plan_sha256": "b8496987f8b2a61bfa2ce0d50cedf258d3f64ad52a39c27b854e321eb12caa6f",
+  "run_nonce": "mechanism500-s5-20261108-singlepass",
+  "deadline_epoch": 1794135940,
   "backup_gate_passed": true,
-  "frozen_sources": [
-    [
-      "35",
-      "2ea98e0e49f5ce9f88ed5d0d1e3725e75590acaa2a9b10e06f3bda47f719b6b6"
-    ],
-    [
-      "35",
-      "3001204ec83f540cd01865a2fae57d154a1c739582d18ee7d2fb51e17e1139a7"
-    ],
-    [
-      "35",
-      "f9e129a5857ea903d5a075e265b98192d190265c14a73020f7bbbd48a53fa26b"
-    ]
-  ],
-  "status": "STAGE_COMPLETE_REVIEW_AND_BACKUP"
+  "frozen_sources": []
 }
