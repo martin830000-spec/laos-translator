@@ -10,3 +10,4 @@ assert state['finished'] and not state['enabled'] and state['max_new']==0
 assert s.get('locks/H4.RELEASED.json') is not None
 assert s.get('locks/FINAL.json',True) is None and s.get('locks/after-536.json',True) is None
 print(r.json.dumps(dict(reserved=len(rs),models=by,final_lock_absent=True,prior_released=True,generation_calls=0)))
+
