@@ -1,0 +1,16 @@
+{
+  "campaign": "GPT_LUNA_TERRA_PRACTICAL320_20261109",
+  "total_cap": 320,
+  "stage_caps": {
+    "P1": 96,
+    "P2": 64,
+    "FINAL": 160
+  },
+  "models": [
+    "gpt-6-luna",
+    "gpt-6.1-terra"
+  ],
+  "enabled": false,
+  "max_new": 0,
+  "workflow_original_blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563"
+}
