@@ -1,0 +1,24 @@
+{
+  "campaign": "GPT_LUNA_TERRA_PRACTICAL320_20261109",
+  "status": "CLOSED_LOCKED",
+  "research_complete": false,
+  "enabled": false,
+  "max_new": 0,
+  "approved_total": 320,
+  "cumulative_actual": 0,
+  "reserved_total": 0,
+  "success": 0,
+  "failed": 0,
+  "unknown": 0,
+  "unused_locked": 320,
+  "stage_caps": {
+    "P1": 96,
+    "P2": 64,
+    "FINAL": 160
+  },
+  "reason": "Execution environment became unavailable before source freeze and runner implementation; no paid runner deployed",
+  "resume": "Same campaign and existing approval; reconcile this checkpoint plus all budget/locks; complete P0 before generation; never reset or add 320",
+  "run": "42568753899",
+  "commit": "c9c1277a16c43fce75aa1312d57fcd0645eb495d",
+  "latest_state_object": "states/CLOSED.json"
+}
