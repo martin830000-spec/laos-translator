@@ -1,0 +1,12 @@
+GPT_LUNA_TERRA_PRACTICAL320_20261109 — PARTIAL / ENVIRONMENT_UNAVAILABLE
+Approved 320 total (P1 96 / P2 64 / FINAL160), Luna and Terra only.
+Paid generation 0; no paid runner implemented or activated.
+Free preflight run42568425386 succeeded: prior budget/stage locks absent, SCREEN160 CLOSED160 unchanged, synthetic GCS roundtrip and duplicate-create guard passed.
+Owner-only preflight evidence, exact re-download SHA25646c3ff5761af6356fe84614916617c5bb333e183ba02528508be931f8c5f7145:
+https://drive.google.com/file/d/1eFdvMbEsB4FnsLS3nwBXevmq4cGHuYQS/view
+Recovered SCREEN160 ZIP hash38de59ac0e9081b4e1bf894a0883184c1c853ee1360654049718d886eee596de and SERVICE2000 hash1db5838ab90d5a80edb199d959905944fbcfde74fadb5d26b51a3403dcaccfc7 in local workspace before environment disconnected.
+Source selection was candidate review only: no SOURCE_SPLIT freeze persisted, no FINAL results generated. Do not claim P0 complete.
+The local exec server disconnected, then environment was explicitly reported unavailable; exec returned No usable execution environment. Node and local upload tools removed. No generation can be evaluated or privately recovered locally.
+Resume same approval, not new320. Reconcile remote states/CLOSED.json plus all budget/locks and Actions. Recover original evidence ZIP and source from original instruction. Regenerate export key only after proving no old paid encrypted output exists. Finish source split, exact BASE hash checks, runner320 changes, offline contracts, encrypted end-to-end recovery. Then P1/P2/FINAL autonomously.
+Shared workflow original blob3ad897d4ef1c1005199b8407e54b0ce20d275563 must be restored after free interruption checkpoint, conditional on owned HEAD.
+No SERVICE/main/IAM/Secrets/old campaign writes. This is not research completion.
