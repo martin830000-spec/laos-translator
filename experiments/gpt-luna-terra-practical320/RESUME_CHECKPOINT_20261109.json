@@ -1,0 +1,122 @@
+{
+  "campaign": "GPT_LUNA_TERRA_PRACTICAL320_20261109",
+  "status": "PARTIAL_ACCESS_VERIFICATION_BLOCKED",
+  "research_complete": false,
+  "paid_calls_this_resume": 0,
+  "remote_ledger": {
+    "found": [
+      {
+        "path": "research/gemini-model-native500-20261107/gpt-luna-terra-practical320-20261109/states/CLOSED.json",
+        "record": {
+          "approved_total": 320,
+          "campaign": "GPT_LUNA_TERRA_PRACTICAL320_20261109",
+          "commit": "c9c1277a16c43fce75aa1312d57fcd0645eb495d",
+          "cumulative_actual": 0,
+          "enabled": false,
+          "failed": 0,
+          "latest_state_object": "states/CLOSED.json",
+          "max_new": 0,
+          "reason": "Execution environment became unavailable before source freeze and runner implementation; no paid runner deployed",
+          "research_complete": false,
+          "reserved_total": 0,
+          "resume": "Same campaign and existing approval; reconcile this checkpoint plus all budget/locks; complete P0 before generation; never reset or add 320",
+          "run": "42568753899",
+          "stage_caps": {
+            "FINAL": 160,
+            "P1": 96,
+            "P2": 64
+          },
+          "status": "CLOSED_LOCKED",
+          "success": 0,
+          "unknown": 0,
+          "unused_locked": 320
+        },
+        "sha256": "73e28408d45c5bf17cf1fc0375e98456aefdf3792a0bcdfbea6603dd2f048f5f"
+      }
+    ],
+    "generation_calls": 0,
+    "objects": null,
+    "run": "42575421479",
+    "screen160": {
+      "path": "research/gemini-model-native500-20261107/gpt-luna-terra-screen160-20261109/states/CLOSED.json",
+      "record": {
+        "approved_per_model": 80,
+        "approved_total": 160,
+        "backup_gate_sha256": "cd0dfc94c5fe30899c077c7da98ada54fa27c16670e75b5cd50774ebd95e53c6",
+        "campaign": "GPT_LUNA_TERRA_SCREEN160_20261109",
+        "closed_at_utc": "2026-11-08T19:33:52.936666+00:00",
+        "closure_run": "42515463320",
+        "cumulative_actual": 160,
+        "efforts": [
+          "none",
+          "low"
+        ],
+        "enabled": false,
+        "latest_state_object": "states/CLOSED.json",
+        "max_new": 0,
+        "models": [
+          "gpt-6-luna",
+          "gpt-6.1-terra"
+        ],
+        "models_ledger": {
+          "gpt-6-luna": {
+            "attempted": 80,
+            "failed": 0,
+            "success": 80,
+            "unknown": 0,
+            "unused_locked": 0
+          },
+          "gpt-6.1-terra": {
+            "attempted": 80,
+            "failed": 0,
+            "success": 80,
+            "unknown": 0,
+            "unused_locked": 0
+          }
+        },
+        "phase": "C",
+        "plan_sha256": "d9fd443d82b2128c0b787e79efdd2d379000eaea97e7bfc10ba271dec90f6160",
+        "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad",
+        "skips": [],
+        "status": "CLOSED_LOCKED",
+        "transport": "official Responses HTTP via httpx0.28.1, retries0, monotonic deadline60s",
+        "unused_locked": 0
+      },
+      "sha256": "74ee3bb742ddf675ef5050763b231f1e561c39f6c8cae3eebf44a24e38b7e4fc"
+    }
+  },
+  "source_recovery": {
+    "screen160_sha256": "38de59ac0e9081b4e1bf894a0883184c1c853ee1360654049718d886eee596de",
+    "screen160_crc": "PASS",
+    "manifest_files_verified": 582,
+    "service2000_sha256": "1db5838ab90d5a80edb199d959905944fbcfde74fadb5d26b51a3403dcaccfc7",
+    "source_count": 2000
+  },
+  "blocker": {
+    "run": 42575272501,
+    "http_status": 403,
+    "permission": "storage.objects.list",
+    "identity": "gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com",
+    "interpretation": "Known slot/lock reads succeeded; absence of unindexed results/exports was not established. Conservative stop before activation; no IAM changes requested or made.",
+    "environment_unavailable": false
+  },
+  "workflow_restored": {
+    "commit": "8ca78af69ccc16d9d88e8cb535750a449062e188",
+    "blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563"
+  },
+  "remaining": [
+    "Reconcile unindexed results/exports using an already authorized complete inventory or demonstrably complete object-key mapping; do not assume an IAM expansion is required.",
+    "SOURCE_SPLIT and BASE freeze",
+    "320-specific runner and offline contracts",
+    "New-key encrypted synthetic authenticated recovery",
+    "P1/P2/FINAL and final private evidence verification"
+  ],
+  "no_changes": [
+    "SERVICE",
+    "main",
+    "IAM",
+    "Secrets",
+    "GCS objects",
+    "existing campaign ledgers"
+  ]
+}
