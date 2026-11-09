@@ -6,9 +6,9 @@
     "http_sender.py": "88fce33c75c887eaf3c6acc5183d2fb6e81fea68239f321338d66d1c748f897c",
     "runner320.py": "95b515504734e36a7076bf29ff1f474c93f16bb8cb8e0780769ac6792befb41f"
   },
-  "enabled": false,
+  "enabled": true,
   "max_new": 96,
-  "mode": "STAGE",
+  "mode": "EXECUTE",
   "model_plan": {
     "gpt-6-luna": 80,
     "gpt-6.1-terra": 16
@@ -19,5 +19,6 @@
   "previous_phase": null,
   "previous_state_object": "states/CLOSED.json",
   "prior_reserved": 0,
-  "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad"
+  "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad",
+  "deadline_epoch": 1794212342
 }
