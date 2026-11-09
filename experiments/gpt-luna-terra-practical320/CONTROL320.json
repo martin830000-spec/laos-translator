@@ -6,19 +6,18 @@
     "http_sender.py": "88fce33c75c887eaf3c6acc5183d2fb6e81fea68239f321338d66d1c748f897c",
     "runner320.py": "95b515504734e36a7076bf29ff1f474c93f16bb8cb8e0780769ac6792befb41f"
   },
-  "enabled": true,
-  "max_new": 96,
-  "mode": "EXECUTE",
+  "enabled": false,
+  "max_new": 32,
+  "mode": "STAGE",
   "model_plan": {
-    "gpt-6-luna": 80,
-    "gpt-6.1-terra": 16
+    "gpt-6-luna": 20,
+    "gpt-6.1-terra": 12
   },
-  "package_sha256": "7d45e04e46ee7b63088564f6b3bfd5474045ec068ece8ca7928e16a88be36416",
-  "phase": "P1",
-  "plan_sha256": "6b875563447b2b89dafd5a13dec13b7168fee2266ac4790d69d9975bfa60e5ea",
-  "previous_phase": null,
-  "previous_state_object": "states/CLOSED.json",
-  "prior_reserved": 0,
-  "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad",
-  "deadline_epoch": 1794212342
+  "package_sha256": "20bb9b950e18cefedc06dcecbb91cb67320aaedc69de669de2f0704e33de59d5",
+  "phase": "P2",
+  "plan_sha256": "a2ceeb5585f46939d2c184cf80d57aa1bb0302947a2b51f4b71ca19c50b51129",
+  "previous_phase": "P1",
+  "previous_state_object": "states/P1-finished.json",
+  "prior_reserved": 96,
+  "prompt_file_sha256": "1a7b61afa61773d2b7cd44f3e170d91d932e96bb15d465dc84c40698b605e2ad"
 }
