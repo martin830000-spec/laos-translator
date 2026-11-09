@@ -1,4 +1,4 @@
-name: PRACTICAL320 P2 free stage and contract checks
+name: PRACTICAL320 P2 approved 32 targeted attempts
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -9,7 +9,7 @@ permissions:
 jobs:
   recover:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -23,11 +23,15 @@ jobs:
       - name: Offline contracts, no API credentials
         working-directory: experiments/gpt-luna-terra-practical320
         run: python3 -m unittest discover -p 'test*.py' -v
-      - name: Stage frozen encrypted plan
-        run: python3 experiments/gpt-luna-terra-practical320/runner320.py STAGE
-      - name: Recover staged private evidence
+      - name: Execute approved frozen P2
+        env:
+          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+        run: python3 experiments/gpt-luna-terra-practical320/runner320.py EXECUTE
+      - name: Recover private raw evidence
+        if: always()
         run: python3 experiments/gpt-luna-terra-practical320/runner320.py EXPORT
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: practical320-export-encrypted
           path: ${{ runner.temp }}/practical320-export.p7m
