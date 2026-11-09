@@ -1,4 +1,4 @@
-name: MECHANISM1000 BASE staging verified LF bytes zero generation
+name: MECHANISM1000 BASE160 execute independent 500 per model
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -22,7 +22,10 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - run: python3 experiments/gpt-luna-terra-mechanism1000/test_contract.py
       - run: python3 experiments/gpt-luna-terra-mechanism1000/test_runner.py
-      - run: python3 experiments/gpt-luna-terra-mechanism1000/runner.py STAGE
+      - name: BASE160 execute
+        env:
+          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+        run: python3 experiments/gpt-luna-terra-mechanism1000/runner.py EXECUTE
       - name: Export encrypted evidence
         if: always()
         run: python3 experiments/gpt-luna-terra-mechanism1000/runner.py EXPORT

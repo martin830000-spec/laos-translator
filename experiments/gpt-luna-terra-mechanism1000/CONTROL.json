@@ -6,10 +6,10 @@
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
     "runner.py": "058ff606f3478268787785fd07dafb425a7ed34d7fd765d5c138d5d3656cc8b6"
   },
-  "deadline_epoch": 1794256041,
-  "enabled": false,
+  "deadline_epoch": 1794256282,
+  "enabled": true,
   "max_new": 160,
-  "mode": "STAGE",
+  "mode": "EXECUTE",
   "model_plan": {
     "gpt-6-luna": 80,
     "gpt-6.1-terra": 80
