@@ -1,4 +1,5 @@
 {
+  "actual": 512,
   "backup_verified": true,
   "campaign": "GPT_LUNA_TERRA_MECHANISM1000_20261110",
   "code_sha256": {
@@ -7,12 +8,16 @@
     "runner.py": "643904d0db015a73f8d2046ea68661a4b7c3d1feea01ffb0ddd14a7c2101ca9a"
   },
   "deadline_epoch": 1794259847,
-  "enabled": true,
-  "max_new": 80,
-  "mode": "EXECUTE",
+  "enabled": false,
+  "max_new": 0,
+  "mode": "CHECKPOINT_LOCKED",
   "model_plan": {
     "gpt-6-luna": 40,
     "gpt-6.1-terra": 40
+  },
+  "models_actual": {
+    "gpt-6-luna": 256,
+    "gpt-6.1-terra": 256
   },
   "package_sha256": "b84a25e250c761dcf053169aa743028846ecfc28f5bf69190ef2655ee8c87692",
   "phase": "H3",
@@ -26,5 +31,10 @@
   "previous_phase": "H2",
   "previous_state_object": "states/H2-finished.json",
   "prior_reserved": 432,
-  "prompt_file_sha256": "71ed079116c3542a51daadf9fdacfc0aa46c7487339fbb7971d6cfc56c34988c"
+  "prompt_file_sha256": "71ed079116c3542a51daadf9fdacfc0aa46c7487339fbb7971d6cfc56c34988c",
+  "research_complete": false,
+  "unused_locked": {
+    "gpt-6-luna": 244,
+    "gpt-6.1-terra": 244
+  }
 }
