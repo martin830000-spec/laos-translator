@@ -1,4 +1,4 @@
-name: MECHANISM1000 H2_112 execute independent 500 per model
+name: MECHANISM1000 H3_80 execute independent 500 per model
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -23,7 +23,7 @@ jobs:
       - run: python3 experiments/gpt-luna-terra-mechanism1000/test_contract.py
       - run: python3 experiments/gpt-luna-terra-mechanism1000/test_runner.py
       - run: python3 experiments/gpt-luna-terra-mechanism1000/runner.py STAGE
-      - name: H2_112 execute
+      - name: H3_80 execute
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
         run: python3 experiments/gpt-luna-terra-mechanism1000/runner.py EXECUTE
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: mechanism1000-H2-encrypted
+          name: mechanism1000-H3-encrypted
           path: ${{ runner.temp }}/mechanism1000-export.p7m
           retention-days: 3
           if-no-files-found: error
