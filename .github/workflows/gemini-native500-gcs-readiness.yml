@@ -1,4 +1,4 @@
-name: PRACTICAL320 exact-key free audit
+name: PRACTICAL320 encrypted synthetic recovery
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -21,4 +21,10 @@ jobs:
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
       - name: Read existing objects only
-        run: python3 experiments/gpt-luna-terra-practical320/exact_key_audit.py
+        run: python3 experiments/gpt-luna-terra-practical320/encrypted_probe.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: practical320-export-encrypted
+          path: ${{ runner.temp }}/practical320-export.p7m
+          retention-days: 3
+          if-no-files-found: error
