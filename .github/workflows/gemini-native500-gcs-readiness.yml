@@ -1,4 +1,4 @@
-name: PRACTICAL320 free read-only resume audit
+name: PRACTICAL320 free targeted resume audit
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
