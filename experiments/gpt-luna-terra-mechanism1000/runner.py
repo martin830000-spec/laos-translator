@@ -13,7 +13,7 @@ def sha(b):return hashlib.sha256(b).hexdigest()
 class Store:
  def __init__(self):self.bucket=storage.Client(project='gen-lang-client-0422436907').bucket('lao-translator-src-460077888071')
  def get(self,n,optional=False):
-  try:return self.bucket.blob(PREFIX+'/'+n).download_as_bytes(timeout=30)
+  try:return self.bucket.blob(PREFIX+'/'+n).download_as_bytes(timeout=30,retry=None)
   except NotFound:
    if optional:return None
    raise
@@ -53,7 +53,7 @@ def plan(s,c):
 def stage(s,c):
  assert not c['enabled'] and c['mode']=='STAGE'
  with tempfile.TemporaryDirectory() as td:
-  t=pathlib.Path(td);(t/'key.pem').write_bytes(s.bucket.blob(INPUT_KEY).download_as_bytes(timeout=30));(t/'key.pem').chmod(0o600)
+  t=pathlib.Path(td);(t/'key.pem').write_bytes(s.bucket.blob(INPUT_KEY).download_as_bytes(timeout=30,retry=None));(t/'key.pem').chmod(0o600)
   (t/'in.p7m').write_bytes(base64.b64decode((HERE/'input.p7m.b64').read_bytes()))
   subprocess.run(['openssl','cms','-decrypt','-binary','-inform','DER','-in',str(t/'in.p7m'),'-inkey',str(t/'key.pem'),'-out',str(t/'input.gz')],check=True,capture_output=True)
   raw=gzip.decompress((t/'input.gz').read_bytes());assert sha(raw)==c['package_sha256'];package=json.loads(raw)
@@ -103,6 +103,7 @@ async def execute(s,c):
   async with make_client() as client:
    for t in p['slots']:
     assert c['deadline_epoch']>time.time(),'ACTIVATION_EXPIRED'
+    slot_started=time.monotonic()
     model=t['model'];path=t['path'];slot=t['slot'];parent=None
     if model in disabled or 'ALL' in disabled:
      reason=disabled.get(model,disabled.get('ALL'));skips.append(slot);s.put('skips/'+slot+'.json',canon({'reason':reason,'unattempted':True}));continue
@@ -132,6 +133,8 @@ async def execute(s,c):
      else:result['fixed_first_cross_run']=True
     s.create('results/'+slot+'.json',canon(result))
     s.create(f"checkpoints/attempt-{len(rs):04d}.json",canon({'slot':slot,'reserved':len(rs),'result_sha256':sha(canon(result))}))
+    if time.monotonic()-slot_started>60:disabled['ALL']='SLOT_WALL_BOTTLENECK_60S'
+    if not result['success']:disabled['ALL']='TECHNICAL_FAILURE_STOP_NO_RETRY'
     http=result['http_status'];code=(result.get('http_error') or {}).get('error',{}).get('code')
     if not result['success']:
      sig=str(http)+'/'+str(code)+'/'+str(result.get('exception'));streak.setdefault(model,[]).append(sig)

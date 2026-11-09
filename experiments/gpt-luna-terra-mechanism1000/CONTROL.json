@@ -1,40 +1,30 @@
 {
-  "actual": 512,
   "backup_verified": true,
   "campaign": "GPT_LUNA_TERRA_MECHANISM1000_20261110",
   "code_sha256": {
     "contract.py": "e31a9b3e32a7d91b1c03fffe1cf6d385cb9f5cd2dcde9573d468e60ba1c3c384",
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
-    "runner.py": "643904d0db015a73f8d2046ea68661a4b7c3d1feea01ffb0ddd14a7c2101ca9a"
+    "runner.py": "095596601da05425de8da8f41a30e65b6b39292e8afa975eadc3b581738868a7"
   },
-  "deadline_epoch": 1794259847,
-  "enabled": false,
-  "max_new": 0,
-  "mode": "CHECKPOINT_LOCKED",
+  "deadline_epoch": 1794263990,
+  "enabled": true,
+  "max_new": 24,
+  "mode": "EXECUTE",
   "model_plan": {
-    "gpt-6-luna": 40,
-    "gpt-6.1-terra": 40
+    "gpt-6-luna": 24
   },
-  "models_actual": {
-    "gpt-6-luna": 256,
-    "gpt-6.1-terra": 256
-  },
-  "package_sha256": "b84a25e250c761dcf053169aa743028846ecfc28f5bf69190ef2655ee8c87692",
-  "phase": "H3",
+  "package_sha256": "710160b27414759bbb668dd761fe571441ceb74db5923a4d68e3e700809e6c86",
+  "phase": "H4",
   "phases": [
     "BASE",
     "H1",
     "H2",
-    "H3"
+    "H3",
+    "H4"
   ],
-  "plan_sha256": "2ee22c993722e2501abfc24574e515e36b9bc792debc169876f779d67694060c",
-  "previous_phase": "H2",
-  "previous_state_object": "states/H2-finished.json",
-  "prior_reserved": 432,
-  "prompt_file_sha256": "71ed079116c3542a51daadf9fdacfc0aa46c7487339fbb7971d6cfc56c34988c",
-  "research_complete": false,
-  "unused_locked": {
-    "gpt-6-luna": 244,
-    "gpt-6.1-terra": 244
-  }
+  "plan_sha256": "287d93c99e103450ee83b4ec4e984f94652159ce3e7b40ffe434f5305dfd7bdc",
+  "previous_phase": "H3",
+  "previous_state_object": "states/H3-finished.json",
+  "prior_reserved": 512,
+  "prompt_file_sha256": "38865a39e304707874a2fface3ca85af0bdab5058e8d8c08dac5a1c1419ae5d2"
 }
