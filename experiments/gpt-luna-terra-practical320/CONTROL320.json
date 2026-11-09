@@ -6,9 +6,9 @@
     "http_sender.py": "88fce33c75c887eaf3c6acc5183d2fb6e81fea68239f321338d66d1c748f897c",
     "runner320.py": "95b515504734e36a7076bf29ff1f474c93f16bb8cb8e0780769ac6792befb41f"
   },
-  "enabled": true,
-  "max_new": 32,
-  "mode": "EXECUTE",
+  "enabled": false,
+  "max_new": 0,
+  "mode": "RECOVERY_READONLY",
   "model_plan": {
     "gpt-6-luna": 20,
     "gpt-6.1-terra": 12
