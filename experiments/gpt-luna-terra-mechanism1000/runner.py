@@ -145,9 +145,18 @@ async def execute(s,c):
   by=totals(s,rs)
   state={'campaign':CAMPAIGN,'enabled':False,'max_new':0,'status':'CHECKPOINT_LOCKED','research_complete':False,'phase':phase,'reserved_total':len(rs),'cumulative_actual':sum(v['success']+v['failed'] for v in by.values()),'success':sum(v['success'] for v in by.values()),'failed':sum(v['failed'] for v in by.values()),'unknown':sum(v['unknown'] for v in by.values()),'unused_locked':1000-len(rs),'models':by,'attempted_this_run':attempted,'finished':finished,'skips':skips,'disabled':disabled,'run':os.environ['GITHUB_RUN_ID']}
   s.create('states/'+phase+'-finished.json',canon(state));s.create('locks/'+phase+'.RELEASED.json',canon(lock));print('STAGE_STATE='+json.dumps(state))
+def close(s,c):
+ assert not c['enabled'] and c['max_new']==0 and c['mode']=='CLOSE'
+ rs=reservations(s);by=totals(s,rs)
+ previous=json.loads(s.get('states/'+c['phase']+'-finished.json'))
+ assert previous['reserved_total']==len(rs) and not previous['enabled']
+ assert s.get('locks/'+c['phase']+'.RELEASED.json') is not None
+ state=dict(campaign=CAMPAIGN,status='CLOSED_LOCKED',enabled=False,max_new=0,models=by,reserved_total=len(rs),success=sum(v['success'] for v in by.values()),failed=sum(v['failed'] for v in by.values()),unknown=sum(v['unknown'] for v in by.values()),unused_locked={m:500-v['reserved'] for m,v in by.items()},run=os.environ['GITHUB_RUN_ID'],generation_calls=0)
+ s.create('states/CLOSED_LOCKED.json',canon(state));assert json.loads(s.get('states/CLOSED_LOCKED.json'))==state
+ print('CLOSED_STATE='+json.dumps(state))
 def export(s,c):
  p=plan(s,c);rs=reservations(s)
- names=['preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
+ names=['states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
  for ph in c['phases']:
   names += ['checks/stage-'+ph+'.json','states/'+ph+'-running.json','states/'+ph+'-finished.json','locks/'+ph+'.json','locks/'+ph+'.RELEASED.json']
  for r in rs:names += [f"budget/{r['ordinal']:04d}.json",'results/'+r['slot']+'.json',f"checkpoints/attempt-{r['ordinal']:04d}.json"]
@@ -171,4 +180,5 @@ if __name__=='__main__':
  if mode=='STAGE':stage(s,dict(c,enabled=False,mode='STAGE'))
  elif mode=='EXECUTE':asyncio.run(execute(s,c))
  elif mode=='EXPORT':export(s,c)
+ elif mode=='CLOSE':close(s,c)
  else:raise ValueError('UNAPPROVED_MODE')
