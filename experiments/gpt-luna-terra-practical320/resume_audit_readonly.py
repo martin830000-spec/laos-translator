@@ -14,6 +14,6 @@ names=[P+'/budget/%04d.json'%i for i in range(1,321)]
 names += [P+'/'+s for s in ['STATE.json','LOCK.json','locks/P1.json','locks/P2.json','locks/FINAL.json','states/CLOSED.json']]
 with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool: found=[v for v in pool.map(get,names) if v is not None]
 # Listing is read-only; fail closed if the existing identity cannot enumerate unknown outputs.
-objects=[{'name':v.name,'size':v.size,'generation':v.generation} for v in b.list_blobs(prefix=P+'/')]
+objects=None # list denied; do not expand IAM or repeat denied operation
 old=get('research/gemini-model-native500-20261107/gpt-luna-terra-screen160-20261109/states/CLOSED.json')
 print('RESUME_AUDIT='+json.dumps({'run':os.environ['GITHUB_RUN_ID'],'generation_calls':0,'found':found,'objects':objects,'screen160':old},sort_keys=True))
