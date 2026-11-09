@@ -1,4 +1,4 @@
-name: MECHANISM1000 BASE staging zero generation
+name: MECHANISM1000 BASE staging verified LF bytes zero generation
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -21,6 +21,7 @@ jobs:
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - run: python3 experiments/gpt-luna-terra-mechanism1000/test_contract.py
+      - run: python3 experiments/gpt-luna-terra-mechanism1000/test_runner.py
       - run: python3 experiments/gpt-luna-terra-mechanism1000/runner.py STAGE
       - name: Export encrypted evidence
         if: always()
