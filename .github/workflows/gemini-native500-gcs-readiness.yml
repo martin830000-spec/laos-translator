@@ -1,4 +1,4 @@
-name: PRACTICAL320 encrypted synthetic recovery
+name: PRACTICAL320 P1 free stage and contract checks
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -19,9 +19,14 @@ jobs:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: Read existing objects only
-        run: python3 experiments/gpt-luna-terra-practical320/encrypted_probe.py
+      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
+      - name: Offline contracts, no API credentials
+        working-directory: experiments/gpt-luna-terra-practical320
+        run: python3 -m unittest discover -p 'test*.py' -v
+      - name: Stage frozen encrypted plan
+        run: python3 experiments/gpt-luna-terra-practical320/runner320.py STAGE
+      - name: Recover staged private evidence
+        run: python3 experiments/gpt-luna-terra-practical320/runner320.py EXPORT
       - uses: actions/upload-artifact@v4
         with:
           name: practical320-export-encrypted
