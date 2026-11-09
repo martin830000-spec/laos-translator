@@ -4,9 +4,9 @@
   "code_sha256": {
     "contract.py": "e31a9b3e32a7d91b1c03fffe1cf6d385cb9f5cd2dcde9573d468e60ba1c3c384",
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
-    "runner.py": "058ff606f3478268787785fd07dafb425a7ed34d7fd765d5c138d5d3656cc8b6"
+    "runner.py": "1710089bde0554e38f0e3bc42b9da7891653581b0633eba5dc09d7628340dbcf"
   },
-  "deadline_epoch": 1794256282,
+  "deadline_epoch": 1794257475,
   "enabled": true,
   "max_new": 160,
   "mode": "EXECUTE",
@@ -14,14 +14,15 @@
     "gpt-6-luna": 80,
     "gpt-6.1-terra": 80
   },
-  "package_sha256": "8d5ae0d29aa5be84ab0ac3ac0c2f52850883051df1a8dbb9002145617dfe4a76",
-  "phase": "BASE",
+  "package_sha256": "4f64a809638d0465a3d5f050bb34ae746298498eeab930008959b829b368270d",
+  "phase": "H1",
   "phases": [
-    "BASE"
+    "BASE",
+    "H1"
   ],
-  "plan_sha256": "dcd5472834c7658a4362ab4375a15c892234a13616423fa53dff554e69335d4e",
-  "previous_phase": null,
-  "previous_state_object": null,
-  "prior_reserved": 0,
-  "prompt_file_sha256": "bfe44856bef0380b947cca229baf1d54eb6e4271ccba0a09511db061b93def95"
+  "plan_sha256": "e626273c9693090533a0c31c06f760b5f9e8b3b9b45874a78448e6703d97c364",
+  "previous_phase": "BASE",
+  "previous_state_object": "states/BASE-finished.json",
+  "prior_reserved": 160,
+  "prompt_file_sha256": "b2b730d9801ddbcc9645ca052044f4cc97d892f84b68a0938128d8f34aa37cbc"
 }

@@ -24,7 +24,7 @@ class Store:
   try:self.create(n,b)
   except PreconditionFailed:assert self.get(n)==b,'IMMUTABLE_OBJECT_MISMATCH'
 def reservations(s):
- with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:raw=list(pool.map(lambda i:s.get(f'budget/{i:04d}.json',True),range(1,1001)))
+ with concurrent.futures.ThreadPoolExecutor(max_workers=32) as pool:raw=list(pool.map(lambda i:s.get(f'budget/{i:04d}.json',True),range(1,1001)))
  rs=[json.loads(x) for x in raw if x is not None]
  assert all(raw[:len(rs)]) and not any(raw[len(rs):]),'NONCONTIGUOUS_BUDGET'
  assert len({r['slot'] for r in rs})==len(rs)
@@ -67,8 +67,9 @@ def stage(s,c):
  print(json.dumps({'phase':c['phase'],'staged':True,'generation_calls':0}))
 def totals(s,rs):
  by={m:{'reserved':0,'success':0,'failed':0,'unknown':0} for m in ['gpt-6-luna','gpt-6.1-terra']}
- for r in rs:
-  t=by[r['model']];t['reserved']+=1;raw=s.get('results/'+r['slot']+'.json',True)
+ with concurrent.futures.ThreadPoolExecutor(max_workers=32) as pool:raws=list(pool.map(lambda r:s.get('results/'+r['slot']+'.json',True),rs))
+ for r,raw in zip(rs,raws):
+  t=by[r['model']];t['reserved']+=1
   if raw is None:t['unknown']+=1
   else:t['success' if json.loads(raw)['success'] else 'failed']+=1
  return by
@@ -93,9 +94,9 @@ async def execute(s,c):
  s.create('locks/'+phase+'.json',canon(lock))
  # Reconcile again under our lock. Never replay an unknown reservation.
  assert reservations(s)==rs
- for t in p['slots']:
-  assert not any(r['slot']==t['slot'] for r in rs)
-  assert s.get('results/'+t['slot']+'.json',True) is None
+ assert not {t['slot'] for t in p['slots']} & {r['slot'] for r in rs}
+ with concurrent.futures.ThreadPoolExecutor(max_workers=32) as pool:existing=list(pool.map(lambda t:s.get('results/'+t['slot']+'.json',True),p['slots']))
+ assert not any(x is not None for x in existing),'EXISTING_SLOT_RESULT'
  s.put('states/'+phase+'-running.json',canon(dict(lock,enabled=True,max_new=len(p['slots']),reserved_total=len(rs))))
  attempted=0;finished=False;disabled={};streak={};skips=[]
  try:
@@ -105,7 +106,11 @@ async def execute(s,c):
     model=t['model'];path=t['path'];slot=t['slot'];parent=None
     if model in disabled or 'ALL' in disabled:
      reason=disabled.get(model,disabled.get('ALL'));skips.append(slot);s.put('skips/'+slot+'.json',canon({'reason':reason,'unattempted':True}));continue
-    if 'parent_first_id' in t:
+    if t.get('reference_first_id'):
+     refs=json.loads(s.get('preparation/HISTORICAL_FIRST.json'));parent=refs[t['reference_first_id']]
+     assert parent['source_id']==t['source_id'] and parent['path'][0]==path[0] and path.endswith('B')
+     text=back_input(parent);assert text is not None
+    elif 'parent_first_id' in t:
      raw=s.get('results/'+t['parent_first_id']+'.json',True);parent=json.loads(raw) if raw else None;text=back_input(parent)
      if text is None:
       skips.append(slot);s.put('skips/'+slot+'.json',canon({'reason':'NO_TECHNICALLY_COMPLETE_FIRST','unattempted':True}));continue
@@ -117,12 +122,14 @@ async def execute(s,c):
     # Never adopt an existing reservation as our own, even if bytes happen to match.
     s.create(f"budget/{rec['ordinal']:04d}.json",canon(rec));rs.append(rec)
     result=await send(client,payload,os.environ['OPENAI_API_KEY']);attempted+=1
-    result.update(variant=t['variant'],slot=slot,stage=phase,campaign=CAMPAIGN,model=model,path=path,effort=t['effort'],request=payload,request_sha256=rec['request_sha256'],input_sha256=rec['input_sha256'],source_id=t.get('source_id'),parent_first_id=t.get('parent_first_id'),chain_id=t.get('chain_id'),ordinal=rec['ordinal'])
+    result.update(reference_first_id=t.get('reference_first_id'),variant=t['variant'],slot=slot,stage=phase,campaign=CAMPAIGN,model=model,path=path,effort=t['effort'],request=payload,request_sha256=rec['request_sha256'],input_sha256=rec['input_sha256'],source_id=t.get('source_id'),parent_first_id=t.get('parent_first_id'),chain_id=t.get('chain_id'),ordinal=rec['ordinal'])
     if parent:
      result['back_input_equals_displayed_first']=text==parent['display_text']
      result['displayed_first_sha256']=sha(parent['display_text'].encode())
-     result['chain_wall_seconds']=result['t_request_start_monotonic']+result['t_response_done']-parent['t_request_start_monotonic']
-     result['first_done_to_back_start_seconds']=result['t_request_start_monotonic']-(parent['t_request_start_monotonic']+parent['t_response_done'])
+     if parent.get('stage')==phase and not t.get('reference_first_id'):
+      result['chain_wall_seconds']=result['t_request_start_monotonic']+result['t_response_done']-parent['t_request_start_monotonic']
+      result['first_done_to_back_start_seconds']=result['t_request_start_monotonic']-(parent['t_request_start_monotonic']+parent['t_response_done'])
+     else:result['fixed_first_cross_run']=True
     s.create('results/'+slot+'.json',canon(result))
     s.create(f"checkpoints/attempt-{len(rs):04d}.json",canon({'slot':slot,'reserved':len(rs),'result_sha256':sha(canon(result))}))
     http=result['http_status'];code=(result.get('http_error') or {}).get('error',{}).get('code')
@@ -140,13 +147,13 @@ async def execute(s,c):
   s.create('states/'+phase+'-finished.json',canon(state));s.create('locks/'+phase+'.RELEASED.json',canon(lock));print('STAGE_STATE='+json.dumps(state))
 def export(s,c):
  p=plan(s,c);rs=reservations(s)
- names=['preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
+ names=['preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
  for ph in c['phases']:
   names += ['checks/stage-'+ph+'.json','states/'+ph+'-running.json','states/'+ph+'-finished.json','locks/'+ph+'.json','locks/'+ph+'.RELEASED.json']
  for r in rs:names += [f"budget/{r['ordinal']:04d}.json",'results/'+r['slot']+'.json',f"checkpoints/attempt-{r['ordinal']:04d}.json"]
  names += ['skips/'+t['slot']+'.json' for t in p['slots']]
  objs={}
- with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+ with concurrent.futures.ThreadPoolExecutor(max_workers=32) as pool:
   for n,b in zip(names,pool.map(lambda n:s.get(n,True),names)):
    if b is not None:objs[n]=b
  manifest={n:{'bytes':len(b),'sha256':sha(b)} for n,b in objs.items()}
@@ -161,7 +168,7 @@ def export(s,c):
   print('EXPORT_RECEIPT='+json.dumps({'key':key,'cipher_sha256':sha(out.read_bytes()),'plain_sha256':sha(zpath.read_bytes()),'objects':len(objs),'generation_calls':0}))
 if __name__=='__main__':
  c=load_control();s=Store();mode=sys.argv[1]
- if mode=='STAGE':stage(s,c)
+ if mode=='STAGE':stage(s,dict(c,enabled=False,mode='STAGE'))
  elif mode=='EXECUTE':asyncio.run(execute(s,c))
  elif mode=='EXPORT':export(s,c)
  else:raise ValueError('UNAPPROVED_MODE')
