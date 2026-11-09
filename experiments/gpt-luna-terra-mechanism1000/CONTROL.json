@@ -1,0 +1,27 @@
+{
+  "backup_verified": true,
+  "campaign": "GPT_LUNA_TERRA_MECHANISM1000_20261110",
+  "code_sha256": {
+    "contract.py": "e31a9b3e32a7d91b1c03fffe1cf6d385cb9f5cd2dcde9573d468e60ba1c3c384",
+    "http_sender.py": "88fce33c75c887eaf3c6acc5183d2fb6e81fea68239f321338d66d1c748f897c",
+    "runner.py": "058ff606f3478268787785fd07dafb425a7ed34d7fd765d5c138d5d3656cc8b6"
+  },
+  "deadline_epoch": 1794255949,
+  "enabled": false,
+  "max_new": 160,
+  "mode": "STAGE",
+  "model_plan": {
+    "gpt-6-luna": 80,
+    "gpt-6.1-terra": 80
+  },
+  "package_sha256": "8d5ae0d29aa5be84ab0ac3ac0c2f52850883051df1a8dbb9002145617dfe4a76",
+  "phase": "BASE",
+  "phases": [
+    "BASE"
+  ],
+  "plan_sha256": "dcd5472834c7658a4362ab4375a15c892234a13616423fa53dff554e69335d4e",
+  "previous_phase": null,
+  "previous_state_object": null,
+  "prior_reserved": 0,
+  "prompt_file_sha256": "bfe44856bef0380b947cca229baf1d54eb6e4271ccba0a09511db061b93def95"
+}
