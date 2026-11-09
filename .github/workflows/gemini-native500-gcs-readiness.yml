@@ -1,4 +1,4 @@
-name: PRACTICAL320 free targeted resume audit
+name: DEEP500 existing-WIF read-only recovery
 on:
   push:
     branches: [research/gemini-model-native500-20261107]
@@ -8,7 +8,7 @@ permissions:
   id-token: write
 jobs:
   recover:
-    if: ${{ github.run_attempt == 1 }}
+    if: ${{ false }} # Recovery complete; keep disabled
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -22,4 +22,10 @@ jobs:
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
       - name: Read existing objects only
-        run: python3 experiments/gpt-luna-terra-practical320/resume_audit_readonly.py
+        run: python3 experiments/gemini-deep500/recover_readonly.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deep500-recovery-encrypted
+          path: ${{ runner.temp }}/deep500-recovery.p7m
+          retention-days: 3
+          if-no-files-found: error
