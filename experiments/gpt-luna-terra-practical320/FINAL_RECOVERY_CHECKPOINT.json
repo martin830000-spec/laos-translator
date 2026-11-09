@@ -1,0 +1,29 @@
+{
+  "campaign": "GPT_LUNA_TERRA_PRACTICAL320_20261109",
+  "actual": 268,
+  "success": 268,
+  "failed": 0,
+  "unknown": 0,
+  "models": {
+    "gpt-6-luna": 200,
+    "gpt-6.1-terra": 68
+  },
+  "unused_locked": 52,
+  "enabled": false,
+  "max_new": 0,
+  "stage_caps": {
+    "P1": 96,
+    "P2": 64,
+    "FINAL": 160
+  },
+  "stage_used": {
+    "P1": 96,
+    "P2": 32,
+    "FINAL": 140
+  },
+  "latest_remote_state": "states/FINAL-finished.json",
+  "raw_sha256": "e519344dcea75aead4d346e044a62847f7e1dcfb597755dad493537b754edc1c",
+  "run": 42607924721,
+  "quality_review": "in_progress",
+  "research_complete": false
+}
