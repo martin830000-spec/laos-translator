@@ -1,0 +1,19 @@
+{
+  "campaign": "GPT_LUNA_LF_VARIANCE320_20261110",
+  "status": "PAUSED_LOCKED",
+  "research_complete": false,
+  "enabled": false,
+  "max_new": 0,
+  "approved_total": 320,
+  "model": "gpt-6-luna",
+  "generation_attempts_this_session": 0,
+  "success_this_session": 0,
+  "failed_generation_this_session": 0,
+  "unknown_generation_this_session": 0,
+  "remote_campaign_reserved": null,
+  "remote_ledger_verified": false,
+  "unused_approval_this_session": 320,
+  "reason": "WIF_ATTRIBUTE_CONDITION_REJECTED_NEW_WORKFLOW",
+  "failed_run": 42789027696,
+  "resume_requires": "Reconcile GCS campaign ledger before any generation; resolve authorized execution path without unauthorized IAM/shared-workflow changes."
+}

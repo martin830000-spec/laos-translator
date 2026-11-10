@@ -11,6 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   research:
+    if: ${{ false }} # PAUSED_LOCKED: authentication rejected; no automatic retry
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
