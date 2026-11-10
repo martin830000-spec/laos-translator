@@ -34,5 +34,27 @@
   "prior_reserved": 224,
   "prompt_file_sha256": "b28d5a1b804923c02fd53d08fba3c9202f7ad7682afb7fe2ea9f0b9b6ce6345d",
   "remote_control_object": "controls/CLOSED/CLOSED_LOCKED.json",
-  "status": "CLOSED_LOCKED"
+  "status": "CLOSED_LOCKED",
+  "model_actual": {
+    "gemini-3.8-flash": 40,
+    "gpt-6-luna": 224
+  },
+  "model_unused": {
+    "gpt-6-luna": 56,
+    "gemini-3.8-flash": 0
+  },
+  "unused_locked": 56,
+  "stage_actual": {
+    "A": 200,
+    "B": 24,
+    "C": 40
+  },
+  "stage_unused": {
+    "A": 40,
+    "B": 16,
+    "C": 0
+  },
+  "research_complete": true,
+  "remote_ledger_verified": true,
+  "original_workflow_restored_blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563"
 }
