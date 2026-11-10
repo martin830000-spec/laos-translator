@@ -7,9 +7,9 @@
     "runner.py": "cee27a5cfa111bf02f40b0891765ae3d97d160195277c70d550c52017b4d4075"
   },
   "deadline_epoch": 1794314999,
-  "enabled": false,
+  "enabled": true,
   "max_new": 48,
-  "mode": "STAGE",
+  "mode": "EXECUTE",
   "model_plan": {
     "gpt-6-luna": 48
   },
@@ -22,5 +22,6 @@
   "previous_phase": "NONE",
   "previous_state_object": "states/NONE-finished.json",
   "prior_reserved": 0,
-  "prompt_file_sha256": "2c33ec3eab97c2818a8bdc514f3ef0b84d80e678b884af14861ebeb37304de45"
+  "prompt_file_sha256": "2c33ec3eab97c2818a8bdc514f3ef0b84d80e678b884af14861ebeb37304de45",
+  "remote_control_object": "controls/A/STAGED_LOCKED.json"
 }
