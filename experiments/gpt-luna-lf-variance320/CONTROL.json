@@ -6,26 +6,27 @@
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
     "runner.py": "0514a0f1601ed6a08ad242fbf201904727e75fba0e30981aeed9d04e8bf932e9"
   },
-  "deadline_epoch": 1794316879,
+  "deadline_epoch": 1794317330,
   "enabled": true,
-  "max_new": 48,
+  "max_new": 24,
   "mode": "EXECUTE",
   "model_plan": {
-    "gpt-6-luna": 48
+    "gpt-6-luna": 24
   },
-  "package_sha256": "17b981a1195b4c9c54738c99dd12bbea5f266587e2fb5b4c22347a10b66f22ff",
-  "phase": "D",
+  "package_sha256": "6394e662e4f651703b95c77f516f2f16f306bafd61d334e3d6757a97905f18ec",
+  "phase": "E1",
   "phases": [
     "A",
     "B",
     "C",
     "C2",
-    "D"
+    "D",
+    "E1"
   ],
-  "plan_sha256": "a747b5c4bfcb5a5be209093aed1e67aab00182c7c27f15fdd72697a29d7f00a6",
-  "previous_phase": "C2",
-  "previous_state_object": "states/C2-finished.json",
-  "prior_reserved": 192,
+  "plan_sha256": "c6345e987526d29fc464dd00bf2b2852908b6c1b833c384f5f4caf9a05a88596",
+  "previous_phase": "D",
+  "previous_state_object": "states/D-finished.json",
+  "prior_reserved": 240,
   "prompt_file_sha256": "b061cd14beaf37947d05caa94b4f314ca2b81b2eb0f90af2525d1ae4f57cf0e8",
-  "remote_control_object": "controls/D/STAGED_LOCKED.json"
+  "remote_control_object": "controls/E1/STAGED_LOCKED.json"
 }
