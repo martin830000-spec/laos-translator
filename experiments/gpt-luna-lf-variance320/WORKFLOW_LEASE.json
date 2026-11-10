@@ -1,0 +1,12 @@
+{
+  "campaign": "GPT_LUNA_LF_VARIANCE320_20261110",
+  "original_head": "e66f4241873975eac58929ca11baa82c9ee440db",
+  "original_blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563",
+  "path": ".github/workflows/gemini-native500-gcs-readiness.yml",
+  "authorization": "User R2 explicit one-file temporary lease",
+  "original_content": "name: DEEP500 existing-WIF read-only recovery\non:\n  push:\n    branches: [research/gemini-model-native500-20261107]\n    paths: [.github/workflows/gemini-native500-gcs-readiness.yml]\npermissions:\n  contents: read\n  id-token: write\njobs:\n  recover:\n    if: ${{ false }} # Recovery complete; keep disabled\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:\n      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262\n        with:\n          persist-credentials: false\n      - uses: google-github-actions/auth@v3\n        with:\n          project_id: gen-lang-client-0422436907\n          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research\n          service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com\n      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'\n      - name: Read existing objects only\n        run: python3 experiments/gemini-deep500/recover_readonly.py\n      - uses: actions/upload-artifact@v4\n        with:\n          name: deep500-recovery-encrypted\n          path: ${{ runner.temp }}/deep500-recovery.p7m\n          retention-days: 3\n          if-no-files-found: error\n",
+  "restore_only_if_owned": true,
+  "restore_on_all_outcomes": true,
+  "start": "2026-11-10T09:44:52.044Z",
+  "initial_active_runs": 0
+}
