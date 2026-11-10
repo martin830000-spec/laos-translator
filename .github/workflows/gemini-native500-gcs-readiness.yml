@@ -34,7 +34,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: factorial320-A4-encrypted
+          name: factorial320-B1-encrypted
           path: ${{ runner.temp }}/factorial320-export.p7m
           retention-days: 3
           if-no-files-found: error
