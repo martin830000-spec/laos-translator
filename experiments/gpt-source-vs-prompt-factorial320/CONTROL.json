@@ -7,15 +7,15 @@
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
     "runner.py": "2c720b4328c242ace43ce046db10a49aa3949f652dd5f07d3aadbc10d525a5ea"
   },
-  "deadline_epoch": 1794356278,
+  "deadline_epoch": 1794356585,
   "enabled": true,
-  "max_new": 20,
+  "max_new": 4,
   "mode": "EXECUTE",
   "model_plan": {
-    "gpt-6-luna": 20
+    "gpt-6-luna": 4
   },
-  "package_sha256": "d811fe8fae6231b637b1851c58a6d345003da1be5cafff4eb2600d325c480e68",
-  "phase": "B1",
+  "package_sha256": "fb296a35cb5354a574fc3a6ecfae6af7cad45db1029c9c3df150ce94bfea6774",
+  "phase": "B2",
   "phases": [
     "A1",
     "A2",
@@ -25,10 +25,10 @@
     "B2",
     "C"
   ],
-  "plan_sha256": "f1ab4174843739a1da88f4e247a3fe2bafe88caa6da2af58cb33d67b0d85cb3a",
+  "plan_sha256": "225a8bbb4176767f346aa5db1806144fc6bdfd80f7cd3d6796b01f5749bc174d",
   "preflight_object": "preflight/42908624681.json",
-  "previous_phase": "A4",
-  "previous_state_object": "states/A4-finished.json",
-  "prior_reserved": 200,
+  "previous_phase": "B1",
+  "previous_state_object": "states/B1-finished.json",
+  "prior_reserved": 220,
   "prompt_file_sha256": "b28d5a1b804923c02fd53d08fba3c9202f7ad7682afb7fe2ea9f0b9b6ce6345d"
 }
