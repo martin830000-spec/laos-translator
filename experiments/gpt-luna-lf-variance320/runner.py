@@ -184,7 +184,7 @@ def close(s,c):
  print('CLOSED_STATE='+json.dumps(state))
 def export(s,c):
  p=plan(s,c);rs=reservations(s)
- names=['preparation/FINAL_SCHEDULE.json','preparation/FINAL_EVALUATION.json','CONTROL.json','controls/CLOSED/CLOSED_LOCKED.json','states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
+ names=['checks/final-publication.json','preparation/FINAL_SCHEDULE.json','preparation/FINAL_EVALUATION.json','CONTROL.json','controls/CLOSED/CLOSED_LOCKED.json','states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
  for ph in c['phases']:
   names += ['preparation/QUALITY_BEFORE_'+ph+'.json']
   names += ['controls/'+ph+'/'+status+'.json' for status in ['STAGED_LOCKED','RUNNING','CHECKPOINT_LOCKED','PAUSED_LOCKED']]
@@ -205,10 +205,25 @@ def export(s,c):
   subprocess.run(['openssl','cms','-encrypt','-aes256','-binary','-outform','DER','-in',str(zpath),'-out',str(out),str(HERE/'export-cert.pem')],check=True,capture_output=True)
   key='exports/'+c['phase']+'-'+os.environ['GITHUB_RUN_ID']+'.p7m';s.create(key,out.read_bytes());out.write_bytes(s.get(key))
   print('EXPORT_RECEIPT='+json.dumps({'key':key,'cipher_sha256':sha(out.read_bytes()),'plain_sha256':sha(zpath.read_bytes()),'objects':len(objs),'generation_calls':0}))
+def publish_final(s,c):
+ assert not c['enabled'] and c['max_new']==0 and c['mode']=='CLOSE'
+ old=s.bucket.blob('research/gemini-model-native500-20261107/gpt-luna-terra-mechanism1000-20261110/states/CLOSED_LOCKED.json').download_as_bytes(timeout=30,retry=None)
+ assert sha(old)=='323c3e727c1aee812d23423ea1ed885db50a39dcf4203a4c1bf47810f366290e','OLD_CLOSED_CHANGED'
+ with tempfile.TemporaryDirectory() as td:
+  t=pathlib.Path(td);(t/'key.pem').write_bytes(s.bucket.blob(INPUT_KEY).download_as_bytes(timeout=30,retry=None));(t/'key.pem').chmod(0o600)
+  (t/'in.p7m').write_bytes(base64.b64decode((HERE/'input.p7m.b64').read_bytes()))
+  subprocess.run(['openssl','cms','-decrypt','-binary','-inform','DER','-in',str(t/'in.p7m'),'-inkey',str(t/'key.pem'),'-out',str(t/'input.gz')],check=True,capture_output=True)
+  raw=gzip.decompress((t/'input.gz').read_bytes());assert sha(raw)==c['package_sha256'];obj=json.loads(raw);assert obj['campaign']==CAMPAIGN
+  assert set(obj['objects'])=={'preparation/FINAL_EVALUATION.json'}
+  for name,val in obj['objects'].items():s.put(name,canon(val))
+ receipt={'old_closed_sha256':sha(old),'old_reserved':776,'final_evaluation_sha256':sha(s.get('preparation/FINAL_EVALUATION.json')),'generation_calls':0,'run':os.environ['GITHUB_RUN_ID']}
+ s.create('checks/final-publication.json',canon(receipt));print('FINAL_PUBLICATION='+json.dumps(receipt))
+
 if __name__=='__main__':
  c=load_control();s=Store();mode=sys.argv[1]
  if mode=='STAGE':stage(s,dict(c,enabled=False,mode='STAGE'))
  elif mode=='EXECUTE':asyncio.run(execute(s,c))
  elif mode=='EXPORT':export(s,c)
  elif mode=='CLOSE':close(s,c)
+ elif mode=='PUBLISH':publish_final(s,c)
  else:raise ValueError('UNAPPROVED_MODE')

@@ -22,16 +22,14 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - run: python3 experiments/gpt-luna-lf-variance320/test_sender.py
       - run: python3 experiments/gpt-luna-lf-variance320/test_runner.py
-      - run: python3 experiments/gpt-luna-lf-variance320/runner.py STAGE
-      - run: python3 experiments/gpt-luna-lf-variance320/runner.py EXECUTE
-        env:
-          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+      - run: python3 experiments/gpt-luna-lf-variance320/runner.py PUBLISH
+      - run: python3 experiments/gpt-luna-lf-variance320/runner.py CLOSE
       - if: always()
         run: python3 experiments/gpt-luna-lf-variance320/runner.py EXPORT
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: variance320-E1-encrypted
+          name: variance320-CLOSED-encrypted
           path: ${{ runner.temp }}/variance320-export.p7m
           retention-days: 3
           if-no-files-found: error
