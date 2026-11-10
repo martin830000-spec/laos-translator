@@ -1,13 +1,34 @@
 {
+  "backup_verified": true,
   "campaign": "GPT_SOURCE_VS_PROMPT_FACTORIAL320_20261111",
-  "phase": "PREFLIGHT",
-  "mode": "PREFLIGHT",
-  "status": "PREFLIGHT_LOCKED",
-  "enabled": false,
-  "max_new": 0,
-  "approved_models": {
-    "gpt-6-luna": 280,
-    "gemini-3.8-flash": 40
+  "code_sha256": {
+    "contract.py": "6990d07bd7707eb6efd009090ad5d5f5f49dc85beee96e3e515d7655d9a94aae",
+    "gemini_sender.py": "eacffcd10e613c7fa1710e4621b725c097ba158ad49c86d93ad9b6596edb8179",
+    "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
+    "runner.py": "2c720b4328c242ace43ce046db10a49aa3949f652dd5f07d3aadbc10d525a5ea"
   },
-  "remote_ledger_verified": false
+  "deadline_epoch": 1794354644,
+  "enabled": true,
+  "max_new": 50,
+  "mode": "EXECUTE",
+  "model_plan": {
+    "gpt-6-luna": 50
+  },
+  "package_sha256": "2221d2d5ab5a568e2e588bbb3eb0de77767a38f911efe5f1ae67389421f9a7d6",
+  "phase": "A1",
+  "phases": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "B1",
+    "B2",
+    "C"
+  ],
+  "plan_sha256": "13a5e2f5c0671c7491c950dce548c0bc5d2d56dc38322982b68b9ccdd4287329",
+  "preflight_object": "preflight/42908624681.json",
+  "previous_phase": null,
+  "previous_state_object": null,
+  "prior_reserved": 0,
+  "prompt_file_sha256": "b28d5a1b804923c02fd53d08fba3c9202f7ad7682afb7fe2ea9f0b9b6ce6345d"
 }
