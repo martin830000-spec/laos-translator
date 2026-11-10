@@ -1,0 +1,13 @@
+{
+  "campaign": "GPT_SOURCE_VS_PROMPT_FACTORIAL320_20261111",
+  "phase": "PREFLIGHT",
+  "mode": "PREFLIGHT",
+  "status": "PREFLIGHT_LOCKED",
+  "enabled": false,
+  "max_new": 0,
+  "approved_models": {
+    "gpt-6-luna": 280,
+    "gemini-3.8-flash": 40
+  },
+  "remote_ledger_verified": false
+}
