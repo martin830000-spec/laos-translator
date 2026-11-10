@@ -184,8 +184,9 @@ def close(s,c):
  print('CLOSED_STATE='+json.dumps(state))
 def export(s,c):
  p=plan(s,c);rs=reservations(s)
- names=['CONTROL.json','controls/CLOSED/CLOSED_LOCKED.json','states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
+ names=['preparation/FINAL_SCHEDULE.json','preparation/FINAL_EVALUATION.json','CONTROL.json','controls/CLOSED/CLOSED_LOCKED.json','states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
  for ph in c['phases']:
+  names += ['preparation/QUALITY_BEFORE_'+ph+'.json']
   names += ['controls/'+ph+'/'+status+'.json' for status in ['STAGED_LOCKED','RUNNING','CHECKPOINT_LOCKED','PAUSED_LOCKED']]
   names += ['checks/stage-'+ph+'.json','states/'+ph+'-running.json','states/'+ph+'-finished.json','locks/'+ph+'.json','locks/'+ph+'.RELEASED.json']
  for r in rs:names += [f"budget/{r['ordinal']:04d}.json",'results/'+r['slot']+'.json',f"checkpoints/attempt-{r['ordinal']:04d}.json"]

@@ -22,7 +22,7 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - run: python3 experiments/gpt-luna-lf-variance320/test_sender.py
       - run: python3 experiments/gpt-luna-lf-variance320/test_runner.py
-      - run: python3 experiments/gpt-luna-lf-variance320/freeze_final_schedule.py
+      - run: python3 experiments/gpt-luna-lf-variance320/runner.py STAGE
       - run: python3 experiments/gpt-luna-lf-variance320/runner.py EXECUTE
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: variance320-A-encrypted
+          name: variance320-B-encrypted
           path: ${{ runner.temp }}/variance320-export.p7m
           retention-days: 3
           if-no-files-found: error
