@@ -1,8 +1,27 @@
 {
+  "backup_verified": true,
   "campaign": "GPT_LUNA_SOURCE_VARIANT320_20261110",
-  "status": "PREFLIGHT_LOCKED",
-  "enabled": false,
-  "max_new": 0,
-  "approved_total": 320,
-  "remote_ledger_verified": false
+  "code_sha256": {
+    "contract.py": "cde6b6c364c7a72cd7443e91a7ab5fbe84b00c5d287eca60f7b6b5fbe4061bcf",
+    "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
+    "runner.py": "a4919f5dd7d011773d1438816815941c5c220c0e072c32420978b63e5d3adda4"
+  },
+  "deadline_epoch": 1794324120,
+  "enabled": true,
+  "max_new": 70,
+  "mode": "EXECUTE",
+  "model_plan": {
+    "gpt-6-luna": 70
+  },
+  "package_sha256": "eaadc6874ca313718160eb67c6f72790c688fe311767ae6f9937d485bf23168b",
+  "phase": "A",
+  "phases": [
+    "A"
+  ],
+  "plan_sha256": "204260e97c6c8d5d5d7fe58c426191813e2f00f241689c21c8a027e21e18a631",
+  "previous_phase": null,
+  "previous_state_object": null,
+  "prior_reserved": 0,
+  "prompt_file_sha256": "230d2323190a7255f645eb9e2aa3d6ddff5bfd4584c5278a07558fa01a1098db",
+  "remote_control_object": "controls/A/STAGED_LOCKED.json"
 }
