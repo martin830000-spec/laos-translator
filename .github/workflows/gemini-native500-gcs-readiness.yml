@@ -19,12 +19,14 @@ jobs:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: Read existing objects only
-        run: python3 experiments/gpt-luna-lf-variance320/preflight_r2.py
+      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
+      - run: python3 experiments/gpt-luna-lf-variance320/test_runner.py
+      - run: python3 experiments/gpt-luna-lf-variance320/check_atomic.py
+      - run: python3 experiments/gpt-luna-lf-variance320/runner.py STAGE
+      - run: python3 experiments/gpt-luna-lf-variance320/runner.py EXPORT
       - uses: actions/upload-artifact@v4
         with:
-          name: variance320-r2-preflight
-          path: ${{ runner.temp }}/variance320-preflight.json
+          name: variance320-A-staged-encrypted
+          path: ${{ runner.temp }}/variance320-export.p7m
           retention-days: 3
           if-no-files-found: error

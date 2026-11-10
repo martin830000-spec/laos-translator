@@ -1,19 +1,26 @@
 {
+  "backup_verified": true,
   "campaign": "GPT_LUNA_LF_VARIANCE320_20261110",
-  "status": "PAUSED_LOCKED",
-  "research_complete": false,
+  "code_sha256": {
+    "contract.py": "8cc44cefc51930f67a9c539ba7305be1355ddf698789fe00a75b9ae32c2f65a2",
+    "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
+    "runner.py": "ff6c7bbdc53309f98343e38fcea93c68b8de29b34fdd41d5042c8a1209eb638a"
+  },
+  "deadline_epoch": 1794314857,
   "enabled": false,
-  "max_new": 0,
-  "approved_total": 320,
-  "model": "gpt-6-luna",
-  "generation_attempts_this_session": 0,
-  "success_this_session": 0,
-  "failed_generation_this_session": 0,
-  "unknown_generation_this_session": 0,
-  "remote_campaign_reserved": null,
-  "remote_ledger_verified": false,
-  "unused_approval_this_session": 320,
-  "reason": "WIF_ATTRIBUTE_CONDITION_REJECTED_NEW_WORKFLOW",
-  "failed_run": 42789027696,
-  "resume_requires": "Reconcile GCS campaign ledger before any generation; resolve authorized execution path without unauthorized IAM/shared-workflow changes."
+  "max_new": 48,
+  "mode": "STAGE",
+  "model_plan": {
+    "gpt-6-luna": 48
+  },
+  "package_sha256": "257d69ec07903df4eca12cc5aa26af79c3b0baf1c72b831a68c68038fc11cef7",
+  "phase": "A",
+  "phases": [
+    "A"
+  ],
+  "plan_sha256": "4391bbfac803ab3cddcd28824e8a311854610b3dd787c720e2fc93db714d214c",
+  "previous_phase": "NONE",
+  "previous_state_object": "states/NONE-finished.json",
+  "prior_reserved": 0,
+  "prompt_file_sha256": "2c33ec3eab97c2818a8bdc514f3ef0b84d80e678b884af14861ebeb37304de45"
 }
