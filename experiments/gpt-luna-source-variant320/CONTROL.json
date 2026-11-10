@@ -1,0 +1,8 @@
+{
+  "campaign": "GPT_LUNA_SOURCE_VARIANT320_20261110",
+  "status": "PREFLIGHT_LOCKED",
+  "enabled": false,
+  "max_new": 0,
+  "approved_total": 320,
+  "remote_ledger_verified": false
+}
