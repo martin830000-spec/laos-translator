@@ -1,4 +1,5 @@
 {
+  "actual": 264,
   "backup_verified": true,
   "campaign": "GPT_SOURCE_VS_PROMPT_FACTORIAL320_20261111",
   "code_sha256": {
@@ -8,13 +9,14 @@
     "runner.py": "2c720b4328c242ace43ce046db10a49aa3949f652dd5f07d3aadbc10d525a5ea"
   },
   "deadline_epoch": 1794356762,
-  "enabled": true,
-  "max_new": 40,
-  "mode": "EXECUTE",
+  "enabled": false,
+  "gcs_initial_control_historical": true,
+  "max_new": 0,
+  "mode": "CLOSE",
   "model_plan": {
     "gemini-3.8-flash": 40
   },
-  "package_sha256": "fb296a35cb5354a574fc3a6ecfae6af7cad45db1029c9c3df150ce94bfea6774",
+  "package_sha256": "205a22d81d9ba0df71bdb18a3a002174dba435a1c2a62e3f2a5b697b750f27f6",
   "phase": "C",
   "phases": [
     "A1",
@@ -30,5 +32,7 @@
   "previous_phase": "B2",
   "previous_state_object": "states/B2-finished.json",
   "prior_reserved": 224,
-  "prompt_file_sha256": "b28d5a1b804923c02fd53d08fba3c9202f7ad7682afb7fe2ea9f0b9b6ce6345d"
+  "prompt_file_sha256": "b28d5a1b804923c02fd53d08fba3c9202f7ad7682afb7fe2ea9f0b9b6ce6345d",
+  "remote_control_object": "controls/CLOSED/CLOSED_LOCKED.json",
+  "status": "CLOSED_LOCKED"
 }
