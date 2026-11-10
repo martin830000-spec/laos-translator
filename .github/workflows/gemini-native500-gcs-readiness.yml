@@ -32,7 +32,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: sourcevariant320-A-encrypted
+          name: sourcevariant320-B-encrypted
           path: ${{ runner.temp }}/sourcevariant320-export.p7m
           retention-days: 3
           if-no-files-found: error

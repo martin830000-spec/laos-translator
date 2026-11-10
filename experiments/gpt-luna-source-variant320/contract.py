@@ -8,6 +8,7 @@ def budget_guard(reservations,slot,model,stage):
  assert slot not in {r['slot'] for r in reservations},'DUPLICATE_SLOT'
  assert len(reservations)<320,'CAMPAIGN_CAP'
  root=stage_root(stage)
+ if stage in ('E1','E2'):assert sum(r['stage']==stage for r in reservations)<40,'E_FIRST_BACK_SUBCAP'
  assert sum(stage_root(r['stage'])==root for r in reservations)<CAPS[root],'STAGE_CAP_NO_ROLLOVER'
  return {'slot':slot,'model':model,'stage':stage,'state':'RESERVED_TRANSMISSION_UNKNOWN'}
 def build_payload(model,effort,path,text,prompts):
