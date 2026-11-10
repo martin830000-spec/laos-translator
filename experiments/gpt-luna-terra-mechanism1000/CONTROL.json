@@ -29,7 +29,7 @@
   "previous_state_object": "states/H4-finished.json",
   "prior_reserved": 536,
   "prompt_file_sha256": "38865a39e304707874a2fface3ca85af0bdab5058e8d8c08dac5a1c1419ae5d2",
-  "status": "FINAL_BACKUP_VERIFIED",
+  "status": "CLOSED_LOCKED",
   "actual_reserved": 776,
   "actual_models": {
     "gpt-6-luna": 400,
@@ -38,5 +38,6 @@
   "unused_locked": {
     "gpt-6-luna": 100,
     "gpt-6.1-terra": 124
-  }
+  },
+  "closed_run": 42726667886
 }
