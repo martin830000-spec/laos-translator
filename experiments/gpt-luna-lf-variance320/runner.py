@@ -21,8 +21,9 @@ class Store:
   self.bucket.blob(PREFIX+'/'+n).upload_from_string(b,if_generation_match=0,timeout=30,retry=None)
   assert self.get(n)==b,'CREATE_READBACK_MISMATCH'
  def control(self,obj):
-  b=self.bucket.blob(PREFIX+'/CONTROL.json');b.reload(timeout=30,retry=None);g=b.generation;old=json.loads(b.download_as_bytes(timeout=30,retry=None));assert old['campaign']==CAMPAIGN
-  b.upload_from_string(canon(obj),if_generation_match=g,timeout=30,retry=None);assert self.get('CONTROL.json')==canon(obj)
+  assert obj['campaign']==CAMPAIGN
+  key='controls/'+obj.get('phase','CLOSED')+'/'+obj['status']+'.json'
+  self.put(key,canon(obj));assert self.get(key)==canon(obj)
  def put(self,n,b):
   try:self.create(n,b)
   except PreconditionFailed:assert self.get(n)==b,'IMMUTABLE_OBJECT_MISMATCH'
@@ -67,7 +68,7 @@ def stage(s,c):
   p=plan(s,c);assert len(p['slots'])==c['max_new']
   if c['phase']=='A':assert not reservations(s),'EXISTING_CAMPAIGN_BUDGET'
   s.put('checks/stage-'+c['phase']+'.json',canon({'package_sha256':sha(raw),'objects':list(package['objects']),'generation_calls':0}))
- s.control(dict(campaign=CAMPAIGN,status='STAGED_LOCKED',enabled=False,max_new=0,reserved_total=len(reservations(s)),plan_sha256=c['plan_sha256']))
+ s.control(dict(campaign=CAMPAIGN,phase=c['phase'],status='STAGED_LOCKED',enabled=False,max_new=0,reserved_total=len(reservations(s)),plan_sha256=c['plan_sha256']))
  print(json.dumps({'phase':c['phase'],'staged':True,'generation_calls':0}))
 def totals(s,rs):
  by={m:{'reserved':0,'success':0,'failed':0,'unknown':0} for m in ['gpt-6-luna']}
@@ -105,7 +106,7 @@ async def execute(s,c):
  with concurrent.futures.ThreadPoolExecutor(max_workers=32) as pool:existing=list(pool.map(lambda t:s.get('results/'+t['slot']+'.json',True),p['slots']))
  assert not any(x is not None for x in existing),'EXISTING_SLOT_RESULT'
  s.put('states/'+phase+'-running.json',canon(dict(lock,enabled=True,max_new=len(p['slots']),reserved_total=len(rs))))
- remote_control=json.loads(s.get('CONTROL.json'));assert not remote_control['enabled'] and remote_control['max_new']==0
+ remote_control=json.loads(s.get('controls/'+phase+'/STAGED_LOCKED.json'));assert not remote_control['enabled'] and remote_control['max_new']==0
  assert remote_control['campaign']==CAMPAIGN and remote_control.get('plan_sha256')==c['plan_sha256']
  s.control(dict(remote_control,enabled=True,max_new=len(p['slots']),status='RUNNING',reserved_total=len(rs)))
  progress=[time.monotonic()];done=threading.Event()
@@ -183,8 +184,9 @@ def close(s,c):
  print('CLOSED_STATE='+json.dumps(state))
 def export(s,c):
  p=plan(s,c);rs=reservations(s)
- names=['CONTROL.json','states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
+ names=['CONTROL.json','controls/CLOSED/CLOSED_LOCKED.json','states/CLOSED_LOCKED.json',p.get('source_split_object','preparation/SOURCE_SPLIT.json'),'preparation/SOURCE_SPLIT.json','preparation/HYPOTHESES.json','preparation/HISTORICAL_FIRST.json','plans/'+c['plan_sha256']+'.json','preparation/BASE_COPY.json']
  for ph in c['phases']:
+  names += ['controls/'+ph+'/'+status+'.json' for status in ['STAGED_LOCKED','RUNNING','CHECKPOINT_LOCKED','PAUSED_LOCKED']]
   names += ['checks/stage-'+ph+'.json','states/'+ph+'-running.json','states/'+ph+'-finished.json','locks/'+ph+'.json','locks/'+ph+'.RELEASED.json']
  for r in rs:names += [f"budget/{r['ordinal']:04d}.json",'results/'+r['slot']+'.json',f"checkpoints/attempt-{r['ordinal']:04d}.json"]
  names += ['skips/'+t['slot']+'.json' for t in p['slots']]

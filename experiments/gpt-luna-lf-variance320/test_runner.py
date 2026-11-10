@@ -1,7 +1,7 @@
 import unittest,asyncio,os,json,copy
 import runner as r
 class Memory:
- def __init__(self):self.d={};self.control({'campaign':r.CAMPAIGN,'enabled':False,'max_new':0,'plan_sha256':'mock'})
+ def __init__(self):self.d={};self.control({'campaign':r.CAMPAIGN,'phase':'A','status':'STAGED_LOCKED','enabled':False,'max_new':0,'plan_sha256':'mock'})
  def get(self,k,optional=False):
   if k not in self.d and not optional:raise KeyError(k)
   return self.d.get(k)
@@ -9,7 +9,7 @@ class Memory:
   if k in self.d:raise RuntimeError('duplicate atomic object')
   self.d[k]=b
  put=create
- def control(self,obj):self.d['CONTROL.json']=r.canon(obj)
+ def control(self,obj):self.put('controls/'+obj.get('phase','CLOSED')+'/'+obj['status']+'.json',r.canon(obj))
 class T(unittest.TestCase):
  def run_case(self,kind):
   s=Memory();c={'phase':'A','enabled':True,'mode':'EXECUTE','deadline_epoch':r.time.time()+120,'backup_verified':True,'max_new':2,'prior_reserved':0,'model_plan':{'gpt-6-luna':2},'plan_sha256':'mock'}

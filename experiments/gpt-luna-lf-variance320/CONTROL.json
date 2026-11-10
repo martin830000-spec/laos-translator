@@ -4,9 +4,9 @@
   "code_sha256": {
     "contract.py": "8cc44cefc51930f67a9c539ba7305be1355ddf698789fe00a75b9ae32c2f65a2",
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
-    "runner.py": "ff6c7bbdc53309f98343e38fcea93c68b8de29b34fdd41d5042c8a1209eb638a"
+    "runner.py": "cee27a5cfa111bf02f40b0891765ae3d97d160195277c70d550c52017b4d4075"
   },
-  "deadline_epoch": 1794314857,
+  "deadline_epoch": 1794314999,
   "enabled": false,
   "max_new": 48,
   "mode": "STAGE",
