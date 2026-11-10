@@ -30,5 +30,23 @@
   "prior_reserved": 250,
   "prompt_file_sha256": "230d2323190a7255f645eb9e2aa3d6ddff5bfd4584c5278a07558fa01a1098db",
   "remote_control_object": "controls/CLOSED/CLOSED_LOCKED.json",
-  "status": "CLOSED_LOCKED"
+  "status": "CLOSED_LOCKED",
+  "unused_locked": 30,
+  "stage_actual": {
+    "A": 70,
+    "B": 30,
+    "C": 55,
+    "D": 55,
+    "E": 80
+  },
+  "stage_unused": {
+    "A": 10,
+    "B": 10,
+    "C": 5,
+    "D": 5,
+    "E": 0
+  },
+  "research_complete": true,
+  "remote_ledger_verified": true,
+  "original_workflow_restored_blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563"
 }
