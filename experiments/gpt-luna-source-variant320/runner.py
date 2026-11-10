@@ -208,10 +208,25 @@ def export(s,c):
   subprocess.run(['openssl','cms','-encrypt','-aes256','-binary','-outform','DER','-in',str(zpath),'-out',str(out),str(HERE/'export-cert.pem')],check=True,capture_output=True)
   key='exports/'+c['phase']+'-'+os.environ['GITHUB_RUN_ID']+'.p7m';s.create(key,out.read_bytes());out.write_bytes(s.get(key))
   print('EXPORT_RECEIPT='+json.dumps({'key':key,'cipher_sha256':sha(out.read_bytes()),'plain_sha256':sha(zpath.read_bytes()),'objects':len(objs),'generation_calls':0}))
+def publish_final(s,c):
+ assert not c['enabled'] and c['max_new']==0 and c['mode']=='CLOSE'
+ old=s.bucket.blob('research/gemini-model-native500-20261107/gpt-luna-lf-variance320-20261110/states/CLOSED_LOCKED.json').download_as_bytes(timeout=30,retry=None)
+ assert sha(old)=='926605041232b680d8011fffaba9b17effe0c308fd9fe7029ba5161dc2716663','OLD_CLOSED_CHANGED'
+ with tempfile.TemporaryDirectory() as td:
+  t=pathlib.Path(td);(t/'key.pem').write_bytes(s.bucket.blob(INPUT_KEY).download_as_bytes(timeout=30,retry=None));(t/'key.pem').chmod(0o600)
+  (t/'in.p7m').write_bytes(base64.b64decode((HERE/'input.p7m.b64').read_bytes()))
+  subprocess.run(['openssl','cms','-decrypt','-binary','-inform','DER','-in',str(t/'in.p7m'),'-inkey',str(t/'key.pem'),'-out',str(t/'input.gz')],check=True,capture_output=True)
+  raw=gzip.decompress((t/'input.gz').read_bytes());assert sha(raw)==c['package_sha256'];obj=json.loads(raw);assert obj['campaign']==CAMPAIGN
+  assert set(obj['objects'])=={'preparation/FINAL_EVALUATION.json'}
+  for name,val in obj['objects'].items():s.put(name,canon(val))
+ receipt={'old_closed_sha256':sha(old),'old_reserved':264,'final_evaluation_sha256':sha(s.get('preparation/FINAL_EVALUATION.json')),'generation_calls':0,'run':os.environ['GITHUB_RUN_ID']}
+ s.create('checks/final-publication.json',canon(receipt));print('FINAL_PUBLICATION='+json.dumps(receipt))
+
 if __name__=='__main__':
  c=load_control();s=Store();mode=sys.argv[1]
  if mode=='STAGE':stage(s,dict(c,enabled=False,mode='STAGE'))
  elif mode=='EXECUTE':asyncio.run(execute(s,c))
  elif mode=='EXPORT':export(s,c)
  elif mode=='CLOSE':close(s,c)
+ elif mode=='PUBLISH':publish_final(s,c)
  else:raise ValueError('UNAPPROVED_MODE')
