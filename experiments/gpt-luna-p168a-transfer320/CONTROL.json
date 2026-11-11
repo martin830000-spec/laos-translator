@@ -1,4 +1,5 @@
 {
+  "actual": 288,
   "backup_verified": true,
   "campaign": "GPT_LUNA_P168A_TRANSFER320_20261111",
   "code_sha256": {
@@ -7,13 +8,14 @@
     "runner.py": "393b8bb0cc9cb5c14e3a7e02b5cb49c678f58cc5853700f674e091ea2d8b7031"
   },
   "deadline_epoch": 1794365682,
-  "enabled": true,
-  "max_new": 36,
-  "mode": "EXECUTE",
+  "enabled": false,
+  "gcs_initial_control_historical": true,
+  "max_new": 0,
+  "mode": "CLOSE",
   "model_plan": {
     "gpt-6-luna": 36
   },
-  "package_sha256": "c66c7bb00ad02f440699fa7f8732e7e2a2cacc96fb6c9894b9eeb06701aba763",
+  "package_sha256": "a8090054a232c71dc23d7c024cf2e99cc9627098c58c5bb97165d6cac5916c7e",
   "phase": "E2",
   "phases": [
     "A",
@@ -30,5 +32,7 @@
   "previous_phase": "E1",
   "previous_state_object": "states/E1-finished.json",
   "prior_reserved": 252,
-  "prompt_file_sha256": "5646c8868edf9c49481784671da4ed1bd47d43edcdbbb8baa80c33918a0917ae"
+  "prompt_file_sha256": "5646c8868edf9c49481784671da4ed1bd47d43edcdbbb8baa80c33918a0917ae",
+  "remote_control_object": "controls/CLOSED/CLOSED_LOCKED.json",
+  "status": "CLOSED_LOCKED"
 }

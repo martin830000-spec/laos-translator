@@ -23,17 +23,15 @@ jobs:
       - run: python3 experiments/gpt-luna-p168a-transfer320/test_sender.py
       - run: python3 experiments/gpt-luna-p168a-transfer320/test_runner.py
       - run: python3 experiments/gpt-luna-p168a-transfer320/test_guards.py
-      - run: python3 experiments/gpt-luna-p168a-transfer320/runner.py STAGE
-      - run: python3 experiments/gpt-luna-p168a-transfer320/check_atomic.py
-      - run: python3 experiments/gpt-luna-p168a-transfer320/runner.py EXECUTE
-        env:
-          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+      - run: python3 experiments/gpt-luna-p168a-transfer320/verify_previous_closed.py
+      - run: python3 experiments/gpt-luna-p168a-transfer320/runner.py PUBLISH
+      - run: python3 experiments/gpt-luna-p168a-transfer320/runner.py CLOSE
       - if: always()
         run: python3 experiments/gpt-luna-p168a-transfer320/runner.py EXPORT
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: transfer320-E2-encrypted
+          name: transfer320-CLOSED-encrypted
           path: ${{ runner.temp }}/transfer320-export.p7m
           retention-days: 3
           if-no-files-found: error
