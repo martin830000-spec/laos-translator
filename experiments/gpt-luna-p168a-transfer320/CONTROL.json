@@ -1,20 +1,34 @@
 {
+  "backup_verified": true,
   "campaign": "GPT_LUNA_P168A_TRANSFER320_20261111",
-  "phase": "PREFLIGHT",
-  "mode": "PREFLIGHT",
-  "status": "PREFLIGHT_LOCKED",
-  "enabled": false,
-  "max_new": 0,
-  "approved_models": {
-    "gpt-6-luna": 320
+  "code_sha256": {
+    "contract.py": "bb8e689334811b2e2798a76a6bd981e4b1e30c142b518ad58992f52f52f46f84",
+    "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
+    "runner.py": "393b8bb0cc9cb5c14e3a7e02b5cb49c678f58cc5853700f674e091ea2d8b7031"
   },
-  "stage_caps": {
-    "A": 24,
-    "B": 96,
-    "C": 18,
-    "D": 72,
-    "E": 108
+  "deadline_epoch": 1794362709,
+  "enabled": true,
+  "max_new": 24,
+  "mode": "EXECUTE",
+  "model_plan": {
+    "gpt-6-luna": 24
   },
-  "unallocated_locked": 2,
-  "remote_ledger_verified": false
+  "package_sha256": "8cc5e92f3910bc1f65c76aee911ece0f1aab23f3b4e3eb81d688a70d31d12c3b",
+  "phase": "A",
+  "phases": [
+    "A",
+    "B1",
+    "B2",
+    "C",
+    "D1",
+    "D2",
+    "E1",
+    "E2"
+  ],
+  "plan_sha256": "a0c3652b68cc3a9f036c43dc10fad57afe7238d8718bf242a31c974d94d76ec3",
+  "preflight_object": "preflight/42927682920.json",
+  "previous_phase": null,
+  "previous_state_object": null,
+  "prior_reserved": 0,
+  "prompt_file_sha256": "5646c8868edf9c49481784671da4ed1bd47d43edcdbbb8baa80c33918a0917ae"
 }
