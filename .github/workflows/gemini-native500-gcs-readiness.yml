@@ -33,7 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: transfer320-D2-encrypted
+          name: transfer320-E1-encrypted
           path: ${{ runner.temp }}/transfer320-export.p7m
           retention-days: 3
           if-no-files-found: error
