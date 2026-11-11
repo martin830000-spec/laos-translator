@@ -1,0 +1,69 @@
+{
+  "actual": 0,
+  "approved_total": 80,
+  "campaign": "GPT_LUNA_GD_SCOPE_SCREEN80_20261112",
+  "checked_absent_keys": 164,
+  "commit": "97bb0e3731adc77f6212e2120c27e9bc23bc04e7",
+  "eligible_lao": 0,
+  "enabled": false,
+  "failed": 0,
+  "generation_calls": 0,
+  "max_new": 0,
+  "previous_closed": {
+    "gpt-luna-lf-variance320-20261110": {
+      "enabled": false,
+      "max_new": 0,
+      "reserved_total": 264,
+      "sha256": "926605041232b680d8011fffaba9b17effe0c308fd9fe7029ba5161dc2716663"
+    },
+    "gpt-luna-p168a-transfer320-20261111": {
+      "enabled": false,
+      "max_new": 0,
+      "reserved_total": 288,
+      "sha256": "fc34dfbb85dc46578ed9ca36c8881cea869b7727a4a88d200e0d42adfb8e6c31"
+    },
+    "gpt-luna-source-variant320-20261110": {
+      "enabled": false,
+      "max_new": 0,
+      "reserved_total": 290,
+      "sha256": "99bf3ffcf49186ef932b62c2089105b7bd0e3747accadc8bc53dc061e7b1068a"
+    },
+    "gpt-luna-terra-mechanism1000-20261110": {
+      "enabled": false,
+      "max_new": 0,
+      "reserved_total": 776,
+      "sha256": "323c3e727c1aee812d23423ea1ed885db50a39dcf4203a4c1bf47810f366290e"
+    },
+    "gpt-source-vs-prompt-factorial320-20261111": {
+      "enabled": false,
+      "max_new": 0,
+      "reserved_total": 264,
+      "sha256": "705e2a46c40305bc7c454b696d0803b503a469e8fecd754cfbf424ad1113d06f"
+    }
+  },
+  "research_complete": false,
+  "reserved_total": 0,
+  "result": "INCOMPLETE_NO_INDEPENDENT_SAMPLES",
+  "run": "43107465387",
+  "source_sha256": "1db5838ab90d5a80edb199d959905944fbcfde74fadb5d26b51a3403dcaccfc7",
+  "stage_actual": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0
+  },
+  "stage_caps": {
+    "A": 36,
+    "B": 12,
+    "C": 24,
+    "D": 8
+  },
+  "status": "PAUSED_LOCKED",
+  "success": 0,
+  "unknown": 0,
+  "unused_locked": 80,
+  "remote_state_sha256": "8434a8e50989a3ffcc1854fb4ce12fe7289696fa208c17e853a3fc0adac048d1",
+  "remote_control_object": "controls/PAUSED/PAUSED_LOCKED.json",
+  "original_workflow_restored_blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563",
+  "restore_commit": "730f8843753a81193073b7890eb2f7198b2a3afb"
+}
