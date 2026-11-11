@@ -8,9 +8,9 @@ permissions:
   id-token: write
 jobs:
   recover:
-    if: ${{ github.run_attempt == 1 }}
+    if: ${{ false }} # Recovery complete; keep disabled
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -21,43 +21,11 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: SCREEN80 zero-call sample-shortage pause
-        run: |
-          python3 - <<'PY'
-          """No generation client. Verify existing closures; create-only zero-call pause."""
-          import os,json,hashlib,concurrent.futures
-          from google.cloud import storage
-          from google.api_core.exceptions import NotFound,PreconditionFailed
-          C='GPT_LUNA_GD_SCOPE_SCREEN80_20261112'
-          ROOT='research/gemini-model-native500-20261107/'
-          P=ROOT+'gpt-luna-gd-scope-screen80-20261112/'
-          assert os.environ['GITHUB_REF']=='refs/heads/research/gemini-model-native500-20261107'
-          assert os.environ['GITHUB_RUN_ATTEMPT']=='1'
-          B=storage.Client(project='gen-lang-client-0422436907').bucket('lao-translator-src-460077888071')
-          def get(n):
-           try:return B.blob(n).download_as_bytes(timeout=30,retry=None)
-           except NotFound:return None
-          def sha(x):return hashlib.sha256(x).hexdigest()
-          def canon(x):return (json.dumps(x,sort_keys=True,indent=2)+'\n').encode()
-          old={}
-          for name,count in [('gpt-luna-p168a-transfer320-20261111',288),('gpt-luna-source-variant320-20261110',290),('gpt-source-vs-prompt-factorial320-20261111',264),('gpt-luna-lf-variance320-20261110',264),('gpt-luna-terra-mechanism1000-20261110',776)]:
-           raw=get(ROOT+name+'/states/CLOSED_LOCKED.json');d=json.loads(raw)
-           assert d['status']=='CLOSED_LOCKED' and not d['enabled'] and d['max_new']==0 and d['reserved_total']==count
-           if name!='gpt-luna-terra-mechanism1000-20261110':assert get(ROOT+name+'/controls/CLOSED/CLOSED_LOCKED.json')==raw
-           old[name]={'sha256':sha(raw),'reserved_total':count,'enabled':False,'max_new':0}
-          names=[f'budget/{i:04d}.json' for i in range(1,81)]+['CONTROL.json','LOCK.json','states/PAUSED_LOCKED.json','states/CLOSED_LOCKED.json']
-          names += [f'results/{s}-{i:03d}.json' for s,n in [('A',36),('B',12),('C',24),('D',8)] for i in range(1,n+1)]
-          with concurrent.futures.ThreadPoolExecutor(max_workers=16) as pool: found=list(pool.map(lambda n:get(P+n),names))
-          assert not any(x is not None for x in found),'EXISTING_CAMPAIGN_STOP_NO_OVERWRITE'
-          state={'campaign':C,'status':'PAUSED_LOCKED','research_complete':False,'result':'INCOMPLETE_NO_INDEPENDENT_SAMPLES','enabled':False,'max_new':0,'approved_total':80,'actual':0,'reserved_total':0,'success':0,'failed':0,'unknown':0,'unused_locked':80,'generation_calls':0,'stage_caps':{'A':36,'B':12,'C':24,'D':8},'stage_actual':{'A':0,'B':0,'C':0,'D':0},'eligible_lao':0,'run':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'previous_closed':old,'checked_absent_keys':len(names),'source_sha256':'1db5838ab90d5a80edb199d959905944fbcfde74fadb5d26b51a3403dcaccfc7'}
-          raw=canon(state)
-          for n in ['LOCK.json','CONTROL.json','controls/PAUSED/PAUSED_LOCKED.json','states/PAUSED_LOCKED.json']:
-           B.blob(P+n).upload_from_string(raw,if_generation_match=0,timeout=30,retry=None)
-           assert get(P+n)==raw
-          try:B.blob(P+'LOCK.json').upload_from_string(raw,if_generation_match=0,timeout=30,retry=None)
-          except PreconditionFailed:pass
-          else:raise AssertionError('DUPLICATE_CREATE_NOT_REJECTED')
-          assert get(P+'LOCK.json')==raw
-          receipt={'state':state,'sha256':sha(raw),'readback_equal':True,'duplicate_create_rejected':True,'generation_calls':0,'generation_runner_tested':False,'reason':'sample gate failed before activation'}
-          print('SCREEN80_RECEIPT='+json.dumps(receipt,sort_keys=True))
-          PY
+      - name: Read existing objects only
+        run: python3 experiments/gemini-deep500/recover_readonly.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deep500-recovery-encrypted
+          path: ${{ runner.temp }}/deep500-recovery.p7m
+          retention-days: 3
+          if-no-files-found: error
