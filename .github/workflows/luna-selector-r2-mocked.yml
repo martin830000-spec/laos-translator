@@ -35,3 +35,5 @@ jobs:
           path: luna-integrated-mock-results/
           retention-days: 3
           if-no-files-found: ignore
+
+# Mock-only rerun after dismissing the existing release-notice overlay in the browser driver.
