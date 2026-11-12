@@ -1,0 +1,68 @@
+"""All browser HTTP requests are fulfilled from local fixtures or synthetic mocks. No real API calls."""
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+import json,os,shutil,re,mimetypes
+from urllib.parse import urlparse,unquote
+ROOT=Path(os.environ.get('LUNA_APP_ROOT','.')).resolve();OUT=Path(os.environ.get('LUNA_TEST_OUTPUT','luna-browser-results')).resolve();OUT.mkdir(exist_ok=True)
+calls=[];blocked=[];errors=[];mode={'response':'success'}
+P=json.loads(re.search(r'Object.freeze\((.*)\);',(ROOT/'luna-base-prompts.js').read_text()).group(1))
+def prompt_path(ins):
+ for k,v in P.items():
+  if ins==v:return k
+ return 'UNKNOWN'
+def event(x):return 'data: '+json.dumps(x,ensure_ascii=False)+'\n\n'
+def route(r):
+ req=r.request;url=req.url
+ if url.startswith('https://martin830000-spec.github.io/laos-translator/'):
+  relative=unquote(urlparse(url).path[len('/laos-translator/'):]) or 'index.html'
+  f=(ROOT/relative).resolve()
+  if not f.is_relative_to(ROOT) or not f.is_file():return r.fulfill(status=404,body='not found')
+  return r.fulfill(status=200,content_type=mimetypes.guess_type(str(f))[0] or 'application/octet-stream',body=f.read_bytes())
+ if url=='https://api.openai.com/v1/responses':
+  body=req.post_data_json;kind=prompt_path(body['instructions']);calls.append({'body':body,'path':kind,'key_present':req.headers.get('authorization','').startswith('Bearer sk-'),'endpoint':url})
+  if mode['response']=='401':return r.fulfill(status=401,content_type='application/json',body='{"error":{"message":"mock unauthorized"}}',headers={'Access-Control-Allow-Origin':'*'})
+  text={'KF':'ສະບາຍດີ ທີ່ຮັກ🙂','KB':'안녕 자기야🙂','LF':'오늘은 집에서 쉴게.','LB':'ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.'}.get(kind,'UNKNOWN')
+  s=event({'type':'response.output_text.delta','delta':text[:4]})+event({'type':'response.output_text.delta','delta':text[4:]})+event({'type':'response.output_text.done','text':text})
+  if mode['response']!='incomplete':s+=event({'type':'response.completed','response':{'status':'completed','model':'gpt-6-luna','id':'resp_mock_'+str(len(calls)),'output':[{'type':'message','content':[{'type':'output_text','text':text}]}],'usage':{'input_tokens':100,'output_tokens':20,'total_tokens':120}}})
+  return r.fulfill(status=200,content_type='text/event-stream',body=s,headers={'Access-Control-Allow-Origin':'*'})
+ blocked.append({'url':url.split('?')[0],'method':req.method})
+ if 'fonts.' in url or 'cdn' in url:return r.abort()
+ return r.fulfill(status=200,content_type='application/json',body='{"ok":true,"records":[],"items":[]}',headers={'Access-Control-Allow-Origin':'*'})
+with sync_playwright() as p:
+ browser=p.chromium.launch(executable_path=shutil.which('google-chrome') or shutil.which('chromium'),headless=True,args=['--no-sandbox'])
+ context=browser.new_context(viewport={'width':430,'height':932},service_workers='block');context.route('**/*',route)
+ page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.dismiss())
+ page.goto('https://martin830000-spec.github.io/laos-translator/?model=luna',wait_until='domcontentloaded');page.wait_for_function('window.LunaTest && LunaTest.keyStatus()');page.evaluate('LunaTest.ready')
+ print('ready',page.evaluate('LunaTest.keyStatus()'),page.evaluate('getUnifiedPromptConfigStatus()'),flush=True)
+ page.evaluate('LunaTest.openSettings()');page.locator('#unifiedPrimaryInput').fill('mock-gemini-key-unused');page.locator('#unifiedGptInput').fill('sk-testLOCALONLY0000000000000000000000000000000000');page.get_by_role('button',name='저장 · ບັນທຶກ').click();page.wait_for_function('LunaTest.keyStatus().stored');assert len(calls)==0
+ print('saved',flush=True)
+ assert 'sk-testLOCALONLY' not in page.evaluate('JSON.stringify(localStorage)')
+ vault=page.evaluate("""async()=>{const db=await new Promise((a,b)=>{const r=indexedDB.open('ko_lao_luna_test_v1');r.onsuccess=()=>a(r.result);r.onerror=b});const r=await new Promise((a,b)=>{const q=db.transaction('vault').objectStore('vault').get('credential');q.onsuccess=()=>a(q.result);q.onerror=b});return {extractable:r.cryptoKey.extractable,alg:r.cryptoKey.algorithm.name,cipher:r.cipher.byteLength}}""")
+ assert vault['extractable']==False and vault['alg']=='AES-GCM'
+ assert page.evaluate('startUnifiedTranslator()')==True;page.evaluate("selectMode('husband')")
+ page.wait_for_function("document.getElementById('husbandFrame').contentWindow.document.getElementById('krInput') && typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
+ hf=page.locator('#husbandFrame').content_frame
+ hf.locator('#krInput').fill('안녕 자기야🙂');hf.locator('#translateBtn').click()
+ try:page.wait_for_function("document.getElementById('husbandFrame').contentWindow.document.getElementById('backResult').innerText.includes('안녕 자기야')",timeout=10000)
+ except Exception:
+  print('FAIL',calls,'errors',errors,flush=True);print(hf.locator('body').inner_text()[-5000:],flush=True);page.screenshot(path=str(OUT/'failure.png'));raise
+ assert [x['path'] for x in calls]==['KF','KB'],calls
+ assert calls[1]['body']['input']=='ສະບາຍດີ ທີ່ຮັກ🙂';assert calls[0]['body']['input']=='안녕 자기야🙂'
+ print('husband PASS',len(calls),flush=True);page.screenshot(path=str(OUT/'husband.png'),full_page=True)
+ page.evaluate("selectMode('wife')");page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('loInput') && typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
+ wf=page.locator('#wifeFrame').content_frame;wf.locator('#loInput').fill('ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.');wf.locator('#translateBtn').click();page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('backResult').innerText.includes('ມື້ນີ້')",timeout=10000)
+ assert [x['path'] for x in calls]==['KF','KB','LF','LB'];assert calls[3]['body']['input']=='오늘은 집에서 쉴게.'
+ page.screenshot(path=str(OUT/'wife.png'),full_page=True);print('wife PASS',flush=True)
+ before=len(calls);clean=page.evaluate("document.getElementById('wifeFrame').contentWindow.coupleVoiceCleanupTranscript('ສະບາຍດີ','lo',{})");assert len(calls)==before;print('no hidden cleanup PASS',clean,flush=True)
+ assert 'sk-testLOCALONLY' not in page.evaluate("document.getElementById('wifeFrame').srcdoc")
+ logs=page.evaluate("""async()=>{const db=await new Promise(a=>{const r=indexedDB.open('ko_lao_luna_test_v1');r.onsuccess=()=>a(r.result)});return new Promise(a=>{const r=db.transaction('records').objectStore('records').getAll();r.onsuccess=()=>a(r.result)})}""")
+ assert len(logs)==2 and all(x['status']=='COMPLETE' for x in logs);assert 'sk-testLOCALONLY' not in json.dumps(logs);print('records PASS',flush=True)
+ page.reload(wait_until='domcontentloaded');page.evaluate('LunaTest.ready');assert page.evaluate('LunaTest.keyStatus().stored');assert len(calls)==4;print('reload persistence PASS',flush=True)
+ page.evaluate('LunaTest.openSettings()');assert page.locator('#unifiedGptInput').input_value()=='';page.evaluate('LunaTest.closeSettings()')
+ page.evaluate('startUnifiedTranslator()');page.evaluate("selectMode('husband')");page.wait_for_function("typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
+ hf=page.locator('#husbandFrame').content_frame;mode['response']='401';hf.locator('#krInput').fill('오류 검사');hf.locator('#translateBtn').click();page.wait_for_function("!document.getElementById('serverSetupOverlay').classList.contains('hidden')");page.wait_for_timeout(500);assert len(calls)==5;print('401 no fallback/retry/back PASS',flush=True)
+ page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#translateBtn').click();page.wait_for_timeout(1000);assert len(calls)==6;print('incomplete no BACK/retry PASS',flush=True)
+ generation_elsewhere=[x for x in blocked if any(y in x['url'] for y in ['generateContent','gemini/generate','completions'])];assert not generation_elsewhere,generation_elsewhere
+ page.evaluate('LunaTest.openSettings()');page.get_by_role('button',name='GPT 키 삭제').click();page.wait_for_function('!LunaTest.keyStatus().stored');assert len(calls)==6;print('delete key PASS',flush=True)
+ (OUT/'browser-results.json').write_text(json.dumps({'status':'PASS','mock_calls':len(calls),'actual_model_calls':0,'checks':['four-path requests','first-only BACK','encrypted persistence','reload','key deletion','401 no fallback/retry','incomplete no BACK','no cleanup generation','key absent exports/srcdoc/localStorage'],'vault':vault,'browser_errors':errors,'blocked_external_requests':blocked},ensure_ascii=False,indent=2))
+ print('errors',errors,flush=True);browser.close()
