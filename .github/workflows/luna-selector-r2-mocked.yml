@@ -19,6 +19,7 @@ jobs:
           node-version: '22'
       - name: Verify current TEST JS and frozen four-path prompts
         run: |
+          python3 -m py_compile scripts/luna-base/browser_test_integrated.py
           python3 scripts/luna-base/check_scripts.py .
           node --test tests/luna-base-core.test.cjs
       - name: Install mocked browser driver (no credentials)
@@ -43,3 +44,5 @@ jobs:
 # Final mock pass: dismiss app-level expected error dialog before testing key deletion.
 
 # Report only nonsecret status after key save to isolate intermittent mock timing.
+
+# Check Python syntax before browser mock.
