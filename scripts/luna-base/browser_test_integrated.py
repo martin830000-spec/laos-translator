@@ -66,5 +66,19 @@ with sync_playwright() as p:
  page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_timeout(1000);assert len(calls)==6;print('incomplete no BACK/retry PASS',flush=True)
  generation_elsewhere=[x for x in blocked if any(y in x['url'] for y in ['generateContent','gemini/generate','completions'])];assert not generation_elsewhere,generation_elsewhere
  page.evaluate("document.getElementById('unifiedCustomDialog')?.style.setProperty('display','none','important')");page.evaluate('LunaTest.openSettings()');page.get_by_role('button',name='GPT 키 삭제').click();page.wait_for_function('!LunaTest.keyStatus().stored');assert len(calls)==6;print('delete key PASS',flush=True)
- (OUT/'browser-results.json').write_text(json.dumps({'status':'PASS','mock_calls':len(calls),'actual_model_calls':0,'checks':['four-path requests','first-only BACK','encrypted persistence','reload','key deletion','401 no fallback/retry','incomplete no BACK','no cleanup generation','key absent exports/srcdoc/localStorage'],'vault':vault,'browser_errors':errors,'blocked_external_requests':blocked},ensure_ascii=False,indent=2))
+ # Existing Gemini options must remain selectable without invoking the Luna provider.
+ page.goto('https://martin830000-spec.github.io/laos-translator/?model=38',wait_until='domcontentloaded')
+ page.wait_for_function("window.__TEST_MODEL_CHOICE__==='38'")
+ assert page.evaluate("window.__TEST_FORWARD_MODEL__")=='gemini-3.8-flash'
+ assert page.evaluate("window.__TEST_BACK_MODEL__")=='gemini-3.8-flash'
+ page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')")
+ page.evaluate("document.getElementById('testEngineModal').hidden=false")
+ page.locator('[data-test-engine="31"]').click()
+ page.wait_for_function("window.__TEST_MODEL_CHOICE__==='31'")
+ assert page.evaluate("window.__TEST_FORWARD_MODEL__")=='gemini-3.1-flash-lite'
+ assert page.evaluate("window.__TEST_BACK_MODEL__")=='gemini-3.1-flash-lite'
+ assert page.evaluate("localStorage.getItem('ko_lao_test_engine_choice_v1')")=='31'
+ assert len(calls)==6
+ print('Gemini 3.8 and 3.1 selector continuity PASS',flush=True)
+ (OUT/'browser-results.json').write_text(json.dumps({'status':'PASS','mock_calls':len(calls),'actual_model_calls':0,'checks':['four-path requests','first-only BACK','encrypted persistence','reload','key deletion','401 no fallback/retry','incomplete no BACK','no cleanup generation','key absent exports/srcdoc/localStorage','Gemini 3.8 and 3.1 selector continuity'],'vault':vault,'browser_errors':errors,'blocked_external_requests':blocked},ensure_ascii=False,indent=2))
  print('errors',errors,flush=True);browser.close()
