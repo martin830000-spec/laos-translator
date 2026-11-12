@@ -1,0 +1,12 @@
+{
+  "approved_total": 80,
+  "campaign": "GPT_LUNA_M1_GD_HEADTOHEAD80_20261112",
+  "enabled": false,
+  "max_new": 0,
+  "mode": "PREFLIGHT",
+  "owner_token": "67d804cb-2c4e-45dc-b29e-4668f788939f",
+  "preflight_code_sha256": "d537bafc930c44334c3efee9f1c685d744e1638f8067d071129dd4d416371d96",
+  "prior_reserved": 0,
+  "probe_sha256": "fd51f8da32e063f27ed16c494307edcb38ac6af39a81292cc22d9681c34a7a3e",
+  "status": "PREFLIGHT_LOCKED"
+}
