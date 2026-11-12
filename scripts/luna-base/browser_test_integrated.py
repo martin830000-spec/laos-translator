@@ -34,7 +34,9 @@ with sync_playwright() as p:
  page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.dismiss())
  page.goto('https://martin830000-spec.github.io/laos-translator/?model=luna',wait_until='domcontentloaded');page.wait_for_function('window.LunaTest && LunaTest.keyStatus()');page.evaluate('LunaTest.ready');page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')")
  print('ready',page.evaluate('LunaTest.keyStatus()'),page.evaluate('getUnifiedPromptConfigStatus()'),flush=True)
- page.evaluate('LunaTest.openSettings()');page.locator('#unifiedPrimaryInput').fill('mock-gemini-key-unused');page.locator('#unifiedGptInput').fill('sk-testLOCALONLY0000000000000000000000000000000000');page.get_by_role('button',name='저장 · ບັນທຶກ').click();page.wait_for_function('LunaTest.keyStatus().stored');assert len(calls)==0
+ page.evaluate('LunaTest.openSettings()');page.locator('#unifiedPrimaryInput').fill('mock-gemini-key-unused');page.locator('#unifiedGptInput').fill('sk-testLOCALONLY0000000000000000000000000000000000');page.get_by_role('button',name='저장 · ບັນທຶກ').click();page.wait_for_timeout(1500)
+print('after-save',page.evaluate("""() => ({stored:LunaTest.keyStatus(),hint:document.getElementById('serverSetupHint')?.textContent,gptStatus:document.getElementById('unifiedGptStatus')?.textContent,primaryStored:!!localStorage.getItem('translator_primary_password'),location:location.pathname})"""),flush=True)
+page.wait_for_function('LunaTest.keyStatus().stored',timeout=7000);assert len(calls)==0
  print('saved',flush=True)
  assert 'sk-testLOCALONLY' not in page.evaluate('JSON.stringify(localStorage)')
  vault=page.evaluate("""async()=>{const db=await new Promise((a,b)=>{const r=indexedDB.open('ko_lao_luna_test_v1');r.onsuccess=()=>a(r.result);r.onerror=b});const r=await new Promise((a,b)=>{const q=db.transaction('vault').objectStore('vault').get('credential');q.onsuccess=()=>a(q.result);q.onerror=b});return {extractable:r.cryptoKey.extractable,alg:r.cryptoKey.algorithm.name,cipher:r.cipher.byteLength}}""")
