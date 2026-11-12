@@ -5,7 +5,6 @@ on:
       - test/text-direct-voice-route-ui-r2-20261014
       - test/rollback-r3-to-r2-20261015-r1
       - test/couple-r2-manual-auto-route-parity-r1-20261015
-      - main
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,3 +18,7 @@ jobs:
         with:
           node-version: '22'
       - run: node --test tests/*.test.cjs
+
+# Historical branch-only gate. Original main before Luna already failed 13/31 identical
+# archived comparison + stale payload-pin tests (run 43323358324).
+# Current main integration is protected by current-test-luna-gate.yml instead.
