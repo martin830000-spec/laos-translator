@@ -1,0 +1,37 @@
+name: Luna TEST integrated selector mock verification (no paid API)
+on:
+  push:
+    branches: [test/luna-base-selector-integrated-r2-20261113]
+    paths: [.github/workflows/luna-selector-r2-mocked.yml]
+permissions:
+  contents: read
+jobs:
+  mock:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify current TEST JS and frozen four-path prompts
+        run: |
+          python3 scripts/luna-base/check_scripts.py .
+          node --test tests/luna-base-core.test.cjs
+      - name: Install mocked browser driver (no credentials)
+        run: python3 -m pip install --quiet playwright==1.57.0
+      - name: Run integrated app with only synthetic model mocks
+        env:
+          LUNA_APP_ROOT: .
+          LUNA_TEST_OUTPUT: luna-integrated-mock-results
+        run: python3 scripts/luna-base/browser_test_integrated.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: luna-integrated-mock-results
+          path: luna-integrated-mock-results/
+          retention-days: 3
+          if-no-files-found: ignore
