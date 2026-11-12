@@ -1,27 +1,84 @@
 {
+  "KB_new_calls": 0,
+  "KF_new_calls": 0,
+  "actual": 72,
   "approved_total": 80,
-  "backup_receipt_object": "gates/CLOSE.json",
-  "backup_receipt_sha256": "aeefe516463bdb70dd9da4ebe47bc03e5e1a8ddb8cc7affca91d67a796d678df",
-  "backup_verified": true,
+  "authoritative_gcs_prefix": "research/gemini-model-native500-20261107/gpt-luna-m1-gd-headtohead80-20261112/",
+  "authoritative_state_object": "states/CLOSED_LOCKED.json",
+  "authoritative_state_sha256": "424ffee4ce4a0753772061c1616817744edc6565be78f09a0d3bb143d6427430",
   "campaign": "GPT_LUNA_M1_GD_HEADTOHEAD80_20261112",
-  "code_sha256": {
-    "contract.py": "c9bfe8c752ff31777ac3913d155ef5bc8aa79310615c03e9c05d62a1f4873c97",
-    "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
-    "runner.py": "1e12dcb217d87c57d45b3142e9c6768fe472e91a6fe1d45725b834a74388e3f2"
-  },
-  "deadline_epoch": 1794485405,
+  "commit": "b6ee6cf5f33555cfd2f1f7902b8bd996e9202163",
   "enabled": false,
-  "freeze_sha256": "d0900d09ef38e36dac199582e39fac222f2da4507d7d2da9654bb1dc64be51be",
+  "evaluation_report_sha256": "b295be8d57a72f6f3d1150d737d5ea226912390bac7e381b6441a2983c61d470",
+  "evaluation_sha256": "8d15eab997ab48a7571fa5ed093eddb7f8ccfcf8774f882a438ebc7481ece43d",
+  "failed": 0,
+  "generation_calls": 0,
+  "hard_stage_caps": {
+    "A": 24,
+    "B": 24,
+    "C": 32
+  },
+  "ledger_resolved": true,
   "max_new": 0,
-  "mode": "CLOSE",
+  "mode": "CLOSED",
+  "no_additional_execution_authorized": true,
   "owner_token": "67d804cb-2c4e-45dc-b29e-4668f788939f",
-  "package_sha256": "eebded8f8ed914d9f445a0489f39746c036a117e39c03563dec04b8c8b71003c",
-  "phase": "C",
-  "plan_sha256": "d12d7805492c0c62220b8cd026fb41fa3f2785d3fbff0e4ed2f8092dee0512b0",
-  "preflight_object": "preflight/PREFLIGHT.json",
-  "preflight_sha256": "4cdff35096b2349a6e4440cd4d88e6b1001641316f0f3bfd2ae04b1e5ed27958",
-  "previous_phase": "C",
-  "prior_reserved": 72,
-  "prompts_sha256": "054d9b8aa61bf2ff2d84dfa852119fbeac47dc92a65b6142a913f4550d793c86",
-  "source_sha256": "2f3dd449f811fe1d14d6a50d256bfd50d8b59f1b766a576dd11544ec2df184b2"
+  "protected_older_campaigns": {
+    "GPT_LUNA_GD_REALCHAT80_20261112": {
+      "actual": 68,
+      "status": "CLOSED_LOCKED",
+      "unused_locked": 12
+    },
+    "GPT_LUNA_GD_SCOPE_SCREEN80_20261112": {
+      "actual": 0,
+      "status": "PAUSED_LOCKED",
+      "unused_locked": 80
+    }
+  },
+  "research_complete": true,
+  "reserved": 72,
+  "reserved_total": 72,
+  "retries": 0,
+  "run": "43198051311",
+  "service_application_approved": false,
+  "stage_caps": {
+    "A": 20,
+    "B": 20,
+    "C": 32
+  },
+  "stage_counts": {
+    "A": {
+      "failed": 0,
+      "reserved": 20,
+      "success": 20,
+      "transmitted_recorded": 20,
+      "unknown": 0
+    },
+    "B": {
+      "failed": 0,
+      "reserved": 20,
+      "success": 20,
+      "transmitted_recorded": 20,
+      "unknown": 0
+    },
+    "C": {
+      "failed": 0,
+      "reserved": 32,
+      "success": 32,
+      "transmitted_recorded": 32,
+      "unknown": 0
+    }
+  },
+  "status": "CLOSED_LOCKED",
+  "success": 72,
+  "transmitted_attempts_recorded": 72,
+  "unknown": 0,
+  "unused_by_hard_stage_cap": {
+    "A": 4,
+    "B": 4,
+    "C": 0
+  },
+  "unused_locked": 8,
+  "workflow_restore_blob": "3ad897d4ef1c1005199b8407e54b0ce20d275563",
+  "workflow_restore_sha256": "38e250e8c8f9d24bcbe08c15807aec2b14a50d0685ff11880bec329206ef8b50"
 }
