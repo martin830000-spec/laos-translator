@@ -41,3 +41,5 @@ jobs:
 # Mock browser exercises translation method after mobile keyboard focus is released.
 
 # Final mock pass: dismiss app-level expected error dialog before testing key deletion.
+
+# Report only nonsecret status after key save to isolate intermittent mock timing.
