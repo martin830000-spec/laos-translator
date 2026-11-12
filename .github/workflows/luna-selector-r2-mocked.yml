@@ -37,3 +37,5 @@ jobs:
           if-no-files-found: ignore
 
 # Mock-only rerun after dismissing the existing release-notice overlay in the browser driver.
+
+# Mock browser exercises translation method after mobile keyboard focus is released.
