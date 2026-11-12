@@ -1,0 +1,45 @@
+name: Active Couple TEST app — Gemini selectors and Luna BASE guard
+on:
+  push:
+    branches:
+      - main
+      - test/luna-base-active-gate-20261113
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: current-test-luna-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  current-test:
+    if: github.repository == 'martin830000-spec/laos-translator'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Current TEST UI and frozen nested script syntax
+        run: |
+          python3 -m py_compile scripts/luna-base/browser_test_integrated.py
+          python3 scripts/luna-base/check_scripts.py .
+          node tests/luna-active-test-gate.cjs
+      - name: Frozen Luna request, stream, independent BACK tests
+        run: node --test tests/luna-base-core.test.cjs
+      - name: Install mocked browser driver only (no API keys)
+        run: python3 -m pip install --quiet playwright==1.57.0
+      - name: Existing TEST screens and all 3 engine selectors: mocked browser
+        env:
+          LUNA_APP_ROOT: .
+          LUNA_TEST_OUTPUT: luna-current-test-results
+        run: python3 scripts/luna-base/browser_test_integrated.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: current-test-luna-mocked-evidence
+          path: luna-current-test-results/
+          retention-days: 5
+          if-no-files-found: ignore
