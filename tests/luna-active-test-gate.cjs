@@ -19,8 +19,8 @@ assert(luna.includes('automaticProviderFallback:false')&&luna.includes('automati
 assert(core.includes('store:false')&&core.includes("reasoning:{effort:'none'}"),'Frozen Luna generation settings changed');
 assert(html.includes('gemini-3.1-flash-lite')&&html.includes('gemini-3.8-flash'),'Existing Gemini choices missing');
 const original={
- husband:{encodedChars:512183,attr:'38ab7fe6b0e6bb59fe7b423e96bc850c213d6f8bb309a1d30086ec22d9572533'},
- wife:{encodedChars:521346,attr:'f6a92a06cf9c8a8873b5bee1c0f43f3be8704fa1059eeb631abc6d863a1eff93'}
+ husband:{encodedChars:512183,attr:'38ab7fe6b0e6bb59fe7b423e96bc850c213d6f8bb309a1d30086ec22d9572533',sha256:'766948c0db48bda34f1f269b09f12557f3df3544b73370d9e70df0482eaa666b'},
+ wife:{encodedChars:521346,attr:'f6a92a06cf9c8a8873b5bee1c0f43f3be8704fa1059eeb631abc6d863a1eff93',sha256:'cf727e22db453681307eaa1154cac4c9d517548b2fee671430615d99d27e6e10'}
 };
 const hashes={};
 for(const [mode,pin] of Object.entries(original)){
@@ -29,6 +29,7 @@ for(const [mode,pin] of Object.entries(original)){
  assert.equal(m[1],pin.attr,'Embedded '+mode+' source ID changed');
  assert.equal(m[2].length,pin.encodedChars,'Embedded '+mode+' code length changed');
  hashes[mode]=crypto.createHash('sha256').update(m[2],'utf8').digest('hex');
+ assert.equal(hashes[mode],pin.sha256,'Frozen '+mode+' embedded application source changed');
 }
 assert(!html.includes('sk-testLOCALONLY'),'Mock credentials cannot ship to TEST app');
 const hash=crypto.createHash('sha256').update(prompts,'utf8').digest('hex');
