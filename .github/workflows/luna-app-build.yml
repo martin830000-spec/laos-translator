@@ -1,0 +1,68 @@
+name: Luna BASE TEST build and mocked browser checks
+on:
+  push:
+    branches: [test/luna-base-app-20261112]
+    paths: [.github/workflows/luna-app-build.yml]
+permissions:
+  contents: write
+concurrency:
+  group: luna-base-app-build-20261112
+  cancel-in-progress: false
+jobs:
+  verify-build:
+    if: github.repository == 'martin830000-spec/laos-translator' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply pinned TEST-only integration
+        run: python3 scripts/luna-base/patch_luna_app.py .
+      - name: Syntax and exact frozen contract tests
+        run: |
+          python3 scripts/luna-base/check_scripts.py .
+          node --test tests/luna-base-core.test.cjs
+      - name: Install browser test driver (no model keys)
+        run: python3 -m pip install --quiet playwright==1.57.0
+      - name: Browser requests are all mocked; never calls a model endpoint
+        env:
+          LUNA_APP_ROOT: .
+          LUNA_TEST_OUTPUT: luna-browser-results
+        run: python3 scripts/luna-base/browser_test.py
+      - name: Verify exact changed-file allowlist and commit generated TEST app
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          changed=set(subprocess.check_output(['git','diff','--name-only']).decode().splitlines())
+          assert changed=={'index.html','version.json'},changed
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- index.html version.json
+          git commit -m 'test: integrate Luna BASE optional engine and persistent personal GPT key'
+          git push origin HEAD:refs/heads/test/luna-base-app-20261112
+      - name: Archive exact generated TEST files and verification outputs
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib,hashlib,json,zipfile,subprocess
+          names=['index.html','version.json','luna-core.js','luna-base-prompts.js','luna-base-test.js']
+          names += [str(p) for p in pathlib.Path('luna-browser-results').glob('*') if p.is_file()]
+          files={p:{'bytes':pathlib.Path(p).stat().st_size,'sha256':hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()} for p in names}
+          manifest={'files':files,'commit':subprocess.check_output(['git','rev-parse','HEAD']).decode().strip(),'model_generation_calls':0,'test_mode':'MOCKED_ONLY'}
+          with zipfile.ZipFile('luna-test-build.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in names:z.write(p,p)
+              z.writestr('BUILD_MANIFEST.json',json.dumps(manifest,indent=2))
+          print('Artifact has no API credentials. Vendor generation calls: 0')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: luna-test-build-verified
+          path: luna-test-build.zip
+          retention-days: 7
+          if-no-files-found: error
