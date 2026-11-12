@@ -26,19 +26,19 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - name: Verify offline safety guards
         run: python3 -m unittest discover -s experiments/gpt-luna-m1-gd-headtohead80 -p test_guards.py
-      - name: M1_HEADTOHEAD80 C STAGE
-        run: python3 experiments/gpt-luna-m1-gd-headtohead80/runner.py STAGE
-      - name: M1_HEADTOHEAD80 C EXECUTE
-        run: python3 experiments/gpt-luna-m1-gd-headtohead80/runner.py EXECUTE
-        env:
-          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+      - name: M1_HEADTOHEAD80 CLOSE INGEST_CLOSE
+        run: python3 experiments/gpt-luna-m1-gd-headtohead80/runner.py INGEST_CLOSE
+      - name: M1_HEADTOHEAD80 CLOSE CLOSE
+        run: python3 experiments/gpt-luna-m1-gd-headtohead80/runner.py CLOSE
+      - name: Recheck protected and terminal authorities
+        run: python3 experiments/gpt-luna-m1-gd-headtohead80/final_controls_check.py
       - name: Export encrypted private evidence
         if: always()
         run: python3 experiments/gpt-luna-m1-gd-headtohead80/runner.py EXPORT
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: m1-headtohead80-C-encrypted
+          name: m1-headtohead80-CLOSE-encrypted
           path: ${{ runner.temp }}/m1-headtohead80-export.p7m
           retention-days: 3
           if-no-files-found: error
