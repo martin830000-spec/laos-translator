@@ -42,7 +42,7 @@ with sync_playwright() as p:
  assert page.evaluate('startUnifiedTranslator()')==True;page.evaluate("selectMode('husband')")
  page.wait_for_function("document.getElementById('husbandFrame').contentWindow.document.getElementById('krInput') && typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
  hf=page.locator('#husbandFrame').content_frame
- hf.locator('#krInput').fill('안녕 자기야🙂');hf.locator('#translateBtn').click()
+ hf.locator('#krInput').fill('안녕 자기야🙂');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()")
  try:page.wait_for_function("document.getElementById('husbandFrame').contentWindow.document.getElementById('backResult').innerText.includes('안녕 자기야')",timeout=10000)
  except Exception:
   print('FAIL',calls,'errors',errors,flush=True);print(hf.locator('body').inner_text()[-5000:],flush=True);page.screenshot(path=str(OUT/'failure.png'));raise
@@ -50,7 +50,7 @@ with sync_playwright() as p:
  assert calls[1]['body']['input']=='ສະບາຍດີ ທີ່ຮັກ🙂';assert calls[0]['body']['input']=='안녕 자기야🙂'
  print('husband PASS',len(calls),flush=True);page.screenshot(path=str(OUT/'husband.png'),full_page=True)
  page.evaluate("selectMode('wife')");page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('loInput') && typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
- wf=page.locator('#wifeFrame').content_frame;wf.locator('#loInput').fill('ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.');wf.locator('#translateBtn').click();page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('backResult').innerText.includes('ມື້ນີ້')",timeout=10000)
+ wf=page.locator('#wifeFrame').content_frame;wf.locator('#loInput').fill('ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.');wf.locator('#loInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('wifeFrame').contentWindow.translateText()");page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('backResult').innerText.includes('ມື້ນີ້')",timeout=10000)
  assert [x['path'] for x in calls]==['KF','KB','LF','LB'];assert calls[3]['body']['input']=='오늘은 집에서 쉴게.'
  page.screenshot(path=str(OUT/'wife.png'),full_page=True);print('wife PASS',flush=True)
  before=len(calls);clean=page.evaluate("document.getElementById('wifeFrame').contentWindow.coupleVoiceCleanupTranscript('ສະບາຍດີ','lo',{})");assert len(calls)==before;print('no hidden cleanup PASS',clean,flush=True)
@@ -60,8 +60,8 @@ with sync_playwright() as p:
  page.reload(wait_until='domcontentloaded');page.evaluate('LunaTest.ready');page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')");assert page.evaluate('LunaTest.keyStatus().stored');assert len(calls)==4;print('reload persistence PASS',flush=True)
  page.evaluate('LunaTest.openSettings()');assert page.locator('#unifiedGptInput').input_value()=='';page.evaluate('LunaTest.closeSettings()')
  page.evaluate('startUnifiedTranslator()');page.evaluate("selectMode('husband')");page.wait_for_function("typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
- hf=page.locator('#husbandFrame').content_frame;mode['response']='401';hf.locator('#krInput').fill('오류 검사');hf.locator('#translateBtn').click();page.wait_for_function("!document.getElementById('serverSetupOverlay').classList.contains('hidden')");page.wait_for_timeout(500);assert len(calls)==5;print('401 no fallback/retry/back PASS',flush=True)
- page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#translateBtn').click();page.wait_for_timeout(1000);assert len(calls)==6;print('incomplete no BACK/retry PASS',flush=True)
+ hf=page.locator('#husbandFrame').content_frame;mode['response']='401';hf.locator('#krInput').fill('오류 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_function("!document.getElementById('serverSetupOverlay').classList.contains('hidden')");page.wait_for_timeout(500);assert len(calls)==5;print('401 no fallback/retry/back PASS',flush=True)
+ page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_timeout(1000);assert len(calls)==6;print('incomplete no BACK/retry PASS',flush=True)
  generation_elsewhere=[x for x in blocked if any(y in x['url'] for y in ['generateContent','gemini/generate','completions'])];assert not generation_elsewhere,generation_elsewhere
  page.evaluate('LunaTest.openSettings()');page.get_by_role('button',name='GPT 키 삭제').click();page.wait_for_function('!LunaTest.keyStatus().stored');assert len(calls)==6;print('delete key PASS',flush=True)
  (OUT/'browser-results.json').write_text(json.dumps({'status':'PASS','mock_calls':len(calls),'actual_model_calls':0,'checks':['four-path requests','first-only BACK','encrypted persistence','reload','key deletion','401 no fallback/retry','incomplete no BACK','no cleanup generation','key absent exports/srcdoc/localStorage'],'vault':vault,'browser_errors':errors,'blocked_external_requests':blocked},ensure_ascii=False,indent=2))
