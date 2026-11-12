@@ -1,4 +1,5 @@
 {
+  "actual_generation_attempts": 68,
   "approved_total": 80,
   "backup_receipt_object": "gates/CLOSE.json",
   "backup_receipt_sha256": "3c4122c016a3f35b4089496b0d7a55312335ead4e36e74def5bbd22c615feb1b",
@@ -9,11 +10,23 @@
     "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
     "runner.py": "fa88dc6139b9d53bb6913b50a54bfd2a8f4504832b0b575e1a6214b396928273"
   },
-  "deadline_epoch": 1794474904,
+  "commit": "8ba629de6a6b4d4cc47838a9ed7e4679ed726b6b",
+  "deadline_epoch": 0,
   "enabled": false,
+  "failed": 0,
   "freeze_sha256": "785b2de79125b1ee25ba660ca0c82aa781bba4c1ca6ca3e9277e929a721b78a9",
+  "gcs_terminal_state_object": "states/CLOSED_LOCKED.json",
+  "gcs_terminal_state_sha256": "d8b41bda835e084a965ff035f4a1e412ccb337c2a57629d325cdfad4c42b50a2",
+  "generation_calls": 0,
+  "hard_stage_caps": {
+    "A": 36,
+    "B": 12,
+    "C": 24,
+    "D": 8
+  },
+  "ledger_resolved": true,
   "max_new": 0,
-  "mode": "CLOSE",
+  "mode": "CLOSED_LOCKED",
   "owner_token": "2f7101f7-ef27-431a-a630-adc26d53110c",
   "package_sha256": "8fb296ca42fb736e83e214f7663f4160767a9d355b953f9913019c20acae5a86",
   "phase": "D",
@@ -23,5 +36,49 @@
   "previous_phase": "D",
   "prior_reserved": 68,
   "prompts_sha256": "916f7e20adf238a3dbe6691ec5194022bad197b53ab54a0333d6118d18750f67",
-  "source_sha256": "9b266be367adaab07909b2b277894116b28d5a36d82c0f87d339f33f937e8f9d"
+  "research_complete": true,
+  "reserved_total": 68,
+  "run": "43173878183",
+  "source_sha256": "9b266be367adaab07909b2b277894116b28d5a36d82c0f87d339f33f937e8f9d",
+  "stage_caps": {
+    "A": 27,
+    "B": 9,
+    "C": 24,
+    "D": 8
+  },
+  "stage_counts": {
+    "A": {
+      "failed": 0,
+      "reserved": 27,
+      "success": 27,
+      "transmitted_recorded": 27,
+      "unknown": 0
+    },
+    "B": {
+      "failed": 0,
+      "reserved": 9,
+      "success": 9,
+      "transmitted_recorded": 9,
+      "unknown": 0
+    },
+    "C": {
+      "failed": 0,
+      "reserved": 24,
+      "success": 24,
+      "transmitted_recorded": 24,
+      "unknown": 0
+    },
+    "D": {
+      "failed": 0,
+      "reserved": 8,
+      "success": 8,
+      "transmitted_recorded": 8,
+      "unknown": 0
+    }
+  },
+  "status": "CLOSED_LOCKED",
+  "success": 68,
+  "unknown": 0,
+  "unused_locked": 12,
+  "unused_reservations_remain_locked": true
 }
