@@ -32,7 +32,7 @@ with sync_playwright() as p:
  browser=p.chromium.launch(executable_path=shutil.which('google-chrome') or shutil.which('chromium'),headless=True,args=['--no-sandbox'])
  context=browser.new_context(viewport={'width':430,'height':932},service_workers='block');context.route('**/*',route)
  page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:errors.append(str(e)));page.on('dialog',lambda d:d.dismiss())
- page.goto('https://martin830000-spec.github.io/laos-translator/?model=luna',wait_until='domcontentloaded');page.wait_for_function('window.LunaTest && LunaTest.keyStatus()');page.evaluate('LunaTest.ready')
+ page.goto('https://martin830000-spec.github.io/laos-translator/?model=luna',wait_until='domcontentloaded');page.wait_for_function('window.LunaTest && LunaTest.keyStatus()');page.evaluate('LunaTest.ready');page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')")
  print('ready',page.evaluate('LunaTest.keyStatus()'),page.evaluate('getUnifiedPromptConfigStatus()'),flush=True)
  page.evaluate('LunaTest.openSettings()');page.locator('#unifiedPrimaryInput').fill('mock-gemini-key-unused');page.locator('#unifiedGptInput').fill('sk-testLOCALONLY0000000000000000000000000000000000');page.get_by_role('button',name='저장 · ບັນທຶກ').click();page.wait_for_function('LunaTest.keyStatus().stored');assert len(calls)==0
  print('saved',flush=True)
@@ -57,7 +57,7 @@ with sync_playwright() as p:
  assert 'sk-testLOCALONLY' not in page.evaluate("document.getElementById('wifeFrame').srcdoc")
  logs=page.evaluate("""async()=>{const db=await new Promise(a=>{const r=indexedDB.open('ko_lao_luna_test_v1');r.onsuccess=()=>a(r.result)});return new Promise(a=>{const r=db.transaction('records').objectStore('records').getAll();r.onsuccess=()=>a(r.result)})}""")
  assert len(logs)==2 and all(x['status']=='COMPLETE' for x in logs);assert 'sk-testLOCALONLY' not in json.dumps(logs);print('records PASS',flush=True)
- page.reload(wait_until='domcontentloaded');page.evaluate('LunaTest.ready');assert page.evaluate('LunaTest.keyStatus().stored');assert len(calls)==4;print('reload persistence PASS',flush=True)
+ page.reload(wait_until='domcontentloaded');page.evaluate('LunaTest.ready');page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')");assert page.evaluate('LunaTest.keyStatus().stored');assert len(calls)==4;print('reload persistence PASS',flush=True)
  page.evaluate('LunaTest.openSettings()');assert page.locator('#unifiedGptInput').input_value()=='';page.evaluate('LunaTest.closeSettings()')
  page.evaluate('startUnifiedTranslator()');page.evaluate("selectMode('husband')");page.wait_for_function("typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
  hf=page.locator('#husbandFrame').content_frame;mode['response']='401';hf.locator('#krInput').fill('오류 검사');hf.locator('#translateBtn').click();page.wait_for_function("!document.getElementById('serverSetupOverlay').classList.contains('hidden')");page.wait_for_timeout(500);assert len(calls)==5;print('401 no fallback/retry/back PASS',flush=True)
