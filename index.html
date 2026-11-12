@@ -339,12 +339,12 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
   'use strict';
   var v=new URLSearchParams(location.search).get('model'), saved='';
   try{saved=localStorage.getItem('ko_lao_test_engine_choice_v1')||'';}catch(_){}
-  v=(v==='31'||v==='38')?v:'31'; // TEST build default is KO_DEMO; explicit ?model=38 remains available
+  v=(v==='31'||v==='38'||v==='luna')?v:((saved==='31'||saved==='38'||saved==='luna')?saved:'31'); // TEST model selection persists per browser
   window.__TEST_MODEL_CHOICE__=v;
-  window.__TEST_FORWARD_MODEL__=(v==='31')?'gemini-3.1-flash-lite':'gemini-3.8-flash';
-  window.__TEST_FORWARD_THINKING__=(v==='31')?'minimal':'low';
-  window.__TEST_BACK_MODEL__=(v==='31')?'gemini-3.1-flash-lite':'gemini-3.8-flash';
-  window.__TEST_BACK_THINKING__=(v==='31')?'minimal':'low';
+  window.__TEST_FORWARD_MODEL__=v==='luna'?'luna-bridge-disabled':(v==='31'?'gemini-3.1-flash-lite':'gemini-3.8-flash');
+  window.__TEST_FORWARD_THINKING__=v==='luna'?'none':(v==='31'?'minimal':'low');
+  window.__TEST_BACK_MODEL__=v==='luna'?'luna-bridge-disabled':(v==='31'?'gemini-3.1-flash-lite':'gemini-3.8-flash');
+  window.__TEST_BACK_THINKING__=v==='luna'?'none':(v==='31'?'minimal':'low');
   window.__TEST_B_C1_PROMPTS__={"k2l":"# TASK — KOREAN TO LAO\nTranslate ONLY the current Korean message into ONE natural Lao message. The usual speaker is a Korean husband addressing his Lao wife, but explicit source meaning overrides this default.\n\n# SOURCE FIDELITY — FIRST PRIORITY\nPreserve every meaningful clause, even in long or awkward spoken text. Track who says or does what to whom: speaker, listener, third parties, agent, recipient, ownership, relationship, and gender only when stated. Never invent another person's participation, presence, intention, or action. If the source leaves a person or relation genuinely ambiguous, do not resolve it by guessing.\nKeep questions, statements, requests, wishes, prohibitions, permissions, beliefs, negation, condition, cause and uncertainty distinct. Keep planned, ongoing, completed and hypothetical events distinct. An agreement or promise to pay is not proof of payment. Preserve the direction of movement, giving and receiving; keep dates, numbers, amounts, currencies, units, clock hours and dayparts as stated. Do not infer new facts for a smoother sentence.\n\n# HEALTH, NAMES AND TONE\nKeep physical sensations and body parts distinct; do not infer diseases, diagnoses, emotions or reasons. Treat names, nicknames and family relationships as identities rather than ordinary nouns. The baby's name 튼튼이 is ທຶນທຶນ and 쑥쑥이 is ຊຸກຊຸກ when those names occur; retain identity and do not reinterpret the syllables as money or objects.\nUse warm, respectful spouse-appropriate Lao when the source is affectionate. Do not create insulting, vulgar or aggressive address forms, add a spouse's name, or claim greater intimacy than the source. Preserve humor and emotional intensity, without adding emotions. Keep all original emoji/emoticons exactly, including repetitions.\n\n# OUTPUT — FINAL\nWrite ONE Lao translation only, in Lao Unicode. No Thai script or Thai endings, Korean words, English notes, explanations, alternatives, labels or quotation marks. Translate the current source, not a sample or imagined conversation.","l2k":"# TASK — LAO TO KOREAN\nTranslate ONLY the current Lao message into ONE natural Korean message. The usual speaker is a Lao wife addressing her Korean husband, but the source's actual speaker, addressee and grammatical referents take priority.\n\n# SOURCE FIDELITY — FIRST PRIORITY\nPreserve every meaningful clause, even with informal spelling, omitted words or long speech input. Track actor, addressee, third parties, owner, recipient, responsibility, and who is speaking or being described; infer an omitted referent only if source context supports it. ຂ້ອຍ is first person; ຂະເຈົ້າ refers to third person(s), with number determined from context, not automatically first person. Kinship words may be titles, self-reference or relatives: do not turn them into unsupported people.\nPreserve negation, conditions, cause, questions, requests, permissions, prohibitions, certainty, plans, actions already completed, sequence, dates, times, dayparts, amounts and units. Determine aspect from whole clauses, not ແລ້ວ alone. Do not turn a future improvement, action or payment into an accomplished fact, nor invent explanations or omit information.\n\n# SENSATIONS, IDENTITIES AND NATURAL TONE\nKeep symptoms and body locations distinct; do not invent diagnoses. Preserve personal names and baby nicknames as identities. In baby-name context ທຶນທຶນ / ທືນທືນ / ຕຶນຕຶນ means 튼튼이, not financial capital; standalone ທຶນ in financial context still means capital. ຄ່າດອງ refers to 혼인 지참금, not all wedding expenses.\nUse natural Korean familiar to spouses when the source is intimate, without imposing stiffness or lowering politeness against the source. Preserve jokes and the source's emotion, every emoji/emoticon and each meaningful clause. Never add facts or repair awkward source by imagination.\n\n# OUTPUT — FINAL\nWrite ONE Korean translation only. No analysis, alternatives, explanations, labels, Thai/Lao text, invented subjects or information from an earlier message.","husbandBack":"# INDEPENDENT BACK TRANSLATION — LAO → KOREAN\nYou see ONLY a Lao sentence already produced by another translator, not its earlier Korean original. Translate precisely what this Lao text says. NEVER repair its errors by imagining the original. Husband-to-wife is only a default: explicit subjects and relatives override it. In affectionate husband-to-wife Lao, ອ້າຍ is often the speaking HUSBAND referring to himself: render as Korean \"나\" or \"오빠\" (first person), not \"형\" (third person), unless the Lao actually names a separate older brother. Keep the same speaker in every clause, including self-evaluation (\"I am lucky\", \"I will be a father\"). Distinguish a quoted external person's speech from the current speaker. Existing baby nickname variants ທຶນທຶນ / ຕຶນຕຶນ refer to the fixed name \"튼튼이\" here: return the intended nickname, not \"뜬뜬이\", \"띵띵이\", \"형\" or a literal common noun. Do not use this alias to infer or repair any other missing meaning.\n\nKeep all clauses, actor/listener/third person, identity, kinship, agency, responsibility, speech act, negation, modality, cause, timing and condition. Preserve numeric amounts, calendar dates, clocks and day/night without conversions or guessing; keep planned vs done distinct. Keep symptoms, nickname identities and every emoji/emoticon exactly. If wording is odd, don't improve the meaning to be more logical; use readable Korean without adding or deleting facts. Output exactly ONE Korean message, no explanations or source text.\n\nLao: ຖ້າມື້ອື່ນມີເວລາ ໂທຫາອ້າຍແດ່ເດີ 🥹\nKorean: 내일 시간이 되면 나한테 전화해 줘 🥹","wifeBack":"# INDEPENDENT BACK TRANSLATION — KOREAN → LAO\nYou see ONLY a Korean sentence already produced by another translator, not the earlier Lao original. Translate precisely this Korean text even if it is unnatural or mistaken. NEVER reconstruct an imagined original. Wife-to-husband is only a default: explicit subject/kinship overrides it.\n\nPreserve every clause, speaker/listener/third person, actor, owner, responsibility for money, question vs request vs prohibition, negation, timing, conditional vs completed action, dates, numbers, and specifically day/night plus clock numbers. Never reinterpret 9 at night as 3 in the afternoon. Preserve medical sensations as written, not a new symptom. Keep nicknames and every emoji/emoticon exactly. Do not invent omitted persons or reasons, or fix the Korean translator's mistakes. Use natural Lao for the actual Korean meaning.\n\nOutput ONE Lao translation ONLY. All Lao words and sentence endings must use Lao Unicode; never Thai letters, Thai polite particles, metadata, Korean text, English notes or alternatives.\n\nThis is a zero-example translation request: the current Korean input is the ONLY content to translate. Produce a fresh translation grounded entirely in the actual input. No memorized demonstration answer, fixed phrase, template, or invented topic. Keep all source clauses and source emoji in the output, including when the input is long.\n\n# R10 INDEPENDENT BACK-TRANSLATION CHECK\nPreserve the Korean speech act: a declaration must NOT turn into a question. Keep each clock hour and daypart exactly as stated; never add alternate clock equivalents or parentheses not in the Korean, and never turn night into afternoon. A gift or ceremonial payment is not a refund: never reverse the transfer direction without an explicit Korean reversal."};
 })();
 </script>
@@ -366,6 +366,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 <h2 id="testEngineModalTitle">🧪 TEST 번역 엔진 선택</h2>
 <button type="button" class="engineOption" data-test-engine="38">3.8 Flash · LOW <small>정번역 3.8 / 독립 역번역 3.8 · P168A R8</small></button>
 <button type="button" class="engineOption" data-test-engine="31">3.1 Flash-Lite · KO_DEMO · MINIMAL <small>AUTO1000 KO_DEMO · 정번역 3.1 / 독립 역번역 3.1 · 실사용 TEST</small></button>
+<button type="button" class="engineOption" data-test-engine="luna">GPT-6 Luna · BASE <small>정번역 Luna / 독립 역번역 Luna · TEST 개인 실사용 · 별도 GPT API 키</small></button>
 <p class="engineNotice">선택한 엔진을 정번역과 독립 역번역 모두에 적용합니다. 역번역에는 정번역 결과만 전달하며, 원문 복원·자동 재번역은 하지 않습니다. 변경하면 TEST 앱을 다시 엽니다.</p>
 <button type="button" class="engineClose" data-test-close>취소</button>
 </div></div>
@@ -388,7 +389,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
  modal.addEventListener('click',function(e){
   var b=e.target.closest('[data-test-engine]');
   if(b){
-    var v=b.getAttribute('data-test-engine');if(v!=='31'&&v!=='38')return;
+    var v=b.getAttribute('data-test-engine');if(v!=='31'&&v!=='38'&&v!=='luna')return;
     close();
     try{localStorage.setItem('ko_lao_test_engine_choice_v1',v);}catch(_){}
     var u=new URL(location.href);u.searchParams.set('model',v);
@@ -415,15 +416,15 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
  function owns(e){return Array.from(document.querySelectorAll('iframe')).some(f=>{try{return f.contentWindow===e.source}catch(_){return false}})}
  function capture(d){
   const x=d||{},r=x.runtime||{},b=r.backUsage||{};
-  const v=window.__TEST_MODEL_CHOICE__==='31'?'31':'38';
-  const model=v==='31'?'gemini-3.1-flash-lite':'gemini-3.8-flash';
-  const think=v==='31'?'minimal':'low';
+  const v=window.__TEST_MODEL_CHOICE__==='luna'?'luna':(window.__TEST_MODEL_CHOICE__==='31'?'31':'38');
+  const model=v==='luna'?'gpt-6-luna':(v==='31'?'gemini-3.1-flash-lite':'gemini-3.8-flash');
+  const think=v==='luna'?'none':(v==='31'?'minimal':'low');
   const items=Array.isArray(r.requestRecords)?r.requestRecords:[];
   const o={
    id:str(x.eventId,128),trace:str(x.traceId,128),parentTrace:str(x.parentTraceId,128),session:str(x.sessionId,128),
    at:num(x.createdAtMs)||Date.now(),dir:str(x.direction,12),mode:str(x.mode,20),status:str(x.status,24),
    forwardModel:model,backModel:model,forwardThinking:think,backThinking:think,
-   forwardPrompt:v==='31'?'AUTO1000 KO_DEMO FIRST':'P168A R8',backPrompt:v==='31'?'AUTO1000 KO_DEMO BACK':'P168A R8',
+   forwardPrompt:v==='luna'?'LUNA BASE FIRST':(v==='31'?'AUTO1000 KO_DEMO FIRST':'P168A R8'),backPrompt:v==='luna'?'LUNA BASE BACK':(v==='31'?'AUTO1000 KO_DEMO BACK':'P168A R8'),
    promptConfigSHA:str(window.__TEST_ACTIVE_PROMPT_SHA__,100)||'NOT_CAPTURED',
    source:str(x.source),forward:str(x.forward),back:str(x.back),
    userRetry:r.userRetry===true,
@@ -453,12 +454,12 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
   const a=load();if(!a.length){alert('이 기기에 저장된 TEST 실번역 기록이 없습니다. 먼저 번역을 진행해 주세요.');return;}
   a.sort((x,y)=>x.at-y.at);const lookup=new Map(a.filter(x=>x.trace).map(x=>[x.trace,x]));
   const yes=a.filter(x=>x.userRetry).length;
-  const n31=a.filter(x=>x.forwardModel==='gemini-3.1-flash-lite').length;
+  const n31=a.filter(x=>x.forwardModel==='gemini-3.1-flash-lite').length,nLuna=a.filter(x=>x.forwardModel==='gpt-6-luna').length;
   const lines=[
    'TEST_TRANSLATION_AB_LOG V1',
    'generated='+new Date().toISOString(),
    'source=TEST browser local log, separate from existing History DB export',
-   'records='+a.length+';model31='+n31+';model38='+(a.length-n31)+';explicitUserRetries='+yes,
+   'records='+a.length+';model31='+n31+';model38='+(a.length-n31-nLuna)+';modelLuna='+nLuna+';explicitUserRetries='+yes,
    'meaning=User retry YES means explicit user action; duplicate text without retry button is NOT counted as user retry.',
    'note=Actual prompt SHA, forward/back latency and token usage depend on recorded runtime metadata.',
    'note=This export makes NO API calls. No automatic retranslations are performed.',
@@ -615,8 +616,12 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <label for="unifiedPrimaryInput">1차 비밀번호 · ລະຫັດທີ 1</label>
       <input type="password" id="unifiedPrimaryInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="1차 비밀번호 · ລະຫັດທີ 1">
     </div>
+    <div class="auth-field"><label for="unifiedGptInput">🔑 OpenAI GPT API 키 · Luna BASE (TEST 전용)</label>
+      <input type="password" id="unifiedGptInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-… · 저장되어 있다면 공란 유지">
+    </div><div id="unifiedGptStatus" class="auth-connect-status" aria-live="polite">GPT API 키는 이 기기의 브라우저에 저장되며 TEST Luna 번역에만 사용합니다. 다른 기기에서는 별도 등록해야 합니다.</div>
     <div class="server-setup-actions">
       <button class="server-setup-save" type="button" onclick="loginUnified()">저장 · ບັນທຶກ</button>
+      <button class="server-setup-cancel" type="button" onclick="forgetUnifiedGptFromSetup()">GPT 키 삭제</button>
       <button class="server-setup-cancel" type="button" onclick="closeUnifiedServerSetup()">취소 · ຍົກເລີກ</button>
     </div>
   </div>
@@ -9762,7 +9767,7 @@ function buildUnifiedEmbeddedBoot(mode,{diagnosticClone=false,defaultAppOverride
   const defaultApp=defaultAppOverride||(unifiedDiagnosticEntryApp==='general'?'general':'couple');
   const promptBoot=unifiedPromptConfig?unifiedInlineObjectJson(unifiedPromptConfig):'null';window.__TEST_ACTIVE_PROMPT_SHA__=String(unifiedPromptConfig?.promptSha256||'');
   const cloneBoot=diagnosticClone?'window.__UNIFIED_DIAGNOSTIC_CLONE__=true;':'';
-  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="31"?"🧪 TEST · 3.1 KO_DEMO (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
+  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="luna"?"🧪 TEST · GPT-6 Luna BASE ▼":window.__TEST_MODEL_CHOICE__==="31"?"🧪 TEST · 3.1 KO_DEMO (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
 }
 
 // TEST KO_DEMO wire contract: applies only to the selected 3.1 engine in TEST frames.
@@ -9831,10 +9836,36 @@ function koDemoRuntime(mode){
     return new Response(JSON.stringify(data),{status:response.status,statusText:response.statusText,headers});
   };
 }
+function lunaChildBridge(mode){
+ 'use strict';
+ const originalFetch=window.fetch.bind(window);
+ const policy=window.__COUPLE_PROMPT_CONFIG__||{},isWife=mode==='wife';
+ const firstSignature=String((isWife?policy?.forward?.l2k:policy?.forward?.k2l)||'');
+ const backSignature=String((isWife?policy?.back?.wife:policy?.back?.husband)||'');
+ window.fetch=function lunaSelectedFetch(input,options){
+  const url=typeof input==='string'?input:(input&&input.url)||String(input);
+  if(!/^https:\/\/generativelanguage\.googleapis\.com\//i.test(url)||!String(url).includes(':generateContent'))return originalFetch(input,options);
+  if(!options||typeof options.body!=='string')return Promise.reject(Error('LUNA_UNEXPECTED_PROVIDER_REQUEST'));
+  let request;try{request=JSON.parse(options.body);}catch(_){return Promise.reject(Error('LUNA_BAD_INPUT_JSON'));}
+  const prompt=String(request?.system_instruction?.parts?.[0]?.text||request?.systemInstruction?.parts?.[0]?.text||'');
+  const action=firstSignature&&prompt.startsWith(firstSignature)?'translate':backSignature&&prompt.startsWith(backSignature)?'back':'';
+  if(!action||!window.parent?.LunaTest?.bridge)return Promise.reject(Error('LUNA_UNSUPPORTED_ACTION'));
+  return window.parent.LunaTest.bridge(window,options,{action});
+ };
+ document.addEventListener('DOMContentLoaded',function(){
+  const old=window.telemetryAddTestEngineAudit;
+  if(typeof old==='function')window.telemetryAddTestEngineAudit=function(record){
+   if(record&&record.sourceType==='LIVE'&&window.__UNIFIED_DIAGNOSTIC_CLONE__!==true){
+    try{window.parent?.LunaTest?.audit(record,mode);}catch(e){}
+   }
+  };
+ },{once:true});
+}
 function injectUnifiedKeys(source,mode){
-  const boot=buildUnifiedEmbeddedBoot(mode,{diagnosticClone:false});
-  const demoBoot=window.__TEST_MODEL_CHOICE__==='31'?'<scr'+'ipt>('+koDemoRuntime.toString()+')('+JSON.stringify(mode)+');</scr'+'ipt>':'';
-  return String(source||'').replace(/<head([^>]*)>/i,function(m){return m+boot+demoBoot});
+ const boot=buildUnifiedEmbeddedBoot(mode,{diagnosticClone:false});
+ const demoBoot=window.__TEST_MODEL_CHOICE__==='31'?'<scr'+'ipt>('+koDemoRuntime.toString()+')('+JSON.stringify(mode)+');</scr'+'ipt>':'';
+ const lunaBoot=window.__TEST_MODEL_CHOICE__==='luna'?'<scr'+'ipt>('+lunaChildBridge.toString()+')('+JSON.stringify(mode)+');</scr'+'ipt>':'';
+ return String(source||'').replace(/<head([^>]*)>/i,function(m){return m+boot+demoBoot+lunaBoot});
 }
 
 function resetLoadedFrames(){
@@ -9874,7 +9905,7 @@ async function checkUnifiedConnection(){
   finally{if(btn){btn.disabled=false;btn.textContent='🌐 서울·방콕 서버 확인\nກວດ Seoul·Bangkok'}}
 }
 window.checkUnifiedConnection=checkUnifiedConnection;
-async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
+async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}if(window.__TEST_MODEL_CHOICE__==='luna'){try{await window.LunaTest.ready;}catch(e){unifiedAlert('Luna BASE 프롬프트 검증에 실패했습니다. 최신파일을 확인해주세요.');return false;}if(!window.LunaTest.keyStatus().stored){openUnifiedServerSetupPanel('missing-gpt');return false;}}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
 function showUnifiedLogin(clearFields){if(currentMode)suspendMode(currentMode);resetLoadedFrames();document.getElementById('selector').classList.remove('hidden');document.getElementById('authScreen').classList.remove('hidden');if(clearFields){try{localStorage.removeItem(UNIFIED_UI_STATE_KEY);localStorage.removeItem(LEGACY_UNIFIED_UI_STATE_KEY)}catch(e){}}autoConnectUnified()}
 
 
@@ -9946,23 +9977,37 @@ function requestUnifiedAdminReauthFromDiagnostic(){return ensureUnifiedAdminSess
 window.openUnifiedAdminAuth=openUnifiedAdminAuth;window.closeUnifiedAdminAuth=closeUnifiedAdminAuth;window.submitUnifiedAdminAuth=submitUnifiedAdminAuth;window.getUnifiedAdminSessionToken=getUnifiedAdminSessionToken;window.ensureUnifiedAdminSession=ensureUnifiedAdminSession;window.requestUnifiedAdminReauthFromDiagnostic=requestUnifiedAdminReauthFromDiagnostic;
 function requestUnifiedServerSetup(){openUnifiedServerSetupPanel('manual')}
 function openUnifiedServerSetupPanel(reason='manual'){
-  const overlay=document.getElementById('serverSetupOverlay'),input=document.getElementById('unifiedPrimaryInput'),hint=document.getElementById('serverSetupHint');if(!overlay||!input)return;
-  const saved=!!readPrimaryPasswordSync();input.value='';
-  if(hint){hint.className='auth-connect-status';hint.textContent=reason==='invalid'?'⚠️ 1차 비밀번호를 다시 확인해 주세요.':saved?'현재 1차 비밀번호가 저장되어 있습니다. 변경할 때만 새 값을 입력해 주세요.':'1차 비밀번호를 입력한 뒤 저장해 주세요.'}
-  overlay.classList.remove('hidden');setTimeout(()=>{try{input.focus({preventScroll:true})}catch(_){input.focus()}},30);
+ const overlay=document.getElementById('serverSetupOverlay'),input=document.getElementById('unifiedPrimaryInput'),hint=document.getElementById('serverSetupHint');
+ if(!overlay||!input)return;
+ const saved=!!readPrimaryPasswordSync(),gpt=document.getElementById('unifiedGptInput');input.value='';if(gpt)gpt.value='';
+ if(hint){hint.className='auth-connect-status';hint.textContent=reason==='missing-gpt'?'⚠️ GPT Luna를 사용하려면 아래 GPT API 키를 등록하세요. 기존 Gemini 키는 변경하지 않아도 됩니다.':reason==='invalid'?'⚠️ 1차 비밀번호를 다시 확인해 주세요.':saved?'기존 1차 비밀번호가 저장되어 있습니다. 변경하지 않으려면 공란으로 두세요.':'1차 비밀번호를 입력해 저장해 주세요.';}
+ overlay.classList.remove('hidden');void window.LunaTest?.ready?.then(()=>window.LunaTest.updateStatus()).catch(()=>{});
+ setTimeout(()=>{try{(reason==='missing-gpt'&&gpt?gpt:input).focus({preventScroll:true})}catch(_){(reason==='missing-gpt'&&gpt?gpt:input).focus()}},30);
 }
 function closeUnifiedServerSetup(clearRecovery=true){const overlay=document.getElementById('serverSetupOverlay');if(overlay)overlay.classList.add('hidden');if(clearRecovery){const pending=pendingCredentialRecovery;pendingCredentialRecovery=null;unifiedCredentialRecoveryBusy=false;if(pending){try{const frame=frameByMode[pending.mode],target=frame?.contentWindow;if(target)target.postMessage({type:'integrated-credential-cancelled',kind:pending.kind},'*')}catch(e){}}}}
 async function loginUnified(){
-  await cleanupLegacyCredentialResidue();
-  const input=document.getElementById('unifiedPrimaryInput'),hint=document.getElementById('serverSetupHint');const primary=String(input&&input.value||'').trim();
-  if(!primary){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 1차 비밀번호를 입력해주세요. · ກະລຸນາໃສ່ລະຫັດທີ 1.'}return false}
-  const saved=outerStorageSet(PRIMARY_PASSWORD_STORAGE,primary);if(!saved){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 이 기기에 저장하지 못했습니다. 브라우저 저장 설정을 확인해주세요.'}return false}
-  refreshSharedCredentials();unifiedAuthenticated=true;updatePrimaryPasswordButton();if(input)input.value='';
-  const pending=pendingCredentialRecovery;pendingCredentialRecovery=null;unifiedCredentialRecoveryBusy=false;
-  closeUnifiedServerSetup(false);broadcastIntegratedCredentials('primary','');setAuthStartStatus('✅ 연결 준비 완료 · 저장된 1차 비밀번호를 자동으로 사용합니다.','ready');
-  if(pending&&pending.action==='start'){setTimeout(()=>startUnifiedTranslator(),80)}
-  else if(pending&&pending.mode){const frame=frameByMode[pending.mode];try{frame?.contentWindow?.postMessage({type:'integrated-credential-retry',kind:'primary',action:pending.action||'translate'},'*')}catch(e){}}
-  return true;
+ await cleanupLegacyCredentialResidue();
+ const input=document.getElementById('unifiedPrimaryInput'),gpt=document.getElementById('unifiedGptInput'),hint=document.getElementById('serverSetupHint');
+ const typed=String(input?.value||'').trim(),gptTyped=String(gpt?.value||'').trim(),primary=typed||readPrimaryPasswordSync();
+ if(!primary){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 기존 Gemini 1차 비밀번호가 없습니다. 기존 비밀번호도 등록해 주세요.';}return false;}
+ if(gptTyped){try{if(!window.LunaTest)throw Error('Luna TEST 파일을 불러오지 못했습니다.');await window.LunaTest.saveKeyFromSetup(gptTyped);}
+ catch(e){if(hint){hint.className='auth-connect-status error';hint.textContent=String(e?.message||'GPT 키 저장 실패');}return false;}}
+ if(typed&&!outerStorageSet(PRIMARY_PASSWORD_STORAGE,typed)){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 이 기기에 Gemini 비밀번호를 저장하지 못했습니다.';}return false;}
+ refreshSharedCredentials();unifiedAuthenticated=true;updatePrimaryPasswordButton();if(input)input.value='';if(gpt)gpt.value='';
+ const pending=pendingCredentialRecovery;pendingCredentialRecovery=null;unifiedCredentialRecoveryBusy=false;
+ closeUnifiedServerSetup(false);broadcastIntegratedCredentials('primary','');
+ setAuthStartStatus('✅ 키 설정 저장 완료 · 저장된 1차 비밀번호와 GPT 키를 각 엔진에서 사용합니다.','ready');
+ window.LunaTest?.updateStatus();
+ if(pending&&pending.action==='start'){setTimeout(()=>startUnifiedTranslator(),80);}
+ else if(pending&&pending.mode){const frame=frameByMode[pending.mode];try{frame?.contentWindow?.postMessage({type:'integrated-credential-retry',kind:'primary',action:pending.action||'translate'},'*')}catch(e){}}
+ return true;
+}
+async function forgetUnifiedGptFromSetup(){
+ const status=document.getElementById('unifiedGptStatus');
+ try{if(!window.LunaTest)throw Error('Luna 파일을 불러오지 못했습니다.');await window.LunaTest.forgetKeyFromSetup();
+ const input=document.getElementById('unifiedGptInput');if(input)input.value='';
+ if(status)status.textContent='✅ 이 기기에 저장된 GPT 키를 삭제했습니다. OpenAI 계정의 키 폐기는 별도입니다.';}
+ catch(e){if(status)status.textContent='⚠️ GPT 키 삭제 실패: '+String(e?.message||'저장 오류');}
 }
 function logoutUnified(){
   if(currentMode)suspendMode(currentMode);
@@ -11332,5 +11377,8 @@ syncVisibleViewport();
   });
 })();
 </script>
+<script src="./luna-base-prompts.js" defer></script>
+<script src="./luna-core.js" defer></script>
+<script src="./luna-base-test.js" defer></script>
 </body>
 </html>
