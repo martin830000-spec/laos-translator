@@ -1,0 +1,18 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const root=process.env.LUNA_APP_ROOT||path.resolve(__dirname,'..');
+const C=require(path.join(root,'luna-core.js'));
+const sandbox={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'luna-base-prompts.js'),'utf8'),sandbox);const P=sandbox.window.__LUNA_BASE_PROMPTS__;
+function evt(obj){return 'data: '+JSON.stringify(obj)+'\r\n\r\n';}
+function events(text='ສະບາຍດີ🙂',status='completed',model=C.MODEL){return evt({type:'response.output_text.delta',delta:text})+evt({type:'response.output_text.done',text})+evt({type:'response.'+status,response:{status,model,id:'resp_mock',output:[{type:'message',content:[{type:'output_text',text}]}],usage:{input_tokens:30,output_tokens:12,total_tokens:42}}});}
+function response(text,chunk=1){const bytes=new TextEncoder().encode(text);let i=0;return new Response(new ReadableStream({pull(c){if(i>=bytes.length)return c.close();c.enqueue(bytes.slice(i,i+=chunk));}}));}
+test('four frozen prompts pass hashes',async()=>assert.equal(await C.verify(P),true));
+test('four path mapping, exact settings and original input',()=>{for(const [m,a,p] of [['husband','translate','KF'],['husband','back','KB'],['wife','translate','LF'],['wife','back','LB']]){assert.equal(C.pathFor(m,a),p);const b=C.payload(p,'  원문\n ',P);assert.equal(b.input,'  원문\n ');assert.equal(b.instructions,P[p]);assert.deepEqual(Object.keys(b).sort(),['model','reasoning','instructions','input','stream','store','max_output_tokens','service_tier'].sort());assert.equal(b.store,false);assert.equal(b.max_output_tokens,4096);assert.equal(b.reasoning.effort,'none');}assert.throws(()=>C.pathFor('wife','cleanup'));});
+test('UTF8 split-byte SSE + CRLF exact text/usage',async()=>{let texts=[];const r=await C.parseStream(response(events(),1),{onText:t=>texts.push(t)});assert.equal(r.raw_text,'ສະບາຍດີ🙂');assert.equal(r.display_text,r.raw_text);assert.equal(r.usage.total_tokens,42);assert.equal(texts.length,1);assert.equal(C.asGemini(r).candidates[0].content.parts[0].text,r.display_text);});
+test('incomplete is not accepted as translation',async()=>assert.rejects(()=>C.parseStream(response(events('abc','incomplete'),100)),/INCOMPLETE/));
+test('unexpected actual model rejected',async()=>assert.rejects(()=>C.parseStream(response(events('abc','completed','other'),100)),/MODEL_MISMATCH/));
+test('missing terminal rejected',async()=>assert.rejects(()=>C.parseStream(response(evt({type:'response.output_text.delta',delta:'abc'}),50)),/INCOMPLETE/));
+test('mismatched completed text rejected',async()=>{const s=evt({type:'response.output_text.delta',delta:'abc'})+evt({type:'response.completed',response:{status:'completed',model:C.MODEL,output:[{content:[{type:'output_text',text:'xyz'}]}]}});await assert.rejects(()=>C.parseStream(response(s,17)),/TEXT_MISMATCH/);});
+test('refusal rejected',async()=>assert.rejects(()=>C.parseStream(response(evt({type:'response.refusal.done',refusal:'no'})+events('abc'),20)),/REFUSAL/));
+test('aborted stream does not become success',async()=>{const ac=new AbortController();ac.abort();await assert.rejects(()=>C.parseStream(response(events()),{signal:ac.signal}),{name:'AbortError'});});
+test('bad event JSON rejected',async()=>assert.rejects(()=>C.parseStream(response('data: {bad}\n\n')),/BAD_SSE_JSON/));
+test('error message never echoes provider error or secret',()=>{assert(!C.errorText(new Error('sk-TESTSECRET leaked raw')).includes('TESTSECRET'));assert(C.errorText(new Error('LUNA_HTTP_401')).includes('키'));});
