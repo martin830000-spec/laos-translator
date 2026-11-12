@@ -26,9 +26,9 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - name: Verify offline safety guards
         run: python3 -m unittest discover -s experiments/gpt-luna-gd-realchat80 -p test_guards.py
-      - name: REALCHAT80 A STAGE
+      - name: REALCHAT80 B STAGE
         run: python3 experiments/gpt-luna-gd-realchat80/runner.py STAGE
-      - name: REALCHAT80 A EXECUTE
+      - name: REALCHAT80 B EXECUTE
         run: python3 experiments/gpt-luna-gd-realchat80/runner.py EXECUTE
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: realchat80-A-encrypted
+          name: realchat80-B-encrypted
           path: ${{ runner.temp }}/realchat80-export.p7m
           retention-days: 3
           if-no-files-found: error
