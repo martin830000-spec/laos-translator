@@ -1,12 +1,27 @@
 {
   "approved_total": 80,
+  "backup_receipt_object": "gates/A.json",
+  "backup_receipt_sha256": "df83752cc1983353aca474b9e02f3497a57b29b0ffa9863900869e942c8ecbd5",
+  "backup_verified": true,
   "campaign": "GPT_LUNA_M1_GD_HEADTOHEAD80_20261112",
-  "enabled": false,
-  "max_new": 0,
-  "mode": "PREFLIGHT",
+  "code_sha256": {
+    "contract.py": "c9bfe8c752ff31777ac3913d155ef5bc8aa79310615c03e9c05d62a1f4873c97",
+    "http_sender.py": "316c010e2bf9b719ba56e094e9acedc72fdc7d53b89f40a22e6a945c60be03e3",
+    "runner.py": "1e12dcb217d87c57d45b3142e9c6768fe472e91a6fe1d45725b834a74388e3f2"
+  },
+  "deadline_epoch": 1794483580,
+  "enabled": true,
+  "freeze_sha256": "d0900d09ef38e36dac199582e39fac222f2da4507d7d2da9654bb1dc64be51be",
+  "max_new": 20,
+  "mode": "EXECUTE",
   "owner_token": "67d804cb-2c4e-45dc-b29e-4668f788939f",
-  "preflight_code_sha256": "d537bafc930c44334c3efee9f1c685d744e1638f8067d071129dd4d416371d96",
+  "package_sha256": "661cc10b2d48cfb35667539f5bd07cd1423a62662170b6509d058dc2aa59fc77",
+  "phase": "A",
+  "plan_sha256": "f8a18c1b8a28b47922c96318f391c92ea992fbd5106f8b3062022844a15220e3",
+  "preflight_object": "preflight/PREFLIGHT.json",
+  "preflight_sha256": "4cdff35096b2349a6e4440cd4d88e6b1001641316f0f3bfd2ae04b1e5ed27958",
+  "previous_phase": null,
   "prior_reserved": 0,
-  "probe_sha256": "fd51f8da32e063f27ed16c494307edcb38ac6af39a81292cc22d9681c34a7a3e",
-  "status": "PREFLIGHT_LOCKED"
+  "prompts_sha256": "054d9b8aa61bf2ff2d84dfa852119fbeac47dc92a65b6142a913f4550d793c86",
+  "source_sha256": "2f3dd449f811fe1d14d6a50d256bfd50d8b59f1b766a576dd11544ec2df184b2"
 }
