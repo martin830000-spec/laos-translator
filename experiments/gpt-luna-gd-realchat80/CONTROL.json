@@ -1,0 +1,12 @@
+{
+  "approved_total": 80,
+  "campaign": "GPT_LUNA_GD_REALCHAT80_20261112",
+  "enabled": false,
+  "generation_calls": 0,
+  "max_new": 0,
+  "mode": "PREFLIGHT",
+  "owner_token": "2f7101f7-ef27-431a-a630-adc26d53110c",
+  "preflight_code_sha256": "855c06805c79dd6204bd18c4d057d0553695484b30c138ce35e1931c82d03e0d",
+  "probe_sha256": "f179982b298424cd10fa175cfdd6865caf86984928573ff28807a11fa31ab0d5",
+  "status": "PREFLIGHT_LOCKED"
+}
