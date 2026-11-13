@@ -562,7 +562,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div id="authScreen" class="auth-screen" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
-    <span class="auth-corner-version" data-app-version data-channel="TEST" aria-label="앱 버전"><span data-version-number>V3.61.209</span><small data-version-channel>TEST</small></span>
+    <span class="auth-corner-version" data-app-version data-channel="TEST" aria-label="앱 버전"><span data-version-number>V3.61.210</span><small data-version-channel>TEST</small></span>
     <div class="auth-icon">🇰🇷 ↔ 🇱🇦</div>
     <div class="auth-head-row">
       <h1 id="authTitle" class="auth-title">한↔라오 번역기<span class="auth-title-lo">ແອັບແປພາສາ ເກົາຫຼີ ↔ ລາວ</span></h1>
@@ -582,8 +582,8 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <button id="forceRefreshBtn" class="auth-version-btn" type="button" onclick="forceUnifiedFreshReload()">⬇️ 최신파일 다시받기
 ໂຫຼດໄຟລ໌ລ່າສຸດໃໝ່</button>
     </div>
-    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.209 · TEST</span> · 최신 버전을 확인할 수 있습니다.
-ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.209 · TEST</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
+    <div id="versionCheckStatus" class="auth-version-status" aria-live="polite">현재 버전 <span id="versionCurrentText">V3.61.210 · TEST</span> · 최신 버전을 확인할 수 있습니다.
+ເວີຊັນປັດຈຸບັນ <span id="versionCurrentTextLo">V3.61.210 · TEST</span> · ສາມາດກວດເບິ່ງເວີຊັນລ່າສຸດໄດ້.</div>
     <div id="authStartStatus" class="auth-start-status">앱을 준비하고 있습니다.
 ກຳລັງກຽມແອັບໃຫ້ພ້ອມໃຊ້ງານ.</div>
     <button class="manual-btn" type="button" onclick="requestManualLanguageChoice()">📖 자세한 사용설명서 · ຄູ່ມືລະອຽດ</button>
@@ -629,7 +629,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 
 <div class="shell">
   <div id="shellSwitchbar" class="switchbar" role="navigation" aria-label="번역기 모드 선택">
-    <div class="shell-version-tools"><span class="shell-version" data-app-version data-channel="TEST"><span class="shell-version-number" data-version-number>V3.61.209</span><span class="shell-version-channel" data-version-channel>TEST</span></span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
+    <div class="shell-version-tools"><span class="shell-version" data-app-version data-channel="TEST"><span class="shell-version-number" data-version-number>V3.61.210</span><span class="shell-version-channel" data-version-channel>TEST</span></span><button class="shell-guide-btn" type="button" onclick="handleUnifiedGuideButton()" title="자세한 설명서 · ຄູ່ມືລະອຽດ" aria-label="자세한 설명서 · ຄູ່ມືລະອຽດ"><span class="shell-guide-icon" aria-hidden="true">📖</span><span id="shellGuideLabel" class="shell-guide-label">자세한 설명서 · ຄູ່ມື</span></button></div>
     <div class="mode-buttons">
       <button id="husbandModeBtn" class="mode-btn" type="button" onclick="selectMode('husband')"><span id="husbandModeLabel">🇰🇷 한국</span></button>
       <button id="wifeModeBtn" class="mode-btn" type="button" onclick="selectMode('wife')"><span id="wifeModeLabel">🇱🇦 ລາວ</span></button>
@@ -9496,7 +9496,7 @@ window.addEventListener('pagehide',()=&gt;{if(document.getElementById('coupleFul
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const INTEGRATED_VERSION='V3.61.209';
+const INTEGRATED_VERSION='V3.61.210';
 const INTEGRATED_CHANNEL='TEST';
 const MEMORY_ALBUM_PATH='/memory-album/';
 const MEMORY_ALBUM_MODE_STORAGE='memory_album_user_mode_v1';
@@ -9743,7 +9743,8 @@ function queueMarkCredentialGood(){return credentialGoodWritePromise}
 function getUnifiedCredentialCleanupStatus(){return Object.assign({},providerCredentialCleanupStatus,{primaryStored:!!readPrimaryPasswordSync()})}
 window.getUnifiedCredentialCleanupStatus=getUnifiedCredentialCleanupStatus;
 function broadcastIntegratedCredentials(kind='',requestId=''){
-  const msg={type:'integrated-credentials',kind,requestId,primary:sharedKeys.gemini||'',secondary:sharedKeys.azure||''};
+  const lunaPlaceholder=window.__TEST_MODEL_CHOICE__==='luna'?'LUNA_TEST_BRIDGE_ONLY':'';
+  const msg={type:'integrated-credentials',kind,requestId,primary:sharedKeys.gemini||lunaPlaceholder,secondary:sharedKeys.azure||''};
   Object.values(frameByMode).forEach(frame=>{try{if(frame?.contentWindow&&frame.dataset.loaded!=='0')frame.contentWindow.postMessage(msg,'*')}catch(e){}})
 }
 function scriptSafeJson(value){
@@ -9767,7 +9768,7 @@ function buildUnifiedEmbeddedBoot(mode,{diagnosticClone=false,defaultAppOverride
   const defaultApp=defaultAppOverride||(unifiedDiagnosticEntryApp==='general'?'general':'couple');
   const promptBoot=unifiedPromptConfig?unifiedInlineObjectJson(unifiedPromptConfig):'null';window.__TEST_ACTIVE_PROMPT_SHA__=String(unifiedPromptConfig?.promptSha256||'');
   const cloneBoot=diagnosticClone?'window.__UNIFIED_DIAGNOSTIC_CLONE__=true;':'';
-  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="luna"?"🧪 TEST · GPT-6 Luna BASE ▼":window.__TEST_MODEL_CHOICE__==="31"?"🧪 TEST · 3.1 KO_DEMO (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
+  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||(window.__TEST_MODEL_CHOICE__==='luna'?'LUNA_TEST_BRIDGE_ONLY':'')) +',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="luna"?"🧪 TEST · GPT-6 Luna BASE ▼":window.__TEST_MODEL_CHOICE__==="31"?"🧪 TEST · 3.1 KO_DEMO (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
 }
 
 // TEST KO_DEMO wire contract: applies only to the selected 3.1 engine in TEST frames.
@@ -9897,7 +9898,7 @@ function setAuthStartStatus(text,state=''){
   const el=document.getElementById('authStartStatus');if(!el)return;el.textContent=String(text||'');el.className='auth-start-status'+(state?' '+state:'');
 }
 async function verifyUnifiedRelay(){await cleanupLegacyCredentialResidue();return !!refreshSharedCredentials()}
-async function autoConnectUnified(){await cleanupLegacyCredentialResidue();const primary=refreshSharedCredentials();sharedRelay={url:'',token:EMBEDDED_RELAY_TOKEN};updatePrimaryPasswordButton();if(primary){setAuthStartStatus('✅ 연결 준비 완료 · 저장된 1차 비밀번호를 자동으로 사용합니다.\n✅ ພ້ອມເຊື່ອມຕໍ່ · ນຳໃຊ້ລະຫັດທີ 1 ທີ່ບັນທຶກໄວ້ອັດຕະໂນມັດ.','ready');return true}setAuthStartStatus('⚠️ 처음 한 번만 1차 비밀번호를 저장해주세요.\n⚠️ ກະລຸນາບັນທຶກລະຫັດທີ 1 ພຽງຄັ້ງທຳອິດ.','error');return false}
+async function autoConnectUnified(){await cleanupLegacyCredentialResidue();const primary=refreshSharedCredentials();sharedRelay={url:'',token:EMBEDDED_RELAY_TOKEN};updatePrimaryPasswordButton();if(window.__TEST_MODEL_CHOICE__==='luna'&&window.LunaTest){try{await window.LunaTest.ready;if(window.LunaTest.keyStatus().stored){unifiedAuthenticated=true;setAuthStartStatus(primary?'✅ GPT Luna 준비 완료 · Gemini와 GPT 키를 각자 사용합니다.':'✅ GPT Luna 텍스트 번역 준비 완료 · Gemini 키는 음성 기능에만 필요할 수 있습니다.','ready');return true}}catch(e){setAuthStartStatus('⚠️ Luna 프롬프트·키 확인 실패. 다시 설정해주세요.','error');return false}}if(primary){setAuthStartStatus('✅ 연결 준비 완료 · 저장된 1차 비밀번호를 자동으로 사용합니다.\n✅ ພ້ອມເຊື່ອມຕໍ່ · ນຳໃຊ້ລະຫັດທີ 1 ທີ່ບັນທຶກໄວ້ອັດຕະໂນມັດ.','ready');return true}setAuthStartStatus('⚠️ 선택한 엔진의 키를 한 번 저장해주세요.','error');return false}
 async function checkUnifiedConnection(){
   const btn=document.getElementById('connectionCheckBtn'),status=document.getElementById('connectionCheckStatus');if(btn){btn.disabled=true;btn.textContent='⏳ 서울·방콕 서버 확인 중...\nກຳລັງກວດ Seoul·Bangkok...'}
   try{const [s,b]=await Promise.all([inspectUnifiedRelayHealth(SEOUL_RELAY_URL,EMBEDDED_RELAY_TOKEN,{timeoutMs:7000}),inspectUnifiedRelayHealth(BANGKOK_RELAY_URL,EMBEDDED_RELAY_TOKEN,{timeoutMs:7000})]);const okS=s.reachable&&s.secureApiProxy&&s.geminiConfigured&&s.azureConfigured,okB=b.reachable&&b.secureApiProxy&&b.geminiConfigured&&b.azureConfigured;if(status){status.className='auth-connect-status '+(okS&&okB?'ok':'error');status.textContent=`${okS?'✅':'⚠️'} Seoul ${okS?'정상':'확인 필요'} · ${okB?'✅':'⚠️'} Bangkok ${okB?'정상':'확인 필요'}\n음성 기능은 남편앱 Seoul, 아내앱 Bangkok을 기본으로 사용하며 연결 문제가 있을 때 반대 리전으로 1회 전환합니다.`}}
@@ -9989,14 +9990,14 @@ async function loginUnified(){
  await cleanupLegacyCredentialResidue();
  const input=document.getElementById('unifiedPrimaryInput'),gpt=document.getElementById('unifiedGptInput'),hint=document.getElementById('serverSetupHint');
  const typed=String(input?.value||'').trim(),gptTyped=String(gpt?.value||'').trim(),primary=typed||readPrimaryPasswordSync();
- if(!primary){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 기존 Gemini 1차 비밀번호가 없습니다. 기존 비밀번호도 등록해 주세요.';}return false;}
+ if(!primary&&!(window.__TEST_MODEL_CHOICE__==='luna'&&(gptTyped||window.LunaTest?.keyStatus()?.stored))){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 선택된 Gemini 엔진에는 기존 1차 비밀번호가 필요합니다. Luna에서는 GPT 키만 등록해도 텍스트 번역을 시작할 수 있습니다.';}return false;}
  if(gptTyped){try{if(!window.LunaTest)throw Error('Luna TEST 파일을 불러오지 못했습니다.');await window.LunaTest.saveKeyFromSetup(gptTyped);}
  catch(e){if(hint){hint.className='auth-connect-status error';hint.textContent=String(e?.message||'GPT 키 저장 실패');}return false;}}
  if(typed&&!outerStorageSet(PRIMARY_PASSWORD_STORAGE,typed)){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 이 기기에 Gemini 비밀번호를 저장하지 못했습니다.';}return false;}
- refreshSharedCredentials();unifiedAuthenticated=true;updatePrimaryPasswordButton();if(input)input.value='';if(gpt)gpt.value='';
+ refreshSharedCredentials();unifiedAuthenticated=!!primary||(window.__TEST_MODEL_CHOICE__==='luna'&&window.LunaTest?.keyStatus()?.stored===true);updatePrimaryPasswordButton();if(input)input.value='';if(gpt)gpt.value='';
  const pending=pendingCredentialRecovery;pendingCredentialRecovery=null;unifiedCredentialRecoveryBusy=false;
  closeUnifiedServerSetup(false);broadcastIntegratedCredentials('primary','');
- setAuthStartStatus('✅ 키 설정 저장 완료 · 저장된 1차 비밀번호와 GPT 키를 각 엔진에서 사용합니다.','ready');
+ setAuthStartStatus(primary?'✅ 키 설정 저장 완료 · 기존 Gemini 키와 GPT 키를 각 엔진에서 사용합니다.':'✅ GPT Luna TEST 키 저장 완료 · Gemini 키 없이 텍스트 번역을 시작할 수 있습니다.','ready');
  window.LunaTest?.updateStatus();
  if(pending&&pending.action==='start'){setTimeout(()=>startUnifiedTranslator(),80);}
  else if(pending&&pending.mode){const frame=frameByMode[pending.mode];try{frame?.contentWindow?.postMessage({type:'integrated-credential-retry',kind:'primary',action:pending.action||'translate'},'*')}catch(e){}}
@@ -10253,7 +10254,7 @@ function updateModeButtons(mode){
 }
 
 function selectMode(mode){
-  if(!frameByMode[mode])return;if(!unifiedPromptConfig){void ensureUnifiedPromptConfigReady().then(()=>selectMode(mode)).catch(e=>{console.error('[PROMPT CONFIG SELECT]',e);unifiedAlert('번역 프롬프트를 준비하지 못했습니다. 새로고침 후 다시 시도해주세요.')});return}refreshSharedCredentials();if(!sharedKeys.gemini){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return;}
+  if(!frameByMode[mode])return;if(!unifiedPromptConfig){void ensureUnifiedPromptConfigReady().then(()=>selectMode(mode)).catch(e=>{console.error('[PROMPT CONFIG SELECT]',e);unifiedAlert('번역 프롬프트를 준비하지 못했습니다. 새로고침 후 다시 시도해주세요.')});return}refreshSharedCredentials();if(!sharedKeys.gemini&&!(window.__TEST_MODEL_CHOICE__==='luna'&&window.LunaTest?.keyStatus()?.stored)){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel(window.__TEST_MODEL_CHOICE__==='luna'?'missing-gpt':'missing');return;}
   if(currentMode&&currentMode!==mode)suspendMode(currentMode);
   ensureModeLoaded(mode);document.getElementById('selector').classList.add('hidden');Object.entries(frameByMode).forEach(([key,frame])=>frame.classList.toggle('active',key===mode));currentMode=mode;updateModeButtons(mode);applyShellLanguage(mode);resumeMode(mode);writeUnifiedPersistentUiState();
 }
