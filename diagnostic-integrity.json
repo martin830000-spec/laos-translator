@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "appVersion": "V3.61.209",
   "diagnosticPath": "diagnostic-h2-20261010.html",
-  "sha256": "2309710206bf3f60e522644d5aeae6a2a320da517ba7d9c156f999fb2ea0cd5c",
-  "revision": "H2-TEST-ENGINE-RECORD-ATTRIBUTION-20261106-R2",
-  "policy": "TEST only: show SERVICE/TEST build and actual per-record model/prompt from provided metadata; local TEST fallback keyed by event ID; UNKNOWN for missing data. No SERVICE/DB/backend changes, no extra AI calls.",
-  "archive": "50/100/200/500/1000/2000/5000/ALL; fetch read-only; >1000 requires server count or pagination proof; no inferred full census; operation records independently capped at 500; UI preview truncated but TXT contains all collected rows. Translation runtime/DB/Cloudflare/Cloud Run/P168A R8 unchanged."
+  "sha256": "f848db9971806940c7ad1d937df51473f50d68956b16383cbaa6562c5ad67c3a",
+  "revision": "H2-TEST-ENGINE-LOCAL-LUNA-TELEMETRY-20261113-R1",
+  "policy": "TEST only: verified Gemini model metadata plus read-only local Luna first/full/back timing and tokens; no automatic upload, model call, or SERVICE/DB/backend change. Unknown models remain UNKNOWN.",
+  "archive": "50/100/200/500/1000/2000/5000/ALL; fetch read-only; >1000 requires server count or pagination proof; no inferred full census; operation records independently capped at 500; UI preview truncated but TXT contains all collected rows. Translation runtime/DB/Cloudflare/Cloud Run/P168A R8 unchanged. TEST Luna records are device-local IndexedDB, appended as a distinctly labeled section only on user request; not server census."
 }
