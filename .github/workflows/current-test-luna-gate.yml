@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - test/luna-base-active-gate-20261113
+      - test/luna-safe-stream-guard-20261113
   workflow_dispatch:
 permissions:
   contents: read
