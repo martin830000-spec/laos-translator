@@ -95,7 +95,7 @@ with sync_playwright() as p:
  assert not page.evaluate("!!localStorage.getItem('translator_primary_password')")
  assert page.evaluate('startUnifiedTranslator()')==True
  page.evaluate("selectMode('wife')")
- page.wait_for_function("typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
+ page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('loInput') && typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
  assert page.evaluate("document.getElementById('wifeFrame').contentWindow.__UNIFIED_KEYS__.gemini")=='LUNA_TEST_BRIDGE_ONLY'
  mode['response']='success'
  wf=page.locator('#wifeFrame').content_frame
