@@ -1,0 +1,10 @@
+{
+  "approved_total": 120,
+  "campaign": "GPT_LUNA_NAME_ADDRESS_FOLLOWUP120_20261114",
+  "enabled": false,
+  "max_new": 0,
+  "mode": "PREFLIGHT",
+  "owner_token": "79d239e2-e74f-43e4-bf57-3dc42aeef1dd",
+  "preflight_code_sha256": "8dba54b94288d83c295ea948f73ce3de9f82849957b9f600a0f22ee7a6b70b3d",
+  "probe_sha256": "6d86c649d39c6bad063f1b5dcd830249759e7ead677b4904947fca438cc6f6b0"
+}
