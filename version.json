@@ -1,6 +1,6 @@
 {
-  "version": "V3.61.209",
-  "build": "20261015-V3.61.209-TEST-ROUTE-PARITY-R1",
-  "buildId": "20261015-V3.61.209-TEST-ROUTE-PARITY-R1",
-  "notes": "ISOLATED TEST BRANCH ONLY; NOT GitHub Pages main / NOT SERVICE. Restores original Auto / Cloud Run / Cloudflare selection controls for couple voice paths. Auto remains husband Cloud Run first, wife Cloudflare first. Explicit stored manual voice preference honored; no new region/endpoint/backend. R2 direct Gemini text single-pass, P168A R8 G158A prompt unchanged, and R3 Android IME rejected. SERVICE V3.61.209, Cloudflare, Cloud Run, operational DB and H2 untouched; mocked tests not real Laos-device proof."
+  "version": "V3.61.210",
+  "build": "20261113-V3.61.210-TEST-LUNA-BASE-KEYONLY-STREAM-GUARD",
+  "buildId": "20261113-V3.61.210-TEST-LUNA-BASE-KEYONLY-STREAM-GUARD",
+  "notes": "TEST GitHub Pages shell only: GPT-6 Luna BASE in existing engine selector and separate persistent GPT key; fixes GPT-only text start and incomplete FIRST display; embedded husband/wife V3.61.209 P168A R8/G158A payloads unchanged. Gemini 3.1 and 3.8 remain available. Existing Gemini SERVICE/Cloud Run/Cloudflare/DB/diagnostic not modified. Browser mock tests are not live paid OpenAI translation verification."
 }
