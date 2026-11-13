@@ -33,8 +33,11 @@ for(const [mode,pin] of Object.entries(original)){
  const m=rx.exec(html);assert(m,'Missing embedded '+mode+' app');
  assert.equal(m[1],pin.attr,'Embedded '+mode+' source ID changed');
  assert.equal(m[2].length,pin.encodedChars,'Embedded '+mode+' code length changed');
- hashes[mode]=crypto.createHash('sha256').update(m[2],'utf8').digest('hex');
- assert.equal(hashes[mode],pin.sha256,'Frozen '+mode+' embedded application source changed');
+ const marker="const APP_VERSION='V3.61.210';";
+ assert.equal(m[2].split(marker).length-1,1,'Embedded '+mode+' app has not been updated to the exact TEST shell version');
+ const normalized=m[2].replace(marker,"const APP_VERSION='V3.61.209';");
+ hashes[mode]=crypto.createHash('sha256').update(normalized,'utf8').digest('hex');
+ assert.equal(hashes[mode],pin.sha256,'Frozen '+mode+' app has changed beyond its single TEST version label');
 }
 assert(!html.includes('sk-testLOCALONLY'),'Mock credentials cannot ship to TEST app');
 const hash=crypto.createHash('sha256').update(prompts,'utf8').digest('hex');
