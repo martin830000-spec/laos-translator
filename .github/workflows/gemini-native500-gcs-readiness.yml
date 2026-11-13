@@ -26,19 +26,21 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - name: Verify offline safety guards
         run: python3 -m unittest discover -s experiments/gpt-luna-name-address-followup120 -p test_guards.py
-      - name: NAME_ADDRESS_FOLLOWUP120 L STAGE
-        run: python3 experiments/gpt-luna-name-address-followup120/runner.py STAGE
-      - name: NAME_ADDRESS_FOLLOWUP120 L EXECUTE
-        run: python3 experiments/gpt-luna-name-address-followup120/runner.py EXECUTE
-        env:
-          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+      - name: NAME_ADDRESS_FOLLOWUP120 CLOSE INGEST_CLOSE
+        run: python3 experiments/gpt-luna-name-address-followup120/runner.py INGEST_CLOSE
+      - name: NAME_ADDRESS_FOLLOWUP120 CLOSE CLOSE
+        run: |
+          umask 077
+          python3 experiments/gpt-luna-name-address-followup120/runner.py CLOSE > "${RUNNER_TEMP:?}/name-address-followup120-close.log" 2>&1
+      - name: Recheck protected and terminal authorities
+        run: python3 experiments/gpt-luna-name-address-followup120/final_controls_check.py
       - name: Export encrypted private evidence
         if: always()
         run: python3 experiments/gpt-luna-name-address-followup120/runner.py EXPORT
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: name-address-followup120-L-encrypted
+          name: name-address-followup120-CLOSE-encrypted
           path: ${{ runner.temp }}/name-address-followup120-export.p7m
           retention-days: 3
           if-no-files-found: error
