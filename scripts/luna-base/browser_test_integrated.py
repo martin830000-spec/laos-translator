@@ -63,7 +63,7 @@ with sync_playwright() as p:
  page.evaluate('LunaTest.openSettings()');assert page.locator('#unifiedGptInput').input_value()=='';page.evaluate('LunaTest.closeSettings()')
  page.evaluate('startUnifiedTranslator()');page.evaluate("selectMode('husband')");page.wait_for_function("typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
  hf=page.locator('#husbandFrame').content_frame;mode['response']='401';hf.locator('#krInput').fill('오류 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_function("!document.getElementById('serverSetupOverlay').classList.contains('hidden')");page.wait_for_timeout(500);assert len(calls)==5;print('401 no fallback/retry/back PASS',flush=True)
- page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_timeout(1000);assert len(calls)==6;print('incomplete no BACK/retry PASS',flush=True)
+ page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_timeout(1000);assert len(calls)==6;assert 'ສະບາຍດີ ທີ່ຮັກ🙂' not in hf.locator('#laoResult').inner_text();print('incomplete no BACK/retry/visible partial PASS',flush=True)
  generation_elsewhere=[x for x in blocked if any(y in x['url'] for y in ['generateContent','gemini/generate','completions'])];assert not generation_elsewhere,generation_elsewhere
  page.evaluate("document.getElementById('unifiedCustomDialog')?.style.setProperty('display','none','important')");page.evaluate('LunaTest.openSettings()');page.get_by_role('button',name='GPT 키 삭제').click();page.wait_for_function('!LunaTest.keyStatus().stored');assert len(calls)==6;print('delete key PASS',flush=True)
  # Existing Gemini options must remain selectable without invoking the Luna provider.
@@ -80,5 +80,34 @@ with sync_playwright() as p:
  assert page.evaluate("localStorage.getItem('ko_lao_test_engine_choice_v1')")=='31'
  assert len(calls)==6
  print('Gemini 3.8 and 3.1 selector continuity PASS',flush=True)
- (OUT/'browser-results.json').write_text(json.dumps({'status':'PASS','mock_calls':len(calls),'actual_model_calls':0,'checks':['four-path requests','first-only BACK','encrypted persistence','reload','key deletion','401 no fallback/retry','incomplete no BACK','no cleanup generation','key absent exports/srcdoc/localStorage','Gemini 3.8 and 3.1 selector continuity'],'vault':vault,'browser_errors':errors,'blocked_external_requests':blocked},ensure_ascii=False,indent=2))
+ # GPT-only private-test text path: no Gemini primary password exists in storage.
+ page.evaluate("localStorage.removeItem('translator_primary_password')")
+ page.goto('https://martin830000-spec.github.io/laos-translator/?model=luna',wait_until='domcontentloaded')
+ page.wait_for_function("window.LunaTest && window.__TEST_MODEL_CHOICE__==='luna'")
+ page.evaluate('LunaTest.ready')
+ page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')")
+ assert not page.evaluate("!!localStorage.getItem('translator_primary_password')")
+ assert not page.evaluate("LunaTest.keyStatus().stored")
+ page.evaluate("LunaTest.openSettings()")
+ page.locator('#unifiedGptInput').fill('sk-testLOCALONLY0000000000000000000000000000000000')
+ page.locator('#serverSetupOverlay .server-setup-save').click()
+ page.wait_for_function("LunaTest.keyStatus().stored")
+ assert not page.evaluate("!!localStorage.getItem('translator_primary_password')")
+ assert page.evaluate('startUnifiedTranslator()')==True
+ page.evaluate("selectMode('wife')")
+ page.wait_for_function("typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
+ assert page.evaluate("document.getElementById('wifeFrame').contentWindow.__UNIFIED_KEYS__.gemini")=='LUNA_TEST_BRIDGE_ONLY'
+ mode['response']='success'
+ wf=page.locator('#wifeFrame').content_frame
+ wf.locator('#loInput').fill('ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.')
+ wf.locator('#loInput').evaluate('(e)=>e.blur()')
+ page.evaluate("document.getElementById('wifeFrame').contentWindow.translateText()")
+ page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('backResult').innerText.includes('ມື້ນີ້')",timeout=10000)
+ assert [x['path'] for x in calls[-2:]]==['LF','LB']
+ assert len(calls)==8
+ assert not [x for x in blocked if 'generateContent' in x['url']]
+ print('Luna with GPT-only key and no Gemini key PASS',flush=True)
+ assert page.evaluate("document.querySelector('#versionCurrentText').textContent").startswith('V3.61.210')
+ print('TEST update version V3.61.210 PASS',flush=True)
+ (OUT/'browser-results.json').write_text(json.dumps({'status':'PASS','mock_calls':len(calls),'actual_model_calls':0,'checks':['four-path requests','first-only BACK','encrypted persistence','reload','key deletion','401 no fallback/retry','incomplete no BACK','no cleanup generation','key absent exports/srcdoc/localStorage','Gemini 3.8 and 3.1 selector continuity','Luna GPT-only start','incomplete FIRST hidden','TEST version metadata'],'vault':vault,'browser_errors':errors,'blocked_external_requests':blocked},ensure_ascii=False,indent=2))
  print('errors',errors,flush=True);browser.close()
