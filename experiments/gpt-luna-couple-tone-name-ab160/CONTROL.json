@@ -1,0 +1,10 @@
+{
+  "approved_total": 160,
+  "campaign": "GPT_LUNA_COUPLE_TONE_NAME_AB160_20261113",
+  "enabled": false,
+  "max_new": 0,
+  "mode": "PREFLIGHT",
+  "owner_token": "61618371-d7a6-4af5-94e5-9656687d6095",
+  "preflight_code_sha256": "e34eb2a66c97371beafaa3f3cd63d0bcc81562dbea7680dd7cf66ac7a75396cd",
+  "probe_sha256": "75c4ea317b2461a668f38b812c103396e223f358a6d5626508b6d0ab458007e5"
+}
