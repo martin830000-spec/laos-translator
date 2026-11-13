@@ -13,7 +13,7 @@ jobs:
   recover:
     if: ${{ github.actor == 'martin830000-spec' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -24,13 +24,21 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
-      - name: NAME_ADDRESS_FOLLOWUP120 zero-generation preflight
-        run: python3 experiments/gpt-luna-name-address-followup120/preflight.py
+      - name: Verify offline safety guards
+        run: python3 -m unittest discover -s experiments/gpt-luna-name-address-followup120 -p test_guards.py
+      - name: NAME_ADDRESS_FOLLOWUP120 S STAGE
+        run: python3 experiments/gpt-luna-name-address-followup120/runner.py STAGE
+      - name: NAME_ADDRESS_FOLLOWUP120 S EXECUTE
+        run: python3 experiments/gpt-luna-name-address-followup120/runner.py EXECUTE
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
+      - name: Export encrypted private evidence
+        if: always()
+        run: python3 experiments/gpt-luna-name-address-followup120/runner.py EXPORT
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: name-address-followup120-preflight-encrypted
-          path: ${{ runner.temp }}/name-address-followup120-preflight.p7m
+          name: name-address-followup120-S-encrypted
+          path: ${{ runner.temp }}/name-address-followup120-export.p7m
           retention-days: 3
           if-no-files-found: error
