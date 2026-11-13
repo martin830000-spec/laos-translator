@@ -98,10 +98,13 @@ with sync_playwright() as p:
  page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('loInput') && typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
  assert page.evaluate("document.getElementById('wifeFrame').contentWindow.__UNIFIED_KEYS__.gemini")=='LUNA_TEST_BRIDGE_ONLY'
  mode['response']='success'
- wf=page.locator('#wifeFrame').content_frame
- wf.locator('#loInput').fill('ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.')
- wf.locator('#loInput').evaluate('(e)=>e.blur()')
- page.evaluate("document.getElementById('wifeFrame').contentWindow.translateText()")
+ page.evaluate("""() => {
+   const frame=document.getElementById('wifeFrame'),w=frame?.contentWindow,editor=w?.document?.getElementById('loInput');
+   if(!editor||typeof w.translateText!=='function')throw Error('LUNA_GPT_ONLY_FRAME_INPUT_NOT_READY');
+   editor.value='ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.';
+   editor.dispatchEvent(new Event('input',{bubbles:true}));
+   w.translateText();
+ }""")
  page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('backResult').innerText.includes('ມື້ນີ້')",timeout=10000)
  assert [x['path'] for x in calls[-2:]]==['LF','LB']
  assert len(calls)==8
