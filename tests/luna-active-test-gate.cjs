@@ -14,6 +14,7 @@ assert(html.includes('luna-bridge-disabled'),'Luna requests must go through dedi
 assert(html.includes('window.parent.LunaTest.bridge(window,options,{action})'),'Luna bridge missing');
 assert(html.includes('v!==\'31\'&&v!==\'38\'&&v!==\'luna\''),'Selected engine must include all 3 choices');
 assert(luna.includes('LUNA_BACK_INPUT_NOT_DISPLAYED_FIRST')&&luna.includes('backAlreadySent'),'BACK must see only displayed FIRST, exactly once');
+assert(luna.includes('번역이 완전히 끝나지 않았습니다'),'Failed streaming FIRST must not remain visible as a completed translation');
 assert(luna.includes('AES-GCM')&&luna.includes('ko_lao_luna_test_v1'),'Persistent encrypted per-device test key required');
 assert(luna.includes('automaticProviderFallback:false')&&luna.includes('automaticRetries:0'),'No automatic fallbacks in Luna');
 assert(core.includes('store:false')&&core.includes("reasoning:{effort:'none'}"),'Frozen Luna generation settings changed');
