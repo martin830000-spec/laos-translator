@@ -26,9 +26,9 @@ jobs:
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
       - name: Verify offline safety guards
         run: python3 -m unittest discover -s experiments/gpt-luna-couple-tone-name-ab160 -p test_guards.py
-      - name: COUPLE_TONE_NAME_AB160 S STAGE
+      - name: COUPLE_TONE_NAME_AB160 D STAGE
         run: python3 experiments/gpt-luna-couple-tone-name-ab160/runner.py STAGE
-      - name: COUPLE_TONE_NAME_AB160 S EXECUTE
+      - name: COUPLE_TONE_NAME_AB160 D EXECUTE
         run: python3 experiments/gpt-luna-couple-tone-name-ab160/runner.py EXECUTE
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: couple-tone-name-ab160-S-encrypted
+          name: couple-tone-name-ab160-D-encrypted
           path: ${{ runner.temp }}/couple-tone-name-ab160-export.p7m
           retention-days: 3
           if-no-files-found: error
