@@ -1,28 +1,62 @@
 {
+  "actual_api_attempts_recorded": 160,
   "approved_total": 160,
-  "backup_receipt_object": "gates/CLOSE.json",
-  "backup_receipt_sha256": "ca848bb4def8879bbf756a56137ecda4786e801c1fe0e39530c93e10398ef514",
-  "backup_verified": true,
   "campaign": "GPT_LUNA_COUPLE_TONE_NAME_AB160_20261113",
-  "code_sha256": {
-    "contract.py": "bf184635bf5a9eb51442f532d7c6619ddda4776692e8bb5ee542045d81e326a2",
-    "http_sender.py": "5682f5b4df87f76411e5f241dc3b591b9bd4ae9565e60fcd98c95ab9036b6cee",
-    "runner.py": "5564dfc4946948dee5597f9af3ddb404ae5e42de40f725f8b1df48a640d59cf3"
-  },
-  "deadline_epoch": 1794580858,
+  "closed_at_utc": "2026-11-13T12:44:31.601586+00:00",
+  "closure_reason": "NORMAL_PROTOCOL_COMPLETE",
+  "commit": "cc564e9f374d2bd1ae30b604bfb2533514462b4f",
   "enabled": false,
-  "freeze_sha256": "5cd5e3bd0e5b4df7086c63be968b99119448fc607732f845c7eee4490f99ea11",
+  "failed": 0,
+  "final_record_note": "Terminal counts copied from two byte-identical create-only GCS authorities. Reuse or rerun is not a new authorization.",
+  "generation_calls": 0,
+  "hard_stage_caps": {
+    "D": 112,
+    "F": 32,
+    "S": 16
+  },
+  "ledger_resolved": true,
   "max_new": 0,
-  "mode": "CLOSE",
+  "mode": "CLOSED",
+  "next_new_authorization": 0,
   "owner_token": "61618371-d7a6-4af5-94e5-9656687d6095",
-  "package_sha256": "f319df704c3ed93b49632739e577f6671901135841c33fd6790e3e97cba484f9",
-  "phase": "F",
-  "plan_sha256": "88f1ac4fa085ed1ac170b717f9b31897d47aedea16115d7fee1d11b6d531cf5b",
-  "preflight_object": "preflight/PREFLIGHT.json",
-  "preflight_sha256": "05532f83da8989667117ec763720e6c47f610f213ad0411182433b2102bdd30d",
-  "previous_phase": "F",
-  "prior_reserved": 160,
-  "prompts_sha256": "33112c5ef42d96e341f1028b8f64a49bedb10a776566f49f36c04efb575d7583",
+  "remote_terminal_state_sha256": "90215a127a3a2093dd94a8e3ca0dca4b50b4bf0f435160dd0a614d8c63d4150e",
   "research_complete": true,
-  "source_sha256": "cc1897b740fdef1f4875924467668e0d80d42686a0c22691023e347afadcdb42"
+  "reserved_total": 160,
+  "run": "43427318102",
+  "selected_final_candidates": {
+    "KF": "NAME",
+    "LF": "TONE_NAME"
+  },
+  "stage_caps": {
+    "D": 112,
+    "F": 32,
+    "S": 16
+  },
+  "stage_counts": {
+    "D": {
+      "failed": 0,
+      "reserved": 112,
+      "success": 112,
+      "transmitted_recorded": 112,
+      "unknown": 0
+    },
+    "F": {
+      "failed": 0,
+      "reserved": 32,
+      "success": 32,
+      "transmitted_recorded": 32,
+      "unknown": 0
+    },
+    "S": {
+      "failed": 0,
+      "reserved": 16,
+      "success": 16,
+      "transmitted_recorded": 16,
+      "unknown": 0
+    }
+  },
+  "status": "CLOSED_LOCKED",
+  "success": 160,
+  "unknown": 0,
+  "unused_locked": 0
 }
