@@ -3,6 +3,11 @@ const fs=require('node:fs'),crypto=require('node:crypto'),assert=require('node:a
 const html=fs.readFileSync('index.html','utf8');
 const luna=fs.readFileSync('luna-base-test.js','utf8'),core=fs.readFileSync('luna-core.js','utf8'),prompts=fs.readFileSync('luna-base-prompts.js','utf8');
 const occur=(pattern)=>[...html.matchAll(pattern)].length;
+const version=JSON.parse(fs.readFileSync('version.json','utf8'));
+assert.equal(version.version,'V3.61.210','TEST metadata must trigger safe update for existing V3.61.209 clients');
+assert(html.includes("const INTEGRATED_VERSION='V3.61.210'"),'TEST shell and server version must agree');
+assert(html.includes('LUNA_TEST_BRIDGE_ONLY'),'Luna must work without separately stored Gemini key');
+assert(luna.includes('번역이 완전히 끝나지 않았습니다'),'Failed streaming FIRST must not look complete');
 assert.equal(occur(/data-test-engine="(?:31|38|luna)"/g),3,'Three TEST engine choices must remain');
 for(const id of ['unifiedPrimaryInput','unifiedGptInput','testEngineModal','husbandFrame','wifeFrame']){
  assert.equal(occur(new RegExp('id="'+id+'"','g')),1,'Missing or duplicated TEST UI control '+id);
