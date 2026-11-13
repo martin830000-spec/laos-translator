@@ -1,28 +1,64 @@
 {
+  "actual_api_attempts_recorded": 88,
   "approved_total": 120,
-  "backup_receipt_object": "gates/CLOSE.json",
-  "backup_receipt_sha256": "44b63137ee4c6fd995db8fa9a5ab3d52c84882117f6bb12ccbb1334ae1f10614",
-  "backup_verified": true,
   "campaign": "GPT_LUNA_NAME_ADDRESS_FOLLOWUP120_20261114",
-  "code_sha256": {
-    "contract.py": "dbcc43237241014ab5b3815f9870839fa610d3bb5d1fae9104f7e82d6abb7158",
-    "http_sender.py": "5682f5b4df87f76411e5f241dc3b591b9bd4ae9565e60fcd98c95ab9036b6cee",
-    "runner.py": "9467d1c5d0524a6ca07a7c6f7c587e2b52d601288000944eb63bbc92ab6fc8b5"
-  },
-  "deadline_epoch": 1794618152,
+  "closure_reason_private_evidence_pointer": "states/CLOSED_LOCKED.json#/closure_reason",
+  "closure_reason_sha256": "47c22664767db366a14c8afa214a85e7c0eca3b6cf91c02b6e42d60e0d69b4a6",
   "enabled": false,
-  "freeze_sha256": "94db6cd6203b8cea8e2c4072b34cca59187e63950ed0c41d8bec7567b2a41872",
+  "failed": 0,
+  "final_omitted_reason_private_evidence_pointer": "states/CLOSED_LOCKED.json#/final_omitted_reason",
+  "final_omitted_reason_sha256": "efb430f2713c64dcab790710af76e16c8ee61d7971fd4578230854efbadba040",
+  "final_record_note": "Counts copied from byte-identical verified GCS terminal authorities. Existing budgets remain locked; reuse is not new authorization.",
+  "generation_calls": 0,
+  "hard_stage_caps": {
+    "F": 32,
+    "L": 16,
+    "S": 72
+  },
+  "ledger_resolved": true,
   "max_new": 0,
-  "mode": "CLOSE",
-  "owner_token": "79d239e2-e74f-43e4-bf57-3dc42aeef1dd",
-  "package_sha256": "e903aac3e4855e87a2110e2af72c98bf7586930dc6d09bb4b09237b93f382ddf",
-  "phase": "L",
-  "plan_sha256": "60e573046b812cabd37d5e8aefb7891075b7988d94d82361d9671b59b4bccfac",
-  "preflight_object": "preflight/PREFLIGHT.json",
-  "preflight_sha256": "35c1ea8f831d80aeaae0a9b97e3e1e02264b483c6bac595398b13eb1d28a98a5",
-  "previous_phase": "L",
-  "prior_reserved": 88,
-  "prompts_sha256": "0e3fa6364a8a504002a16a9b4d328993e3b6ad1146858affbee4f318bb1f8e30",
+  "mode": "CLOSED",
+  "next_new_authorization": 0,
+  "private_reason_hash_encoding": "SHA256 of exact UTF-8 text; null remains null",
+  "private_terminal_evidence": {
+    "control_object": "controls/CLOSED/CLOSED_LOCKED.json",
+    "export_relative_path": "CLOSE/raw/states/CLOSED_LOCKED.json",
+    "state_object": "states/CLOSED_LOCKED.json"
+  },
+  "remote_terminal_state_sha256": "2578da9327e5eab94a3413a29ee2933ceacfcb89c0ee08cb8af3b8bc36bb35bc",
   "research_complete": true,
-  "source_sha256": "522a7c42feb1995ecedbb65cfa0e0d17643c5a0fe7bce5591261e2cab589367f"
+  "reserved_total": 88,
+  "selected_final_candidate": null,
+  "stage_caps": {
+    "F": 0,
+    "L": 16,
+    "S": 72
+  },
+  "stage_counts": {
+    "F": {
+      "failed": 0,
+      "reserved": 0,
+      "success": 0,
+      "transmitted_recorded": 0,
+      "unknown": 0
+    },
+    "L": {
+      "failed": 0,
+      "reserved": 16,
+      "success": 16,
+      "transmitted_recorded": 16,
+      "unknown": 0
+    },
+    "S": {
+      "failed": 0,
+      "reserved": 72,
+      "success": 72,
+      "transmitted_recorded": 72,
+      "unknown": 0
+    }
+  },
+  "status": "CLOSED_LOCKED",
+  "success": 88,
+  "unknown": 0,
+  "unused_locked": 32
 }
