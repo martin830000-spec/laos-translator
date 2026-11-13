@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>[TEST] Luna 부부 말투·태명 독립 A/B · 2026-11-13</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Noto Sans KR','Noto Sans Lao',sans-serif;color-scheme:light;--ink:#18283e;--bg:#f4f7fd;--line:#d5ddeb;--muted:#5b6d85;--blue:#2155b4}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--ink);margin:0}main{max-width:920px;margin:auto;padding:22px 14px 65px}h1{font-size:1.5rem}h2{font-size:1.1rem;margin:0 0 12px}.sub{color:var(--muted);line-height:1.6}.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:17px;margin:15px 0}.warn{border-left:4px solid #ae4530;background:#fff8f3}.flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}label{display:block;font-weight:700;margin:11px 0 7px}input[type=password],textarea{width:100%;font:inherit;border:1px solid #a7b5ca;border-radius:7px;padding:10px}input[type=file]{max-width:100%;}textarea{height:230px;white-space:pre;overflow:auto;resize:vertical;line-height:1.6}button{border:0;border-radius:8px;background:var(--blue);color:#fff;font:inherit;font-weight:700;padding:10px 14px;cursor:pointer;margin:3px 5px 3px 0}button.sec{background:#e6ebf4;color:var(--ink)}button.stop{background:#ae3232}button:disabled{opacity:.5;cursor:not-allowed}#status,#live{padding:12px;border-radius:8px;background:#f1f5fe;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}#live{min-height:45px;background:#fafbff}.small{color:var(--muted);font-size:.86rem;line-height:1.6}.result{border:1px solid var(--line);padding:12px;border-radius:8px;margin-top:9px}.result strong{display:block;margin-bottom:4px}.result pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.88rem}#results{max-height:820px;overflow-y:auto}table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{border-bottom:1px solid var(--line);padding:7px;text-align:left}th{background:#f4f7fd}code{font-size:.9em}@media(max-width:600px){h1{font-size:1.25rem}.panel{padding:12px}}
+</style>
+<script src="./luna-core.js" defer></script>
+</head>
+<body><main>
+<h1>GPT-6 Luna 말투·태명 4조건 A/B — TEST 전용</h1>
+<p class="sub">동일 원문에 <b>BASE · TONE · NAME · TONE_NAME</b>을 모두 적용해 FIRST와 독립 BACK을 비교합니다. 실제 FIRST 외에는 BACK에 아무 원문도 제공하지 않습니다. 실행 순서를 사례마다 순환해 순서 편향을 줄입니다. 자동 AI 채점·재시도·타사 모델 전환은 없습니다.</p>
+<div class="panel warn"><b>비용 및 안전</b>: 이 도구는 <b>한 번에 최대 4문장 × 4후보 × FIRST/BACK = 32회 실제 API 전송</b>으로 제한됩니다. 읽기·파일 선택은 무료입니다. 사용자가 직접 실행 버튼을 누르고 호출 상한 확인창에서 승인하기 전에는 <b>생성 호출 0회</b>입니다. TEST 앱과 Gemini SERVICE·DB·운영 프롬프트는 변경하지 않습니다. 첫 글자 시간보다 FIRST 전체 완료시간을 중시합니다.</div>
+<section class="panel"><h2>① 연구 프롬프트 4개 불러오기</h2>
+<p class="small">비공개 연구 ZIP에서 <code>PROMPTS_BASE.json</code>, <code>PROMPTS_TONE.json</code>, <code>PROMPTS_NAME.json</code>, <code>PROMPTS_TONE_NAME.json</code>을 풀어 네 파일을 동시에 선택하세요. 파일 내부의 4경로 SHA256을 확인하며 공개 GitHub에는 이 프롬프트를 넣지 않았습니다.</p>
+<input type="file" id="promptFiles" accept=".json,application/json" multiple>
+<div id="promptStatus" class="small">후보 파일 미선택 · 생성 호출 없음</div>
+<label for="apiKey">GPT API 키 (현재 탭의 메모리에서만 사용)</label>
+<input type="password" id="apiKey" autocomplete="off" spellcheck="false" placeholder="sk-...">
+<button id="clearKey" class="sec" type="button">키 입력 지우기</button>
+</section>
+<section class="panel"><h2>② 동일 원문 선택</h2>
+<p class="small">한 줄에 하나, <code>K|한국어</code> 또는 <code>L|ລາວ</code> 형식입니다. 정확히 4문장 이하. 개인 원문은 여기에서만 읽고 공개하지 않습니다.</p>
+<input id="casesFile" type="file" accept=".txt,text/plain">
+<textarea id="cases" placeholder="K|원문 하나&#10;L|ຕົວຢ່າງ"></textarea>
+<div id="estimate" class="small">0문장 · 0회 API 요청</div>
+<div class="flex"><button id="run" disabled type="button">4조건 동일 입력 A/B 직접 실행</button><button id="stop" class="stop" disabled type="button">중단</button><button id="clearCases" type="button" class="sec">원문 지우기</button></div>
+</section>
+<section class="panel"><h2>③ 결과 보존·재개</h2>
+<p class="small">실행 중에도 완료된 시점까지 JSON을 저장할 수 있습니다. 페이지 이탈 전에 저장하세요. 저장된 JSON을 다시 불러오면 같은 원문과 동일 프롬프트 SHA가 확인된 항목은 자동으로 <b>건너뛰고</b>, 남은 항목만 수동 실행 대상으로 잡습니다. 실패 항목도 무단 재요청하지 않습니다.</p>
+<input id="resumeFile" type="file" accept=".json,application/json"><button id="clearResults" class="sec" type="button">결과 초기화 (재실행 유의)</button>
+<div id="status" aria-live="polite">페이지 로드 후 LunaCore 확인</div>
+<h3>현재 스트리밍 조각 (미완성 · 상대에게 전송 금지)</h3><div id="live">실행 전</div>
+<div class="flex"><button id="saveJson" class="sec" type="button" disabled>결과 JSON 저장</button><button id="saveTxt" class="sec" type="button" disabled>결과 TXT 저장</button></div>
+<div id="summary"></div><div id="results"></div>
+</section>
+<footer class="small">현 브라우저 → OpenAI Responses API에만 사용자 동의 후 번역 원문/정번역을 전송하며 서비스 DB, Gemini, GitHub 등에 자동 기록하지 않습니다. API 키는 출력 파일에 포함되지 않습니다. 실험 기록에는 사적인 원문·번역문이 포함되므로 비공개로 보관하세요. 단일 run 결과의 p95는 작은 표본이므로 통계적 유의성으로 해석하지 않습니다. 실제 핸드폰 화면 표시시간과 API 클라이언트 처리시간은 구분합니다.</footer>
+</main>
+<script>
+'use strict';
+(function(){
+ const el=id=>document.getElementById(id);
+ const NAMES=['BASE','TONE','NAME','TONE_NAME'];
+ const MAX_CASES=4,MAX_CALLS=32,MODEL='gpt-6-luna';
+ let candidates={},cases=[],results=[],running=false,stopped=false,controller=null,transmissions=0;
+ let createdAt='',inputSha='',dirty=false;
+ const encoder=new TextEncoder();
+ const hash=async s=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',encoder.encode(s))),b=>b.toString(16).padStart(2,'0')).join('');
+ const fmt=n=>n==null||!Number.isFinite(Number(n))?'-':Math.round(Number(n))+'ms';
+ const status=s=>el('status').textContent=s;
+ const C=()=>window.LunaCore;
+ function escapeValue(x){return String(x==null?'':x)}
+ function parseCases(){const lines=el('cases').value.replace(/\r\n/g,'\n').split('\n'),out=[];
+  for(let i=0;i<lines.length;i++){const s=lines[i];if(!s.trim())continue;const m=/^([KL])\|(.*)$/.exec(s);if(!m||!m[2].trim())throw Error((i+1)+'번째 줄: K| 또는 L| 형식이 아닙니다.');if(m[2].includes('\u0000'))throw Error('NUL 문자는 허용하지 않습니다.');out.push({case_index:out.length+1,line:i+1,direction:m[1]==='K'?'K2L':'L2K',source:m[2]});}
+  if(out.length>MAX_CASES)throw Error('이번 스크린은 한 번에 '+MAX_CASES+'문장만 허용합니다.');return out;
+ }
+ function locked(){return running}
+ function fingerprintInput(c){return c.map(x=>(x.direction==='K2L'?'K|':'L|')+x.source).join('\n')+'\n'}
+ function updateEstimate(){try{cases=parseCases();const total=cases.length*NAMES.length*2;const remaining=cases.length*NAMES.length-results.length;el('estimate').textContent=cases.length+'문장 · 4후보 · 최대 '+total+'회 FIRST/BACK 생성 호출 · 이미 기록한 후보 '+results.length+'쌍 · 이번 실행 최대 '+Math.max(0,remaining*2)+'회';}catch(e){cases=[];el('estimate').textContent=e.message;}el('run').disabled=running||Object.keys(candidates).length!==4||!cases.length;}
+ function download(name,text,type){const blob=new Blob([text],{type:type||'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.download=name;a.href=url;a.style.display='none';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
+ function numUsage(u){const x=u||{};return [x.input_tokens??'-',x.output_tokens??'-',x.output_tokens_details?.reasoning_tokens??'-'].join('/')}
+ function preview(){el('results').replaceChildren();let completed=0;
+  for(const r of results){if(r.status==='COMPLETE')completed++;const div=document.createElement('div');div.className='result';const title=document.createElement('strong');title.textContent='CASE '+r.case_index+' '+r.direction+' · '+r.variant+' · '+r.status+' · FIRST '+fmt(r.first?.complete_ms)+' / BACK '+fmt(r.back?.complete_ms);div.append(title);const pre=document.createElement('pre');pre.textContent='원문: '+r.source+'\nFIRST: '+(r.first?.display_text||'-')+'\nBACK: '+(r.back?.display_text||'-')+'\nFIRST 첫글자: '+fmt(r.first?.first_text_ms)+' / 입력·출력·추론 토큰: '+numUsage(r.first?.usage);div.append(pre);el('results').append(div);}
+  el('summary').textContent='기록 '+results.length+'/'+(cases.length*4)+'쌍 · FIRST/BACK 완료 '+completed+'쌍 · 이번 탭 실제 요청 '+transmissions+'회';
+  el('saveJson').disabled=el('saveTxt').disabled=!results.length;updateEstimate();}
+ function manifest(){return Object.fromEntries(NAMES.map(n=>[n,candidates[n]?.sha256||null]))}
+ function report(){return {schema:'LUNA_TONE_NAME_AB_V1',created_at:createdAt||new Date().toISOString(),exported_at:new Date().toISOString(),model:MODEL,client:'browser-test',input_sha256:inputSha,variant_order_policy:'case-index Latin square rotation',max_attempts_per_run:MAX_CALLS,transmissions_in_this_tab:transmissions,prompts_sha256:manifest(),rules:{back_input:'actual_FIRST_only',auto_retry:false,auto_judge:false,fallback:false,store:false,original_text_private:true},case_count:cases.length,records:results}}
+ function textReport(){const d=report(),out=['LUNA_TONE_NAME_AB_V1','exported='+d.exported_at,'model='+MODEL,'inputSha256='+inputSha,'recordPairs='+results.length,''];for(const r of results){out.push('[CASE '+r.case_index+' '+r.direction+' '+r.variant+'] '+r.status,'SOURCE '+r.source,'FIRST '+(r.first?.display_text||'-'),'BACK '+(r.back?.display_text||'-'),'FIRST firstTextMs='+fmt(r.first?.first_text_ms)+' completeMs='+fmt(r.first?.complete_ms)+' token='+numUsage(r.first?.usage),'BACK completeMs='+fmt(r.back?.complete_ms)+' token='+numUsage(r.back?.usage),'forwardPromptSha='+r.first?.prompt_sha256+' backPromptSha='+r.back?.prompt_sha256,'FIRST status='+r.first?.status+' error='+String(r.first?.error||'-'),'BACK status='+String(r.back?.status||'-')+' error='+String(r.back?.error||'-'),'');}return out.join('\n')}
+ async function loadPrompts(){if(running)return;if(results.length){el('promptStatus').textContent='기존 결과가 있습니다. 프롬프트를 바꾸기 전에 JSON 저장·결과 초기화를 하세요.';return;}const files=Array.from(el('promptFiles').files||[]);candidates={};el('promptStatus').textContent='프롬프트 읽는 중…';if(files.length!==4){el('promptStatus').textContent='정확히 JSON 파일 4개를 선택해 주세요.';updateEstimate();return;}
+  try{if(!C())throw Error('기존 LunaCore가 로드되지 않았습니다.');const next={};for(const f of files){const d=JSON.parse(await f.text());const n=d.variant;if(!NAMES.includes(n)||next[n])throw Error('후보 중복 또는 이름 오류: '+n);if(d.model!==MODEL||d.effort!=='none')throw Error(n+' model/effort 불일치');for(const p of ['KF','KB','LF','LB']){if(typeof d.prompts?.[p]!=='string'||!d.prompts[p].trim()||!/^([a-f0-9]{64})$/.test(d.sha256?.[p]||''))throw Error(n+' '+p+' 필드 누락');const got=await hash(d.prompts[p]);if(got!==d.sha256[p])throw Error(n+' '+p+' SHA-256 불일치');if(n==='BASE'&&got!==C().HASHES[p])throw Error('BASE '+p+'가 운영 기준선과 불일치');}
+   next[n]={variant:n,sha256:d.sha256,prompts:d.prompts};}
+   candidates=next;el('promptStatus').textContent='4후보×4경로 SHA256 전부 확인됨 · BASE 기존 LunaCore 기준 일치 · 생성 호출 0회';status('후보 잠금 확인. 원문 파일을 골라 실행할 수 있습니다.');}
+  catch(e){candidates={};el('promptStatus').textContent='프롬프트 검증 실패: '+String(e.message||e);status('SHA 검증 실패. 유료 호출이 차단되었습니다.');}preview();}
+ function pathsFor(dir){return dir==='K2L'?{f:'KF',b:'KB'}:{f:'LF',b:'LB'}}
+ function orderFor(i){const shift=(i-1)%4;return NAMES.slice(shift).concat(NAMES.slice(0,shift))}
+ async function send(variant,path,input,key,stage){const started=performance.now(),ctrl=new AbortController();controller=ctrl;const d=candidates[variant];const entry={variant,path,request_model:MODEL,prompt_sha256:d.sha256[path],sent_at:new Date().toISOString(),status:'ATTEMPTED'};let timer;
+  try{timer=setTimeout(()=>ctrl.abort(),60000);const payload={model:MODEL,reasoning:{effort:'none'},instructions:d.prompts[path],input,stream:true,store:false,max_output_tokens:4096,service_tier:'default'};
+   const res=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:ctrl.signal,credentials:'omit',cache:'no-store'});
+   if(!res.ok){try{await res.body?.cancel()}catch(_){}throw Error('HTTP_'+res.status)}
+   const parsed=await C().parseStream(res,{signal:ctrl.signal,start:started,onText:(part,ms)=>{el('live').textContent=stage+' 수신 중 [미완성] · '+fmt(ms)+'\n'+part.slice(0,1200)}});
+   if(!parsed.display_text?.trim()||parsed.actual_model!==MODEL)throw Error('모델/완성 결과 불일치');
+   return {...entry,...parsed,status:'SUCCESS'};
+  }catch(e){return {...entry,status:e?.name==='AbortError'?'CANCELLED':'FAILED',error:String(e?.message||e?.name||'ERROR'),complete_ms:performance.now()-started}}
+  finally{clearTimeout(timer);controller=null;}
+ }
+ async function run(){if(running)return;try{cases=parseCases();if(!cases.length||Object.keys(candidates).length!==4)throw Error('원문과 4개 프롬프트가 준비되지 않았습니다.');}
+  catch(e){status(String(e.message||e));return}
+  const k=el('apiKey').value.trim();if(!k){status('이 페이지에서 사용할 GPT API 키를 입력해 주세요.');return}
+  const fingerprint=await hash(fingerprintInput(cases));if(inputSha&&fingerprint!==inputSha){status('원문이 기존 기록과 달라졌습니다. 초기화 후 실행하세요.');return}inputSha=fingerprint;
+  const done=new Set(results.map(r=>r.case_index+'|'+r.variant));const work=[];
+  for(const c of cases){for(const name of orderFor(c.case_index)){if(!done.has(c.case_index+'|'+name))work.push({c,variant:name});}}
+  const max=work.length*2;if(!max){status('현재 입력과 프롬프트의 모든 후보가 기록되어 있어 추가 호출할 게 없습니다.');return}
+  if(max>MAX_CALLS)throw Error('하드 예산 상한 초과');
+  if(!confirm(cases.length+'개 원문 × BASE/TONE/NAME/TONE_NAME. 아직 실행하지 않은 후보 '+work.length+'쌍에 대해 GPT-6 Luna 유료 API를 최대 '+max+'회 전송합니다. 비용이 발생합니다. 직접 실행할까요?'))return;
+  running=true;stopped=false;createdAt=createdAt||new Date().toISOString();transmissions=0;el('promptFiles').disabled=el('cases').disabled=el('casesFile').disabled=el('resumeFile').disabled=true;el('run').disabled=true;el('stop').disabled=false;status('Luna A/B 진행 · 기존 기록 '+results.length+'쌍 · 신규 예상 최대 '+max+'회');
+  for(const {c,variant} of work){if(stopped)break;const paths=pathsFor(c.direction),r={case_index:c.case_index,input_line:c.line,direction:c.direction,variant,source:c.source,created_at:new Date().toISOString(),status:'IN_PROGRESS',first:null,back:null};results.push(r);preview();
+   transmissions++;status('CASE '+c.case_index+' '+c.direction+' '+variant+' FIRST · 실제 전송 '+transmissions+'/'+max);r.first=await send(variant,paths.f,c.source,k,'FIRST '+variant);
+   if(!stopped&&r.first.status==='SUCCESS'){transmissions++;status('CASE '+c.case_index+' '+c.direction+' '+variant+' BACK · 실제 전송 '+transmissions+'/'+max);r.back=await send(variant,paths.b,r.first.display_text,k,'BACK '+variant);}
+   r.status=r.first.status!=='SUCCESS'?'FIRST_'+r.first.status:r.back?.status!=='SUCCESS'?'BACK_'+(r.back?.status||'NOT_ATTEMPTED'):'COMPLETE';dirty=true;preview();if(r.status!=='COMPLETE'){stopped=true;status('요청 실패/중단 감지 ('+r.status+'). 추가 유료 호출을 자동 중단했습니다. JSON을 저장하세요.');break;}}
+  running=false;el('promptFiles').disabled=el('cases').disabled=el('casesFile').disabled=el('resumeFile').disabled=false;el('stop').disabled=true;el('live').textContent='실행 종료. FIRST/BACK 완성 전에는 전송하지 마세요.';preview();
+  status('실행 종료 · 후보 결과 '+results.length+'쌍 · 이번 실행 실제 API 시도 '+transmissions+'회'+(stopped?' · 수동 중단':'')+'\nJSON을 저장한 뒤 이 대화에 올려줘. 결과 자동 재실행은 하지 않습니다.');
+ }
+ async function resume(){if(running)return;const f=el('resumeFile').files?.[0];if(!f)return;
+  try{if(Object.keys(candidates).length!==4)throw Error('먼저 동일한 후보 4개를 불러오세요.');const current=parseCases();if(!current.length)throw Error('먼저 동일한 원문을 불러오세요.');const x=JSON.parse(await f.text());if(x.schema!=='LUNA_TONE_NAME_AB_V1'||x.model!==MODEL||!Array.isArray(x.records))throw Error('지원하지 않는 결과 파일');if(x.input_sha256!==await hash(fingerprintInput(current)))throw Error('원문 SHA 불일치');for(const name of NAMES)for(const p of ['KF','KB','LF','LB'])if(x.prompts_sha256?.[name]?.[p]!==candidates[name].sha256[p])throw Error(name+' '+p+' 프롬프트 SHA 불일치');
+   const unique=new Set();for(const r of x.records){const c=current[r.case_index-1],id=r.case_index+'|'+r.variant;if(!c||r.direction!==c.direction||r.source!==c.source||!NAMES.includes(r.variant)||unique.has(id))throw Error('결과와 원문/후보가 불일치하거나 중복됨');unique.add(id);}
+   results=x.records;createdAt=x.created_at||'';inputSha=x.input_sha256;preview();status('기존 '+results.length+'쌍 복원. 기록한 후보는 재실행하지 않음. 나머지는 수동으로 실행할 수 있습니다.');}
+  catch(e){status('기존 결과 복원 거부: '+String(e.message||e));}
+ }
+ el('promptFiles').addEventListener('change',loadPrompts);
+ el('casesFile').addEventListener('change',async()=>{if(running)return;const f=el('casesFile').files?.[0];if(!f)return;try{el('cases').value=await f.text();updateEstimate();status(f.name+' 원문을 읽었습니다. 생성 호출 0회.');}catch(e){status('파일 오류 '+String(e))}});
+ el('cases').addEventListener('input',updateEstimate);
+ el('run').addEventListener('click',()=>run().catch(e=>{status('실행 내부 오류: '+String(e));running=false;el('stop').disabled=true;el('promptFiles').disabled=el('cases').disabled=el('casesFile').disabled=el('resumeFile').disabled=false;preview()}));
+ el('stop').addEventListener('click',()=>{stopped=true;try{controller?.abort()}catch(_){};status('중단 요청: 현재 응답 취소, 재시도하지 않음. JSON 저장 권장.')});
+ el('clearCases').addEventListener('click',()=>{if(running)return;el('cases').value='';updateEstimate()});
+ el('clearKey').addEventListener('click',()=>{el('apiKey').value='';status('키 입력 지움')});
+ el('clearResults').addEventListener('click',()=>{if(running)return;if(results.length&&!confirm('저장되지 않은 기록이 사라질 수 있습니다. 정말 초기화할까요?'))return;results=[];inputSha='';createdAt='';transmissions=0;preview();status('결과를 초기화했습니다. 동일 문장 재실행은 중복 과금될 수 있습니다.')});
+ el('resumeFile').addEventListener('change',resume);
+ el('saveJson').addEventListener('click',()=>download('luna-tone-name-ab-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(report(),null,2),'application/json;charset=utf-8'));
+ el('saveTxt').addEventListener('click',()=>download('luna-tone-name-ab-'+new Date().toISOString().slice(0,10)+'.txt',textReport()));
+ document.addEventListener('DOMContentLoaded',()=>{if(!C()||C().MODEL!==MODEL)status('LunaCore 검증 실패: 기존 TEST 사이트에서 접속하세요.');else status('코어 '+C().MODEL+' 확인. 프롬프트 4개를 먼저 선택해 주세요. 현재 유료 호출 0회.');updateEstimate();},{once:true});
+})();
+</script>
+</body>
+</html>
