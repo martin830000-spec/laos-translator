@@ -1387,7 +1387,7 @@ body #appScreen #primaryResultSection&gt;.result-header:first-child .btn-group-t
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.209';
+const APP_VERSION='V3.61.210';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -6522,7 +6522,7 @@ body #appScreen #primaryResultSection&gt;.section-head:first-child .actions butt
   window.showAppAlert=showAppAlert;
   window.alert=showAppAlert;
 })();
-const APP_VERSION='V3.61.209';
+const APP_VERSION='V3.61.210';
 // V3.61.25: concise source-faithful fast prompt; per-message safety-rule injection remains removed.
 // V3.49 fast live prompt: compact always-on core + source-triggered high-risk rules with broader Korean/Lao morphology.
 // V3.61.161 TEST: package synchronization for general-app prompt split; P154A and selective semantic guard behavior are unchanged.
@@ -10221,7 +10221,7 @@ try{new ResizeObserver(fitShellTopbar).observe(document.getElementById('shellSwi
 
 function ensureModeLoaded(mode){
   const frame=frameByMode[mode];if(!frame)throw new Error('UNKNOWN_MODE');
-  refreshSharedCredentials();if(!sharedKeys.gemini){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}
+  refreshSharedCredentials();if(!sharedKeys.gemini&&!(window.__TEST_MODEL_CHOICE__==='luna'&&window.LunaTest?.keyStatus()?.stored)){pendingCredentialRecovery={mode,kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel(window.__TEST_MODEL_CHOICE__==='luna'?'missing-gpt':'missing');return false}
   if(frame.dataset.loaded==='1'||frame.dataset.loaded==='loading')return false;
   let srcdoc='';
   try{srcdoc=injectUnifiedKeys(getPayloadText(mode),mode)}catch(e){frame.dataset.loaded='0';document.getElementById('loadingMask').classList.remove('show');console.error('[EMBEDDED BOOT BUILD FAILED]',mode,e);unifiedAlert('번역기 내부 초기화 준비에 실패했습니다. 새로고침 후 다시 시도해주세요.');return false}
