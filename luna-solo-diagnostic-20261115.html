@@ -63,12 +63,55 @@
 'use strict';
 (function(){
  const el=id=>document.getElementById(id),ui={status:el('status'),live:el('liveOutput'),results:el('results'),estimate:el('estimate'),promptStatus:el('promptStatus')};
- let ready=false,running=false,aborted=false,controller=null,records=[],startAt='',inputFingerprint='';
- const C=()=>window.LunaCore,P=()=>window.__LUNA_BASE_PROMPTS__;
+ let ready=false,running=false,aborted=false,controller=null,records=[],startAt='',inputFingerprint='',pool=[],poolFileName='';
+ const C=()=>window.LunaCore,BASE=()=>window.__LUNA_BASE_PROMPTS__,NAME=()=>window.__LUNA_NAME_FAST_PROMPTS__;
+ const PIN=Object.freeze({KF:'812804499856e31cd70bd4571d3791d3a2159f725b6f5f798069c78df1606194',KB:'4ecf671709652818bc0b432645210e8e498305b8fa8fb851eedcfd8dbed23300',LF:'b902a50dcaa0c19c4b2d3a0b26a7dc02c9dc0a8cc9a3d0536ff02f9605d8febd',LB:'0337f538b89bfb9ccbddc2d4737751cda319b8366ce0a66a070521d20fc9e92c'});
+ const P=()=>({KF:NAME().paths.KF,KB:NAME().paths.KB,LF:BASE().LF,LB:BASE().LB});
+ const hashes=()=>PIN;
  function status(t){ui.status.textContent=t}
+ const MAX_POOL=20000;
+ function inferDirection(s){const lo=/[\u0E80-\u0EFF]/.test(s),ko=/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/.test(s);return lo&&!ko?'L2K':ko&&!lo?'K2L':null}
+ function canonicalDirection(d,s){const v=String(d||'').trim().toUpperCase();if(['K','KO','KR','K2L','KF','KOREAN'].includes(v))return 'K2L';if(['L','LO','LA','L2K','LF','LAO'].includes(v))return 'L2K';return inferDirection(s)}
+ function norm(s){return String(s||'').normalize('NFKC').replace(/\s+/g,' ').trim()}
+ function collect(out,src,dir){const t=String(src||'').trim();if(!t||t.length>8000||/[\r\n]/.test(t)||/sk-[A-Za-z0-9_-]{20,}/.test(t))return;const d=canonicalDirection(dir,t);if(d)out.push({direction:d,source:t})}
+ function jsonCases(obj){const out=[],a=Array.isArray(obj)?obj:Array.isArray(obj?.records)?obj.records:Array.isArray(obj?.cases)?obj.cases:Array.isArray(obj?.results)?obj.results:Array.isArray(obj?.rows)?obj.rows:[];
+  for(const r of a){if(out.length>=MAX_POOL)break;if(typeof r==='string'){const m=/^([KL])\|(.*)$/s.exec(r);if(m)collect(out,m[2],m[1]);continue}if(!r||typeof r!=='object')continue;
+   const v=r.sourceText??r.source_text??r.originalText??r.original_text??r.source??r.original??r.inputText??(typeof r.input==='string'?r.input:null);
+   if(typeof v==='string')collect(out,v,r.direction??r.dir??r.language??r.sourceLanguage??r.source_lang);
+  }return out;
+ }
+ function csvCases(s){const rows=[],row=[];let value='',quoted=false;
+  for(let i=0;i<s.length&&rows.length<=MAX_POOL;i++){const ch=s[i];if(quoted){if(ch==='"'&&s[i+1]==='"'){value+='"';i++}else if(ch==='"')quoted=false;else value+=ch}
+   else if(ch==='"')quoted=true;else if(ch===','){row.push(value);value=''}else if(ch==='\n'){row.push(value.replace(/\r$/,''));rows.push(row.splice(0));value=''}else value+=ch;}
+  if(value||row.length){row.push(value);rows.push(row)}if(!rows.length)return [];
+  const header=rows.shift().map(x=>x.trim().toLowerCase().replace(/[^a-z]/g,'')),si=header.findIndex(x=>['sourcetext','source','originaltext','original','inputtext'].includes(x)),di=header.findIndex(x=>['direction','dir','sourcelanguage','language'].includes(x));if(si<0)return [];
+  const out=[];for(const r of rows){if(out.length>=MAX_POOL)break;collect(out,r[si],di>=0?r[di]:null)}return out;
+ }
+ function extractPool(raw,name){const s=String(raw||'').replace(/^\uFEFF/,'');if(s.length>25000000)throw Error('25MB 이하 로그만 지원합니다.');
+  if(/\.json$/i.test(name)||/^\s*[\[{]/.test(s)){try{const a=jsonCases(JSON.parse(s));if(a.length)return a}catch(e){if(/\.json$/i.test(name))throw Error('JSON 원문 형식 오류: '+e.message)}}
+  if(/\.csv$/i.test(name)){const a=csvCases(s);if(a.length)return a}
+  const out=[],lines=s.replace(/\r\n/g,'\n').split('\n');for(let i=0;i<lines.length&&out.length<MAX_POOL;i++){
+   const v=lines[i].trim();let m=/^(K|L|K2L|L2K)\s*\|(.*)$/i.exec(v);
+   if(m){collect(out,m[2],m[1]);continue}
+   m=/^(?:원문|sourceText|source_text|originalText|SOURCE)\s*[:=]\s*(.+)$/i.exec(v);
+   if(m){collect(out,m[1],null);continue}
+   if(/^\[(?:원문|SOURCE)\]$/i.test(v)){const next=lines[i+1]?.trim();if(next){collect(out,next,null);i++}}
+  }return out;
+ }
+ function dedup(a){const keys=new Set(),out=[];for(const r of a){const key=r.direction+'|'+norm(r.source);if(keys.has(key))continue;keys.add(key);out.push(r)}return out}
+ function evenly(a,n){if(n>=a.length)return a.slice();const x=[];for(let i=0;i<n;i++)x.push(a[Math.floor((i+.5)*a.length/n)]);return x}
+ function samplePool(){if(running)return;const n=Number(el('sampleCount').value),d=el('sampleDirection').value,k=pool.filter(x=>x.direction==='K2L'),l=pool.filter(x=>x.direction==='L2K');let selected=[];
+  if(d==='K2L')selected=evenly(k,Math.min(n,k.length));
+  else if(d==='L2K')selected=evenly(l,Math.min(n,l.length));
+  else{let kn=Math.min(Math.ceil(n/2),k.length),ln=Math.min(Math.floor(n/2),l.length);if(kn+ln<n){kn=Math.min(k.length,kn+(n-kn-ln));ln=Math.min(l.length,n-kn)}
+   const ka=evenly(k,kn),la=evenly(l,ln);for(let i=0;i<Math.max(ka.length,la.length);i++){if(ka[i])selected.push(ka[i]);if(la[i])selected.push(la[i])}}
+  el('cases').value=selected.map(x=>(x.direction==='K2L'?'K|':'L|')+x.source).join('\n');
+  el('poolStatus').textContent='파일: '+(poolFileName||'-')+'\n고유 원문 '+pool.length+'건 · K2L '+k.length+'건 / L2K '+l.length+'건 · 선별 '+selected.length+'건 · 유료 0회\n실행 전 선택된 원문과 호출량을 확인해 줘.';
+  estimate();status('원문 '+selected.length+'건을 선별했어. 유료 호출은 아직 0회.');
+ }
  function parseLines(){const arr=el('cases').value.replace(/\r\n/g,'\n').split('\n'),result=[];let no=0;
   for(const line of arr){no++;if(!line.trim())continue;const m=/^([KL])\|(.*)$/.exec(line);if(!m||!m[2].trim())throw Error('문장 '+no+' 형식 오류. K| 또는 L| 뒤에 원문이 있어야 합니다.');result.push({lineNo:no,direction:m[1]==='K'?'K2L':'L2K',source:m[2]});}
-  if(result.length>32)throw Error('한 번에 최대 32문장만 지원합니다. 32문장 테스트 전용입니다.');return result;
+  if(result.length>100)throw Error('한 번에 최대 100문장까지 실행할 수 있습니다.');return result;
  }
  function estimate(){try{const arr=parseLines();ui.estimate.textContent=arr.length+'개 문장 / 최대 '+(arr.length*2)+'회 유료 생성 요청 / K2L '+arr.filter(x=>x.direction==='K2L').length+' / L2K '+arr.filter(x=>x.direction==='L2K').length}catch(e){ui.estimate.textContent='입력 형식 오류: '+e.message}}
  function download(filename,txt,mime){const blob=new Blob([txt],{type:mime||'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.style.display='none';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
