@@ -10001,9 +10001,10 @@ function openUnifiedServerSetupPanel(reason='manual'){
 }
 function closeUnifiedServerSetup(clearRecovery=true){const overlay=document.getElementById('serverSetupOverlay');if(overlay)overlay.classList.add('hidden');if(clearRecovery){const pending=pendingCredentialRecovery;pendingCredentialRecovery=null;unifiedCredentialRecoveryBusy=false;if(pending){try{const frame=frameByMode[pending.mode],target=frame?.contentWindow;if(target)target.postMessage({type:'integrated-credential-cancelled',kind:pending.kind},'*')}catch(e){}}}}
 async function loginUnified(){
- await cleanupLegacyCredentialResidue();
  const input=document.getElementById('unifiedPrimaryInput'),gpt=document.getElementById('unifiedGptInput'),hint=document.getElementById('serverSetupHint');
- const typed=String(input?.value||'').trim(),gptTyped=String(gpt?.value||'').trim(),primary=typed||readPrimaryPasswordSync();
+ const typed=String(input?.value||'').trim(),gptTyped=String(gpt?.value||'').trim();
+ await cleanupLegacyCredentialResidue();
+ const primary=typed||readPrimaryPasswordSync();
  if(!primary){if(hint){hint.className='auth-connect-status error';hint.textContent='⚠️ 기존 Gemini 1차 비밀번호가 없습니다. 기존 비밀번호도 등록해 주세요.';}return false;}
  if(gptTyped){try{if(!window.LunaTest)throw Error('Luna TEST 파일을 불러오지 못했습니다.');await window.LunaTest.saveKeyFromSetup(gptTyped);}
  catch(e){if(hint){hint.className='auth-connect-status error';hint.textContent=String(e?.message||'GPT 키 저장 실패');}return false;}}

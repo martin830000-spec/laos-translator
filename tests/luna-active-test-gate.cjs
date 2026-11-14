@@ -33,6 +33,10 @@ for(const p of ['KF','KB']){
 assert(html.includes('GPT-6 Luna Fast · N0 NAME'), 'TEST user-visible engine label must show Fast and NAME');
 
 assert(html.includes('await waitForLunaTestReady();'), 'Start must await TEST Luna runtime readiness');
+const loginPart=html.slice(html.indexOf('async function loginUnified(){'),html.indexOf('async function forgetUnifiedGptFromSetup()'));
+assert(loginPart.includes("const primary=typed||readPrimaryPasswordSync();")&&
+ loginPart.indexOf("const typed=")<loginPart.indexOf("await cleanupLegacyCredentialResidue();"),
+ 'TEST setup must snapshot entered credentials before asynchronous cleanup can reset the form');
 const bootstrapFn=html.match(/async function waitForLunaTestReady\(maxWaitMs=8000\)\{[\s\S]*?\n\}/)?.[0];
 assert(bootstrapFn,'Missing bounded TEST Luna loader');
 const vm=require('node:vm');
