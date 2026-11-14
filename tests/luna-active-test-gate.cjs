@@ -33,7 +33,10 @@ for(const p of ['KF','KB']){
 assert(html.includes('GPT-6 Luna Fast · N0 NAME'), 'TEST user-visible engine label must show Fast and NAME');
 
 assert(html.includes('await waitForLunaTestReady();'), 'Start must await TEST Luna runtime readiness');
-assert(html.includes("if(overlay.classList.contains('hidden')){input.value='';if(gpt)gpt.value='';}"),'Reopening visible setup must not erase typed keys');
+const openPart=html.slice(html.indexOf('function openUnifiedServerSetupPanel('),html.indexOf('function closeUnifiedServerSetup('));
+assert(!openPart.includes("input.value=''")&&!openPart.includes("gpt.value=''"),'Reopening TEST settings must preserve in-progress password input');
+const closePart=html.slice(html.indexOf('function closeUnifiedServerSetup('),html.indexOf('async function loginUnified()'));
+assert(closePart.includes("if(input)input.value='';if(gpt)gpt.value=''"),'Closing TEST settings must erase password fields');
 const loginPart=html.slice(html.indexOf('async function loginUnified(){'),html.indexOf('async function forgetUnifiedGptFromSetup()'));
 assert(loginPart.includes("const primary=typed||readPrimaryPasswordSync();")&&
  loginPart.indexOf("const typed=")<loginPart.indexOf("await cleanupLegacyCredentialResidue();"),
