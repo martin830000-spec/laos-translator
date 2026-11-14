@@ -1,0 +1,92 @@
+/* N0 NAME KF/KB and BASE LF/LB on Fast tier. TEST BYOK only. No SERVICE changes. */
+/* Local encrypted storage does not protect against same-origin XSS. */
+(function(){
+'use strict';
+const C=window.LunaCore,BASE=window.__LUNA_BASE_PROMPTS__,NAMED=window.__LUNA_NAME_FAST_PROMPTS__,DB='ko_lao_luna_test_v1',VERSION='LUNA_NAME_FAST_TEST_20261114_R1';
+if(!C||!BASE||!NAMED?.paths)throw Error('LUNA_NAME_FAST_ASSET_MISSING');
+const SHA=Object.freeze({KF:'812804499856e31cd70bd4571d3791d3a2159f725b6f5f798069c78df1606194',KB:'4ecf671709652818bc0b432645210e8e498305b8fa8fb851eedcfd8dbed23300',LF:C.HASHES.LF,LB:C.HASHES.LB});
+const P=Object.freeze({KF:NAMED.paths.KF,KB:NAMED.paths.KB,LF:BASE.LF,LB:BASE.LB});
+const labelFor=path=>path==='KF'||path==='KB'?'GPT-6 Luna Fast · N0 NAME':'GPT-6 Luna Fast · 기존 BASE';
+const nativeFetch=window.fetch.bind(window),active=new Map(),chains=new Map();let key='',storeError='',pendingMode='',dbPromise=null,dialog=null;
+const isLuna=()=>window.__TEST_MODEL_CHOICE__==='luna';
+function database(){if(dbPromise)return dbPromise;dbPromise=new Promise((resolve,reject)=>{if(!window.indexedDB||!window.crypto?.subtle){reject(Error('LOCAL_SECURE_STORAGE_UNAVAILABLE'));return;}const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{for(const n of ['vault','records'])if(!r.result.objectStoreNames.contains(n))r.result.createObjectStore(n);};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(Error('LOCAL_STORAGE_FAILED'));r.onblocked=()=>reject(Error('LOCAL_STORAGE_BLOCKED'));});return dbPromise;}
+async function read(store,id){const db=await database();return new Promise((resolve,reject)=>{const r=db.transaction(store,'readonly').objectStore(store).get(id);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(Error('LOCAL_STORAGE_FAILED'));});}
+async function write(store,id,value){const db=await database();return new Promise((resolve,reject)=>{const tx=db.transaction(store,'readwrite'),s=tx.objectStore(store);if(value===undefined)s.delete(id);else s.put(value,id);tx.oncomplete=resolve;tx.onabort=tx.onerror=()=>reject(Error('LOCAL_STORAGE_FAILED'));});}
+async function unlock(){try{const r=await read('vault','credential');if(r){const b=await crypto.subtle.decrypt({name:'AES-GCM',iv:r.iv},r.cryptoKey,r.cipher);key=new TextDecoder().decode(b);}}catch(_){storeError='키 저장소를 열지 못했습니다. GPT 키 설정을 확인해 주세요.';}}
+async function saveKey(value){const next=String(value||'').trim();if(!/^sk-[A-Za-z0-9_-]{20,}$/.test(next))throw Error('GPT API 키 형식을 확인해 주세요. sk-로 시작하는 전체 키가 필요합니다.');await ready;const cryptoKey=await crypto.subtle.generateKey({name:'AES-GCM',length:256},false,['encrypt','decrypt']),iv=crypto.getRandomValues(new Uint8Array(12)),cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},cryptoKey,new TextEncoder().encode(next));await write('vault','credential',{cryptoKey,iv,cipher});const r=await read('vault','credential'),back=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:r.iv},r.cryptoKey,r.cipher));if(back!==next)throw Error('키 저장 후 확인에 실패했습니다.');key=next;storeError='';return true;}
+async function forgetKey(){await write('vault','credential',undefined);key='';for(const r of active.values())r.abort();active.clear();chains.clear();}
+async function verifyNamed(){
+ if(NAMED.model!==C.MODEL||NAMED.candidate!=='N0_NAME')throw Error('LUNA_NAME_PROMPT_ID');
+ for(const p of ['KF','KB']){
+  if(typeof P[p]!=='string'||NAMED.sha256?.[p]!==SHA[p])throw Error('LUNA_NAME_PROMPT_DECLARATION_'+p);
+  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(P[p]));
+  const got=Array.from(new Uint8Array(digest),x=>x.toString(16).padStart(2,'0')).join('');
+  if(got!==SHA[p])throw Error('LUNA_NAME_PROMPT_SHA_'+p);
+ }
+ return true;
+}
+const ready=Promise.all([C.verify(BASE),verifyNamed(),unlock()]);ready.catch(()=>{});
+function keyStatus(){return {stored:!!key,storageError:storeError};}
+async function config(){await ready;const cfg={schemaVersion:1,channel:'TEST',promptRevision:'LUNA_NAME_FAST_20261114_R1',forward:{k2l:P.KF,l2k:P.LF},smart:{k2lSelf:'',k2lHome:'',l2kElder:'',k2lSpeechAct:'',l2kSpeechAct:'',k2lRelation:'',l2kRelation:'',l2kReadability:''},back:{husband:P.KB,wife:P.LB,husbandRecovery:P.KB,wifeRecovery:P.LB}};const canonical=JSON.stringify(cfg),hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical));cfg.promptSha256=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');return cfg;}
+function sourceMode(w){for(const mode of ['husband','wife'])if(document.getElementById(mode+'Frame')?.contentWindow===w)return mode;throw Error('LUNA_UNKNOWN_FRAME');}
+function note(w,message,error=false){try{let el=w.document.getElementById('lunaRuntimeNotice');if(!el){el=w.document.createElement('div');el.id='lunaRuntimeNotice';el.setAttribute('role','status');el.style.cssText='padding:8px 12px;white-space:pre-wrap;font-size:12px;border:1px solid #b6c5e2;border-radius:8px;background:#eef5ff;color:#18345a;margin:8px 0;';const input=w.document.getElementById('krInput')||w.document.getElementById('loInput');(input?.parentElement||w.document.body).append(el);}el.textContent=message;el.style.color=error?'#a12b22':'#18345a';}catch(_){}}
+async function saveRecord(r){try{await write('records',r.id,r);}catch(_){storeError='사용기록을 기기에 저장하지 못했습니다. 저장 공간을 확인해 주세요.';}}
+async function bridge(w,options,meta){await ready;if(!isLuna())throw Error('LUNA_NOT_SELECTED');const mode=sourceMode(w),path=C.pathFor(mode,meta?.action);if(!key){openSettings(mode);throw Error('LUNA_KEY_MISSING');}if(active.has(mode))throw Error('LUNA_REQUEST_ALREADY_ACTIVE');
+ let prior;try{prior=JSON.parse(options.body)}catch(_){throw Error('LUNA_INVALID_INPUT');}const text=prior?.contents?.[0]?.parts?.[0]?.text;
+ if(typeof text!=='string'||!text.trim())throw Error('LUNA_INVALID_INPUT');
+ let chain=chains.get(mode);if(meta.action==='translate'){chain={id:crypto.randomUUID(),created_at:new Date().toISOString(),version:VERSION,provider:'openai',model:C.MODEL,candidate:mode==='husband'?'N0_NAME':'BASE',tier:'fast',direction:mode==='husband'?'K2L':'L2K',source:text,first:null,backs:[],backAlreadySent:false,status:'FIRST_PENDING'};chains.set(mode,chain);}else { const actualFirst=String(w.document.getElementById(mode==='husband'?'laoResult':'koResult')?.textContent||'').trim(); if(!chain?.first||!actualFirst||actualFirst!==text.trim())throw Error('LUNA_BACK_INPUT_NOT_DISPLAYED_FIRST'); if(chain.backAlreadySent)throw Error('LUNA_AUTO_BACK_DUPLICATE_SUPPRESSED');chain.backAlreadySent=true; }
+ const controller=new AbortController(),external=options.signal,onAbort=()=>controller.abort();if(external?.aborted)throw new DOMException('Cancelled','AbortError');external?.addEventListener('abort',onAbort,{once:true});const timer=setTimeout(()=>controller.abort(),60000);active.set(mode,controller);
+ const started=performance.now(),request={path,prompt_sha256:SHA[path],request_model:C.MODEL,requested_tier:'fast',effort:'none',input:text,started_at:new Date().toISOString(),http_attempts:0,status:'PENDING',raw_text:'',display_text:null};
+ if(meta.action==='back')chain.backs.push(request);else chain.first_attempt=request;
+ void saveRecord(chain);note(w,labelFor(path)+' · '+path+' · 수신 중 / ກຳລັງແປ…');
+ try{const body=C.payload(path,text,P);body.service_tier='fast';request.http_attempts=1;
+  const res=await nativeFetch('https://api.openai.com/v1/responses',{method:'POST',headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(body),signal:controller.signal,credentials:'omit',redirect:'error',referrerPolicy:'no-referrer',cache:'no-store'});request.http_status=res.status;
+  if(!res.ok){try{await res.body?.cancel()}catch(_){}throw Error('LUNA_HTTP_'+res.status);}
+  const parsed=await C.parseStream(res,{signal:controller.signal,start:started,onText:(partial,firstMs)=>{request.partial_text=partial;request.first_text_ms=firstMs;if(meta.action==='translate'&&!controller.signal.aborted){try{const id=mode==='husband'?'laoResult':'koResult';const e=w.document.getElementById(id);if(e)e.textContent=partial;w.setPrimaryResultVisible?.(true);}catch(_){}}}});
+  request.actual_tier=parsed.service_tier||null;
+  if(parsed.service_tier!=='fast')throw Error('LUNA_FAST_TIER_MISMATCH');
+  Object.assign(request,parsed,{status:'SUCCESS'});delete request.partial_text;
+  if(meta.action==='translate'){chain.first=parsed;chain.status='FIRST_COMPLETE';}else chain.status='COMPLETE';
+  void saveRecord(chain);note(w,labelFor(path)+' · '+path+' · 완료 / ສຳເລັດ ('+(parsed.complete_ms/1000).toFixed(2)+'s)'+(storeError?'\n'+storeError:''));
+  const compatible=C.asGemini(parsed);
+  compatible.lunaMetadata.promptContract='LUNA_NAME_FAST_20261114_R1';
+  compatible.lunaMetadata.promptSha256=SHA[path];
+  compatible.lunaMetadata.serviceTier=parsed.service_tier;
+  const response=new Response(JSON.stringify(compatible),{status:200,headers:{'Content-Type':'application/json','X-Translation-Provider':'openai','X-Translation-Model':C.MODEL,'X-Translation-Tier':'fast'}});response.__clientRoute='direct';response.__directFallback=false;return response;
+ }catch(e){if(meta.action==='translate'&&request.partial_text){try{const el=w.document.getElementById(mode==='husband'?'laoResult':'koResult');if(el&&el.textContent===request.partial_text){el.textContent='⚠️ GPT 번역이 완전히 끝나지 않았습니다. 이 문장은 전송하지 마세요.';w.setPrimaryResultVisible?.(false);}}catch(_){}}request.status=e?.name==='AbortError'?'CANCELLED':'FAILED';request.error_code=/^LUNA_[A-Z0-9_]+$/.test(e?.message||'')?e.message:(e?.name==='AbortError'?'CANCELLED':'NETWORK_OR_RESPONSE_ERROR');request.complete_ms=performance.now()-started;chain.status=meta.action==='translate'?'FIRST_FAILED':'BACK_FAILED';void saveRecord(chain);note(w,C.errorText(e),true);if(e.message==='LUNA_HTTP_401')openSettings(mode);throw e;
+ }finally{clearTimeout(timer);external?.removeEventListener('abort',onAbort);if(active.get(mode)===controller)active.delete(mode);}
+}
+function audit(record,mode){
+ if(!record)return;
+ const paths=mode==='husband'?['KF','KB']:['LF','LB'];
+ const chain=chains.get(mode);
+ const a={schemaVersion:1,build:'TEST',provider:'openai',modelChoice:'luna',
+  forwardModel:C.MODEL,backModel:C.MODEL,forwardThinking:'none',backThinking:'none',
+  forwardPrompt:(mode==='husband'?'LUNA N0 NAME ':'LUNA BASE ')+paths[0],
+  backPrompt:(mode==='husband'?'LUNA N0 NAME ':'LUNA BASE ')+paths[1],
+  promptContract:'LUNA_NAME_FAST_20261114_R1',
+  forwardPromptSha256:SHA[paths[0]],backPromptSha256:SHA[paths[1]],
+  requestedServiceTier:'fast',forwardActualTier:chain?.first?.service_tier||null,
+  backActualTier:chain?.backs?.at(-1)?.service_tier||null,
+  automaticRetries:0,automaticProviderFallback:false};
+ record.buildChannel='TEST';record.engineAudit=a;
+ if(record.runtime)record.runtime.engineAudit=a;
+}
+
+function openSettings(){const setup=window.openUnifiedServerSetupPanel;if(typeof setup==='function')setup('missing-gpt');}
+function closeSettings(){window.closeUnifiedServerSetup?.();}
+function updateStatus(){
+ const status=document.getElementById('unifiedGptStatus');if(status)status.textContent=key?'✅ GPT Luna Fast 키 저장됨 · KF/KB N0 NAME · LF/LB BASE':'🔑 GPT Luna Fast 키 미등록 · TEST 전용';
+ const s=document.getElementById('authStartStatus');if(s&&isLuna())s.textContent=key?'✅ GPT Luna Fast 준비 완료 · KF/KB N0 NAME · LF/LB BASE':'⚠️ TEST GPT 키를 먼저 설정해 주세요.';
+}
+async function saveKeyFromSetup(value){const result=await saveKey(value);updateStatus();return result;}
+async function forgetKeyFromSetup(){await ready;await forgetKey();updateStatus();return true;}
+async function exportLog(){await ready;const db=await database(),rows=await new Promise((resolve,reject)=>{const r=db.transaction('records','readonly').objectStore('records').getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(Error('LOCAL_LOG_READ_FAILED'));});if(!rows.length){alert('아직 저장된 Luna 사용기록이 없습니다.');return;}rows.sort((a,b)=>a.created_at.localeCompare(b.created_at));const data={schema:'LUNA_NAME_FAST_PERSONAL_TEST_V1',exported_at:new Date().toISOString(),note:'Private conversations. No API credentials. No automatic retries or provider fallback.',prompt_sha256:SHA,active_prompt_contract:'LUNA_NAME_FAST_20261114_R1',requested_tier:'fast',records:rows};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='luna-name-fast-use-'+new Date().toISOString().slice(0,10)+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+function mount(){
+ const host=document.querySelector('#authScreen .auth-card');
+ if(host&&!document.getElementById('lunaExportBtn')){const b=document.createElement('button');b.type='button';b.id='lunaExportBtn';b.className='auth-connect-btn';b.textContent='📥 Luna 실사용 기록 내보내기';b.onclick=()=>exportLog().catch(()=>alert('기록을 읽지 못했습니다.'));host.append(b);}
+ ready.then(updateStatus).catch(()=>{const el=document.getElementById('unifiedGptStatus');if(el)el.textContent='⚠️ Luna 프롬프트 또는 키 저장소 검증 실패';});
+}
+window.LunaTest=Object.freeze({ready,isLuna,keyStatus,config,bridge,audit,openSettings,closeSettings,updateStatus,saveKeyFromSetup,forgetKeyFromSetup,exportLog,errorText:(e)=>e?.message==='LUNA_FAST_TIER_MISMATCH'?'Luna Fast로 처리되지 않아 결과를 표시하지 않았어요. 추가 자동 호출은 하지 않았습니다.':C.errorText(e),hashes:SHA});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
+})();

@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin>
 <link rel="dns-prefetch" href="//generativelanguage.googleapis.com">
 <title>[TEST] 한국어 ↔ 라오어 AI 번역기</title>
+<meta name="luna-test-revision" content="N0-NAME-KF-KB-FAST-20261114-R1">
 <style>
 :root{--blue:#1a73e8;--red:#d93025;--line:#dfe3e8;--text:#25282c;--soft:#f6f8fb}
 *{box-sizing:border-box}
@@ -366,7 +367,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
 <h2 id="testEngineModalTitle">🧪 TEST 번역 엔진 선택</h2>
 <button type="button" class="engineOption" data-test-engine="38">3.8 Flash · LOW <small>정번역 3.8 / 독립 역번역 3.8 · P168A R8</small></button>
 <button type="button" class="engineOption" data-test-engine="31">3.1 Flash-Lite · KO_DEMO · MINIMAL <small>AUTO1000 KO_DEMO · 정번역 3.1 / 독립 역번역 3.1 · 실사용 TEST</small></button>
-<button type="button" class="engineOption" data-test-engine="luna">GPT-6 Luna · BASE <small>정번역 Luna / 독립 역번역 Luna · TEST 개인 실사용 · 별도 GPT API 키</small></button>
+<button type="button" class="engineOption" data-test-engine="luna">GPT-6 Luna · Fast <small>KF/KB N0 NAME · LF/LB 기존 BASE · 독립 역번역 · TEST 전용 (Fast 요금)</small></button>
 <p class="engineNotice">선택한 엔진을 정번역과 독립 역번역 모두에 적용합니다. 역번역에는 정번역 결과만 전달하며, 원문 복원·자동 재번역은 하지 않습니다. 변경하면 TEST 앱을 다시 엽니다.</p>
 <button type="button" class="engineClose" data-test-close>취소</button>
 </div></div>
@@ -616,7 +617,7 @@ body.unified-booting .shell,body.unified-booting #authScreen{visibility:hidden}
       <label for="unifiedPrimaryInput">1차 비밀번호 · ລະຫັດທີ 1</label>
       <input type="password" id="unifiedPrimaryInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="1차 비밀번호 · ລະຫັດທີ 1">
     </div>
-    <div class="auth-field"><label for="unifiedGptInput">🔑 OpenAI GPT API 키 · Luna BASE (TEST 전용)</label>
+    <div class="auth-field"><label for="unifiedGptInput">🔑 OpenAI GPT API 키 · Luna Fast (TEST 전용)</label>
       <input type="password" id="unifiedGptInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="sk-… · 저장되어 있다면 공란 유지">
     </div><div id="unifiedGptStatus" class="auth-connect-status" aria-live="polite">GPT API 키는 이 기기의 브라우저에 저장되며 TEST Luna 번역에만 사용합니다. 다른 기기에서는 별도 등록해야 합니다.</div>
     <div class="server-setup-actions">
@@ -9767,7 +9768,7 @@ function buildUnifiedEmbeddedBoot(mode,{diagnosticClone=false,defaultAppOverride
   const defaultApp=defaultAppOverride||(unifiedDiagnosticEntryApp==='general'?'general':'couple');
   const promptBoot=unifiedPromptConfig?unifiedInlineObjectJson(unifiedPromptConfig):'null';window.__TEST_ACTIVE_PROMPT_SHA__=String(unifiedPromptConfig?.promptSha256||'');
   const cloneBoot=diagnosticClone?'window.__UNIFIED_DIAGNOSTIC_CLONE__=true;':'';
-  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="luna"?"🧪 TEST · GPT-6 Luna BASE ▼":window.__TEST_MODEL_CHOICE__==="31"?"🧪 TEST · 3.1 KO_DEMO (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
+  return '<scr'+'ipt>'+cloneBoot+'window.__COUPLE_PROMPT_CONFIG__='+promptBoot+';window.__DIAG_DEFAULT_APP__='+scriptSafeJson(defaultApp)+';window.__UNIFIED_KEYS__={gemini:'+scriptSafeJson(sharedKeys.gemini||'')+',azure:'+scriptSafeJson(AUDIO_PROXY_SENTINEL)+'};window.__APP_RELAY__='+unifiedInlineObjectJson(rc)+';window.__TEST_MODEL_CHOICE__='+scriptSafeJson(window.__TEST_MODEL_CHOICE__)+';document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("testEngineChooser");if(b)b.textContent=window.__TEST_MODEL_CHOICE__==="luna"?"🧪 TEST · GPT-6 Luna Fast · N0 NAME ▼":window.__TEST_MODEL_CHOICE__==="31"?"🧪 TEST · 3.1 KO_DEMO (MINIMAL) ▼":"🧪 번역 엔진 · 3.8 Flash (LOW) ▼";});window.__TEST_BACK_THINKING__='+scriptSafeJson(window.__TEST_BACK_THINKING__)+';window.__TEST_FORWARD_MODEL__='+scriptSafeJson(window.__TEST_FORWARD_MODEL__)+';window.__TEST_FORWARD_THINKING__='+scriptSafeJson(window.__TEST_FORWARD_THINKING__)+';window.__TEST_BACK_MODEL__='+scriptSafeJson(window.__TEST_BACK_MODEL__)+';</scr'+'ipt>';
 }
 
 // TEST KO_DEMO wire contract: applies only to the selected 3.1 engine in TEST frames.
@@ -9905,7 +9906,7 @@ async function checkUnifiedConnection(){
   finally{if(btn){btn.disabled=false;btn.textContent='🌐 서울·방콕 서버 확인\nກວດ Seoul·Bangkok'}}
 }
 window.checkUnifiedConnection=checkUnifiedConnection;
-async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}if(window.__TEST_MODEL_CHOICE__==='luna'){try{await window.LunaTest.ready;}catch(e){unifiedAlert('Luna BASE 프롬프트 검증에 실패했습니다. 최신파일을 확인해주세요.');return false;}if(!window.LunaTest.keyStatus().stored){openUnifiedServerSetupPanel('missing-gpt');return false;}}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
+async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}if(window.__TEST_MODEL_CHOICE__==='luna'){try{await window.LunaTest.ready;}catch(e){unifiedAlert('Luna Fast/N0 프롬프트 검증에 실패했습니다. 최신파일을 확인해주세요.');return false;}if(!window.LunaTest.keyStatus().stored){openUnifiedServerSetupPanel('missing-gpt');return false;}}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
 function showUnifiedLogin(clearFields){if(currentMode)suspendMode(currentMode);resetLoadedFrames();document.getElementById('selector').classList.remove('hidden');document.getElementById('authScreen').classList.remove('hidden');if(clearFields){try{localStorage.removeItem(UNIFIED_UI_STATE_KEY);localStorage.removeItem(LEGACY_UNIFIED_UI_STATE_KEY)}catch(e){}}autoConnectUnified()}
 
 
@@ -11379,6 +11380,7 @@ syncVisibleViewport();
 </script>
 <script src="./luna-base-prompts.js" defer></script>
 <script src="./luna-core.js" defer></script>
-<script src="./luna-base-test.js" defer></script>
+<script src="./luna-name-fast-prompts-20261114.js" defer></script>
+<script src="./luna-name-fast-test-20261114.js" defer></script>
 </body>
 </html>
