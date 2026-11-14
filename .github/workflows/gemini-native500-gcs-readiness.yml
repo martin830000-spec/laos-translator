@@ -6,11 +6,14 @@ on:
 permissions:
   contents: read
   id-token: write
+concurrency:
+  group: gpt-luna-fast-quality240-20261114
+  cancel-in-progress: false
 jobs:
   recover:
-    if: ${{ false }} # Recovery complete; keep disabled
+    if: ${{ github.actor == 'martin830000-spec' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -20,12 +23,14 @@ jobs:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4'
-      - name: Read existing objects only
-        run: python3 experiments/gemini-deep500/recover_readonly.py
+      - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
+      - name: FAST_QUALITY240 zero-generation preflight
+        run: python3 experiments/gpt-luna-fast-quality240/preflight.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
       - uses: actions/upload-artifact@v4
         with:
-          name: deep500-recovery-encrypted
-          path: ${{ runner.temp }}/deep500-recovery.p7m
+          name: fast-quality240-preflight-encrypted
+          path: ${{ runner.temp }}/fast-quality240-preflight.p7m
           retention-days: 3
           if-no-files-found: error

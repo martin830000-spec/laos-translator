@@ -1,0 +1,10 @@
+{
+  "approved_total": 240,
+  "campaign": "GPT_LUNA_FAST_QUALITY240_20261114",
+  "enabled": false,
+  "max_new": 0,
+  "mode": "PREFLIGHT",
+  "owner_token": "1340993d49630b88769cd1b2e3612ebbd7b81158052d2f62",
+  "preflight_code_sha256": "cf406ee66d37f9b8c893758bc9edd70db2c9fc475d9cab71ca7b8fdd2a8130fc",
+  "probe_sha256": "4dbbf076a7884908eb27262fa27ed9438237936d85b48cff9e0643c6889021b0"
+}
