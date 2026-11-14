@@ -24,13 +24,13 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
-      - name: FAST_QUALITY240 B EXECUTE
+      - name: FAST_QUALITY240 C EXECUTE
         run: python3 experiments/gpt-luna-fast-quality240/runner.py
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
       - uses: actions/upload-artifact@v4
         with:
-          name: fast-quality240-b-encrypted
+          name: fast-quality240-c-encrypted
           path: ${{ runner.temp }}/fast-quality240-export.p7m
           retention-days: 3
           if-no-files-found: error
