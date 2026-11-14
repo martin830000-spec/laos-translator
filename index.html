@@ -9994,7 +9994,7 @@ function requestUnifiedServerSetup(){openUnifiedServerSetupPanel('manual')}
 function openUnifiedServerSetupPanel(reason='manual'){
  const overlay=document.getElementById('serverSetupOverlay'),input=document.getElementById('unifiedPrimaryInput'),hint=document.getElementById('serverSetupHint');
  if(!overlay||!input)return;
- const saved=!!readPrimaryPasswordSync(),gpt=document.getElementById('unifiedGptInput');input.value='';if(gpt)gpt.value='';
+ const saved=!!readPrimaryPasswordSync(),gpt=document.getElementById('unifiedGptInput');if(overlay.classList.contains('hidden')){input.value='';if(gpt)gpt.value='';}
  if(hint){hint.className='auth-connect-status';hint.textContent=reason==='missing-gpt'?'⚠️ GPT Luna를 사용하려면 아래 GPT API 키를 등록하세요. 기존 Gemini 키는 변경하지 않아도 됩니다.':reason==='invalid'?'⚠️ 1차 비밀번호를 다시 확인해 주세요.':saved?'기존 1차 비밀번호가 저장되어 있습니다. 변경하지 않으려면 공란으로 두세요.':'1차 비밀번호를 입력해 저장해 주세요.';}
  overlay.classList.remove('hidden');void window.LunaTest?.ready?.then(()=>window.LunaTest.updateStatus()).catch(()=>{});
  setTimeout(()=>{try{(reason==='missing-gpt'&&gpt?gpt:input).focus({preventScroll:true})}catch(_){(reason==='missing-gpt'&&gpt?gpt:input).focus()}},30);
