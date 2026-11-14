@@ -239,7 +239,7 @@ def close(store,c):
 
 def export(store,c):
  verify_lease(store,c)
- names={'CONTROL.json','LOCK.json','preflight/PREFLIGHT.json','checks/PREFLIGHT_PROBE.json','preparation/SOURCES.json','preparation/PROMPTS.json','preparation/FREEZE.json','states/CLOSED_LOCKED.json','states/PAUSED_LOCKED.json','controls/CLOSED/CLOSED_LOCKED.json','controls/PAUSED/PAUSED_LOCKED.json','gates/CLOSE.json','selection/E.json','selection/F.json'}
+ names={'CONTROL.json','LOCK.json','preflight/PREFLIGHT.json','checks/PREFLIGHT_PROBE.json','preparation/SOURCES.json','preparation/PROMPTS.json','preparation/FREEZE.json','states/CLOSED_LOCKED.json','states/PAUSED_LOCKED.json','controls/CLOSED/CLOSED_LOCKED.json','controls/PAUSED/PAUSED_LOCKED.json','gates/CLOSE.json','selection/E.json','selection/F.json','checks/FINAL_OLD_LOCKS.json'}
  for phase,cap in HARD_CAPS.items():
   names.update({'plans/'+phase+'.json','gates/'+phase+'.json','states/'+phase+'-running.json','states/'+phase+'-finished.json','locks/'+phase+'.json','locks/'+phase+'.RELEASED.json'})
   names.update('controls/'+phase+'/'+status+'.json' for status in ('STAGED_LOCKED','CHECKPOINT_LOCKED','PAUSED_LOCKED'))
