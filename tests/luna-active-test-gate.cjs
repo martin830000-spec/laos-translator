@@ -9,7 +9,7 @@ for(const id of ['unifiedPrimaryInput','unifiedGptInput','testEngineModal','husb
  assert.equal(occur(new RegExp('id="'+id+'"','g')),1,'Missing or duplicated TEST UI control '+id);
 }
 for(const filename of ['luna-base-prompts.js','luna-core.js','luna-name-fast-prompts-20261114.js','luna-name-fast-test-20261114.js']){
- assert(html.includes('src="./'+filename+'"'),'Luna module missing '+filename);
+ assert(new RegExp('src="\\./'+filename.replace(/\\./g,'\\.')+'(?:\\?v=[A-Za-z0-9_-]+)?"').test(html),'Luna module missing '+filename);
 }
 assert(html.includes('luna-bridge-disabled'),'Luna requests must go through dedicated bridge');
 assert(html.includes('window.parent.LunaTest.bridge(window,options,{action})'),'Luna bridge missing');
@@ -31,6 +31,34 @@ for(const p of ['KF','KB']){
  assert.equal(crypto.createHash('sha256').update(nameDoc.paths[p],'utf8').digest('hex'),pins[p],'NAME prompt drift '+p);
 }
 assert(html.includes('GPT-6 Luna Fast · N0 NAME'), 'TEST user-visible engine label must show Fast and NAME');
+
+assert(html.includes('await waitForLunaTestReady();'), 'Start must await TEST Luna runtime readiness');
+const openPart=html.slice(html.indexOf('function openUnifiedServerSetupPanel('),html.indexOf('function closeUnifiedServerSetup('));
+assert(!openPart.includes("input.value=''")&&!openPart.includes("gpt.value=''"),'Reopening TEST settings must preserve in-progress password input');
+const closePart=html.slice(html.indexOf('function closeUnifiedServerSetup('),html.indexOf('async function loginUnified()'));
+assert(closePart.includes("if(input)input.value='';if(gpt)gpt.value=''"),'Closing TEST settings must erase password fields');
+const loginPart=html.slice(html.indexOf('async function loginUnified(){'),html.indexOf('async function forgetUnifiedGptFromSetup()'));
+assert(loginPart.includes("const primary=typed||readPrimaryPasswordSync();")&&
+ loginPart.indexOf("const typed=")<loginPart.indexOf("await cleanupLegacyCredentialResidue();"),
+ 'TEST setup must snapshot entered credentials before asynchronous cleanup can reset the form');
+const bootstrapFn=html.match(/async function waitForLunaTestReady\(maxWaitMs=8000\)\{[\s\S]*?\n\}/)?.[0];
+assert(bootstrapFn,'Missing bounded TEST Luna loader');
+const vm=require('node:vm');
+async function bootstrapRaceChecks(){
+ const ctx={window:{},setTimeout,Date,Math,Number,Promise,Error};
+ const fn=vm.runInNewContext('('+bootstrapFn+')',ctx);
+ setTimeout(()=>ctx.window.LunaTest={keyStatus:()=>({stored:true}),ready:Promise.resolve(true)},15);
+ await fn(1000); // user taps while deferred script is not yet ready
+ const absent={window:{},setTimeout,Date,Math,Number,Promise,Error};
+ const absentFn=vm.runInNewContext('('+bootstrapFn+')',absent);
+ await assert.rejects(()=>absentFn(70),/LUNA_TEST_RUNTIME_NOT_LOADED/);
+ const bad={window:{LunaTest:{keyStatus:()=>({stored:false}),ready:Promise.reject(Error('LUNA_NAME_PROMPT_SHA_KF'))}},setTimeout,Date,Math,Number,Promise,Error};
+ const badFn=vm.runInNewContext('('+bootstrapFn+')',bad);
+ await assert.rejects(()=>badFn(100),/LUNA_NAME_PROMPT_SHA_KF/);
+ console.log('LUNA_BOOTSTRAP_RACE_GATE PASS late module / missing module / true SHA error · generated calls 0');
+}
+bootstrapRaceChecks().catch(e=>{console.error('LUNA_BOOTSTRAP_RACE_GATE FAIL',e);process.exitCode=1;});
+
 assert(html.includes('gemini-3.1-flash-lite')&&html.includes('gemini-3.8-flash'),'Existing Gemini choices missing');
 const original={
  husband:{encodedChars:512183,attr:'38ab7fe6b0e6bb59fe7b423e96bc850c213d6f8bb309a1d30086ec22d9572533',sha256:'766948c0db48bda34f1f269b09f12557f3df3544b73370d9e70df0482eaa666b'},

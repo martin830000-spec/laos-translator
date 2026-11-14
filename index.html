@@ -9906,7 +9906,7 @@ async function checkUnifiedConnection(){
   finally{if(btn){btn.disabled=false;btn.textContent='🌐 서울·방콕 서버 확인\nກວດ Seoul·Bangkok'}}
 }
 window.checkUnifiedConnection=checkUnifiedConnection;
-async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}if(window.__TEST_MODEL_CHOICE__==='luna'){try{await window.LunaTest.ready;}catch(e){unifiedAlert('Luna Fast/N0 프롬프트 검증에 실패했습니다. 최신파일을 확인해주세요.');return false;}if(!window.LunaTest.keyStatus().stored){openUnifiedServerSetupPanel('missing-gpt');return false;}}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
+async function startUnifiedTranslator(){const btn=document.getElementById('translatorStartBtn'),old=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='⏳ 번역기 준비 중...\nກຳລັງກຽມແອັບແປ...'}try{try{await lockUnifiedPromptConfigForSession()}catch(e){console.error('[PROMPT CONFIG]',e);unifiedAlert('번역 프롬프트 파일을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.\nບໍ່ສາມາດໂຫຼດ prompt ການແປ. ກວດອິນເຕີເນັດແລ້ວໂຫຼດໜ້າໃໝ່.');return false}const ok=await autoConnectUnified();if(!ok){pendingCredentialRecovery={mode:'',kind:'primary',action:'start',status:0};openUnifiedServerSetupPanel('missing');return false}if(window.__TEST_MODEL_CHOICE__==='luna'){try{if(!window.LunaTest?.ready)throw Error('LUNA_TEST_MODULE_NOT_READY');await window.LunaTest.ready;}catch(e){const code=String(e?.message||e?.name||'UNKNOWN').replace(/[^A-Za-z0-9_-]/g,'').slice(0,90);console.error('[LUNA NAME FAST READY]',e);unifiedAlert('Luna Fast/N0 준비 검증 실패 ('+code+'). 새로고침 후에도 반복되면 오류 코드를 알려주세요.');return false;}if(!window.LunaTest.keyStatus().stored){openUnifiedServerSetupPanel('missing-gpt');return false;}}resetLoadedFrames();document.getElementById('authScreen').classList.add('hidden');document.getElementById('selector').classList.remove('hidden');writeUnifiedPersistentUiState();setTimeout(()=>{if(sessionStorageGetSafe(UNIFIED_EXTERNAL_MODE_ENTRY_KEY))void applyUnifiedExternalModeEntry()},0);return true}finally{if(btn){btn.disabled=false;btn.textContent=old||'🇰🇷 🇱🇦 한-라오 번역기 시작\nເລີ່ມໃຊ້ແອັບແປ ເກົາຫຼີ·ລາວ'}}}
 function showUnifiedLogin(clearFields){if(currentMode)suspendMode(currentMode);resetLoadedFrames();document.getElementById('selector').classList.remove('hidden');document.getElementById('authScreen').classList.remove('hidden');if(clearFields){try{localStorage.removeItem(UNIFIED_UI_STATE_KEY);localStorage.removeItem(LEGACY_UNIFIED_UI_STATE_KEY)}catch(e){}}autoConnectUnified()}
 
 
@@ -11378,9 +11378,9 @@ syncVisibleViewport();
   });
 })();
 </script>
-<script src="./luna-base-prompts.js" defer></script>
-<script src="./luna-core.js" defer></script>
-<script src="./luna-name-fast-prompts-20261114.js" defer></script>
-<script src="./luna-name-fast-test-20261114.js" defer></script>
+<script src="./luna-base-prompts.js?v=20261114-r2" defer></script>
+<script src="./luna-core.js?v=20261114-r2" defer></script>
+<script src="./luna-name-fast-prompts-20261114.js?v=20261114-r2" defer></script>
+<script src="./luna-name-fast-test-20261114.js?v=20261114-r2" defer></script>
 </body>
 </html>
