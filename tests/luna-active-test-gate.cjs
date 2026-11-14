@@ -31,6 +31,26 @@ for(const p of ['KF','KB']){
  assert.equal(crypto.createHash('sha256').update(nameDoc.paths[p],'utf8').digest('hex'),pins[p],'NAME prompt drift '+p);
 }
 assert(html.includes('GPT-6 Luna Fast · N0 NAME'), 'TEST user-visible engine label must show Fast and NAME');
+
+assert(html.includes('await waitForLunaTestReady();'), 'Start must await TEST Luna runtime readiness');
+const bootstrapFn=html.match(/async function waitForLunaTestReady\(maxWaitMs=8000\)\{[\s\S]*?\n\}/)?.[0];
+assert(bootstrapFn,'Missing bounded TEST Luna loader');
+const vm=require('node:vm');
+async function bootstrapRaceChecks(){
+ const ctx={window:{},setTimeout,Date,Math,Number,Promise,Error};
+ const fn=vm.runInNewContext('('+bootstrapFn+')',ctx);
+ setTimeout(()=>ctx.window.LunaTest={keyStatus:()=>({stored:true}),ready:Promise.resolve(true)},15);
+ await fn(1000); // user taps while deferred script is not yet ready
+ const absent={window:{},setTimeout,Date,Math,Number,Promise,Error};
+ const absentFn=vm.runInNewContext('('+bootstrapFn+')',absent);
+ await assert.rejects(()=>absentFn(70),/LUNA_TEST_RUNTIME_NOT_LOADED/);
+ const bad={window:{LunaTest:{keyStatus:()=>({stored:false}),ready:Promise.reject(Error('LUNA_NAME_PROMPT_SHA_KF'))}},setTimeout,Date,Math,Number,Promise,Error};
+ const badFn=vm.runInNewContext('('+bootstrapFn+')',bad);
+ await assert.rejects(()=>badFn(100),/LUNA_NAME_PROMPT_SHA_KF/);
+ console.log('LUNA_BOOTSTRAP_RACE_GATE PASS late module / missing module / true SHA error · generated calls 0');
+}
+bootstrapRaceChecks().catch(e=>{console.error('LUNA_BOOTSTRAP_RACE_GATE FAIL',e);process.exitCode=1;});
+
 assert(html.includes('gemini-3.1-flash-lite')&&html.includes('gemini-3.8-flash'),'Existing Gemini choices missing');
 const original={
  husband:{encodedChars:512183,attr:'38ab7fe6b0e6bb59fe7b423e96bc850c213d6f8bb309a1d30086ec22d9572533',sha256:'766948c0db48bda34f1f269b09f12557f3df3544b73370d9e70df0482eaa666b'},
