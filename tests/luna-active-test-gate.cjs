@@ -9,7 +9,7 @@ for(const id of ['unifiedPrimaryInput','unifiedGptInput','testEngineModal','husb
  assert.equal(occur(new RegExp('id="'+id+'"','g')),1,'Missing or duplicated TEST UI control '+id);
 }
 for(const filename of ['luna-base-prompts.js','luna-core.js','luna-name-fast-prompts-20261114.js','luna-name-fast-test-20261114.js']){
- assert(html.includes('src="./'+filename+'"'),'Luna module missing '+filename);
+ assert(new RegExp('src="\\./'+filename.replace(/\\./g,'\\.')+'(?:\\?v=[A-Za-z0-9_-]+)?"').test(html),'Luna module missing '+filename);
 }
 assert(html.includes('luna-bridge-disabled'),'Luna requests must go through dedicated bridge');
 assert(html.includes('window.parent.LunaTest.bridge(window,options,{action})'),'Luna bridge missing');
