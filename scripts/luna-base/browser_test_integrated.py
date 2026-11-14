@@ -72,7 +72,20 @@ with sync_playwright() as p:
  assert again is True,'Luna TEST reload start must succeed with stored credentials'
  page.evaluate("selectMode('husband')")
  page.wait_for_function("document.getElementById('husbandFrame').classList.contains('active') && document.getElementById('husbandFrame').contentWindow.document.getElementById('krInput') && typeof document.getElementById('husbandFrame').contentWindow.translateText==='function'")
- assert page.locator('#husbandFrame').content_frame.locator('#krInput').is_visible()
+ try:
+  page.locator('#husbandFrame').content_frame.locator('#krInput').wait_for(state='visible',timeout=15000)
+ except Exception:
+  print('reload-visible-debug',page.evaluate("""() => ({
+   primaryStored:!!localStorage.getItem('translator_primary_password'),
+   authHidden:document.getElementById('authScreen').classList.contains('hidden'),
+   selectorHidden:document.getElementById('selector').classList.contains('hidden'),
+   iframeActive:document.getElementById('husbandFrame').classList.contains('active'),
+   iframeVisible:!!document.getElementById('husbandFrame').getClientRects().length,
+   inputExists:!!document.getElementById('husbandFrame').contentWindow?.document?.getElementById('krInput'),
+   inputVisible:!!document.getElementById('husbandFrame').contentWindow?.document?.getElementById('krInput')?.getClientRects().length,
+   appVisible:document.getElementById('husbandFrame').contentWindow?.document?.getElementById('appScreen')?.style.display
+  })"""),flush=True)
+  raise
  hf=page.locator('#husbandFrame').content_frame;mode['response']='401';hf.locator('#krInput').fill('오류 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_function("!document.getElementById('serverSetupOverlay').classList.contains('hidden')");page.wait_for_timeout(500);assert len(calls)==5;print('401 no fallback/retry/back PASS',flush=True)
  page.evaluate('LunaTest.closeSettings()');mode['response']='incomplete';hf.locator('#krInput').fill('중단 검사');hf.locator('#krInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('husbandFrame').contentWindow.translateText()");page.wait_for_timeout(1000);assert len(calls)==6;assert 'ສະບາຍດີ ທີ່ຮັກ🙂' not in hf.locator('#laoResult').inner_text();print('incomplete no BACK/retry/visible partial PASS',flush=True)
  generation_elsewhere=[x for x in blocked if any(y in x['url'] for y in ['generateContent','gemini/generate','completions'])];assert not generation_elsewhere,generation_elsewhere
