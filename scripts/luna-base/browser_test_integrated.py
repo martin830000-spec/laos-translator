@@ -65,6 +65,8 @@ with sync_playwright() as p:
  assert 'sk-testLOCALONLY' not in page.evaluate("document.getElementById('wifeFrame').srcdoc")
  logs=page.evaluate("""async()=>{const db=await new Promise(a=>{const r=indexedDB.open('ko_lao_luna_test_v1');r.onsuccess=()=>a(r.result)});return new Promise(a=>{const r=db.transaction('records').objectStore('records').getAll();r.onsuccess=()=>a(r.result)})}""")
  assert len(logs)==2 and all(x['status']=='COMPLETE' for x in logs);assert 'sk-testLOCALONLY' not in json.dumps(logs);print('records PASS',flush=True)
+ # Isolate credential persistence from the separate asynchronous saved-view auto-restore flow.
+ page.evaluate("localStorage.removeItem(UNIFIED_UI_STATE_KEY);sessionStorage.removeItem(UNIFIED_EXTERNAL_MODE_ENTRY_KEY)")
  page.reload(wait_until='domcontentloaded');page.evaluate('LunaTest.ready');page.evaluate("document.getElementById('releaseNoticeOverlay')?.style.setProperty('display','none','important')");assert page.evaluate('LunaTest.keyStatus().stored');assert len(calls)==4;print('reload persistence PASS',flush=True)
  page.evaluate('LunaTest.openSettings()');assert page.locator('#unifiedGptInput').input_value()=='';page.evaluate('LunaTest.closeSettings()')
  again=page.evaluate('startUnifiedTranslator()')
