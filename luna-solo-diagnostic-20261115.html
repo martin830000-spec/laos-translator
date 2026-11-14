@@ -4,40 +4,47 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>[TEST] GPT-6 Luna 개인 실번역 비교 · 2026-11-13</title>
+<title>[TEST] GPT-6 Luna 단독 실사용 진단기 · 2026-11-15</title>
 <style>
 :root{font-family:system-ui,-apple-system,"Noto Sans KR","Noto Sans Lao",sans-serif;color-scheme:light;--b:#f4f7fc;--line:#d9e0ee;--text:#182237;--muted:#526074;--accent:#2151b9;--red:#a3232a}
 *{box-sizing:border-box}body{margin:0;background:var(--b);color:var(--text)}main{max-width:980px;margin:auto;padding:24px 16px 70px}h1{font-size:1.5rem}h2{font-size:1.08rem;margin:0 0 12px}.sub{color:var(--muted);line-height:1.6}.panel{padding:20px;border:1px solid var(--line);border-radius:14px;background:white;margin:16px 0}label{font-weight:650;display:block;margin:12px 0 6px}input[type=password],textarea{width:100%;border:1px solid #adbcd6;border-radius:8px;padding:11px;font:inherit}textarea{height:260px;resize:vertical;line-height:1.7;white-space:pre;overflow-x:auto}button{border:0;border-radius:9px;background:var(--accent);color:white;font:inherit;padding:11px 15px;font-weight:750;cursor:pointer;margin:4px 6px 4px 0}button.secondary{background:#e8ecf5;color:#223653}button.danger{background:#9b2424}button:disabled{opacity:.5;cursor:not-allowed}code{font-size:.9em}#status{white-space:pre-wrap;background:#f4f7ff;padding:14px;border-radius:8px;line-height:1.6}#liveOutput{white-space:pre-wrap;overflow-wrap:anywhere;padding:10px;background:#f9fbff;border:1px solid #d8e3fa;border-radius:8px;min-height:60px}#results{display:grid;gap:8px}.item{padding:10px;border:1px solid var(--line);border-radius:8px;overflow-wrap:anywhere}.item b{display:block;margin-bottom:6px}.item div{color:var(--muted);font-size:.92rem;white-space:pre-wrap}.warning{border-left:4px solid var(--red);padding:6px 12px;background:#fff7f7;color:#611418}.mini{font-size:.86rem;color:var(--muted)}.flex{display:flex;gap:14px;flex-wrap:wrap;align-items:center}input[type=file]{max-width:100%}footer{color:var(--muted);font-size:.85rem;line-height:1.6;margin-top:24px}@media(max-width:600px){main{padding:15px 10px}h1{font-size:1.25rem}.panel{padding:13px}}
+.formline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0}.formline label{margin:0}.formline select{border:1px solid #adbcd6;border-radius:8px;padding:10px;background:#fff;font:inherit}.hint{padding:10px;border:1px solid #d9e0ee;border-radius:8px;background:#f7faff;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.9rem}
 </style>
-<script src="./luna-core.js" defer></script>
-<script src="./luna-base-prompts.js" defer></script>
+<script src="./luna-core.js?v=20261115-solo-r1" defer></script>
+<script src="./luna-base-prompts.js?v=20261115-solo-r1" defer></script>
+<script src="./luna-name-fast-prompts-20261114.js?v=20261115-solo-r1" defer></script>
 </head>
 <body><main>
-<h1>GPT-6 Luna 실제 번역 비교 · TEST 전용</h1>
-<p class="sub">Gemini 3.8 SERVICE에 저장된 실제 원문을 <b>같은 글자 그대로</b> Luna로 번역하는 실사용 비교 도구야. FIRST와 독립 BACK에 모두 GPT-6 Luna만 사용하고, <b>BACK 입력에는 실제 FIRST 결과만 전달</b>해. 자동 재시도·다른 제조사 전환·자동 AI 채점은 없어.</p>
-<div class="panel warning">이 페이지에서는 <b>시작 버튼을 직접 눌러야</b> 유료 GPT API 호출이 발생해. N문장은 정상 완료 시 FIRST N회 + BACK N회 = 최대 2N회 생성 요청이 필요해. 실수로 여러 번 누르면 중복 요금이 발생할 수 있으니 결과를 저장하고 재실행 여부를 결정해. 원문·키·결과는 서버 DB에 자동 저장하지 않아. <b>API 키는 현재 페이지의 메모리에만 있고 저장하지 않아.</b></div>
+<h1>GPT-6 Luna 단독 실사용 진단기 · TEST 전용</h1>
+<p class="sub">실사용 로그에서 한국어·라오어 <b>원문만 추출</b>해 GPT-6 Luna만 검사해. KF/KB는 <b>N0 NAME + Fast</b>, LF/LB는 <b>BASE + Fast</b>를 사용하고, 실제 FIRST 결과만 독립 BACK에 입력해. Gemini 등 다른 엔진은 호출하지 않아.</p>
+<div class="panel warning">파일 불러오기·원문 선별·프롬프트 검사에는 API 요청 0회. <b>실행 버튼을 누르고 확인해야</b> Luna Fast 유료 생성 API를 호출해. N문장당 FIRST+BACK 최대 2N회이며 자동 재시도·fallback·유료 AI 채점은 없어. Fast 요금이 발생할 수 있고, 키·원문·결과는 GitHub나 DB에 저장하지 않아. <b>키는 이 페이지 메모리에만 유지</b>하며 종료 전에 결과를 JSON/TXT로 저장해.</div>
 <section class="panel">
 <h2>1. 본인 GPT API 키</h2>
 <label for="apiKey">GPT API 키 (이 페이지에서만 사용 · 파일에 기록하지 않음)</label>
 <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-...">
 <button id="clearKey" class="secondary" type="button">키 입력 지우기</button>
-<p id="promptStatus" class="mini">Luna BASE 프롬프트 SHA-256 검증 준비 중...</p>
+<p id="promptStatus" class="mini">N0 NAME / BASE 프롬프트 SHA-256 검증 준비 중...</p>
 </section>
 <section class="panel">
-<h2>2. 비교 원문</h2>
-<p class="mini">기존 엔진 비교기와 같은 형식: <b>K|한국어 원문</b> 또는 <b>L|라오어 원문</b>을 줄마다 하나씩 입력해. 한 줄이 하나의 실제 메시지야. 텍스트에 라벨이나 정답을 넣지 않아.</p>
-<input id="loadFile" type="file" accept=".txt,text/plain">
-<label for="cases">실제 대화 원문 (기본 공란, 사용자 파일만 가져오기)</label>
+<h2>2. 실사용 원문 불러오기 · 무료 준비</h2>
+<p class="mini">로그 TXT/JSON/CSV에서 <b>원문만</b> 추출하고 중복을 제거해. K|한국어 또는 L|라오어 한 줄 형식도 지원해. 파일은 브라우저에서만 읽으며 4·20·50·100문장까지 무료로 선별할 수 있어.</p>
+<input id="loadFile" type="file" accept=".txt,.json,.csv,text/plain,text/csv,application/json">
+<div class="formline">
+<label for="sampleCount">검사 수</label><select id="sampleCount"><option value="4" selected>4건</option><option value="20">20건</option><option value="50">50건</option><option value="100">100건</option></select>
+<label for="sampleDirection">원문 방향</label><select id="sampleDirection"><option value="BALANCED" selected>한국어·라오어 균형</option><option value="K2L">한국어만</option><option value="L2K">라오어만</option></select>
+<button id="preparePool" class="secondary" type="button">원문만 선별 · 호출 0회</button></div>
+<div id="poolStatus" class="hint">아직 가져온 로그 없음. 아래에 K|/L| 형식으로 직접 입력할 수도 있어.</div>
+<label for="cases">선별한 원문 · 직접 수정 가능 (K| / L|, 최대 100건)</label>
 <textarea id="cases" placeholder="K|여보 밥 먹었어?&#10;L|ຂ້ອຍກິນແລ້ວ"></textarea>
-<div id="estimate" class="mini">0문장 / 예상 최대 0회 생성 호출</div>
+<div id="estimate" class="mini">0문장 / 최대 0회 유료 생성 요청</div>
 <div class="flex">
-<button id="run" type="button" disabled>이 원문으로 Luna FIRST + BACK 실행</button>
+<button id="run" type="button" disabled>선택한 원문으로 Luna Fast 단독 실행</button>
 <button id="stop" type="button" class="danger" disabled>중단 (현재 요청 취소)</button>
 <button id="clearCases" type="button" class="secondary">원문 지우기</button>
 </div>
 </section>
 <section class="panel">
-<h2>3. 실행 결과</h2>
+<h2>3. Luna 단독 검사 결과</h2>
 <div id="status" aria-live="polite">페이지 로드 후 프롬프트 검증 상태를 확인해 줘.</div>
 <h3>현재 생성 중인 FIRST/BACK (미완성 텍스트)</h3>
 <div id="liveOutput" aria-live="off">실행 전</div>
@@ -48,7 +55,7 @@
 <div id="results"></div>
 </section>
 <footer>
-파일 내용은 이 브라우저에서 처리하고 GPT API에만 번역 원문을 보낸다. 별도의 서비스 서버, Firestore, Gemini API 또는 클라우드 백업으로 전송하지 않는다. 개인 대화이므로 출력 JSON/TXT는 공개 GitHub에 올리지 말 것.<br>
+파일은 현재 브라우저에서만 읽고, 실제 검사로 선택한 원문만 GPT API에 전송해. 별도 서버·Firestore·Gemini API·GitHub에 원문이나 결과를 업로드하지 않아. 개인정보가 들어있는 결과 JSON/TXT는 공개 저장소에 올리지 말 것.<br>
 타이밍은 해당 브라우저의 API 요청 시작~첫 텍스트 및 응답 완료 시간으로, 상대 기기 표시시간이나 이전 SERVICE 처리환경과 동일하다고 보장하지 않는다. 스트리밍은 FIRST 부분 출력 확인용이며 완료 전 문장을 실제 전송하지 말 것.
 </footer>
 </main>
