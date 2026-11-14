@@ -1,0 +1,281 @@
+{
+  "campaign": "GPT_LUNA_SOLO100_FOURPATH_MECHANISM320_20261115",
+  "objects": {
+    "research/gemini-model-native500-20261107/gpt-luna-couple-tone-name-ab160-20261113/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "next_new_authorization": 0,
+        "reserved_total": 160,
+        "status": "CLOSED_LOCKED",
+        "success": 160,
+        "unknown": 0,
+        "unused_locked": 0
+      },
+      "role": "companion",
+      "sha256": "90215a127a3a2093dd94a8e3ca0dca4b50b4bf0f435160dd0a614d8c63d4150e",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-couple-tone-name-ab160-20261113/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-couple-tone-name-ab160-20261113/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "next_new_authorization": 0,
+        "reserved_total": 160,
+        "status": "CLOSED_LOCKED",
+        "success": 160,
+        "unknown": 0,
+        "unused_locked": 0
+      },
+      "role": "state",
+      "sha256": "90215a127a3a2093dd94a8e3ca0dca4b50b4bf0f435160dd0a614d8c63d4150e"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-fast-quality240-20261114/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "campaign": "GPT_LUNA_FAST_QUALITY240_20261114",
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "next_new_authorization": 0,
+        "reserved_total": 208,
+        "status": "CLOSED_LOCKED",
+        "success": 208,
+        "unknown": 0,
+        "unused_locked": 32
+      },
+      "role": "companion",
+      "sha256": "7fab58cbca78c39c13fbeb9961a57dc128ae34a0d8e39167c5b722af4935f40b",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-fast-quality240-20261114/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-fast-quality240-20261114/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "campaign": "GPT_LUNA_FAST_QUALITY240_20261114",
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "next_new_authorization": 0,
+        "reserved_total": 208,
+        "status": "CLOSED_LOCKED",
+        "success": 208,
+        "unknown": 0,
+        "unused_locked": 32
+      },
+      "role": "state",
+      "sha256": "7fab58cbca78c39c13fbeb9961a57dc128ae34a0d8e39167c5b722af4935f40b"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-gd-realchat80-20261112/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "reserved_total": 68,
+        "status": "CLOSED_LOCKED",
+        "success": 68,
+        "unknown": 0,
+        "unused_locked": 12
+      },
+      "role": "companion",
+      "sha256": "d8b41bda835e084a965ff035f4a1e412ccb337c2a57629d325cdfad4c42b50a2",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-gd-realchat80-20261112/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-gd-realchat80-20261112/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "reserved_total": 68,
+        "status": "CLOSED_LOCKED",
+        "success": 68,
+        "unknown": 0,
+        "unused_locked": 12
+      },
+      "role": "state",
+      "sha256": "d8b41bda835e084a965ff035f4a1e412ccb337c2a57629d325cdfad4c42b50a2"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-gd-scope-screen80-20261112/controls/PAUSED/PAUSED_LOCKED.json": {
+      "required_fields": {
+        "actual": 0,
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 0,
+        "status": "PAUSED_LOCKED",
+        "unused_locked": 80
+      },
+      "role": "companion",
+      "sha256": "8434a8e50989a3ffcc1854fb4ce12fe7289696fa208c17e853a3fc0adac048d1",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-gd-scope-screen80-20261112/states/PAUSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-gd-scope-screen80-20261112/states/PAUSED_LOCKED.json": {
+      "required_fields": {
+        "actual": 0,
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 0,
+        "status": "PAUSED_LOCKED",
+        "unused_locked": 80
+      },
+      "role": "state",
+      "sha256": "8434a8e50989a3ffcc1854fb4ce12fe7289696fa208c17e853a3fc0adac048d1"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-lf-variance320-20261110/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 264,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "companion",
+      "sha256": "926605041232b680d8011fffaba9b17effe0c308fd9fe7029ba5161dc2716663",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-lf-variance320-20261110/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-lf-variance320-20261110/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 264,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "state",
+      "sha256": "926605041232b680d8011fffaba9b17effe0c308fd9fe7029ba5161dc2716663"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-m1-gd-headtohead80-20261112/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "reserved_total": 72,
+        "status": "CLOSED_LOCKED",
+        "success": 72,
+        "unknown": 0,
+        "unused_locked": 8
+      },
+      "role": "companion",
+      "sha256": "424ffee4ce4a0753772061c1616817744edc6565be78f09a0d3bb143d6427430",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-m1-gd-headtohead80-20261112/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-m1-gd-headtohead80-20261112/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "reserved_total": 72,
+        "status": "CLOSED_LOCKED",
+        "success": 72,
+        "unknown": 0,
+        "unused_locked": 8
+      },
+      "role": "state",
+      "sha256": "424ffee4ce4a0753772061c1616817744edc6565be78f09a0d3bb143d6427430"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-name-address-followup120-20261114/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "reserved_total": 88,
+        "status": "CLOSED_LOCKED",
+        "success": 88,
+        "unknown": 0,
+        "unused_locked": 32
+      },
+      "role": "companion",
+      "sha256": "2578da9327e5eab94a3413a29ee2933ceacfcb89c0ee08cb8af3b8bc36bb35bc",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-name-address-followup120-20261114/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-name-address-followup120-20261114/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "failed": 0,
+        "max_new": 0,
+        "reserved_total": 88,
+        "status": "CLOSED_LOCKED",
+        "success": 88,
+        "unknown": 0,
+        "unused_locked": 32
+      },
+      "role": "state",
+      "sha256": "2578da9327e5eab94a3413a29ee2933ceacfcb89c0ee08cb8af3b8bc36bb35bc"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-p168a-transfer320-20261111/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 288,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "companion",
+      "sha256": "fc34dfbb85dc46578ed9ca36c8881cea869b7727a4a88d200e0d42adfb8e6c31",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-p168a-transfer320-20261111/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-p168a-transfer320-20261111/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 288,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "state",
+      "sha256": "fc34dfbb85dc46578ed9ca36c8881cea869b7727a4a88d200e0d42adfb8e6c31"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-source-variant320-20261110/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 290,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "companion",
+      "sha256": "99bf3ffcf49186ef932b62c2089105b7bd0e3747accadc8bc53dc061e7b1068a",
+      "state_object": "research/gemini-model-native500-20261107/gpt-luna-source-variant320-20261110/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-source-variant320-20261110/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 290,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "state",
+      "sha256": "99bf3ffcf49186ef932b62c2089105b7bd0e3747accadc8bc53dc061e7b1068a"
+    },
+    "research/gemini-model-native500-20261107/gpt-luna-terra-mechanism1000-20261110/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 776,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "state",
+      "sha256": "323c3e727c1aee812d23423ea1ed885db50a39dcf4203a4c1bf47810f366290e"
+    },
+    "research/gemini-model-native500-20261107/gpt-source-vs-prompt-factorial320-20261111/controls/CLOSED/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 264,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "companion",
+      "sha256": "705e2a46c40305bc7c454b696d0803b503a469e8fecd754cfbf424ad1113d06f",
+      "state_object": "research/gemini-model-native500-20261107/gpt-source-vs-prompt-factorial320-20261111/states/CLOSED_LOCKED.json"
+    },
+    "research/gemini-model-native500-20261107/gpt-source-vs-prompt-factorial320-20261111/states/CLOSED_LOCKED.json": {
+      "required_fields": {
+        "enabled": false,
+        "max_new": 0,
+        "reserved_total": 264,
+        "status": "CLOSED_LOCKED"
+      },
+      "role": "state",
+      "sha256": "705e2a46c40305bc7c454b696d0803b503a469e8fecd754cfbf424ad1113d06f"
+    }
+  },
+  "old_companion_count": 10,
+  "old_state_count": 11,
+  "source_evidence": {
+    "fast240_closed_sha256": "7fab58cbca78c39c13fbeb9961a57dc128ae34a0d8e39167c5b722af4935f40b",
+    "prior_inventory_sha256": "b93ad090ef65b96dc748b6de9ff18cf83d075aff5ccf51b5edf1b0f46bb6b860"
+  }
+}

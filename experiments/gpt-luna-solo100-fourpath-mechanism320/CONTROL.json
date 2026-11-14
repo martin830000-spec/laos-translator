@@ -1,0 +1,12 @@
+{
+  "approved_total": 320,
+  "campaign": "GPT_LUNA_SOLO100_FOURPATH_MECHANISM320_20261115",
+  "enabled": false,
+  "locked_objects_code_sha256": "5995a5bbab76dc56607b50e967f8dccae7fe62bba19b392b7a9c74e832a381f6",
+  "max_new": 0,
+  "mode": "PREFLIGHT",
+  "old_locks_sha256": "ad9f1d81e15fd6fd92a556b0018796b9292539dc8da6b1c1f41b062b85afa600",
+  "owner_token": "66914c7aa4d4dd81190e213560c837cb82a4724b2d3585fc",
+  "preflight_code_sha256": "668abac0c95f9494d12b531c787bd79db38f726f12eb841b63b80da62f3d86c4",
+  "probe_sha256": "6ee3d86041780f3b87a7ccc9b43fc3513d48b43dd560bdb06c3e8ea1f15bd08a"
+}
