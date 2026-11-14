@@ -6,6 +6,8 @@ from urllib.parse import urlparse,unquote
 ROOT=Path(os.environ.get('LUNA_APP_ROOT','.')).resolve();OUT=Path(os.environ.get('LUNA_TEST_OUTPUT','luna-browser-results')).resolve();OUT.mkdir(exist_ok=True)
 calls=[];blocked=[];errors=[];mode={'response':'success'}
 P=json.loads(re.search(r'Object.freeze\((.*)\);',(ROOT/'luna-base-prompts.js').read_text()).group(1))
+NAME=json.loads(re.search(r'Object.freeze\((.*)\);',(ROOT/'luna-name-fast-prompts-20261114.js').read_text()).group(1))
+P.update({k:NAME['paths'][k] for k in ('KF','KB')})
 def prompt_path(ins):
  for k,v in P.items():
   if ins==v:return k
@@ -23,7 +25,7 @@ def route(r):
   if mode['response']=='401':return r.fulfill(status=401,content_type='application/json',body='{"error":{"message":"mock unauthorized"}}',headers={'Access-Control-Allow-Origin':'*'})
   text={'KF':'ສະບາຍດີ ທີ່ຮັກ🙂','KB':'안녕 자기야🙂','LF':'오늘은 집에서 쉴게.','LB':'ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.'}.get(kind,'UNKNOWN')
   s=event({'type':'response.output_text.delta','delta':text[:4]})+event({'type':'response.output_text.delta','delta':text[4:]})+event({'type':'response.output_text.done','text':text})
-  if mode['response']!='incomplete':s+=event({'type':'response.completed','response':{'status':'completed','model':'gpt-6-luna','id':'resp_mock_'+str(len(calls)),'output':[{'type':'message','content':[{'type':'output_text','text':text}]}],'usage':{'input_tokens':100,'output_tokens':20,'total_tokens':120}}})
+  if mode['response']!='incomplete':s+=event({'type':'response.completed','response':{'status':'completed','model':'gpt-6-luna','service_tier':'fast','id':'resp_mock_'+str(len(calls)),'output':[{'type':'message','content':[{'type':'output_text','text':text}]}],'usage':{'input_tokens':100,'output_tokens':20,'total_tokens':120}}})
   return r.fulfill(status=200,content_type='text/event-stream',body=s,headers={'Access-Control-Allow-Origin':'*'})
  blocked.append({'url':url.split('?')[0],'method':req.method})
  if 'fonts.' in url or 'cdn' in url:return r.abort()
@@ -49,11 +51,13 @@ with sync_playwright() as p:
  except Exception:
   print('FAIL',calls,'errors',errors,flush=True);print(hf.locator('body').inner_text()[-5000:],flush=True);page.screenshot(path=str(OUT/'failure.png'));raise
  assert [x['path'] for x in calls]==['KF','KB'],calls
+ assert all(x['body']['service_tier']=='fast' for x in calls),calls
  assert calls[1]['body']['input']=='ສະບາຍດີ ທີ່ຮັກ🙂';assert calls[0]['body']['input']=='안녕 자기야🙂'
  print('husband PASS',len(calls),flush=True);page.screenshot(path=str(OUT/'husband.png'),full_page=True)
  page.evaluate("selectMode('wife')");page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('loInput') && typeof document.getElementById('wifeFrame').contentWindow.translateText==='function'")
  wf=page.locator('#wifeFrame').content_frame;wf.locator('#loInput').fill('ມື້ນີ້ຈະພັກຢູ່ເຮືອນ.');wf.locator('#loInput').evaluate('(e)=>e.blur()');page.evaluate("document.getElementById('wifeFrame').contentWindow.translateText()");page.wait_for_function("document.getElementById('wifeFrame').contentWindow.document.getElementById('backResult').innerText.includes('ມື້ນີ້')",timeout=10000)
  assert [x['path'] for x in calls]==['KF','KB','LF','LB'];assert calls[3]['body']['input']=='오늘은 집에서 쉴게.'
+ assert all(x['body']['service_tier']=='fast' for x in calls),calls
  page.screenshot(path=str(OUT/'wife.png'),full_page=True);print('wife PASS',flush=True)
  before=len(calls);clean=page.evaluate("document.getElementById('wifeFrame').contentWindow.coupleVoiceCleanupTranscript('ສະບາຍດີ','lo',{})");assert len(calls)==before;print('no hidden cleanup PASS',clean,flush=True)
  assert 'sk-testLOCALONLY' not in page.evaluate("document.getElementById('wifeFrame').srcdoc")
