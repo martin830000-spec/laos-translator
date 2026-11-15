@@ -17,13 +17,13 @@ jobs:
       contents: read
       id-token: write
     env:
-      AB144_MODE: "STAGE2"
-      ENABLE_GENERATION: "true"
+      AB144_MODE: "CLOSED"
+      ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
       PACKET_SHA256: "bae7e086c9009ede56fd6462f6d65518431eaf8a4974140665a70a16a24b22b9"
       PREFLIGHT_READY_SHA256: "5d7a01d9942ea98c3b70bfb9f4ef84a5c20aa3f5d21854121a956d47d7aa2b36"
-      DRY_READY_SHA256: "628021bdb79f26e831cf7ce2aeafa4407fda37d5bb574ad040ac84cae9838931"
-      STAGE1_SUMMARY_SHA256: "44420c6de95f31a4f04c15a04e62234caa57e5cb752c8b74e99a217d8a50e3f0"
+      DRY_READY_SHA256: ""
+      STAGE1_SUMMARY_SHA256: ""
     steps:
       - name: Check out designated TEST branch
         if: ${{ env.AB144_MODE != 'CLOSED' }}
@@ -625,9 +625,6 @@ jobs:
           Nu0piqu0+Use0Zv3wt/VsBUCAwEAAQ==
           -----END PUBLIC KEY-----
           AB144_EMBED_4_END
-          cat > "$RUNNER_TEMP/stage2_gate.json" <<'AB144_EMBED_5_END'
-          {"additional_authorization":0,"allow_stage2":true,"campaign_id":"GEMINI35_SFT_V11_AB144_20261115","decision":"TECHNICALLY_NORMAL_AND_RESEARCH_VALUE_CONFIRMED","packet_sha256":"bae7e086c9009ede56fd6462f6d65518431eaf8a4974140665a70a16a24b22b9","remaining_fixed_requests_cap":96,"review_report_sha256":"d1c7fbc9e40c518ae2892d4346fc091b5d6d13784ea200cbdd7108e809f0d6e3","stage1_summary_sha256":"44420c6de95f31a4f04c15a04e62234caa57e5cb752c8b74e99a217d8a50e3f0"}
-          AB144_EMBED_5_END
           export CRYPTO_SCRIPT="$RUNNER_TEMP/transport_crypto.mjs"
           export INPUT_ENVELOPE="$RUNNER_TEMP/input_envelope.json"
           export INPUT_HEADER="$RUNNER_TEMP/input_header.json"
