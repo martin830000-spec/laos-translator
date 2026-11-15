@@ -23,8 +23,8 @@ jobs:
       contents: read
       id-token: write
     env:
-      PILOT_MODE: "CREATE_ONCE"
-      ENABLE_TUNING: "true"
+      PILOT_MODE: "CLOSED"
+      ENABLE_TUNING: "false"
       EXPECTED_DRY_RUN_ID: "43708013467"
       EXPECTED_READY_SHA256: "2ea3d7b7aea98adaea180054253b16b89897abc3c54c82c193de71f2c9eb74de"
     steps:
