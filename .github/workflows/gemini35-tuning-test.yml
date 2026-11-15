@@ -23,10 +23,10 @@ jobs:
       contents: read
       id-token: write
     env:
-      PILOT_MODE: "DRY_RUN"
-      ENABLE_TUNING: "false"
-      EXPECTED_DRY_RUN_ID: ""
-      EXPECTED_READY_SHA256: ""
+      PILOT_MODE: "CREATE_ONCE"
+      ENABLE_TUNING: "true"
+      EXPECTED_DRY_RUN_ID: "43708013467"
+      EXPECTED_READY_SHA256: "2ea3d7b7aea98adaea180054253b16b89897abc3c54c82c193de71f2c9eb74de"
     steps:
       - name: Check out designated TEST branch
         if: ${{ env.PILOT_MODE != 'CLOSED' }}
