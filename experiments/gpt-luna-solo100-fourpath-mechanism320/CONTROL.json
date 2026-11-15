@@ -1,4 +1,5 @@
 {
+  "actual_api_attempts": 276,
   "additional_export_objects": [
     "evaluation/A_C_REPEAT_FINDINGS.json",
     "evaluation/COMPACT_SUMMARY.json",
@@ -16,7 +17,10 @@
   "audit_helper_sha256": "38804872ad5efab54369bd5cd1dbf7b670ddb2b4e00bd9a91d0f97330f8d18da",
   "backup_receipt_sha256": "3b2f8dec92e93cf2aa4b17e21e6673e06a6f5facd034cdc6c91e00f5ee7c607b",
   "campaign": "GPT_LUNA_SOLO100_FOURPATH_MECHANISM320_20261115",
+  "closure_commit": "c4f68bcd95068bc6c3e740d9af5ca2099cf85a30",
   "closure_reason": "AUTHORIZED_STAGES_FINISHED_WITH_DOCUMENTED_OMISSIONS",
+  "closure_run": "43658537239",
+  "closure_state_sha256": "40a183dd6f1f4b77024ba28bd8193434b73a5c5889f1b40579bec3d2020504af",
   "code_sha256": {
     "contract.py": "78a683431da3ae14f133d930a58ef2ea2dfd1fcf14f2e42beaaa861b5c78d50b",
     "http_sender.py": "d16410f11c029fc3999e06c0fa34588a47fe433c63a1b4466de9adfeff0bd54a",
@@ -25,9 +29,11 @@
   },
   "deadline_epoch": 1794704431,
   "enabled": false,
+  "failed": 0,
   "freeze_sha256": "1fec1b2a14647f5fab26f47059e735901204f3c47d9965a4de9aca1ad172c444",
   "max_new": 0,
   "mode": "CLOSE",
+  "next_new_authorization": 0,
   "old_locks_sha256": "ad9f1d81e15fd6fd92a556b0018796b9292539dc8da6b1c1f41b062b85afa600",
   "owner_token": "66914c7aa4d4dd81190e213560c837cb82a4724b2d3585fc",
   "package_sha256": "051315fee0cee3010ff464f801e81fafeb36d952eed917df7ae344b3acb3c55f",
@@ -37,5 +43,10 @@
   "prior_reserved": 276,
   "prompts_sha256": "ceddbe43978fd39eff8ffd05f436b8b2ed66835cfffbe16ac66694f2c0bd0a13",
   "research_complete": true,
-  "sources_sha256": "89715fd62c05320fe5181f0a943bac58ab52ed6da11a352766dcc1105884c80a"
+  "shared_workflow_restored": true,
+  "sources_sha256": "89715fd62c05320fe5181f0a943bac58ab52ed6da11a352766dcc1105884c80a",
+  "status": "CLOSED_LOCKED",
+  "success": 276,
+  "unknown": 0,
+  "unused_locked": 44
 }
