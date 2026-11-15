@@ -1,4 +1,4 @@
-name: Gemini 3.5 AB144 TEST Preflight
+name: Gemini 3.5 AB144 Resume TEST Preflight
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -9,7 +9,7 @@ concurrency:
   group: gemini35-sft-v11-ab144-20261115
   cancel-in-progress: false
 jobs:
-  ab144-preflight:
+  ab144-resume-preflight:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 6
@@ -17,140 +17,422 @@ jobs:
       contents: read
       id-token: write
     env:
-      AB144_MODE: "CLOSED"
+      AB144_MODE: "PREFLIGHT"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
     steps:
       - name: Check out designated TEST branch
-        if: ${{ env.AB144_MODE != 'CLOSED' }}
         uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: Authenticate designated TEST identity
-        if: ${{ env.AB144_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Set up Google Cloud CLI
-        if: ${{ env.AB144_MODE != 'CLOSED' }}
         uses: google-github-actions/setup-gcloud@v3
-      - name: Free AB144 contract check
+      - name: Free immutable AB144 resume check
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          cat > "$RUNNER_TEMP/ab144_preflight.py" <<'AB144_PY'
-          """AB144 free contract preflight: no generation or tuning-create capability."""
-          import base64, datetime, hashlib, json, os, re, subprocess, sys, urllib.error, urllib.parse, urllib.request
+          cat > "$RUNNER_TEMP/ab144_resume_preflight.py" <<'AB144_RESUME_PY'
+          """Free AB144 resume preflight. No inference or tuning-create capability."""
+          import base64
+          import datetime
+          import hashlib
+          import json
+          import os
+          import re
+          import subprocess
+          import sys
+          import urllib.error
+          import urllib.parse
+          import urllib.request
           from pathlib import Path
           
-          CAMPAIGN='GEMINI35_SFT_V11_AB144_20261115'
-          PROJECT='gen-lang-client-0422436907'
-          BUCKET='ko-lao-gemini35-tuning-460077888071'
-          PREFIX='sft_v11_ab144_20261115/'
-          PILOT_PREFIX='sft_v11_pilot1_20261115/'
-          JOB='projects/460077888071/locations/us/tuningJobs/8799981994835443712'
-          MODEL='projects/460077888071/locations/us/models/2845219433335488512@1'
-          ENDPOINT='projects/460077888071/locations/us/endpoints/4220752460148375552'
-          PERMISSIONS=['aiplatform.endpoints.predict','aiplatform.endpoints.get','aiplatform.models.get','aiplatform.tuningJobs.get']
-          IAM_URL='https://cloudresourcemanager.googleapis.com/v1/projects/'+PROJECT+':testIamPermissions'
-          FIELDS='name,state,baseModel,tunedModelDisplayName,createTime,startTime,endTime,updateTime,supervisedTuningSpec(trainingDatasetUri,validationDatasetUri,hyperParameters(epochCount,adapterSize,learningRateMultiplier)),tunedModel(model,endpoint),tuningDataStats(supervisedTuningDataStats(tuningDatasetExampleCount,totalTuningCharacterCount,totalBillableTokenCount,tuningStepCount,totalTruncatedExampleCount)),error(code)'
-          OLD_CONTROLS={'CREATE_ONCE.json':'2d39a7711a0aa76496f9b37922776785bc35e072bf4bfa28c3dc50908a77e3ea','ATTEMPT_001.json':'40a5cd528199867cef6b3307dad6436fbb20993cc41ec000b4d2948ada21f309','FINAL_LOCK.json':'1ffca4547d7db5d397cac09e4bbfcab843ae6b195c166b6c9468a5baffcb3bf6'}
-          INPUTS={'train_v11.jsonl':{'generation':'1794739965286591','size':557378,'sha256':'a07c2c4a74d598daf9b515bbea5b2a37db37e51ba9433d94046b01a8666a9dba'},'validation_v11.jsonl':{'generation':'1794739965065841','size':170021,'sha256':'cbe45fccdbdf10f7515be08d3e94ab114c7cf6ec642737bdebf05156a86ff9f2'}}
-          def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
-          def enc(x):return (json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=True)+'\n').encode()
-          def sha(b):return hashlib.sha256(b).hexdigest()
-          def url(s,q):return s+'?'+urllib.parse.urlencode(q)
-          def obj(name):return 'https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o/'+urllib.parse.quote(name,safe='')
-          class Stop(Exception):pass
+          CAMPAIGN = "GEMINI35_SFT_V11_AB144_20261115"
+          PROJECT = "gen-lang-client-0422436907"
+          BUCKET = "ko-lao-gemini35-tuning-460077888071"
+          PREFIX = "sft_v11_ab144_20261115/"
+          RESUME_PREFIX = PREFIX + "_resume/20261116/"
+          PILOT_PREFIX = "sft_v11_pilot1_20261115/"
+          JOB = "projects/460077888071/locations/us/tuningJobs/8799981994835443712"
+          MODEL = "projects/460077888071/locations/us/models/2845219433335488512@1"
+          ENDPOINT = "projects/460077888071/locations/us/endpoints/4220752460148375552"
+          WORKORDER_SHA256 = "a1d40eac1fb6fd460cdc7d9a8489d3752d0b7f42ecfb6d61a56883d9e183ae23"
+          OLD_STOP_NAME = PREFIX + "_control/FINAL_LOCK.json"
+          OLD_STOP_SHA256 = "e255a035fc41ec71fcdf49391862ed6f29055a9694542dd8bb4f663c5b69c84e"
+          OLD_STOP_GENERATION = "1794744959797520"
+          OLD_STOP_SIZE = 18922
+          CLAIM_NAME = RESUME_PREFIX + "PREFLIGHT_CLAIM.json"
+          RESUME_NAME = RESUME_PREFIX + "RESUME_EVENT.json"
+          KEY_NAME = RESUME_PREFIX + "_transport/input_private_key.pem"
+          EVIDENCE_NAME = RESUME_PREFIX + "_evidence/FREE_PREFLIGHT_HTTP.json"
+          READY_NAME = RESUME_PREFIX + "READY.json"
+          FINAL_NAME = RESUME_PREFIX + "FINAL_LOCK.json"
+          REQUIRED_PERMISSIONS = ["aiplatform.endpoints.predict"]
+          IAM_URL = "https://cloudresourcemanager.googleapis.com/v1/projects/" + PROJECT + ":testIamPermissions"
+          JOB_URL = "https://aiplatform.us.rep.googleapis.com/v1/" + JOB
+          FIELDS = "name,state,baseModel,tunedModelDisplayName,createTime,startTime,endTime,updateTime,supervisedTuningSpec(trainingDatasetUri,validationDatasetUri,hyperParameters(epochCount,adapterSize,learningRateMultiplier)),tunedModel(model,endpoint),error(code)"
+          PILOT_CONTROLS = {
+              "CREATE_ONCE.json": "2d39a7711a0aa76496f9b37922776785bc35e072bf4bfa28c3dc50908a77e3ea",
+              "ATTEMPT_001.json": "40a5cd528199867cef6b3307dad6436fbb20993cc41ec000b4d2948ada21f309",
+              "FINAL_LOCK.json": "1ffca4547d7db5d397cac09e4bbfcab843ae6b195c166b6c9468a5baffcb3bf6",
+          }
+          INPUTS = {
+              "train_v11.jsonl": {"generation": "1794739965286591", "size": 557378, "sha256": "a07c2c4a74d598daf9b515bbea5b2a37db37e51ba9433d94046b01a8666a9dba"},
+              "validation_v11.jsonl": {"generation": "1794739965065841", "size": 170021, "sha256": "cbe45fccdbdf10f7515be08d3e94ab114c7cf6ec642737bdebf05156a86ff9f2"},
+          }
+          READ_OBJECTS = {OLD_STOP_NAME} | {PILOT_PREFIX + "_control/" + n for n in PILOT_CONTROLS} | {PILOT_PREFIX + n for n in INPUTS}
+          WRITE_OBJECTS = {CLAIM_NAME, RESUME_NAME, KEY_NAME, EVIDENCE_NAME, READY_NAME, FINAL_NAME}
+          MAX_RESPONSE_BYTES = 32 * 1024 * 1024
+          
+          
+          def now():
+              return datetime.datetime.now(datetime.timezone.utc).isoformat()
+          
+          
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+          
+          
+          def enc(value):
+              return (json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+          
+          
+          def query(base, params):
+              return base + "?" + urllib.parse.urlencode(params)
+          
+          
+          def obj(name):
+              return "https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o/" + urllib.parse.quote(name, safe="")
+          
+          
+          class Stop(Exception):
+              pass
+          
+          
           class NoRedirect(urllib.request.HTTPRedirectHandler):
-           def redirect_request(self,req,fp,code,msg,headers,newurl):return None
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          
+          
           class Client:
-           def __init__(self,token):self.token=token;self.opener=urllib.request.build_opener(NoRedirect);self.records=[];self.gcs_failed=False
-           def request(self,method,endpoint,body=None,label='',safe_json=True):
-            permitted=(method=='GET' and (endpoint.startswith('https://aiplatform.us.rep.googleapis.com/v1/'+JOB+'?') or endpoint.startswith('https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o')))
-            permitted=permitted or (method=='POST' and endpoint==IAM_URL)
-            permitted=permitted or (method=='POST' and endpoint.startswith('https://storage.googleapis.com/upload/storage/v1/b/'+BUCKET+'/o?') and urllib.parse.parse_qs(urllib.parse.urlsplit(endpoint).query).get('ifGenerationMatch')==['0'] and urllib.parse.parse_qs(urllib.parse.urlsplit(endpoint).query).get('name',[''])[0].startswith(PREFIX))
-            if not permitted:raise Stop('REQUEST_OUTSIDE_FREE_PREFLIGHT_ALLOWLIST')
-            started=now();req=urllib.request.Request(endpoint,data=body,method=method,headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/json'})
-            try:
-             with self.opener.open(req,timeout=45) as r:status,raw=r.status,r.read()
-            except urllib.error.HTTPError as e:status,raw=e.code,e.read()
-            except Exception as e:
-             self.gcs_failed=endpoint.startswith('https://storage.googleapis.com/')
-             self.records.append({'label':label,'method':method,'url':endpoint,'started_at':started,'ended_at':now(),'status':'UNKNOWN','exception_type':type(e).__name__})
-             raise Stop('TRANSPORT_UNKNOWN_'+label) from None
-            record={'label':label,'method':method,'url':endpoint,'started_at':started,'ended_at':now(),'http_status':status,'response_bytes':len(raw),'response_sha256':sha(raw)}
-            if body is not None:record['request_sha256']=sha(body)
-            self.records.append(record)
-            if status not in (200,201):
-             if endpoint.startswith('https://storage.googleapis.com/'):self.gcs_failed=True
-             raise Stop('HTTP_'+str(status)+'_'+label)
-            if safe_json:
-             value=json.loads(raw)
-             if any(word in raw for word in (b'"userDatasetExamples"',b'"access_token"',b'"id_token"')):raise Stop('UNEXPECTED_SENSITIVE_FIELD')
-             record['raw_response_base64']=base64.b64encode(raw).decode()
-            return raw
-           def put_new(self,name,body,label):
-            e=url('https://storage.googleapis.com/upload/storage/v1/b/'+BUCKET+'/o',{'uploadType':'media','name':name,'ifGenerationMatch':'0','fields':'name,generation,size,crc32c,md5Hash'})
-            meta=json.loads(self.request('POST',e,body,label))
-            back=self.request('GET',url(obj(name),{'alt':'media','generation':meta['generation']}),label=label+'_READBACK')
-            if back!=body:self.gcs_failed=True;raise Stop('READBACK_MISMATCH_'+label)
-            return {'uri':'gs://'+BUCKET+'/'+name,'generation':meta['generation'],'size_bytes':len(body),'sha256':sha(body),'byte_equal':True,'ifGenerationMatch':0}
+              """One HTTP transmission per call; strict free-operation allowlist."""
+              def __init__(self, token):
+                  self.token = token
+                  self.opener = urllib.request.build_opener(NoRedirect)
+                  self.records = []
+                  self.raw_records = []
+                  self.created_objects = {}
+                  self.storage_failed = False
+          
+              @staticmethod
+              def allowed(method, endpoint, body):
+                  parsed = urllib.parse.urlsplit(endpoint)
+                  if parsed.scheme != "https" or parsed.username or parsed.password or parsed.fragment:
+                      return False
+                  q = urllib.parse.parse_qs(parsed.query)
+                  if method == "GET" and parsed.netloc == "aiplatform.us.rep.googleapis.com":
+                      return parsed.path == "/v1/" + JOB and q == {"fields": [FIELDS]}
+                  if parsed.netloc == "storage.googleapis.com":
+                      base = "/storage/v1/b/" + BUCKET + "/o"
+                      if method == "GET" and parsed.path == base:
+                          return q.get("versions") == ["true"] and set(q).issubset({"versions", "maxResults", "fields", "pageToken"})
+                      if method == "GET" and parsed.path.startswith(base + "/"):
+                          name = urllib.parse.unquote(parsed.path[len(base) + 1:])
+                          return name in READ_OBJECTS | WRITE_OBJECTS and set(q).issubset({"alt", "generation", "fields"})
+                      if method == "POST" and parsed.path == "/upload/storage/v1/b/" + BUCKET + "/o":
+                          return q.get("uploadType") == ["media"] and q.get("ifGenerationMatch") == ["0"] and q.get("name", [None])[0] in WRITE_OBJECTS and set(q) == {"uploadType", "name", "ifGenerationMatch", "fields"}
+                  if method == "POST" and endpoint == IAM_URL:
+                      try:
+                          return json.loads(body) == {"permissions": REQUIRED_PERMISSIONS}
+                      except (ValueError, TypeError):
+                          return False
+                  return False
+          
+              def request(self, method, endpoint, body=None, label="", capture=True, sensitive=False):
+                  if not self.allowed(method, endpoint, body):
+                      raise Stop("REQUEST_OUTSIDE_FREE_PREFLIGHT_ALLOWLIST")
+                  is_storage = urllib.parse.urlsplit(endpoint).netloc == "storage.googleapis.com"
+                  record = {"label": label, "method": method, "started_at": now()}
+                  if body is not None and not sensitive:
+                      record["request_sha256"] = sha(body)
+                  if sensitive:
+                      record["sensitive_payload_omitted"] = True
+                  request = urllib.request.Request(endpoint, data=body, method=method, headers={"Authorization": "Bearer " + self.token, "Content-Type": "application/octet-stream" if sensitive else "application/json"})
+                  try:
+                      try:
+                          with self.opener.open(request, timeout=45) as response:
+                              status, raw = response.status, response.read(MAX_RESPONSE_BYTES + 1)
+                      except urllib.error.HTTPError as error:
+                          status, raw = error.code, error.read(MAX_RESPONSE_BYTES + 1)
+                  except Exception as error:
+                      record.update({"ended_at": now(), "http_status": "UNKNOWN", "exception_type": type(error).__name__})
+                      self.records.append(record)
+                      if is_storage:
+                          self.storage_failed = True
+                      raise Stop("FREE_TRANSPORT_UNKNOWN_" + label) from None
+                  record.update({"ended_at": now(), "http_status": status, "response_bytes": len(raw)})
+                  if not sensitive:
+                      record["response_sha256"] = sha(raw)
+                  self.records.append(record)
+                  if len(raw) > MAX_RESPONSE_BYTES:
+                      if is_storage:
+                          self.storage_failed = True
+                      raise Stop("FREE_RESPONSE_SIZE_LIMIT_" + label)
+                  if capture and not sensitive:
+                      self.raw_records.append({"receipt": dict(record), "url": endpoint, "raw_response_base64": base64.b64encode(raw).decode("ascii")})
+                  if status not in (200, 201):
+                      if is_storage:
+                          self.storage_failed = True
+                      try:
+                          error_value = json.loads(raw).get("error", {})
+                          code = error_value.get("code")
+                          status_name = error_value.get("status")
+                          message = error_value.get("message")
+                          if isinstance(code, int):
+                              record["error_code"] = code
+                          if isinstance(status_name, str) and re.fullmatch(r"[A-Z_]{1,64}", status_name):
+                              record["error_status"] = status_name
+                          if isinstance(message, str):
+                              record["error_message_sha256"] = sha(message.encode("utf-8"))
+                              # This exact free request contains only a permission name.
+                              # A short credential-free error message may be shown; raw
+                              # response bytes remain in the private evidence object.
+                              if endpoint == IAM_URL:
+                                  secret_marker = re.search(r"(?i)bearer\s+|(?:access|refresh|id)[_-]?token|(?:api|private)[_-]?key|-----BEGIN|AIza[0-9A-Za-z_-]{20,}|ya29\.[0-9A-Za-z_-]+|\b[A-Za-z0-9+/_=-]{80,}\b", message)
+                                  if secret_marker:
+                                      record["error_message_public_omitted"] = "POTENTIAL_CREDENTIAL_MARKER"
+                                  else:
+                                      record["error_message_sanitized"] = re.sub(r"[\x00-\x1f\x7f]", " ", message)[:2048]
+                                      record["error_message_truncated"] = len(message) > 2048
+                          record["raw_error_body_private_evidence_only"] = capture and not sensitive
+                      except (ValueError, AttributeError):
+                          pass
+                      raise Stop("HTTP_" + str(status) + "_" + label)
+                  return raw
+          
+              def put_new(self, name, body, label, sensitive=False):
+                  endpoint = query("https://storage.googleapis.com/upload/storage/v1/b/" + BUCKET + "/o", {"uploadType": "media", "name": name, "ifGenerationMatch": "0", "fields": "name,generation,size,crc32c,md5Hash"})
+                  raw = self.request("POST", endpoint, body, label, capture=not sensitive, sensitive=sensitive)
+                  try:
+                      metadata = json.loads(raw)
+                      generation = str(metadata["generation"])
+                      if metadata["name"] != name or not generation.isdigit() or int(metadata["size"]) != len(body):
+                          raise ValueError()
+                  except (KeyError, ValueError, TypeError):
+                      self.storage_failed = True
+                      raise Stop("NEW_OBJECT_METADATA_INVALID_" + label) from None
+                  receipt = {"uri": "gs://" + BUCKET + "/" + name, "generation": generation, "size_bytes": len(body), "ifGenerationMatch": 0, "byte_equal": False}
+                  if not sensitive:
+                      receipt["sha256"] = sha(body)
+                  self.created_objects[name] = receipt
+                  back = self.request("GET", query(obj(name), {"alt": "media", "generation": generation}), label=label + "_READBACK", capture=not sensitive, sensitive=sensitive)
+                  if back != body:
+                      self.storage_failed = True
+                      raise Stop("READBACK_MISMATCH_" + label)
+                  receipt["byte_equal"] = True
+                  return dict(receipt)
+          
+          
+          def guard_identity():
+              expected = {
+                  "GITHUB_REPOSITORY": "martin830000-spec/laos-translator",
+                  "GITHUB_REF": "refs/heads/research/gemini35-tuning-test",
+                  "GITHUB_EVENT_NAME": "push",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_WORKFLOW_REF": "martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test",
+                  "AB144_MODE": "PREFLIGHT",
+                  "ENABLE_GENERATION": "false",
+                  "ENABLE_TUNING": "false",
+              }
+              if any(os.environ.get(k) != v for k, v in expected.items()):
+                  raise Stop("IDENTITY_OR_DISABLED_GUARD")
+              if not re.fullmatch(r"[0-9]+", os.environ.get("GITHUB_RUN_ID", "")) or not re.fullmatch(r"[0-9a-f]{40}", os.environ.get("GITHUB_SHA", "")):
+                  raise Stop("INVALID_GITHUB_EXECUTION_IDENTITY")
+          
+          
+          def verify_prior(c, result):
+              job = json.loads(c.request("GET", query(JOB_URL, {"fields": FIELDS}), label="PILOT_FINAL_JOB"))
+              spec = job.get("supervisedTuningSpec", {})
+              if job.get("name") != JOB or job.get("state") != "JOB_STATE_SUCCEEDED" or job.get("baseModel") != "gemini-3.5-flash-lite" or job.get("tunedModel", {}).get("model") != MODEL or job.get("tunedModel", {}).get("endpoint") != ENDPOINT or str(spec.get("hyperParameters", {}).get("epochCount")) != "2" or spec.get("trainingDatasetUri") != "gs://" + BUCKET + "/" + PILOT_PREFIX + "train_v11.jsonl" or spec.get("validationDatasetUri") != "gs://" + BUCKET + "/" + PILOT_PREFIX + "validation_v11.jsonl":
+                  raise Stop("PILOT_FINAL_CONTRACT_MISMATCH")
+              result["pilot_final_contract"] = {"state": job["state"], "model": MODEL, "endpoint": ENDPOINT, "unchanged": True}
+              result["prior_pilot_controls"] = {}
+              for name, digest in PILOT_CONTROLS.items():
+                  raw = c.request("GET", query(obj(PILOT_PREFIX + "_control/" + name), {"alt": "media"}), label="PILOT_CONTROL_" + name)
+                  if sha(raw) != digest:
+                      raise Stop("PRIOR_PILOT_CONTROL_CHANGED")
+                  result["prior_pilot_controls"][name] = {"sha256": sha(raw), "bytes": len(raw), "unchanged": True}
+              result["training_objects"] = {}
+              for name, expected in INPUTS.items():
+                  value = json.loads(c.request("GET", query(obj(PILOT_PREFIX + name), {"fields": "name,generation,size,crc32c,md5Hash"}), label="TRAINING_METADATA_" + name))
+                  if value.get("name") != PILOT_PREFIX + name or str(value.get("generation")) != expected["generation"] or int(value.get("size", -1)) != expected["size"]:
+                      raise Stop("TRAINING_OBJECT_GENERATION_CHANGED")
+                  result["training_objects"][name] = {"generation": value["generation"], "size_bytes": int(value["size"]), "prior_verified_sha256": expected["sha256"], "unchanged_generation": True, "fresh_content_hash_recomputed": False}
+              metadata = json.loads(c.request("GET", query(obj(OLD_STOP_NAME), {"fields": "name,generation,size"}), label="OLD_AB144_STOP_METADATA"))
+              if metadata.get("name") != OLD_STOP_NAME or str(metadata.get("generation")) != OLD_STOP_GENERATION or int(metadata.get("size", -1)) != OLD_STOP_SIZE:
+                  raise Stop("OLD_AB144_STOP_GENERATION_CHANGED")
+              raw = c.request("GET", query(obj(OLD_STOP_NAME), {"alt": "media", "generation": OLD_STOP_GENERATION}), label="OLD_AB144_STOP_BODY")
+              if len(raw) != OLD_STOP_SIZE or sha(raw) != OLD_STOP_SHA256:
+                  raise Stop("OLD_AB144_STOP_SHA_MISMATCH")
+              value = json.loads(raw)
+              expected_values = {"campaign_id": CAMPAIGN, "state": "STOPPED_BLOCKED", "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorized_generation_cap": 144, "actual_generation_attempts": 0, "actual_tuning_create_attempts": 0, "paid_judge_attempts": 0, "unspent_generation_authorization_locked": 144}
+              if any(value.get(k) != v for k, v in expected_values.items()):
+                  raise Stop("OLD_AB144_STOP_LEDGER_MISMATCH")
+              result["prior_ab144_stop"] = {"uri": "gs://" + BUCKET + "/" + OLD_STOP_NAME, "generation": OLD_STOP_GENERATION, "sha256": sha(raw), "size_bytes": len(raw), "state": "STOPPED_BLOCKED", "verified_prior_generation_attempts": 0, "unchanged": True}
+              items, page_token, seen_tokens = [], None, set()
+              for page in range(10):
+                  params = {"versions": "true", "maxResults": "1000", "fields": "items(name,generation),nextPageToken"}
+                  if page_token:
+                      params["pageToken"] = page_token
+                  listing = json.loads(c.request("GET", query("https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o", params), label="BUCKET_ALL_VERSIONS_PAGE_" + str(page + 1)))
+                  if not isinstance(listing.get("items", []), list):
+                      raise Stop("BUCKET_LIST_INVALID")
+                  items.extend(listing.get("items", []))
+                  page_token = listing.get("nextPageToken")
+                  if not page_token:
+                      break
+                  if not isinstance(page_token, str) or page_token in seen_tokens:
+                      raise Stop("BUCKET_LIST_REPEATED_PAGE_TOKEN")
+                  seen_tokens.add(page_token)
+              if page_token:
+                  raise Stop("BUCKET_LIST_INCOMPLETE")
+              scoped = []
+              for item in items:
+                  name, generation = item.get("name"), str(item.get("generation", ""))
+                  if not isinstance(name, str) or not generation.isdigit():
+                      raise Stop("BUCKET_LIST_INVALID_OBJECT")
+                  if PREFIX.rstrip("/").lower() in name.lower() or CAMPAIGN.lower() in name.lower():
+                      scoped.append((name, generation))
+              if scoped != [(OLD_STOP_NAME, OLD_STOP_GENERATION)]:
+                  result["unexpected_ab144_object_count"] = len([i for i in scoped if i != (OLD_STOP_NAME, OLD_STOP_GENERATION)])
+                  raise Stop("EXISTING_PAID_OR_RESUME_OR_UNRECOGNIZED_AB144_STATE")
+              result["prior_campaign_inventory"] = {"bucket_version_listing_complete": True, "bucket_objects_and_versions": len(items), "ab144_objects_and_versions": len(scoped), "only_expected_immutable_stop_present": True, "paid_attempt_objects_found": 0, "scope_limitation": "Known campaign and bucket object inventory; not a claim about unrelated projects or accounts."}
+          
+          
+          KEYGEN_JS = r"""
+          const crypto = require('node:crypto');
+          const kp = crypto.generateKeyPairSync('rsa', {
+            modulusLength: 4096,
+            publicExponent: 0x10001,
+            publicKeyEncoding: {type:'spki', format:'pem'},
+            privateKeyEncoding: {type:'pkcs8', format:'pem'}
+          });
+          const publicKey = crypto.createPublicKey(kp.privateKey).export({type:'spki',format:'pem'});
+          if (publicKey !== kp.publicKey) throw Error('KEYPAIR_SELF_CHECK');
+          const plain = crypto.randomBytes(32);
+          const wrapped = crypto.publicEncrypt({key:kp.publicKey,oaepHash:'sha256',padding:crypto.constants.RSA_PKCS1_OAEP_PADDING},plain);
+          const back = crypto.privateDecrypt({key:kp.privateKey,oaepHash:'sha256',padding:crypto.constants.RSA_PKCS1_OAEP_PADDING},wrapped);
+          if (!crypto.timingSafeEqual(plain,back)) throw Error('RSA_OAEP_SELF_CHECK');
+          process.stdout.write(JSON.stringify({publicKey:kp.publicKey,privateKey:kp.privateKey,publicKeySha256:crypto.createHash('sha256').update(kp.publicKey).digest('hex'),rsaBits:4096,oaepHash:'sha256'}));
+          """
+          
+          
+          def base_state():
+              return {"campaign_id": CAMPAIGN, "state": "STOPPED_BLOCKED", "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorized_generation_cap": 144, "actual_generation_attempts": 0, "actual_tuning_create_attempts": 0, "paid_judge_attempts": 0, "paid_retries": 0, "unspent_generation_authorization_locked": 144, "new_generation_authorization_added": 0, "started_at": now(), "workorder_sha256": WORKORDER_SHA256, "run_id": os.environ.get("GITHUB_RUN_ID"), "commit_sha": os.environ.get("GITHUB_SHA"), "runner_sha256": sha(Path(__file__).read_bytes())}
+          
+          
+          def save_local_private_evidence(c):
+              # Never uploaded as a public artifact. No private key or auth headers recorded.
+              if not os.environ.get("RUNNER_TEMP"):
+                  return
+              folder = Path(os.environ["RUNNER_TEMP"]) / "ab144_resume_preflight_private"
+              folder.mkdir(mode=0o700, exist_ok=True)
+              os.chmod(folder, 0o700)
+              path = folder / "FREE_PREFLIGHT_HTTP.json"
+              path.write_bytes(enc({"campaign_id": CAMPAIGN, "records": c.raw_records}))
+              os.chmod(path, 0o600)
+          
           
           def main():
-           if os.environ.get('AB144_MODE')=='CLOSED':print('AB144_CLOSED_NO_ACTION');return
-           result={'campaign_id':CAMPAIGN,'state':'STOPPED_BLOCKED','enabled':False,'max_new':0,'next_new_authorization':0,'authorized_generation_cap':144,'actual_generation_attempts':0,'actual_tuning_create_attempts':0,'paid_judge_attempts':0,'unspent_generation_authorization_locked':144,'started_at':now(),'runner_sha256':sha(Path(__file__).read_bytes()),'run_id':os.environ.get('GITHUB_RUN_ID'),'commit_sha':os.environ.get('GITHUB_SHA')}
-           c=None;existing=False
-           try:
-            expected='martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test'
-            if os.environ.get('GITHUB_REPOSITORY')!='martin830000-spec/laos-translator' or os.environ.get('GITHUB_REF')!='refs/heads/research/gemini35-tuning-test' or os.environ.get('GITHUB_EVENT_NAME')!='push' or os.environ.get('GITHUB_RUN_ATTEMPT')!='1' or os.environ.get('GITHUB_WORKFLOW_REF')!=expected or os.environ.get('AB144_MODE')!='PREFLIGHT' or os.environ.get('ENABLE_GENERATION')!='false' or os.environ.get('ENABLE_TUNING')!='false':raise Stop('IDENTITY_OR_DISABLED_GUARD')
-            token=subprocess.check_output(['gcloud','auth','print-access-token'],stderr=subprocess.PIPE,text=True).strip()
-            if not token:raise Stop('EMPTY_ACCESS_TOKEN')
-            c=Client(token)
-            j=json.loads(c.request('GET',url('https://aiplatform.us.rep.googleapis.com/v1/'+JOB,{'fields':FIELDS}),label='PILOT1_FINAL_JOB_GET'))
-            result['pilot1_actual_final_job']=j
-            spec=j.get('supervisedTuningSpec',{})
-            if j.get('name')!=JOB or j.get('state')!='JOB_STATE_SUCCEEDED' or j.get('baseModel')!='gemini-3.5-flash-lite' or j.get('tunedModel',{}).get('model')!=MODEL or j.get('tunedModel',{}).get('endpoint')!=ENDPOINT or str(spec.get('hyperParameters',{}).get('epochCount'))!='2' or spec.get('trainingDatasetUri')!='gs://'+BUCKET+'/'+PILOT_PREFIX+'train_v11.jsonl' or spec.get('validationDatasetUri')!='gs://'+BUCKET+'/'+PILOT_PREFIX+'validation_v11.jsonl':raise Stop('PILOT1_FINAL_CONTRACT_MISMATCH')
-            result['prior_pilot_controls']={}
-            for name,digest in OLD_CONTROLS.items():
-             b=c.request('GET',url(obj(PILOT_PREFIX+'_control/'+name),{'alt':'media'}),label='PRIOR_PILOT_CONTROL_'+name)
-             if sha(b)!=digest:raise Stop('PRIOR_PILOT_CONTROL_CHANGED')
-             result['prior_pilot_controls'][name]={'sha256':sha(b),'bytes':len(b),'unchanged':True}
-            result['training_objects']={}
-            for name,expected_meta in INPUTS.items():
-             m=json.loads(c.request('GET',url(obj(PILOT_PREFIX+name),{'fields':'name,generation,size,crc32c,md5Hash'}),label='TRAINING_METADATA_'+name))
-             if m['generation']!=expected_meta['generation'] or int(m['size'])!=expected_meta['size']:raise Stop('TRAINING_OBJECT_GENERATION_CHANGED')
-             result['training_objects'][name]=dict(m,prior_verified_sha256=expected_meta['sha256'],immutable_generation_unchanged=True)
-            names=[];page_token=None
-            for page in range(10):
-             query={'versions':'true','maxResults':'1000','fields':'items(name,generation),nextPageToken'}
-             if page_token:query['pageToken']=page_token
-             listing=json.loads(c.request('GET',url('https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o',query),label='CAMPAIGN_EXISTENCE_LIST_'+str(page),safe_json=False))
-             names.extend(o['name'] for o in listing.get('items',[]));page_token=listing.get('nextPageToken')
-             if not page_token:break
-            if page_token:raise Stop('BUCKET_LIST_INCOMPLETE')
-            existing=any(n.startswith(PREFIX) or CAMPAIGN.lower() in n.lower() for n in names)
-            result['existing_ab144_objects_found']=existing
-            if existing:raise Stop('EXISTING_AB144_STATE_DO_NOT_OVERWRITE')
-            permissions=json.loads(c.request('POST',IAM_URL,enc({'permissions':PERMISSIONS}),label='FREE_TEST_IAM_PERMISSIONS'))
-            result['project_permission_probe']={'requested':PERMISSIONS,'returned':permissions.get('permissions',[]),'method':'projects.testIamPermissions','changes_iam':False,'generates_content':False}
-            if 'aiplatform.endpoints.predict' not in permissions.get('permissions',[]):raise Stop('REQUIRED_PROJECT_INFERENCE_PERMISSION_NOT_GRANTED')
-            result['state']='PREFLIGHT_READY_LOCKED'
-           except Stop as e:result['stop_reason']=str(e)
-           except Exception as e:result['stop_reason']='LOCAL_OR_AUTH_EXCEPTION';result['exception_type']=type(e).__name__
-           result['finished_at']=now()
-           if c:
-            result['http_receipts']=c.records
-            if not existing and not c.gcs_failed:
-             try:
-              object_name=PREFIX+('_control/FINAL_LOCK.json' if result['state']=='STOPPED_BLOCKED' else '_evidence/pref_'+result['run_id']+'/READY.json')
-              result['new_campaign_control_receipt']=c.put_new(object_name,enc(result),'NEW_AB144_STATE_CREATE')
-             except Exception as e:result['state']='STOPPED_BLOCKED';result['storage_error_type']=type(e).__name__
-           print('AB144_PREFLIGHT_RESULT='+json.dumps(result,separators=(',',':'),ensure_ascii=True))
-           if result['state']=='STOPPED_BLOCKED':sys.exit(1)
-          if __name__=='__main__':main()
-          AB144_PY
-          python "$RUNNER_TEMP/ab144_preflight.py"
+              result = base_state()
+              if os.environ.get("AB144_MODE") == "CLOSED":
+                  result["state"] = "CLOSED_NO_ACTION"
+                  result["stop_reason"] = "WORKFLOW_DISABLED"
+                  return result, 0
+              c = None
+              try:
+                  guard_identity()
+                  node_version = subprocess.check_output(["node", "--version"], stderr=subprocess.PIPE, timeout=10, text=True).strip()
+                  if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", node_version):
+                      raise Stop("NODE_VERSION_CHECK_FAILED")
+                  result["node_version"] = node_version
+                  token = subprocess.check_output(["gcloud", "auth", "print-access-token"], stderr=subprocess.PIPE, timeout=30, text=True).strip()
+                  if not token:
+                      raise Stop("EMPTY_ACCESS_TOKEN")
+                  c = Client(token)
+                  verify_prior(c, result)
+                  claim = {**base_state(), "state": "PREFLIGHT_CLAIMED_LOCKED", "prior_stop_sha256": OLD_STOP_SHA256, "prior_stop_generation": OLD_STOP_GENERATION, "purpose": "Exclusive free preflight; grants no generation execution", "service_account": "lao-tuning-runner@" + PROJECT + ".iam.gserviceaccount.com"}
+                  result["preflight_claim_receipt"] = c.put_new(CLAIM_NAME, enc(claim), "ATOMIC_PREFLIGHT_CLAIM")
+                  permissions = json.loads(c.request("POST", IAM_URL, enc({"permissions": REQUIRED_PERMISSIONS}), label="FREE_TEST_IAM_PERMISSIONS"))
+                  returned = permissions.get("permissions", [])
+                  result["permission_probe"] = {"requested": REQUIRED_PERMISSIONS, "returned": returned, "required_permission": "aiplatform.endpoints.predict", "changes_iam": False, "requires_endpoints_get": False, "requires_models_get": False}
+                  if not isinstance(returned, list) or "aiplatform.endpoints.predict" not in returned:
+                      raise Stop("REQUIRED_INFERENCE_PERMISSION_NOT_GRANTED")
+                  keydata = json.loads(subprocess.check_output(["node", "-e", KEYGEN_JS], stderr=subprocess.PIPE, timeout=45, text=True))
+                  private_key = keydata.pop("privateKey").encode("ascii")
+                  public_key = keydata["publicKey"]
+                  if keydata.get("rsaBits") != 4096 or keydata.get("oaepHash") != "sha256" or not private_key.startswith(b"-----BEGIN PRIVATE KEY-----\n") or not public_key.startswith("-----BEGIN PUBLIC KEY-----\n") or sha(public_key.encode("ascii")) != keydata.get("publicKeySha256"):
+                      raise Stop("KEYPAIR_FORMAT_OR_FINGERPRINT_MISMATCH")
+                  resume = {**base_state(), "state": "RESUME_AUTHORIZED_PREFLIGHT_LOCKED", "prior_stop": result["prior_ab144_stop"], "prior_attempts_verified": 0, "authorization_cap_inherited": 144, "authorization_added": 0, "stage1_cap": 48, "stage2_cap": 96, "request_categories": {"base_first": 24, "tuned_first": 24, "base_back": 48, "tuned_back": 48}, "claim_receipt": result["preflight_claim_receipt"], "required_permission_confirmed": "aiplatform.endpoints.predict", "input_public_key_sha256": keydata["publicKeySha256"], "paid_execution_requires_separate_frozen_inputs_and_atomic_request_reservations": True}
+                  result["resume_event_receipt"] = c.put_new(RESUME_NAME, enc(resume), "IMMUTABLE_RESUME_EVENT")
+                  result["input_private_key_receipt"] = c.put_new(KEY_NAME, private_key, "PRIVATE_TRANSPORT_KEY_CREATE", sensitive=True)
+                  del private_key
+                  result["input_public_key_pem"] = public_key
+                  result["input_public_key_sha256"] = keydata["publicKeySha256"]
+                  result["input_key_contract"] = {"rsa_bits": 4096, "oaep_hash": "SHA256", "private_key_publicly_exposed": False, "private_key_in_http_evidence": False}
+                  evidence = {"campaign_id": CAMPAIGN, "run_id": result["run_id"], "workorder_sha256": WORKORDER_SHA256, "records": c.raw_records, "auth_headers_recorded": False, "private_key_recorded": False}
+                  result["private_http_evidence_receipt"] = c.put_new(EVIDENCE_NAME, enc(evidence), "PRIVATE_HTTP_EVIDENCE")
+                  result["state"] = "PREFLIGHT_READY_LOCKED"
+                  result["finished_at"] = now()
+                  result["http_receipts"] = list(c.records)
+                  result["ready_receipt"] = c.put_new(READY_NAME, enc(result), "PRIVATE_READY_CREATE")
+              except Stop as error:
+                  result["state"] = "STOPPED_BLOCKED"
+                  result["stop_reason"] = str(error)
+              except Exception as error:
+                  result["state"] = "STOPPED_BLOCKED"
+                  result["stop_reason"] = "LOCAL_OR_AUTH_EXCEPTION"
+                  result["exception_type"] = type(error).__name__
+              result["finished_at"] = now()
+              if c:
+                  owns_namespace = CLAIM_NAME in c.created_objects
+                  result["owns_resume_namespace"] = owns_namespace
+                  result["http_receipts"] = list(c.records)
+                  if result["state"] == "STOPPED_BLOCKED" and owns_namespace and not c.storage_failed:
+                      try:
+                          if EVIDENCE_NAME not in c.created_objects:
+                              evidence = {"campaign_id": CAMPAIGN, "run_id": result["run_id"], "workorder_sha256": WORKORDER_SHA256, "records": c.raw_records, "auth_headers_recorded": False, "private_key_recorded": False}
+                              result["private_http_evidence_receipt"] = c.put_new(EVIDENCE_NAME, enc(evidence), "PRIVATE_FAILURE_HTTP_EVIDENCE")
+                          result["finished_at"] = now()
+                          result["http_receipts"] = list(c.records)
+                          result["resume_final_lock_receipt"] = c.put_new(FINAL_NAME, enc(result), "RESUME_STOP_FINAL_LOCK")
+                      except Exception as error:
+                          result["final_lock_write_failed"] = True
+                          result["final_lock_error_type"] = type(error).__name__
+                  elif result["state"] == "STOPPED_BLOCKED":
+                      result["resume_final_lock_not_written"] = "STORAGE_FAILURE_NO_RETRY" if c.storage_failed else "NAMESPACE_NOT_OWNED"
+                  try:
+                      save_local_private_evidence(c)
+                  except Exception as error:
+                      result["local_private_evidence_save_error_type"] = type(error).__name__
+                  result["http_receipts"] = list(c.records)
+                  result["storage_failure_observed"] = c.storage_failed
+              result["permissions_modified"] = False
+              result["service_modified"] = False
+              result["old_controls_modified"] = False
+              result["generation_execution_available_in_this_script"] = False
+              return result, 0 if result["state"] in ("PREFLIGHT_READY_LOCKED", "CLOSED_NO_ACTION") else 1
+          
+          
+          if __name__ == "__main__":
+              output, exit_code = main()
+              print("AB144_RESUME_PREFLIGHT_RESULT=" + json.dumps(output, ensure_ascii=True, separators=(",", ":")))
+              sys.exit(exit_code)
+          AB144_RESUME_PY
+          python "$RUNNER_TEMP/ab144_resume_preflight.py"
