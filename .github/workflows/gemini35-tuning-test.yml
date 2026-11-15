@@ -17,12 +17,12 @@ jobs:
       contents: read
       id-token: write
     env:
-      AB144_MODE: "DRY_RUN"
-      ENABLE_GENERATION: "false"
+      AB144_MODE: "STAGE1"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       PACKET_SHA256: "bae7e086c9009ede56fd6462f6d65518431eaf8a4974140665a70a16a24b22b9"
       PREFLIGHT_READY_SHA256: "5d7a01d9942ea98c3b70bfb9f4ef84a5c20aa3f5d21854121a956d47d7aa2b36"
-      DRY_READY_SHA256: ""
+      DRY_READY_SHA256: "628021bdb79f26e831cf7ce2aeafa4407fda37d5bb574ad040ac84cae9838931"
       STAGE1_SUMMARY_SHA256: ""
     steps:
       - name: Check out designated TEST branch
