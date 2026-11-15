@@ -39,3 +39,15 @@ jobs:
             --write-out "tuningJobs.list HTTP %{http_code}\n" \
             -H "Authorization: Bearer $(gcloud auth print-access-token)" \
             "https://aiplatform.us.rep.googleapis.com/v1/projects/gen-lang-client-0422436907/locations/us/tuningJobs"
+
+      - name: Verify synthetic dataset upload and readback
+        shell: bash
+        run: |
+          set -euo pipefail
+          object="gs://ko-lao-gemini35-tuning-460077888071/_preflight/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.jsonl"
+          printf '%s\n' '{"contents":[{"role":"user","parts":[{"text":"안녕하세요"}]},{"role":"model","parts":[{"text":"ສະບາຍດີ"}]}]}' > "$RUNNER_TEMP/sample.jsonl"
+          trap 'gcloud storage rm "$object" --quiet >/dev/null 2>&1 || true' EXIT
+          gcloud storage cp "$RUNNER_TEMP/sample.jsonl" "$object"
+          gcloud storage cp "$object" "$RUNNER_TEMP/readback.jsonl"
+          cmp "$RUNNER_TEMP/sample.jsonl" "$RUNNER_TEMP/readback.jsonl"
+          echo "Dataset storage roundtrip PASS"
