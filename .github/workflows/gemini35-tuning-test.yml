@@ -32,3 +32,10 @@ jobs:
 
       - name: Verify TEST bucket access
         run: gcloud storage ls gs://ko-lao-gemini35-tuning-460077888071/
+
+      - name: Verify tuning API access
+        run: |
+          curl --fail --silent --show-error --output /dev/null \
+            --write-out "tuningJobs.list HTTP %{http_code}\n" \
+            -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+            "https://aiplatform.us.rep.googleapis.com/v1/projects/gen-lang-client-0422436907/locations/us/tuningJobs"
