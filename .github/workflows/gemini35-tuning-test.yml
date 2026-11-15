@@ -1,4 +1,4 @@
-name: Gemini 3.5 AB144 Resume TEST Preflight
+name: Gemini 3.5 AB144 Resume TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -9,430 +9,633 @@ concurrency:
   group: gemini35-sft-v11-ab144-20261115
   cancel-in-progress: false
 jobs:
-  ab144-resume-preflight:
+  ab144-resume:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
     env:
-      AB144_MODE: "PREFLIGHT"
+      AB144_MODE: "DRY_RUN"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
+      PACKET_SHA256: "bae7e086c9009ede56fd6462f6d65518431eaf8a4974140665a70a16a24b22b9"
+      PREFLIGHT_READY_SHA256: "5d7a01d9942ea98c3b70bfb9f4ef84a5c20aa3f5d21854121a956d47d7aa2b36"
+      DRY_READY_SHA256: ""
+      STAGE1_SUMMARY_SHA256: ""
     steps:
       - name: Check out designated TEST branch
+        if: ${{ env.AB144_MODE != 'CLOSED' }}
         uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: Authenticate designated TEST identity
+        if: ${{ env.AB144_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Set up Google Cloud CLI
+        if: ${{ env.AB144_MODE != 'CLOSED' }}
         uses: google-github-actions/setup-gcloud@v3
-      - name: Free immutable AB144 resume check
+      - name: Execute fixed-budget isolated TEST stage
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          cat > "$RUNNER_TEMP/ab144_resume_preflight.py" <<'AB144_RESUME_PY'
-          """Free AB144 resume preflight. No inference or tuning-create capability."""
-          import base64
-          import datetime
-          import hashlib
-          import json
-          import os
-          import re
-          import subprocess
-          import sys
-          import urllib.error
-          import urllib.parse
-          import urllib.request
+          cat > "$RUNNER_TEMP/ab144_runner.py" <<'AB144_EMBED_0_END'
+          """Fixed-budget AB144 TEST runner. No tuning, retry, deployment, or IAM mutation."""
+          import base64, collections, datetime, hashlib, json, math, os, subprocess, sys, time, urllib.error, urllib.parse, urllib.request, zipfile
           from pathlib import Path
           
-          CAMPAIGN = "GEMINI35_SFT_V11_AB144_20261115"
-          PROJECT = "gen-lang-client-0422436907"
-          BUCKET = "ko-lao-gemini35-tuning-460077888071"
-          PREFIX = "sft_v11_ab144_20261115/"
-          RESUME_PREFIX = PREFIX + "_resume/20261116/"
-          PILOT_PREFIX = "sft_v11_pilot1_20261115/"
-          JOB = "projects/460077888071/locations/us/tuningJobs/8799981994835443712"
-          MODEL = "projects/460077888071/locations/us/models/2845219433335488512@1"
-          ENDPOINT = "projects/460077888071/locations/us/endpoints/4220752460148375552"
-          WORKORDER_SHA256 = "a1d40eac1fb6fd460cdc7d9a8489d3752d0b7f42ecfb6d61a56883d9e183ae23"
-          OLD_STOP_NAME = PREFIX + "_control/FINAL_LOCK.json"
-          OLD_STOP_SHA256 = "e255a035fc41ec71fcdf49391862ed6f29055a9694542dd8bb4f663c5b69c84e"
-          OLD_STOP_GENERATION = "1794744959797520"
-          OLD_STOP_SIZE = 18922
-          CLAIM_NAME = RESUME_PREFIX + "PREFLIGHT_CLAIM.json"
-          RESUME_NAME = RESUME_PREFIX + "RESUME_EVENT.json"
-          KEY_NAME = RESUME_PREFIX + "_transport/input_private_key.pem"
-          EVIDENCE_NAME = RESUME_PREFIX + "_evidence/FREE_PREFLIGHT_HTTP.json"
-          READY_NAME = RESUME_PREFIX + "READY.json"
-          FINAL_NAME = RESUME_PREFIX + "FINAL_LOCK.json"
-          REQUIRED_PERMISSIONS = ["aiplatform.endpoints.predict"]
-          IAM_URL = "https://cloudresourcemanager.googleapis.com/v1/projects/" + PROJECT + ":testIamPermissions"
-          JOB_URL = "https://aiplatform.us.rep.googleapis.com/v1/" + JOB
-          FIELDS = "name,state,baseModel,tunedModelDisplayName,createTime,startTime,endTime,updateTime,supervisedTuningSpec(trainingDatasetUri,validationDatasetUri,hyperParameters(epochCount,adapterSize,learningRateMultiplier)),tunedModel(model,endpoint),error(code)"
-          PILOT_CONTROLS = {
-              "CREATE_ONCE.json": "2d39a7711a0aa76496f9b37922776785bc35e072bf4bfa28c3dc50908a77e3ea",
-              "ATTEMPT_001.json": "40a5cd528199867cef6b3307dad6436fbb20993cc41ec000b4d2948ada21f309",
-              "FINAL_LOCK.json": "1ffca4547d7db5d397cac09e4bbfcab843ae6b195c166b6c9468a5baffcb3bf6",
-          }
-          INPUTS = {
-              "train_v11.jsonl": {"generation": "1794739965286591", "size": 557378, "sha256": "a07c2c4a74d598daf9b515bbea5b2a37db37e51ba9433d94046b01a8666a9dba"},
-              "validation_v11.jsonl": {"generation": "1794739965065841", "size": 170021, "sha256": "cbe45fccdbdf10f7515be08d3e94ab114c7cf6ec642737bdebf05156a86ff9f2"},
-          }
-          READ_OBJECTS = {OLD_STOP_NAME} | {PILOT_PREFIX + "_control/" + n for n in PILOT_CONTROLS} | {PILOT_PREFIX + n for n in INPUTS}
-          WRITE_OBJECTS = {CLAIM_NAME, RESUME_NAME, KEY_NAME, EVIDENCE_NAME, READY_NAME, FINAL_NAME}
-          MAX_RESPONSE_BYTES = 32 * 1024 * 1024
+          CAMPAIGN='GEMINI35_SFT_V11_AB144_20261115'
+          BUCKET='ko-lao-gemini35-tuning-460077888071'
+          PREFIX='sft_v11_ab144_20261115/'
+          RESUME=PREFIX+'_resume/20261116/'
+          OLD_STOP_SHA='e255a035fc41ec71fcdf49391862ed6f29055a9694542dd8bb4f663c5b69c84e'
+          PROMPT_SHA={'KF':'538b4a55a12bc87cb2d48304b98ee6576b73536f02b28072c0a794f003923255','KB':'67133169a25ec84294989b3ef9aa97fe1ea47c2c23df419c2bb71ae224cc32a8','LF':'cea5dee18f57d26ef06416b34d94858d8ed0ff2701e9d7ff5a95d07dff77c9c6','LB':'1ebb1ec560dec07465269d6b4df581a701de488b6030e43e54d50a83d8abb421'}
+          API_ROOT='https://aiplatform.us.rep.googleapis.com/v1/projects/460077888071/locations/us/'
+          URLS={'A':API_ROOT+'publishers/google/models/gemini-3.5-flash-lite:generateContent','B':API_ROOT+'endpoints/4220752460148375552:generateContent'}
+          CONFIG={'maxOutputTokens':2048,'thinkingConfig':{'thinkingLevel':'MINIMAL'}}
+          RATES={'A':{'input':0.33,'output':2.75},'B':{'input':0.495,'output':4.125}}
+          CAPS={'A_FIRST':24,'B_FIRST':24,'A_BACK':48,'B_BACK':48}
+          MAX_BYTES=8192
+          MAX_INPUT=10240
+          MAX_BILLABLE_OUTPUT=2560
+          OUTPUT_RESERVATION_IS_STRESS_ESTIMATE_NOT_PROVIDER_GUARANTEE=True
+          MAX_COST=2.0
           
-          
-          def now():
-              return datetime.datetime.now(datetime.timezone.utc).isoformat()
-          
-          
-          def sha(data):
-              return hashlib.sha256(data).hexdigest()
-          
-          
-          def enc(value):
-              return (json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
-          
-          
-          def query(base, params):
-              return base + "?" + urllib.parse.urlencode(params)
-          
-          
-          def obj(name):
-              return "https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o/" + urllib.parse.quote(name, safe="")
-          
-          
-          class Stop(Exception):
-              pass
-          
-          
+          def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+          def enc(v):return (json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode('utf-8')
+          def sha(b):return hashlib.sha256(b).hexdigest()
+          def jsonwrite(p,v):p.parent.mkdir(parents=True,exist_ok=True,mode=0o700);p.write_bytes(enc(v));p.chmod(0o600)
+          def query(u,q):return u+'?'+urllib.parse.urlencode(q)
+          def obj(n):return 'https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o/'+urllib.parse.quote(n,safe='')
+          def require(ok,code):
+           if not ok:raise Stop(code)
+          class Stop(Exception):pass
           class NoRedirect(urllib.request.HTTPRedirectHandler):
-              def redirect_request(self, req, fp, code, msg, headers, newurl):
-                  return None
-          
+           def redirect_request(self,req,fp,code,msg,headers,newurl):return None
           
           class Client:
-              """One HTTP transmission per call; strict free-operation allowlist."""
-              def __init__(self, token):
-                  self.token = token
-                  self.opener = urllib.request.build_opener(NoRedirect)
-                  self.records = []
-                  self.raw_records = []
-                  self.created_objects = {}
-                  self.storage_failed = False
+           def __init__(self,token):self.token=token;self.opener=urllib.request.build_opener(NoRedirect);self.receipts=[];self.storage_failed=False;self.observed_reservation_ids=set();self.current_reservation_ids=set();self.paid_started_ids=set()
+           def free(self,method,url,body=None,label='',missing=False):
+            q=urllib.parse.parse_qs(urllib.parse.urlsplit(url).query)
+            allowed=method=='GET' and url.startswith('https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o')
+            allowed=allowed or (method=='POST' and url.startswith('https://storage.googleapis.com/upload/storage/v1/b/'+BUCKET+'/o?') and q.get('ifGenerationMatch')==['0'] and q.get('name',[''])[0].startswith(RESUME))
+            require(allowed,'FREE_REQUEST_OUTSIDE_ALLOWLIST')
+            record={'method':method,'url':url,'label':label,'started_at':now()}
+            try:
+             request=urllib.request.Request(url,data=body,method=method,headers={'Authorization':'Bearer '+self.token,'Content-Type':'application/octet-stream'})
+             try:
+              with self.opener.open(request,timeout=45) as r:status,raw=r.status,r.read()
+             except urllib.error.HTTPError as e:status,raw=e.code,e.read()
+            except Exception as e:
+             record.update(status='UNKNOWN',exception_type=type(e).__name__,finished_at=now());self.receipts.append(record);self.storage_failed=True
+             raise Stop('FREE_STORAGE_TRANSPORT_UNKNOWN') from None
+            record.update(http_status=status,response_sha256=sha(raw),response_bytes=len(raw),finished_at=now());self.receipts.append(record)
+            if status==404 and missing:return None
+            if status not in (200,201):
+             self.storage_failed=True
+             raise Stop('FREE_STORAGE_HTTP_'+str(status)+'_'+label)
+            return raw
+           def get(self,name,missing=False):return self.free('GET',query(obj(name),{'alt':'media'}),label='GET_'+name[len(RESUME):] if name.startswith(RESUME) else 'GET_PRIOR_CONTROL',missing=missing)
+           def put(self,name,body):
+            require(name.startswith(RESUME),'WRITE_OUTSIDE_RESUME')
+            if name.startswith(RESUME+'_requests/'):
+             self.current_reservation_ids.add(name[len(RESUME+'_requests/'):-5])
+            u=query('https://storage.googleapis.com/upload/storage/v1/b/'+BUCKET+'/o',{'uploadType':'media','name':name,'ifGenerationMatch':'0','fields':'name,generation,size,crc32c,md5Hash'})
+            m=json.loads(self.free('POST',u,body,label='CREATE_'+name[len(RESUME):]))
+            back=self.free('GET',query(obj(name),{'alt':'media','generation':m['generation']}),label='READBACK_'+name[len(RESUME):])
+            require(back==body,'STORAGE_READBACK_MISMATCH')
+            return {'object':name,'generation':m['generation'],'bytes':len(body),'sha256':sha(body),'byte_equal':True,'ifGenerationMatch':0}
+           def listing(self,prefix):
+            out=[];page_token=None
+            for page in range(10):
+             q={'prefix':prefix,'versions':'true','maxResults':'1000','fields':'items(name,generation,size),nextPageToken'}
+             if page_token:q['pageToken']=page_token
+             v=json.loads(self.free('GET',query('https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o',q),label='LIST_'+str(page)))
+             out.extend(v.get('items',[]));page_token=v.get('nextPageToken')
+             if not page_token:return out
+            raise Stop('INCOMPLETE_STORAGE_LIST')
           
-              @staticmethod
-              def allowed(method, endpoint, body):
-                  parsed = urllib.parse.urlsplit(endpoint)
-                  if parsed.scheme != "https" or parsed.username or parsed.password or parsed.fragment:
-                      return False
-                  q = urllib.parse.parse_qs(parsed.query)
-                  if method == "GET" and parsed.netloc == "aiplatform.us.rep.googleapis.com":
-                      return parsed.path == "/v1/" + JOB and q == {"fields": [FIELDS]}
-                  if parsed.netloc == "storage.googleapis.com":
-                      base = "/storage/v1/b/" + BUCKET + "/o"
-                      if method == "GET" and parsed.path == base:
-                          return q.get("versions") == ["true"] and set(q).issubset({"versions", "maxResults", "fields", "pageToken"})
-                      if method == "GET" and parsed.path.startswith(base + "/"):
-                          name = urllib.parse.unquote(parsed.path[len(base) + 1:])
-                          return name in READ_OBJECTS | WRITE_OBJECTS and set(q).issubset({"alt", "generation", "fields"})
-                      if method == "POST" and parsed.path == "/upload/storage/v1/b/" + BUCKET + "/o":
-                          return q.get("uploadType") == ["media"] and q.get("ifGenerationMatch") == ["0"] and q.get("name", [None])[0] in WRITE_OBJECTS and set(q) == {"uploadType", "name", "ifGenerationMatch", "fields"}
-                  if method == "POST" and endpoint == IAM_URL:
-                      try:
-                          return json.loads(body) == {"permissions": REQUIRED_PERMISSIONS}
-                      except (ValueError, TypeError):
-                          return False
-                  return False
+          def make_body(prompt,text):
+           require(isinstance(text,str) and bool(text.strip()),'EMPTY_INPUT')
+           body={'systemInstruction':{'parts':[{'text':prompt}]},'contents':[{'role':'user','parts':[{'text':text}]}],'generationConfig':CONFIG}
+           raw=enc(body);require(len(raw)<=MAX_BYTES,'REQUEST_BYTE_BOUND_EXCEEDED')
+           return body,raw
           
-              def request(self, method, endpoint, body=None, label="", capture=True, sensitive=False):
-                  if not self.allowed(method, endpoint, body):
-                      raise Stop("REQUEST_OUTSIDE_FREE_PREFLIGHT_ALLOWLIST")
-                  is_storage = urllib.parse.urlsplit(endpoint).netloc == "storage.googleapis.com"
-                  record = {"label": label, "method": method, "started_at": now()}
-                  if body is not None and not sensitive:
-                      record["request_sha256"] = sha(body)
-                  if sensitive:
-                      record["sensitive_payload_omitted"] = True
-                  request = urllib.request.Request(endpoint, data=body, method=method, headers={"Authorization": "Bearer " + self.token, "Content-Type": "application/octet-stream" if sensitive else "application/json"})
-                  try:
-                      try:
-                          with self.opener.open(request, timeout=45) as response:
-                              status, raw = response.status, response.read(MAX_RESPONSE_BYTES + 1)
-                      except urllib.error.HTTPError as error:
-                          status, raw = error.code, error.read(MAX_RESPONSE_BYTES + 1)
-                  except Exception as error:
-                      record.update({"ended_at": now(), "http_status": "UNKNOWN", "exception_type": type(error).__name__})
-                      self.records.append(record)
-                      if is_storage:
-                          self.storage_failed = True
-                      raise Stop("FREE_TRANSPORT_UNKNOWN_" + label) from None
-                  record.update({"ended_at": now(), "http_status": status, "response_bytes": len(raw)})
-                  if not sensitive:
-                      record["response_sha256"] = sha(raw)
-                  self.records.append(record)
-                  if len(raw) > MAX_RESPONSE_BYTES:
-                      if is_storage:
-                          self.storage_failed = True
-                      raise Stop("FREE_RESPONSE_SIZE_LIMIT_" + label)
-                  if capture and not sensitive:
-                      self.raw_records.append({"receipt": dict(record), "url": endpoint, "raw_response_base64": base64.b64encode(raw).decode("ascii")})
-                  if status not in (200, 201):
-                      if is_storage:
-                          self.storage_failed = True
-                      try:
-                          error_value = json.loads(raw).get("error", {})
-                          code = error_value.get("code")
-                          status_name = error_value.get("status")
-                          message = error_value.get("message")
-                          if isinstance(code, int):
-                              record["error_code"] = code
-                          if isinstance(status_name, str) and re.fullmatch(r"[A-Z_]{1,64}", status_name):
-                              record["error_status"] = status_name
-                          if isinstance(message, str):
-                              record["error_message_sha256"] = sha(message.encode("utf-8"))
-                              # This exact free request contains only a permission name.
-                              # A short credential-free error message may be shown; raw
-                              # response bytes remain in the private evidence object.
-                              if endpoint == IAM_URL:
-                                  secret_marker = re.search(r"(?i)bearer\s+|(?:access|refresh|id)[_-]?token|(?:api|private)[_-]?key|-----BEGIN|AIza[0-9A-Za-z_-]{20,}|ya29\.[0-9A-Za-z_-]+|\b[A-Za-z0-9+/_=-]{80,}\b", message)
-                                  if secret_marker:
-                                      record["error_message_public_omitted"] = "POTENTIAL_CREDENTIAL_MARKER"
-                                  else:
-                                      record["error_message_sanitized"] = re.sub(r"[\x00-\x1f\x7f]", " ", message)[:2048]
-                                      record["error_message_truncated"] = len(message) > 2048
-                          record["raw_error_body_private_evidence_only"] = capture and not sensitive
-                      except (ValueError, AttributeError):
-                          pass
-                      raise Stop("HTTP_" + str(status) + "_" + label)
-                  return raw
+          def validate_packet(p):
+           require(p['campaign_id']==CAMPAIGN and p['resume_id']=='20261116','PACKET_CAMPAIGN')
+           require(p['generation_config']==CONFIG and p['budget']=={'total':144,'stage1':48,'stage2':96,'categories':CAPS,'preflight_usd_cap':2},'PACKET_CONFIG_BUDGET')
+           require(set(p['prompts'])==set(PROMPT_SHA),'PROMPT_KEYS')
+           for k,d in PROMPT_SHA.items():require(sha(p['prompts'][k].encode())==d,'PROMPT_SHA_'+k)
+           samples=p['samples'];require(len(samples)==24 and len({x['id'] for x in samples})==24,'SAMPLE_COUNT')
+           ids={x['id'] for x in samples};require(ids=={x+f'{n:02d}' for x in ('K','L') for n in range(1,13)},'SAMPLE_IDS')
+           require(collections.Counter(x['language'] for x in samples)=={'ko':12,'lo':12},'LANGUAGE_BALANCE')
+           require(collections.Counter((x['language'],x['length_group']) for x in samples)=={(a,b):4 for a in ['ko','lo'] for b in ['short','medium','long']},'LENGTH_BALANCE')
+           require(len(p['stage1_ids'])==8 and len(set(p['stage1_ids']))==8 and sum(x.startswith('K') for x in p['stage1_ids'])==4,'STAGE1_BALANCE')
+           require(set(p['stage1_ids']).issubset(ids),'STAGE1_IDS')
+           require(set(p['stage2_ids'])==ids-set(p['stage1_ids']) and len(p['stage2_ids'])==16,'STAGE2_IDS')
+           for s in samples:
+            require((s['id'].startswith('K') and s['language']=='ko') or (s['id'].startswith('L') and s['language']=='lo'),'SOURCE_ID_LANGUAGE')
+            require(s['source_type']=='SYNTHETIC_NOT_REAL_CHAT' and sha(s['text'].encode())==s['sha256'],'SOURCE_SHA_TYPE')
+            make_body(p['prompts']['KF' if s['language']=='ko' else 'LF'],s['text'])
+           plan=[]
+           for stage in (1,2):
+            for index,sid in enumerate(p['stage'+str(stage)+'_ids']):
+             first_models=['A','B'] if index%2==0 else ['B','A']
+             for m in first_models:plan.append({'id':sid+'_F_'+m,'sample_id':sid,'model':m,'kind':'FIRST','stage':stage,'first_id':None})
+             for j,fm in enumerate(first_models):
+              back_models=['B','A'] if (index+j)%2==0 else ['A','B']
+              for bm in back_models:plan.append({'id':sid+'_F_'+fm+'_BACK_'+bm,'sample_id':sid,'model':bm,'kind':'BACK','stage':stage,'first_id':sid+'_F_'+fm})
+           require(len(plan)==144 and len({x['id'] for x in plan})==144,'FIXED_PLAN_COUNT')
+           require(collections.Counter(x['model']+'_'+x['kind'] for x in plan)==CAPS,'FIXED_PLAN_CAPS')
+           require(p['plan']==plan,'FROZEN_PLAN_MISMATCH')
+           return plan
           
-              def put_new(self, name, body, label, sensitive=False):
-                  endpoint = query("https://storage.googleapis.com/upload/storage/v1/b/" + BUCKET + "/o", {"uploadType": "media", "name": name, "ifGenerationMatch": "0", "fields": "name,generation,size,crc32c,md5Hash"})
-                  raw = self.request("POST", endpoint, body, label, capture=not sensitive, sensitive=sensitive)
-                  try:
-                      metadata = json.loads(raw)
-                      generation = str(metadata["generation"])
-                      if metadata["name"] != name or not generation.isdigit() or int(metadata["size"]) != len(body):
-                          raise ValueError()
-                  except (KeyError, ValueError, TypeError):
-                      self.storage_failed = True
-                      raise Stop("NEW_OBJECT_METADATA_INVALID_" + label) from None
-                  receipt = {"uri": "gs://" + BUCKET + "/" + name, "generation": generation, "size_bytes": len(body), "ifGenerationMatch": 0, "byte_equal": False}
-                  if not sensitive:
-                      receipt["sha256"] = sha(body)
-                  self.created_objects[name] = receipt
-                  back = self.request("GET", query(obj(name), {"alt": "media", "generation": generation}), label=label + "_READBACK", capture=not sensitive, sensitive=sensitive)
-                  if back != body:
-                      self.storage_failed = True
-                      raise Stop("READBACK_MISMATCH_" + label)
-                  receipt["byte_equal"] = True
-                  return dict(receipt)
+          def reserve_cost(model,input_tokens=MAX_INPUT,output_tokens=MAX_BILLABLE_OUTPUT):return (input_tokens*RATES[model]['input']+output_tokens*RATES[model]['output'])/1000000
           
+          def verify_protected(c):
+           controls={PREFIX+'_control/FINAL_LOCK.json':OLD_STOP_SHA,'sft_v11_pilot1_20261115/_control/CREATE_ONCE.json':'2d39a7711a0aa76496f9b37922776785bc35e072bf4bfa28c3dc50908a77e3ea','sft_v11_pilot1_20261115/_control/ATTEMPT_001.json':'40a5cd528199867cef6b3307dad6436fbb20993cc41ec000b4d2948ada21f309','sft_v11_pilot1_20261115/_control/FINAL_LOCK.json':'1ffca4547d7db5d397cac09e4bbfcab843ae6b195c166b6c9468a5baffcb3bf6'}
+           for name,digest in controls.items():require(sha(c.get(name))==digest,'PROTECTED_CONTROL_CHANGED')
+           training={'train_v11.jsonl':('1794739965286591',557378),'validation_v11.jsonl':('1794739965065841',170021)}
+           for name,(generation,size) in training.items():
+            value=json.loads(c.free('GET',query(obj('sft_v11_pilot1_20261115/'+name),{'fields':'name,generation,size'}),label='PROTECTED_TRAINING_METADATA'))
+            require(str(value.get('generation'))==generation and int(value.get('size',-1))==size,'PROTECTED_TRAINING_CHANGED')
+           return {'checked_at':now(),'four_prior_control_sha256_unchanged':True,'train_validation_generation_and_size_unchanged':True,'service_change_operations_available':False}
           
-          def guard_identity():
-              expected = {
-                  "GITHUB_REPOSITORY": "martin830000-spec/laos-translator",
-                  "GITHUB_REF": "refs/heads/research/gemini35-tuning-test",
-                  "GITHUB_EVENT_NAME": "push",
-                  "GITHUB_RUN_ATTEMPT": "1",
-                  "GITHUB_WORKFLOW_REF": "martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test",
-                  "AB144_MODE": "PREFLIGHT",
-                  "ENABLE_GENERATION": "false",
-                  "ENABLE_TUNING": "false",
-              }
-              if any(os.environ.get(k) != v for k, v in expected.items()):
-                  raise Stop("IDENTITY_OR_DISABLED_GUARD")
-              if not re.fullmatch(r"[0-9]+", os.environ.get("GITHUB_RUN_ID", "")) or not re.fullmatch(r"[0-9a-f]{40}", os.environ.get("GITHUB_SHA", "")):
-                  raise Stop("INVALID_GITHUB_EXECUTION_IDENTITY")
+          def usage_cost(value,model):
+           u=value.get('usageMetadata');require(isinstance(u,dict),'USAGE_MISSING')
+           def n(k):
+            v=u.get(k);require(isinstance(v,int) and not isinstance(v,bool) and v>=0,'USAGE_INVALID_'+k);return v
+           prompt=n('promptTokenCount');candidate=n('candidatesTokenCount');total=n('totalTokenCount')
+           if 'thoughtsTokenCount' in u:thoughts=n('thoughtsTokenCount');thought_source='REPORTED'
+           else:thoughts=total-prompt-candidate;thought_source='DERIVED_TOTAL_MINUS_PROMPT_MINUS_CANDIDATE'
+           require(thoughts>=0 and total==prompt+candidate+thoughts,'USAGE_TOTAL_INCONSISTENT')
+           require(u.get('trafficType','ON_DEMAND')=='ON_DEMAND','UNEXPECTED_TRAFFIC_PRICING')
+           require(prompt<=MAX_INPUT and candidate+thoughts<=MAX_BILLABLE_OUTPUT,'USAGE_EXCEEDS_COST_RESERVATION')
+           cached=u.get('cachedContentTokenCount');require(cached is None or (isinstance(cached,int) and 0<=cached<=prompt),'CACHE_USAGE_INVALID')
+           return {'input_tokens':prompt,'candidate_tokens':candidate,'thought_tokens':thoughts,'thought_tokens_source':thought_source,'total_tokens':total,'cached_tokens':cached,'traffic_type':u.get('trafficType'),'input_billed_at_uncached_standard_conservatively':True,'usd_estimate':reserve_cost(model,prompt,candidate+thoughts),'rates_per_million':RATES[model]}
           
+          def decrypt_input(c,work):
+           key=work/'input_private_key.pem';key.write_bytes(c.get(RESUME+'_transport/input_private_key.pem'));key.chmod(0o600)
+           output=work/'INPUT_PACKET.json'
+           try:
+            subprocess.run(['node',os.environ['CRYPTO_SCRIPT'],'decrypt',str(key),os.environ['INPUT_ENVELOPE'],str(output),os.environ['INPUT_HEADER']],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+           finally:key.unlink(missing_ok=True)
+           raw=output.read_bytes();require(sha(raw)==os.environ['PACKET_SHA256'],'INPUT_PACKET_SHA')
+           return json.loads(raw),raw
           
-          def verify_prior(c, result):
-              job = json.loads(c.request("GET", query(JOB_URL, {"fields": FIELDS}), label="PILOT_FINAL_JOB"))
-              spec = job.get("supervisedTuningSpec", {})
-              if job.get("name") != JOB or job.get("state") != "JOB_STATE_SUCCEEDED" or job.get("baseModel") != "gemini-3.5-flash-lite" or job.get("tunedModel", {}).get("model") != MODEL or job.get("tunedModel", {}).get("endpoint") != ENDPOINT or str(spec.get("hyperParameters", {}).get("epochCount")) != "2" or spec.get("trainingDatasetUri") != "gs://" + BUCKET + "/" + PILOT_PREFIX + "train_v11.jsonl" or spec.get("validationDatasetUri") != "gs://" + BUCKET + "/" + PILOT_PREFIX + "validation_v11.jsonl":
-                  raise Stop("PILOT_FINAL_CONTRACT_MISMATCH")
-              result["pilot_final_contract"] = {"state": job["state"], "model": MODEL, "endpoint": ENDPOINT, "unchanged": True}
-              result["prior_pilot_controls"] = {}
-              for name, digest in PILOT_CONTROLS.items():
-                  raw = c.request("GET", query(obj(PILOT_PREFIX + "_control/" + name), {"alt": "media"}), label="PILOT_CONTROL_" + name)
-                  if sha(raw) != digest:
-                      raise Stop("PRIOR_PILOT_CONTROL_CHANGED")
-                  result["prior_pilot_controls"][name] = {"sha256": sha(raw), "bytes": len(raw), "unchanged": True}
-              result["training_objects"] = {}
-              for name, expected in INPUTS.items():
-                  value = json.loads(c.request("GET", query(obj(PILOT_PREFIX + name), {"fields": "name,generation,size,crc32c,md5Hash"}), label="TRAINING_METADATA_" + name))
-                  if value.get("name") != PILOT_PREFIX + name or str(value.get("generation")) != expected["generation"] or int(value.get("size", -1)) != expected["size"]:
-                      raise Stop("TRAINING_OBJECT_GENERATION_CHANGED")
-                  result["training_objects"][name] = {"generation": value["generation"], "size_bytes": int(value["size"]), "prior_verified_sha256": expected["sha256"], "unchanged_generation": True, "fresh_content_hash_recomputed": False}
-              metadata = json.loads(c.request("GET", query(obj(OLD_STOP_NAME), {"fields": "name,generation,size"}), label="OLD_AB144_STOP_METADATA"))
-              if metadata.get("name") != OLD_STOP_NAME or str(metadata.get("generation")) != OLD_STOP_GENERATION or int(metadata.get("size", -1)) != OLD_STOP_SIZE:
-                  raise Stop("OLD_AB144_STOP_GENERATION_CHANGED")
-              raw = c.request("GET", query(obj(OLD_STOP_NAME), {"alt": "media", "generation": OLD_STOP_GENERATION}), label="OLD_AB144_STOP_BODY")
-              if len(raw) != OLD_STOP_SIZE or sha(raw) != OLD_STOP_SHA256:
-                  raise Stop("OLD_AB144_STOP_SHA_MISMATCH")
-              value = json.loads(raw)
-              expected_values = {"campaign_id": CAMPAIGN, "state": "STOPPED_BLOCKED", "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorized_generation_cap": 144, "actual_generation_attempts": 0, "actual_tuning_create_attempts": 0, "paid_judge_attempts": 0, "unspent_generation_authorization_locked": 144}
-              if any(value.get(k) != v for k, v in expected_values.items()):
-                  raise Stop("OLD_AB144_STOP_LEDGER_MISMATCH")
-              result["prior_ab144_stop"] = {"uri": "gs://" + BUCKET + "/" + OLD_STOP_NAME, "generation": OLD_STOP_GENERATION, "sha256": sha(raw), "size_bytes": len(raw), "state": "STOPPED_BLOCKED", "verified_prior_generation_attempts": 0, "unchanged": True}
-              items, page_token, seen_tokens = [], None, set()
-              for page in range(10):
-                  params = {"versions": "true", "maxResults": "1000", "fields": "items(name,generation),nextPageToken"}
-                  if page_token:
-                      params["pageToken"] = page_token
-                  listing = json.loads(c.request("GET", query("https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o", params), label="BUCKET_ALL_VERSIONS_PAGE_" + str(page + 1)))
-                  if not isinstance(listing.get("items", []), list):
-                      raise Stop("BUCKET_LIST_INVALID")
-                  items.extend(listing.get("items", []))
-                  page_token = listing.get("nextPageToken")
-                  if not page_token:
-                      break
-                  if not isinstance(page_token, str) or page_token in seen_tokens:
-                      raise Stop("BUCKET_LIST_REPEATED_PAGE_TOKEN")
-                  seen_tokens.add(page_token)
-              if page_token:
-                  raise Stop("BUCKET_LIST_INCOMPLETE")
-              scoped = []
-              for item in items:
-                  name, generation = item.get("name"), str(item.get("generation", ""))
-                  if not isinstance(name, str) or not generation.isdigit():
-                      raise Stop("BUCKET_LIST_INVALID_OBJECT")
-                  if PREFIX.rstrip("/").lower() in name.lower() or CAMPAIGN.lower() in name.lower():
-                      scoped.append((name, generation))
-              if scoped != [(OLD_STOP_NAME, OLD_STOP_GENERATION)]:
-                  result["unexpected_ab144_object_count"] = len([i for i in scoped if i != (OLD_STOP_NAME, OLD_STOP_GENERATION)])
-                  raise Stop("EXISTING_PAID_OR_RESUME_OR_UNRECOGNIZED_AB144_STATE")
-              result["prior_campaign_inventory"] = {"bucket_version_listing_complete": True, "bucket_objects_and_versions": len(items), "ab144_objects_and_versions": len(scoped), "only_expected_immutable_stop_present": True, "paid_attempt_objects_found": 0, "scope_limitation": "Known campaign and bucket object inventory; not a claim about unrelated projects or accounts."}
+          def load_ledger(c,plan,local,out):
+           known={x['id']:x for x in plan};reservations=c.listing(RESUME+'_requests/')
+           c.observed_reservation_ids.update(r['name'][len(RESUME+'_requests/'):-5] for r in reservations)
+           require(len({r['name'] for r in reservations})==len(reservations),'RESERVATION_VERSIONS_CHANGED')
+           result_objects=c.listing(RESUME+'_results/');result_ids={x['name'][len(RESUME+'_results/'):-5] for x in result_objects}
+           require(len(result_ids)==len(result_objects),'RESULT_VERSIONS_CHANGED')
+           for r in reservations:
+            rid=r['name'][len(RESUME+'_requests/'):-5];require(rid in known and r['name'].endswith('.json'),'UNKNOWN_RESERVATION')
+            require(rid in result_ids,'UNRESOLVED_PREVIOUS_RESERVATION')
+            row=json.loads(c.get(RESUME+'_results/'+rid+'.json'));require(row['request_id']==rid and row['state']!='UNKNOWN','PREVIOUS_UNKNOWN')
+            require(row['model']==known[rid]['model'] and row['kind']==known[rid]['kind'],'LEDGER_PLAN_MISMATCH')
+            out[rid]=row;jsonwrite(local/'results'/ (rid+'.json'),row)
+           require(result_ids==set(out),'RESULT_WITHOUT_RESERVATION')
+           require(len(out)<=144,'TOTAL_CAP')
+           counts=collections.Counter(r['model']+'_'+r['kind'] for r in out.values())
+           require(all(counts[k]<=v for k,v in CAPS.items()),'CATEGORY_CAP')
+           return out
           
+          def paid(c,item,text,prompt,first,packet_sha,rows,work,plan):
+           rid=item['id'];body,raw=make_body(prompt,text)
+           require(os.environ.get('ENABLE_GENERATION')=='true' and os.environ.get('AB144_MODE') in ('STAGE1','STAGE2'),'GENERATION_DISABLED')
+           require(rid not in rows and item in plan,'DUPLICATE_OR_UNPLANNED_REQUEST')
+           require(c.get(RESUME+'FINAL_LOCK.json',missing=True) is None,'FINAL_LOCK_PRESENT')
+           existing=c.listing(RESUME+'_requests/');ids={x['name'][len(RESUME+'_requests/'):-5] for x in existing}
+           require(len(ids)==len(existing) and ids==set(rows),'REMOTE_LEDGER_MISMATCH_BEFORE_POST')
+           count=collections.Counter(r['model']+'_'+r['kind'] for r in rows.values());key=item['model']+'_'+item['kind']
+           require(len(rows)<144 and count[key]<CAPS[key],'CALL_CAP')
+           require(sum(x['stage']==item['stage'] for x in rows.values()) < (48 if item['stage']==1 else 96),'STAGE_CAP')
+           used=sum(r['accounted_cost_usd'] for r in rows.values())
+           remaining=sum(reserve_cost(x['model']) for x in plan if x['id'] not in rows)
+           require(used+remaining<=MAX_COST+1e-12,'COST_ENVELOPE_EXCEEDED')
+           if item['kind']=='BACK':require(first is not None and text==first['output_text'] and sha(text.encode())==first['output_sha256'],'BACK_INPUT_NOT_EXACT_FIRST')
+           reservation=dict(item,campaign_id=CAMPAIGN,resume_id='20261116',reserved_at=now(),packet_sha256=packet_sha,run_id=os.environ['GITHUB_RUN_ID'],commit_sha=os.environ['GITHUB_SHA'],input_text=text,input_sha256=sha(text.encode()),prompt_sha256=sha(prompt.encode()),request_body=body,request_body_utf8_base64=base64.b64encode(raw).decode(),request_body_sha256=sha(raw),request_bytes=len(raw),endpoint=URLS[item['model']],state='RESERVED_BEFORE_SEND',conservative_debit=1,initial_origin_not_supplied_to_back=True,cost_reservation_usd=reserve_cost(item['model']))
+           receipt=c.put(RESUME+'_requests/'+rid+'.json',enc(reservation));jsonwrite(work/'requests'/(rid+'.json'),reservation)
+           row=dict(item,request_id=rid,campaign_id=CAMPAIGN,resume_id='20261116',reservation_receipt=receipt,input_text=text,input_sha256=sha(text.encode()),prompt_sha256=sha(prompt.encode()),request_body_sha256=sha(raw),endpoint=URLS[item['model']],state='UNKNOWN',attempt_count=1,http_status=None,response_id=None,output_text=None,output_sha256=None,started_at=now(),accounted_cost_usd=reserve_cost(item['model']),cost_is_reservation=True)
+           req=urllib.request.Request(URLS[item['model']],data=raw,method='POST',headers={'Authorization':'Bearer '+c.token,'Content-Type':'application/json'})
+           rows[rid]=row;c.paid_started_ids.add(rid)
+           t0=time.perf_counter();stop_reason=None;response_raw=None;status=None;headers={}
+           try:
+            try:
+             with c.opener.open(req,timeout=90) as resp:status,response_raw,headers=resp.status,resp.read(),dict(resp.headers)
+            except urllib.error.HTTPError as e:status,response_raw,headers=e.code,e.read(),dict(e.headers)
+            row.update(http_status=status,state='HTTP_ERROR' if status!=200 else 'RECEIVED')
+           except Exception as e:row['exception_type']=type(e).__name__;stop_reason='PAID_TRANSPORT_UNKNOWN'
+           row.update(completed_at=now(),api_full_completion_seconds=time.perf_counter()-t0,first_text_seconds=None,measurement='NONSTREAMING_API_REQUEST_TO_FULL_BODY_NOT_PHONE_UI')
+           row['response_headers']={k:v for k,v in headers.items() if k.lower() in ('date','content-type','x-request-id','x-goog-request-id','x-google-request-id')}
+           if response_raw is not None:
+            row.update(raw_response_base64=base64.b64encode(response_raw).decode(),response_bytes=len(response_raw),response_sha256=sha(response_raw))
+            try:
+             value=json.loads(response_raw);row['raw_response_json']=value
+             if status!=200:stop_reason='PAID_HTTP_'+str(status)
+             else:
+              cost=usage_cost(value,item['model']);row['usage']=cost;row.update(accounted_cost_usd=cost['usd_estimate'],cost_is_reservation=False,response_id=value.get('responseId'),model_version=value.get('modelVersion'))
+              candidates=value.get('candidates',[]);require(len(candidates)==1,'CANDIDATE_COUNT')
+              candidate=candidates[0];parts=candidate.get('content',{}).get('parts',[])
+              require(all(p.get('thought') is True or 'text' in p for p in parts),'NON_TEXT_OUTPUT')
+              output=''.join(p['text'] for p in parts if 'text' in p and not p.get('thought',False))
+              row.update(finish_reason=candidate.get('finishReason'),output_text=output,output_sha256=sha(output.encode()),valid_translation=candidate.get('finishReason')=='STOP' and bool(output.strip()))
+              row['state']='SUCCESS' if row['valid_translation'] else 'INVALID_TRANSLATION'
+              if row['finish_reason']=='MAX_TOKENS' and sum(r.get('finish_reason')=='MAX_TOKENS' for r in rows.values())>=2:stop_reason='REPEATED_MAX_TOKENS'
+            except Stop as e:stop_reason=str(e);row['processing_error']=stop_reason
+            except Exception as e:stop_reason='PAID_RESPONSE_PARSE_FAILURE';row['processing_error_type']=type(e).__name__
+           rows[rid]=row;jsonwrite(work/'results'/(rid+'.json'),row)
+           try:row['result_receipt']=c.put(RESUME+'_results/'+rid+'.json',enc(row))
+           except Exception:raise Stop('POST_RESULT_STORAGE_FAILED_NO_RETRY') from None
+           if stop_reason:raise Stop(stop_reason)
+           return row
           
-          KEYGEN_JS = r"""
-          const crypto = require('node:crypto');
-          const kp = crypto.generateKeyPairSync('rsa', {
-            modulusLength: 4096,
-            publicExponent: 0x10001,
-            publicKeyEncoding: {type:'spki', format:'pem'},
-            privateKeyEncoding: {type:'pkcs8', format:'pem'}
-          });
-          const publicKey = crypto.createPublicKey(kp.privateKey).export({type:'spki',format:'pem'});
-          if (publicKey !== kp.publicKey) throw Error('KEYPAIR_SELF_CHECK');
-          const plain = crypto.randomBytes(32);
-          const wrapped = crypto.publicEncrypt({key:kp.publicKey,oaepHash:'sha256',padding:crypto.constants.RSA_PKCS1_OAEP_PADDING},plain);
-          const back = crypto.privateDecrypt({key:kp.privateKey,oaepHash:'sha256',padding:crypto.constants.RSA_PKCS1_OAEP_PADDING},wrapped);
-          if (!crypto.timingSafeEqual(plain,back)) throw Error('RSA_OAEP_SELF_CHECK');
-          process.stdout.write(JSON.stringify({publicKey:kp.publicKey,privateKey:kp.privateKey,publicKeySha256:crypto.createHash('sha256').update(kp.publicKey).digest('hex'),rsaBits:4096,oaepHash:'sha256'}));
-          """
-          
-          
-          def base_state():
-              return {"campaign_id": CAMPAIGN, "state": "STOPPED_BLOCKED", "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorized_generation_cap": 144, "actual_generation_attempts": 0, "actual_tuning_create_attempts": 0, "paid_judge_attempts": 0, "paid_retries": 0, "unspent_generation_authorization_locked": 144, "new_generation_authorization_added": 0, "started_at": now(), "workorder_sha256": WORKORDER_SHA256, "run_id": os.environ.get("GITHUB_RUN_ID"), "commit_sha": os.environ.get("GITHUB_SHA"), "runner_sha256": sha(Path(__file__).read_bytes())}
-          
-          
-          def save_local_private_evidence(c):
-              # Never uploaded as a public artifact. No private key or auth headers recorded.
-              if not os.environ.get("RUNNER_TEMP"):
-                  return
-              folder = Path(os.environ["RUNNER_TEMP"]) / "ab144_resume_preflight_private"
-              folder.mkdir(mode=0o700, exist_ok=True)
-              os.chmod(folder, 0o700)
-              path = folder / "FREE_PREFLIGHT_HTTP.json"
-              path.write_bytes(enc({"campaign_id": CAMPAIGN, "records": c.raw_records}))
-              os.chmod(path, 0o600)
-          
+          def export_encrypted(c,work,summary):
+           jsonwrite(work/'RUN_SUMMARY.json',summary)
+           jsonwrite(work/'FREE_HTTP_RECEIPTS.json',c.receipts if c else [])
+           files=[p for p in work.rglob('*') if p.is_file() and p.name not in ('input_private_key.pem',)]
+           manifest={'campaign_id':CAMPAIGN,'files':{str(p.relative_to(work)):{'bytes':p.stat().st_size,'sha256':sha(p.read_bytes())} for p in files}}
+           jsonwrite(work/'MANIFEST_SHA256.json',manifest);files.append(work/'MANIFEST_SHA256.json')
+           bundle=work.parent/'private_evidence.zip'
+           with zipfile.ZipFile(bundle,'x',zipfile.ZIP_DEFLATED) as z:
+            for p in files:z.write(p,str(p.relative_to(work)))
+           b=bundle.read_bytes();header={'campaign':CAMPAIGN,'resume_event':'20261116','purpose':'output_'+os.environ['AB144_MODE'].lower()+'_'+os.environ['GITHUB_RUN_ID'],'bundle_sha256':sha(b),'plaintext_bytes':len(b)}
+           headerpath=work.parent/'output_header.json';jsonwrite(headerpath,header)
+           cipher=work.parent/'ab144_encrypted_evidence.json'
+           subprocess.run(['node',os.environ['CRYPTO_SCRIPT'],'encrypt',os.environ['OUTPUT_PUBLIC_KEY'],str(bundle),str(cipher),str(headerpath)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+           if c and not c.storage_failed:summary['encrypted_export_receipt']=c.put(RESUME+'_exports/'+os.environ['GITHUB_RUN_ID']+'.json',cipher.read_bytes())
+           return {'encrypted_artifact_file':cipher.name,'ciphertext_sha256':sha(cipher.read_bytes()),'header':header}
           
           def main():
-              result = base_state()
-              if os.environ.get("AB144_MODE") == "CLOSED":
-                  result["state"] = "CLOSED_NO_ACTION"
-                  result["stop_reason"] = "WORKFLOW_DISABLED"
-                  return result, 0
-              c = None
-              try:
-                  guard_identity()
-                  node_version = subprocess.check_output(["node", "--version"], stderr=subprocess.PIPE, timeout=10, text=True).strip()
-                  if not re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+", node_version):
-                      raise Stop("NODE_VERSION_CHECK_FAILED")
-                  result["node_version"] = node_version
-                  token = subprocess.check_output(["gcloud", "auth", "print-access-token"], stderr=subprocess.PIPE, timeout=30, text=True).strip()
-                  if not token:
-                      raise Stop("EMPTY_ACCESS_TOKEN")
-                  c = Client(token)
-                  verify_prior(c, result)
-                  claim = {**base_state(), "state": "PREFLIGHT_CLAIMED_LOCKED", "prior_stop_sha256": OLD_STOP_SHA256, "prior_stop_generation": OLD_STOP_GENERATION, "purpose": "Exclusive free preflight; grants no generation execution", "service_account": "lao-tuning-runner@" + PROJECT + ".iam.gserviceaccount.com"}
-                  result["preflight_claim_receipt"] = c.put_new(CLAIM_NAME, enc(claim), "ATOMIC_PREFLIGHT_CLAIM")
-                  permissions = json.loads(c.request("POST", IAM_URL, enc({"permissions": REQUIRED_PERMISSIONS}), label="FREE_TEST_IAM_PERMISSIONS"))
-                  returned = permissions.get("permissions", [])
-                  result["permission_probe"] = {"requested": REQUIRED_PERMISSIONS, "returned": returned, "required_permission": "aiplatform.endpoints.predict", "changes_iam": False, "requires_endpoints_get": False, "requires_models_get": False}
-                  if not isinstance(returned, list) or "aiplatform.endpoints.predict" not in returned:
-                      raise Stop("REQUIRED_INFERENCE_PERMISSION_NOT_GRANTED")
-                  keydata = json.loads(subprocess.check_output(["node", "-e", KEYGEN_JS], stderr=subprocess.PIPE, timeout=45, text=True))
-                  private_key = keydata.pop("privateKey").encode("ascii")
-                  public_key = keydata["publicKey"]
-                  if keydata.get("rsaBits") != 4096 or keydata.get("oaepHash") != "sha256" or not private_key.startswith(b"-----BEGIN PRIVATE KEY-----\n") or not public_key.startswith("-----BEGIN PUBLIC KEY-----\n") or sha(public_key.encode("ascii")) != keydata.get("publicKeySha256"):
-                      raise Stop("KEYPAIR_FORMAT_OR_FINGERPRINT_MISMATCH")
-                  resume = {**base_state(), "state": "RESUME_AUTHORIZED_PREFLIGHT_LOCKED", "prior_stop": result["prior_ab144_stop"], "prior_attempts_verified": 0, "authorization_cap_inherited": 144, "authorization_added": 0, "stage1_cap": 48, "stage2_cap": 96, "request_categories": {"base_first": 24, "tuned_first": 24, "base_back": 48, "tuned_back": 48}, "claim_receipt": result["preflight_claim_receipt"], "required_permission_confirmed": "aiplatform.endpoints.predict", "input_public_key_sha256": keydata["publicKeySha256"], "paid_execution_requires_separate_frozen_inputs_and_atomic_request_reservations": True}
-                  result["resume_event_receipt"] = c.put_new(RESUME_NAME, enc(resume), "IMMUTABLE_RESUME_EVENT")
-                  result["input_private_key_receipt"] = c.put_new(KEY_NAME, private_key, "PRIVATE_TRANSPORT_KEY_CREATE", sensitive=True)
-                  del private_key
-                  result["input_public_key_pem"] = public_key
-                  result["input_public_key_sha256"] = keydata["publicKeySha256"]
-                  result["input_key_contract"] = {"rsa_bits": 4096, "oaep_hash": "SHA256", "private_key_publicly_exposed": False, "private_key_in_http_evidence": False}
-                  evidence = {"campaign_id": CAMPAIGN, "run_id": result["run_id"], "workorder_sha256": WORKORDER_SHA256, "records": c.raw_records, "auth_headers_recorded": False, "private_key_recorded": False}
-                  result["private_http_evidence_receipt"] = c.put_new(EVIDENCE_NAME, enc(evidence), "PRIVATE_HTTP_EVIDENCE")
-                  result["state"] = "PREFLIGHT_READY_LOCKED"
-                  result["finished_at"] = now()
-                  result["http_receipts"] = list(c.records)
-                  result["ready_receipt"] = c.put_new(READY_NAME, enc(result), "PRIVATE_READY_CREATE")
-              except Stop as error:
-                  result["state"] = "STOPPED_BLOCKED"
-                  result["stop_reason"] = str(error)
-              except Exception as error:
-                  result["state"] = "STOPPED_BLOCKED"
-                  result["stop_reason"] = "LOCAL_OR_AUTH_EXCEPTION"
-                  result["exception_type"] = type(error).__name__
-              result["finished_at"] = now()
-              if c:
-                  owns_namespace = CLAIM_NAME in c.created_objects
-                  result["owns_resume_namespace"] = owns_namespace
-                  result["http_receipts"] = list(c.records)
-                  if result["state"] == "STOPPED_BLOCKED" and owns_namespace and not c.storage_failed:
-                      try:
-                          if EVIDENCE_NAME not in c.created_objects:
-                              evidence = {"campaign_id": CAMPAIGN, "run_id": result["run_id"], "workorder_sha256": WORKORDER_SHA256, "records": c.raw_records, "auth_headers_recorded": False, "private_key_recorded": False}
-                              result["private_http_evidence_receipt"] = c.put_new(EVIDENCE_NAME, enc(evidence), "PRIVATE_FAILURE_HTTP_EVIDENCE")
-                          result["finished_at"] = now()
-                          result["http_receipts"] = list(c.records)
-                          result["resume_final_lock_receipt"] = c.put_new(FINAL_NAME, enc(result), "RESUME_STOP_FINAL_LOCK")
-                      except Exception as error:
-                          result["final_lock_write_failed"] = True
-                          result["final_lock_error_type"] = type(error).__name__
-                  elif result["state"] == "STOPPED_BLOCKED":
-                      result["resume_final_lock_not_written"] = "STORAGE_FAILURE_NO_RETRY" if c.storage_failed else "NAMESPACE_NOT_OWNED"
-                  try:
-                      save_local_private_evidence(c)
-                  except Exception as error:
-                      result["local_private_evidence_save_error_type"] = type(error).__name__
-                  result["http_receipts"] = list(c.records)
-                  result["storage_failure_observed"] = c.storage_failed
-              result["permissions_modified"] = False
-              result["service_modified"] = False
-              result["old_controls_modified"] = False
-              result["generation_execution_available_in_this_script"] = False
-              return result, 0 if result["state"] in ("PREFLIGHT_READY_LOCKED", "CLOSED_NO_ACTION") else 1
+           mode=os.environ.get('AB144_MODE','CLOSED')
+           if mode=='CLOSED':print('AB144_CLOSED_NO_ACTION');return
+           work=Path(os.environ['RUNNER_TEMP'])/'ab144_private';work.mkdir(mode=0o700)
+           summary={'campaign_id':CAMPAIGN,'resume_id':'20261116','mode':mode,'started_at':now(),'run_id':os.environ.get('GITHUB_RUN_ID'),'commit_sha':os.environ.get('GITHUB_SHA'),'runner_sha256':sha(Path(__file__).read_bytes()),'state':'STOPPED_BLOCKED','enabled':False,'max_new':0,'next_new_authorization':0,'new_tuning_attempts':0,'paid_judge_attempts':0,'automatic_retries':0,'source_of_authorization':'EXISTING_144_RESUMED_NO_ADDITIONAL_BUDGET'}
+           c=None;rows={};owned=False;plan=[];packet_sha=None
+           try:
+            expected='martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test'
+            require(os.environ.get('GITHUB_REPOSITORY')=='martin830000-spec/laos-translator' and os.environ.get('GITHUB_REF')=='refs/heads/research/gemini35-tuning-test' and os.environ.get('GITHUB_EVENT_NAME')=='push' and os.environ.get('GITHUB_RUN_ATTEMPT')=='1' and os.environ.get('GITHUB_WORKFLOW_REF')==expected,'IDENTITY_GUARD')
+            require(mode in ('DRY_RUN','STAGE1','STAGE2','FINALIZE') and os.environ.get('ENABLE_TUNING')=='false','MODE_GUARD')
+            require(os.environ.get('ENABLE_GENERATION')==('true' if mode in ('STAGE1','STAGE2') else 'false'),'ARMING_GUARD')
+            token=subprocess.check_output(['gcloud','auth','print-access-token'],text=True,stderr=subprocess.PIPE).strip();require(bool(token),'EMPTY_TOKEN');c=Client(token)
+            old=c.get(PREFIX+'_control/FINAL_LOCK.json');require(sha(old)==OLD_STOP_SHA,'OLD_STOP_MUTATED');jsonwrite(work/'OLD_STOP_REFERENCE.json',{'sha256':sha(old),'unchanged':True})
+            ready_raw=c.get(RESUME+'READY.json');require(sha(ready_raw)==os.environ['PREFLIGHT_READY_SHA256'],'PREFLIGHT_READY_SHA')
+            ready=json.loads(ready_raw);jsonwrite(work/'PREFLIGHT_READY.json',ready)
+            event=c.get(RESUME+'RESUME_EVENT.json');(work/'RESUME_EVENT.json').write_bytes(event)
+            (work/'FREE_PREFLIGHT_HTTP.json').write_bytes(c.get(RESUME+'_evidence/FREE_PREFLIGHT_HTTP.json'))
+            require(c.get(RESUME+'FINAL_LOCK.json',missing=True) is None,'RESUME_FINAL_LOCK_PRESENT')
+            packet,packet_raw=decrypt_input(c,work);packet_sha=sha(packet_raw);plan=validate_packet(packet)
+            summary['packet_sha256']=packet_sha
+            rows=load_ledger(c,plan,work,rows)
+            if mode=='DRY_RUN':
+             require(not rows,'DRYRUN_NONZERO_LEDGER')
+             c.put(RESUME+'DRY_RUN_LOCK.json',enc({'run_id':os.environ['GITHUB_RUN_ID'],'packet_sha256':packet_sha,'generation_enabled':False}));owned=True
+             c.put(RESUME+'INPUT_PACKET.json',packet_raw)
+             summary.update(state='DRY_RUN_READY_LOCKED',planned_calls=len(plan),planned_categories=CAPS,maximum_stress_estimate_usd=sum(reserve_cost(x['model']) for x in plan),paid_calls_this_run=0)
+             require(summary['maximum_stress_estimate_usd']<=2,'PREFLIGHT_COST')
+             summary['dry_ready_receipt']=c.put(RESUME+'DRY_READY.json',enc(summary))
+            elif mode in ('STAGE1','STAGE2'):
+             frozen=c.get(RESUME+'INPUT_PACKET.json');require(frozen==packet_raw,'REMOTE_FROZEN_PACKET_MISMATCH')
+             dry_raw=c.get(RESUME+'DRY_READY.json');require(sha(dry_raw)==os.environ['DRY_READY_SHA256'],'DRY_READY_SHA')
+             dry=json.loads(dry_raw);require(dry['runner_sha256']==summary['runner_sha256'] and dry['packet_sha256']==packet_sha and dry['state']=='DRY_RUN_READY_LOCKED','DRYRUN_CONTRACT_CHANGED')
+             stage=1 if mode=='STAGE1' else 2
+             if stage==1:
+              require(not rows,'STAGE1_NONZERO_LEDGER')
+              summary['global_run_lock']=c.put(RESUME+'RUN_LOCK.json',enc({'run_id':os.environ['GITHUB_RUN_ID'],'campaign_id':CAMPAIGN,'packet_sha256':packet_sha,'runner_sha256':summary['runner_sha256'],'authorization_total':144}));owned=True
+             else:
+              global_lock=json.loads(c.get(RESUME+'RUN_LOCK.json'));require(global_lock['packet_sha256']==packet_sha and global_lock['runner_sha256']==summary['runner_sha256'],'GLOBAL_RUN_LOCK_MISMATCH')
+              stage1raw=c.get(RESUME+'STAGE1_SUMMARY.json');require(sha(stage1raw)==os.environ['STAGE1_SUMMARY_SHA256'],'STAGE1_SUMMARY_SHA')
+              stage1=json.loads(stage1raw);require(stage1['state']=='STAGE1_COMPLETE_AWAITING_REVIEW' and len(rows)==stage1['actual_generation_attempts'] and not any(r['stage']==2 for r in rows.values()),'STAGE1_NOT_COMPLETE')
+              gate=json.loads(Path(os.environ['STAGE2_GATE']).read_bytes());require(gate['allow_stage2'] is True and gate['stage1_summary_sha256']==sha(stage1raw) and gate['packet_sha256']==packet_sha and gate['campaign_id']==CAMPAIGN,'STAGE2_REVIEW_GATE')
+              c.put(RESUME+'STAGE2_REVIEW_GATE.json',enc(gate))
+             summary['stage_run_lock']=c.put(RESUME+'STAGE'+str(stage)+'_RUN_LOCK.json',enc({'run_id':os.environ['GITHUB_RUN_ID'],'packet_sha256':packet_sha,'runner_sha256':summary['runner_sha256'],'stage':stage}));owned=True
+             start_count=len(rows);samples={s['id']:s for s in packet['samples']};skips=[]
+             for item in [x for x in plan if x['stage']==stage]:
+              s=samples[item['sample_id']];path=('KF' if s['language']=='ko' else 'LF') if item['kind']=='FIRST' else ('KB' if s['language']=='ko' else 'LB')
+              first=rows.get(item['first_id']) if item['first_id'] else None
+              if item['kind']=='BACK' and (first is None or not first.get('valid_translation')):
+               skipped=dict(item,reason='FIRST_INVALID_NO_REPLACEMENT_CALL');skips.append(skipped);jsonwrite(work/'skips'/(item['id']+'.json'),skipped);c.put(RESUME+'_skips/'+item['id']+'.json',enc(skipped));continue
+              text=s['text'] if item['kind']=='FIRST' else first['output_text']
+              row=paid(c,dict(item,path=path),text,packet['prompts'][path],first,packet_sha,rows,work,[dict(x,path=(('KF' if samples[x['sample_id']]['language']=='ko' else 'LF') if x['kind']=='FIRST' else ('KB' if samples[x['sample_id']]['language']=='ko' else 'LB'))) for x in plan])
+             summary['protected_resource_check']=verify_protected(c)
+             summary.update(state='STAGE1_COMPLETE_AWAITING_REVIEW' if stage==1 else 'COMPLETED_LOCKED',paid_calls_this_run=len(rows)-start_count,skipped_calls=skips)
+            elif mode=='FINALIZE':
+             owned=True;summary.update(state='PAUSED_LOCKED',stop_reason='RESEARCH_REVIEW_REQUESTED_CLOSE_WITHOUT_NEW_CALLS',paid_calls_this_run=0)
+           except Stop as e:summary['stop_reason']=str(e)
+           except Exception as e:summary['stop_reason']='LOCAL_OR_AUTH_EXCEPTION';summary['exception_type']=type(e).__name__
+           unresolved=(c.observed_reservation_ids-set(rows)) if c else set()
+           reserved_not_sent=(c.current_reservation_ids-c.paid_started_ids) if c else set()
+           conservative_count=len(rows)+len(unresolved)
+           summary.update(finished_at=now(),actual_generation_attempts=conservative_count,actual_generation_attempts_includes_conservative_unknown_reservations=True,unresolved_prior_request_ids=sorted(unresolved),current_reservations_not_sent=sorted(reserved_not_sent),success=sum(r['state']=='SUCCESS' for r in rows.values()),failed=sum(r['state'] not in ('SUCCESS','UNKNOWN') for r in rows.values()),unknown=sum(r['state']=='UNKNOWN' for r in rows.values())+len(unresolved),unused_authorization=144-conservative_count,accounted_generation_cost_usd=sum(r['accounted_cost_usd'] for r in rows.values())+sum(reserve_cost('B') for _ in unresolved),category_counts=dict(collections.Counter(r['model']+'_'+r['kind'] for r in rows.values())))
+           if c and owned and not c.storage_failed:
+            try:
+             if summary['state'] not in ('DRY_RUN_READY_LOCKED','STAGE1_COMPLETE_AWAITING_REVIEW'):
+              summary['final_lock_receipt']=c.put(RESUME+'FINAL_LOCK.json',enc(summary))
+             if mode in ('STAGE1','STAGE2'):summary['stage_summary_receipt']=c.put(RESUME+mode+'_SUMMARY.json',enc(summary))
+            except Exception as e:summary.update(state='STOPPED_BLOCKED',final_storage_error_type=type(e).__name__)
+           try:summary['encrypted_export']=export_encrypted(c,work,summary)
+           except Exception as e:summary.update(export_error_type=type(e).__name__,state='STOPPED_BLOCKED')
+           public={k:v for k,v in summary.items() if k not in ('skipped_calls',)}
+           print('AB144_RUN_RESULT='+json.dumps(public,ensure_ascii=True,separators=(',',':')))
+           if summary['state']=='STOPPED_BLOCKED':sys.exit(1)
           
+          if __name__=='__main__':main()
+          AB144_EMBED_0_END
+          cat > "$RUNNER_TEMP/transport_crypto.mjs" <<'AB144_EMBED_1_END'
+          #!/usr/bin/env node
+          /**
+           * Offline private transport, envelope v1. Node built-ins only.
+           *
+           * CLI:
+           *   keygen privatePath publicPath
+           *   encrypt publicPath inputPath outputPath headerJSONPath
+           *   decrypt privatePath envelopePath outputPath expectedHeaderJSONPath
+           *
+           * Header fields (exactly): campaign, resume_event, purpose, bundle_sha256,
+           * plaintext_bytes. UTF-8 JSON with lexicographically sorted keys and no
+           * whitespace is the AES-GCM additional authenticated data (AAD).
+           * Existing outputs are never overwritten. Nothing is uploaded or executed.
+           */
+          import {
+            constants as cryptoConstants,
+            createCipheriv,
+            createDecipheriv,
+            createHash,
+            createPrivateKey,
+            createPublicKey,
+            generateKeyPair,
+            privateDecrypt,
+            publicEncrypt,
+            randomBytes,
+            timingSafeEqual,
+          } from 'node:crypto';
+          import { constants as fsConstants } from 'node:fs';
+          import { chmod, lstat, mkdir, open, unlink } from 'node:fs/promises';
+          import { dirname, resolve } from 'node:path';
+          import { promisify } from 'node:util';
+          import { gunzipSync, gzipSync } from 'node:zlib';
           
-          if __name__ == "__main__":
-              output, exit_code = main()
-              print("AB144_RESUME_PREFLIGHT_RESULT=" + json.dumps(output, ensure_ascii=True, separators=(",", ":")))
-              sys.exit(exit_code)
-          AB144_RESUME_PY
-          python "$RUNNER_TEMP/ab144_resume_preflight.py"
+          const LIMIT = 64 * 1024 * 1024;
+          const HEADER_LIMIT = 16 * 1024;
+          const ENVELOPE_LIMIT = 4 * Math.ceil(LIMIT / 3) + 32768;
+          const SUITE = 'RSA4096-OAEP-SHA256+A256GCM+GZIP';
+          const HEADER_KEYS = ['bundle_sha256', 'campaign', 'plaintext_bytes', 'purpose', 'resume_event'];
+          const ENVELOPE_KEYS = [
+            'ciphertext_b64', 'header', 'header_sha256', 'iv_b64',
+            'suite', 'tag_b64', 'version', 'wrapped_key_b64',
+          ];
+          const keyPair = promisify(generateKeyPair);
+          
+          class TransportError extends Error {
+            constructor(code) { super(code); this.code = code; }
+          }
+          function need(condition, code) {
+            if (!condition) throw new TransportError(code);
+          }
+          function sha256(data) { return createHash('sha256').update(data).digest('hex'); }
+          function sameBytes(a, b) {
+            return a.length === b.length && timingSafeEqual(a, b);
+          }
+          function exactKeys(object, expected, code) {
+            need(object !== null && typeof object === 'object' && !Array.isArray(object), code);
+            need(JSON.stringify(Object.keys(object).sort()) === JSON.stringify(expected), code);
+          }
+          function canonicalHeader(header) {
+            exactKeys(header, HEADER_KEYS, 'INVALID_HEADER_KEYS');
+            for (const key of ['campaign', 'resume_event', 'purpose']) {
+              need(typeof header[key] === 'string' && header[key].length > 0
+                && Buffer.byteLength(header[key], 'utf8') <= 1024
+                && !/[\u0000-\u001f\u007f]/u.test(header[key]), 'INVALID_HEADER_IDENTIFIER');
+            }
+            need(typeof header.bundle_sha256 === 'string'
+              && /^[0-9a-f]{64}$/u.test(header.bundle_sha256), 'INVALID_HEADER_SHA256');
+            need(Number.isSafeInteger(header.plaintext_bytes)
+              && header.plaintext_bytes >= 0 && header.plaintext_bytes <= LIMIT, 'INVALID_HEADER_SIZE');
+            const ordered = Object.fromEntries(HEADER_KEYS.map(key => [key, header[key]]));
+            const encoded = Buffer.from(JSON.stringify(ordered), 'utf8');
+            need(encoded.length <= HEADER_LIMIT, 'HEADER_TOO_LARGE');
+            return { ordered, encoded };
+          }
+          async function readBounded(filePath, limit) {
+            // O_NOFOLLOW rejects a symlink at the actual input path. Read no more than
+            // the stat size plus one byte, including when a file changes during reading.
+            const handle = await open(filePath, fsConstants.O_RDONLY | fsConstants.O_NOFOLLOW);
+            try {
+              const stat = await handle.stat();
+              need(stat.isFile() && stat.size >= 0 && stat.size <= limit, 'INPUT_SIZE_OR_TYPE_INVALID');
+              const buffer = Buffer.alloc(stat.size + 1);
+              let offset = 0;
+              while (offset < buffer.length) {
+                const { bytesRead } = await handle.read(buffer, offset, buffer.length - offset, offset);
+                if (bytesRead === 0) break;
+                offset += bytesRead;
+              }
+              need(offset === stat.size, 'INPUT_CHANGED_WHILE_READING');
+              return buffer.subarray(0, offset);
+            } finally { await handle.close(); }
+          }
+          function parseJson(data, code) {
+            try {
+              // Fatal decoding avoids silently repairing malformed UTF-8.
+              return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(data));
+            } catch { throw new TransportError(code); }
+          }
+          async function readHeader(path) {
+            return canonicalHeader(parseJson(await readBounded(path, HEADER_LIMIT), 'HEADER_JSON_INVALID'));
+          }
+          async function prepareParent(filePath) {
+            const parent = dirname(resolve(filePath));
+            await mkdir(parent, { recursive: true, mode: 0o700 });
+            const stat = await lstat(parent);
+            need(stat.isDirectory() && !stat.isSymbolicLink(), 'OUTPUT_PARENT_INVALID');
+            await chmod(parent, 0o700);
+          }
+          async function writeNew(filePath, data, mode) {
+            await prepareParent(filePath);
+            let handle;
+            let created = false;
+            try {
+              handle = await open(filePath,
+                fsConstants.O_WRONLY | fsConstants.O_CREAT | fsConstants.O_EXCL | fsConstants.O_NOFOLLOW,
+                mode);
+              created = true;
+              await handle.chmod(mode);
+              await handle.writeFile(data);
+              await handle.sync();
+              await handle.close();
+              handle = undefined;
+            } catch (error) {
+              if (handle) await handle.close().catch(() => {});
+              if (created) await unlink(filePath).catch(() => {});
+              throw error;
+            }
+          }
+          function validateKey(key) {
+            need(key.asymmetricKeyType === 'rsa'
+              && key.asymmetricKeyDetails?.modulusLength === 4096
+              && key.asymmetricKeyDetails?.publicExponent === 65537n, 'RSA_KEY_PARAMETERS_INVALID');
+          }
+          function decode64(value, maxBytes, exactBytes, code) {
+            need(typeof value === 'string'
+              && value.length <= 4 * Math.ceil(maxBytes / 3), code);
+            const data = Buffer.from(value, 'base64');
+            need(data.length <= maxBytes && data.toString('base64') === value, code);
+            if (exactBytes !== undefined) need(data.length === exactBytes, code);
+            return data;
+          }
+          async function generate(privatePath, publicPath) {
+            need(resolve(privatePath) !== resolve(publicPath), 'KEY_PATHS_MUST_DIFFER');
+            // Preflight both paths to avoid replacing or leaving one side of an existing pair.
+            for (const path of [privatePath, publicPath]) {
+              try { await lstat(path); throw new TransportError('KEY_OUTPUT_EXISTS'); }
+              catch (error) { if (error.code !== 'ENOENT') throw error; }
+            }
+            const { publicKey, privateKey } = await keyPair('rsa', {
+              modulusLength: 4096,
+              publicExponent: 0x10001,
+              publicKeyEncoding: { type: 'spki', format: 'pem' },
+              privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+            });
+            await writeNew(privatePath, privateKey, 0o600);
+            try { await writeNew(publicPath, publicKey, 0o644); }
+            catch (error) { await unlink(privatePath).catch(() => {}); throw error; }
+            return { ok: true, operation: 'keygen', rsa_bits: 4096 };
+          }
+          async function encrypt(publicPath, inputPath, outputPath, headerPath) {
+            const { ordered: header, encoded: aad } = await readHeader(headerPath);
+            const plaintext = await readBounded(inputPath, LIMIT);
+            need(plaintext.length === header.plaintext_bytes, 'PLAINTEXT_SIZE_MISMATCH');
+            need(sha256(plaintext) === header.bundle_sha256, 'PLAINTEXT_SHA256_MISMATCH');
+            const publicKey = createPublicKey(await readBounded(publicPath, 65536));
+            validateKey(publicKey);
+            const compressed = gzipSync(plaintext, { level: 9, maxOutputLength: LIMIT });
+            need(compressed.length <= LIMIT, 'COMPRESSED_SIZE_LIMIT');
+            const aesKey = randomBytes(32);
+            try {
+              const iv = randomBytes(12);
+              const cipher = createCipheriv('aes-256-gcm', aesKey, iv, { authTagLength: 16 });
+              cipher.setAAD(aad);
+              const ciphertext = Buffer.concat([cipher.update(compressed), cipher.final()]);
+              const wrappedKey = publicEncrypt({
+                key: publicKey,
+                padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+                oaepHash: 'sha256',
+              }, aesKey);
+              need(wrappedKey.length === 512, 'WRAPPED_KEY_SIZE_INVALID');
+              const envelope = {
+                version: 1,
+                suite: SUITE,
+                header,
+                header_sha256: sha256(aad),
+                wrapped_key_b64: wrappedKey.toString('base64'),
+                iv_b64: iv.toString('base64'),
+                tag_b64: cipher.getAuthTag().toString('base64'),
+                ciphertext_b64: ciphertext.toString('base64'),
+              };
+              const output = Buffer.from(JSON.stringify(envelope) + '\n', 'utf8');
+              need(output.length <= ENVELOPE_LIMIT, 'ENVELOPE_SIZE_LIMIT');
+              await writeNew(outputPath, output, 0o600);
+              return { ok: true, operation: 'encrypt', plaintext_bytes: plaintext.length,
+                compressed_bytes: compressed.length, envelope_bytes: output.length };
+            } finally { aesKey.fill(0); }
+          }
+          async function decrypt(privatePath, envelopePath, outputPath, expectedHeaderPath) {
+            const expected = await readHeader(expectedHeaderPath);
+            const envelope = parseJson(await readBounded(envelopePath, ENVELOPE_LIMIT), 'ENVELOPE_JSON_INVALID');
+            exactKeys(envelope, ENVELOPE_KEYS, 'INVALID_ENVELOPE_KEYS');
+            need(envelope.version === 1 && envelope.suite === SUITE, 'UNSUPPORTED_ENVELOPE');
+            const actual = canonicalHeader(envelope.header);
+            need(sameBytes(actual.encoded, expected.encoded), 'EXPECTED_HEADER_MISMATCH');
+            need(envelope.header_sha256 === sha256(actual.encoded), 'HEADER_SHA256_MISMATCH');
+            const wrappedKey = decode64(envelope.wrapped_key_b64, 512, 512, 'WRAPPED_KEY_INVALID');
+            const iv = decode64(envelope.iv_b64, 12, 12, 'IV_INVALID');
+            const tag = decode64(envelope.tag_b64, 16, 16, 'TAG_INVALID');
+            const ciphertext = decode64(envelope.ciphertext_b64, LIMIT, undefined, 'CIPHERTEXT_INVALID');
+            const privateKey = createPrivateKey(await readBounded(privatePath, 65536));
+            validateKey(privateKey);
+            let aesKey;
+            try {
+              aesKey = privateDecrypt({
+                key: privateKey,
+                padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+                oaepHash: 'sha256',
+              }, wrappedKey);
+              need(aesKey.length === 32, 'AES_KEY_SIZE_INVALID');
+              const decipher = createDecipheriv('aes-256-gcm', aesKey, iv, { authTagLength: 16 });
+              decipher.setAAD(actual.encoded);
+              decipher.setAuthTag(tag);
+              const unverified = decipher.update(ciphertext);
+              let compressed;
+              try {
+                // Authentication MUST succeed before gunzip or filesystem output.
+                compressed = Buffer.concat([unverified, decipher.final()]);
+              } finally { unverified.fill(0); }
+              need(compressed.length <= LIMIT, 'COMPRESSED_SIZE_LIMIT');
+              const plaintext = gunzipSync(compressed, { maxOutputLength: LIMIT });
+              need(plaintext.length <= LIMIT, 'PLAINTEXT_SIZE_LIMIT');
+              need(plaintext.length === actual.ordered.plaintext_bytes, 'PLAINTEXT_SIZE_MISMATCH');
+              need(sha256(plaintext) === actual.ordered.bundle_sha256, 'PLAINTEXT_SHA256_MISMATCH');
+              await writeNew(outputPath, plaintext, 0o600);
+              return { ok: true, operation: 'decrypt', plaintext_bytes: plaintext.length };
+            } finally { if (aesKey) aesKey.fill(0); }
+          }
+          
+          async function main() {
+            const [operation, ...args] = process.argv.slice(2);
+            if (operation === 'keygen' && args.length === 2) return generate(...args);
+            if (operation === 'encrypt' && args.length === 4) return encrypt(...args);
+            if (operation === 'decrypt' && args.length === 4) return decrypt(...args);
+            throw new TransportError('USAGE_KEYGEN_OR_ENCRYPT_OR_DECRYPT');
+          }
+          main().then(result => {
+            process.stdout.write(JSON.stringify(result) + '\n');
+          }).catch(error => {
+            // Never print raw crypto errors, request content, private key text, or stacks.
+            const code = error instanceof TransportError ? error.code : 'CRYPTO_OR_IO_FAILURE';
+            process.stderr.write(JSON.stringify({ ok: false, error: code }) + '\n');
+            process.exitCode = 1;
+          });
+          AB144_EMBED_1_END
+          cat > "$RUNNER_TEMP/input_envelope.json" <<'AB144_EMBED_2_END'
+          {"version":1,"suite":"RSA4096-OAEP-SHA256+A256GCM+GZIP","header":{"bundle_sha256":"bae7e086c9009ede56fd6462f6d65518431eaf8a4974140665a70a16a24b22b9","campaign":"GEMINI35_SFT_V11_AB144_20261115","plaintext_bytes":23793,"purpose":"frozen_inputs","resume_event":"20261116"},"header_sha256":"0c8f243b39d4436525a4ce06e9b40df071021a917cb6df5a9247d9001496047f","wrapped_key_b64":"FiOPeenVDBdQAtODilrG88nGE3f9ZVPDNh77XmkzM8cgERwdOsghD2kLIvJj/U4pwV3lVG8JLRrTmY869YZdX0sVUKTTiVBKbR1XkGmTgsszbpnCEVjyrqqyg5mAloilUyW1RE/SIqVAVlfUzJYl8JjmZKCKzLcaaPeisvu4L0rE9sYnAZ4GqI3R8Mn5efV6hdGKeuhThTdsXF5/YveJCZZhboN5oKN22fzDvGoayPG/eFcsP7w1t9t5fQJmszXnCxtuKwHNBAFxB0TME1qz96YSeSYiBptIiIt3HOOLIqtWRZQGWBXGzjJuSiw7M1EmcFk66JgH61KmSz4e7pV0/cSa+HI05/IK/XL0UKSeTGtOGNZ4e8a9MtqbKI0mCCCMLFqk8nrIKFk8FR2VU4Bf76jn5t+ksj0MVA0wPU0Xtaj04WmIkCuvmm9a4l+8IW2GJ90ydUnJK0EAnT/exfEYP2y668rQYaIzyFo2MTnlPCFE4GMEW3BBKEUYZX4welP5ZsqiwJNVlpVFCa8ml92DX9qASol+j802/QGoCuNSyhkAfM3lW0s17LK8nwjTHcVArdCDBEVRkvh3+YgmebLQwGpofrrmjwPl7ooFRIaFpRyW4AKYKfBLxWNSjzdhPU9tNrp+UXqsLns8qwfuJYBw6xACBhw5tHhQ5JLdiWkWdD8=","iv_b64":"T7vKaMtJ28f6MSL6","tag_b64":"96Hmj0Gpz04fGL1LDZEicA==","ciphertext_b64":"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"}
+          AB144_EMBED_2_END
+          cat > "$RUNNER_TEMP/input_header.json" <<'AB144_EMBED_3_END'
+          {"campaign": "GEMINI35_SFT_V11_AB144_20261115", "resume_event": "20261116", "purpose": "frozen_inputs", "bundle_sha256": "bae7e086c9009ede56fd6462f6d65518431eaf8a4974140665a70a16a24b22b9", "plaintext_bytes": 23793}
+          AB144_EMBED_3_END
+          cat > "$RUNNER_TEMP/output_public_key.pem" <<'AB144_EMBED_4_END'
+          -----BEGIN PUBLIC KEY-----
+          MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEArWDvVLt4lJ2cYtuQklZV
+          zvUKcaU5ZV36weSR8CX0nIcMocwTvzl+W8XCJsaiEPhXBRWoyRyR2VPUePHwCGNn
+          5v8jTb6oVKVb7QMXEsjmWlrs2blZTREx8o3FTmcotgaY1snrbdrE6uXZ8/DeNxYM
+          vB7NYX//irlCcTvriyJrQwlODyLQSpRosbk9dsFlBN2g8iNm9ZIiky1Tz8q7p5gq
+          H0rKoBFYPLCYJSkuzV6l99u1oB3o6dLDKQZHD1byJI4x8fSdxN/00kJq+qEYwiT3
+          jaczIgTQLJ3+JD1HSB1Vn+qUc/LrbwVcxyV02Bpjx8O+IpXI9xfoV74eRhQRuVPy
+          e7WYQGimLSJ0tjyHCTIPwO1upUCdA/nj07imvy8AqA1A9zhh0BSbdOxm/zAj9bVZ
+          /VLIZU9tW9rjdEArDafdT7bPDC+xsZKOny3w8MQBeDvtEbeHWHOdI3MJes14cPeR
+          e28QzJ5IFftyF9AcIc7WU4pqTkwgNuRTOr/uGyrsl5Znj+XPBckWcINT+V99Sj+n
+          lIA45B0VGpdX5CwEEltBicIzblfV0eaiKKhAgj5OfUzwnmwvZ/uzSbY801UXByr7
+          6vE8r6n/33BGmK2kcEzvKAJAOJujN+IroFBg/6j8zZsVkxxXdfDxZP+x+jSMwuWv
+          Nu0piqu0+Use0Zv3wt/VsBUCAwEAAQ==
+          -----END PUBLIC KEY-----
+          AB144_EMBED_4_END
+          export CRYPTO_SCRIPT="$RUNNER_TEMP/transport_crypto.mjs"
+          export INPUT_ENVELOPE="$RUNNER_TEMP/input_envelope.json"
+          export INPUT_HEADER="$RUNNER_TEMP/input_header.json"
+          export OUTPUT_PUBLIC_KEY="$RUNNER_TEMP/output_public_key.pem"
+          export STAGE2_GATE="$RUNNER_TEMP/stage2_gate.json"
+          python "$RUNNER_TEMP/ab144_runner.py"
+      - name: Export encrypted evidence only
+        if: ${{ always() && env.AB144_MODE != 'CLOSED' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ab144-resume-${{ github.run_id }}
+          path: ${{ runner.temp }}/ab144_encrypted_evidence.json
+          if-no-files-found: error
+          retention-days: 7
