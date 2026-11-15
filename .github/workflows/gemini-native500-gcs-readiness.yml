@@ -24,13 +24,13 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini-research
           service_account: gemini-research-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - run: python3 -m pip install --quiet 'google-cloud-storage>=3,<4' 'httpx==0.28.1'
-      - name: SOLO100_FOURPATH_MECHANISM320 C EXECUTE
+      - name: SOLO100_FOURPATH_MECHANISM320 FINAL EXECUTE
         run: python3 experiments/gpt-luna-solo100-fourpath-mechanism320/runner.py
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
       - uses: actions/upload-artifact@v4
         with:
-          name: solo320-c-encrypted
+          name: solo320-final-encrypted
           path: ${{ runner.temp }}/solo320-export.p7m
           retention-days: 3
           if-no-files-found: error
