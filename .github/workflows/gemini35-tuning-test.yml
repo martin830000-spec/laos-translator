@@ -17,7 +17,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      AB144_MODE: "PREFLIGHT"
+      AB144_MODE: "CLOSED"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
     steps:
