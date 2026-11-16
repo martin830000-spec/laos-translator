@@ -1,4 +1,4 @@
-name: Gemini 3.5 V2 Recovery Readonly Preflight
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -12,88 +12,113 @@ jobs:
   v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      REMOTE_PREFLIGHT_MODE: "PREFLIGHT"
+      V2_MODE: "TRANSFER_INIT"
       ENABLE_TUNING: "false"
       ENABLE_GENERATION: "false"
+      REMOTE_GATE_SHA256: "db5c044a28987e48d4a08405e3b09a7913790842d50ce8cbd710a54c75aaed0c"
+      RESUME_AUTHORITY_SHA256: "cfb9ff00625be3afadf39987958ef0bc48afff1c88b28c31e95c6b070dc41ecc"
+      LOCAL_GATES_SHA256: "23ff5735f0d1c06c6c425fb4b26fcb68ebd4c2a2f7bc219f8d640d0e1abfcd0e"
+      FREE_VALIDATION_SHA256: "46ab4cd8307b465ee314a319732aa5f9da6ee9712c3329ebbc676bb7fd13c43d"
+      SCANNER_GATE_SHA256: "b362b4872c85fa2ff85ff74994458968dcb8c451089bd0bcf34c28c313d240a5"
+      SOURCE_BACKUP_SHA256: "7308a563b4ede13017f183de4cfbb1253d0d0442ead3d452fe3ed1c2b5af2cb9"
+      EXPECTED_REQUEST_SHA256: "dd8da043f8888ab85c03c4f9058d7bdaaba7fafc7380e175bd8dda894d129d3a"
+      DRIVER_SHA256: "c992b5b09ecdbc1f5b81871414a8abdd20862ff426ae72991c12911e10843dd3"
+      CORE_SHA256: "22f23493322b5ff6ce303532516549182cfeef4d3d5ff1ec96fd602f3f5d1a1c"
+      CRYPTO_SCRIPT_SHA256: "3f6cc19ff109dc64ac6dfcd43eac82eb7d83b1f0df9ab201a77c1c7cd71eef9c"
+      OUTPUT_PUBLIC_KEY_SHA256: "6055dcde48b5be1968dbcc3270cc5054e403ee4eb4a23c29a7f6cc551a5d4b3a"
     steps:
       - name: Check out designated TEST branch
-        if: ${{ env.REMOTE_PREFLIGHT_MODE != 'CLOSED' }}
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: Authenticate existing TEST identity
-        if: ${{ env.REMOTE_PREFLIGHT_MODE != 'CLOSED' }}
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Set up existing Google Cloud CLI path
-        if: ${{ env.REMOTE_PREFLIGHT_MODE != 'CLOSED' }}
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/setup-gcloud@v3
-      - name: Read remote campaign evidence without creation capability
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          cat > "$RUNNER_TEMP/remote_preflight.py" <<'V2_RECOVERY_EMBED_0_END'
-          """Read-only V2 remote preflight; every authenticated cloud request is GET.
+          cat > "$RUNNER_TEMP/v2_training_runner.py" <<'V2_REVIEWED_FILE_0_END'
+          """Importable V2 one-attempt SFT core. No inference, retry, or public output.
           
-          Derived from the verified PILOT1 one-request transport and AB144 private export.
-          This module cannot create tuning jobs, upload GCS objects, or call inference.
-          Only an encrypted evidence envelope is suitable for a public Actions artifact.
+          Derived from PILOT1 runner SHA256
+          ddd8d4d26922de106198398ba6b9b6fc72d8cf0e60e9b860f21d053fcdea4b84.
+          The separate driver owns authentication, private transport and final export.
           """
           import base64
           import datetime
           import hashlib
           import json
-          import os
+          import math
           from pathlib import Path
           import re
-          import subprocess
-          import tempfile
           import time
           import urllib.error
           import urllib.parse
           import urllib.request
-          import zipfile
           
           CAMPAIGN = "GEMINI35_SFT_V2_PILOT1_20261116"
           PROJECT = "gen-lang-client-0422436907"
           PROJECT_NUMBER = "460077888071"
           BUCKET = "ko-lao-gemini35-tuning-460077888071"
           PREFIX = "sft_v2_pilot1_20261116/"
+          BOOT = PREFIX + "_recovery/20261116/"
+          CONTROL = PREFIX + "_control/CREATE_ONCE.json"
+          ATTEMPT = PREFIX + "_control/ATTEMPT_001.json"
+          FINAL = PREFIX + "_control/FINAL_LOCK.json"
           DISPLAY = "ko-lao-gemini35lite-sft-v2-pilot1-20261116"
-          PILOT_JOB = "projects/460077888071/locations/us/tuningJobs/8799981994835443712"
-          PILOT_MODEL = "projects/460077888071/locations/us/models/2845219433335488512@1"
-          PILOT_ENDPOINT = "projects/460077888071/locations/us/endpoints/4220752460148375552"
-          PROTECTED_CONTROLS = {
-              "sft_v11_pilot1_20261115/_control/CREATE_ONCE.json": "2d39a7711a0aa76496f9b37922776785bc35e072bf4bfa28c3dc50908a77e3ea",
-              "sft_v11_pilot1_20261115/_control/ATTEMPT_001.json": "40a5cd528199867cef6b3307dad6436fbb20993cc41ec000b4d2948ada21f309",
-              "sft_v11_pilot1_20261115/_control/FINAL_LOCK.json": "1ffca4547d7db5d397cac09e4bbfcab843ae6b195c166b6c9468a5baffcb3bf6",
-              "sft_v11_ab144_20261115/_control/FINAL_LOCK.json": "e255a035fc41ec71fcdf49391862ed6f29055a9694542dd8bb4f663c5b69c84e",
-              "sft_v11_ab144_20261115/_resume/20261116/FINAL_LOCK.json": "498ad8863738962f8a985136b69d0d041376de0cf3920dcb2cf2ee6bf139be11",
+          MODEL = "gemini-3.5-flash-lite"
+          PILOT_JOB_ID = "8799981994835443712"
+          PILOT_MODEL_ID = "2845219433335488512"
+          PILOT_ENDPOINT_ID = "4220752460148375552"
+          INPUTS = {
+              "train_v2_candidate.jsonl": (1048, 694652, "c3803019c307a484f6b5461d25ce5575901f41bceeab97d7c9f4a840b7cc01af"),
+              "validation_v2_candidate.jsonl": (304, 216683, "1d60d2d87177f42485e251cffaa57a109c60ac262c0fb05de82a169aa37a43fe"),
           }
+          BOOTSTRAP = {
+              BOOT + "RESUME_EVENT.json": "EXPECTED_RESUME_SHA256",
+              BOOT + "TRANSFER_CLAIM.json": "EXPECTED_TRANSFER_CLAIM_SHA256",
+              BOOT + "INPUT_PUBLIC_KEY.json": "EXPECTED_INPUT_PUBLIC_KEY_SHA256",
+              BOOT + "TRANSFER_READY.json": "EXPECTED_TRANSFER_READY_SHA256",
+          }
+          GATE_ENVS = ("FREE_VALIDATION_SHA256", "SOURCE_BACKUP_SHA256", "SCANNER_GATE_SHA256", "LOCAL_GATES_SHA256", "REMOTE_GATE_SHA256", "RESUME_AUTHORITY_SHA256")
           JOB_FIELDS = (
               "name,state,baseModel,tunedModelDisplayName,createTime,startTime,endTime,updateTime,"
-              "supervisedTuningSpec(trainingDatasetUri,validationDatasetUri,"
-              "hyperParameters(epochCount,learningRateMultiplier,adapterSize),exportLastCheckpointOnly),"
-              "tunedModel(model,endpoint,checkpoints(checkpointId,epoch,step,endpoint)),error(code,message,details)"
+              "supervisedTuningSpec(trainingDatasetUri,validationDatasetUri,hyperParameters(epochCount,learningRateMultiplier,adapterSize),exportLastCheckpointOnly),"
+              "tunedModel(model,endpoint,checkpoints(checkpointId,epoch,step,endpoint)),"
+              "tuningDataStats(supervisedTuningDataStats(tuningDatasetExampleCount,totalTuningCharacterCount,totalBillableTokenCount,tuningStepCount,"
+              "userInputTokenDistribution,userOutputTokenDistribution,userMessagePerExampleDistribution,totalTruncatedExampleCount,truncatedExampleIndices,droppedExampleReasons)),"
+              "experiment,gcsMetricsUri,error(code,message,details)"
           )
-          OBJECT_LIST_FIELDS = "items(name,generation,size,timeDeleted,crc32c),nextPageToken"
-          OBJECT_META_FIELDS = "name,generation,size,crc32c,md5Hash,timeDeleted"
+          META_FIELDS = "name,generation,size,crc32c,md5Hash"
+          LIST_FIELDS = "items(name,generation,size,timeDeleted),nextPageToken"
           TERMINAL = {"JOB_STATE_SUCCEEDED", "JOB_STATE_FAILED", "JOB_STATE_CANCELLED", "JOB_STATE_EXPIRED"}
+          ACTIVE = {"JOB_STATE_PENDING", "JOB_STATE_RUNNING", "JOB_STATE_QUEUED", "JOB_STATE_UPDATING", "JOB_STATE_CANCELLING", "JOB_STATE_PAUSED"}
           MAX_RESPONSE_BYTES = 32 * 1024 * 1024
           MAX_PAGES = 100
-          REMOTE_BUDGET_SECONDS = 12 * 60
-          COUNTER_KEYS = {
-              "actual_post_attempts", "actual_create_attempts", "actual_tuning_create_attempts",
-              "tuning_create_attempts", "actual_tuning_create_requests", "tuningJobs_create_attempts",
+          REQUEST = {
+              "baseModel": MODEL,
+              "supervisedTuningSpec": {
+                  "trainingDatasetUri": "gs://" + BUCKET + "/" + PREFIX + "train_v2_candidate.jsonl",
+                  "validationDatasetUri": "gs://" + BUCKET + "/" + PREFIX + "validation_v2_candidate.jsonl",
+                  "hyperParameters": {"epochCount": "2", "learningRateMultiplier": 2, "adapterSize": "ADAPTER_SIZE_FOUR"},
+                  "exportLastCheckpointOnly": False,
+              },
+              "tunedModelDisplayName": DISPLAY,
           }
           
           
@@ -101,25 +126,16 @@ jobs:
               return datetime.datetime.now(datetime.timezone.utc).isoformat()
           
           
+          def encode(obj):
+              return (json.dumps(obj, ensure_ascii=True, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+          
+          
           def sha(data):
               return hashlib.sha256(data).hexdigest()
           
           
-          def encode(value):
-              return (json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
-          
-          
-          def query(endpoint, params):
-              return endpoint + "?" + urllib.parse.urlencode(params)
-          
-          
-          def object_url(name):
-              return "https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o/" + urllib.parse.quote(name, safe="")
-          
-          
-          def job_collection(region):
-              host = "aiplatform." + region + ".rep.googleapis.com" if region in ("us", "eu") else region + "-aiplatform.googleapis.com"
-              return "https://" + host + "/v1/projects/" + PROJECT + "/locations/" + region + "/tuningJobs"
+          def url(base, params):
+              return base + "?" + urllib.parse.urlencode(params)
           
           
           class Blocked(Exception):
@@ -128,9 +144,9 @@ jobs:
                   self.reason, self.status = reason, status
           
           
-          def require(condition, code):
-              if not condition:
-                  raise Blocked(code)
+          def require(ok, reason):
+              if not ok:
+                  raise Blocked(reason)
           
           
           class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -138,407 +154,990 @@ jobs:
                   return None
           
           
+          def object_endpoint(name):
+              return "https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o/" + urllib.parse.quote(name, safe="")
+          
+          
+          def job_base(region):
+              host = "aiplatform." + region + ".rep.googleapis.com" if region in ("us", "eu") else region + "-aiplatform.googleapis.com"
+              return "https://" + host + "/v1/projects/" + PROJECT + "/locations/" + region + "/tuningJobs"
+          
+          
           class Client:
-              """Single-send GET client; raw responses stay in private in-memory evidence."""
-              def __init__(self, token, deadline=None):
-                  self._token = token
+              def __init__(self, token):
+                  self.token = token
                   self.opener = urllib.request.build_opener(NoRedirect)
                   self.records, self.private_raw = [], []
-                  self.deadline = time.monotonic() + REMOTE_BUDGET_SECONDS if deadline is None else deadline
-                  self.allowed_objects = set(PROTECTED_CONTROLS)
-                  self.allowed_jobs = {PILOT_JOB}
+                  self.create_attempts = 0
+                  self.gcs_blocked = False
+                  self.outcome = None
+                  self._create_armed = False
                   self.raw_capture_complete = True
           
-              def allowlisted(self, method, endpoint, body):
-                  if method != "GET" or body is not None:
-                      return False
+              @staticmethod
+              def allowed(method, endpoint, body):
                   p = urllib.parse.urlsplit(endpoint)
                   if p.scheme != "https" or p.username or p.password or p.fragment:
                       return False
                   q = urllib.parse.parse_qs(p.query, keep_blank_values=True)
-                  if any(len(values) != 1 for values in q.values()):
+                  if any(len(v) != 1 for v in q.values()):
                       return False
                   if p.netloc == "storage.googleapis.com":
                       base = "/storage/v1/b/" + BUCKET + "/o"
-                      if p.path == base:
-                          return q.get("versions") == ["true"] and q.get("maxResults") == ["1000"] and q.get("fields") == [OBJECT_LIST_FIELDS] and set(q).issubset({"versions", "maxResults", "fields", "pageToken"})
-                      if p.path.startswith(base + "/"):
-                          name = urllib.parse.unquote(p.path[len(base) + 1:])
-                          if name not in self.allowed_objects:
-                              return False
-                          if q == {"fields": [OBJECT_META_FIELDS]}:
-                              return True
-                          return set(q) == {"alt", "generation"} and q["alt"] == ["media"] and q["generation"][0].isdigit()
+                      if method == "GET" and body is None:
+                          if p.path == base:
+                              return q.get("versions") == ["true"] and set(q).issubset({"versions", "prefix", "maxResults", "fields", "pageToken"})
+                          if p.path.startswith(base + "/"):
+                              return set(q).issubset({"alt", "generation", "fields"}) and (q.get("alt") == ["media"] or q.get("fields") == [META_FIELDS])
+                      if method == "POST" and p.path == "/upload/storage/v1/b/" + BUCKET + "/o":
+                          return q.get("uploadType") == ["media"] and q.get("ifGenerationMatch") == ["0"] and q.get("name", [""])[0].startswith(PREFIX) and q.get("fields") == [META_FIELDS] and set(q) == {"uploadType", "name", "ifGenerationMatch", "fields"} and isinstance(body, bytes)
                   for region in ("us", "eu", "us-central1"):
-                      collection = urllib.parse.urlsplit(job_collection(region))
+                      collection = urllib.parse.urlsplit(job_base(region))
                       if p.netloc != collection.netloc:
                           continue
+                      if method == "POST":
+                          return region == "us" and p.path == collection.path and q == {"fields": [JOB_FIELDS]} and body == encode(REQUEST)
+                      if method != "GET" or body is not None:
+                          continue
                       if p.path == collection.path:
-                          return q.get("pageSize") == ["1000"] and q.get("fields") == ["tuningJobs(" + JOB_FIELDS + "),nextPageToken"] and set(q).issubset({"pageSize", "fields", "pageToken"})
-                      name = p.path.removeprefix("/v1/")
-                      if p.path.startswith("/v1/") and name in self.allowed_jobs and q == {"fields": [JOB_FIELDS]}:
-                          expected = r"projects/(?:" + PROJECT + "|" + PROJECT_NUMBER + r")/locations/" + region + r"/tuningJobs/[A-Za-z0-9_-]+"
-                          return re.fullmatch(expected, name) is not None
+                          return q.get("fields") == ["tuningJobs(" + JOB_FIELDS + "),nextPageToken"] and set(q).issubset({"fields", "pageSize", "pageToken"})
+                      pattern = r"/v1/projects/(?:" + PROJECT + "|" + PROJECT_NUMBER + r")/locations/" + region + r"/tuningJobs/[A-Za-z0-9_-]+"
+                      if re.fullmatch(pattern, p.path):
+                          return q == {"fields": [JOB_FIELDS]}
                   return False
           
-              def request(self, method, endpoint, body=None, label=""):
-                  require(self.allowlisted(method, endpoint, body), "READ_ONLY_ALLOWLIST_DENIED")
-                  require(time.monotonic() < self.deadline, "REMOTE_READ_DEADLINE_REACHED")
-                  record = {"sequence": len(self.records) + 1, "label": label, "method": method, "started_at": utc()}
-                  request = urllib.request.Request(endpoint, method="GET", headers={"Authorization": "Bearer " + self._token})
+              def request(self, method, endpoint, body=None, label="", safe_json=False, expected=(200,), sensitive=False, capture=True):
+                  require(self.allowed(method, endpoint, body), "REQUEST_OUTSIDE_ALLOWLIST")
+                  is_storage = urllib.parse.urlsplit(endpoint).netloc == "storage.googleapis.com"
+                  is_create = method == "POST" and not is_storage
+                  if is_create:
+                      require(label == "TUNING_CREATE" and self._create_armed and self.create_attempts == 0, "UNARMED_OR_SECOND_CREATE_DENIED")
+                      self._create_armed = False
+                      self.create_attempts = 1
+                  elif label == "TUNING_CREATE":
+                      raise Blocked("CREATE_LABEL_ENDPOINT_MISMATCH")
+                  record = {"label": label, "method": method, "url": endpoint, "start_time": utc()}
+                  if body is not None and not sensitive:
+                      record["request_sha256"] = sha(body)
+                      record["request_bytes"] = len(body)
+                  if sensitive:
+                      record["sensitive_payload_omitted"] = True
+                  req = urllib.request.Request(endpoint, data=body, method=method, headers={"Authorization": "Bearer " + self.token, "Content-Type": "application/octet-stream" if is_storage else "application/json"})
                   try:
                       try:
-                          with self.opener.open(request, timeout=35) as response:
-                              status, raw, headers = response.status, response.read(MAX_RESPONSE_BYTES + 1), response.headers
+                          with self.opener.open(req, timeout=45) as response:
+                              code, raw, headers = response.status, response.read(MAX_RESPONSE_BYTES + 1), response.headers
                       except urllib.error.HTTPError as error:
-                          status, raw, headers = error.code, error.read(MAX_RESPONSE_BYTES + 1), error.headers
+                          code, raw, headers = error.code, error.read(MAX_RESPONSE_BYTES + 1), error.headers
                   except Exception as error:
-                      record.update(ended_at=utc(), http_status="UNKNOWN", exception_type=type(error).__name__)
+                      self.gcs_blocked = self.gcs_blocked or is_storage
+                      self.raw_capture_complete = False
+                      record.update(end_time=utc(), status="UNKNOWN", exception_type=type(error).__name__)
                       self.records.append(record)
-                      self.raw_capture_complete = False
-                      raise Blocked("READ_TRANSPORT_UNKNOWN_" + label) from None
-                  record.update(ended_at=utc(), http_status=status, response_bytes=len(raw), response_sha256=sha(raw),
-                                request_id=headers.get("x-goog-request-id") or headers.get("x-request-id") or headers.get("x-google-request-id"))
+                      raise Blocked("TRANSPORT_UNKNOWN_" + label) from None
+                  record.update(end_time=utc(), http_status=code, response_bytes=len(raw), request_id=headers.get("x-goog-request-id") or headers.get("x-request-id") or headers.get("x-google-request-id"))
+                  if not sensitive:
+                      record["response_sha256"] = sha(raw)
                   self.records.append(record)
-                  # Never archive credentials, including a hypothetical reflected current token.
-                  private_pem = b"-----BEGIN " + b"PRIVATE KEY-----"
-                  rsa_private_pem = b"-----BEGIN RSA " + b"PRIVATE KEY-----"
-                  if (self._token and self._token.encode() in raw) or private_pem in raw or rsa_private_pem in raw:
-                      self.raw_capture_complete = False
+                  is_error = code not in expected
+                  credential = (self.token and self.token.encode() in raw) or b"-----BEGIN " + b"PRIVATE KEY-----" in raw or b"-----BEGIN RSA " + b"PRIVATE KEY-----" in raw
+                  if credential and (not sensitive or is_error):
                       record["raw_omission"] = "ACTUAL_CREDENTIAL_CONTENT_EXCLUDED"
-                      raise Blocked("CREDENTIAL_CONTENT_IN_RESPONSE", status)
-                  self.private_raw.append({"sequence": record["sequence"], "label": label, "raw": raw})
+                      self.raw_capture_complete = False
+                      self.gcs_blocked = self.gcs_blocked or is_storage
+                      raise Blocked("CREDENTIAL_CONTENT_IN_RESPONSE", code)
+                  # Successful dataset/key payloads are omitted. Every error body is retained
+                  # regardless of DATASET_MEDIA label or capture=False, unless it is a secret.
+                  if is_error or (capture and not sensitive and not label.startswith("DATASET_MEDIA_")):
+                      self.private_raw.append((label, raw))
                   if len(raw) > MAX_RESPONSE_BYTES:
                       self.raw_capture_complete = False
+                      self.gcs_blocked = self.gcs_blocked or is_storage
                       record["body_truncated_by_safety_limit"] = True
-                      raise Blocked("READ_RESPONSE_SIZE_LIMIT_" + label, status)
-                  if status != 200:
-                      # Full bytes, including error.message and details, are already retained.
-                      raise Blocked("READ_HTTP_ERROR_" + label, status)
+                      raise Blocked("RESPONSE_SIZE_LIMIT_" + label, code)
+                  if is_error:
+                      self.gcs_blocked = self.gcs_blocked or is_storage
+                      raise Blocked("HTTP_" + label, code)
+                  if safe_json:
+                      try:
+                          value = json.loads(raw.decode("utf-8"))
+                      except (UnicodeError, ValueError):
+                          record["json_parse_status"] = "INVALID"
+                          raise Blocked("MALFORMED_JSON_" + label, code) from None
+                      require(isinstance(value, dict), "JSON_NOT_OBJECT_" + label)
                   return raw
           
-              def get_json(self, endpoint, label):
-                  raw = self.request("GET", endpoint, label=label)
-                  try:
-                      value = json.loads(raw.decode("utf-8"))
-                  except (UnicodeError, ValueError):
-                      raise Blocked("READ_JSON_INVALID_" + label) from None
-                  require(isinstance(value, dict), "READ_JSON_NOT_OBJECT_" + label)
-                  return value
+          
+          def read_object(client, name, generation=None, label="OBJECT_READ", sensitive=False, capture=True):
+              params = {"alt": "media"}
+              if generation is not None:
+                  params["generation"] = str(generation)
+              return client.request("GET", url(object_endpoint(name), params), label=label, sensitive=sensitive, capture=capture)
           
           
-          def guard_identity(env):
-              expected = {
-                  "GITHUB_REPOSITORY": "martin830000-spec/laos-translator",
-                  "GITHUB_REF": "refs/heads/research/gemini35-tuning-test",
-                  "GITHUB_EVENT_NAME": "push",
-                  "GITHUB_RUN_ATTEMPT": "1",
-                  "GITHUB_WORKFLOW_REF": "martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test",
-                  "REMOTE_PREFLIGHT_MODE": "PREFLIGHT",
-                  "ENABLE_TUNING": "false",
-                  "ENABLE_GENERATION": "false",
-              }
-              require(all(env.get(k) == v for k, v in expected.items()), "IDENTITY_OR_DISABLED_GUARD")
-              require(re.fullmatch(r"[0-9]+", env.get("GITHUB_RUN_ID", "")) is not None and re.fullmatch(r"[0-9a-f]{40}", env.get("GITHUB_SHA", "")) is not None, "INVALID_EXECUTION_IDENTITY")
+          def metadata(client, name, label):
+              value = json.loads(client.request("GET", url(object_endpoint(name), {"fields": META_FIELDS}), label=label, safe_json=True))
+              require(value.get("name") == name and str(value.get("generation", "")).isdigit() and str(value.get("size", "")).isdigit(), "OBJECT_METADATA_INVALID_" + label)
+              return value
+          
+          
+          def put_new(client, name, content, label, sensitive=False, capture=True):
+              require(name.startswith(PREFIX) and isinstance(content, bytes), "NEW_OBJECT_OUTSIDE_V2_SCOPE")
+              endpoint = url("https://storage.googleapis.com/upload/storage/v1/b/" + BUCKET + "/o", {"uploadType": "media", "name": name, "ifGenerationMatch": "0", "fields": META_FIELDS})
+              value = json.loads(client.request("POST", endpoint, content, label=label, safe_json=True, expected=(200, 201), sensitive=sensitive, capture=capture and not sensitive))
+              if value.get("name") != name or not str(value.get("generation", "")).isdigit() or int(value.get("size", -1)) != len(content):
+                  client.gcs_blocked = True
+                  raise Blocked("NEW_OBJECT_METADATA_INVALID_" + label)
+              back = read_object(client, name, value["generation"], label + "_READBACK", sensitive=sensitive, capture=capture and not sensitive)
+              if back != content:
+                  client.gcs_blocked = True
+                  raise Blocked("GCS_READBACK_MISMATCH_" + label)
+              receipt = {"uri": "gs://" + BUCKET + "/" + name, "generation": str(value["generation"]), "size_bytes": len(content), "byte_equal": True, "precondition": "ifGenerationMatch=0"}
+              if not sensitive:
+                  receipt.update(sha256=sha(content), crc32c=value.get("crc32c"), md5Hash=value.get("md5Hash"))
+              return receipt
           
           
           def list_objects(client):
-              objects, seen, token = [], set(), None
+              objects, seen, tokens, token = [], set(), set(), None
               for page in range(MAX_PAGES):
-                  params = {"versions": "true", "maxResults": "1000", "fields": OBJECT_LIST_FIELDS}
+                  params = {"versions": "true", "maxResults": "1000", "fields": LIST_FIELDS}
                   if token:
                       params["pageToken"] = token
-                  value = client.get_json(query("https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o", params), "GCS_VERSIONS_PAGE_" + str(page + 1))
-                  items = value.get("items", [])
-                  require(isinstance(items, list), "GCS_LIST_INVALID")
-                  for item in items:
-                      require(isinstance(item, dict) and isinstance(item.get("name"), str) and str(item.get("generation", "")).isdigit(), "GCS_OBJECT_IDENTITY_INVALID")
+                  data = json.loads(client.request("GET", url("https://storage.googleapis.com/storage/v1/b/" + BUCKET + "/o", params), label="OBJECT_LIST_" + str(page), safe_json=True))
+                  incoming = data.get("items", [])
+                  require(isinstance(incoming, list), "OBJECT_LIST_INVALID")
+                  for item in incoming:
+                      require(isinstance(item, dict) and isinstance(item.get("name"), str) and str(item.get("generation", "")).isdigit(), "OBJECT_LIST_IDENTITY_INVALID")
                       identity = (item["name"], str(item["generation"]))
-                      require(identity not in seen, "GCS_OBJECT_VERSION_REPEATED")
+                      require(identity not in seen, "REPEATED_OBJECT_VERSION")
                       seen.add(identity)
                       objects.append(item)
-                  token = value.get("nextPageToken")
+                  token = data.get("nextPageToken")
                   if not token:
-                      return objects, page + 1
-                  require(isinstance(token, str) and ("PAGE", token) not in seen, "GCS_PAGE_TOKEN_REPEATED_OR_INVALID")
-                  seen.add(("PAGE", token))
-              raise Blocked("GCS_LIST_INCOMPLETE_AT_PAGE_LIMIT")
+                      return objects
+                  require(isinstance(token, str) and token not in tokens, "REPEATED_OBJECT_PAGE_TOKEN")
+                  tokens.add(token)
+              raise Blocked("OBJECT_LIST_INCOMPLETE")
           
           
-          def read_version(client, item, label):
-              name, generation = item["name"], str(item["generation"])
-              client.allowed_objects.add(name)
-              raw = client.request("GET", query(object_url(name), {"alt": "media", "generation": generation}), label=label)
-              require(str(item.get("size", "")).isdigit() and len(raw) == int(item["size"]), "GCS_VERSION_SIZE_MISMATCH")
-              return raw
-          
-          
-          def is_v2_object(name):
-              lower = name.lower()
-              return name.startswith(PREFIX) or CAMPAIGN.lower() in lower or "sft_v2_pilot1_20261116" in lower
-          
-          
-          def classify_object(name):
-              lower = name.lower()
-              if "private_key" in lower or lower.endswith((".pem", ".key")) or "credential" in lower or "access_token" in lower:
-                  return "SECRET_MATERIAL_NOT_READ"
-              if lower.endswith(("train_v2_candidate.jsonl", "validation_v2_candidate.jsonl")):
-                  return "FROZEN_DATASET_METADATA_ONLY"
-              return "CONTROL_OR_EVIDENCE_READ_REQUIRED"
-          
-          
-          def walk_attempt_signals(value, name, signals, inherited=True):
-              if isinstance(value, dict):
-                  stated = value.get("campaign_id", value.get("campaign"))
-                  if stated is not None and stated != CAMPAIGN:
-                      return
-                  in_campaign = inherited or stated == CAMPAIGN
-                  if in_campaign:
-                      for key in COUNTER_KEYS:
-                          if key in value:
-                              count = value[key]
-                              if isinstance(count, int) and not isinstance(count, bool) and count >= 0:
-                                  signals["counters"].append({"object": name, "key": key, "count": count, "explicit_campaign": stated == CAMPAIGN})
-                              else:
-                                  signals["unknown"].append({"object": name, "reason": "INVALID_ATTEMPT_COUNTER"})
-                      state = value.get("state")
-                      if isinstance(state, str) and ("UNKNOWN" in state or "RESERVED" in state or "RESERVATION" in state):
-                          signals["unknown"].append({"object": name, "reason": "RESERVATION_OR_UNKNOWN_STATE", "state": state})
-                      if value.get("actual_send_entered") is True:
-                          signals["positive"].append({"object": name, "reason": "ACTUAL_SEND_ENTERED_TRUE"})
-                      if value.get("label") == "TUNING_CREATE" and any(k in value for k in ("http_status", "status", "response_sha256", "started_at", "start_time")):
-                          signals["positive"].append({"object": name, "reason": "ACTUAL_TUNING_CREATE_RECEIPT"})
-                  for child in value.values():
-                      walk_attempt_signals(child, name, signals, in_campaign)
-              elif isinstance(value, list):
-                  for child in value:
-                      walk_attempt_signals(child, name, signals, inherited)
-          
-          
-          def read_v2_records(client, objects, result):
-              relevant = [x for x in objects if is_v2_object(x["name"])]
-              receipts, signals = [], {"counters": [], "positive": [], "unknown": []}
-              result["v2_objects"] = receipts
-              result["v2_attempt_signals"] = signals
-              for index, item in enumerate(relevant):
-                  name, kind = item["name"], classify_object(item["name"])
-                  receipt = {"name": name, "generation": str(item["generation"]), "size_bytes": int(item.get("size", -1)), "crc32c": item.get("crc32c"), "time_deleted": item.get("timeDeleted"), "kind": kind}
-                  receipts.append(receipt)
-                  if kind != "CONTROL_OR_EVIDENCE_READ_REQUIRED":
-                      receipt["content_read"] = False
-                      receipt["scope_note"] = "Not an attempt ledger; secrets are never fetched and dataset validation belongs to a later gate."
+          def check_prior_control(client, objects, env):
+              verified = {}
+              for name, env_key in BOOTSTRAP.items():
+                  expected = env.get(env_key, "")
+                  require(re.fullmatch(r"[0-9a-f]{64}", expected) is not None, "MISSING_BOOTSTRAP_SHA_" + env_key)
+                  found = [x for x in objects if x["name"] == name]
+                  require(len(found) == 1 and not found[0].get("timeDeleted"), "BOOTSTRAP_MISSING_OR_MULTIPLE_VERSIONS")
+                  item = found[0]
+                  raw = read_object(client, name, item["generation"], "BOOTSTRAP_" + env_key)
+                  require(sha(raw) == expected and len(raw) == int(item["size"]), "BOOTSTRAP_HASH_OR_SIZE_CHANGED")
+                  verified[name] = {"generation": str(item["generation"]), "sha256": sha(raw), "size_bytes": len(raw)}
+              for item in objects:
+                  name = item["name"]
+                  belongs = name.startswith(PREFIX) or CAMPAIGN.lower() in name.lower()
+                  if not belongs or name in BOOTSTRAP:
                       continue
-                  raw = read_version(client, item, "V2_PRIVATE_RECORD_" + str(index + 1))
-                  receipt.update(content_read=True, sha256=sha(raw))
                   lower = name.lower()
-                  if any(x in lower for x in ("create_once", "attempt", "reservation")):
-                      signals["unknown"].append({"object": name, "reason": "IMMUTABLE_ATTEMPT_OR_CREATE_RESERVATION_OBJECT_EXISTS"})
-                  try:
-                      value = json.loads(raw.decode("utf-8"))
-                  except (UnicodeError, ValueError):
-                      signals["unknown"].append({"object": name, "reason": "OPAQUE_OR_NON_JSON_EVIDENCE_CANNOT_RECONCILE_ATTEMPTS"})
+                  if name in (CONTROL, ATTEMPT, FINAL) or any(word in lower for word in ("create_once", "create_response", "attempt", "reservation", "lock", "ledger", "/_control/")):
+                      raise Blocked("EXISTING_CAMPAIGN_CONTROL_OR_ATTEMPT")
+                  if name in {PREFIX + f for f in INPUTS} or name == BOOT + "_transport/input_private_key.pem":
                       continue
-                  if isinstance(value, dict) and "ciphertext_b64" in value:
-                      signals["unknown"].append({"object": name, "reason": "ENCRYPTED_PRIOR_EVIDENCE_NOT_DECRYPTED"})
-                  walk_attempt_signals(value, name, signals)
-              result["v2_record_read_complete"] = True
-              result["v2_remote_object_versions"] = len(relevant)
-              result["no_v2_control"] = not any(x["kind"] == "CONTROL_OR_EVIDENCE_READ_REQUIRED" for x in receipts)
+                  # Exact evidence names written by this campaign's core/driver. These
+                  # files never grant authority; READY is additionally frozen by its SHA.
+                  if re.fullmatch(re.escape(PREFIX) + r"_evidence/(?:run_[0-9]+/RAW_HTTP\.json|dry_run_[0-9]+/READY\.json)", name):
+                      continue
+                  raise Blocked("UNRECOGNIZED_V2_REMOTE_OBJECT")
+              return verified
           
           
-          def matches_v2(job):
-              spec = job.get("supervisedTuningSpec", {})
-              values = [job.get("name", ""), job.get("tunedModelDisplayName", ""), spec.get("trainingDatasetUri", ""), spec.get("validationDatasetUri", "")]
-              tokens = (DISPLAY.lower(), CAMPAIGN.lower(), "sft_v2_pilot1_20261116")
-              return any(any(token in value.lower() for token in tokens) for value in values if isinstance(value, str))
+          def dataset_check(client):
+              results = {}
+              for filename, (rows, size, digest) in INPUTS.items():
+                  meta = metadata(client, PREFIX + filename, "DATASET_METADATA_" + filename)
+                  raw = read_object(client, PREFIX + filename, meta["generation"], "DATASET_MEDIA_" + filename)
+                  require(len(raw) == size and sha(raw) == digest and int(meta["size"]) == size, "DATASET_INTEGRITY_" + filename)
+                  try:
+                      lines = raw.decode("utf-8").splitlines()
+                      require(len(lines) == rows, "DATASET_ROW_COUNT_" + filename)
+                      for line in lines:
+                          row = json.loads(line)
+                          require(isinstance(row, dict) and set(row) == {"systemInstruction", "contents"}, "DATASET_SCHEMA_KEYS")
+                          require(isinstance(row["contents"], list) and len(row["contents"]) == 2 and [v.get("role") for v in row["contents"]] == ["user", "model"], "DATASET_ROLES")
+                          for section in [row["systemInstruction"]] + row["contents"]:
+                              require(isinstance(section, dict) and set(section).issubset({"role", "parts"}) and isinstance(section.get("parts"), list) and len(section["parts"]) == 1, "DATASET_SECTION_KEYS")
+                              part = section["parts"][0]
+                              require(isinstance(part, dict) and set(part) == {"text"} and isinstance(part["text"], str) and bool(part["text"].strip()), "DATASET_EMPTY_OR_EXTRA_PARTS")
+                  except (UnicodeError, ValueError, TypeError, AttributeError):
+                      raise Blocked("DATASET_UTF8_OR_JSON_FORMAT_INVALID") from None
+                  results[filename] = {"uri": "gs://" + BUCKET + "/" + PREFIX + filename, "rows": rows, "size_bytes": size, "sha256": digest, "generation": str(meta["generation"]), "crc32c": meta.get("crc32c"), "md5Hash": meta.get("md5Hash")}
+              return results
           
           
-          def jobs_check(client, result):
-              summaries, matching = {}, []
-              result["regions"] = summaries
-              result["v2_jobs"] = matching
+          def jobs_check(client, tag):
+              summary = {}
               for region in ("us", "eu", "us-central1"):
-                  jobs, tokens, token = [], set(), None
-                  summary = {"all_pages_read": False, "total_jobs": None, "active_jobs": None}
-                  summaries[region] = summary
+                  found, names, tokens, token = [], set(), set(), None
                   for page in range(MAX_PAGES):
                       params = {"pageSize": "1000", "fields": "tuningJobs(" + JOB_FIELDS + "),nextPageToken"}
                       if token:
                           params["pageToken"] = token
-                      data = client.get_json(query(job_collection(region), params), "JOBS_" + region + "_PAGE_" + str(page + 1))
+                      data = json.loads(client.request("GET", url(job_base(region), params), label=tag + "_" + region + "_" + str(page), safe_json=True))
                       incoming = data.get("tuningJobs", [])
-                      require(isinstance(incoming, list), "JOB_LIST_INVALID")
+                      require(isinstance(incoming, list), "TUNING_LIST_INVALID")
                       for job in incoming:
-                          require(isinstance(job, dict) and isinstance(job.get("name"), str) and isinstance(job.get("state"), str), "JOB_LIST_ENTRY_INVALID")
-                          require(job["name"] not in {j["name"] for j in jobs}, "JOB_RESOURCE_REPEATED")
-                          jobs.append(job)
+                          require(isinstance(job, dict) and isinstance(job.get("name"), str) and isinstance(job.get("state"), str) and job["name"] not in names, "TUNING_JOB_IDENTITY_INVALID_OR_REPEATED")
+                          names.add(job["name"])
+                          found.append(job)
                       token = data.get("nextPageToken")
                       if not token:
                           break
-                      require(isinstance(token, str) and token not in tokens, "JOB_PAGE_TOKEN_REPEATED_OR_INVALID")
+                      require(isinstance(token, str) and token not in tokens, "TUNING_PAGE_TOKEN_REPEATED")
                       tokens.add(token)
-                  require(not token, "JOB_LIST_INCOMPLETE_AT_PAGE_LIMIT")
-                  summary.update(all_pages_read=True, pages=page + 1, total_jobs=len(jobs), active_jobs=sum(j["state"] not in TERMINAL for j in jobs))
-                  for job in jobs:
-                      if matches_v2(job):
-                          name = job["name"]
-                          client.allowed_jobs.add(name)
-                          host = urllib.parse.urlsplit(job_collection(region)).netloc
-                          actual = client.get_json(query("https://" + host + "/v1/" + name, {"fields": JOB_FIELDS}), "EXISTING_V2_JOB_" + str(len(matching) + 1))
-                          require(actual.get("name") == name, "EXISTING_JOB_IDENTITY_MISMATCH")
-                          matching.append(actual)
-              result["jobs_read_complete"] = True
-              result["no_v2_job"] = not matching
-              result["active_jobs_in_queried_regions"] = sum(v["active_jobs"] for v in summaries.values())
-              result["quota_scope"] = {"regions_actually_queried": list(summaries), "actual_quota_limit_queried": False, "limit_not_assumed_from_empty_job_list": True}
+                  require(not token, "TUNING_LIST_INCOMPLETE")
+                  matching = []
+                  for job in found:
+                      spec = job.get("supervisedTuningSpec", {})
+                      values = [job.get("name", ""), job.get("tunedModelDisplayName", ""), spec.get("trainingDatasetUri", ""), spec.get("validationDatasetUri", "")]
+                      if any(isinstance(v, str) and any(t in v.lower() for t in (DISPLAY.lower(), CAMPAIGN.lower(), "sft_v2_pilot1_20261116")) for v in values):
+                          matching.append(job)
+                  active = [j for j in found if j.get("state") not in TERMINAL]
+                  summary[region] = {"total_jobs": len(found), "matching_campaign_jobs": len(matching), "active_jobs": len(active), "all_pages_read": True, "pages": page + 1}
+                  require(not matching, "EXISTING_CAMPAIGN_JOB")
+                  require(not active, "ACTIVE_TUNING_JOB")
+              return summary
           
           
-          def verify_protected(client, result):
-              pilot = client.get_json(query("https://aiplatform.us.rep.googleapis.com/v1/" + PILOT_JOB, {"fields": JOB_FIELDS}), "PROTECTED_V11_JOB")
-              result["protected_pilot_job"] = pilot
-              require(pilot.get("name") == PILOT_JOB and pilot.get("state") == "JOB_STATE_SUCCEEDED" and pilot.get("baseModel") == "gemini-3.5-flash-lite" and pilot.get("tunedModel", {}).get("model") == PILOT_MODEL and pilot.get("tunedModel", {}).get("endpoint") == PILOT_ENDPOINT, "PROTECTED_PILOT_CONTRACT_CHANGED")
-              result["protected_controls"] = {}
-              for index, (name, expected) in enumerate(PROTECTED_CONTROLS.items()):
-                  meta = client.get_json(query(object_url(name), {"fields": OBJECT_META_FIELDS}), "PROTECTED_CONTROL_METADATA_" + str(index + 1))
-                  require(meta.get("name") == name and str(meta.get("generation", "")).isdigit(), "PROTECTED_CONTROL_METADATA_INVALID")
-                  raw = read_version(client, meta, "PROTECTED_CONTROL_BODY_" + str(index + 1))
-                  receipt = {"name": name, "generation": str(meta["generation"]), "sha256": sha(raw), "size_bytes": len(raw), "expected_sha256": expected, "sha256_unchanged": sha(raw) == expected}
-                  result["protected_controls"][name] = receipt
-                  require(receipt["sha256_unchanged"], "PROTECTED_CONTROL_SHA_CHANGED")
-              result["protected_resource_reads_complete"] = True
+          def cost_check():
+              tokens = math.ceil(INPUTS["train_v2_candidate.jsonl"][1] * 1.25)
+              amount = tokens * 2 * 3 / 1000000
+              require(amount <= 6, "ESTIMATED_COST_OVER_LIMIT")
+              return {"method": "User-approved engineering estimate: full frozen TRAIN JSONL bytes as tokens plus25percent", "tokens_per_epoch_estimated": tokens, "epochs": 2,
+                      "usd_per_million_training_tokens": 3, "estimated_training_usd": amount, "submission_limit_usd": 6, "provider_measured": False,
+                      "proven_token_upper_bound": False, "billing_cap_guaranteed": False, "actual_bill_verified": False, "count_tokens_calls": 0,
+                      "excluded_costs": ["storage", "network", "tax"], "decision": "PASS_USER_AUTHORIZED_ENGINEERING_ESTIMATE"}
           
           
-          def classify_attempt_status(result):
-              complete = result.get("gcs_inventory_complete") and result.get("v2_record_read_complete") and result.get("jobs_read_complete") and result.get("protected_resource_reads_complete")
-              result["audit_complete"] = bool(complete)
-              result["actual_prior_create_attempts"] = None
-              if not complete:
-                  result.update(v2_attempt_status="UNKNOWN_INCOMPLETE_READS", eligibility="BLOCKED_PENDING_COMPLETE_READS")
-                  return
-              signals = result["v2_attempt_signals"]
-              positives = [v for v in signals["counters"] if v["count"] > 0]
-              if result["v2_jobs"] or positives or signals["positive"]:
-                  result.update(state="PREFLIGHT_READ_COMPLETE_PRIOR_SEND_OR_JOB_FOUND", v2_attempt_status="PRIOR_SEND_OR_JOB_EXISTS", eligibility="FORBID_NEW_CREATE")
-                  return
-              if signals["unknown"]:
-                  result.update(state="PREFLIGHT_READ_COMPLETE_ATTEMPT_AMBIGUITY", v2_attempt_status="RESERVATION_OR_UNKNOWN_PRIOR_SEND", eligibility="FORBID_NEW_CREATE")
-                  return
-              zeros = [v for v in signals["counters"] if v["count"] == 0 and v["explicit_campaign"]]
-              if zeros:
-                  result.update(state="PREFLIGHT_READ_COMPLETE_ZERO_REPORTED", v2_attempt_status="ZERO_REPORTED_IN_READ_REMOTE_LEDGER", actual_prior_create_attempts=0, eligibility="REQUIRES_HISTORY_RECONCILIATION")
+          def assert_input_generations(client, inputs):
+              for filename, original in inputs.items():
+                  current = metadata(client, PREFIX + filename, "PREPOST_GENERATION_" + filename)
+                  require(str(current["generation"]) == original["generation"] and int(current["size"]) == original["size_bytes"], "INPUT_CHANGED_BEFORE_POST")
+          
+          
+          def job_observation(job):
+              stats = job.get("tuningDataStats", {}).get("supervisedTuningDataStats", {})
+              return {"server_state": job.get("state"), "createTime": job.get("createTime"), "startTime": job.get("startTime"), "endTime": job.get("endTime"),
+                      "model": job.get("tunedModel", {}).get("model"), "endpoint": job.get("tunedModel", {}).get("endpoint"),
+                      "checkpoints": job.get("tunedModel", {}).get("checkpoints"), "submitted_train_rows": INPUTS["train_v2_candidate.jsonl"][0],
+                      "submitted_validation_rows": INPUTS["validation_v2_candidate.jsonl"][0], "reported_training_examples": stats.get("tuningDatasetExampleCount"),
+                      "reported_validation_examples": None, "raw_totalBillableTokenCount": stats.get("totalBillableTokenCount"),
+                      "raw_totalTruncatedExampleCount": stats.get("totalTruncatedExampleCount"), "raw_truncatedExampleIndices": stats.get("truncatedExampleIndices"),
+                      "raw_droppedExampleReasons": stats.get("droppedExampleReasons"), "gcsMetricsUri": job.get("gcsMetricsUri"), "experiment": job.get("experiment"),
+                      "metrics_contents_read": False, "billable_tokens_epoch_interpretation_confirmed": False, "actual_bill_verified": False}
+          
+          
+          def validate_success(current):
+              spec = current.get("supervisedTuningSpec", {})
+              hp = spec.get("hyperParameters", {})
+              require(current.get("baseModel") == MODEL and current.get("tunedModelDisplayName") == DISPLAY and spec.get("trainingDatasetUri") == REQUEST["supervisedTuningSpec"]["trainingDatasetUri"] and spec.get("validationDatasetUri") == REQUEST["supervisedTuningSpec"]["validationDatasetUri"], "COMPLETED_JOB_SOURCE_CONFIGURATION_MISMATCH")
+              require(str(hp.get("epochCount")) == "2" and hp.get("learningRateMultiplier") == 2 and hp.get("adapterSize") == "ADAPTER_SIZE_FOUR", "COMPLETED_JOB_HYPERPARAMETERS_MISMATCH")
+              # Protobuf JSON may omit false. Record that absence explicitly, using only
+              # the documented false default rather than inventing an observed field.
+              require(spec.get("exportLastCheckpointOnly") is False or spec.get("exportLastCheckpointOnly") is None, "COMPLETED_JOB_CHECKPOINT_SETTING_MISMATCH")
+              model, endpoint = current.get("tunedModel", {}).get("model"), current.get("tunedModel", {}).get("endpoint")
+              prefix = r"projects/(?:" + PROJECT + "|" + PROJECT_NUMBER + r")/locations/us/"
+              require(isinstance(model, str) and re.fullmatch(prefix + r"models/[A-Za-z0-9_-]+(?:@[A-Za-z0-9_-]+)?", model) is not None and PILOT_MODEL_ID not in model, "COMPLETED_JOB_NEW_MODEL_UNVERIFIED")
+              require(isinstance(endpoint, str) and re.fullmatch(prefix + r"endpoints/[A-Za-z0-9_-]+", endpoint) is not None and PILOT_ENDPOINT_ID not in endpoint, "COMPLETED_JOB_NEW_ENDPOINT_UNVERIFIED")
+              return {"base_input_and_hyperparameters_match": True, "exportLastCheckpointOnly_returned": spec.get("exportLastCheckpointOnly"),
+                      "exportLastCheckpointOnly_interpretation": "EXPLICIT_FALSE" if "exportLastCheckpointOnly" in spec else "OMITTED_DOCUMENTED_FALSE_DEFAULT", "new_resources_distinct_from_v11": True}
+          
+          
+          def run(client, env, script_sha, sleep=time.sleep):
+              run_started_monotonic = time.monotonic()
+              observation_deadline = run_started_monotonic + 38 * 60
+              mode = env.get("PILOT_MODE", "DRY_RUN")
+              if mode == "CLOSED":
+                  return {"campaign_id": CAMPAIGN, "state": "CLOSED_NO_ACTION", "enabled": False, "max_new": 0, "next_new_authorization": 0, "tuning_create_attempts": 0, "generate_content_attempts": 0}
+              expected_ref = "martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test"
+              require(env.get("GITHUB_REPOSITORY") == "martin830000-spec/laos-translator" and env.get("GITHUB_REF") == "refs/heads/research/gemini35-tuning-test" and env.get("GITHUB_EVENT_NAME") == "push" and env.get("GITHUB_RUN_ATTEMPT") == "1" and env.get("GITHUB_WORKFLOW_REF") == expected_ref, "WORKFLOW_IDENTITY_OR_RERUN_DENIED")
+              enabled = env.get("ENABLE_TUNING") == "true"
+              require(env.get("ENABLE_GENERATION") == "false" and mode in ("DRY_RUN", "CREATE_ONCE") and enabled == (mode == "CREATE_ONCE"), "MODE_ENABLE_MISMATCH")
+              require(re.fullmatch(r"[0-9]+", env.get("GITHUB_RUN_ID", "")) is not None and re.fullmatch(r"[0-9a-f]{40}", env.get("GITHUB_SHA", "")) is not None, "INVALID_EXECUTION_IDENTITY")
+              require(re.fullmatch(r"[0-9a-f]{64}", script_sha or "") is not None and re.fullmatch(r"[0-9a-f]{64}", env.get("DRIVER_SHA256", "")) is not None, "MISSING_CORE_OR_DRIVER_SHA")
+              gates = {key: env.get(key) for key in GATE_ENVS}
+              require(all(isinstance(v, str) and re.fullmatch(r"[0-9a-f]{64}", v) for v in gates.values()), "MISSING_PREPARATION_GATE_SHA")
+              event = json.loads(Path(env["GITHUB_EVENT_PATH"]).read_text())
+              require(not event.get("deleted") and not event.get("forced") and re.fullmatch(r"[0-9a-f]{40}", event.get("before", "")) is not None, "INVALID_OR_FORCE_PUSH_DENIED")
+              run_id = env["GITHUB_RUN_ID"]
+              outcome = {"campaign_id": CAMPAIGN, "mode": mode, "run_id": run_id, "run_attempt": 1, "commit_sha": env["GITHUB_SHA"], "parent_push_sha": event["before"],
+                         "runner_sha256": script_sha, "driver_sha256": env["DRIVER_SHA256"], "preparation_gate_sha256": gates, "enabled": False, "max_new": 0, "next_new_authorization": 0,
+                         "tuning_create_attempts": 0, "generate_content_attempts": 0, "new_training_data_uploads_by_core": 0, "conservative_attempt_reservation": 0, "started_at": utc()}
+              client.outcome = outcome
+              outcome["bootstrap_verified"] = check_prior_control(client, list_objects(client), env)
+              inputs = dataset_check(client)
+              outcome.update(inputs=inputs, cost=cost_check(), jobs_preflight=jobs_check(client, "PREFLIGHT_LIST"))
+              outcome["concurrency_basis"] = {"regions_actually_queried": ["us", "eu", "us-central1"], "all_pages_read": True, "active_jobs_in_scope": 0, "actual_project_quota_limit_requeried": False, "no_iam_change": True}
+              request_bytes = encode(REQUEST)
+              outcome.update(request=REQUEST, request_utf8_sha256=sha(request_bytes), request_sha256=sha(request_bytes))
+              if mode == "DRY_RUN":
+                  outcome.update(state="DRY_RUN_READY_LOCKED", ready_object=PREFIX + "_evidence/dry_run_" + run_id + "/READY.json")
+                  outcome["ready_receipt"] = put_new(client, outcome["ready_object"], encode(outcome), "READY_CREATE")
+                  outcome["finished_at"] = utc()
+                  return outcome
+              expected_run, expected_sha = env.get("EXPECTED_DRY_RUN_ID", ""), env.get("EXPECTED_READY_SHA256", "")
+              require(expected_run.isdigit() and re.fullmatch(r"[0-9a-f]{64}", expected_sha) is not None, "NO_FROZEN_DRY_RUN_PROOF")
+              ready_name = PREFIX + "_evidence/dry_run_" + expected_run + "/READY.json"
+              ready_meta = metadata(client, ready_name, "READY_PROOF_METADATA")
+              ready_raw = read_object(client, ready_name, ready_meta["generation"], "READY_PROOF_READ")
+              ready = json.loads(ready_raw)
+              require(sha(ready_raw) == expected_sha and ready.get("state") == "DRY_RUN_READY_LOCKED" and ready.get("run_id") == expected_run and ready.get("runner_sha256") == script_sha and ready.get("driver_sha256") == env["DRIVER_SHA256"] and ready.get("preparation_gate_sha256") == gates and ready.get("request_sha256") == sha(request_bytes) and ready.get("inputs") == inputs and ready.get("bootstrap_verified") == outcome["bootstrap_verified"] and ready.get("commit_sha") == event["before"], "FROZEN_DRY_RUN_PROOF_MISMATCH")
+              outcome["dry_run_proof"] = {"run_id": expected_run, "sha256": expected_sha, "generation": str(ready_meta["generation"]), "core_driver_gates_input_and_parent_match": True}
+              reservation = {"campaign_id": CAMPAIGN, "state": "CREATE_RESERVED_LOCKED", "enabled": False, "max_new": 0, "next_new_authorization": 0,
+                             "run_id": run_id, "run_attempt": 1, "commit_sha": env["GITHUB_SHA"], "runner_sha256": script_sha, "driver_sha256": env["DRIVER_SHA256"],
+                             "request_sha256": sha(request_bytes), "request": REQUEST, "inputs": inputs, "reserved_attempts": 1, "actual_send_entered": False, "created_at": utc(), "must_never_delete_or_reuse": True}
+              outcome["atomic_control"] = put_new(client, CONTROL, encode(reservation), "ATOMIC_CREATE_LOCK")
+              try:
+                  outcome["jobs_immediately_before_post"] = jobs_check(client, "PREPOST_LIST")
+                  assert_input_generations(client, inputs)
+                  attempt = dict(reservation, state="UNKNOWN_BEFORE_SEND", budget_debited_conservatively=1, post_method="POST", endpoint=job_base("us"), timestamp=utc())
+                  outcome["conservative_attempt_reservation"] = 1
+                  outcome["attempt_reservation"] = put_new(client, ATTEMPT, encode(attempt), "DURABLE_ATTEMPT")
+                  client._create_armed = True
+                  raw = client.request("POST", url(job_base("us"), {"fields": JOB_FIELDS}), request_bytes, label="TUNING_CREATE", safe_json=True, expected=(200, 201))
+                  created = json.loads(raw)
+                  name = created.get("name", "")
+                  pattern = r"projects/(?:" + PROJECT + "|" + PROJECT_NUMBER + r")/locations/us/tuningJobs/[A-Za-z0-9_-]+"
+                  require(re.fullmatch(pattern, name) is not None and not name.endswith("/" + PILOT_JOB_ID), "CREATE_RESOURCE_NAME_INVALID_OR_V11")
+                  outcome.update(tuning_job_name=name, create_response=created, last_job_response=created, last_server_state=created.get("state"), status_get_count=0)
+                  create_http_receipt = next(record for record in reversed(client.records) if record["label"] == "TUNING_CREATE")
+                  durable_response = {
+                      "campaign_id": CAMPAIGN, "run_id": run_id, "run_attempt": 1, "commit_sha": env["GITHUB_SHA"],
+                      "request_sha256": sha(request_bytes), "request": REQUEST, "inputs": inputs, "tuning_job_name": name,
+                      "tuning_create_attempts": 1, "enabled": False, "max_new": 0, "next_new_authorization": 0,
+                      "http_receipt": create_http_receipt, "raw_response_base64": base64.b64encode(raw).decode("ascii"),
+                      "response_bytes": len(raw), "response_sha256": sha(raw), "recorded_at": utc(),
+                      "purpose": "Preserve accepted create response before any long-running status observation; never permit a second POST",
+                  }
+                  outcome["durable_create_response_receipt"] = put_new(client, PREFIX + "_evidence/run_" + run_id + "/CREATE_RESPONSE.json", encode(durable_response), "DURABLE_CREATE_RESPONSE")
+                  outcome["observation_deadline_seconds_from_run_start"] = 38 * 60
+                  current = created
+                  for index in range(24):
+                      if current.get("state") in TERMINAL:
+                          break
+                      wait_seconds = 90 if index else 0
+                      if time.monotonic() + wait_seconds + 45 > observation_deadline:
+                          outcome["observation_stop_reason"] = "RUN_DEADLINE_RESERVE_FOR_FINAL_AND_EXPORT"
+                          outcome["observation_elapsed_seconds"] = time.monotonic() - run_started_monotonic
+                          break
+                      if index:
+                          sleep(90)
+                      if time.monotonic() + 45 > observation_deadline:
+                          outcome["observation_stop_reason"] = "RUN_DEADLINE_RESERVE_FOR_FINAL_AND_EXPORT"
+                          outcome["observation_elapsed_seconds"] = time.monotonic() - run_started_monotonic
+                          break
+                      get_url = url("https://aiplatform.us.rep.googleapis.com/v1/" + name, {"fields": JOB_FIELDS})
+                      outcome["status_get_count"] += 1
+                      current = json.loads(client.request("GET", get_url, label="TUNING_STATUS_" + str(index), safe_json=True))
+                      require(current.get("name") == name, "STATUS_JOB_IDENTITY_MISMATCH")
+                      outcome.update(last_job_response=current, last_server_state=current.get("state"), last_observed_at=utc())
+                  state = current.get("state")
+                  outcome.update(observation=job_observation(current), last_job_response=current, last_server_state=state)
+                  if state == "JOB_STATE_SUCCEEDED":
+                      outcome["completed_job_configuration"] = validate_success(current)
+                      outcome["state"] = "COMPLETED_LOCKED"
+                  elif state in ("JOB_STATE_FAILED", "JOB_STATE_CANCELLED", "JOB_STATE_EXPIRED"):
+                      outcome["state"] = "FAILED_LOCKED"
+                  elif state in ACTIVE:
+                      outcome["state"] = "SUBMITTED_RUNNING_LOCKED"
+                      outcome["server_training_cancelled_or_paused_by_work"] = False
+                  else:
+                      outcome["state"] = "UNKNOWN_LOCKED"
+              except Blocked as error:
+                  outcome["state"] = "FAILED_LOCKED" if error.reason == "HTTP_TUNING_CREATE" and error.status is not None else "UNKNOWN_LOCKED" if client.create_attempts else "STOPPED_BLOCKED"
+                  outcome["error"] = {"reason": error.reason, "http_status": error.status}
+              except Exception as error:
+                  outcome.update(state="UNKNOWN_LOCKED" if client.create_attempts else "STOPPED_BLOCKED", error={"reason": "LOCAL_RUNTIME_EXCEPTION", "exception_type": type(error).__name__})
+              finally:
+                  client._create_armed = False
+              outcome.update(tuning_create_attempts=client.create_attempts, actual_send_entered=bool(client.create_attempts), unspent_authorization_locked=1-client.create_attempts,
+                             retry_forbidden=True, finished_at=utc(), raw_capture_complete=client.raw_capture_complete)
+              if client.gcs_blocked:
+                  outcome["final_lock_not_written"] = "GCS_ALREADY_FAILED_NO_RETRY; permanent CREATE_ONCE/ATTEMPT remain"
               else:
-                  result.update(state="PREFLIGHT_READ_COMPLETE_NO_V2_REMOTE_RECORD", v2_attempt_status="VERIFIED_ABSENCE_OF_PRIOR_SEND_EVIDENCE_IN_READ_SCOPE", eligibility="REQUIRES_HISTORY_RECONCILIATION")
-              if result["active_jobs_in_queried_regions"]:
-                  result["eligibility"] = "FORBID_CREATE_WHILE_ACTIVE_JOB_EXISTS"
+                  try:
+                      outcome["final_lock_receipt"] = put_new(client, FINAL, encode(outcome), "FINAL_LOCK_CREATE")
+                  except Blocked as error:
+                      outcome["final_lock_error"] = {"reason": error.reason, "http_status": error.status}
+                      outcome["state"] = "UNKNOWN_LOCKED" if client.create_attempts else "STOPPED_BLOCKED"
+              return outcome
+          V2_REVIEWED_FILE_0_END
+          cat > "$RUNNER_TEMP/v2_transport_driver.py" <<'V2_REVIEWED_FILE_1_END'
+          #!/usr/bin/env python3
+          """Private V2 transfer/export wrapper. The training core alone can submit once.
+          
+          Derived from the successful AB144 transport: RSA4096 OAEP-SHA256 + AES256GCM,
+          new GCS generations, exact readback, bounded one-shot calls, encrypted artifacts.
+          No credentials or private input key are members of the evidence archive.
+          """
+          from __future__ import annotations
+          
+          import base64
+          import hashlib
+          import io
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import stat
+          import subprocess
+          import sys
+          import time
+          import zipfile
+          
+          CAMPAIGN = "GEMINI35_SFT_V2_PILOT1_20261116"
+          BUCKET = "ko-lao-gemini35-tuning-460077888071"
+          PREFIX = "sft_v2_pilot1_20261116/"
+          BOOT = PREFIX + "_recovery/20261116/"
+          RESUME_ID = "RECOVERY_20261116_REGEX_PACKAGE"
+          CLAIM = BOOT + "TRANSFER_CLAIM.json"
+          RESUME = BOOT + "RESUME_EVENT.json"
+          PUBLIC_KEY = BOOT + "INPUT_PUBLIC_KEY.json"
+          READY = BOOT + "TRANSFER_READY.json"
+          PRIVATE_KEY = BOOT + "_transport/input_private_key.pem"
+          SOURCE_ZIP_SHA = "68293ad3e4f6aea5c9343ac7b44a4ce31c20a89303e30db66b0a130ecc33ca71"
+          INPUTS = {
+              "train_v2_candidate.jsonl": {"bytes": 694652, "rows": 1048, "sha256": "c3803019c307a484f6b5461d25ce5575901f41bceeab97d7c9f4a840b7cc01af"},
+              "validation_v2_candidate.jsonl": {"bytes": 216683, "rows": 304, "sha256": "1d60d2d87177f42485e251cffaa57a109c60ac262c0fb05de82a169aa37a43fe"},
+          }
+          BOOT_HASH_ENV = {
+              CLAIM: "EXPECTED_TRANSFER_CLAIM_SHA256",
+              RESUME: "EXPECTED_RESUME_SHA256",
+              PUBLIC_KEY: "EXPECTED_INPUT_PUBLIC_KEY_SHA256",
+              READY: "EXPECTED_TRANSFER_READY_SHA256",
+          }
+          PROOF_ENV = (
+              "REMOTE_GATE_SHA256", "RESUME_AUTHORITY_SHA256", "LOCAL_GATES_SHA256",
+              "FREE_VALIDATION_SHA256", "SOURCE_BACKUP_SHA256", "SCANNER_GATE_SHA256",
+          )
+          MAX_BYTES = 64 * 1024 * 1024
+          SUCCESS_STATES = {"CLOSED_NO_ACTION", "TRANSFER_READY_LOCKED", "DRY_RUN_READY_LOCKED", "COMPLETED_LOCKED", "PAUSED_LOCKED", "SUBMITTED_RUNNING_LOCKED"}
           
           
-          def base_result(env):
-              return {"campaign_id": CAMPAIGN, "state": "STOPPED_BLOCKED", "run_id": env.get("GITHUB_RUN_ID"), "commit_sha": env.get("GITHUB_SHA"), "started_at": utc(),
-                      "enabled": False, "max_new": 0, "next_new_authorization": 0, "tuning_create_attempts_this_run": 0, "generation_attempts_this_run": 0,
-                      "remote_writes_this_run": 0, "http_retries": 0, "gcs_inventory_complete": False, "v2_record_read_complete": False, "jobs_read_complete": False,
-                      "protected_resource_reads_complete": False, "audit_complete": False, "actual_prior_create_attempts": None,
-                      "v2_attempt_status": "NOT_YET_QUERIED", "eligibility": "NO_CREATE_CAPABILITY_IN_THIS_SCRIPT"}
+          class DriverBlocked(Exception):
+              pass
           
           
-          def run(client, env, result=None):
-              result = base_result(env) if result is None else result
-              if env.get("REMOTE_PREFLIGHT_MODE") == "CLOSED":
-                  result.update(state="CLOSED_NO_ACTION", finished_at=utc())
-                  return result
-              guard_identity(env)
-              objects, pages = list_objects(client)
-              result.update(gcs_inventory_complete=True, gcs_inventory_pages=pages, gcs_object_versions=len(objects))
-              read_v2_records(client, objects, result)
-              jobs_check(client, result)
-              verify_protected(client, result)
-              classify_attempt_status(result)
-              result.update(finished_at=utc(), http_get_requests=len(client.records), raw_capture_complete=client.raw_capture_complete)
+          def require(condition, code):
+              if not condition:
+                  raise DriverBlocked(code)
+          
+          
+          def sha(raw):
+              return hashlib.sha256(raw).hexdigest()
+          
+          
+          def enc(value):
+              return (json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+          
+          
+          def safe_code(value, fallback="NONPUBLIC_ERROR_DETAIL"):
+              return value if isinstance(value, str) and re.fullmatch(r"[A-Z][A-Z0-9_]{0,200}", value) else fallback
+          
+          
+          def new_file(path, raw, mode=0o600):
+              path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+              with path.open("xb") as handle:
+                  handle.write(raw)
+                  handle.flush()
+                  os.fsync(handle.fileno())
+              path.chmod(mode)
+          
+          
+          def local_file(env, key, limit=MAX_BYTES):
+              require(bool(env.get("RUNNER_TEMP")) and bool(env.get(key)), "LOCAL_PATH_MISSING_" + key)
+              root = Path(env["RUNNER_TEMP"]).resolve()
+              supplied = Path(env[key])
+              require(not supplied.is_symlink(), "LOCAL_SYMLINK_DENIED_" + key)
+              path = supplied.resolve()
+              require(root in path.parents and path.is_file(), "LOCAL_PATH_OUTSIDE_RUNNER_TEMP_" + key)
+              require(path.stat().st_size <= limit, "LOCAL_FILE_SIZE_" + key)
+              return path
+          
+          
+          def frozen_json(env, file_key, hash_key):
+              digest = env.get(hash_key, "")
+              require(bool(re.fullmatch(r"[0-9a-f]{64}", digest)), "PROOF_SHA_INVALID_" + hash_key)
+              raw = local_file(env, file_key, 2 * 1024 * 1024).read_bytes()
+              require(sha(raw) == digest, "PROOF_SHA_MISMATCH_" + file_key)
+              value = json.loads(raw.decode("utf-8"))
+              require(isinstance(value, dict), "PROOF_JSON_OBJECT_REQUIRED_" + file_key)
+              return value, raw
+          
+          
+          def identity_guard(env):
+              mode = env.get("V2_MODE", "CLOSED")
+              require(mode in {"TRANSFER_INIT", "DRY_RUN", "CREATE_ONCE"}, "MODE_DENIED")
+              expected = {
+                  "GITHUB_REPOSITORY": "martin830000-spec/laos-translator",
+                  "GITHUB_REF": "refs/heads/research/gemini35-tuning-test",
+                  "GITHUB_EVENT_NAME": "push", "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_WORKFLOW_REF": "martin830000-spec/laos-translator/.github/workflows/gemini35-tuning-test.yml@refs/heads/research/gemini35-tuning-test",
+                  "ENABLE_GENERATION": "false",
+                  "ENABLE_TUNING": "true" if mode == "CREATE_ONCE" else "false",
+              }
+              require(all(env.get(k) == v for k, v in expected.items()), "WORKFLOW_IDENTITY_OR_ENABLE_GUARD")
+              require(bool(re.fullmatch(r"[0-9]+", env.get("GITHUB_RUN_ID", ""))), "RUN_ID_INVALID")
+              require(bool(re.fullmatch(r"[0-9a-f]{40}", env.get("GITHUB_SHA", ""))), "COMMIT_SHA_INVALID")
+              event = json.loads(Path(env["GITHUB_EVENT_PATH"]).read_bytes())
+              require(not event.get("deleted") and not event.get("forced"), "FORCED_OR_DELETED_PUSH_DENIED")
+              require(event.get("after") == env["GITHUB_SHA"] and event.get("ref") == env["GITHUB_REF"], "PUSH_EVENT_IDENTITY_MISMATCH")
+          
+          
+          def verify_local_proofs(env, core):
+              gate, gate_raw = frozen_json(env, "REMOTE_GATE_FILE", "REMOTE_GATE_SHA256")
+              authority, authority_raw = frozen_json(env, "APPROVAL_FILE", "RESUME_AUTHORITY_SHA256")
+              local, local_raw = frozen_json(env, "LOCAL_GATES_FILE", "LOCAL_GATES_SHA256")
+              require(gate.get("campaign_id") == CAMPAIGN and gate.get("status") == "PASS_REMOTE_STATE_AND_AUTHORIZED_HISTORY_RECONCILED", "REMOTE_GATE_NOT_PASS")
+              require(gate.get("reconciled_prior_v2_create_attempts_in_authorized_campaign_execution_lineage") == 0 and gate.get("unused_existing_authorization") == 1 and gate.get("authorization_added") == 0, "REMOTE_GATE_ATTEMPT_OR_APPROVAL_MISMATCH")
+              ge = gate.get("evidence", {})
+              require(ge.get("v2_control_attempt_or_other_objects") == 0 and ge.get("matching_v2_jobs") == 0 and ge.get("active_jobs") == 0 and ge.get("all_region_pages_complete") is True and ge.get("all_prior_workflow_code_versions_read") is True and ge.get("v2_create_path_in_prior_runs") == 0, "REMOTE_GATE_INCOMPLETE_OR_NONZERO")
+              expected_authority = {"campaign_id": CAMPAIGN, "event": "RESUME_EVENT", "resume_event_id": RESUME_ID, "is_new_paid_authorization": False, "authorization_added": 0, "authorized_total_create_attempts": 1, "pre_submission_training_usd_limit": 6, "new_generation_inference_judge_ab": 0, "prior_records_preserved": True, "dataset_sha256": SOURCE_ZIP_SHA, "paid_request_retry": False}
+              require(all(authority.get(k) == v for k, v in expected_authority.items()), "RESUME_AUTHORITY_CONTRACT_MISMATCH")
+              expected_settings = {"baseModel": "gemini-3.5-flash-lite", "region": "us", "train_rows": 1048, "validation_rows": 304, "epochCount": "2", "learningRateMultiplier": 2, "adapterSize": "ADAPTER_SIZE_FOUR", "exportLastCheckpointOnly": False}
+              require(authority.get("settings") == expected_settings, "RESUME_SETTINGS_MISMATCH")
+              require(local.get("campaign_id") == CAMPAIGN and local.get("status") == "PASS_LOCAL_GATES" and local.get("source_zip_sha256") == SOURCE_ZIP_SHA, "LOCAL_GATES_NOT_PASS")
+              for field, key in (("free_validation_sha256", "FREE_VALIDATION_SHA256"), ("scanner_gate_sha256", "SCANNER_GATE_SHA256"), ("source_backup_sha256", "SOURCE_BACKUP_SHA256")):
+                  require(bool(re.fullmatch(r"[0-9a-f]{64}", env.get(key, ""))) and local.get(field) == env[key], "LOCAL_GATES_DIGEST_MISMATCH_" + key)
+              require(bool(re.fullmatch(r"[0-9a-f]{64}", local.get("official_contract_sha256", ""))), "OFFICIAL_CONTRACT_SHA_MISSING")
+              require(local.get("train") == INPUTS["train_v2_candidate.jsonl"] and local.get("validation") == INPUTS["validation_v2_candidate.jsonl"], "LOCAL_GATES_INPUT_CONTRACT")
+              request_bytes = core.encode(core.REQUEST)
+              require(request_bytes == enc(core.REQUEST), "CORE_CANONICAL_ENCODING_CHANGED")
+              require(sha(request_bytes) == env.get("EXPECTED_REQUEST_SHA256") == local.get("request_sha256"), "REQUEST_PROOF_MISMATCH")
+              return {"gate": gate, "authority": authority, "local": local, "files": {"REMOTE_GATE.json": gate_raw, "RESUME_AUTHORITY.json": authority_raw, "LOCAL_GATES.json": local_raw}, "request_bytes": request_bytes}
+          
+          
+          def call_crypto(env, operation, *paths):
+              script = local_file(env, "CRYPTO_SCRIPT", 1024 * 1024)
+              require(sha(script.read_bytes()) == env.get("CRYPTO_SCRIPT_SHA256"), "CRYPTO_SCRIPT_SHA_MISMATCH")
+              try:
+                  response = subprocess.run(["node", str(script), operation, *map(str, paths)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=90, check=False)
+              except subprocess.TimeoutExpired as error:
+                  failure = DriverBlocked("CRYPTO_" + operation.upper() + "_TIMEOUT")
+                  failure.subprocess_failure = subprocess_failure("crypto_" + operation, None, error.stdout, error.stderr)
+                  raise failure from None
+              if response.returncode != 0:
+                  failure = DriverBlocked("CRYPTO_" + operation.upper() + "_FAILED")
+                  failure.subprocess_failure = subprocess_failure("crypto_" + operation, response.returncode, response.stdout, response.stderr)
+                  raise failure
+              value = json.loads(response.stdout)
+              require(value.get("ok") is True and value.get("operation") == operation, "CRYPTO_RESULT_INVALID")
+              return value
+          
+          
+          def get_generation(receipt):
+              generation = str(receipt.get("generation", ""))
+              require(generation.isdigit(), "GENERATION_REQUIRED")
+              return generation
+          
+          
+          def normalized_receipt(name, receipt, *, sensitive=False):
+              require(isinstance(receipt, dict), "RECEIPT_OBJECT_REQUIRED")
+              require(receipt.get("byte_equal") is True and receipt.get("precondition") == "ifGenerationMatch=0", "CREATE_RECEIPT_PRECONDITION_OR_READBACK_MISSING")
+              value = {"object": name, "uri": "gs://" + BUCKET + "/" + name, "generation": get_generation(receipt), "bytes": receipt.get("bytes", receipt.get("size_bytes", receipt.get("size"))), "byte_equal": True, "ifGenerationMatch": 0}
+              if not sensitive and "sha256" in receipt:
+                  value["sha256"] = receipt["sha256"]
+                  value["crc32c"] = receipt.get("crc32c")
+                  value["md5Hash"] = receipt.get("md5Hash")
+              return value
+          
+          
+          def proof_digests(env):
+              return {key: env[key] for key in PROOF_ENV}
+          
+          
+          def campaign_objects(objects):
+              # The core intentionally inventories every version in the bucket. Preserve
+              # unrelated V1.1/AB144 objects and restrict this driver's checks to V2.
+              return [item for item in objects if isinstance(item.get("name"), str) and (item["name"].startswith(PREFIX) or CAMPAIGN.lower() in item["name"].lower())]
+          
+          
+          def transfer_init(core, client, env, work, result, proofs):
+              prior = campaign_objects(core.list_objects(client))
+              require(not prior, "EXISTING_V2_NAMESPACE_TRANSFER_INIT_DENIED")
+              result["fresh_jobs_before_transfer"] = core.jobs_check(client, "TRANSFER_INIT_LIST")
+              claim = {"campaign_id": CAMPAIGN, "resume_event_id": RESUME_ID, "state": "TRANSFER_CLAIMED_LOCKED", "run_id": env["GITHUB_RUN_ID"], "commit_sha": env["GITHUB_SHA"], "proof_digests": proof_digests(env), "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorization_added": 0, "create_attempts_reserved": 0, "created_at": core.utc()}
+              claim_raw = core.encode(claim)
+              result["transfer_claim_receipt"] = normalized_receipt(CLAIM, core.put_new(client, CLAIM, claim_raw, "TRANSFER_CLAIM_CREATE"))
+              result["owns_namespace"] = True
+              event = {"campaign_id": CAMPAIGN, "resume_event_id": RESUME_ID, "state": "RESUME_AUTHORIZED_TRANSFER_LOCKED", "authority": proofs["authority"], "authority_sha256": env["RESUME_AUTHORITY_SHA256"], "remote_gate_sha256": env["REMOTE_GATE_SHA256"], "local_gates_sha256": env["LOCAL_GATES_SHA256"], "claim_receipt": result["transfer_claim_receipt"], "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorization_added": 0, "prior_records_not_overwritten": True, "prior_blocked_record_scope": "User/local/Drive record; no invented remote V2 control record", "created_at": core.utc()}
+              event_raw = core.encode(event)
+              result["resume_event_receipt"] = normalized_receipt(RESUME, core.put_new(client, RESUME, event_raw, "RESUME_EVENT_CREATE"))
+              keypath, publicpath = work / "input_private_key.pem", work / "input_public_key.pem"
+              try:
+                  generated = call_crypto(env, "keygen", keypath, publicpath)
+                  require(generated.get("rsa_bits") == 4096, "RSA4096_REQUIRED")
+                  private = keypath.read_bytes()
+                  public = publicpath.read_bytes()
+                  require(private.startswith(b"-----BEGIN PRIVATE KEY-----\n") and public.startswith(b"-----BEGIN PUBLIC KEY-----\n"), "KEY_FORMAT_INVALID")
+                  key_receipt = core.put_new(client, PRIVATE_KEY, private, "PRIVATE_INPUT_KEY_CREATE", sensitive=True, capture=False)
+                  result["input_private_key_receipt"] = normalized_receipt(PRIVATE_KEY, key_receipt, sensitive=True)
+                  del private
+              finally:
+                  keypath.unlink(missing_ok=True)
+              result["input_public_key_pem"] = public.decode("ascii")
+              result["input_public_key_sha256"] = sha(public)
+              public_record = {"campaign_id": CAMPAIGN, "resume_event_id": RESUME_ID, "public_key_pem": result["input_public_key_pem"], "public_key_sha256": sha(public), "rsa_bits": 4096, "oaep_hash": "SHA256", "private_key_receipt": result["input_private_key_receipt"], "private_key_in_evidence": False}
+              public_raw = core.encode(public_record)
+              result["input_public_key_object_receipt"] = normalized_receipt(PUBLIC_KEY, core.put_new(client, PUBLIC_KEY, public_raw, "INPUT_PUBLIC_KEY_CREATE"))
+              ready = {"campaign_id": CAMPAIGN, "resume_event_id": RESUME_ID, "state": "TRANSFER_READY_LOCKED", "run_id": env["GITHUB_RUN_ID"], "driver_sha256": result["driver_sha256"], "proof_digests": proof_digests(env), "claim_receipt": result["transfer_claim_receipt"], "resume_receipt": result["resume_event_receipt"], "public_key_receipt": result["input_public_key_object_receipt"], "private_key_receipt": result["input_private_key_receipt"], "public_key_sha256": sha(public), "enabled": False, "max_new": 0, "next_new_authorization": 0, "tuning_create_attempts": 0, "finished_at": core.utc()}
+              ready_raw = core.encode(ready)
+              result["transfer_ready_receipt"] = normalized_receipt(READY, core.put_new(client, READY, ready_raw, "TRANSFER_READY_CREATE"))
+              result["bootstrap_hashes"] = {"EXPECTED_TRANSFER_CLAIM_SHA256": sha(claim_raw), "EXPECTED_RESUME_SHA256": sha(event_raw), "EXPECTED_INPUT_PUBLIC_KEY_SHA256": sha(public_raw), "EXPECTED_TRANSFER_READY_SHA256": sha(ready_raw)}
+              result["state"] = "TRANSFER_READY_LOCKED"
               return result
           
           
-          def private_export(client, result, env):
-              require(bool(env.get("RUNNER_TEMP")) and bool(env.get("CRYPTO_SCRIPT")) and bool(env.get("OUTPUT_PUBLIC_KEY")), "EXPORT_ENV_MISSING")
-              root = Path(env["RUNNER_TEMP"])
-              private = Path(tempfile.mkdtemp(prefix="v2_remote_preflight_private_", dir=root))
-              os.chmod(private, 0o700)
-              files = {"RESULT.json": encode(result), "HTTP_RECEIPTS.json": encode(client.records if client else [])}
-              raw_index = []
-              for item in client.private_raw if client else []:
-                  name = "raw/" + str(item["sequence"]).zfill(5) + ".bin"
-                  files[name] = item["raw"]
-                  raw_index.append({"file": name, "sequence": item["sequence"], "label": item["label"], "bytes": len(item["raw"]), "sha256": sha(item["raw"])})
-              files["RAW_RESPONSE_INDEX.json"] = encode(raw_index)
-              manifest = {"campaign_id": CAMPAIGN, "files": {name: {"bytes": len(raw), "sha256": sha(raw)} for name, raw in files.items()}}
-              files["MANIFEST_SHA256.json"] = encode(manifest)
-              bundle = private / "private_evidence.zip"
-              with zipfile.ZipFile(bundle, "x", zipfile.ZIP_DEFLATED) as z:
-                  for name, raw in files.items():
-                      z.writestr(name, raw)
-              os.chmod(bundle, 0o600)
-              raw = bundle.read_bytes()
-              header = {"campaign": CAMPAIGN, "resume_event": "recovery_20261116", "purpose": "remote_readonly_preflight_" + str(env.get("GITHUB_RUN_ID", "unknown")), "bundle_sha256": sha(raw), "plaintext_bytes": len(raw)}
-              header_file = private / "header.json"
-              header_file.write_bytes(encode(header))
-              os.chmod(header_file, 0o600)
-              encrypted = root / "v2_remote_preflight_encrypted.json"
-              result_process = subprocess.run(["node", env["CRYPTO_SCRIPT"], "encrypt", env["OUTPUT_PUBLIC_KEY"], str(bundle), str(encrypted), str(header_file)], stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
-              require(result_process.returncode == 0 and encrypted.is_file(), "LOCAL_ENCRYPTED_EXPORT_FAILED")
-              return {"encrypted_artifact_file": encrypted.name, "ciphertext_sha256": sha(encrypted.read_bytes()), "header": header}
+          def read_bootstrap(core, client, env, result, proofs):
+              objects = campaign_objects(core.list_objects(client))
+              by_name = {}
+              for item in objects:
+                  name = item.get("name")
+                  require(isinstance(name, str) and name not in by_name, "DUPLICATE_OBJECT_GENERATIONS")
+                  require(not item.get("timeDeleted"), "DELETED_V2_OBJECT_VERSION")
+                  by_name[name] = item
+                  require(not (name.startswith(BOOT + "STOP_LOCK_") or name in {PREFIX + "_control/CREATE_ONCE.json", PREFIX + "_control/ATTEMPT_001.json", PREFIX + "_control/FINAL_LOCK.json"}), "EXISTING_ATTEMPT_OR_STOP_LOCK")
+              values = {}
+              for name, key in BOOT_HASH_ENV.items():
+                  require(name in by_name, "BOOTSTRAP_OBJECT_MISSING")
+                  require(bool(re.fullmatch(r"[0-9a-f]{64}", env.get(key, ""))), "BOOTSTRAP_SHA_ENV_MISSING")
+                  raw = core.read_object(client, name, generation=get_generation(by_name[name]), label="DRIVER_BOOTSTRAP_" + Path(name).stem)
+                  require(sha(raw) == env[key], "BOOTSTRAP_SHA_MISMATCH")
+                  value = json.loads(raw)
+                  require(value.get("campaign_id") == CAMPAIGN and value.get("resume_event_id") == RESUME_ID, "BOOTSTRAP_CAMPAIGN_MISMATCH")
+                  values[name] = value
+              ready = values[READY]
+              require(ready.get("state") == "TRANSFER_READY_LOCKED" and ready.get("proof_digests") == proof_digests(env), "TRANSFER_READY_PROOF_MISMATCH")
+              require(values[RESUME].get("authority") == proofs["authority"], "REMOTE_RESUME_AUTHORITY_CHANGED")
+              public = values[PUBLIC_KEY]
+              pem = public.get("public_key_pem", "").encode("ascii")
+              require(public.get("rsa_bits") == 4096 and sha(pem) == public.get("public_key_sha256") == ready.get("public_key_sha256"), "REMOTE_PUBLIC_KEY_HASH_MISMATCH")
+              key_receipt = ready.get("private_key_receipt", {})
+              require(key_receipt.get("object") == PRIVATE_KEY and PRIVATE_KEY in by_name and get_generation(key_receipt) == get_generation(by_name[PRIVATE_KEY]), "PRIVATE_KEY_GENERATION_CHANGED")
+              require(public.get("private_key_receipt") == key_receipt, "PRIVATE_KEY_RECEIPTS_DIFFER")
+              for receipt_field, name in (("claim_receipt", CLAIM), ("resume_receipt", RESUME), ("public_key_receipt", PUBLIC_KEY)):
+                  receipt = ready.get(receipt_field, {})
+                  require(receipt.get("object") == name and get_generation(receipt) == get_generation(by_name[name]) and receipt.get("sha256") == env[BOOT_HASH_ENV[name]], "BOOTSTRAP_RECEIPT_MISMATCH")
+              result["owns_namespace"] = True
+              result["verified_bootstrap_hashes"] = {key: env[key] for key in BOOT_HASH_ENV.values()}
+              result["input_private_key_receipt"] = key_receipt
+              result["input_public_key_sha256"] = sha(pem)
+              return ready, by_name
+          
+          
+          def unpack_payload(raw, env, core):
+              expected_names = set(INPUTS) | {"request.json", "MANIFEST_SHA256.json"}
+              require(sha(raw) == env.get("INPUT_BUNDLE_SHA256"), "INPUT_BUNDLE_SHA_MISMATCH")
+              with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+                  infos = archive.infolist()
+                  require(len(infos) == 4 and {x.filename for x in infos} == expected_names, "INPUT_ZIP_EXACT_FILE_SET")
+                  require(all(not x.is_dir() and not x.flag_bits & 1 and not stat.S_ISLNK(x.external_attr >> 16) and 0 <= x.file_size <= MAX_BYTES for x in infos), "INPUT_ZIP_ENTRY_UNSAFE")
+                  require(archive.testzip() is None, "INPUT_ZIP_CRC")
+                  content = {name: archive.read(name) for name in expected_names}
+              manifest = json.loads(content["MANIFEST_SHA256.json"])
+              require(isinstance(manifest, dict) and manifest.get("algorithm") == "SHA-256" and manifest.get("self_excluded") is True, "INPUT_MANIFEST_CONTRACT")
+              rows = manifest.get("files", {})
+              require(set(rows) == expected_names - {"MANIFEST_SHA256.json"}, "INPUT_MANIFEST_FILE_SET")
+              for name, meta in rows.items():
+                  require(meta.get("bytes") == len(content[name]) and meta.get("sha256") == sha(content[name]), "INPUT_MANIFEST_HASH_MISMATCH")
+              for name, contract in INPUTS.items():
+                  data = content[name]
+                  require(len(data) == contract["bytes"] and sha(data) == contract["sha256"] and len(data.splitlines()) == contract["rows"], "APPROVED_DATA_BYTES_OR_ROWS_MISMATCH")
+                  data.decode("utf-8")
+              require(content["request.json"] == core.encode(core.REQUEST) and sha(content["request.json"]) == env.get("EXPECTED_REQUEST_SHA256"), "PAYLOAD_REQUEST_NOT_FROZEN_CORE_REQUEST")
+              return content
+          
+          
+          def decrypt_and_transfer(core, client, env, work, result, proofs):
+              ready, objects = read_bootstrap(core, client, env, result, proofs)
+              header_path = local_file(env, "INPUT_HEADER", 16 * 1024)
+              header = json.loads(header_path.read_bytes())
+              require(set(header) == {"campaign", "resume_event", "purpose", "bundle_sha256", "plaintext_bytes"}, "INPUT_HEADER_FIELDS")
+              require(header.get("campaign") == CAMPAIGN and header.get("resume_event") == RESUME_ID and header.get("purpose") == "v2_training_inputs" and header.get("bundle_sha256") == env.get("INPUT_BUNDLE_SHA256"), "INPUT_HEADER_BINDING")
+              require(type(header.get("plaintext_bytes")) is int and 0 < header["plaintext_bytes"] <= MAX_BYTES, "INPUT_HEADER_SIZE")
+              envelope = local_file(env, "INPUT_ENVELOPE")
+              key_path = work / "input_private_key.pem"
+              plain_path = work / "input_payload.zip"
+              key = core.read_object(client, PRIVATE_KEY, generation=get_generation(ready["private_key_receipt"]), label="PRIVATE_INPUT_KEY_READ", sensitive=True, capture=False)
+              try:
+                  require(key.startswith(b"-----BEGIN PRIVATE KEY-----\n"), "PRIVATE_KEY_FORMAT")
+                  new_file(key_path, key)
+                  del key
+                  call_crypto(env, "decrypt", key_path, envelope, plain_path, header_path)
+              finally:
+                  key_path.unlink(missing_ok=True)
+              raw = plain_path.read_bytes()
+              require(len(raw) == header["plaintext_bytes"], "INPUT_PLAINTEXT_SIZE_MISMATCH")
+              content = unpack_payload(raw, env, core)
+              result["input_bundle_sha256"] = sha(raw)
+              result["input_zip_crc_and_manifest"] = "PASS"
+              result["dataset_transfer_receipts"] = {}
+              for filename in INPUTS:
+                  name = PREFIX + filename
+                  if name in objects:
+                      generation = get_generation(objects[name])
+                      back = core.read_object(client, name, generation=generation, label="EXISTING_DATASET_COMPARE", capture=False)
+                      require(back == content[filename], "EXISTING_DATASET_BYTES_DIFFER")
+                      receipt = {"object": name, "uri": "gs://" + BUCKET + "/" + name, "generation": generation, "bytes": len(back), "sha256": sha(back), "byte_equal": True, "reused_identical_existing_generation": True}
+                  else:
+                      receipt = normalized_receipt(name, core.put_new(client, name, content[filename], "INPUT_DATASET_CREATE_" + filename, capture=False))
+                      receipt["reused_identical_existing_generation"] = False
+                  result["dataset_transfer_receipts"][filename] = receipt
+              plain_path.unlink(missing_ok=True)
+          
+          
+          def public_receipt(value):
+              if not isinstance(value, dict):
+                  return None
+              out = {}
+              name = value.get("object", value.get("name"))
+              if isinstance(name, str) and name.startswith(PREFIX) and not re.search(r"[\x00-\x1f]", name):
+                  out["object"] = name
+              uri = value.get("uri")
+              if isinstance(uri, str) and uri.startswith("gs://" + BUCKET + "/" + PREFIX) and not re.search(r"[\x00-\x1f]", uri):
+                  out["uri"] = uri
+              generation = str(value.get("generation", ""))
+              if generation.isdigit():
+                  out["generation"] = generation
+              size = value.get("bytes", value.get("size_bytes"))
+              if type(size) is int and size >= 0:
+                  out["bytes"] = size
+              digest = value.get("sha256")
+              if isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest) and name != PRIVATE_KEY:
+                  out["sha256"] = digest
+              for key in ("byte_equal", "reused_identical_existing_generation"):
+                  if type(value.get(key)) is bool:
+                      out[key] = value[key]
+              if value.get("ifGenerationMatch") == 0:
+                  out["ifGenerationMatch"] = 0
+              return out
           
           
           def public_summary(result, artifact=None):
-              public = {"status": result["state"], "run_id": result.get("run_id"), "v2_attempt_status": result.get("v2_attempt_status"),
-                        "audit_complete": result.get("audit_complete", False), "actual_prior_create_attempts": result.get("actual_prior_create_attempts"),
-                        "job_count": len(result["v2_jobs"]) if result.get("jobs_read_complete") else None,
-                        "eligibility": result.get("eligibility"), "tuning_create_attempts_this_run": 0, "generation_attempts_this_run": 0, "remote_writes_this_run": 0}
-              if artifact:
-                  public["encrypted_artifact"] = artifact
-              if result.get("export_failed"):
-                  public["export_failed"] = True
+              public = {"campaign_id": CAMPAIGN, "state": safe_code(result.get("state"), "STOPPED_BLOCKED"), "mode": safe_code(result.get("mode"), "CLOSED"), "enabled": False, "max_new": 0, "next_new_authorization": 0}
+              if str(result.get("run_id", "")).isdigit():
+                  public["run_id"] = str(result["run_id"])
+              for key in ("driver_sha256", "runner_sha256", "request_sha256", "input_bundle_sha256", "input_public_key_sha256", "output_public_key_sha256"):
+                  value = result.get(key)
+                  if isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value):
+                      public[key] = value
+              for key in ("tuning_create_attempts", "generate_content_attempts", "new_generation_attempts"):
+                  if type(result.get(key)) is int and 0 <= result[key] <= 1:
+                      public[key] = result[key]
+              for key in ("transfer_claim_receipt", "resume_event_receipt", "input_public_key_object_receipt", "input_private_key_receipt", "transfer_ready_receipt", "ready_receipt", "final_lock_receipt", "stop_lock_receipt", "private_raw_evidence_receipt"):
+                  if key in result:
+                      public[key] = public_receipt(result[key])
+              for key in ("bootstrap_hashes", "verified_bootstrap_hashes"):
+                  if isinstance(result.get(key), dict):
+                      public[key] = {k: v for k, v in result[key].items() if k in BOOT_HASH_ENV.values() and isinstance(v, str) and re.fullmatch(r"[0-9a-f]{64}", v)}
+              if isinstance(result.get("dataset_transfer_receipts"), dict):
+                  public["dataset_transfer_receipts"] = {k: public_receipt(v) for k, v in result["dataset_transfer_receipts"].items() if k in INPUTS}
+              pem = result.get("input_public_key_pem")
+              if isinstance(pem, str) and re.fullmatch(r"-----BEGIN PUBLIC KEY-----\n[A-Za-z0-9+/=\n]+-----END PUBLIC KEY-----\n", pem):
+                  public["input_public_key_pem"] = pem
+              resource_re = r"projects/[A-Za-z0-9_-]+/locations/us/(?:tuningJobs|models|endpoints)/[A-Za-z0-9_@.-]+"
+              name = result.get("tuning_job_name")
+              if isinstance(name, str) and re.fullmatch(resource_re, name):
+                  public["tuning_job_name"] = name
+              job = result.get("last_job_response", result.get("create_response", {}))
+              if isinstance(job, dict):
+                  if isinstance(job.get("state"), str) and re.fullmatch(r"JOB_STATE_[A-Z_]+", job["state"]):
+                      public["last_job_state"] = job["state"]
+                  tuned = job.get("tunedModel", {})
+                  for key in ("model", "endpoint"):
+                      value = tuned.get(key) if isinstance(tuned, dict) else None
+                      if isinstance(value, str) and re.fullmatch(resource_re, value):
+                          public[key] = value
               if result.get("error"):
-                  public["error_code"] = result["error"]["reason"]
-                  public["http_status"] = result["error"].get("http_status")
+                  error = result["error"]
+                  public["error_code"] = safe_code(error.get("reason") if isinstance(error, dict) else None)
+                  if isinstance(error, dict) and type(error.get("http_status")) is int:
+                      public["http_status"] = error["http_status"]
+              for key in ("export_failed", "gcs_evidence_failed", "stop_lock_write_failed"):
+                  if result.get(key) is True:
+                      public[key] = True
+              if artifact:
+                  public["encrypted_artifact"] = {k: artifact[k] for k in ("filename", "sha256", "bytes", "header")}
               return public
           
           
-          def main(env=None):
-              env = dict(os.environ) if env is None else dict(env)
-              result, client, artifact = base_result(env), None, None
-              if env.get("REMOTE_PREFLIGHT_MODE") == "CLOSED":
-                  result.update(state="CLOSED_NO_ACTION")
-                  print("V2_PREFLIGHT_PUBLIC_RESULT=" + json.dumps(public_summary(result), separators=(",", ":")))
-                  return 0
+          def credential_free(raw, token=""):
+              if token and len(token) >= 12 and token.encode() in raw:
+                  return False
+              text = raw.decode("utf-8", errors="ignore").replace("\\n", "\n")
+              patterns = [r"-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----[ \t\r\n]+(?:[A-Za-z0-9+/=][ \t\r\n]*){64,}", r"\bya29\.[A-Za-z0-9_.-]{20,}", r"\bBearer\s+[A-Za-z0-9._~+/-]{20,}", r"[?&]X-(?:Amz|Goog)-Signature=[a-fA-F0-9]{64,}"]
+              return not any(re.search(p, text, re.I) for p in patterns)
+          
+          
+          def subprocess_failure(operation, returncode, stdout, stderr, *, auth=False):
+              failure = {"operation": operation, "returncode": returncode, "auth_stdout_omitted": auth}
+              for label, content in (("stdout", stdout), ("stderr", stderr)):
+                  if auth and label == "stdout":
+                      continue  # Auth stdout can contain a bearer token, including on failure.
+                  if content is None:
+                      failure[label] = {"available": False}
+                      continue
+                  raw = content.encode("utf-8") if isinstance(content, str) else bytes(content)
+                  if not credential_free(raw) or re.search(rb'(?i)(?:access_token|refresh_token|id_token|private_key)["\s:=]+["A-Za-z0-9_/-]{16,}', raw):
+                      failure[label] = {"omitted": "POSSIBLE_CREDENTIAL_CONTENT"}
+                      continue
+                  kept = raw[:65536]
+                  failure[label] = {"base64": base64.b64encode(kept).decode("ascii"), "bytes": len(raw), "sha256": sha(raw), "preserved_bytes": len(kept), "truncated": len(raw) > len(kept)}
+              return failure
+          
+          
+          def raw_evidence(client, result, request_bytes):
+              records = list(getattr(client, "records", [])) if client else []
+              rows = []
+              for label, raw in (getattr(client, "private_raw", []) if client else []):
+                  require(credential_free(raw, getattr(client, "token", "")), "CREDENTIAL_FOUND_IN_PRIVATE_HTTP_EVIDENCE")
+                  rows.append({"label": label, "base64": base64.b64encode(raw).decode("ascii"), "bytes": len(raw), "sha256": sha(raw)})
+              require(credential_free(enc(records), getattr(client, "token", "")), "CREDENTIAL_FOUND_IN_HTTP_RECEIPTS")
+              return {"campaign_id": CAMPAIGN, "result": result, "records": records, "raw_responses": rows, "request_bytes_base64": base64.b64encode(request_bytes).decode("ascii"), "request_sha256": sha(request_bytes), "auth_headers_recorded": False, "input_private_key_recorded": False}
+          
+          
+          def export_private(core, client, env, work, result, proofs):
+              output_key = local_file(env, "OUTPUT_PUBLIC_KEY", 65536)
+              require(sha(output_key.read_bytes()) == env.get("OUTPUT_PUBLIC_KEY_SHA256"), "OUTPUT_PUBLIC_KEY_SHA_MISMATCH")
+              request_bytes = proofs.get("request_bytes", core.encode(core.REQUEST))
+              if client and not getattr(client, "gcs_blocked", False):
+                  try:
+                      evidence = raw_evidence(client, result, request_bytes)
+                      name = PREFIX + "_evidence/run_" + env["GITHUB_RUN_ID"] + "/RAW_HTTP.json"
+                      receipt = core.put_new(client, name, enc(evidence), "PRIVATE_RAW_EVIDENCE_CREATE")
+                      result["private_raw_evidence_receipt"] = normalized_receipt(name, receipt)
+                  except Exception as error:
+                      result["gcs_evidence_failed"] = True
+                      result["gcs_evidence_error_type"] = type(error).__name__
+                      result["state"] = "UNKNOWN_LOCKED" if result.get("tuning_create_attempts") else "STOPPED_BLOCKED"
+              elif client:
+                  result["gcs_evidence_not_attempted"] = "GCS_ALREADY_FAILED_NO_RETRY"
+              evidence = raw_evidence(client, result, request_bytes)
+              material = {"RESULT.json": enc(result), "RAW_HTTP.json": enc(evidence), "REQUEST.json": request_bytes, "HTTP_RECEIPTS.json": enc(getattr(client, "records", []) if client else []), "scripts/v2_transport_driver.py": Path(__file__).read_bytes()}
+              if getattr(core, "__file__", None):
+                  material["scripts/v2_training_runner.py"] = Path(core.__file__).read_bytes()
+              material.update(proofs.get("files", {}))
+              for raw in material.values():
+                  require(credential_free(raw, getattr(client, "token", "") if client else ""), "CREDENTIAL_FOUND_IN_EXPORT")
+              manifest = {"algorithm": "SHA-256", "self_excluded": True, "files": {k: {"bytes": len(v), "sha256": sha(v)} for k, v in material.items()}}
+              material["MANIFEST_SHA256.json"] = enc(manifest)
+              bundle = work / "private_evidence.zip"
+              with zipfile.ZipFile(bundle, "x", zipfile.ZIP_DEFLATED) as archive:
+                  for name, raw in material.items():
+                      archive.writestr(name, raw)
+              bundle.chmod(0o600)
+              with zipfile.ZipFile(bundle) as archive:
+                  require(archive.testzip() is None, "EXPORT_ZIP_CRC_FAILED")
+                  for name, meta in manifest["files"].items():
+                      raw = archive.read(name)
+                      require(sha(raw) == meta["sha256"] and len(raw) == meta["bytes"], "EXPORT_MANIFEST_MISMATCH")
+              data = bundle.read_bytes()
+              header = {"campaign": CAMPAIGN, "resume_event": RESUME_ID, "purpose": "v2_output_" + env["V2_MODE"].lower() + "_" + env["GITHUB_RUN_ID"], "bundle_sha256": sha(data), "plaintext_bytes": len(data)}
+              header_path = work / "output_header.json"
+              new_file(header_path, enc(header))
+              encrypted = Path(env["RUNNER_TEMP"]) / "v2_execution_encrypted.json"
+              call_crypto(env, "encrypt", output_key, bundle, encrypted, header_path)
+              encrypted_raw = encrypted.read_bytes()
+              return {"filename": encrypted.name, "sha256": sha(encrypted_raw), "bytes": len(encrypted_raw), "header": header}
+          
+          
+          def base_result(env, core):
+              return {"campaign_id": CAMPAIGN, "resume_event_id": RESUME_ID, "mode": env.get("V2_MODE", "CLOSED"), "run_id": env.get("GITHUB_RUN_ID"), "commit_sha": env.get("GITHUB_SHA"), "state": "STOPPED_BLOCKED", "enabled": False, "max_new": 0, "next_new_authorization": 0, "authorization_added": 0, "tuning_create_attempts": 0, "generate_content_attempts": 0, "automatic_retries": 0, "driver_sha256": sha(Path(__file__).read_bytes()), "runner_sha256": sha(Path(core.__file__).read_bytes()) if getattr(core, "__file__", None) else None, "started_at": core.utc()}
+          
+          
+          def run_driver(core, env, client_factory=None, token_provider=None, sleep=time.sleep):
+              env = dict(env)
+              result = base_result(env, core)
+              if env.get("V2_MODE", "CLOSED") == "CLOSED":
+                  result["state"] = "CLOSED_NO_ACTION"
+                  return public_summary(result), 0, result
+              client = None
+              proofs = {}
+              artifact = None
+              work = Path(env.get("RUNNER_TEMP", "/nonexistent")) / "v2_execution_private"
               try:
-                  guard_identity(env)
-                  result["script_sha256"] = sha(Path(__file__).read_bytes())
-                  result["output_public_key_sha256"] = sha(Path(env["OUTPUT_PUBLIC_KEY"]).read_bytes())
-                  token = subprocess.check_output(["gcloud", "auth", "print-access-token"], text=True, stderr=subprocess.PIPE, timeout=30).strip()
-                  require(bool(token), "EMPTY_ACCESS_TOKEN")
-                  client = Client(token)
+                  identity_guard(env)
+                  work.mkdir(mode=0o700, exist_ok=False)
+                  public = local_file(env, "OUTPUT_PUBLIC_KEY", 65536).read_bytes()
+                  require(public.startswith(b"-----BEGIN PUBLIC KEY-----\n"), "OUTPUT_KEY_NOT_PUBLIC")
+                  result["output_public_key_sha256"] = sha(public)
+                  require(result["output_public_key_sha256"] == env.get("OUTPUT_PUBLIC_KEY_SHA256"), "OUTPUT_PUBLIC_KEY_SHA_MISMATCH")
+                  require(result["driver_sha256"] == env.get("DRIVER_SHA256") and result["runner_sha256"] == env.get("CORE_SHA256"), "FROZEN_EXECUTION_SOURCE_SHA_MISMATCH")
+                  require(sha(local_file(env, "CRYPTO_SCRIPT", 1024 * 1024).read_bytes()) == env.get("CRYPTO_SCRIPT_SHA256"), "CRYPTO_SCRIPT_SHA_MISMATCH")
+                  proofs = verify_local_proofs(env, core)
+                  result["request_sha256"] = sha(proofs["request_bytes"])
+                  if token_provider is None:
+                      token = subprocess.check_output(["gcloud", "auth", "print-access-token"], stderr=subprocess.PIPE, timeout=30, text=True).strip()
+                  else:
+                      token = token_provider()
+                  require(bool(token), "EMPTY_AUTH_TOKEN")
+                  client = (client_factory or core.Client)(token)
                   del token
-                  run(client, env, result)
-              except Blocked as error:
-                  result.update(state="STOPPED_BLOCKED", error={"reason": error.reason, "http_status": error.status})
-                  if not result.get("audit_complete"):
-                      result.update(v2_attempt_status="UNKNOWN_INCOMPLETE_READS", eligibility="BLOCKED_PENDING_COMPLETE_READS", actual_prior_create_attempts=None)
+                  if env["V2_MODE"] == "TRANSFER_INIT":
+                      transfer_init(core, client, env, work, result, proofs)
+                  else:
+                      if env["V2_MODE"] == "DRY_RUN":
+                          decrypt_and_transfer(core, client, env, work, result, proofs)
+                      else:
+                          read_bootstrap(core, client, env, result, proofs)
+                      core_env = dict(env, PILOT_MODE=env["V2_MODE"])
+                      outcome = core.run(client, core_env, result["runner_sha256"], sleep=sleep)
+                      require(isinstance(outcome, dict), "CORE_RESULT_NOT_OBJECT")
+                      result.update(outcome)
               except Exception as error:
-                  result.update(state="STOPPED_BLOCKED", error={"reason": "LOCAL_OR_AUTH_EXCEPTION", "exception_type": type(error).__name__},
-                                v2_attempt_status="UNKNOWN_INCOMPLETE_READS", eligibility="BLOCKED_PENDING_COMPLETE_READS", actual_prior_create_attempts=None)
-              result["finished_at"] = utc()
-              result["http_get_requests"] = len(client.records) if client else 0
-              result["raw_capture_complete"] = client.raw_capture_complete if client else True
+                  if client and isinstance(getattr(client, "outcome", None), dict):
+                      result.update(client.outcome)
+                  attempts = max(result.get("tuning_create_attempts", 0), getattr(client, "create_attempts", 0) if client else 0)
+                  result["tuning_create_attempts"] = attempts
+                  result["state"] = "UNKNOWN_LOCKED" if attempts else "STOPPED_BLOCKED"
+                  reason = getattr(error, "reason", str(error) if isinstance(error, DriverBlocked) else "LOCAL_OR_AUTH_EXCEPTION")
+                  result["error"] = {"reason": safe_code(reason), "http_status": getattr(error, "status", None), "exception_type": type(error).__name__}
+                  if getattr(error, "subprocess_failure", None):
+                      result.setdefault("subprocess_failures", []).append(error.subprocess_failure)
+                  elif isinstance(error, (subprocess.CalledProcessError, subprocess.TimeoutExpired)):
+                      result.setdefault("subprocess_failures", []).append(subprocess_failure("gcloud_auth", getattr(error, "returncode", None), None, getattr(error, "stderr", None), auth=True))
+              result["finished_at"] = core.utc()
+              failed = result.get("state") not in SUCCESS_STATES
+              if failed and client and result.get("owns_namespace") and not result.get("final_lock_receipt") and not getattr(client, "gcs_blocked", False):
+                  try:
+                      name = BOOT + "STOP_LOCK_" + env["GITHUB_RUN_ID"] + ".json"
+                      lock = {"campaign_id": CAMPAIGN, "resume_event_id": RESUME_ID, "state": result["state"], "run_id": env["GITHUB_RUN_ID"], "enabled": False, "max_new": 0, "next_new_authorization": 0, "tuning_create_attempts": result.get("tuning_create_attempts", 0), "reason": result.get("error", {}).get("reason", "EXECUTION_FAILED"), "created_at": core.utc(), "must_never_delete_or_reuse": True}
+                      result["stop_lock_receipt"] = normalized_receipt(name, core.put_new(client, name, enc(lock), "STOP_LOCK_CREATE"))
+                  except Exception as error:
+                      result["stop_lock_write_failed"] = True
+                      result["stop_lock_error_type"] = type(error).__name__
               try:
-                  artifact = private_export(client, result, env)
+                  require(work.is_dir(), "PRIVATE_WORKDIR_UNAVAILABLE")
+                  artifact = export_private(core, client, env, work, result, proofs)
               except Exception as error:
-                  result.update(state="STOPPED_BLOCKED", export_failed=True, export_error_type=type(error).__name__)
-              print("V2_PREFLIGHT_PUBLIC_RESULT=" + json.dumps(public_summary(result, artifact), ensure_ascii=True, separators=(",", ":")))
-              return 1 if result["state"] == "STOPPED_BLOCKED" else 0
+                  result["export_failed"] = True
+                  result["export_error_type"] = type(error).__name__
+                  if getattr(error, "subprocess_failure", None):
+                      result.setdefault("subprocess_failures", []).append(error.subprocess_failure)
+                  result["state"] = "UNKNOWN_LOCKED" if result.get("tuning_create_attempts") else "STOPPED_BLOCKED"
+              return public_summary(result, artifact), 0 if result["state"] in SUCCESS_STATES else 1, result
+          
+          
+          def main():
+              # Importing this wrapper never authenticates or calls any remote endpoint.
+              import v2_training_runner as core
+              public, code, _private = run_driver(core, os.environ)
+              print("V2_EXECUTION_PUBLIC_RESULT=" + json.dumps(public, ensure_ascii=True, separators=(",", ":")))
+              return code
           
           
           if __name__ == "__main__":
-              raise SystemExit(main())
-          V2_RECOVERY_EMBED_0_END
-          cat > "$RUNNER_TEMP/transport_crypto.mjs" <<'V2_RECOVERY_EMBED_1_END'
+              sys.exit(main())
+          V2_REVIEWED_FILE_1_END
+          cat > "$RUNNER_TEMP/transport_crypto.mjs" <<'V2_REVIEWED_FILE_2_END'
           #!/usr/bin/env node
           /**
            * Offline private transport, envelope v1. Node built-ins only.
@@ -792,8 +1391,8 @@ jobs:
             process.stderr.write(JSON.stringify({ ok: false, error: code }) + '\n');
             process.exitCode = 1;
           });
-          V2_RECOVERY_EMBED_1_END
-          cat > "$RUNNER_TEMP/output_public_key.pem" <<'V2_RECOVERY_EMBED_2_END'
+          V2_REVIEWED_FILE_2_END
+          cat > "$RUNNER_TEMP/output_public_key.pem" <<'V2_REVIEWED_FILE_3_END'
           -----BEGIN PUBLIC KEY-----
           MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqJGYQJXqaPlxCANlph/W
           sU2SjuzIPn4W/JyftWOx7BHRo7hJBqMAIVsfdGaFgHbT3ahDFmb4uUHjB1+B1Cp1
@@ -808,15 +1407,154 @@ jobs:
           SLYHgCWMZLy7MA3Ljjhlw1WRSH4EolAxl6QDJm+93RSq0w7betAVoHFYxBxIxnZ2
           k1pYiEeOFbM4cJssWo0AyisCAwEAAQ==
           -----END PUBLIC KEY-----
-          V2_RECOVERY_EMBED_2_END
+          V2_REVIEWED_FILE_3_END
+          cat > "$RUNNER_TEMP/REMOTE_GATE.json" <<'V2_REVIEWED_FILE_4_END'
+          {
+            "campaign_id": "GEMINI35_SFT_V2_PILOT1_20261116",
+            "status": "PASS_REMOTE_STATE_AND_AUTHORIZED_HISTORY_RECONCILED",
+            "created_at_utc": "2026-11-16T02:15:20.706697+00:00",
+            "decision_owner": "root",
+            "remote_run_id": "43790784857",
+            "remote_result_sha256": "b3c761e6ef540eac3f81d97b385e27e598a6dceec09ba041e2ac205dd3070be1",
+            "github_history_sha256": "58b8c381f7ff0ddc29a898a65304196548e5ebad0bc11b73a70cb90989a59946",
+            "prior_report_sha256": "52b9675d6d0c0be4638be37eca63180692d33c198a41642d549a2372662ca47a",
+            "evidence": {
+              "gcs_all_versions_read": 316,
+              "v2_control_attempt_or_other_objects": 0,
+              "us_jobs": 1,
+              "us_only_job_is_preserved_v11": true,
+              "eu_jobs": 0,
+              "us_central1_jobs": 0,
+              "matching_v2_jobs": 0,
+              "active_jobs": 0,
+              "all_region_pages_complete": true,
+              "prior_accessible_designated_github_runs": 13,
+              "all_prior_workflow_code_versions_read": true,
+              "v2_create_path_in_prior_runs": 0,
+              "prior_local_and_drive_reports_session_post_count": 0,
+              "new_readonly_run_post_count": 0
+            },
+            "reconciled_prior_v2_create_attempts_in_authorized_campaign_execution_lineage": 0,
+            "unused_existing_authorization": 1,
+            "authorization_added": 0,
+            "raw_remote_counter_if_no_prior_ledger": null,
+            "remote_empty_inventory_not_alone_treated_as_counter": true,
+            "scope_limit": "Joint determination from completed GCS versions/job queries, all 13 accessible designated workflow code histories and preserved prior execution reports. Not a universal proof about deleted history, other projects/branches/accounts or unreported manual actions. No V2 reservation/attempt/job ambiguity found in authorized path.",
+            "next_allowed": "Recover isolated dependency environment and run unmodified package validators; create remains disabled until every later gate passes",
+            "enabled": false,
+            "max_new_current_stage": 0,
+            "next_new_authorization": 0
+          }
+          V2_REVIEWED_FILE_4_END
+          cat > "$RUNNER_TEMP/RESUME_AUTHORITY.json" <<'V2_REVIEWED_FILE_5_END'
+          {
+            "campaign_id": "GEMINI35_SFT_V2_PILOT1_20261116",
+            "event": "RESUME_EVENT",
+            "resume_event_id": "RECOVERY_20261116_REGEX_PACKAGE",
+            "recorded_at_utc": "2026-11-16 02:11:18 UTC",
+            "source": "User message in current chat: 한국어↔라오어 번역앱 — Gemini 3.5 Flash-Lite V2 파인튜닝 안전 복구·실행",
+            "is_new_paid_authorization": false,
+            "authorization_added": 0,
+            "authorized_total_create_attempts": 1,
+            "pre_submission_training_usd_limit": 6,
+            "new_generation_inference_judge_ab": 0,
+            "prior_stop_report": {
+              "drive_id": "1jpFAko6RE2xdWwX8JA9BXYd98q4Zjikv",
+              "sha256": "52b9675d6d0c0be4638be37eca63180692d33c198a41642d549a2372662ca47a"
+            },
+            "prior_records_preserved": true,
+            "sequence": [
+              "read remote V2 control/attempt/job state",
+              "create isolated Python environment and install original pinned requirements",
+              "run unmodified package validators on working copies",
+              "repair scanner static-literal false positive and run benign/credential-negative synthetic tests",
+              "private GCS transfer with create-only generation preconditions and readback",
+              "official contract/cost and atomic one-attempt safeguards",
+              "one create at most if all gates pass",
+              "bounded GET observation",
+              "owner-only ordinary ZIP and report, actual redownload SHA CRC manifest",
+              "close enabled=false max_new=0 next_new_authorization=0"
+            ],
+            "dataset_sha256": "68293ad3e4f6aea5c9343ac7b44a4ce31c20a89303e30db66b0a130ecc33ca71",
+            "settings": {
+              "baseModel": "gemini-3.5-flash-lite",
+              "region": "us",
+              "train_rows": 1048,
+              "validation_rows": 304,
+              "epochCount": "2",
+              "learningRateMultiplier": 2,
+              "adapterSize": "ADAPTER_SIZE_FOUR",
+              "exportLastCheckpointOnly": false
+            },
+            "no_changes": [
+              "original data/prompts",
+              "V1.1 job/model/checkpoints/endpoint",
+              "SERVICE",
+              "IAM",
+              "WIF",
+              "service accounts",
+              "Cloud Run",
+              "Cloudflare",
+              "DB",
+              "H2"
+            ],
+            "paid_request_retry": false,
+            "stops": [
+              "unknown prior attempt",
+              "remote state inaccessible",
+              "repeated installation/runtime error after approved recovery",
+              "integrity mismatch",
+              "cost > USD 6 or insufficient basis",
+              "atomic lock failure",
+              "real secret or repeated packaging error"
+            ],
+            "record_scope": "Execution contract derived from complete user message; not a byte-identical original TXT attachment"
+          }
+          V2_REVIEWED_FILE_5_END
+          cat > "$RUNNER_TEMP/LOCAL_GATES.json" <<'V2_REVIEWED_FILE_6_END'
+          {
+            "campaign_id": "GEMINI35_SFT_V2_PILOT1_20261116",
+            "status": "PASS_LOCAL_GATES",
+            "source_zip_sha256": "68293ad3e4f6aea5c9343ac7b44a4ce31c20a89303e30db66b0a130ecc33ca71",
+            "free_validation_sha256": "46ab4cd8307b465ee314a319732aa5f9da6ee9712c3329ebbc676bb7fd13c43d",
+            "scanner_gate_sha256": "b362b4872c85fa2ff85ff74994458968dcb8c451089bd0bcf34c28c313d240a5",
+            "source_backup_sha256": "7308a563b4ede13017f183de4cfbb1253d0d0442ead3d452fe3ed1c2b5af2cb9",
+            "official_contract_sha256": "6fa22f6fd6e72bef893bbdab23a0fee50c4bf69f3fae437992c252118dae3498",
+            "request_sha256": "dd8da043f8888ab85c03c4f9058d7bdaaba7fafc7380e175bd8dda894d129d3a",
+            "train": {
+              "sha256": "c3803019c307a484f6b5461d25ce5575901f41bceeab97d7c9f4a840b7cc01af",
+              "bytes": 694652,
+              "rows": 1048
+            },
+            "validation": {
+              "sha256": "1d60d2d87177f42485e251cffaa57a109c60ac262c0fb05de82a169aa37a43fe",
+              "bytes": 216683,
+              "rows": 304
+            },
+            "cost": {
+              "price_per_million_training_tokens_usd": 3,
+              "epochs": 2,
+              "estimated_training_usd": 5.20989,
+              "pre_submission_limit_usd": 6,
+              "provider_measured": false,
+              "hard_billing_cap": false
+            },
+            "native_verified": false,
+            "inference_requests": 0,
+            "training_posts_before_this_gate": 0
+          }
+          V2_REVIEWED_FILE_6_END
           export CRYPTO_SCRIPT="$RUNNER_TEMP/transport_crypto.mjs"
           export OUTPUT_PUBLIC_KEY="$RUNNER_TEMP/output_public_key.pem"
-          python "$RUNNER_TEMP/remote_preflight.py"
+          export REMOTE_GATE_FILE="$RUNNER_TEMP/REMOTE_GATE.json"
+          export APPROVAL_FILE="$RUNNER_TEMP/RESUME_AUTHORITY.json"
+          export LOCAL_GATES_FILE="$RUNNER_TEMP/LOCAL_GATES.json"
+          python "$RUNNER_TEMP/v2_transport_driver.py"
       - name: Preserve encrypted evidence only
-        if: ${{ always() && env.REMOTE_PREFLIGHT_MODE != 'CLOSED' }}
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
         uses: actions/upload-artifact@v4
         with:
-          name: v2-remote-preflight-${{ github.run_id }}
-          path: ${{ runner.temp }}/v2_remote_preflight_encrypted.json
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
