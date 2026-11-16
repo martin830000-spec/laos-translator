@@ -58,14 +58,15 @@ jobs:
       contents: read
       id-token: write
     env:
-      CAUSE220_MODE: "DRY_RUN"
+      CAUSE220_MODE: "STAGE1"
       V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
-      ENABLE_GENERATION: "false"
+      ENABLE_GENERATION: "true"
       WORKORDER_SHA256: "365b600d8d342ffb4f454b12a5bd1815962de698b45fa758c9a299d336af9ad2"
       CRYPTO_SCRIPT_SHA256: "3f6cc19ff109dc64ac6dfcd43eac82eb7d83b1f0df9ab201a77c1c7cd71eef9c"
       OUTPUT_PUBLIC_KEY_SHA256: "9aaa94d7c34cf407d5748f9c067d9cc3549e40c8222cf62ad4ebff049c972094"
       RUNNER_SHA256: "0d2ffd3cf942838629b2f88411625b1471e390982e262f897ef19d3d3ae76702"
+      DRY_READY_SHA256: "6a4b64840c60bc15d25ff5c5657b3a7505d6f2d86f689023d6d0056529001683"
       PACKET_SHA256: "cd6fe39fa026c0a07441faa6ef3d03edd790e25d1ea8f673459e062a301aa275"
       PREFLIGHT_READY_SHA256: "a7e6ce95e79af499768f46ac46b85581d90e88637be5efc5c076eb8201d68dda"
       ROUNDTRIP_VERIFIED_SHA256: "2cb213d5b45004e6a4843ef95f5b2c8783d2d9d14a6d316a725d28cac6540936"
@@ -109,7 +110,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: cause220-dry_run-${{ github.run_id }}
+          name: cause220-stage1-${{ github.run_id }}
           path: ${{ runner.temp }}/cause220_encrypted_evidence.json
           if-no-files-found: error
           retention-days: 7
