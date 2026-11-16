@@ -20,9 +20,6 @@ jobs:
       V2_MODE: "FINALIZE_READ_ONLY"
       ENABLE_TUNING: "false"
       ENABLE_GENERATION: "false"
-      COLLECTOR: ${{ runner.temp }}/closeout_readonly.py
-      CRYPTO_SCRIPT: ${{ runner.temp }}/transport_crypto.mjs
-      OUTPUT_PUBLIC_KEY: ${{ runner.temp }}/closeout_public.pem
       COLLECTOR_SHA256: "19d11ed520567e513a71cf00ceac8137e3a4ffa92081bbfac8d0e95182ef3ca5"
       CRYPTO_SCRIPT_SHA256: "3f6cc19ff109dc64ac6dfcd43eac82eb7d83b1f0df9ab201a77c1c7cd71eef9c"
       OUTPUT_PUBLIC_KEY_SHA256: "991dd5041c7f258d9039232e63eb9af54cdd49d98ab47b66eb1da1d38d410239"
@@ -54,6 +51,9 @@ jobs:
                   handle.write(base64.b64decode(value, validate=True))
               path.chmod(0o600)
           PYCODE
+          export COLLECTOR="$RUNNER_TEMP/closeout_readonly.py"
+          export CRYPTO_SCRIPT="$RUNNER_TEMP/transport_crypto.mjs"
+          export OUTPUT_PUBLIC_KEY="$RUNNER_TEMP/closeout_public.pem"
           python3 "$COLLECTOR"
       - name: Preserve only encrypted evidence
         if: ${{ always() }}
