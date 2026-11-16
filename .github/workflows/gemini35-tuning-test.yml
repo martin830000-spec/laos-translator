@@ -58,14 +58,15 @@ jobs:
       contents: read
       id-token: write
     env:
-      COMPARE288_MODE: "DRY_RUN"
+      COMPARE288_MODE: "STAGE1"
       V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
-      ENABLE_GENERATION: "false"
+      ENABLE_GENERATION: "true"
       WORKORDER_SHA256: "b2168fae0b01f26beca7c9f01a5015f76a75df606f52bd9e4fb20a994517853e"
       CRYPTO_SCRIPT_SHA256: "3f6cc19ff109dc64ac6dfcd43eac82eb7d83b1f0df9ab201a77c1c7cd71eef9c"
       OUTPUT_PUBLIC_KEY_SHA256: "06283327db0c358e3e316fae1c755e7b417d695f4cac06f336ad205f965704a6"
       RUNNER_SHA256: "4128543723807d20652cfd27e49042fb8f686716132776653d416f4569d9be0a"
+      DRY_READY_SHA256: "fed8468648a2e1ab78bddf3604a0d2dc5873774dbc4632c7fb6a3e47de45c25b"
       PACKET_SHA256: "0255db9259564cd0fe0d8c44717fed1d62365a8f0472f0dfbfe1fb09403c832a"
       PREFLIGHT_READY_SHA256: "d285874c79385082ad32c1d494cee694d06a989d29aa8202fad08536a3e7455f"
       ROUNDTRIP_VERIFIED_SHA256: "b19c6e2501872490e9468a1c4f3e1b2d1fa66af110476e2823219ca3830f137b"
@@ -109,7 +110,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: compare288-dry_run-${{ github.run_id }}
+          name: compare288-stage1-${{ github.run_id }}
           path: ${{ runner.temp }}/compare288_encrypted_evidence.json
           if-no-files-found: error
           retention-days: 7
