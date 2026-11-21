@@ -1,4 +1,4 @@
-name: Gemini 4 Hydrogen Promptstyle48 TEMP TEST — Single-Run Bounded
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,64 +6,47 @@ name: Gemini 4 Hydrogen Promptstyle48 TEMP TEST — Single-Run Bounded
 permissions:
   contents: read
 concurrency:
-  group: gemini4-hydrogen-promptstyle48-20261122
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  promptstyle48-single:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
+      V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
-      SERVICE_CHANGE: "false"
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      ENABLE_GENERATION: "false"
     steps:
-      - name: Checkout approved TEST branch, no persisted token
-        uses: actions/checkout@v4
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Authenticate existing read/write-test WIF service account only
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - name: Set up existing Google Cloud CLI
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/setup-gcloud@v3
-      - name: Unpack reviewed public code and confidential CMS-only data
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          mkdir -p "$RUNNER_TEMP/pstyle48_work"
-          test -f "$GITHUB_WORKSPACE/experiments/promptstyle48_safe_bundle.b64"
-          cp "$GITHUB_WORKSPACE/experiments/promptstyle48_safe_bundle.b64" "$RUNNER_TEMP/pstyle48_bundle.b64"
-          base64 --decode "$RUNNER_TEMP/pstyle48_bundle.b64" > "$RUNNER_TEMP/pstyle48_bundle.zip"
-          printf '%s  %s\n' 'f305d6c2a3b1200af5d7ac461a3d5d3f114ae28a344ca7b071d2c31851ce08b4' "$RUNNER_TEMP/pstyle48_bundle.zip" | sha256sum --check --status
-          unzip -q "$RUNNER_TEMP/pstyle48_bundle.zip" -d "$RUNNER_TEMP/pstyle48_work"
-          cd "$RUNNER_TEMP/pstyle48_work"
-          python -m py_compile pstyle_runner.py dd2_sse.py
-          python pstyle_runner.py TEST
-          python -O pstyle_runner.py TEST
-          python dd2_sse.py
-          test -f "$GITHUB_WORKSPACE/prompt-config.json"
-      - name: Execute FREEQA then bounded authorized generation once, no retry
-        env:
-          OWNER_CMS_PATH: ${{ runner.temp }}/promptstyle48_owner_output.p7m
-        shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          cd "$RUNNER_TEMP/pstyle48_work"
-          python pstyle_runner.py RUN
-      - name: Preserve encrypted owner-only result artifact, never unencrypted
-        if: ${{ always() }}
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
         uses: actions/upload-artifact@v4
         with:
-          name: promptstyle48-owner-cms-${{ github.run_id }}
-          path: ${{ runner.temp }}/promptstyle48_owner_output.p7m
-          if-no-files-found: warn
-          retention-days: 3
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          if-no-files-found: error
+          retention-days: 7
