@@ -51,17 +51,22 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  stream24-bootstrap:
+  stream24-freeqa:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     permissions:
       contents: read
       id-token: write
     env:
-      S24_BOOTSTRAP: "true"
+      S24_STAGE: "FREEQA"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
+      S24_EXPECTED_CIPHER_SHA: "e5192c75242445eeb780ff77be5f0cf022d961e08f7b971f9f4c374e07ab614c"
+      S24_EXPECTED_BOOT_GENERATION: "1795268781658217"
+      S24_EXPECTED_BOOT_SHA: "c8d1ac82a0e8a2bf16cddcd33e91458bc7f83bf01e43e326fef15dbfef7fceba"
+      S24_EXPECTED_KEY_GENERATION: "1795268781206295"
+      S24_EXPECTED_KEY_SHA: "f0c644566867e9c3b59093139fc8487a1d77474452b937e6f4c758739370b28f"
     steps:
       - uses: actions/checkout@v7
         with:
@@ -72,21 +77,34 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: SHA pin and 28 historical locks then new STREAM24 GCS create-only key and smoke
+      - name: File SHA, no-Lao-public verification and 27 SSE/free-budget tests normal + -O
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          echo '53495a45a1e4a0059a3ebb44e66f7cc88959c225105515767245002bdc528aea  .github/s24_bootstrap.py' | sha256sum -c -
+          echo 'ac76ad213cce6eb672685c3017c8226d3e8a2f5e2f5081526f1a283049f36e6f  .github/s24_runner.py' | sha256sum -c -
+          echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/s24_gcs_base.py' | sha256sum -c -
+          echo '64e1bec21b9f78e1d2194a32455cb1b54f72898f38ff76069421efc9296a8057  .github/PUBLIC_FREEZE.json' | sha256sum -c -
           echo 'f1be1ba589f2aaf2649750ccaea23a3ba14b73441de47767a007f82527e56f01  .github/PINS28.json' | sha256sum -c -
-          python3 -m py_compile .github/s24_bootstrap.py
-          export S24_BOOTSTRAP_RECEIPT="$RUNNER_TEMP/s24_bootstrap_public.json"
-          python3 .github/s24_bootstrap.py
-          test -s "$RUNNER_TEMP/s24_bootstrap_public.json"
+          echo 'e4f72527c5f40212715b1631990bb9961a493d8b338b128632df942031154af1  .github/INPUT_PUBLIC.crt' | sha256sum -c -
+          echo '9a4cf8658d56c3e90ff53e268f729212864a4e626a59a68b745d3280eedf6696  .github/OUTPUT_OWNER_PUBLIC.crt' | sha256sum -c -
+          echo '86e3edab142f09dffde902c8bc0994d1703073387852cc9a7684c8daa3e18550  .github/PRIVATE_FREEZE.cms.b64' | sha256sum -c -
+          echo '53495a45a1e4a0059a3ebb44e66f7cc88959c225105515767245002bdc528aea  .github/s24_bootstrap.py' | sha256sum -c -
+          python3 -m py_compile .github/s24_gcs_base.py .github/s24_runner.py
+          python3 .github/s24_gcs_base.py test
+          python3 -O .github/s24_gcs_base.py test
+          python3 .github/s24_runner.py TEST
+          python3 -O .github/s24_runner.py TEST
+      - name: WIF FREEQA 28 immutable previous locks 24 request envelopes and two synthetic GCS objects; generation denied
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          python3 .github/s24_runner.py FREEQA | tee "$RUNNER_TEMP/stream24_freeqa_public.log"
       - uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: stream24-bootstrap-${{ github.run_id }}
-          path: ${{ runner.temp }}/s24_bootstrap_public.json
+          name: stream24-freeqa-${{ github.run_id }}
+          path: ${{ runner.temp }}/stream24_freeqa_public.log
           retention-days: 7
           if-no-files-found: error
