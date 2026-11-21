@@ -1,0 +1,30 @@
+{
+  "campaign_id": "GEMINI4_HYDROGEN_DEVELOPER_DIRECT2_20261122",
+  "compare_vertex": {
+    "back_total_ms": 4447.804296000015,
+    "back_ttft_ms": 4196.034416000003,
+    "first_total_ms": 6989.0691740000075,
+    "first_ttft_ms": 6517.274139000023
+  },
+  "generate_cfg": {
+    "maxOutputTokens": 6144,
+    "thinkingConfig": {
+      "thinkingLevel": "LOW"
+    }
+  },
+  "model": "gemini-4-hydrogen",
+  "private_sha256": "d15738c7538576f646388c098b1363c027df5ad38c9ad212596fb82510cafded",
+  "prompt_back_sha256": "6eab0af5a53485db08ff42f72e89ffa99ab855e0bb3c1e295cab938a05f103bf",
+  "prompt_first_sha256": "fd819cc0f0177daf2460f5671302931903cc5d89ccfdd88143eab8ea612034a9",
+  "schema": "DEVELOPER_DIRECT2_PUBLIC_FREEZE_V1",
+  "scope": {
+    "BACK": 1,
+    "FIRST": 1,
+    "total": 2,
+    "usd_max": 1
+  },
+  "source_ref": "newK:0013",
+  "source_sha256": "6c0aece4923778e9992d0dd08f4ff397f7fd80d783f900477fbb96a5a32905cf",
+  "sse_api": "https://generativelanguage.googleapis.com/v1beta/models/gemini-4-hydrogen:streamGenerateContent?alt=sse",
+  "stream24_zip_sha256": "64f74c7d6d6c41c6eb039e33429b764b8e47e6a936a8ece39d7c87bf37189003"
+}
