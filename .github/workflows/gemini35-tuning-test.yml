@@ -77,7 +77,7 @@ jobs:
         run: |
           set -euo pipefail
           umask 077
-          echo 'f8734f7a8bbc20b2836f9095b63dc760b9c43bb966fe189d04950c4c8a5e282f  .github/r2_readonly_final_audit.py' | sha256sum -c -
+          echo '7d9ac4ee5307e90f11befec27aca6be8cd068bd3679f036275e1f37e9802003c  .github/r2_readonly_final_audit.py' | sha256sum -c -
           echo '23f9518050f7d44fd47bebb87f4b4663821437c067ec0b94253a846bac96b8f1  .github/r2_postclose_audit_public.json' | sha256sum -c -
           echo '80afd411fad6c798146a75131b25a41fa2152451bca485de8b4eb18ecc8a6b22  .github/pins27.json' | sha256sum -c -
           python3 .github/r2_readonly_final_audit.py TEST
