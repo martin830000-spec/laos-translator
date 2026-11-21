@@ -51,15 +51,15 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  r2-postclose-readonly-audit:
+  r2-postclose-suffix-free-audit:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     permissions:
       contents: read
       id-token: write
     env:
-      R2_READONLY_FINAL_AUDIT: "true"
+      R2_SUFFIX_ONLY: "true"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
     steps:
@@ -72,23 +72,22 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Read-only 27 old immutable locks + new R2 lock + 51 immutable slot triplets
+      - name: Verify missing stage status and 165-object inventory with strict remaining GCS budget
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          echo '7d9ac4ee5307e90f11befec27aca6be8cd068bd3679f036275e1f37e9802003c  .github/r2_readonly_final_audit.py' | sha256sum -c -
+          echo '3d0c943188071ee3bed950585a61cbc99b16bfa64ece5be2948fa7d945ad9228  .github/r2_final_suffix_audit.py' | sha256sum -c -
           echo '23f9518050f7d44fd47bebb87f4b4663821437c067ec0b94253a846bac96b8f1  .github/r2_postclose_audit_public.json' | sha256sum -c -
-          echo '80afd411fad6c798146a75131b25a41fa2152451bca485de8b4eb18ecc8a6b22  .github/pins27.json' | sha256sum -c -
-          python3 .github/r2_readonly_final_audit.py TEST
-          python3 -O .github/r2_readonly_final_audit.py TEST
-          export R2_AUDIT_OUTPUT="$RUNNER_TEMP/r2_readonly_final_audit_public.json"
-          python3 .github/r2_readonly_final_audit.py
-          test -s "$RUNNER_TEMP/r2_readonly_final_audit_public.json"
+          python3 .github/r2_final_suffix_audit.py TEST
+          python3 -O .github/r2_final_suffix_audit.py TEST
+          export R2_SUFFIX_OUTPUT="$RUNNER_TEMP/r2_suffix_public_receipt.json"
+          python3 .github/r2_final_suffix_audit.py
+          test -s "$RUNNER_TEMP/r2_suffix_public_receipt.json"
       - uses: actions/upload-artifact@v4
         if: ${{ success() }}
         with:
-          name: hydrogen64-r2-postclose-readonly-audit-${{ github.run_id }}
-          path: ${{ runner.temp }}/r2_readonly_final_audit_public.json
+          name: hydrogen64-r2-final-readonly-suffix-${{ github.run_id }}
+          path: ${{ runner.temp }}/r2_suffix_public_receipt.json
           retention-days: 7
           if-no-files-found: error
