@@ -58,8 +58,8 @@ jobs:
       contents: read
       id-token: write
     env:
-      R5_STAGE: "VERIFY"
-      ENABLE_GENERATION: "false"
+      R5_STAGE: "PILOT"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
     steps:
       - uses: actions/checkout@v7
@@ -90,9 +90,17 @@ jobs:
           python3 -O .github/r5_r4_base.py test
           python3 .github/r5_paid_runner.py test
           python3 -O .github/r5_paid_runner.py test
-      - name: R5 private prompt/original decrypt and 96 paid envelope STATIC verification (generation disabled)
+      - name: R5 approved 8-call K01/L01 PILOT using pinned BASE and REALDB84
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python3 .github/r5_paid_runner.py VERIFY
+          export R5_OUTPUT_CMS="$RUNNER_TEMP/r5_result_pilot.p7m"
+          python3 .github/r5_paid_runner.py PILOT
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: r5-pilot-private-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/r5_result_pilot.p7m
+          if-no-files-found: warn
+          retention-days: 7
