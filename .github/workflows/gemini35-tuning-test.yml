@@ -20,7 +20,6 @@ jobs:
       ENABLE_TUNING: "false"
       SERVICE_CHANGE: "false"
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      OWNER_CMS_PATH: ${{ runner.temp }}/promptstyle48_owner_output.p7m
     steps:
       - name: Checkout approved TEST branch, no persisted token
         uses: actions/checkout@v4
@@ -52,6 +51,8 @@ jobs:
           python dd2_sse.py
           test -f "$GITHUB_WORKSPACE/prompt-config.json"
       - name: Execute FREEQA then bounded authorized generation once, no retry
+        env:
+          OWNER_CMS_PATH: ${{ runner.temp }}/promptstyle48_owner_output.p7m
         shell: bash
         run: |
           set -euo pipefail
