@@ -213,6 +213,11 @@ def run(stage):
   prior_entries=prev.get('completed_slot_ids',[]) if stage!='FREEQA' else []
   require(inv==expected_inventory(stage,prior_entries),'PREFIX_INVENTORY_NOT_EXACT')
   b.add_previous(prev['gcs'] if stage=='FREEQA' else prev['cumulative'])
+  if stage=='FINAL':
+   recovery=json.loads((DIR/'r2_dev_recovery_public.json').read_text())
+   require(recovery.get('schema')=='R2_READONLY_DEV_RECOVERY_RECEIPT' and recovery.get('status')=='PASS' and recovery.get('run_id')=='44887185650' and recovery.get('model_calls')==0 and recovery.get('prior_dev_model_attempts')==48 and recovery.get('slots')==32,'DEV_READONLY_AUDIT_RECEIPT_INVALID')
+   require(recovery.get('gcs_extra')=={'GET':250,'LIST':1,'POST':0},'DEV_READONLY_EXTRA_BUDGET_DRIFT')
+   b.add_previous({'GET':250,'LIST':1})
   require(b.snapshot()['POST']<=350 and b.snapshot()['GET']<=1500,'GCS_ALREADY_OVER_BUDGET')
   before=protected27(store);out['protected_before']={'count':len(before),'pins':before}
   dataset,ids=get_data(store)
@@ -369,6 +374,12 @@ class UnitTests(unittest.TestCase):
   self.assertEqual((b.post,b.get,b.list), (4,62,1))
 
 
+ def test_r2_final_includes_independent_readonly_recovery(self):
+  recovery=json.loads((DIR/'r2_dev_recovery_public.json').read_text());self.assertEqual(recovery['gcs_extra'],{'GET':250,'LIST':1,'POST':0})
+  b=Budget();b.add_previous({'POST':155,'GET':748,'LIST':4,'POST_BYTES':528340,'model_attempts':48,'models':{'A':12,'H':36},'guarded_usd':0.5716736025,'actual_estimate_usd':0.439748925})
+  b.add_previous({'GET':250,'LIST':1});self.assertEqual((b.get,b.list,b.model_attempts),(998,5,48))
+ def test_r2_final_record_immutable_development(self):
+  self.assertEqual(sha((DIR/'r2_dev_recovery_public.json').read_bytes()),'671314bc392af7920271b12030b8a061aa29fe47c508ebf5db208ca325de20f9')
  def test_r2_full_wire_negative_minimal(self):
    for arm in 'ABCD':
     uri,w=build_req('synthetic input','synthetic prompt',arm);x=json.loads(w);x['generationConfig']['thinkingConfig']['thinkingLevel']='MINIMAL'
