@@ -51,19 +51,17 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  dd2-pilot-paid:
+  dd2-final-get-only-audit:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 30
     permissions:
       contents: read
       id-token: write
     env:
-      DD2_STAGE: "PILOT"
-      ENABLE_GENERATION: "true"
+      DD2_READONLY_AUDIT: "true"
+      ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
-      DD2_RUNNER_SHA256: "96eb52d6d2be776d1810609fae2548bbb16a7d1721f5be659e546c2c188564a5"
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -74,37 +72,33 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Verify source SHA and both Python modes before maximum two direct Developer API model requests
+      - name: Exact readonly script and receipt SHA before auditing 29 previous locks and 2 raw model SSE responses
         shell: bash
         run: |
           set -euo pipefail
           umask 077
+          echo 'c9011ae989a82708a7fb25fd482ab35c47378626b0ffb1853c0a32ec4e992cd1  .github/dd2_readonly_audit.py' | sha256sum -c -
+          echo 'c5ede838ff929637f1a5312dad51357d1cc81f98e8a413100052bcfc93365032  .github/dd2_audit_receipts.json' | sha256sum -c -
           echo '96eb52d6d2be776d1810609fae2548bbb16a7d1721f5be659e546c2c188564a5  .github/dd2_runner.py' | sha256sum -c -
-          echo '602a58e4d3fa31e42a5ab0828ff66afff089ad91c01b2607a1b5af272347b247  .github/dd2_sse.py' | sha256sum -c -
-          echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/legacy_gcs.py' | sha256sum -c -
           echo 'a0ddc9924ccf7628fb609410726071a8106dccc4e488840ff47f4cb7d8cc5af7  .github/dd2_pins29.json' | sha256sum -c -
-          echo '1772c2fd3704c184470359c39832ec47cabe13528f7860a414b25d7405901792  .github/dd2_public_freeze.json' | sha256sum -c -
-          echo '84ac426be531d45805f45ea6e546ac965cd84800f22911a14f142048ac7ee183  .github/dd2_input.cms.b64' | sha256sum -c -
-          echo 'fe79b931f57d4ef74dc489969b7b8844f92ccd06eab1e4b2abd848491e7bddb3  .github/dd2_input_public.crt' | sha256sum -c -
-          echo 'c01ebb86c5f2a6438ec7d7f0fdc98588019d18162b3de3867ff54bf937cbc567  .github/dd2_owner_output_public.crt' | sha256sum -c -
-          echo 'c6a078ac9b90362ef322b0732c2b492582cf0388d9aa1be690cb7874f6cd2c0d  .github/dd2_bootstrap_public.json' | sha256sum -c -
-          python3 -m py_compile .github/dd2_sse.py .github/dd2_runner.py .github/legacy_gcs.py
-          python3 .github/dd2_runner.py TEST
-          python3 -O .github/dd2_runner.py TEST
-          python3 .github/dd2_sse.py
-          python3 -O .github/dd2_sse.py
-      - name: One FIRST + actual-FIRST-dependent BACK via generativelanguage.googleapis.com v1beta streamGenerateContent, no retry
+          python3 .github/dd2_readonly_audit.py TEST
+          python3 -O .github/dd2_readonly_audit.py TEST
+      - name: WIF GCS GET-only audit exact 29 old and new final lock, raw SSE text replay, parent SHA, new prefix inventory
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          export DD2_OWNER_CMS="$RUNNER_TEMP/dd2_owner_only_results.cms.p7m"
-          python3 .github/dd2_runner.py PILOT
-          test -s "$RUNNER_TEMP/dd2_owner_only_results.cms.p7m"
+          export DD2_OWNER_CMS="$RUNNER_TEMP/dd2_final_audit_owner.cms.p7m"
+          export DD2_PUBLIC_AUDIT_RECEIPT="$RUNNER_TEMP/dd2_final_audit_public.json"
+          python3 .github/dd2_readonly_audit.py
+          test -s "$RUNNER_TEMP/dd2_final_audit_owner.cms.p7m"
+          test -s "$RUNNER_TEMP/dd2_final_audit_public.json"
       - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
+        if: ${{ success() }}
         with:
-          name: dd2-owner-encrypted-${{ github.run_id }}
-          path: ${{ runner.temp }}/dd2_owner_only_results.cms.p7m
+          name: dd2-postclose-audit-encrypted-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/dd2_final_audit_owner.cms.p7m
+            ${{ runner.temp }}/dd2_final_audit_public.json
           retention-days: 7
-          if-no-files-found: warn
+          if-no-files-found: error
