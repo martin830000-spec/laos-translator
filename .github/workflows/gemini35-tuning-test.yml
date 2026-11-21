@@ -50,15 +50,15 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
-  r5-free-key-bootstrap:
+  r5-paid-frozen96:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      R5_BOOTSTRAP: "true"
+      R5_STAGE: "VERIFY"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
     steps:
@@ -71,24 +71,28 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Verify immutable bootstrap source and frozen protected pins
+      - name: Verify public code and encrypted input integrity
         shell: bash
         run: |
           set -euo pipefail
-          echo '74ecb57bfa0ff4b654560ce389335f6ffff6871a8161c953913a7b7462f6f82e  .github/r5_key_bootstrap.py' | sha256sum -c -
+          echo '3fb5d1c41e521bd774a1c899137840d223cd206375a94f357fdd60344057a615  .github/r5_paid_runner.py' | sha256sum -c -
+          echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/r5_r4_base.py' | sha256sum -c -
           echo 'edebff9c02f433d17978622de5c1580df7a33137a246b1764fee3c0da98640e3  .github/r5_pins25.json' | sha256sum -c -
-          python3 -m py_compile .github/r5_key_bootstrap.py
-      - name: FREE preflight / WIF model identity / 25 protected pins / create-only private transport key
+          echo 'fe80e9c3a1fab6ca833cafb629f70eaaf66efcfbab9cd09b3bf232c980ba3184  .github/r5_private_inputs.cms.b64' | sha256sum -c -
+          echo 'e77216847ba8972b231c6624268544a29d6da44cc4b19a04ef50ec3b83957f0a  .github/r5_input_recipient_public.crt' | sha256sum -c -
+          echo '16c2fadd0f185e25d65371e0fddd948ee4fae25def552bdd5fe3b3d1e63e3326  .github/r5_output_reader_public.crt' | sha256sum -c -
+      - name: Clean R4 safety regression 30 tests and R5 paid guard 22 tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile .github/r5_r4_base.py .github/r5_paid_runner.py
+          python3 .github/r5_r4_base.py test
+          python3 -O .github/r5_r4_base.py test
+          python3 .github/r5_paid_runner.py test
+          python3 -O .github/r5_paid_runner.py test
+      - name: R5 private prompt/original decrypt and 96 paid envelope STATIC verification (generation disabled)
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          export R5_BOOTSTRAP_OUTPUT="$RUNNER_TEMP/r5_bootstrap_receipt.json"
-          python3 .github/r5_key_bootstrap.py
-      - uses: actions/upload-artifact@v4
-        if: ${{ success() }}
-        with:
-          name: r5-bootstrap-public-receipt-${{ github.run_id }}
-          path: ${{ runner.temp }}/r5_bootstrap_receipt.json
-          if-no-files-found: error
-          retention-days: 7
+          python3 .github/r5_paid_runner.py VERIFY
