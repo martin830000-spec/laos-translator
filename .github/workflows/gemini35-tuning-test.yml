@@ -50,7 +50,7 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
-  h64-screen64-freeqa:
+  h64-screen64-pilot:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -58,8 +58,8 @@ jobs:
       contents: read
       id-token: write
     env:
-      H64_STAGE: "FREEQA"
-      ENABLE_GENERATION: "false"
+      H64_STAGE: "PILOT"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       H64_INPUT_CIPHER_SHA: "85a4cabd2e746e8d37b5caab988e0f669b86d774586712ab6846e5b0d61d89b3"
       H64_RUNNER_SHA256: "604474a1add46f28fd51f0278567a7cf7758c5e0d557be62a031c7d716edc815"
@@ -89,9 +89,17 @@ jobs:
           python3 -O .github/r5_r4_base.py test
           python3 .github/h64_paid_runner.py TEST
           python3 -O .github/h64_paid_runner.py TEST
-      - name: FREEQA actual GCS create-only E2E, zero generateContent
+      - name: PILOT approved 16 calls K1 L1 four-arm FIRST/BACK
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python3 .github/h64_paid_runner.py FREEQA
+          export H64_OUTPUT_CMS="$RUNNER_TEMP/h64_pilot_output.p7m"
+          python3 .github/h64_paid_runner.py PILOT
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: hydrogen64-pilot-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/h64_pilot_output.p7m
+          retention-days: 7
+          if-no-files-found: warn
