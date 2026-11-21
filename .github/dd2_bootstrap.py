@@ -89,7 +89,7 @@ def model_discovery():
  # if model is not in Developer model listing and cannot be looked up, no paid call
  return {'get_http':get_status,'list_http':list_status,'get_exact_model':exact,'listed_exact_model':bool(matching),'supported_generation_methods':methods if exact else [],'list_has_more_pages':bool(listed.get('nextPageToken')),'explicit_auth_or_permission_denial':blocked,'model_discovered':active,'billing_tier':'NOT_VERIFIABLE_FROM_MODEL_GET'}
 def pin29(s):
- raw=(BASE/'PINS29.json').read_bytes();need(sha(raw)==PINS_SHA,'PINS29_FILE_DRIFT');rows=json.loads(raw)
+ raw=(BASE/'dd2_pins29.json').read_bytes();need(sha(raw)==PINS_SHA,'PINS29_FILE_DRIFT');rows=json.loads(raw)
  need(len(rows)==len({x['object'] for x in rows})==29,'PINS29_COUNT')
  for o in rows:
   m,body=s.read(o['object'],o['generation'])
