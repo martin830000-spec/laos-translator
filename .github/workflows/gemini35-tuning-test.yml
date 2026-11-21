@@ -50,3 +50,51 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+  r4-fourpath-freeqa:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      R4_FREEQA: "true"
+      ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+      R4_REMOTE_OUTPUT: ${{ runner.temp }}/r4_remote_receipts.json
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Verify immutable R4 free-only runner source
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/r4_freeqa_runner.py' | sha256sum -c -
+      - name: Clean runner and optimized safety regression checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .github/r4_freeqa_runner.py print-public-manifest
+          python3 .github/r4_freeqa_runner.py test
+          python3 -O .github/r4_freeqa_runner.py test
+      - name: Actual GCS 96-slot synthetic storage & verification (no Gemini calls)
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          python3 .github/r4_freeqa_runner.py remote
+      - name: Preserve sanitized synthetic only receipts
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: r4-freeqa-receipts-${{ github.run_id }}
+          path: ${{ runner.temp }}/r4_remote_receipts.json
+          if-no-files-found: error
+          retention-days: 7
