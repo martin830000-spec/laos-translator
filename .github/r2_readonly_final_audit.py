@@ -55,7 +55,7 @@ def main():
  need(new.get('terminal') is True and new.get('enabled') is False and new.get('max_new')==0 and new.get('next_new_authorization')==0,'NEW_LOCK_NOT_SEALED')
  need(new.get('model_calls')==51 and new.get('model_per')=={'A':14,'H':37} and new.get('unused_locked')==13,'MODEL_COUNTS_LOCK_DRIFT')
  need(new.get('stage')=='FINAL_PARTIAL_OR_STOP','LOCK_REASON_NOT_FINAL_PARTIAL')
- frozen=json.loads((BASE/'public_freeze_R2.json').read_text());source_sha={x['id']:x['sha256'] for x in frozen['samples']};prompts=frozen['prompts']
+ frozen=json.loads((BASE/'public_freeze_R2.json').read_text());source_sha=frozen['sample_sha256'];prompts=frozen['prompts_sha256']
  slots=public['expected_slots'];need(len(slots)==51 and len({x['slot_id'] for x in slots})==51,'SLOT_RECEIPTS_NOT_51')
  seen={};counts={'valid':0,'failed':0,'back':0,'first':0,'A':0,'H':0}
  for row in sorted(slots,key=lambda x:int(x['slot_id'][4:])):
@@ -102,6 +102,11 @@ class UnitTests(unittest.TestCase):
  def test_gcs_caps(self):self.assertLess(1134+300,1500)
  def test_known_final_lock(self):self.assertEqual(json.loads(PUBLIC.read_text())['final_lock']['generation'],'1795251785346372')
  def test_model_no_fallback(self):self.assertEqual(ReadOnly.request.__code__.co_names.count('urlopen'),1)
+ def test_public_freeze_actual_schema(self):
+  j=json.loads((BASE/'public_freeze_R2.json').read_text());rows=json.loads(PUBLIC.read_text())['expected_slots']
+  self.assertTrue(set(x['source_id'] for x in rows)<=set(j['sample_sha256']))
+  for x in rows:self.assertEqual(j['sample_sha256'][x['source_id']],x['source_sha256'])
+  for x in rows:self.assertEqual(len(j['prompts_sha256'][x['arm']][x['path']]),64)
 if __name__=='__main__':
  if len(__import__('sys').argv)>1 and __import__('sys').argv[1]=='TEST':
   r=unittest.TextTestRunner(verbosity=1).run(unittest.defaultTestLoader.loadTestsFromTestCase(UnitTests))
