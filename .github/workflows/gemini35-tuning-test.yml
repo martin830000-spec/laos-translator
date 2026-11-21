@@ -50,8 +50,9 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
-  r3-pincheck:
+  r3-atomic-close:
     if: ${{ github.event_name == 'push' && github.run_attempt == 1 }}
+    needs: v2-recovery
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -60,6 +61,7 @@ jobs:
     env:
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
+      R3_MODE: "CLOSE_ONLY"
     steps:
       - uses: google-github-actions/auth@v3
         with:
@@ -67,50 +69,61 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Read-only full twenty-two pin comparison
+      - name: R3 atomically create and verify final closed lock (zero model calls)
         shell: bash
         run: |
           set -euo pipefail
           umask 077
           python3 - <<'PY'
-          import json,base64,zlib,urllib.request,urllib.error,urllib.parse,subprocess,hashlib,sys
-          b64='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'
-          pins=json.loads(zlib.decompress(base64.b64decode(b64)))
-          assert len(pins)==22
-          token=subprocess.check_output(['gcloud','auth','print-access-token'],text=True,stderr=subprocess.DEVNULL,timeout=30).strip()
+          import urllib.request,urllib.error,urllib.parse,subprocess,json,hashlib,sys
+          from datetime import datetime,timezone
           bucket='ko-lao-gemini35-tuning-460077888071'
           prefix='sft_fourpath_baseline96_r3_20261121/'
-          def get(u):
-           req=urllib.request.Request(u,headers={'Authorization':'Bearer '+token},method='GET')
+          object_name=prefix+'_control/FINAL_STATE.json'
+          token=subprocess.check_output(['gcloud','auth','print-access-token'],text=True,stderr=subprocess.DEVNULL,timeout=30).strip()
+          head={'Authorization':'Bearer '+token,'Accept':'application/json'}
+          def call(method,url,data=None,ctype=None):
+           h=head.copy()
+           if ctype:h['Content-Type']=ctype
+           request=urllib.request.Request(url,headers=h,method=method,data=data)
            try:
-            with urllib.request.urlopen(req,timeout=30) as r:return r.status,r.read(1000000)
+            with urllib.request.urlopen(request,timeout=40) as r:return r.status,r.read(1000000)
            except urllib.error.HTTPError as e:return e.code,e.read(1000000)
-          def inv():
-           u='https://storage.googleapis.com/storage/v1/b/'+bucket+'/o?'+urllib.parse.urlencode({'prefix':prefix,'maxResults':200})
-           code,b=get(u);return code,len(json.loads(b).get('items',[])) if code==200 else -1
-          def pinscan(label):
-           checked=0;good=0;bad=[]
-           for name,gen,sz,digest in pins:
-            checked+=1;base='https://storage.googleapis.com/storage/v1/b/'+bucket+'/o/'+urllib.parse.quote(name,safe='')
-            status,raw=get(base+'?fields=name%2Csize%2Cgeneration')
-            if status!=200:bad.append([checked,'metadata',status]);continue
-            try:
-             m=json.loads(raw)
-             if (m.get('name'),str(m.get('generation')),int(m.get('size')))!=(name,str(gen),sz):bad.append([checked,'pin_mismatch']);continue
-            except Exception:bad.append([checked,'meta_parse']);continue
-            status,raw=get(base+'?'+urllib.parse.urlencode({'alt':'media','generation':gen}))
-            if status!=200:bad.append([checked,'body',status]);continue
-            try:
-             j=json.loads(raw)
-             ok=len(raw)==sz and hashlib.sha256(raw).hexdigest()==digest and j.get('enabled') is False and j.get('max_new')==0 and j.get('next_new_authorization')==0
-             if ok:good+=1
-             else:bad.append([checked,'body_or_closed_mismatch'])
-            except Exception:bad.append([checked,'body_parse'])
-           print('R3_PIN_SCAN '+json.dumps({'stage':label,'checked':checked,'matched':good,'errors':bad},sort_keys=True))
-           return good==22
-          before=inv();print('R3_PREFIX_START '+json.dumps({'status':before[0],'count':before[1]}))
-          initial=pinscan('START');final=pinscan('END')
-          after=inv();print('R3_PREFIX_END '+json.dumps({'status':after[0],'count':after[1]}))
-          print('R3_REMOTE_READONLY_VERDICT '+json.dumps({'all22_start':initial,'all22_end':final,'new_prefix_empty':before==(200,0) and after==(200,0),'generation_api_posts':0}))
-          sys.exit(0 if initial and final and before==(200,0) and after==(200,0) else 2)
+           except Exception as e:raise RuntimeError('UNKNOWN_TRANSPORT_NO_RETRY_'+type(e).__name__)
+          def digest(b):return hashlib.sha256(b).hexdigest()
+          list_url='https://storage.googleapis.com/storage/v1/b/'+bucket+'/o?'+urllib.parse.urlencode({'prefix':prefix,'maxResults':100})
+          status,raw=call('GET',list_url)
+          if status!=200 or json.loads(raw).get('items'):raise RuntimeError('R3_PREFIX_COLLISION_OR_READ_FAILURE_'+str(status))
+          body={
+           'campaign_id':'GEMINI35_FOURPATH_BASELINE96_R3_20261121',
+           'state':'STOPPED_CURRENT_MODEL_IDENTITY_NOT_VERIFIED_CLOSED_LOCKED_RESTORE_PENDING',
+           'reason':'CURRENT_TUNED_DEPLOYED_MODEL_VERSION_NOT_VERIFIED_GET403',
+           'enabled':False,'max_new':0,'next_new_authorization':0,
+           'actual_generateContent_attempts':0,'actual_base_attempts':0,'actual_realdb84_attempts':0,
+           'unused_authorization_closed':96,'model_generation_cost_usd_estimated':0,
+           'checkpoint_drive_file_id':'1m3LjLAINx58lliENi5GR47V1iZvERzpV',
+           'checkpoint_sha256':'85e02505cec9413816a4dfb1ae062720fbb532f1ba2cdaa159f3586272b6aa3c',
+           'workorder_sha256':'d1a627872786e3cbb9076defe9ec959303e146317f54ad9fadc5338ce961d7af',
+           'protected22_verified':22,'verified_github_run':44863328937,
+           'technical_model_diagnostic_github_run':44863194691,
+           'service_changes':0,'historical_protected_lock_mutations':0,
+           'created_utc':datetime.now(timezone.utc).isoformat()
+          }
+          payload=(json.dumps(body,sort_keys=True,separators=(',',':'),ensure_ascii=False)+'\n').encode()
+          url='https://storage.googleapis.com/upload/storage/v1/b/'+bucket+'/o?'+urllib.parse.urlencode({'uploadType':'media','name':object_name,'ifGenerationMatch':'0'})
+          print('R3_LOCK_SEND_STARTED '+json.dumps({'target':object_name,'bytes':len(payload),'sha256':digest(payload),'condition':'ifGenerationMatch=0','model_calls':0}),flush=True)
+          status,raw=call('POST',url,payload,'application/json; charset=utf-8')
+          if status not in (200,201):
+           print('R3_LOCK_CREATE_REJECTED '+json.dumps({'http':status,'response_sha256':digest(raw)}))
+           raise RuntimeError('R3_CREATE_ONLY_FAILED_NO_RETRY')
+          resp=json.loads(raw);generation=str(resp['generation'])
+          meta_url='https://storage.googleapis.com/storage/v1/b/'+bucket+'/o/'+urllib.parse.quote(object_name,safe='')
+          s2,raw2=call('GET',meta_url+'?fields=name%2Csize%2Cgeneration')
+          s3,raw3=call('GET',meta_url+'?'+urllib.parse.urlencode({'alt':'media','generation':generation}))
+          if s2!=200 or s3!=200:raise RuntimeError('R3_READBACK_ERROR')
+          meta=json.loads(raw2)
+          assert meta['name']==object_name and str(meta['generation'])==generation and int(meta['size'])==len(payload)
+          assert raw3==payload and json.loads(raw3)==body
+          print('R3_FINAL_LOCK_VERIFIED '+json.dumps({'http_create':status,'generation':generation,'size':len(payload),'sha256':digest(raw3),'metadata_sha256':digest(raw2),'enabled':body['enabled'],'max_new':body['max_new'],'next_new_authorization':0,'unused_closed':96,'readback':'PASS','model_calls':0},sort_keys=True),flush=True)
+          
           PY
