@@ -61,7 +61,6 @@ jobs:
       R4_FREEQA: "true"
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
-      R4_REMOTE_OUTPUT: ${{ runner.temp }}/r4_remote_receipts.json
     steps:
       - uses: actions/checkout@v7
         with:
@@ -89,6 +88,7 @@ jobs:
         run: |
           set -euo pipefail
           umask 077
+          export R4_REMOTE_OUTPUT="$RUNNER_TEMP/r4_remote_receipts.json"
           python3 .github/r4_freeqa_runner.py remote
       - name: Preserve sanitized synthetic only receipts
         if: ${{ success() }}
