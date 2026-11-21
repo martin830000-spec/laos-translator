@@ -51,7 +51,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  r2-pilot:
+  r2-dev:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -59,7 +59,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      R2_STAGE: "PILOT"
+      R2_STAGE: "DEV"
       ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       R2_RUNNER_SHA256: "8ed2af7e2e69913e61654ee3a9c18cae4ee03699a00f449335c6a521dcb8d9c4"
@@ -90,17 +90,17 @@ jobs:
           python3 -O .github/hydrogen_r2_free_contract_preflight.py
           python3 .github/r2_paid_runner.py TEST
           python3 -O .github/r2_paid_runner.py TEST
-      - name: Paid PILOT within new R2 authorization; first Hydrogen LOW LA-MED-01 LF; no retry
+      - name: Paid DEV remaining 32 sealed research slots with inherited 16-pilot receipts; no retry
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          export R2_OUTPUT_CMS="$RUNNER_TEMP/r2_pilot_owner_only.cms.p7m"
-          python3 .github/r2_paid_runner.py PILOT
+          export R2_OUTPUT_CMS="$RUNNER_TEMP/r2_dev_owner_only.cms.p7m"
+          python3 .github/r2_paid_runner.py DEV
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: hydrogen64-r2-pilot-encrypted-${{ github.run_id }}
+          name: hydrogen64-r2-dev-encrypted-${{ github.run_id }}
           path: ${{ runner.temp }}/r2_pilot_owner_only.cms.p7m
           retention-days: 7
           if-no-files-found: warn
