@@ -50,17 +50,16 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
-  r3-free-readonly:
+  r3-pincheck:
     if: ${{ github.event_name == 'push' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     permissions:
       contents: read
       id-token: write
     env:
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
-      V2_MODE: "CLOSED"
     steps:
       - uses: google-github-actions/auth@v3
         with:
@@ -68,43 +67,50 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: R3 free read-only model identity and R3 duplicate inventory
+      - name: Read-only full twenty-two pin comparison
         shell: bash
         run: |
           set -euo pipefail
           umask 077
           python3 - <<'PY'
-          import subprocess, urllib.request, urllib.parse, urllib.error, json, hashlib, datetime
-          assert __import__('os').environ.get('ENABLE_GENERATION')=='false'
-          def check(u, method='GET', body=None):
-              tok=subprocess.check_output(['gcloud','auth','print-access-token'],text=True,stderr=subprocess.DEVNULL,timeout=25).strip()
-              headers={'Authorization':'Bearer '+tok,'Accept':'application/json'}
-              if body is not None: headers['Content-Type']='application/json'
-              assert method=='GET' or (method=='POST' and u.endswith(':testIamPermissions'))
-              q=urllib.request.Request(u,headers=headers,method=method,data=body)
-              try:
-                  with urllib.request.urlopen(q,timeout=25) as r: status=r.status;raw=r.read(500000)
-              except urllib.error.HTTPError as e:status=e.code;raw=e.read(500000)
-              except Exception as e:
-                  print('R3_DIAG '+json.dumps({'endpoint':u.split('/v1/')[-1].split(':')[0],'transport':type(e).__name__}));return
-              try:j=json.loads(raw)
-              except Exception:j={}
-              row={'http':status,'raw_sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}
-              if status==200:
-                  if 'tuningJobs/' in u:row.update(state=j.get('state'),baseModel=j.get('baseModel'),tuned=j.get('tunedModel'))
-                  elif '/endpoints/' in u and method=='GET':row.update(name=j.get('name'),deployedModels=[{'model':m.get('model'),'modelVersionId':m.get('modelVersionId')} for m in j.get('deployedModels',[])])
-                  elif ':testIamPermissions' in u:row['permissions']=j.get('permissions',[])
-                  elif '/models/' in u:row['name']=j.get('name')
-                  elif 'storage.googleapis.com' in u:row['items_count']=len(j.get('items',[]));row['names']=[x.get('name') for x in j.get('items',[])[:3]]
-              else:
-                  e=j.get('error',{})
-                  row.update(status=e.get('status'),permission='aiplatform.endpoints.get' if b'aiplatform.endpoints.get' in raw else '',reason=e.get('details',[{}])[0].get('reason','') if isinstance(e.get('details'),list) and e.get('details') else '')
-              print('R3_DIAG '+json.dumps({'target':u.split('/v1/')[-1].split('?')[0],**row},ensure_ascii=False,sort_keys=True))
-          r='https://aiplatform.us.rep.googleapis.com/v1/projects/460077888071/locations/us/'
-          check(r+'tuningJobs/8093374250175430656')
-          check(r+'endpoints/1638501023804817408')
-          check(r+'models/4774448923710324736@1')
-          check(r+'endpoints/1638501023804817408:testIamPermissions','POST',json.dumps({'permissions':['aiplatform.endpoints.get','aiplatform.endpoints.predict']}).encode())
-          p='https://storage.googleapis.com/storage/v1/b/ko-lao-gemini35-tuning-460077888071/o?'+urllib.parse.urlencode({'prefix':'sft_fourpath_baseline96_r3_20261121/','maxResults':100})
-          check(p)
+          import json,base64,zlib,urllib.request,urllib.error,urllib.parse,subprocess,hashlib,sys
+          b64='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'
+          pins=json.loads(zlib.decompress(base64.b64decode(b64)))
+          assert len(pins)==22
+          token=subprocess.check_output(['gcloud','auth','print-access-token'],text=True,stderr=subprocess.DEVNULL,timeout=30).strip()
+          bucket='ko-lao-gemini35-tuning-460077888071'
+          prefix='sft_fourpath_baseline96_r3_20261121/'
+          def get(u):
+           req=urllib.request.Request(u,headers={'Authorization':'Bearer '+token},method='GET')
+           try:
+            with urllib.request.urlopen(req,timeout=30) as r:return r.status,r.read(1000000)
+           except urllib.error.HTTPError as e:return e.code,e.read(1000000)
+          def inv():
+           u='https://storage.googleapis.com/storage/v1/b/'+bucket+'/o?'+urllib.parse.urlencode({'prefix':prefix,'maxResults':200})
+           code,b=get(u);return code,len(json.loads(b).get('items',[])) if code==200 else -1
+          def pinscan(label):
+           checked=0;good=0;bad=[]
+           for name,gen,sz,digest in pins:
+            checked+=1;base='https://storage.googleapis.com/storage/v1/b/'+bucket+'/o/'+urllib.parse.quote(name,safe='')
+            status,raw=get(base+'?fields=name%2Csize%2Cgeneration')
+            if status!=200:bad.append([checked,'metadata',status]);continue
+            try:
+             m=json.loads(raw)
+             if (m.get('name'),str(m.get('generation')),int(m.get('size')))!=(name,str(gen),sz):bad.append([checked,'pin_mismatch']);continue
+            except Exception:bad.append([checked,'meta_parse']);continue
+            status,raw=get(base+'?'+urllib.parse.urlencode({'alt':'media','generation':gen}))
+            if status!=200:bad.append([checked,'body',status]);continue
+            try:
+             j=json.loads(raw)
+             ok=len(raw)==sz and hashlib.sha256(raw).hexdigest()==digest and j.get('enabled') is False and j.get('max_new')==0 and j.get('next_new_authorization')==0
+             if ok:good+=1
+             else:bad.append([checked,'body_or_closed_mismatch'])
+            except Exception:bad.append([checked,'body_parse'])
+           print('R3_PIN_SCAN '+json.dumps({'stage':label,'checked':checked,'matched':good,'errors':bad},sort_keys=True))
+           return good==22
+          before=inv();print('R3_PREFIX_START '+json.dumps({'status':before[0],'count':before[1]}))
+          initial=pinscan('START');final=pinscan('END')
+          after=inv();print('R3_PREFIX_END '+json.dumps({'status':after[0],'count':after[1]}))
+          print('R3_REMOTE_READONLY_VERDICT '+json.dumps({'all22_start':initial,'all22_end':final,'new_prefix_empty':before==(200,0) and after==(200,0),'generation_api_posts':0}))
+          sys.exit(0 if initial and final and before==(200,0) and after==(200,0) else 2)
           PY
