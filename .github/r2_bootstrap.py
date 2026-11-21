@@ -47,7 +47,7 @@ def main():
  ensure(os.environ.get('R2_BOOTSTRAP')=='true' and os.environ.get('ENABLE_GENERATION')=='false' and os.environ.get('ENABLE_TUNING')=='false','BOOTSTRAP_ENV_DENIED')
  token=subprocess.check_output(['gcloud','auth','print-access-token'],text=True,stderr=subprocess.DEVNULL,timeout=25).strip();ensure(len(token)>30,'WIF_TOKEN_ABSENT')
  t=Network(token);url='https://storage.googleapis.com/storage/v1/b/'+BUCKET+'/o?'+urllib.parse.urlencode({'prefix':PREFIX,'maxResults':500});status,raw=t.send('GET',url);ensure(status==200,'PREFIX_LIST_FAILED');listing=json.loads(raw);ensure(not listing.get('items') and not listing.get('nextPageToken'),'EXISTING_CAMPAIGN_NO_NEW_SESSION')
- pins=json.loads(PINS.read_text());ensure(len(pins)==27 and len({x['object'] for x in pins})==26,'PINS_COUNT')
+ pins=json.loads(PINS.read_text());ensure(len(pins)==27 and len({x['object'] for x in pins})==27,'PINS_COUNT')
  for row in pins:
   m,body=t.read(row['object'],row['generation']);ensure(len(body)==row['bytes'] and sha(body)==row['sha256'],'PIN_DRIFT')
   v=json.loads(body);ensure(v.get('enabled') is False and v.get('max_new')==0 and v.get('next_new_authorization')==0,'PIN_REOPENED')
