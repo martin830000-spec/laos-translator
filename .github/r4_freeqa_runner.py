@@ -647,6 +647,16 @@ def run_remote():
         raise SafetyStop('POST_AFTER_LOCK_NOT_BLOCKED')
     require(b.post == post_count <= 320 and b.get <= 700 and (b.list <= 15) and (b.post_bytes <= 524288), 'ASSERTION_GATE_FAILED')
     final = {'status': 'FREEQA_PASS_LOCKED_RESTORE_PENDING', 'campaign_id': CAMPAIGN, 'session_prefix': store.root, 'model_calls': b.model_attempts, 'synthetic_slots': len(seen), 'counts': dict(cnt), 'protected_before': before['matched'], 'protected_after': after['matched'], 'duplicate_412_proved': True, 'new_lock': lock, 'gcs_counters': {'POST': b.post, 'GET': b.get, 'LIST': b.list, 'POST_BYTES': b.post_bytes}, 'first_failure': b.first.first, 'unknown': b.gcs_unknown, 'plan_sha256': PLAN_SHA, 'provenance_sha256': PROVENANCE_SHA}
+    # GitHub artifact has only synthetic payload receipts and metadata, never real chat text or credentials.
+    output_path = os.environ.get('R4_REMOTE_OUTPUT')
+    if output_path:
+        target = pathlib.Path(output_path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps({'final': final, 'all_created_receipts': store.receipts,
+            'protected_before': before, 'protected_after': after, 'model_identity': model_identity,
+            'source_is_synthetic': True, 'original_user_text_included': False},
+            ensure_ascii=False, indent=2), encoding='utf-8')
+        target.chmod(0o600)
     print('R4_FINAL_REMOTE_RECEIPT ' + json.dumps(final, sort_keys=True, ensure_ascii=False), flush=True)
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'test'
