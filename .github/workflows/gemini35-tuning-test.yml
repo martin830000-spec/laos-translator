@@ -58,7 +58,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      R5_STAGE: "PILOT"
+      R5_STAGE: "CONTINUE"
       ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
     steps:
@@ -90,17 +90,17 @@ jobs:
           python3 -O .github/r5_r4_base.py test
           python3 .github/r5_paid_runner.py test
           python3 -O .github/r5_paid_runner.py test
-      - name: R5 approved 8-call K01/L01 PILOT using pinned BASE and REALDB84
+      - name: R5 authorized remaining 88 frozen slots following successful two-language pilot
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          export R5_OUTPUT_CMS="$RUNNER_TEMP/r5_result_pilot.p7m"
-          python3 .github/r5_paid_runner.py PILOT
+          export R5_OUTPUT_CMS="$RUNNER_TEMP/r5_result_continue.p7m"
+          python3 .github/r5_paid_runner.py CONTINUE
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: r5-pilot-private-encrypted-${{ github.run_id }}
-          path: ${{ runner.temp }}/r5_result_pilot.p7m
+          name: r5-continue-private-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/r5_result_continue.p7m
           if-no-files-found: warn
           retention-days: 7
