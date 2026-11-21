@@ -51,15 +51,15 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  stream24-pilot:
+  stream24-main:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      S24_STAGE: "PILOT"
+      S24_STAGE: "MAIN"
       ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       S24_EXPECTED_CIPHER_SHA: "e5192c75242445eeb780ff77be5f0cf022d961e08f7b971f9f4c374e07ab614c"
@@ -77,7 +77,7 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Reverify seven source files and 27 SSE tests before authorized requests
+      - name: SHA and repeat normal/optimized SSE safety tests before exact MAIN continuation
         shell: bash
         run: |
           set -euo pipefail
@@ -86,23 +86,22 @@ jobs:
           echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/s24_gcs_base.py' | sha256sum -c -
           echo '64e1bec21b9f78e1d2194a32455cb1b54f72898f38ff76069421efc9296a8057  .github/PUBLIC_FREEZE.json' | sha256sum -c -
           echo 'f1be1ba589f2aaf2649750ccaea23a3ba14b73441de47767a007f82527e56f01  .github/PINS28.json' | sha256sum -c -
-          echo 'e4f72527c5f40212715b1631990bb9961a493d8b338b128632df942031154af1  .github/INPUT_PUBLIC.crt' | sha256sum -c -
-          echo '9a4cf8658d56c3e90ff53e268f729212864a4e626a59a68b745d3280eedf6696  .github/OUTPUT_OWNER_PUBLIC.crt' | sha256sum -c -
           echo '86e3edab142f09dffde902c8bc0994d1703073387852cc9a7684c8daa3e18550  .github/PRIVATE_FREEZE.cms.b64' | sha256sum -c -
+          echo '9a4cf8658d56c3e90ff53e268f729212864a4e626a59a68b745d3280eedf6696  .github/OUTPUT_OWNER_PUBLIC.crt' | sha256sum -c -
           python3 .github/s24_runner.py TEST
           python3 -O .github/s24_runner.py TEST
-      - name: Authorized paid streaming PILOT four attempts max, no retry, owner-CMS evidence
+      - name: Authorized remaining STREAM24 MAIN up to 20 slots from frozen plan, no retries
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          export S24_OUTPUT_CMS="$RUNNER_TEMP/stream24_pilot_owner.cms.p7m"
-          python3 .github/s24_runner.py PILOT
-          test -s "$RUNNER_TEMP/stream24_pilot_owner.cms.p7m"
+          export S24_OUTPUT_CMS="$RUNNER_TEMP/stream24_main_owner.cms.p7m"
+          python3 .github/s24_runner.py MAIN
+          test -s "$RUNNER_TEMP/stream24_main_owner.cms.p7m"
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: stream24-pilot-encrypted-${{ github.run_id }}
-          path: ${{ runner.temp }}/stream24_pilot_owner.cms.p7m
+          name: stream24-main-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/stream24_main_owner.cms.p7m
           retention-days: 7
           if-no-files-found: warn
