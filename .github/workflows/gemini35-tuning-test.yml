@@ -50,3 +50,41 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+  h64-free-bootstrap:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      H64_BOOTSTRAP: "true"
+      ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Free-only verification and private key creation
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          echo '75b495d652c6fbef7a894a23c5eba5531e9d3a5ccf52898bef10f246bd98a02b  .github/h64_bootstrap.py' | sha256sum -c -
+          echo 'ea379b9559ad2578c4ba8a046fcb7bded06bf769ee92474d26ac1bcb51004ed4  .github/pins26.json' | sha256sum -c -
+          python3 -m py_compile .github/h64_bootstrap.py
+          export H64_BOOTSTRAP_RECEIPT="$RUNNER_TEMP/h64_bootstrap_public.json"
+          python3 .github/h64_bootstrap.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ success() }}
+        with:
+          name: hydrogen64-free-bootstrap-${{ github.run_id }}
+          path: ${{ runner.temp }}/h64_bootstrap_public.json
+          retention-days: 7
+          if-no-files-found: error
