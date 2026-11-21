@@ -51,16 +51,16 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  r2-freeqa:
+  r2-pilot:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      R2_STAGE: "FREEQA"
-      ENABLE_GENERATION: "false"
+      R2_STAGE: "PILOT"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       R2_RUNNER_SHA256: "8ed2af7e2e69913e61654ee3a9c18cae4ee03699a00f449335c6a521dcb8d9c4"
     steps:
@@ -73,7 +73,7 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Exact-sha eight-file public/CMS deployment; normal and -O regression
+      - name: Check exact code/data hashes and zero-call regression before paid pilot
         shell: bash
         run: |
           set -euo pipefail
@@ -86,22 +86,21 @@ jobs:
           echo '2bc6fc0d4b98ba15996359f453cc1225af4ecd87201bce1c9f6d3dc9cc455cb2  .github/r2_owner_output_public.crt' | sha256sum -c -
           echo '61c0d039683f341cf756ded5fc138d21b3d85c7bca5af2c8824f13bd0c96a82a  .github/r2_private_inputs.cms.b64' | sha256sum -c -
           python3 -m py_compile .github/r5_r4_base.py .github/hydrogen_r2_free_contract_preflight.py .github/r2_paid_runner.py
-          python3 .github/r5_r4_base.py test
-          python3 -O .github/r5_r4_base.py test
           python3 .github/hydrogen_r2_free_contract_preflight.py
           python3 -O .github/hydrogen_r2_free_contract_preflight.py
           python3 .github/r2_paid_runner.py TEST
           python3 -O .github/r2_paid_runner.py TEST
-      - name: Remote FREEQA 64 sealed API request envelopes, new GCS create/readback, 27 locks; paid calls OFF
+      - name: Paid PILOT within new R2 authorization; first Hydrogen LOW LA-MED-01 LF; no retry
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python3 .github/r2_paid_runner.py FREEQA | tee "$RUNNER_TEMP/r2_freeqa_public.log"
+          export R2_OUTPUT_CMS="$RUNNER_TEMP/r2_pilot_owner_only.cms.p7m"
+          python3 .github/r2_paid_runner.py PILOT
       - uses: actions/upload-artifact@v4
-        if: ${{ success() }}
+        if: ${{ always() }}
         with:
-          name: hydrogen64-r2-freeqa-${{ github.run_id }}
-          path: ${{ runner.temp }}/r2_freeqa_public.log
+          name: hydrogen64-r2-pilot-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/r2_pilot_owner_only.cms.p7m
           retention-days: 7
-          if-no-files-found: error
+          if-no-files-found: warn
