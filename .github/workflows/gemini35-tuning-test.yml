@@ -50,7 +50,7 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
-  h64-screen64-pilot:
+  h64-readonly-close-audit:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -58,11 +58,9 @@ jobs:
       contents: read
       id-token: write
     env:
-      H64_STAGE: "PILOT"
-      ENABLE_GENERATION: "true"
+      H64_AUDIT: "true"
+      ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
-      H64_INPUT_CIPHER_SHA: "85a4cabd2e746e8d37b5caab988e0f669b86d774586712ab6846e5b0d61d89b3"
-      H64_RUNNER_SHA256: "604474a1add46f28fd51f0278567a7cf7758c5e0d557be62a031c7d716edc815"
     steps:
       - uses: actions/checkout@v7
         with:
@@ -73,33 +71,22 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Freeze SHA, clean R4 30 and SCREEN64 30 regressions
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo '604474a1add46f28fd51f0278567a7cf7758c5e0d557be62a031c7d716edc815  .github/h64_paid_runner.py' | sha256sum -c -
-          echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/r5_r4_base.py' | sha256sum -c -
-          echo 'ea379b9559ad2578c4ba8a046fcb7bded06bf769ee92474d26ac1bcb51004ed4  .github/pins26.json' | sha256sum -c -
-          echo '8b3d44a9632c9a66f405d430ff3868cd7f395cec1bf80ddea11f86f3b593f889  .github/public_freeze_metadata.json' | sha256sum -c -
-          echo '6a4e3a90f466cc795fdf8ed473649bb9f2454bc2f9b6b0d263221f87d4e3ecaf  .github/h64_input_recipient.crt' | sha256sum -c -
-          echo 'a49b00e33d3e26ef02ac638f6b45125a0b38cbcecec68384556f7f5847f1f6c0  .github/h64_output_reader_public.crt' | sha256sum -c -
-          echo 'a66d4ff489d9e3499014d9fd35d23abca9a73fd0be264d42a5ff3d486bd54cd8  .github/h64_private_inputs.cms.b64' | sha256sum -c -
-          python3 -m py_compile .github/r5_r4_base.py .github/h64_paid_runner.py
-          python3 .github/r5_r4_base.py test
-          python3 -O .github/r5_r4_base.py test
-          python3 .github/h64_paid_runner.py TEST
-          python3 -O .github/h64_paid_runner.py TEST
-      - name: PILOT approved 16 calls K1 L1 four-arm FIRST/BACK
+      - name: Re-verify 26 immutable previous locks and sealed SCREEN64 final lock using GET only
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          export H64_OUTPUT_CMS="$RUNNER_TEMP/h64_pilot_output.p7m"
-          python3 .github/h64_paid_runner.py PILOT
+          echo '242fa7a4fd6082da1ad5d25a0bda6bd448b5135bbe8111d88b23fdf71e8c60c6  .github/h64_readonly_close_audit.py' | sha256sum -c -
+          echo 'ea379b9559ad2578c4ba8a046fcb7bded06bf769ee92474d26ac1bcb51004ed4  .github/pins26.json' | sha256sum -c -
+          python3 -m py_compile .github/h64_readonly_close_audit.py
+          H64_TEST=true python3 .github/h64_readonly_close_audit.py
+          H64_TEST=true python3 -O .github/h64_readonly_close_audit.py
+          export H64_AUDIT_OUTPUT="$RUNNER_TEMP/h64_readonly_close_receipt.json"
+          python3 .github/h64_readonly_close_audit.py
       - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
+        if: ${{ success() }}
         with:
-          name: hydrogen64-pilot-encrypted-${{ github.run_id }}
-          path: ${{ runner.temp }}/h64_pilot_output.p7m
+          name: hydrogen64-readonly-close-${{ github.run_id }}
+          path: ${{ runner.temp }}/h64_readonly_close_receipt.json
+          if-no-files-found: error
           retention-days: 7
-          if-no-files-found: warn
