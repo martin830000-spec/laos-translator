@@ -50,3 +50,42 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+
+  r2-free-bootstrap:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      R2_BOOTSTRAP: "true"
+      ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Verify exact free public code; protect 27 pins; new R2 key, synthetic GCS only
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          echo '196a7db693e82d60ee1f1ad6bfc74ecd3e0cac96f704c0cf319818b4cfce0ed2  .github/r2_bootstrap.py' | sha256sum -c -
+          echo '80afd411fad6c798146a75131b25a41fa2152451bca485de8b4eb18ecc8a6b22  .github/pins27.json' | sha256sum -c -
+          python3 -m py_compile .github/r2_bootstrap.py
+          export R2_BOOTSTRAP_RECEIPT="$RUNNER_TEMP/r2_bootstrap_public_receipt.json"
+          python3 .github/r2_bootstrap.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ success() }}
+        with:
+          name: hydrogen64-r2-bootstrap-${{ github.run_id }}
+          path: ${{ runner.temp }}/r2_bootstrap_public_receipt.json
+          retention-days: 7
+          if-no-files-found: error
