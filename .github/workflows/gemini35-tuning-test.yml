@@ -51,17 +51,19 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  r2-dev-recovery-readonly:
+  r2-final:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      R2_RECOVER_DEV: "true"
-      ENABLE_GENERATION: "false"
+      R2_STAGE: "FINAL"
+      R2_FINAL_CHOICE: "D"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
+      R2_RUNNER_SHA256: "a15ee294ef5f7d5107a5f421e1206980cb424188454354fe0207cdafa55e575b"
     steps:
       - uses: actions/checkout@v7
         with:
@@ -72,27 +74,37 @@ jobs:
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
-      - name: SHA and zero-generation tests then 32 recorded DEV GCS payloads GET-only
+      - name: Verify source SHA and final-choice preflight including earlier GCS read-only recovery counts
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          echo 'd86a313f2049cc2ce2dd9d90592d24b60b0b133949fc0193f98fca9804f39b63  .github/r2_dev_readonly_recover.py' | sha256sum -c -
-          echo '8ed2af7e2e69913e61654ee3a9c18cae4ee03699a00f449335c6a521dcb8d9c4  .github/r2_paid_runner.py' | sha256sum -c -
+          echo 'a15ee294ef5f7d5107a5f421e1206980cb424188454354fe0207cdafa55e575b  .github/r2_paid_runner.py' | sha256sum -c -
+          echo '671314bc392af7920271b12030b8a061aa29fe47c508ebf5db208ca325de20f9  .github/r2_dev_recovery_public.json' | sha256sum -c -
+          echo '1963cb172cb195f7edf2709021909e09eb221e528f8a0fbf7d91b2a34eac782f  .github/r5_r4_base.py' | sha256sum -c -
+          echo 'fc5ebce4c443d7e93104fa4c62bb88946724390e8f08c70f2e14761a3649163b  .github/hydrogen_r2_free_contract_preflight.py' | sha256sum -c -
+          echo 'bc1b53aa6227c1d3cf2770e4c0d2862b093147d281bd04f5002a377c626238c4  .github/public_freeze_R2.json' | sha256sum -c -
           echo '80afd411fad6c798146a75131b25a41fa2152451bca485de8b4eb18ecc8a6b22  .github/pins27.json' | sha256sum -c -
-          python3 .github/r2_dev_readonly_recover.py TEST
-          python3 -O .github/r2_dev_readonly_recover.py TEST
-          export R2_RECOVERY_OUTPUT="$RUNNER_TEMP/r2_dev_recovered.cms.p7m"
-          export R2_PUBLIC_RECOVERY_RECEIPT="$RUNNER_TEMP/r2_dev_recovery_public.json"
-          python3 .github/r2_dev_readonly_recover.py
-          test -s "$RUNNER_TEMP/r2_dev_recovered.cms.p7m"
-          test -s "$RUNNER_TEMP/r2_dev_recovery_public.json"
+          echo '25ee5c188a0e500f51f1717a623979296b1e9c23dd028a06d726d25a6eb09bd1  .github/r2_input_recipient.crt' | sha256sum -c -
+          echo '2bc6fc0d4b98ba15996359f453cc1225af4ecd87201bce1c9f6d3dc9cc455cb2  .github/r2_owner_output_public.crt' | sha256sum -c -
+          echo '61c0d039683f341cf756ded5fc138d21b3d85c7bca5af2c8824f13bd0c96a82a  .github/r2_private_inputs.cms.b64' | sha256sum -c -
+          python3 -m py_compile .github/r2_paid_runner.py .github/hydrogen_r2_free_contract_preflight.py .github/r5_r4_base.py
+          python3 .github/r2_paid_runner.py TEST
+          python3 -O .github/r2_paid_runner.py TEST
+          python3 .github/hydrogen_r2_free_contract_preflight.py
+          python3 -O .github/hydrogen_r2_free_contract_preflight.py
+      - name: Paid FINAL 16 single-use sealed holdout calls baseline A vs preselected Hydrogen D
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export R2_OUTPUT_CMS="$RUNNER_TEMP/r2_final_owner_only.cms.p7m"
+          python3 .github/r2_paid_runner.py FINAL
+          test -s "$RUNNER_TEMP/r2_final_owner_only.cms.p7m"
       - uses: actions/upload-artifact@v4
-        if: ${{ success() }}
+        if: ${{ always() }}
         with:
-          name: hydrogen64-r2-dev-recovered-encrypted-${{ github.run_id }}
-          path: |
-            ${{ runner.temp }}/r2_dev_recovered.cms.p7m
-            ${{ runner.temp }}/r2_dev_recovery_public.json
+          name: hydrogen64-r2-final-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/r2_final_owner_only.cms.p7m
           retention-days: 7
           if-no-files-found: error
