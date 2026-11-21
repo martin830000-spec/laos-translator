@@ -50,3 +50,51 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+
+  dd2-bootstrap-free:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      DD2_BOOTSTRAP: "true"
+      ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Verify exact TEST bootstrap code and immutable 29 locks metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          echo '0341cd0200c6ae284e7ed185b84eade63e5bd906891c96a197d72cbe3b49f8e2  .github/dd2_bootstrap.py' | sha256sum -c -
+          echo 'a0ddc9924ccf7628fb609410726071a8106dccc4e488840ff47f4cb7d8cc5af7  .github/dd2_pins29.json' | sha256sum -c -
+          echo 'c01ebb86c5f2a6438ec7d7f0fdc98588019d18162b3de3867ff54bf937cbc567  .github/dd2_owner_output_public.crt' | sha256sum -c -
+          python3 -m py_compile .github/dd2_bootstrap.py
+          python3 -O -m py_compile .github/dd2_bootstrap.py
+      - name: Existing Gemini Developer API Secret model GET plus 29 GCS protected locks and new synthetic GCS smoke; paid zero
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export DD2_BOOTSTRAP_RECEIPT="$RUNNER_TEMP/dd2_bootstrap_public_receipt.json"
+          python3 .github/dd2_bootstrap.py
+          test -s "$RUNNER_TEMP/dd2_bootstrap_public_receipt.json"
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: dd2-bootstrap-public-${{ github.run_id }}
+          path: ${{ runner.temp }}/dd2_bootstrap_public_receipt.json
+          retention-days: 7
+          if-no-files-found: warn
