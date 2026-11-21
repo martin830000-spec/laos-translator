@@ -50,3 +50,43 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+
+  stream24-bootstrap:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      S24_BOOTSTRAP: "true"
+      ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: SHA pin and 28 historical locks then new STREAM24 GCS create-only key and smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          echo '53495a45a1e4a0059a3ebb44e66f7cc88959c225105515767245002bdc528aea  .github/s24_bootstrap.py' | sha256sum -c -
+          echo 'f1be1ba589f2aaf2649750ccaea23a3ba14b73441de47767a007f82527e56f01  .github/PINS28.json' | sha256sum -c -
+          python3 -m py_compile .github/s24_bootstrap.py
+          export S24_BOOTSTRAP_RECEIPT="$RUNNER_TEMP/s24_bootstrap_public.json"
+          python3 .github/s24_bootstrap.py
+          test -s "$RUNNER_TEMP/s24_bootstrap_public.json"
+      - uses: actions/upload-artifact@v4
+        if: ${{ success() }}
+        with:
+          name: stream24-bootstrap-${{ github.run_id }}
+          path: ${{ runner.temp }}/s24_bootstrap_public.json
+          retention-days: 7
+          if-no-files-found: error
