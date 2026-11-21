@@ -50,3 +50,45 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+  r5-free-key-bootstrap:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      R5_BOOTSTRAP: "true"
+      ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Verify immutable bootstrap source and frozen protected pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '74ecb57bfa0ff4b654560ce389335f6ffff6871a8161c953913a7b7462f6f82e  .github/r5_key_bootstrap.py' | sha256sum -c -
+          echo 'edebff9c02f433d17978622de5c1580df7a33137a246b1764fee3c0da98640e3  .github/r5_pins25.json' | sha256sum -c -
+          python3 -m py_compile .github/r5_key_bootstrap.py
+      - name: FREE preflight / WIF model identity / 25 protected pins / create-only private transport key
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export R5_BOOTSTRAP_OUTPUT="$RUNNER_TEMP/r5_bootstrap_receipt.json"
+          python3 .github/r5_key_bootstrap.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ success() }}
+        with:
+          name: r5-bootstrap-public-receipt-${{ github.run_id }}
+          path: ${{ runner.temp }}/r5_bootstrap_receipt.json
+          if-no-files-found: error
+          retention-days: 7
