@@ -1,59 +1,52 @@
-name: Assisted4 free synthetic preflight R2 20261122
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
-    paths:
-      - .github/workflows/gemini35-tuning-test.yml
+    paths: [.github/workflows/gemini35-tuning-test.yml]
 permissions:
   contents: read
 concurrency:
-  group: ko-lao-assisted4-free-preflight-r2-20261122
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  free-preflight:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
+      ENABLE_GENERATION: "false"
     steps:
-      - uses: actions/checkout@v7
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Offline synthetic tests on identical runner
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "${RUNNER_TEMP}/assisted4-free"
-          echo "89d6098607109080254cdcb863b811b3f4225c51ba66b7a1b7185450dd1f141c  research/assisted4-r2-free-20261122/preflight.py" | sha256sum -c -
-          echo "9897c5d9ce65d9ed924b72526cd7a6638b3a9486598e8d9d957863fefb2fc3c2  research/assisted4-r2-free-20261122/protected_pins.json" | sha256sum -c -
-          python3 -m py_compile research/assisted4-r2-free-20261122/preflight.py
-          python3 research/assisted4-r2-free-20261122/preflight.py > "${RUNNER_TEMP}/assisted4-free/OFFLINE_NORMAL.txt" 2>&1
-          python3 -O research/assisted4-r2-free-20261122/preflight.py > "${RUNNER_TEMP}/assisted4-free/OFFLINE_OPTIMIZED.txt" 2>&1
-      - name: Authenticate existing TEST identity without new permissions
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - uses: google-github-actions/setup-gcloud@v3
-      - name: New-prefix synthetic GCS checks and metadata GET only
-        env:
-          REPORT_PATH: ${{ runner.temp }}/assisted4-free/REMOTE_REPORT.json
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/setup-gcloud@v3
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python3 research/assisted4-r2-free-20261122/preflight.py remote
-      - name: Preserve non-private synthetic evidence
-        if: ${{ always() }}
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
         uses: actions/upload-artifact@v4
         with:
-          name: assisted4-free-${{ github.run_id }}
-          path: ${{ runner.temp }}/assisted4-free/
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
