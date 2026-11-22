@@ -9916,10 +9916,8 @@ function testSpeedFirstStreamRuntime(mode){
         if(typeof part?.text==='string')delta+=part.text;
       }
       if(delta){
-        // Server versions may emit deltas or cumulative text.
-        if(acc&&delta.startsWith(acc))acc=delta;
-        else if(acc&&!acc.endsWith(delta))acc+=delta;
-        else if(!acc)acc=delta;
+        // SSE candidate parts are ordered output deltas: preserve repeats verbatim.
+        acc+=delta;
         showPartial();
       }
     };
