@@ -20,7 +20,6 @@ jobs:
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
       V2_MODE: "CLOSED"
-      RESULT_DIR: ${{ runner.temp }}/g35-couple-ctx/result
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
       - name: Materialize encrypted user inputs and fixed approved runner (no checkout)
@@ -57,6 +56,8 @@ jobs:
       - name: Set up existing gcloud
         uses: google-github-actions/setup-gcloud@v3
       - name: Scoped runner — FREE_PREFLIGHT
+        env:
+          RESULT_DIR: ${{ runner.temp }}/g35-couple-ctx/result
         shell: bash
         run: |
           set -euo pipefail
