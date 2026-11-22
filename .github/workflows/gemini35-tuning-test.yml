@@ -1,4 +1,4 @@
-name: Gemini3.5 BASE COUPLE_CTX AB64 — existing TEST workflow FREE_PREFLIGHT
+name: Gemini3.5 BASE COUPLE_CTX AB64 — existing TEST workflow A_SCREEN
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -17,7 +17,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       V2_MODE: "CLOSED"
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -55,19 +55,19 @@ jobs:
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Set up existing gcloud
         uses: google-github-actions/setup-gcloud@v3
-      - name: Scoped runner — FREE_PREFLIGHT
+      - name: Scoped runner — A_SCREEN
         env:
           RESULT_DIR: ${{ runner.temp }}/g35-couple-ctx/result
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python "$RUNNER_TEMP/g35-couple-ctx/runner.py" FREE_PREFLIGHT
+          python "$RUNNER_TEMP/g35-couple-ctx/runner.py" A_SCREEN
       - name: Preserve CMS encrypted evidence only
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: g35-couple-ctx-FREE_PREFLIGHT-${{ github.run_id }}
+          name: g35-couple-ctx-A_SCREEN-${{ github.run_id }}
           path: ${{ runner.temp }}/g35-couple-ctx/result/evidence.p7m
           if-no-files-found: warn
           retention-days: 7
