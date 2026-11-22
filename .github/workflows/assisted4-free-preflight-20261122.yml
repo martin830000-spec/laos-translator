@@ -20,7 +20,6 @@ jobs:
     env:
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
-      REPORT_PATH: ${{ runner.temp }}/assisted4-free/REMOTE_REPORT.json
     steps:
       - uses: actions/checkout@v7
         with:
@@ -41,6 +40,8 @@ jobs:
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - uses: google-github-actions/setup-gcloud@v3
       - name: New-prefix synthetic GCS checks and metadata GET only
+        env:
+          REPORT_PATH: ${{ runner.temp }}/assisted4-free/REMOTE_REPORT.json
         shell: bash
         run: |
           set -euo pipefail
