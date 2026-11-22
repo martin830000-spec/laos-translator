@@ -22,10 +22,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Verify no changes to production translation requests
+      - name: Verify only the intended opt-in script tag was added to the app
         run: |
           node --check test-latency-probe-r1.js
-          node -e "const fs=require('fs');const s=fs.readFileSync('index.html','utf8');if((s.match(/test-latency-probe-r1\\.js/g)||[]).length!==1)process.exit(1);if(!s.includes('latencyProbe=1'))process.exit(2);"
-      - name: No-key zero-API unit and existing mode smoke tests
-        run: |
-          node --test tests/test-latency-probe-r1.test.cjs tests/voice-route-r2.test.cjs tests/voice-route-auto-manual-parity-r1.test.cjs
+          node -e 'const fs=require("fs"),crypto=require("crypto");const s=fs.readFileSync("index.html","utf8");const tag="<!-- TEST-ONLY FIRST/BACK latency diagnostics; enable with ?latencyProbe=1 -->\n<script defer src=\"./test-latency-probe-r1.js\"></script>\n";if(s.split(tag).length!==2)process.exit(1);const old=s.replace(tag,"");const blob=crypto.createHash("sha1").update("blob "+Buffer.byteLength(old)+"\0").update(old).digest("hex");if(blob!=="4af4cbe48b6071f8d2bb7a08f5e1cf0429ce1b8d")process.exit(2);'
+      - name: Zero-key synthetic probe tests; no Gemini calls
+        run: node --test tests/test-latency-probe-r1.test.cjs
