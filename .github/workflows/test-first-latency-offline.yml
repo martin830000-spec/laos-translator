@@ -1,0 +1,31 @@
+name: TEST-only FIRST latency diagnostics offline checks
+on:
+  push:
+    branches:
+      - research/first-latency-diagnostics-test-20261122
+    paths:
+      - index.html
+      - test-latency-probe-r1.js
+      - tests/test-latency-probe-r1.test.cjs
+      - .github/workflows/test-first-latency-offline.yml
+permissions:
+  contents: read
+concurrency:
+  group: test-first-latency-offline
+  cancel-in-progress: false
+jobs:
+  free-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out dedicated TEST branch only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify no changes to production translation requests
+        run: |
+          node --check test-latency-probe-r1.js
+          node -e "const fs=require('fs');const s=fs.readFileSync('index.html','utf8');if((s.match(/test-latency-probe-r1\\.js/g)||[]).length!==1)process.exit(1);if(!s.includes('latencyProbe=1'))process.exit(2);"
+      - name: No-key zero-API unit and existing mode smoke tests
+        run: |
+          node --test tests/test-latency-probe-r1.test.cjs tests/voice-route-r2.test.cjs tests/voice-route-auto-manual-parity-r1.test.cjs
