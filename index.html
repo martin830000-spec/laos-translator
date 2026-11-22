@@ -9927,7 +9927,7 @@ function testSpeedFirstStreamRuntime(mode){
         if(next.done)break;
         bytes+=next.value?.byteLength||0;
         if(bytes>4*1024*1024)throw new Error('TEST_FIRST_STREAM_OVERSIZED');
-        buffer+=decoder.decode(next.value,{stream:true}).replace(/\r\n/g,'\n');
+        buffer=(buffer+decoder.decode(next.value,{stream:true})).replace(/\r\n/g,'\n');
         let boundary;
         while((boundary=buffer.indexOf('\n\n'))>=0){
           const event=buffer.slice(0,boundary);
