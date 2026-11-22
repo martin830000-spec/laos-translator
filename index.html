@@ -9871,6 +9871,11 @@ function testSpeedFirstStreamRuntime(mode){
   if(window.__UNIFIED_DIAGNOSTIC_CLONE__===true||window.__TEST_MODEL_CHOICE__!=='38')return;
   if(window.__testSpeedFirstStreamR1Installed)return;
   window.__testSpeedFirstStreamR1Installed=true;
+  // Show stream activation only when the real 3.8 TEST hook has installed.
+  document.addEventListener('DOMContentLoaded',()=>{
+    const chooser=document.getElementById('testEngineChooser');
+    if(chooser)chooser.textContent='🧪 번역 엔진 · 3.8 Flash (LOW · 스트리밍 TEST) ▼';
+  },{once:true});
   const nativeFetch=window.fetch.bind(window);
   const resultId=mode==='wife'?'koResult':'laoResult';
   const busyText=/번역 중지|ຢຸດການແປ/u;
@@ -9944,6 +9949,13 @@ function testSpeedFirstStreamRuntime(mode){
   }
   window.fetch=async function(url,options){
     if(!isFirstRequest(url,options))return nativeFetch(url,options);
+    // Confirm the *existing* translation view entered actual 3.8 streaming mode.
+    const display=document.getElementById(resultId);
+    const section=document.getElementById('primaryResultSection');
+    if(display&&!options?.signal?.aborted){
+      if(section)section.classList.remove('result-pending');
+      display.textContent=mode==='wife'?'⏳ ກຳລັງຮັບຄຳແປແບບ streaming — ຍັງບໍ່ສຳເລັດ':'⏳ 3.8 스트리밍 번역 응답 대기 중 — 미완성·복사 불가';
+    }
     // Same model, prompt, thinking level, token limit, and credentials. No fallback call.
     const streamUrl=url.replace(':generateContent',':streamGenerateContent?alt=sse');
     const response=await nativeFetch(streamUrl,options);
