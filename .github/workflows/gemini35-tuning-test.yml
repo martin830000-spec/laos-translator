@@ -1,4 +1,4 @@
-name: Gemini 3.5 BASE LB AB108 — existing TEST workflow FREE_PREFLIGHT
+name: Gemini 3.5 BASE LB AB108 — existing TEST workflow PILOT
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -19,7 +19,7 @@ jobs:
     env:
       V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
-      ENABLE_GENERATION: "false"
+      ENABLE_GENERATION: "true"
     steps:
       - name: Materialize existing immutable runner and CMS encrypted inputs (no checkout)
         env:
@@ -48,16 +48,16 @@ jobs:
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Set up existing Google Cloud CLI path
         uses: google-github-actions/setup-gcloud@v3
-      - name: Existing guarded runner — FREE_PREFLIGHT
+      - name: Existing guarded runner — PILOT
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           RESULT_DIR: ${{ runner.temp }}/gemini35-ab108-results
-        run: python "$RUNNER_TEMP/gemini35-lb-ab108/runner.py" FREE_PREFLIGHT
+        run: python "$RUNNER_TEMP/gemini35-lb-ab108/runner.py" PILOT
       - name: Preserve encrypted evidence only
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gemini35-lb-ab108-FREE_PREFLIGHT-encrypted
+          name: gemini35-lb-ab108-PILOT-encrypted
           path: ${{ runner.temp }}/gemini35-ab108-results/evidence.p7m
           if-no-files-found: error
           retention-days: 7
