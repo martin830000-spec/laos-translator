@@ -1,4 +1,4 @@
-name: Assisted4 R2 existing API key metadata only
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,33 +6,47 @@ name: Assisted4 R2 existing API key metadata only
 permissions:
   contents: read
 concurrency:
-  group: ko-lao-assisted4-free-preflight-r2-20261122
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  existing-key-readonly:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      V2_MODE: "CLOSED"
+      ENABLE_TUNING: "false"
+      ENABLE_GENERATION: "false"
     steps:
-      - uses: actions/checkout@v7
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Existing Gemini key models GET only
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          ENABLE_GENERATION: "false"
-          REPORT_PATH: ${{ runner.temp }}/assisted4-key/API_KEY_MODEL_GET.json
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/setup-gcloud@v3
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          mkdir -p "${RUNNER_TEMP}/assisted4-key"
-          python3 -m py_compile research/assisted4-r2-free-20261122/api_key_metadata.py
-          python3 research/assisted4-r2-free-20261122/api_key_metadata.py
-      - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+        uses: actions/upload-artifact@v4
         with:
-          name: assisted4-key-${{ github.run_id }}
-          path: ${{ runner.temp }}/assisted4-key/
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
