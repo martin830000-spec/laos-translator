@@ -1,4 +1,4 @@
-name: G35 COUPLE_CTX 20261123 FREE ENV GATE
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,56 +6,47 @@ name: G35 COUPLE_CTX 20261123 FREE ENV GATE
 permissions:
   contents: read
 concurrency:
-  group: g35-couple-context-20261123-free-gate
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  free-env-gate:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
-      ENABLE_TUNING: "false"
       V2_MODE: "CLOSED"
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      ENABLE_TUNING: "false"
+      ENABLE_GENERATION: "false"
     steps:
-      - name: Check FREE scope and existing secret presence
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$ENABLE_GENERATION" = false
-          test "$ENABLE_TUNING" = false
-          test "$V2_MODE" = CLOSED
-          test -n "${GEMINI_API_KEY:-}"
-          echo FREE_ENV_SECRET_PRESENT_NO_GENERATION
-      - name: Authenticate existing TEST WIF
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - name: Set up gcloud
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/setup-gcloud@v3
-      - name: Read-only existing GCS final lock
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
-          gcloud storage cat 'gs://ko-lao-gemini35-tuning-460077888071/gemini35_base_lb_one_shot_ab108_20261122/_control/FINAL_STATE.json' >/dev/null
-          echo FREE_ENV_EXISTING_GCS_LOCK_READ_OK
-      - name: Read-only Gemini model metadata without generateContent
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PYMODEL'
-          import os,urllib.request
-          url='https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite'
-          req=urllib.request.Request(url,headers={'x-goog-api-key':os.environ['GEMINI_API_KEY']},method='GET')
-          with urllib.request.urlopen(req,timeout=15) as f:
-              status=f.status
-              _=f.read(128)
-          assert status==200, 'model metadata GET did not succeed'
-          print('FREE_ENV_MODEL_GET_OK_NO_GENERATION')
-          PYMODEL
+          umask 077
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          if-no-files-found: error
+          retention-days: 7
