@@ -28,3 +28,14 @@ jobs:
           node -e 'const fs=require("fs"),crypto=require("crypto");const s=fs.readFileSync("index.html","utf8");const tag="<!-- TEST-ONLY FIRST/BACK latency diagnostics; enable with ?latencyProbe=1 -->\n<script defer src=\"./test-latency-probe-r1.js\"></script>\n";if(s.split(tag).length!==2)process.exit(1);const old=s.replace(tag,"");const blob=crypto.createHash("sha1").update("blob "+Buffer.byteLength(old)+"\0").update(old).digest("hex");if(blob!=="4af4cbe48b6071f8d2bb7a08f5e1cf0429ce1b8d")process.exit(2);'
       - name: Zero-key synthetic probe tests; no Gemini calls
         run: node --test tests/test-latency-probe-r1.test.cjs
+      - name: Package TEST-only static build for isolated preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-latency-test-build
+          path: |
+            index.html
+            prompt-config.json
+            version.json
+            test-latency-probe-r1.js
+          if-no-files-found: error
+          retention-days: 14
