@@ -9864,11 +9864,107 @@ function lunaChildBridge(mode){
   };
  },{once:true});
 }
+function testSpeedFirstStreamRuntime(mode){
+  'use strict';
+  // TEST translation UI optimization. One Gemini request; FIRST preview only.
+  // The official finalized text/quality/BACK code remains the source of truth.
+  if(window.__UNIFIED_DIAGNOSTIC_CLONE__===true||window.__TEST_MODEL_CHOICE__!=='38')return;
+  if(window.__testSpeedFirstStreamR1Installed)return;
+  window.__testSpeedFirstStreamR1Installed=true;
+  const nativeFetch=window.fetch.bind(window);
+  const resultId=mode==='wife'?'koResult':'laoResult';
+  const busyText=/번역 중지|ຢຸດການແປ/u;
+  const partialLabel=mode==='wife'?'⏳ ກຳລັງແປ — ຍັງບໍ່ສຳເລັດ (ຍັງຄັດລອກບໍ່ໄດ້)':'⏳ 번역 중 — 미완성 미리보기 (아직 복사 불가)';
+  function isFirstRequest(url,options){
+    if(typeof url!=='string'||!url.includes('/models/gemini-3.8-flash:generateContent'))return false;
+    const button=document.getElementById('translateBtn');
+    if(!button||!busyText.test(button.textContent||''))return false;
+    if(!options||options.method!=='POST'||typeof options.body!=='string')return false;
+    try{
+      const body=JSON.parse(options.body);
+      return !!(body?.system_instruction?.parts?.[0]?.text&&body?.contents?.[0]?.parts?.[0]?.text);
+    }catch(_){return false;}
+  }
+  async function readStreamJson(response, options){
+    const reader=response.body?.getReader?.();
+    if(!reader)throw new Error('TEST_FIRST_STREAM_BODY_UNAVAILABLE');
+    const decoder=new TextDecoder();
+    const box=document.getElementById(resultId);
+    const section=document.getElementById('primaryResultSection');
+    let buffer='',acc='',finishReason='',latestUsage=null,previewLength=-1,bytes=0;
+    const showPartial=()=>{
+      if(!box||options?.signal?.aborted||!acc)return;
+      if(previewLength>=0&&acc.length-previewLength<48)return;
+      previewLength=acc.length;
+      if(section)section.classList.remove('result-pending');
+      box.textContent=partialLabel+'\n'+acc;
+    };
+    const consume=(event)=>{
+      if(!event)return;
+      const dataLines=event.split('\n').filter(line=>line.startsWith('data:')).map(line=>line.slice(5).trimStart());
+      if(!dataLines.length)return;
+      const raw=dataLines.join('\n');
+      if(raw==='[DONE]')return;
+      let item;
+      try{item=JSON.parse(raw);}catch(_){throw new Error('TEST_FIRST_STREAM_MALFORMED_SSE');}
+      if(item?.usageMetadata)latestUsage=item.usageMetadata;
+      const candidate=item?.candidates?.[0];
+      if(candidate?.finishReason)finishReason=candidate.finishReason;
+      let delta='';
+      for(const part of candidate?.content?.parts||[]){
+        if(part?.thought===true)continue;
+        if(typeof part?.text==='string')delta+=part.text;
+      }
+      if(delta){
+        // Server versions may emit deltas or cumulative text.
+        if(acc&&delta.startsWith(acc))acc=delta;
+        else if(acc&&!acc.endsWith(delta))acc+=delta;
+        else if(!acc)acc=delta;
+        showPartial();
+      }
+    };
+    try{
+      for(;;){
+        const next=await reader.read();
+        if(next.done)break;
+        bytes+=next.value?.byteLength||0;
+        if(bytes>4*1024*1024)throw new Error('TEST_FIRST_STREAM_OVERSIZED');
+        buffer+=decoder.decode(next.value,{stream:true}).replace(/\r\n/g,'\n');
+        let boundary;
+        while((boundary=buffer.indexOf('\n\n'))>=0){
+          const event=buffer.slice(0,boundary);
+          buffer=buffer.slice(boundary+2);
+          consume(event);
+        }
+      }
+      buffer+=decoder.decode();
+      if(buffer.trim())consume(buffer);
+      if(options?.signal?.aborted)throw new DOMException('Aborted','AbortError');
+      if(!acc.trim()||!finishReason)throw new Error('TEST_FIRST_STREAM_INCOMPLETE');
+      return {candidates:[{content:{role:'model',parts:[{text:acc}]},finishReason}],usageMetadata:latestUsage||{}};
+    }finally{try{reader.releaseLock();}catch(_){/* ignore */}}
+  }
+  window.fetch=async function(url,options){
+    if(!isFirstRequest(url,options))return nativeFetch(url,options);
+    // Same model, prompt, thinking level, token limit, and credentials. No fallback call.
+    const streamUrl=url.replace(':generateContent',':streamGenerateContent?alt=sse');
+    const response=await nativeFetch(streamUrl,options);
+    if(!response.ok)return response;
+    return {
+      ok:response.ok,status:response.status,statusText:response.statusText,
+      headers:response.headers,url:response.url,redirected:response.redirected,
+      json:()=>readStreamJson(response,options),
+      text:()=>response.text()
+    };
+  };
+}
+
 function injectUnifiedKeys(source,mode){
  const boot=buildUnifiedEmbeddedBoot(mode,{diagnosticClone:false});
  const demoBoot=window.__TEST_MODEL_CHOICE__==='31'?'<scr'+'ipt>('+koDemoRuntime.toString()+')('+JSON.stringify(mode)+');</scr'+'ipt>':'';
  const lunaBoot=window.__TEST_MODEL_CHOICE__==='luna'?'<scr'+'ipt>('+lunaChildBridge.toString()+')('+JSON.stringify(mode)+');</scr'+'ipt>':'';
- return String(source||'').replace(/<head([^>]*)>/i,function(m){return m+boot+demoBoot+lunaBoot});
+ const streamBoot=window.__TEST_MODEL_CHOICE__==='38'?'<scr'+'ipt>('+testSpeedFirstStreamRuntime.toString()+')('+JSON.stringify(mode)+');</scr'+'ipt>':'';
+ return String(source||'').replace(/<head([^>]*)>/i,function(m){return m+boot+streamBoot+demoBoot+lunaBoot});
 }
 
 function resetLoadedFrames(){
