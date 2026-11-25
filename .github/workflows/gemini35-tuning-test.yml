@@ -1,4 +1,4 @@
-name: G35 R18 Korean instruction AB48 existing TEST S1
+name: G35 R18 Korean instruction AB48 existing TEST CLOSE
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -17,7 +17,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "true"
+      ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
@@ -49,7 +49,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m py_compile "$RUNNER_TEMP/g35-r18-ab48/runner.py" "$RUNNER_TEMP/g35-r18-ab48/transport.py" "$RUNNER_TEMP/g35-r18-ab48/test_runner.py"
-          test "${ENABLE_GENERATION}" = "true"
+          test "${ENABLE_GENERATION}" = "false"
       - name: Authenticate existing TEST identity
         uses: google-github-actions/auth@v3
         with:
@@ -58,19 +58,19 @@ jobs:
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Configure existing gcloud CLI
         uses: google-github-actions/setup-gcloud@v3
-      - name: Run frozen scoped S1 gate
+      - name: Run frozen scoped CLOSE gate
         env:
           RESULT_DIR: ${{ runner.temp }}/g35-r18-ab48/evidence
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python "$RUNNER_TEMP/g35-r18-ab48/runner.py" S1
+          python "$RUNNER_TEMP/g35-r18-ab48/runner.py" CLOSE
       - name: Upload encrypted owner evidence only
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: g35-r18-ab48-S1-${{ github.run_id }}
+          name: g35-r18-ab48-CLOSE-${{ github.run_id }}
           path: ${{ runner.temp }}/g35-r18-ab48/evidence/evidence.p7m
           if-no-files-found: warn
           retention-days: 7
