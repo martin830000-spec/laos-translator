@@ -1,4 +1,4 @@
-name: G35 KF R5 EVENT COMPACT AB480 existing TEST FREE_PREFLIGHT
+name: G35 KF R5 EVENT COMPACT AB480 existing TEST S1
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -17,7 +17,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
@@ -50,7 +50,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m py_compile "$RUNNER_TEMP/g35-kf-r5-event-compact-ab480/runner.py" "$RUNNER_TEMP/g35-kf-r5-event-compact-ab480/transport.py" "$RUNNER_TEMP/g35-kf-r5-event-compact-ab480/test_runner.py"
-          test "${ENABLE_GENERATION}" = "false"
+          test "${ENABLE_GENERATION}" = "true"
       - name: Authenticate existing TEST identity
         uses: google-github-actions/auth@v3
         with:
@@ -59,19 +59,19 @@ jobs:
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
       - name: Configure existing gcloud CLI
         uses: google-github-actions/setup-gcloud@v3
-      - name: Run frozen scoped FREE_PREFLIGHT gate
+      - name: Run frozen scoped S1 gate
         env:
           RESULT_DIR: ${{ runner.temp }}/g35-kf-r5-event-compact-ab480/evidence
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          python "$RUNNER_TEMP/g35-kf-r5-event-compact-ab480/runner.py" FREE_PREFLIGHT
+          python "$RUNNER_TEMP/g35-kf-r5-event-compact-ab480/runner.py" S1
       - name: Upload encrypted owner evidence only
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: g35-kf-r5-event-compact-ab480-FREE_PREFLIGHT-${{ github.run_id }}
+          name: g35-kf-r5-event-compact-ab480-S1-${{ github.run_id }}
           path: ${{ runner.temp }}/g35-kf-r5-event-compact-ab480/evidence/evidence.p7m
           if-no-files-found: warn
           retention-days: 7
