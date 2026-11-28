@@ -1,4 +1,4 @@
-name: Gemini 3.5 V2 Recovery Controlled TEST
+name: G35 R16 existing TEST FREE private Drive transfer
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,47 +6,94 @@ name: Gemini 3.5 V2 Recovery Controlled TEST
 permissions:
   contents: read
 concurrency:
-  group: gemini35-sft-v2-pilot1-20261116
+  group: g35-kb-lf-r16-v2-ab264-20261128
   cancel-in-progress: false
 jobs:
-  v2-recovery:
+  research-free:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
     env:
-      V2_MODE: "CLOSED"
-      ENABLE_TUNING: "false"
       ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
-      - name: Check out designated TEST branch
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Authenticate existing TEST identity
-        if: ${{ env.V2_MODE != 'CLOSED' }}
+      - name: Existing TEST identity
+        id: auth
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - name: Set up existing Google Cloud CLI path
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/setup-gcloud@v3
-      - name: Execute reviewed bounded TEST mode
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/cloud-platform
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Read frozen private Drive bundle, run existing FREE gate, write private evidence only
         shell: bash
+        env:
+          DRIVE_TOKEN: ${{ steps.auth.outputs.access_token }}
         run: |
           set -euo pipefail
           umask 077
-          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
-      - name: Preserve encrypted evidence only
-        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: v2-execution-${{ github.run_id }}
-          path: ${{ runner.temp }}/v2_execution_encrypted.json
-          if-no-files-found: error
-          retention-days: 7
+          python - <<'PY'
+          import hashlib,io,json,os,pathlib,subprocess,sys,urllib.request,urllib.error,zipfile
+          def need(ok,code):
+              if not ok: raise RuntimeError(code)
+          def sha(b): return hashlib.sha256(b).hexdigest()
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,*a,**k):raise RuntimeError('DRIVE_REDIRECT_BLOCKED')
+          def transfer(method,id,body=None):
+              need(id in {'1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD','1K8SAjJGNnPsROBY-3rviVuDwumIk7zhf'},'DRIVE_FILE_SCOPE')
+              need(method=='GET' or (method=='PATCH' and id=='1K8SAjJGNnPsROBY-3rviVuDwumIk7zhf' and body is not None),'DRIVE_WRITE_SCOPE')
+              url=('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media') if method=='GET' else ('https://www.googleapis.com/upload/drive/v3/files/'+id+'?uploadType=media')
+              headers={'Authorization':'Bearer '+os.environ['DRIVE_TOKEN']}
+              if body is not None: headers['Content-Type']='application/zip'
+              try:
+                  with urllib.request.build_opener(NoRedirect()).open(urllib.request.Request(url,method=method,data=body,headers=headers),timeout=60) as r:
+                      need(r.status==200,'DRIVE_HTTP_STATUS')
+                      raw=r.read(64000001)
+                      need(len(raw)<=64000000,'DRIVE_SIZE')
+                      return raw
+              except urllib.error.HTTPError as e:
+                  print('DRIVE_HTTP_ERROR',method,e.code,flush=True)
+                  raise RuntimeError('DRIVE_HTTP_ERROR') from None
+          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','FREE_DISABLED')
+          input_id='1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD'
+          output_id='1K8SAjJGNnPsROBY-3rviVuDwumIk7zhf'
+          sentinel='4461a4d371410392fe69243b78cf5f35fd3527c470b1a06a503c48f265edf5ad'
+          need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_PRECONDITION')
+          raw=transfer('GET',input_id)
+          need(len(raw)==58868 and sha(raw)=='75923bdf6f9a6802647321fe7d78e14b421acefd0b0261b7ba753fd7de0e738b','INPUT_RUNTIME_PIN')
+          names={'runner.py','transport.py','wire.py','test_runner.py','recover.py','ORIGINAL.yml','private_frozen_input.zip','protected_pins.json','authorization_overlay.json','COST_SAFETY.json','pins.json'}
+          dest=pathlib.Path(os.environ['RUNNER_TEMP'])/'r16-private-drive-runtime';dest.mkdir(exist_ok=False)
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              need(len(z.namelist())==len(names) and set(z.namelist())==names and z.testzip() is None,'RUNTIME_ZIP')
+              for n in names:(dest/n).write_bytes(z.read(n))
+          need(sha((dest/'private_frozen_input.zip').read_bytes())=='22d65980fdbe3aa30b8beb07e0670bc4bf1212d0cecb3d511f1fca955d91cea8','FROZEN_INPUT')
+          print('PRIVATE_RUNTIME_PIN_OK; FROZEN_INPUT_PIN_OK',flush=True)
+          child=os.environ.copy();child.pop('DRIVE_TOKEN',None);child['RESULT_DIR']=str(dest/'result')
+          p=subprocess.run([sys.executable,str(dest/'runner.py'),'FREE_PREFLIGHT'],cwd=dest,env=child,capture_output=True,timeout=1200)
+          evidence=dest/'result/evidence.zip'
+          need(evidence.is_file(),'FREE_EVIDENCE_MISSING')
+          out=evidence.read_bytes();need(len(out)<=64000000,'EVIDENCE_SIZE')
+          with zipfile.ZipFile(io.BytesIO(out)) as z:
+              need(z.testzip() is None and set(z.namelist())=={'REMOTE_REPORT.json','MANIFEST_SHA256.json'},'EVIDENCE_ZIP')
+              report_bytes=z.read('REMOTE_REPORT.json')
+              manifest=json.loads(z.read('MANIFEST_SHA256.json'))
+              need(manifest=={'REMOTE_REPORT.json':{'bytes':len(report_bytes),'sha256':sha(report_bytes)}},'EVIDENCE_MANIFEST')
+              report=json.loads(report_bytes)
+              need(report['campaign_id']=='GEMINI35_KB_LF_R16_RELATION_V2_AB264_20261128' and report['phase']=='FREE_PREFLIGHT' and report['run_id']==os.environ['GITHUB_RUN_ID'],'FREE_REPORT_SCOPE')
+              need(report['actual_model_posts_new']==0,'FREE_MODEL_POSTS')
+          need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_CONCURRENT_CHANGE')
+          transfer('PATCH',output_id,out)
+          back=transfer('GET',output_id);need(back==out,'OUTPUT_READBACK')
+          print('PRIVATE_FREE_EVIDENCE_SHA256='+sha(back)+' BYTES='+str(len(back)),flush=True)
+          print('FREE_STATUS='+report['status']+' MODEL_POSTS=0',flush=True)
+          need(p.returncode==0 and report['status']=='FREE_PREFLIGHT_COMPLETE','FREE_GATE_NOT_COMPLETE')
+          PY
