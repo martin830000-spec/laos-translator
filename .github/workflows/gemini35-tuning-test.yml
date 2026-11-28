@@ -1,4 +1,4 @@
-name: PRACTICAL320 existing TEST FREE private Drive transfer
+name: PRACTICAL320 existing TEST S1 private Drive transfer
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -9,15 +9,15 @@ concurrency:
   group: practical320-20261128-r1
   cancel-in-progress: false
 jobs:
-  research-free:
+  research-s1:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 70
     permissions:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      ENABLE_GENERATION: "true"
       ENABLE_TUNING: "false"
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
@@ -34,7 +34,7 @@ jobs:
           token_format: access_token
           access_token_scopes: https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/cloud-platform
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Read frozen private Drive bundle, run existing FREE gate, write private evidence only
+      - name: Read frozen private Drive bundle, run S1 only, write private evidence only
         shell: bash
         env:
           DRIVE_TOKEN: ${{ steps.auth.outputs.access_token }}
@@ -49,8 +49,8 @@ jobs:
           class NoRedirect(urllib.request.HTTPRedirectHandler):
               def redirect_request(self,*a,**k):raise RuntimeError('DRIVE_REDIRECT_BLOCKED')
           def transfer(method,id,body=None):
-              need(id in {'17T1PALXiL0r_5mVs9retyAmbSuP_cngn','1X24ToDzLwu-gFYxhK7qznXN-H-9760Oy'},'DRIVE_FILE_SCOPE')
-              need(method=='GET' or (method=='PATCH' and id=='1X24ToDzLwu-gFYxhK7qznXN-H-9760Oy' and body is not None),'DRIVE_WRITE_SCOPE')
+              need(id in {'17T1PALXiL0r_5mVs9retyAmbSuP_cngn','1GC1WHzkQiHVBIwOgsAb9btWZNx4nylp8'},'DRIVE_FILE_SCOPE')
+              need(method=='GET' or (method=='PATCH' and id=='1GC1WHzkQiHVBIwOgsAb9btWZNx4nylp8' and body is not None),'DRIVE_WRITE_SCOPE')
               url=('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media') if method=='GET' else ('https://www.googleapis.com/upload/drive/v3/files/'+id+'?uploadType=media')
               headers={'Authorization':'Bearer '+os.environ['DRIVE_TOKEN']}
               if body is not None: headers['Content-Type']='application/zip'
@@ -63,10 +63,10 @@ jobs:
               except urllib.error.HTTPError as e:
                   print('DRIVE_HTTP_ERROR',method,e.code,flush=True)
                   raise RuntimeError('DRIVE_HTTP_ERROR') from None
-          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','FREE_DISABLED')
+          need(os.environ['ENABLE_GENERATION']=='true' and os.environ['ENABLE_TUNING']=='false','S1_SCOPE')
           input_id='17T1PALXiL0r_5mVs9retyAmbSuP_cngn'
-          output_id='1X24ToDzLwu-gFYxhK7qznXN-H-9760Oy'
-          sentinel='719278d52f0e466aa04c408fd44f22055b7e1685f9972a2f1cb4fee3821e56ce'
+          output_id='1GC1WHzkQiHVBIwOgsAb9btWZNx4nylp8'
+          sentinel='136f310afd696c12de9bbdf57bc1a8c96cd83198a5959ec00cdb2fc8114fee3f'
           need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_PRECONDITION')
           raw=transfer('GET',input_id)
           need(len(raw)==77742 and sha(raw)=='a1f15f20374d14106f21182ae68ada4721747a2b63c85992fa556340ec64a2b4','INPUT_RUNTIME_PIN')
@@ -77,8 +77,9 @@ jobs:
               for n in names:(dest/n).write_bytes(z.read(n))
           need(sha((dest/'private_frozen_input.zip').read_bytes())=='a5c2f311253901e9d7d3583f560a1c5f1aab3f95773c312fe8eecca8f2d10935','FROZEN_INPUT')
           print('PRIVATE_RUNTIME_PIN_OK; FROZEN_INPUT_PIN_OK',flush=True)
+          (dest/'STAGE_DECISION.json').write_text("{\"campaign_id\":\"KO_LAO_G35_G38_PRACTICAL320_20261128_R1\",\"authorize_phase\":\"S1\",\"prior_count\":0,\"quality_review_completed\":true,\"technical_safety_passed\":true,\"proceed_with_frozen_plan\":true,\"checkpoint_backup\":{\"stage\":\"FREE_PREFLIGHT\",\"owner_only\":true,\"actual_redownload\":true,\"exact_sha256\":true,\"zip_crc_pass\":true,\"manifest_all_pass\":true,\"sha256\":\"efe24b224c38d32bc742ce4e3639a75d9fb347112cfe9a4efdf39abc8ce66579\"},\"decision_basis\":\"FREE verified; no prior translations to evaluate\"}",encoding='utf-8')
           child=os.environ.copy();child.pop('DRIVE_TOKEN',None);child['RESULT_DIR']=str(dest/'result')
-          p=subprocess.run([sys.executable,str(dest/'runner.py'),'FREE_PREFLIGHT'],cwd=dest,env=child,capture_output=True,timeout=1200)
+          p=subprocess.run([sys.executable,str(dest/'runner.py'),'S1'],cwd=dest,env=child,capture_output=True,timeout=3900)
           evidence=dest/'result/evidence.zip'
           need(evidence.is_file(),'FREE_EVIDENCE_MISSING')
           out=evidence.read_bytes();need(len(out)<=64000000,'EVIDENCE_SIZE')
@@ -88,12 +89,12 @@ jobs:
               manifest=json.loads(z.read('MANIFEST_SHA256.json'))
               need(manifest=={'REMOTE_REPORT.json':{'bytes':len(report_bytes),'sha256':sha(report_bytes)}},'EVIDENCE_MANIFEST')
               report=json.loads(report_bytes)
-              need(report['campaign_id']=='KO_LAO_G35_G38_PRACTICAL320_20261128_R1' and report['phase']=='FREE_PREFLIGHT' and report['run_id']==os.environ['GITHUB_RUN_ID'],'FREE_REPORT_SCOPE')
-              need(report['actual_model_posts_new']==0,'FREE_MODEL_POSTS')
+              need(report['campaign_id']=='KO_LAO_G35_G38_PRACTICAL320_20261128_R1' and report['phase']=='S1' and report['run_id']==os.environ['GITHUB_RUN_ID'],'FREE_REPORT_SCOPE')
+              need(type(report['actual_model_posts_new']) is int and 0<=report['actual_model_posts_new']<=80,'S1_MODEL_CAP')
           need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_CONCURRENT_CHANGE')
           transfer('PATCH',output_id,out)
           back=transfer('GET',output_id);need(back==out,'OUTPUT_READBACK')
-          print('PRIVATE_FREE_EVIDENCE_SHA256='+sha(back)+' BYTES='+str(len(back)),flush=True)
-          print('FREE_STATUS='+report['status']+' MODEL_POSTS=0',flush=True)
-          need(p.returncode==0 and report['status']=='FREE_PREFLIGHT_COMPLETE','FREE_GATE_NOT_COMPLETE')
+          print('PRIVATE_S1_EVIDENCE_SHA256='+sha(back)+' BYTES='+str(len(back)),flush=True)
+          print('S1_STATUS='+report['status']+' MODEL_POSTS='+str(report['actual_model_posts_new']),flush=True)
+          need(p.returncode==0 and report['status']=='S1_COMPLETE' and 0<=report['actual_model_posts_new']<=80,'FREE_GATE_NOT_COMPLETE')
           PY
