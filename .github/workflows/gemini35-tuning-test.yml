@@ -13,6 +13,9 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
     env:
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
