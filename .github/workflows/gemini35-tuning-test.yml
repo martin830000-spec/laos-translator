@@ -1,4 +1,4 @@
-name: Gemini 3.5 V2 Recovery Controlled TEST
+name: Existing TEST one synthetic Gemini translation check
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -9,44 +9,57 @@ concurrency:
   group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  v2-recovery:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
+  one-translation:
+    if: >-
+      ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 && github.event.head_commit.message == 'TEST: explicitly authorized one synthetic Gemini translation check' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    permissions:
-      contents: read
-      id-token: write
-    env:
-      V2_MODE: "CLOSED"
-      ENABLE_TUNING: "false"
-      ENABLE_GENERATION: "false"
+    timeout-minutes: 3
     steps:
-      - name: Check out designated TEST branch
-        if: ${{ env.V2_MODE != 'CLOSED' }}
+      - name: Read existing public TEST prompt
         uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Authenticate existing TEST identity
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/auth@v3
-        with:
-          project_id: gen-lang-client-0422436907
-          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
-          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - name: Set up existing Google Cloud CLI path
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/setup-gcloud@v3
-      - name: Execute reviewed bounded TEST mode
+      - name: One explicitly requested synthetic translation
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         shell: bash
         run: |
-          set -euo pipefail
-          umask 077
-          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
-      - name: Preserve encrypted evidence only
-        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: v2-execution-${{ github.run_id }}
-          path: ${{ runner.temp }}/v2_execution_encrypted.json
-          if-no-files-found: error
-          retention-days: 7
+          python3 - <<'PY'
+          import json, os, sys, time, urllib.request, urllib.error
+          key = os.environ.get("GEMINI_API_KEY")
+          if not key:
+              print("API_KEY_MISSING")
+              sys.exit(1)
+          with open("prompt-config.json", encoding="utf-8") as f:
+              cfg = json.load(f)
+          if cfg.get("promptRevision") != "P168A" or cfg.get("channel") != "TEST":
+              print("PUBLIC_TEST_PROMPT_MISMATCH")
+              sys.exit(1)
+          prompt = cfg["forward"]["l2k"]
+          sentence = "ມື້ອື່ນຂ້ອຍຈະໄປຕະຫຼາດ."
+          body = {"systemInstruction":{"parts":[{"text":prompt}]},"contents":[{"role":"user","parts":[{"text":sentence}]}],"generationConfig":{"maxOutputTokens":1024,"thinkingConfig":{"thinkingLevel":"MINIMAL"}}}
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          opener = urllib.request.build_opener(NoRedirect())
+          request = urllib.request.Request("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent", data=json.dumps(body,ensure_ascii=False).encode("utf-8"), headers={"Content-Type":"application/json","x-goog-api-key":key}, method="POST")
+          start = time.monotonic()
+          print("POST_ATTEMPT=1 MODEL=gemini-3.5-flash-lite PROMPT=P168A",flush=True)
+          try:
+              with opener.open(request, timeout=30) as response:
+                  status = response.status
+                  result = json.load(response)
+          except urllib.error.HTTPError as e:
+              print("HTTP_STATUS="+str(e.code))
+              sys.exit(1)
+          except (urllib.error.URLError,TimeoutError) as e:
+              print("TRANSPORT_ERROR="+type(e).__name__)
+              sys.exit(1)
+          elapsed = time.monotonic() - start
+          candidates = result.get("candidates") or []
+          c = candidates[0] if candidates else {}
+          translation = "".join(p.get("text","") for p in c.get("content",{}).get("parts",[]) if not p.get("thought"))
+          print(json.dumps({"http":status,"seconds":round(elapsed,3),"source":sentence,"translation":translation,"finishReason":c.get("finishReason"),"usageMetadata":result.get("usageMetadata",{}),"modelVersion":result.get("modelVersion")},ensure_ascii=False))
+          if not translation:
+              sys.exit(1)
+          PY
