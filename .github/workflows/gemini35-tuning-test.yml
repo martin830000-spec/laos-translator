@@ -1,4 +1,4 @@
-name: Gemini 3.5 V2 Recovery Controlled TEST
+name: TEST public JOSE library synthetic-only review
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,47 +6,83 @@ name: Gemini 3.5 V2 Recovery Controlled TEST
 permissions:
   contents: read
 concurrency:
-  group: gemini35-sft-v2-pilot1-20261116
+  group: gemini35-tuning-test-jose-synthetic
   cancel-in-progress: false
 jobs:
-  v2-recovery:
+  synthetic-only:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    permissions:
-      contents: read
-      id-token: write
+    timeout-minutes: 12
     env:
-      V2_MODE: "CLOSED"
-      ENABLE_TUNING: "false"
       ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
     steps:
-      - name: Check out designated TEST branch
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Authenticate existing TEST identity
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/auth@v3
-        with:
-          project_id: gen-lang-client-0422436907
-          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
-          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - name: Set up existing Google Cloud CLI path
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/setup-gcloud@v3
-      - name: Execute reviewed bounded TEST mode
+      - name: Obtain public dependency wheels and check exact versions and SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$ENABLE_GENERATION" = false
+          test "$ENABLE_TUNING" = false
+          python -m venv "$RUNNER_TEMP/jose-review-venv"
+          V="$RUNNER_TEMP/jose-review-venv/bin/python"
+          mkdir -p "$RUNNER_TEMP/public-jose-wheelhouse"
+          "$V" -m pip download --disable-pip-version-check --no-deps --only-binary=:all: --index-url https://pypi.org/simple --dest "$RUNNER_TEMP/public-jose-wheelhouse" jwcrypto==1.6.2 cryptography==46.0.4 typing_extensions==4.16.0 cffi==2.0.0 pycparser==3.0
+          "$V" - <<'PY'
+          import pathlib, hashlib, json, os, urllib.request, zipfile, email
+          base=pathlib.Path(os.environ['RUNNER_TEMP'])
+          wheelhouse=base/'public-jose-wheelhouse'
+          pins={'jwcrypto':'1.6.2','cryptography':'46.0.4','typing-extensions':'4.16.0','cffi':'2.0.0','pycparser':'3.0'}
+          seen=set(); lines=[]
+          for f in sorted(wheelhouse.glob('*.whl')):
+              with zipfile.ZipFile(f) as z:
+                  files=[n for n in z.namelist() if n.endswith('.dist-info/METADATA')]
+                  if len(files)!=1: raise RuntimeError('WHEEL_METADATA')
+                  meta=email.message_from_bytes(z.read(files[0]))
+              name=meta['Name'].lower().replace('_','-'); version=meta['Version']
+              if name in seen or pins.get(name)!=version: raise RuntimeError('VERSION_PIN')
+              seen.add(name)
+              digest=hashlib.sha256(f.read_bytes()).hexdigest()
+              with urllib.request.urlopen('https://pypi.org/pypi/'+name+'/'+version+'/json',timeout=20) as r:
+                  published=json.load(r)
+              matching=[u for u in published['urls'] if u['filename']==f.name and not u.get('yanked')]
+              if len(matching)!=1 or matching[0]['digests']['sha256']!=digest: raise RuntimeError('PYPI_HASH_MISMATCH')
+              if name=='jwcrypto' and digest!='3fb14515fd2ee51cb35842154d358cc15138219c1e829e97ab510066e74dc464': raise RuntimeError('INDEPENDENT_JWCRYPTO_PIN')
+              lines.append(name+'=='+version+' --hash=sha256:'+digest)
+              print('PUBLIC_WHEEL_PIN',name,version,f.name,digest,flush=True)
+          if seen!=set(pins): raise RuntimeError('INCOMPLETE_WHEEL_SET')
+          (base/'jose-requirements.txt').write_text('\n'.join(lines)+'\n')
+          PY
+          "$V" -m pip install --disable-pip-version-check --no-index --find-links "$RUNNER_TEMP/public-jose-wheelhouse" --require-hashes -r "$RUNNER_TEMP/jose-requirements.txt"
+          "$V" -m pip check
+      - name: Run exact non-sensitive review adapter with ephemeral synthetic keys
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
-      - name: Preserve encrypted evidence only
-        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+          V="$RUNNER_TEMP/jose-review-venv/bin/python"
+          mkdir -p "$RUNNER_TEMP/jose-review"
+          cd "$RUNNER_TEMP/jose-review"
+          "$V" - <<'PY'
+          import base64, hashlib, io, pathlib, zipfile
+          # This archive contains only the two public generic review Python source files.
+          raw=base64.b64decode('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',validate=True)
+          if hashlib.sha256(raw).hexdigest()!='e5c3eb56948385d2a2743302d39681a92571a80c69563f7fe8ca40dbf8c7dcb4': raise RuntimeError('REVIEW_ARCHIVE_PIN')
+          pins={'input_jwe_review.py':'b297e65b021d64f6d55abe9297f3dfe1244976f6a3fb4c06549991b32cb009e8','test_input_jwe_review.py':'6da13222cd9de5a27413418d33aee9b42f11b3832ac25114aefbaac50980e1e6'}
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              if set(z.namelist())!=set(pins) or z.testzip() is not None: raise RuntimeError('REVIEW_ARCHIVE_INVALID')
+              for n,h in pins.items():
+                  b=z.read(n)
+                  if hashlib.sha256(b).hexdigest()!=h: raise RuntimeError('SOURCE_PIN')
+                  pathlib.Path(n).write_bytes(b)
+          print('REVIEW_SOURCE_PINS_OK')
+          PY
+          "$V" test_input_jwe_review.py
+          "$V" -O test_input_jwe_review.py
+          echo 'SYNTHETIC_ONLY MODEL_POSTS=0 GCS_WRITES=0 NO_CLOUD_AUTH'
+      - name: Return only already-public verified dependency wheels
         uses: actions/upload-artifact@v4
         with:
-          name: v2-execution-${{ github.run_id }}
-          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          name: public-jose-dependency-wheels
+          path: ${{ runner.temp }}/public-jose-wheelhouse/*.whl
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 1
