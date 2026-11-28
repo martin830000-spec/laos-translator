@@ -48,8 +48,8 @@ jobs:
           class NoRedirect(urllib.request.HTTPRedirectHandler):
               def redirect_request(self,*a,**k):raise RuntimeError('DRIVE_REDIRECT_BLOCKED')
           def transfer(method,id,body=None):
-              need(id in {'1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD','1GEVY_04w8KoOxZLRg9bzSIcrv8yAMGpu'},'DRIVE_FILE_SCOPE')
-              need(method=='GET' or (method=='PATCH' and id=='1GEVY_04w8KoOxZLRg9bzSIcrv8yAMGpu' and body is not None),'DRIVE_WRITE_SCOPE')
+              need(id in {'1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD','1RRsIkq4Mfh6FyWPcagJKo9yHZm_7sCDf'},'DRIVE_FILE_SCOPE')
+              need(method=='GET' or (method=='PATCH' and id=='1RRsIkq4Mfh6FyWPcagJKo9yHZm_7sCDf' and body is not None),'DRIVE_WRITE_SCOPE')
               url=('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media') if method=='GET' else ('https://www.googleapis.com/upload/drive/v3/files/'+id+'?uploadType=media')
               headers={'Authorization':'Bearer '+os.environ['DRIVE_TOKEN']}
               if body is not None: headers['Content-Type']='application/zip'
@@ -64,8 +64,8 @@ jobs:
                   raise RuntimeError('DRIVE_HTTP_ERROR') from None
           need(os.environ['ENABLE_GENERATION']=='false' and os.environ['ENABLE_TUNING']=='false','CLOSE_SCOPE')
           input_id='1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD'
-          output_id='1GEVY_04w8KoOxZLRg9bzSIcrv8yAMGpu'
-          sentinel='fd163a2385727a034320a14c9b63c68fe6131373471cacdc23c17ce56e4deca0'
+          output_id='1RRsIkq4Mfh6FyWPcagJKo9yHZm_7sCDf'
+          sentinel='9d29f3451309464c8c25c992f18446653d00d1d6b716997db68d5bc0b5894695'
           need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_PRECONDITION')
           raw=transfer('GET',input_id)
           need(len(raw)==58868 and sha(raw)=='75923bdf6f9a6802647321fe7d78e14b421acefd0b0261b7ba753fd7de0e738b','INPUT_RUNTIME_PIN')
