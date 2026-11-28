@@ -1,4 +1,4 @@
-name: G35 R16 existing TEST S1 private Drive transfer
+name: G35 R16 existing TEST S2 private Drive transfer
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -9,7 +9,7 @@ concurrency:
   group: g35-kb-lf-r16-v2-ab264-20261128
   cancel-in-progress: false
 jobs:
-  research-s1:
+  research-s2:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
     timeout-minutes: 70
@@ -34,7 +34,7 @@ jobs:
           token_format: access_token
           access_token_scopes: https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/cloud-platform
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Read frozen private Drive bundle, run S1 only, write private evidence only
+      - name: Read frozen private Drive bundle, run S2 only, write private evidence only
         shell: bash
         env:
           DRIVE_TOKEN: ${{ steps.auth.outputs.access_token }}
@@ -49,8 +49,8 @@ jobs:
           class NoRedirect(urllib.request.HTTPRedirectHandler):
               def redirect_request(self,*a,**k):raise RuntimeError('DRIVE_REDIRECT_BLOCKED')
           def transfer(method,id,body=None):
-              need(id in {'1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD','1XMocMvPBDycyY1DGF1kaOKANW_BJeGZl'},'DRIVE_FILE_SCOPE')
-              need(method=='GET' or (method=='PATCH' and id=='1XMocMvPBDycyY1DGF1kaOKANW_BJeGZl' and body is not None),'DRIVE_WRITE_SCOPE')
+              need(id in {'1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD','1Ea8T6MF_B6USfBS5kFefiv8TFSgD0IlT'},'DRIVE_FILE_SCOPE')
+              need(method=='GET' or (method=='PATCH' and id=='1Ea8T6MF_B6USfBS5kFefiv8TFSgD0IlT' and body is not None),'DRIVE_WRITE_SCOPE')
               url=('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media') if method=='GET' else ('https://www.googleapis.com/upload/drive/v3/files/'+id+'?uploadType=media')
               headers={'Authorization':'Bearer '+os.environ['DRIVE_TOKEN']}
               if body is not None: headers['Content-Type']='application/zip'
@@ -63,10 +63,10 @@ jobs:
               except urllib.error.HTTPError as e:
                   print('DRIVE_HTTP_ERROR',method,e.code,flush=True)
                   raise RuntimeError('DRIVE_HTTP_ERROR') from None
-          need(os.environ['ENABLE_GENERATION']=='true' and os.environ['ENABLE_TUNING']=='false','S1_SCOPE')
+          need(os.environ['ENABLE_GENERATION']=='true' and os.environ['ENABLE_TUNING']=='false','S2_SCOPE')
           input_id='1zUxzEvp5ZZzJaj8OCyxaTXeWyzfMzxQD'
-          output_id='1XMocMvPBDycyY1DGF1kaOKANW_BJeGZl'
-          sentinel='45cf31132a54ebd8d1d0161fb518fa78df507501ed43e26864e8d9408b8d8132'
+          output_id='1Ea8T6MF_B6USfBS5kFefiv8TFSgD0IlT'
+          sentinel='5660bb0dc7313df5bb550e40ea0dc5044a69ffef6feedb7b272da9be5e38aa42'
           need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_PRECONDITION')
           raw=transfer('GET',input_id)
           need(len(raw)==58868 and sha(raw)=='75923bdf6f9a6802647321fe7d78e14b421acefd0b0261b7ba753fd7de0e738b','INPUT_RUNTIME_PIN')
@@ -77,9 +77,9 @@ jobs:
               for n in names:(dest/n).write_bytes(z.read(n))
           need(sha((dest/'private_frozen_input.zip').read_bytes())=='22d65980fdbe3aa30b8beb07e0670bc4bf1212d0cecb3d511f1fca955d91cea8','FROZEN_INPUT')
           print('PRIVATE_RUNTIME_PIN_OK; FROZEN_INPUT_PIN_OK',flush=True)
-          (dest/'STAGE_DECISION.json').write_text("{\"campaign_id\":\"GEMINI35_KB_LF_R16_RELATION_V2_AB264_20261128\",\"authorize_phase\":\"S1\",\"prior_count\":0,\"quality_review_completed\":true,\"technical_safety_passed\":true,\"proceed_with_frozen_repeat\":true,\"checkpoint_backup\":{\"stage\":\"FREE_PREFLIGHT\",\"owner_only\":true,\"actual_redownload\":true,\"exact_sha256\":true,\"zip_crc_pass\":true,\"manifest_all_pass\":true,\"sha256\":\"6f35cdcec8686e56d625a3d6f8d49319835dd2399be74d3af560862faf9c637b\"},\"decision_basis\":\"FREE verified; no prior translations to evaluate\"}",encoding='utf-8')
+          (dest/'STAGE_DECISION.json').write_text("{\"campaign_id\":\"GEMINI35_KB_LF_R16_RELATION_V2_AB264_20261128\",\"authorize_phase\":\"S2\",\"prior_count\":66,\"quality_review_completed\":true,\"technical_safety_passed\":true,\"proceed_with_frozen_repeat\":true,\"checkpoint_backup\":{\"stage\":\"S1\",\"owner_only\":true,\"actual_redownload\":true,\"exact_sha256\":true,\"zip_crc_pass\":true,\"manifest_all_pass\":true,\"sha256\":\"8e2ed0b97ae5b8f8e0a56396e0680a9ce2b9b5b7bdfd47e64df20a06f8ba4524\"},\"decision_basis\":\"S1 66 technical successes, all reviewed, protected locks unchanged, checkpoint verified; repeat as approved without prompt changes\"}",encoding='utf-8')
           child=os.environ.copy();child.pop('DRIVE_TOKEN',None);child['RESULT_DIR']=str(dest/'result')
-          p=subprocess.run([sys.executable,str(dest/'runner.py'),'S1'],cwd=dest,env=child,capture_output=True,timeout=3900)
+          p=subprocess.run([sys.executable,str(dest/'runner.py'),'S2'],cwd=dest,env=child,capture_output=True,timeout=3900)
           evidence=dest/'result/evidence.zip'
           need(evidence.is_file(),'FREE_EVIDENCE_MISSING')
           out=evidence.read_bytes();need(len(out)<=64000000,'EVIDENCE_SIZE')
@@ -89,12 +89,12 @@ jobs:
               manifest=json.loads(z.read('MANIFEST_SHA256.json'))
               need(manifest=={'REMOTE_REPORT.json':{'bytes':len(report_bytes),'sha256':sha(report_bytes)}},'EVIDENCE_MANIFEST')
               report=json.loads(report_bytes)
-              need(report['campaign_id']=='GEMINI35_KB_LF_R16_RELATION_V2_AB264_20261128' and report['phase']=='S1' and report['run_id']==os.environ['GITHUB_RUN_ID'],'FREE_REPORT_SCOPE')
-              need(type(report['actual_model_posts_new']) is int and 0<=report['actual_model_posts_new']<=66,'S1_MODEL_CAP')
+              need(report['campaign_id']=='GEMINI35_KB_LF_R16_RELATION_V2_AB264_20261128' and report['phase']=='S2' and report['run_id']==os.environ['GITHUB_RUN_ID'],'FREE_REPORT_SCOPE')
+              need(type(report['actual_model_posts_new']) is int and 0<=report['actual_model_posts_new']<=66,'S2_MODEL_CAP')
           need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_CONCURRENT_CHANGE')
           transfer('PATCH',output_id,out)
           back=transfer('GET',output_id);need(back==out,'OUTPUT_READBACK')
-          print('PRIVATE_S1_EVIDENCE_SHA256='+sha(back)+' BYTES='+str(len(back)),flush=True)
-          print('S1_STATUS='+report['status']+' MODEL_POSTS='+str(report['actual_model_posts_new']),flush=True)
-          need(p.returncode==0 and report['status']=='S1_COMPLETE' and report['actual_model_posts_new']==66,'FREE_GATE_NOT_COMPLETE')
+          print('PRIVATE_S2_EVIDENCE_SHA256='+sha(back)+' BYTES='+str(len(back)),flush=True)
+          print('S2_STATUS='+report['status']+' MODEL_POSTS='+str(report['actual_model_posts_new']),flush=True)
+          need(p.returncode==0 and report['status']=='S2_COMPLETE' and report['actual_model_posts_new']==66,'FREE_GATE_NOT_COMPLETE')
           PY
