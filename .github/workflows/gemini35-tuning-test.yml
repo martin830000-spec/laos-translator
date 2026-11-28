@@ -1,4 +1,4 @@
-name: TEST private Drive synthetic transfer probe
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,69 +6,47 @@ name: TEST private Drive synthetic transfer probe
 permissions:
   contents: read
 concurrency:
-  group: gemini35-tuning-test-drive-probe
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  synthetic-transfer:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
+      ENABLE_GENERATION: "false"
     steps:
-      - uses: actions/checkout@v7
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Authenticate existing service account for Drive
-        id: auth
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
         uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-          token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/drive
-      - name: Read and update only the two user-approved synthetic files
-        env:
-          DRIVE_TOKEN: ${{ steps.auth.outputs.access_token }}
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/setup-gcloud@v3
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import hashlib,json,os,urllib.request,urllib.error
-          def need(ok,code):
-              if not ok: raise RuntimeError(code)
-          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','GENERATION_DISABLED')
-          def request(method,url,body=None):
-              headers={'Authorization':'Bearer '+os.environ['DRIVE_TOKEN']}
-              if body is not None: headers['Content-Type']='application/json'
-              try:
-                  with urllib.request.urlopen(urllib.request.Request(url,data=body,headers=headers,method=method),timeout=30) as r: return r.status,r.read()
-              except urllib.error.HTTPError as e:
-                  reason='unknown'
-                  try: reason=json.loads(e.read()).get('error',{}).get('errors',[{}])[0].get('reason','unknown')
-                  except Exception: pass
-                  print('DRIVE_HTTP_ERROR',e.code,reason,flush=True)
-                  raise RuntimeError('DRIVE_REQUEST_FAILED') from None
-          root='https://www.googleapis.com/drive/v3/files/'
-          input_id='16SV-tK1CMBrRF2q7vusZETaxsaes8pGf'
-          output_id='19W63wnGzxSMf6M7xkeIcA0sXoY8tVUh-'
-          status,b=request('GET',root+input_id+'?alt=media')
-          digest=hashlib.sha256(b).hexdigest()
-          need(status==200 and digest=='c48b9c8bf37082bf36dcac5663e5cdcb1c70545db0eea74d4422d749d5ad17ef','INPUT_PIN')
-          d=json.loads(b);need(d.get('synthetic') is True and d.get('model_calls')==0,'INPUT_SCOPE')
-          print('DRIVE_INPUT_READ_OK SHA256='+digest,flush=True)
-          status,old=request('GET',root+output_id+'?alt=media')
-          need(status==200 and hashlib.sha256(old).hexdigest()=='c6e8a432c5f779575905b8266302d9ff57eadec99fe98f3df3c5ff4512d82cbd','OUTPUT_PRECONDITION')
-          result=(json.dumps({'synthetic':True,'status':'roundtrip-ok','input_sha256':digest,'run_id':os.environ['GITHUB_RUN_ID'],'model_calls':0},sort_keys=True,separators=(',',':'))+'\n').encode()
-          status,_=request('PATCH','https://www.googleapis.com/upload/drive/v3/files/'+output_id+'?uploadType=media',result)
-          need(status==200,'OUTPUT_WRITE')
-          status,back=request('GET',root+output_id+'?alt=media')
-          need(status==200 and back==result,'OUTPUT_READBACK')
-          print('DRIVE_OUTPUT_WRITE_READBACK_OK SHA256='+hashlib.sha256(back).hexdigest(),flush=True)
-          print('MODEL_POSTS=0 GCS_WRITES=0',flush=True)
-          PY
+          umask 077
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          if-no-files-found: error
+          retention-days: 7
