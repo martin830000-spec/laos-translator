@@ -50,3 +50,4 @@ jobs:
           path: ${{ runner.temp }}/v2_execution_encrypted.json
           if-no-files-found: error
           retention-days: 7
+# CLOSED workflow maintenance check (no generation or credential use)
