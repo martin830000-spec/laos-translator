@@ -1,4 +1,4 @@
-name: TEST R16 recipient object metadata check
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,46 +6,47 @@ name: TEST R16 recipient object metadata check
 permissions:
   contents: read
 concurrency:
-  group: gemini35-tuning-test-recipient-metadata
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  metadata-only:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
+      ENABLE_GENERATION: "false"
     steps:
-      - uses: google-github-actions/auth@v3
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - uses: google-github-actions/setup-gcloud@v3
-      - name: Compare current object metadata only (no object body access)
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/setup-gcloud@v3
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
-          test "$ENABLE_GENERATION" = false
-          test "$ENABLE_TUNING" = false
-          python - <<'PY'
-          import json,subprocess
-          bucket='gs://ko-lao-gemini35-tuning-460077888071/'
-          name='gemini4_hydrogen_developer_direct2_20261122/_control/INPUT_PRIVATE_RSA_3072.pem'
-          p=subprocess.run(['gcloud','storage','objects','describe',bucket+name,'--format=json'],capture_output=True,timeout=45)
-          if p.returncode:
-              print('RECIPIENT_METADATA_LOOKUP_FAILED',flush=True)
-              raise SystemExit(1)
-          m=json.loads(p.stdout)
-          print('RECIPIENT_METADATA_PRESENT=true')
-          print('GENERATION_MATCH='+str(str(m.get('generation'))=='1795301886515458').lower())
-          print('GENERATION_FIELD_PRESENT='+str('generation' in m).lower())
-          print('SIZE_METADATA='+str(m.get('size','unavailable')))
-          print('CUSTOM_METADATA_PRESENT='+str(bool(m.get('metadata') or m.get('custom_metadata'))).lower())
-          print('OBJECT_BODY_READS=0 MODEL_POSTS=0 GCS_WRITES=0')
-          if str(m.get('generation'))!='1795301886515458':raise SystemExit(1)
-          PY
+          umask 077
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          if-no-files-found: error
+          retention-days: 7
