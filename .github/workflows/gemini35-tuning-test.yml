@@ -40,7 +40,11 @@ jobs:
               return p.stdout
           need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','DISABLED')
           bucket='gs://ko-lao-gemini35-tuning-460077888071/'
-          data=json.loads(cli(['ls','--json',bucket+'**/FINAL_STATE.json',bucket+'**/COMPLETION_RECEIPT.json'],'LIST_FAILED'))
+          data=[]
+          for pattern in ('**/FINAL_STATE.json','**/COMPLETION_RECEIPT.json'):
+              part=json.loads(cli(['ls','--json',bucket+pattern],'LIST_FAILED'))
+              need(isinstance(part,list),'LIST_SCHEMA')
+              data.extend(part)
           need(isinstance(data,list),'LIST_SCHEMA')
           def metadata(item):
               need(isinstance(item,dict),'ENTRY_SCHEMA')
