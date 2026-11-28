@@ -1,0 +1,37 @@
+name: Work isolated integration preflight 20261128
+on:
+  push:
+    branches: [test/work-integration-2call-20261128]
+    paths: [.github/workflows/work-integration-2call.yml]
+permissions:
+  contents: read
+concurrency:
+  group: work-integration-2call-20261128
+  cancel-in-progress: false
+jobs:
+  preflight:
+    if: github.run_attempt == 1 && github.ref == 'refs/heads/test/work-integration-2call-20261128'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Existing Gemini secret presence only
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          test -n "$GEMINI_API_KEY"
+          echo "GEMINI_SECRET_PRESENT; MODEL_CALLS=0"
+      - name: Existing WIF authentication unchanged
+        id: auth
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/cloud-platform
+          create_credentials_file: false
+      - name: Preflight receipt
+        run: echo "WIF_AUTH_OK; MODEL_CALLS=0"
