@@ -1,4 +1,4 @@
-name: Gemini 3.5 V2 Recovery Controlled TEST
+name: TEST PRACTICAL320 public baseline and read-only preflight
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,47 +6,119 @@ name: Gemini 3.5 V2 Recovery Controlled TEST
 permissions:
   contents: read
 concurrency:
-  group: gemini35-sft-v2-pilot1-20261116
+  group: practical320-20261128-r1
   cancel-in-progress: false
 jobs:
-  v2-recovery:
+  baseline:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 12
     permissions:
       contents: read
       id-token: write
     env:
-      V2_MODE: "CLOSED"
-      ENABLE_TUNING: "false"
       ENABLE_GENERATION: "false"
+      ENABLE_TUNING: "false"
     steps:
-      - name: Check out designated TEST branch
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Authenticate existing TEST identity
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/auth@v3
-        with:
-          project_id: gen-lang-client-0422436907
-          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
-          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - name: Set up existing Google Cloud CLI path
-        if: ${{ env.V2_MODE != 'CLOSED' }}
-        uses: google-github-actions/setup-gcloud@v3
-      - name: Execute reviewed bounded TEST mode
+      - name: Read and hash public SERVICE deployment files
         shell: bash
         run: |
           set -euo pipefail
           umask 077
-          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
-      - name: Preserve encrypted evidence only
-        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+          python - <<'PY'
+          import hashlib,json,os,pathlib,urllib.request
+          d=pathlib.Path(os.environ['RUNNER_TEMP'])/'public-service-snapshot';d.mkdir()
+          expected={'index.html':'7302332d807ef2078999bddb5784c2b94ba9524e','prompt-config.json':'b1323967ef529e0c960d6e7ab707ea43659b8b6a','version.json':'f31df4eaf1e507fd43966b5e9c4c9a9217a49573'}
+          for n,h in expected.items():
+              u='https://martin830000-spec.github.io/wife/'+n
+              with urllib.request.urlopen(u,timeout=30) as r:
+                  if r.status!=200 or not r.geturl().startswith('https://martin830000-spec.github.io/wife/'):raise RuntimeError('PUBLIC_DEPLOYMENT')
+                  b=r.read(8_000_001)
+              if len(b)>8_000_000:raise RuntimeError('SIZE')
+              got=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\x00'+b).hexdigest()
+              print('PUBLIC_SERVICE',n,len(b),got,hashlib.sha256(b).hexdigest(),flush=True)
+              if got!=h:raise RuntimeError('DEPLOYMENT_PIN_MISMATCH')
+              (d/n).write_bytes(b)
+          print('PUBLIC_SERVICE_BYTES_MATCH=true',flush=True)
+          PY
+      - name: Preserve already-public source snapshot
         uses: actions/upload-artifact@v4
         with:
-          name: v2-execution-${{ github.run_id }}
-          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          name: practical320-public-service-source
+          path: ${{ runner.temp }}/public-service-snapshot/
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 1
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: gen-lang-client-0422436907
+          workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
+          service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Check new campaign namespace and protect closed receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import concurrent.futures,hashlib,json,os,subprocess
+          def need(ok,code):
+              if not ok: raise RuntimeError(code)
+          def cli(args,code):
+              p=subprocess.run(['gcloud','storage']+args,capture_output=True,timeout=90)
+              need(p.returncode==0,code)
+              return p.stdout
+          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','DISABLED')
+          bucket='gs://ko-lao-gemini35-tuning-460077888071/'
+          prefix=bucket+'ko_lao_g35_g38_practical320_20261128_r1/'
+          p=subprocess.run(['gcloud','storage','ls','--recursive',prefix],capture_output=True,timeout=60)
+          if p.returncode==0:
+              need(not p.stdout.strip(),'CAMPAIGN_PREFIX_EXISTS')
+          else:
+              need(b'matched no objects' in p.stderr,'PREFIX_LOOKUP_FAILED')
+          print('CAMPAIGN_PREFIX_EMPTY=true',flush=True)
+          data=[]
+          for pat in ('**/FINAL_STATE.json','**/COMPLETION_RECEIPT.json'):
+              part=json.loads(cli(['ls','--json',bucket+pat],'LIST_FAILED'))
+              need(isinstance(part,list),'LIST_SCHEMA')
+              data.extend(part)
+          def metadata(item):
+              m=item.get('metadata',item)
+              name=m.get('name');g=m.get('generation');s=m.get('size')
+              need(isinstance(name,str) and name.endswith(('/FINAL_STATE.json','/COMPLETION_RECEIPT.json')) and g is not None and s is not None,'METADATA')
+              return name,str(g),int(s)
+          pins=[metadata(x) for x in data]
+          need(len(pins)==len({p[0] for p in pins}),'DUPLICATE_OBJECT')
+          def verify(p):
+              name,gen,size=p
+              raw=cli(['cat',bucket+name+'#'+gen],'READ_FAILED')
+              need(len(raw)==size,'SIZE_MISMATCH')
+              state=json.loads(raw)
+              need(isinstance(state,dict),'STATE_SCHEMA')
+              for k,v in [('enabled',False),('max_new',0),('next_new_authorization',0)]:
+                  if k in state:need(state[k]==v,'NOT_CLOSED')
+              return {'object':name,'generation':gen,'bytes':size,'sha256':hashlib.sha256(raw).hexdigest()}
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+              rows=sorted(pool.map(verify,pins),key=lambda x:x['object'])
+          digest=hashlib.sha256((json.dumps(rows,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode()).hexdigest()
+          print('PROTECTED_RECEIPTS='+str(len(rows)),flush=True)
+          print('PROTECTED_DIGEST='+digest,flush=True)
+          need(len(rows)==60 and digest=='0c61e985a0cffd08f7d72448c35d01dd8797b12c5e6115f3e0a817e62b313112','PROTECTED60_PIN')
+          print('PROTECTED60_MATCH=true',flush=True)
+          PY
+      - name: Existing model metadata GET only
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,urllib.request,urllib.error
+          for m in ('gemini-3.8-flash','gemini-3.5-flash-lite'):
+              req=urllib.request.Request('https://generativelanguage.googleapis.com/v1beta/models/'+m,headers={'x-goog-api-key':os.environ['GEMINI_API_KEY']},method='GET')
+              try:
+                  with urllib.request.urlopen(req,timeout=30) as r: status=r.status;j=json.load(r)
+              except urllib.error.HTTPError as e:
+                  print('MODEL_METADATA_ERROR',m,e.code,flush=True);raise RuntimeError('MODEL_METADATA') from None
+              if status!=200 or j.get('name')!='models/'+m or 'generateContent' not in j.get('supportedGenerationMethods',[]):raise RuntimeError('MODEL_METADATA')
+              print('MODEL_METADATA_OK',m,'HTTP',status,'inputLimit',j.get('inputTokenLimit'),'outputLimit',j.get('outputTokenLimit'),flush=True)
+          print('MODEL_POSTS=0 GCS_WRITES=0',flush=True)
+          PY
