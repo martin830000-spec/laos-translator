@@ -1,4 +1,4 @@
-name: TEST R16 protected receipt audit
+name: Gemini 3.5 V2 Recovery Controlled TEST
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -6,73 +6,47 @@ name: TEST R16 protected receipt audit
 permissions:
   contents: read
 concurrency:
-  group: gemini35-tuning-test-receipt-audit
+  group: gemini35-sft-v2-pilot1-20261116
   cancel-in-progress: false
 jobs:
-  receipt-audit:
+  v2-recovery:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 45
     permissions:
       contents: read
       id-token: write
     env:
-      ENABLE_GENERATION: "false"
+      V2_MODE: "CLOSED"
       ENABLE_TUNING: "false"
+      ENABLE_GENERATION: "false"
     steps:
-      - uses: google-github-actions/auth@v3
+      - name: Check out designated TEST branch
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Authenticate existing TEST identity
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
-      - uses: google-github-actions/setup-gcloud@v3
-      - name: Verify closed receipt inventory without publishing object names or contents
+      - name: Set up existing Google Cloud CLI path
+        if: ${{ env.V2_MODE != 'CLOSED' }}
+        uses: google-github-actions/setup-gcloud@v3
+      - name: Execute reviewed bounded TEST mode
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import concurrent.futures, hashlib, json, os, subprocess
-          def need(ok,code):
-              if not ok: raise RuntimeError(code)
-          def cli(args,code):
-              p=subprocess.run(['gcloud','storage']+args,capture_output=True,timeout=90)
-              need(p.returncode==0,code)
-              return p.stdout
-          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','DISABLED')
-          bucket='gs://ko-lao-gemini35-tuning-460077888071/'
-          data=[]
-          for pattern in ('**/FINAL_STATE.json','**/COMPLETION_RECEIPT.json'):
-              part=json.loads(cli(['ls','--json',bucket+pattern],'LIST_FAILED'))
-              need(isinstance(part,list),'LIST_SCHEMA')
-              data.extend(part)
-          need(isinstance(data,list),'LIST_SCHEMA')
-          def metadata(item):
-              need(isinstance(item,dict),'ENTRY_SCHEMA')
-              meta=item.get('metadata',item)
-              name=meta.get('name')
-              generation=meta.get('generation')
-              size=meta.get('size')
-              need(isinstance(name,str) and name.endswith(('/FINAL_STATE.json','/COMPLETION_RECEIPT.json')),'ENTRY_SCOPE')
-              need(generation is not None and size is not None,'METADATA_FIELDS')
-              return name,str(generation),int(size)
-          pins=[metadata(x) for x in data]
-          need(len(pins)==len({p[0] for p in pins}),'DUPLICATE_OBJECT')
-          print('LOCK_INVENTORY_COUNT='+str(len(pins)),flush=True)
-          def verify(p):
-              name,gen,size=p
-              raw=cli(['cat',bucket+name+'#'+gen],'READ_FAILED')
-              need(len(raw)==size,'SIZE_MISMATCH')
-              state=json.loads(raw)
-              need(isinstance(state,dict),'STATE_SCHEMA')
-              for k,v in [('enabled',False),('max_new',0),('next_new_authorization',0)]:
-                  if k in state: need(state[k]==v,'NOT_CLOSED')
-              return {'object':name,'generation':gen,'bytes':size,'sha256':hashlib.sha256(raw).hexdigest()}
-          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-              rows=list(pool.map(verify,pins))
-          rows.sort(key=lambda x:x['object'])
-          digest=hashlib.sha256((json.dumps(rows,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode()).hexdigest()
-          print('LOCK_RECEIPTS_READ='+str(len(rows)),flush=True)
-          print('LOCK_INVENTORY_SHA256='+digest,flush=True)
-          print('FROZEN59_EXACT_MATCH='+str(len(rows)==59 and digest=='cceaabf2e1de3da31939d7f3acce50d1c55179f8a810fc3c65dbf7908316be44').lower(),flush=True)
-          print('MODEL_POSTS=0 GCS_WRITES=0',flush=True)
-          PY
+          umask 077
+          echo 'V2_CLOSED_NO_ACTION enabled=false max_new=0 next_new_authorization=0'
+      - name: Preserve encrypted evidence only
+        if: ${{ always() && env.V2_MODE != 'CLOSED' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-execution-${{ github.run_id }}
+          path: ${{ runner.temp }}/v2_execution_encrypted.json
+          if-no-files-found: error
+          retention-days: 7
