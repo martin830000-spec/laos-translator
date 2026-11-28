@@ -1,4 +1,4 @@
-name: TEST PRACTICAL320 public baseline and read-only preflight
+name: PRACTICAL320 existing TEST FREE private Drive transfer
 "on":
   push:
     branches: [research/gemini35-tuning-test]
@@ -9,116 +9,91 @@ concurrency:
   group: practical320-20261128-r1
   cancel-in-progress: false
 jobs:
-  baseline:
+  research-free:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/research/gemini35-tuning-test' && github.run_attempt == 1 }}
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
     env:
       ENABLE_GENERATION: "false"
       ENABLE_TUNING: "false"
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
-      - name: Read and hash public SERVICE deployment files
-        shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          python - <<'PY'
-          import hashlib,json,os,pathlib,urllib.request
-          d=pathlib.Path(os.environ['RUNNER_TEMP'])/'public-service-snapshot';d.mkdir()
-          expected={'index.html':'7302332d807ef2078999bddb5784c2b94ba9524e','prompt-config.json':'b1323967ef529e0c960d6e7ab707ea43659b8b6a','version.json':'f31df4eaf1e507fd43966b5e9c4c9a9217a49573'}
-          for n,h in expected.items():
-              u='https://martin830000-spec.github.io/wife/'+n
-              with urllib.request.urlopen(u,timeout=30) as r:
-                  if r.status!=200 or not r.geturl().startswith('https://martin830000-spec.github.io/wife/'):raise RuntimeError('PUBLIC_DEPLOYMENT')
-                  b=r.read(8_000_001)
-              if len(b)>8_000_000:raise RuntimeError('SIZE')
-              got=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\x00'+b).hexdigest()
-              print('PUBLIC_SERVICE',n,len(b),got,hashlib.sha256(b).hexdigest(),flush=True)
-              if got!=h:raise RuntimeError('DEPLOYMENT_PIN_MISMATCH')
-              (d/n).write_bytes(b)
-          print('PUBLIC_SERVICE_BYTES_MATCH=true',flush=True)
-          PY
-      - name: Preserve already-public source snapshot
-        uses: actions/upload-artifact@v4
+      - uses: actions/checkout@v7
         with:
-          name: practical320-public-service-source
-          path: ${{ runner.temp }}/public-service-snapshot/
-          if-no-files-found: error
-          retention-days: 1
-      - uses: google-github-actions/auth@v3
+          persist-credentials: false
+      - name: Existing TEST identity
+        id: auth
+        uses: google-github-actions/auth@v3
         with:
           project_id: gen-lang-client-0422436907
           workload_identity_provider: projects/460077888071/locations/global/workloadIdentityPools/lao-github-deploy/providers/gemini35-tuning
           service_account: lao-tuning-runner@gen-lang-client-0422436907.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/cloud-platform
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Check new campaign namespace and protect closed receipts
+      - name: Read frozen private Drive bundle, run existing FREE gate, write private evidence only
         shell: bash
+        env:
+          DRIVE_TOKEN: ${{ steps.auth.outputs.access_token }}
         run: |
           set -euo pipefail
+          umask 077
           python - <<'PY'
-          import concurrent.futures,hashlib,json,os,subprocess
+          import hashlib,io,json,os,pathlib,subprocess,sys,urllib.request,urllib.error,zipfile
           def need(ok,code):
               if not ok: raise RuntimeError(code)
-          def cli(args,code):
-              p=subprocess.run(['gcloud','storage']+args,capture_output=True,timeout=90)
-              need(p.returncode==0,code)
-              return p.stdout
-          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','DISABLED')
-          bucket='gs://ko-lao-gemini35-tuning-460077888071/'
-          prefix=bucket+'ko_lao_g35_g38_practical320_20261128_r1/'
-          p=subprocess.run(['gcloud','storage','ls','--recursive',prefix],capture_output=True,timeout=60)
-          if p.returncode==0:
-              need(not p.stdout.strip(),'CAMPAIGN_PREFIX_EXISTS')
-          else:
-              need(b'matched no objects' in p.stderr,'PREFIX_LOOKUP_FAILED')
-          print('CAMPAIGN_PREFIX_EMPTY=true',flush=True)
-          data=[]
-          for pat in ('**/FINAL_STATE.json','**/COMPLETION_RECEIPT.json'):
-              part=json.loads(cli(['ls','--json',bucket+pat],'LIST_FAILED'))
-              need(isinstance(part,list),'LIST_SCHEMA')
-              data.extend(part)
-          def metadata(item):
-              m=item.get('metadata',item)
-              name=m.get('name');g=m.get('generation');s=m.get('size')
-              need(isinstance(name,str) and name.endswith(('/FINAL_STATE.json','/COMPLETION_RECEIPT.json')) and g is not None and s is not None,'METADATA')
-              return name,str(g),int(s)
-          pins=[metadata(x) for x in data]
-          need(len(pins)==len({p[0] for p in pins}),'DUPLICATE_OBJECT')
-          def verify(p):
-              name,gen,size=p
-              raw=cli(['cat',bucket+name+'#'+gen],'READ_FAILED')
-              need(len(raw)==size,'SIZE_MISMATCH')
-              state=json.loads(raw)
-              need(isinstance(state,dict),'STATE_SCHEMA')
-              for k,v in [('enabled',False),('max_new',0),('next_new_authorization',0)]:
-                  if k in state:need(state[k]==v,'NOT_CLOSED')
-              return {'object':name,'generation':gen,'bytes':size,'sha256':hashlib.sha256(raw).hexdigest()}
-          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-              rows=sorted(pool.map(verify,pins),key=lambda x:x['object'])
-          digest=hashlib.sha256((json.dumps(rows,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n').encode()).hexdigest()
-          print('PROTECTED_RECEIPTS='+str(len(rows)),flush=True)
-          print('PROTECTED_DIGEST='+digest,flush=True)
-          need(len(rows)==60 and digest=='0c61e985a0cffd08f7d72448c35d01dd8797b12c5e6115f3e0a817e62b313112','PROTECTED60_PIN')
-          print('PROTECTED60_MATCH=true',flush=True)
-          PY
-      - name: Existing model metadata GET only
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          import json,os,urllib.request,urllib.error
-          for m in ('gemini-3.8-flash','gemini-3.5-flash-lite'):
-              req=urllib.request.Request('https://generativelanguage.googleapis.com/v1beta/models/'+m,headers={'x-goog-api-key':os.environ['GEMINI_API_KEY']},method='GET')
+          def sha(b): return hashlib.sha256(b).hexdigest()
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,*a,**k):raise RuntimeError('DRIVE_REDIRECT_BLOCKED')
+          def transfer(method,id,body=None):
+              need(id in {'17T1PALXiL0r_5mVs9retyAmbSuP_cngn','1X24ToDzLwu-gFYxhK7qznXN-H-9760Oy'},'DRIVE_FILE_SCOPE')
+              need(method=='GET' or (method=='PATCH' and id=='1X24ToDzLwu-gFYxhK7qznXN-H-9760Oy' and body is not None),'DRIVE_WRITE_SCOPE')
+              url=('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media') if method=='GET' else ('https://www.googleapis.com/upload/drive/v3/files/'+id+'?uploadType=media')
+              headers={'Authorization':'Bearer '+os.environ['DRIVE_TOKEN']}
+              if body is not None: headers['Content-Type']='application/zip'
               try:
-                  with urllib.request.urlopen(req,timeout=30) as r: status=r.status;j=json.load(r)
+                  with urllib.request.build_opener(NoRedirect()).open(urllib.request.Request(url,method=method,data=body,headers=headers),timeout=60) as r:
+                      need(r.status==200,'DRIVE_HTTP_STATUS')
+                      raw=r.read(64000001)
+                      need(len(raw)<=64000000,'DRIVE_SIZE')
+                      return raw
               except urllib.error.HTTPError as e:
-                  print('MODEL_METADATA_ERROR',m,e.code,flush=True);raise RuntimeError('MODEL_METADATA') from None
-              if status!=200 or j.get('name')!='models/'+m or 'generateContent' not in j.get('supportedGenerationMethods',[]):raise RuntimeError('MODEL_METADATA')
-              print('MODEL_METADATA_OK',m,'HTTP',status,'inputLimit',j.get('inputTokenLimit'),'outputLimit',j.get('outputTokenLimit'),flush=True)
-          print('MODEL_POSTS=0 GCS_WRITES=0',flush=True)
+                  print('DRIVE_HTTP_ERROR',method,e.code,flush=True)
+                  raise RuntimeError('DRIVE_HTTP_ERROR') from None
+          need(os.environ['ENABLE_GENERATION']==os.environ['ENABLE_TUNING']=='false','FREE_DISABLED')
+          input_id='17T1PALXiL0r_5mVs9retyAmbSuP_cngn'
+          output_id='1X24ToDzLwu-gFYxhK7qznXN-H-9760Oy'
+          sentinel='719278d52f0e466aa04c408fd44f22055b7e1685f9972a2f1cb4fee3821e56ce'
+          need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_PRECONDITION')
+          raw=transfer('GET',input_id)
+          need(len(raw)==77742 and sha(raw)=='a1f15f20374d14106f21182ae68ada4721747a2b63c85992fa556340ec64a2b4','INPUT_RUNTIME_PIN')
+          names={'runner.py','transport.py','wire.py','test_runner.py','service.cjs','prompt-config.json','ORIGINAL.yml','private_frozen_input.zip','protected_pins.json','authorization_overlay.json','COST_SAFETY.json','pins.json'}
+          dest=pathlib.Path(os.environ['RUNNER_TEMP'])/'practical320-private-drive-runtime';dest.mkdir(exist_ok=False)
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              need(len(z.namelist())==len(names) and set(z.namelist())==names and z.testzip() is None,'RUNTIME_ZIP')
+              for n in names:(dest/n).write_bytes(z.read(n))
+          need(sha((dest/'private_frozen_input.zip').read_bytes())=='a5c2f311253901e9d7d3583f560a1c5f1aab3f95773c312fe8eecca8f2d10935','FROZEN_INPUT')
+          print('PRIVATE_RUNTIME_PIN_OK; FROZEN_INPUT_PIN_OK',flush=True)
+          child=os.environ.copy();child.pop('DRIVE_TOKEN',None);child['RESULT_DIR']=str(dest/'result')
+          p=subprocess.run([sys.executable,str(dest/'runner.py'),'FREE_PREFLIGHT'],cwd=dest,env=child,capture_output=True,timeout=1200)
+          evidence=dest/'result/evidence.zip'
+          need(evidence.is_file(),'FREE_EVIDENCE_MISSING')
+          out=evidence.read_bytes();need(len(out)<=64000000,'EVIDENCE_SIZE')
+          with zipfile.ZipFile(io.BytesIO(out)) as z:
+              need(z.testzip() is None and set(z.namelist())=={'REMOTE_REPORT.json','MANIFEST_SHA256.json'},'EVIDENCE_ZIP')
+              report_bytes=z.read('REMOTE_REPORT.json')
+              manifest=json.loads(z.read('MANIFEST_SHA256.json'))
+              need(manifest=={'REMOTE_REPORT.json':{'bytes':len(report_bytes),'sha256':sha(report_bytes)}},'EVIDENCE_MANIFEST')
+              report=json.loads(report_bytes)
+              need(report['campaign_id']=='KO_LAO_G35_G38_PRACTICAL320_20261128_R1' and report['phase']=='FREE_PREFLIGHT' and report['run_id']==os.environ['GITHUB_RUN_ID'],'FREE_REPORT_SCOPE')
+              need(report['actual_model_posts_new']==0,'FREE_MODEL_POSTS')
+          need(sha(transfer('GET',output_id))==sentinel,'OUTPUT_CONCURRENT_CHANGE')
+          transfer('PATCH',output_id,out)
+          back=transfer('GET',output_id);need(back==out,'OUTPUT_READBACK')
+          print('PRIVATE_FREE_EVIDENCE_SHA256='+sha(back)+' BYTES='+str(len(back)),flush=True)
+          print('FREE_STATUS='+report['status']+' MODEL_POSTS=0',flush=True)
+          need(p.returncode==0 and report['status']=='FREE_PREFLIGHT_COMPLETE','FREE_GATE_NOT_COMPLETE')
           PY
